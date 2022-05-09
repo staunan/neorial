@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Connect your Mobile Device through Wi-Fi</title>
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+	<script type="text/javascript" src="../../Assets/prism.min.js"></script>
+	<script type="text/javascript" src="../../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+<h1>Connect your Mobile Device through Wi-Fi</h1>
+
+<p>You can also test your application on your mobile device through Wifi. There is a program called <code>adb</code> through which you can connect your device. To know more info about <code>adb</code> go to the following link. <a href="https://developer.android.com/studio/command-line/adb">ADB</a>.</p>
+<p>The <code>ADB</code> tool is installed by default when you install Android Studio. <code>ADB</code> is included in the Android SDK Platform-Tools package. You can download this package with the <code>SDK Manager</code>, which installs it at <code>android_sdk/platform-tools/</code>.</p>
+<p>Here are the steps you need to follow:</p>
+<ul>
+  <li>
+    <p>First enable the Wireless debugging in <code>Developer Options</code> on your mobile device:</p>
+    <img style="width: 200px;" src="../Assets/mobile_wifi.jpg">
+  </li>
+  <li>First make sure that your mobile device and your computer is connected to the same router.</li>
+  <li>Copy the IP address of your mobile device. To obtain the IP address go to <code>Settings > About Phone > Status Information > IP Address</code></li>
+  <li>Connect your mobile device through USB.</li>
+  <li>Test your device by pinging it. From terminal type <code>ping mobile_ip_address</code>. Go furthur if your computer successfully able to ping your mobile device.</li>
+  <li>In terminal <code>cd</code> into your <code>ADB</code> path, the path generally would look like <code>C:\Users\NeoRe\AppData\Local\Android\Sdk\platform-tools</code></li>
+  <li>Run the command : <code>adb kill-server</code></li>
+  <li>Run the command : <code>adb usb</code></li>
+  <li>Run the command : <code>adb tcpip 5555</code></li>
+  <li>Unplug USB cable.</li>
+  <li>Run the command : <code>adb connect mobile_ip_address</code></li>
+  <li>Run the command : <code>adb devices</code>. This will list your mobile device.</li>
+</ul>
+<p>Now you can run the command <code>flutter devices</code> to see all the devices available. It should show your phone IP address in the device list.</p>
+
+
+</div>
+</body>
+</html>
+
