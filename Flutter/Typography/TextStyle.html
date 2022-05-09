@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Text Widget in Flutter</title>
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+	<script type="text/javascript" src="../../Assets/prism.min.js"></script>
+	<script type="text/javascript" src="../../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+<h1>TextStyle</h1>
+<p>The TextStyle class is used to define style for the text. The TextStyle constructor can take the following arguments :</p>
+
+
+<h2>fontWeight</h2>
+<p>FontWeight class can be used to specify the boldness of the font. You can use following contants :</p>
+<pre>
+w100, w200, w300, w400, w500, w600, w700, w800, w900, bold, normal
+</pre>
+<p>For example, </p>
+<pre>
+fontWeight : FontWeight.w500,
+</pre>
+<p>The constant <code>bold</code> is same as <code>w700</code> and <code>normal</code> is same as <code>w400</code>.</p>
+
+
+<h2>background</h2>
+<p>It specifies the background Paint of the Text widget. This is used when you want to draw some shape in the background, or paint something in the background. We will learn later how to paint drawing using Paint class.</p>
+
+
+<h2>backgroundColor</h2>
+<p>This argument is used to specify the background color of the widget.</p>
+<pre>
+backgroundColor : Colors.red[400],
+</pre>
+
+
+<h2>fontStyle</h2>
+<p>This argument is used to specify the font style of the text. The value is represented by FontStyle class. This class defines following two constant.</p>
+<pre>
+fontStyle : FontStyle.italic,
+fontStyle : FontStyle.normal,
+</pre>
+
+
+<h2>fontSize</h2>
+<p>The size of the text. The value should be either in double or integer which is in pixel.</p>
+<pre>
+fontSize : 18,
+</pre>
+
+
+<h2>height</h2>
+<p>This specifies the line height of the text. The height of the line is equal to <code>(fontSize * height)</code> pixel tall. The argument <code>height</code> takes double or integer value.</p>
+<p>If the <code>fontSize</code> is <code>20</code> and <code>height</code> is <code>2.0</code>, then the height of the line will be <code>2 * 2.0 = 4.0</code> pixel tall.</p>
+<pre>
+height : 2.0,
+</pre>
+
+
+<h2>latterSpacing</h2>
+<p>The amount of space to add between each letter. A negative value can be used to bring the letters closer. The value is in double and is in pixel.</p>
+<pre>
+letterSpacing : 5.0,
+</pre>
+
+
+<h2>wordSpacing</h2>
+<p>The amount of space (in logical pixel) to add between each word. A negative value can be used to bring the words closer.</p>
+<pre>
+wordSpacing : 10,
+</pre>
+
+
+<h2>color</h2>
+<p>This represents the color of the text.</p>
+<pre>
+color : Colors.red[400],
+</pre>
+
+
+<h2>foreground</h2>
+<p>It specifies the foreground Paint of the text. If <code>color</code> is specified then <code>forground</code> argument must be <code>null</code>. We will learn Paint class later.</p>
+
+
+<h2>decoration</h2>
+<p>A liner decoration to draw near the text. TextDecoration class is used to specify the decoration. This class has defined the following constants : </p>
+<ul>
+	<li><code>lineThrough</code> : Draws a line through each line of the text.</li>
+	<li><code>none</code> : Do not draws a decoration.</li>
+	<li><code>overline</code> : Draw a line above each line of the text.</li>
+	<li><code>underline</code> : Draw a line underneath each line of text.</li>
+</ul>
+<p>Here is an example,</p>
+<pre>
+decoration : TextDecoration.underline,
+</pre>
+
+
+<h2>decorationColor</h2>
+<p>It specifies the color of the decoration which is applied on the text. For example to make the underline in red color, use this argument.</p>
+<pre>
+decorationColor : Colors.red[400],
+</pre>
+
+
+
+<h2>decorationStyle</h2>
+<p>This argument is used to specify the style of the decoration. The class TextDecorationStyle defines the various style. You can use one of the following constants:</p>
+<pre>
+dashed, dotted, double, solid, wavy,
+</pre>
+<p>For example,</p>
+<pre>
+decorationStyle : TextDecorationStyle.solid,
+</pre>
+
+
+<h2>decorationThickness</h2>
+<p>Decoration thickness is specifed using this argument. The default value is <code>1.0</code></p>
+<pre>
+decorationThickness : 2.85,
+</pre>
+
+
+<h2>fontFamily</h2>
+<p>It specifies the name of the font to use when paining the text. If the font is defined in a package, this will be prefixed with <code>packages/package_name</code></p>
+<pre>
+fontFamily : "Roboto",
+</pre>
+
+
+<h2>shodow</h2>
+<p>This specifies a list of shadows that will be painted underneath the text. It supports multiple shadows. We will learn more about Shadow class to know how to make shadow.</p>
+
+
+
+</div>
+</body>
+</html>

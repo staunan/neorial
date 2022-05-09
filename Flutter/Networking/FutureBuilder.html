@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>FutureBuilder Widget in Flutter</title>
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+	<script type="text/javascript" src="../../Assets/prism.min.js"></script>
+	<script type="text/javascript" src="../../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+<h1>FutureBuilder</h1>
+<p>Widget that builds itself based on the latest snapshot of interaction with a <code>Future</code>.</p>
+
+<p>When you should use it? Lets say you want to fetch data from backend on launch of page and show loader till data comes.</p>
+
+<p>In FutureBuilder waits for the result, and as soon as the future produces the result it calls the builder function where we build the widget.</p>
+
+<h2>Properties</h2>
+<h3>builder</h3>
+<p>The build strategy currently used by this builder. The builder method receives two argument. The first on is <code>context</code>, and the second one is <code>snapshot</code>. You can use <code>snapshot</code> argument to check if the future is yet to produce the result and based on this you can return different widget.</p>
+
+<h3>future</h3>
+<p>An Future object that will produce some result. The widget will use this object and will wait for result to produce. As soon as it produce the result, the <code>builder</code> method will be called to draw the UI.</p>
+
+<h2>Example</h2>
+<pre>
+Future&lt;http.Response> fetchAlbum() {
+  return http.get('https://jsonplaceholder.typicode.com/albums/1');
+}
+
+Future&lt;http.Response> futureObject = fetchAlbum();
+
+FutureBuilder(
+  future: futureObject,
+  builder(context, snapshot){
+    if(snapshot.hasData){
+      // Return a Widget 
+    }else if(snapshot.hasError){
+      // Return an widget that shows error
+    }else{
+      // Return a loading indicator widget
+    }
+  }
+),
+</pre>
+<p>Note that <code>snapshot.hasData</code> only returns <code>true</code> when the snapshot contains a non-null data value. This is why the fetchAlbum function should throw an exception even in the case of a “404 Not Found” server response. If fetchAlbum returns <code>null</code> then the spinner displays indefinitely. So this is important that the Future should never resolves to <code>null</code> value.</p>
+<p>Here is an updated version of the above example:</p>
+<pre>
+Future&lt;Map&lt;String, dynamic>> fetchAlbum() async {
+  final response = await http.get('https://jsonplaceholder.typicode.com/albums/1');
+
+  if (response.statusCode == 200) {
+    // If the server did return a 200 OK response,
+    // then parse the JSON.
+    return json.decode(response.body);
+  } else {
+    // If the server did not return a 200 OK response,
+    // then throw an exception.
+    throw Exception('Failed to load album');
+  }
+}
+
+Future&lt;Map&lt;String, dynamic>> futureObject = fetchAlbum();
+
+FutureBuilder(
+  future: futureObject,
+  builder(context, snapshot){
+    if(snapshot.hasData){
+      // Return a Widget 
+      // Use snapshot.data to get the data
+    }else if(snapshot.hasError){
+      // Return an widget that shows error
+    }else{
+      // Return a loading indicator widget
+    }
+  }
+),
+</pre>
+<h3>snpashot</h3>
+<p>The argument <code>snapshot</code> has four properties:</p>
+<ul>
+  <li><code>hasData</code>: Becomes <code>true</code> when the Future resolves to the value.</li>
+  <li><code>hasError</code>: Becomes <code>true</code> when the Future encounters an error. Like the future contains an exception.</li>
+  <li><code>data</code>: You can access the future data through this property. So your widget may use <code>snapshot.data</code>: User to obtain the data from the snapshot.</li>
+  <li><code>connectionState</code>: It contains <code>ConnectionState</code> enum value. It changes during the lifecycle of the provided future.</li>
+</ul>
+
+
+<h2>Example</h2>
+<p>Here is an complete modified version of the above example.</p>
+<pre>
+import 'dart:async';
+import 'dart:convert';
+
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+
+Future&lt;Album> fetchAlbum() async {
+  final response =
+      await http.get('https://jsonplaceholder.typicode.com/albums/1');
+
+  if (response.statusCode == 200) {
+    // If the server did return a 200 OK response,
+    // then parse the JSON.
+    return Album.fromJson(json.decode(response.body));
+  } else {
+    // If the server did not return a 200 OK response,
+    // then throw an exception.
+    throw Exception('Failed to load album');
+  }
+}
+
+class Album {
+  final int userId;
+  final int id;
+  final String title;
+
+  Album({this.userId, this.id, this.title});
+
+  factory Album.fromJson(Map&lt;String, dynamic> json) {
+    return Album(
+      userId: json['userId'],
+      id: json['id'],
+      title: json['title'],
+    );
+  }
+}
+
+void main() => runApp(MyApp());
+
+class MyApp extends StatefulWidget {
+  MyApp({Key key}) : super(key: key);
+
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State&lt;MyApp> {
+  Future&lt;Album> futureAlbum;
+
+  @override
+  void initState() {
+    super.initState();
+    futureAlbum = fetchAlbum();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Fetch Data Example',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text('Fetch Data Example'),
+        ),
+        body: Center(
+          child: FutureBuilder&lt;Album>(
+            future: futureAlbum,
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return Text(snapshot.data.title);
+              } else if (snapshot.hasError) {
+                return Text("${snapshot.error}");
+              }
+
+              // By default, show a loading spinner.
+              return CircularProgressIndicator();
+            },
+          ),
+        ),
+      ),
+    );
+  }
+}
+</pre>
+
+
+<h1>ConnectionState</h1>
+<p>The <code>snapshot</code> argument of the <code>builder</code> callback contains a <code>ConnectionState</code> enum value which changes during the life cycle of the provided future object. Here is an example:</p>
+<pre>
+FutureBuilder(
+  future: future,
+  builder: (context, snapshot){
+    switch (snapshot.connectionState) {
+      case ConnectionState.none:
+        print("Connection is still yet to make");
+      case ConnectionState.waiting:
+        print("Connection is waiting for Future to be completed");
+        print("Show Loading Indicator");
+      case ConnectionState.active:
+        print("Connection is Active");
+      case ConnectionState.done:
+        print("Future has completed");
+    }
+  }
+);
+</pre>
+
+<h1>connectionSate vs hasData</h1>
+<p>Within the <code>builder</code> callback you can use both either use <code>hasData</code> or <code>connectionState</code> to determine what to show to the user. But there is a difference.</p>
+<p>Consider this example where you have initialized the <code>FutureBuilder</code> widget with a future object. In your code you show a spinner until the content loads and when the content loads you show the content. It works fine. Now you dynamically change the future object. What would you expect that the builder function should receive a fresh snapshot so that you will show the spinner again until the new future object completes and then show the content. But no, when you dynamically change the future object the snapshot will still contain the old value, the value of the previous future object which is completed and contains data. When the new future is completed, then you will receive new snapshot based on the new provided future and it will contain the value of new future. So the problem is from the point you change the future object dynamically with a new future object and to the point the new future completes, your snapshot is still the old snapshot that was received when the previous future completed. So you won't be able to show a spinner after you change the future dynamically if you use <code>snapshot.hasData</code> to determine if the snapshot has data or not.</p>
+<p>The solution is to use <code>connectionState</code> instead of <code>hasData</code>. Even though after changing the future object the snapshot will contain previous data, the <code>connectionState</code> will be new.</p>
+<p>That's why it is recommended to use <code>connectionState</code> whenever possible.</p>
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

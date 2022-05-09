@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Future</title>
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+	<script type="text/javascript" src="../Assets/prism.min.js"></script>
+	<script type="text/javascript" src="../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+
+<h1>Future</h1>
+<p>A future (lower case “f”) is an instance of the Future (capitalized “F”) class. A future represents the result of an asynchronous operation, and can have two states: <code>uncompleted</code> or <code>completed</code>.</p>
+
+<p>When a function returns a <code>Future</code>, it means that it takes a while for its result to be ready, and the result will be available in the future.</p>
+
+<p>The most famous example of a function that may take some time to return the result is <code>http.get(url)</code> which is usually used to call RESTFul API, where we have to send an HTTP request and wait for the response. In the following example, <code>http.get()</code> method returns a <code>Future</code> object:</p>
+<pre>
+final response = http.get(url);
+</pre>
+
+<p>Calling a function that returns a <code>Future</code>, will not block your code, that’s why that function is called <code>asynchronous</code>. Instead, it will immediately return a <code>Future</code> object, which is at first uncompleted.</p>
+
+<p><code>Future&lt;T></code> means that the result of the asynchronous operation will be of type <code>T</code>. For example, if a function returns <code>Future&lt;String></code>, this means that in the future, it will provide a string to you. If a future doesn’t produce a usable value, then the future’s type is <code>Future&lt;void></code>.</p>
+
+
+<p>A Future object can have two states:</p>
+<ul>
+	<li><code>Uncompleted</code>: When you call an asynchronous function, it immediately returns an uncompleted Future object(future). That future is waiting for the function’s asynchronous operation to finish or to throw an error.</li>
+	<li><code>Completed</code>: If the asynchronous operation succeeds, the future completes with a value. If the asynchronous operation performed by the function fails for any reason, the future completes with an error.</li>
+</ul>
+
+<h3>Example of Future that returns nothing</h3>
+<p>In the following example, <code>fetchUserOrder()</code> returns a future that completes after printing to the console. Because it doesn’t return a usable value, <code>fetchUserOrder()</code> has the type <code>Future&lt;void></code>.</p>
+<pre>
+Future&lt;void> fetchUserOrder() {
+  // Imagine that this function is fetching user info from another service or database.
+  return Future.delayed(Duration(seconds: 2), () => print('Large Latte'));
+}
+
+void main() {
+  fetchUserOrder();
+  print('Fetching user order...');
+}
+</pre>
+<p>And the output will be:</p>
+<pre>
+Fetching user order...
+Large Latte
+</pre>
+
+<h3>Accessing Future Values: then, async and await</h3>
+<p>You can access the result of the Future using either of the following keywords:</p>
+<ul>
+	<li>then</li>
+	<li>await</li>
+</ul>
+<p>Suppose that the <code>getNews()</code> function returns an instance of <code>Future&lt;String></code></p>
+<pre>
+Future&lt;String> getNews() async {
+  final response = await http.get(url);
+  return response.body;
+}
+</pre>
+<p>You can consume the result of this function in either of the following ways:</p>
+<pre>
+getNews().then((news) {
+  print(news);
+});
+
+// or,
+
+String news = await getNews();
+print(news);
+</pre>
+<p>If you use <code>await</code> keyword before the asynchronous function call, the execution waits for the result of asynchronous operation and then resume the execution. The <code>await</code> keyword can only be used in the body of an <code>async</code> function:</p>
+<pre>
+Future&lt;void> foo() async {
+  String news = await getNews();
+  print(news);
+}
+</pre>
+<p>The result of an <code>async</code> function must be a <code>Future</code>.</p>
+<p>If a function returns a <code>Future</code>, it’s considered asyncrounous; you do not need to mark the body of this function with <code>async</code> keyword. The <code>async</code> keyword is necessary only if you have used the <code>await</code> keyword in the body of your function.</p>
+<p>The <code>then</code> method of future object returns a <code>Future&lt;T></code> as well, it means that you can chain them:</p>
+<pre>
+getNews().then(…).then(…).then(…)
+</pre>
+<p>The type of <code>Future&lt;T></code> returned by <code>then</code> method is determined by the return value of the function defined in the body of <code>then</code>.</p>
+
+
+
+
+
+
+<h3>Completing with an error</h3>
+<p>In the below example, we throw an exception after 2 seconds of delay.</p>
+<pre>
+Future&lt;void> fetchUserOrder() {
+// Imagine that this function is fetching user info but encounters a bug
+  return Future.delayed(Duration(seconds: 2),
+      () => throw Exception('Logout failed: user ID is invalid'));
+}
+
+void main() {
+  fetchUserOrder();
+  print('Fetching user order...');
+}
+</pre>
+<p>The output will be:</p>
+<pre>
+Fetching user order...
+Uncaught Error: Exception: Logout failed: user ID is invalid
+</pre>
+
+
+<h3>Handling Error</h3>
+<p>To handle errors in an async function, use try-catch:</p>
+<pre>
+try {
+  var order = await fetchUserOrder();
+  print('Awaiting user order...');
+} catch (err) {
+  print('Caught error: $err');
+}
+</pre>
+<p>Within an <code>async</code> function, you can write <code>try-catch</code> clauses the same way you would in synchronous code. The following example explains this:</p>
+<pre>
+Future&lt;void> printOrderMessage() async {
+  try {
+    var order = await fetchUserOrder();
+    print('Awaiting user order...');
+    print(order);
+  } catch (err) {
+    print('Caught error: $err');
+  }
+}
+
+Future&lt;String> fetchUserOrder() {
+  // Imagine that this function is more complex.
+  var str = Future.delayed(
+      Duration(seconds: 4),
+      () => throw 'Cannot locate user order');
+  return str;
+}
+
+Future&lt;void> main() async {
+  await printOrderMessage();
+}
+</pre>
+<p>The output will be:</p>
+<pre>
+Caught error: Cannot locate user order
+</pre>
+
+
+
+
+
+<h1>Future.delayed()</h1>
+<p>The named constructor <code>delayed</code> of Future class executes a callback after given duration.</p>
+<pre>
+final myFuture = Future.delayed(
+  const Duration(seconds: 5),
+  	(){
+  		// Do something here --
+	},
+);
+</pre>
+<p>The first argument is duration that is represented as <code>const Duration(seconds: 5)</code>, and second parameter is a callback which will be run after specified duration.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

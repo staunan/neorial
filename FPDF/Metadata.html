@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Metadata</title>
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
+	<script type="text/javascript" src="../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<style type="text/css">
+	h2{
+		font-size: 18px;
+		font-weight: 700;
+	}
+	h3, h4, h2{
+		margin: 0;
+	}
+	p{
+		margin: 0;
+		margin-bottom: 10px;
+	}
+</style>
+<div class="Content Card">
+<h1>SetTitle()</h1>
+<pre>
+	
+	SetTitle(string title [, boolean isUTF8])
+
+</pre>
+<p>Defines the title of the document.</p>
+<ul>
+	<li><code>title</code> The title.</li>
+	<li><code>isUTF8</code> Indicates if the string is encoded in ISO-8859-1 (false) or UTF-8 (true). Default value: false.</li>
+</ul>
+<pre>
+
+	$pdf = new FPDF();
+	$pdf->SetFont('Arial','B',16);
+	$pdf->SetTitle("Demo PDF", false);
+	$pdf->AddPage();
+	$pdf->SetLineWidth(5);
+	$pdf->Rect(30, 40, 30, 30);
+
+	$pdf->Output('helo.pdf', 'D');
+
+</pre>
+<img src="Images/SetTitle.jpg">
+<p>As you can see, on the top-left corner the title is showing.</p>
+
+
+
+
+
+<h1>SetSubject()</h1>
+<pre>
+
+	SetSubject(string subject [, boolean isUTF8])
+
+</pre>
+<p>Defines the subject of the document.</p>
+<ul>
+	<li><code>subject</code> The subject.</li>
+	<li><code>isUTF8</code> Indicates if the string is encoded in ISO-8859-1 (false) or UTF-8 (true). Default value: false.</li>
+</ul>
+<pre>
+	
+	$pdf->SetSubject("This is my Subject !");
+
+</pre>
+<p>You won't see the output. It is just a metadata information.</p>
+
+
+
+
+
+
+<h1>SetAuthor()</h1>
+<pre>
+	
+	SetAuthor(string author [, boolean isUTF8])
+
+</pre>
+<p>Defines the author of the document.</p>
+<ul>
+	<li><code>author</code> The name of the author.</li>
+	<li><code>isUTF8</code> Indicates if the string is encoded in ISO-8859-1 (false) or UTF-8 (true). Default value: false.</li>
+</ul>
+<pre>
+	
+	$pdf->SetAuthor("Santanu Bera");
+
+</pre>
+<p>Like <code>SetSubject()</code>, this one is also a metadata information of the document.</p>
+
+
+
+
+
+
+
+<h1>SetCreator()</h1>
+<pre>
+	
+	SetCreator(string creator [, boolean isUTF8])
+
+</pre>
+<p>Defines the creator of the document. This is typically the name of the application that generates the PDF.</p>
+<ul>
+	<li><code>creator</code> The name of the creator.</li>
+	<li><code>isUTF8</code> Indicates if the string is encoded in ISO-8859-1 (false) or UTF-8 (true). Default value: false.</li>
+</ul>
+<pre>
+	
+	$pdf->SetCreator("Santanu Bera");
+
+</pre>
+<p>Like <code>SetAuthor()</code>, <code>SetCreator()</code> is also an metadata information.</p>
+
+</div>
+</body>
+</html>

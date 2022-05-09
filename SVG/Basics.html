@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>SVG - Basics</title>
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
+	<script type="text/javascript" src="../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+<h1>SVG Element</h1>
+<p>SVG graphics start with <code>&lt;svg></code> element.</p>
+<h3>Attributes</h3>
+<ul>
+	<li><code>width</code> : Specifies the width of the graphics.</li>
+	<li><code>height</code> : Specifies the height of the graphics.</li>
+	<li><code>background-color</code> : Background color of the graphics.</li>
+</ul>
+<pre>
+
+	&lt;svg width="200" height="200" style='background-color: pink;'>
+	&lt;/svg>
+
+</pre>
+<div class="box">
+	<svg width="200" height="200" style='background-color: pink;'>
+	</svg>
+</div>
+
+
+<h1>Circle</h1>
+<p>Within a SVG you can draw a Circle using <code>&lt;circle></code> element.</p>
+<h3>Attributes</h3>
+<ul>
+	<li><code>cx</code> : X Coordinate which represents the center of the element. Default is 0 if not specified.</li>
+	<li><code>cy</code> : Y Coordinate which represents the center of the element. Default is 0 if not specified.</li>
+	<li><code>r</code> : Radius of the element.</li>
+	<li><code>stroke</code> : Border Color of the element. Or, outline color of the element.</li>
+	<li><code>stroke-width</code> : Thickness of the Border or outline of the element.</li>
+	<li><code>fill</code> : Background-color is represented as fill.</li>
+</ul>
+<pre>
+
+	&lt;svg width="200" height="200" style='background-color: pink;'>
+		&lt;circle cx="100" cy="100" r="70" stroke="white" stroke-width="5" >&lt;/circle>
+	&lt;/svg>
+
+</pre>
+<div class="box">
+	<svg width="200" height="200" style='background-color: pink;'>
+    <circle cx="100" cy="100" r="70" stroke="white" stroke-width="5" ></circle>
+  </svg>
+</div>
+
+
+
+
+
+<h1>Rectangle</h1>
+<p>You can draw a rectangle using the <code>&lt;rect></code> element.</p>
+<ul>
+	<li><code>width</code> : Width of the rectange.</li>
+	<li><code>height</code> : Height of the rectange.</li>
+	<li><code>fill</code> : Background-color of the rectangle.</li>
+	<li><code>stroke</code> : Outline color of the Rectangle.</li>
+	<li><code>stroke-width</code> : Outline width of the Rectangle.</li>
+	<li><code>x</code> : The x coordinate in which the rectange's left corner will be positioned.</li>
+	<li><code>y</code> : The y coordinate in which the rectange's right corner will be positioned.</li>
+	<li><code>rx</code> : The x radius of the Rectangle. At 50, it becomes circle. The value of the rx is also applied to ry by default unless you provide it specifically.</li>
+	<li><code>ry</code> : The y radius of the Rectangle. At 50, it becomes circle.</li>
+</ul>
+<pre>
+
+	&lt;svg width="200" height="200" style='background-color: grey;'>
+		&lt;rect width="150" height="100" x="25" y="50" rx="20" ry="20">&lt;/rect>
+	&lt;/svg>
+
+</pre>
+<div class="box">
+<svg width="200" height="200" style='background-color: grey;'>
+	<rect width="150" height="100" x="25" y="50" rx="20" ry="20"></rect>
+</svg>
+</div>
+
+
+
+<h1>Ellipses</h1>
+<p>You can draw an Ellipse using <code>&lt;ellipse></code> element. An ellipse is closely related to a circle. The difference is that an ellipse has an x and a y radius that differs from each other, while a circle has equal x and y radius:</p>
+<h3>Attributes</h3>
+<ul>
+	<li><code>cx</code> : x Coordinate of the Ellipse which represents the center of the ellipse. Required attribute.</li>
+	<li><code>cy</code> : y Coordinate of the Ellipse which represents the center of the ellipse. Required attribute.</li>
+	<li><code>rx</code> : The x radius or the horizontal radius of the Ellipse. Required Attribute.</li>
+	<li><code>ry</code> : The y radius or the vertical radius of the Ellipse. Required Attribute.</li>
+	<li>Other attributes are - <code>fill</code>, <code>stroke</code>, <code>stroke-width</code></li>
+</ul>
+<pre>
+
+	&lt;svg width="200" height="200" style='background-color: grey;'>
+		&lt;ellipse cx="100" cy="100" rx="100" ry="50" style="fill:yellow;stroke:purple;stroke-width:2" />
+	&lt;/svg>
+
+</pre>
+<div class="box">
+<svg width="200" height="200" style='background-color: grey;'>
+	<ellipse cx="100" cy="100" rx="100" ry="50" style="fill:yellow;stroke:purple;stroke-width:2" />
+</svg>
+</div>
+<p>You can make an Ellipse a Circle if you provide all the same four value.</p>
+
+
+
+
+
+
+
+<h1>Line</h1>
+<p>You can draw a line using <code>&lt;line></code> Element.</p>
+<h3>Attributes</h3>
+<ul>
+	<li><code>x1</code> : x Coordinate of starting point.</li>
+	<li><code>y1</code> : y Coordinate of starting point.</li>
+	<li><code>x2</code> : x Coordinate of end point.</li>
+	<li><code>y2</code> : y Coordinate of end point.</li>
+	<li><code>stroke</code> : color of the line.</li>
+	<li><code>stroke-width</code> : Thickness of the line.</li>
+</ul>
+<pre>
+
+	&lt;svg width="200" height="200" style='background-color: grey;'>
+		&lt;line x1="10" y1="10" x2="100" y2="100" stroke="white" stroke-width="5">
+	&lt;/svg>
+
+</pre>
+<div class="box">
+	<svg width="200" height="200" style='background-color: grey;'>
+		<line x1="10" y1="10" x2="100" y2="100" stroke="white" stroke-width="5">
+	</svg>
+</div>
+
+
+
+
+
+
+<h1>Polygon</h1>
+<p>The <code>&lt;polygon></code> element is used to create a graphic that contains at least three sides.</p>
+<p>Polygons are made of straight lines, and the shape is "closed" (all the lines connect up).</p>
+<h3>Attributes</h3>
+<ul>
+	<li><code>points</code> : The points attribute defines the x and y coordinates for each corner of the polygon. First point is x1 and second point is y1, third point is x2 and fourth point is y2, fifth point is x3 and sixth point is y3 and so on.</li>
+	<li>Other Attributes are - <code>fill</code>, <code>stroke</code>, <code>stroke-width</code>.</li>
+</ul>
+<pre>
+
+	&lt;svg width="200" height="200" style='background-color: grey;'>
+		&lt;polygon points='10, 10, 100, 100, 150, 70'>
+	&lt;/svg>
+
+</pre>
+<div class="box">
+<svg width="200" height="200" style='background-color: grey;'>
+	<polygon points='10, 10, 100, 100, 150, 70'>
+</svg>
+</div>
+<pre>
+
+	&lt;svg height="210" width="500">
+		&lt;polygon points="100,10 40,198 190,78 10,78 160,198" style="fill:lime;stroke:purple;stroke-width:5;fill-rule:nonzero;" />
+	&lt;/svg>
+
+</pre>
+<div class="box">
+<svg height="210" width="500">
+  <polygon points="100,10 40,198 190,78 10,78 160,198"
+  style="fill:lime;stroke:purple;stroke-width:5;fill-rule:nonzero;" />
+</svg>
+</div>
+<pre>
+
+	&lt;svg height="210" width="500">
+		&lt;polygon points="100,10 40,198 190,78 10,78 160,198" style="fill:lime;stroke:purple;stroke-width:5;fill-rule:evenodd;" />
+	&lt;/svg>
+
+</pre>
+<div class="box">
+<svg height="210" width="500">
+  <polygon points="100,10 40,198 190,78 10,78 160,198"
+  style="fill:lime;stroke:purple;stroke-width:5;fill-rule:evenodd;" />
+</svg>
+</div>
+
+
+
+
+
+
+<h1>Polyline</h1>
+<p>The <code>&lt;polyline></code> element is used to create any shape that consists of only straight lines (that is connected at several points):</p>
+<h3>Attributes</h3>
+<ul>
+	<li><code>points</code> : The points attribute defines the list of points (pairs of x and y coordinates) required to draw the polyline.</li>
+	<li>Other attributes are - <code>fill</code>, <code>stroke</code>, <code>stroke-width</code></li>
+</ul>
+<pre>
+
+	&lt;svg height="180" width="500">
+		&lt;polyline points="0,40 40,40 40,80 80,80 80,120 120,120 120,160" style="fill:white;stroke:red;stroke-width:4" />
+	&lt;/svg>
+
+</pre>
+<div class="box">
+<svg height="180" width="500">
+  <polyline points="0,40 40,40 40,80 80,80 80,120 120,120 120,160"
+  style="fill:white;stroke:red;stroke-width:4" />
+</svg>
+</div>
+
+
+
+
+
+
+<h1>Path</h1>
+<p>The <code>&lt;path></code> element is used to define a path.</p>
+<p>The following commands are available for path data:</p>
+<h3>Attribute</h3>
+<ul>
+	<li><code>d</code></li>
+</ul>
+<h3>Command</h3>
+<ul>
+	<li><code>M</code> : Move to.</li>
+	<li><code>L</code> : Line to.</li>
+	<li><code>H</code> : Horizontal Line to.</li>
+	<li><code>V</code> : Vertical Line to.</li>
+	<li><code>C</code> : Curve to.</li>
+	<li><code>S</code> : Smooth Curve to.</li>
+	<li><code>Q</code> : Quadratic Bézier curve</li>
+	<li><code>T</code> : Smooth quadratic Bézier curveto</li>
+	<li><code>A</code> : Elliptical Arc</li>
+	<li><code>Z</code> : Close Path</li>
+</ul>
+<p><em style="font-weight: 500;">All of the commands above can also be expressed with lower letters. Capital letters means absolutely positioned, lower cases means relatively positioned.</em></p>
+
+<p>All drawing with the <code>&lt;path></code> element is specified inside the <code>d</code> attribute. The <code>d</code> attribute contains drawing commands. The commands are given to a "virtual pen". This pen can be moved, made to draw shapes etc.</p>
+<p>The first drawing command inside the <code>&lt;path></code> <code>d</code> attribute should always be a move command. Before you can draw anything you should move the virtual pen to some location. This is done using the <code>M</code> command. Here is a simple example:</p>
+<pre>
+
+	&lt;svg width="200" height="200" style='background-color: grey;'>
+		&lt;path d="M50,50" style="stroke:#660000; fill:none;"/>
+	&lt;/svg>
+
+</pre>
+<p>This example moves the virtual pen to the point <code>50,50</code>. The next drawing command will start from that point.</p>
+<h4>Drawing a Line</h4>
+<p>Drawing a line is probably the simplest command you can give the <code>&lt;path></code> element. Drawing lines is done using the L and l (lowercase L) commands. Here is an example:</p>
+<pre>
+
+	&lt;svg width="200" height="200" style='background-color: grey;'>
+		&lt;path d="M50,50
+			L100,100"
+			style="stroke:#660000; fill:none;"/>
+	&lt;/svg>
+
+</pre>
+<p>This example draws a line from the point 50,50 (the point of the M command) to the point 100,100 (the point of the L command). Here is the resulting output:</p>
+<div class="box">
+<svg width="200" height="200" style='background-color: grey;'>
+		<path d="M50,50
+			L100,100"
+			style="stroke:#660000; fill:none;"/>
+	</svg>
+</div>
+<p>The difference between the <code>L</code> and <code>l</code> command is that the uppercase version (L) draws a line to the absolute point passed to the command, whereas the lowercase version (l) version draws a line to the relative point passed to the command. The relative point is the point of the virtual pen before the line starts plus the coordinates given to the <code>l</code> command.</p>
+<p>If the virtual pen is located at <code>50,50</code> and you use an l100,100 command, the line will be drawn to <code>50+100,50+100 = 150,150</code>. Using an <code>L100,100</code> command would have drawn the line to <code>100,100</code> exactly, regardless of the location of the virtual pen.</p>
+<h4>Drawing an Arch</h4>
+<p>Path shapes are always drawn from the last virtual pen point to a new point. Each drawing command takes an end point. After executing that command, the virtual pen point will be located at the end point of that drawing command. The next drawing command will start from that point.</p>
+<p>Drawing arcs using the <code>&lt;path></code> element is done using the <code>A</code> and <code>a</code> commands. Like with lines, the uppercase command (A) uses absolute coordinates for its endpoint, where the lowercase command (a) uses relative coordinates (relative to the start point). Here is an example:</p>
+<pre>
+
+	&lt;svg width="200" height="200" style='background-color: grey;'>
+		&lt;path d="M50,50
+			A30,50 0 0,1 100,100"
+			style="stroke:#660000; fill:none;"/>
+	&lt;/svg>
+
+</pre>
+<div class="box">
+<svg width="200" height="200" style='background-color: grey;'>
+		<path d="M50,50
+			A30,50 0 0,1 100,100"
+			style="stroke:#660000; fill:none;"/>
+	</svg>
+</div>
+<p>This example draws an arc from the point 50,50 to the point <code>100,100</code> (specified last in the A command).</p>
+<p>The radius of the arc is set by the two first parameters set on the A command. The first parameter is rx (radius in x-direction) and the second is ry (radius in y-direction). Setting rx and ry to the same value will result in a circular arc. Setting rx and ry to different values will result in an elliptical arc. In the example above rx was set to 30 and ry to 50.</p>
+<p>The third parameter set on the A command is the <code>x-axis-rotation</code>. This sets the rotation of the arc's x-axis compared to the normal x-axis. In the above example the <code>x-axis-rotation</code> is set to 0. Most of the time you will not need to change this parameter.</p>
+<p>The fourth and fifth parameters are the <code>large-arc-flag</code> and <code>sweep-flag</code> parameters. The <code>large-arc-flag</code> determines whether to draw the smaller or bigger arc satisfying the start point, end point and <code>rx</code> and <code>ry</code>. Here is an example drawing 4 arcs each with different combinations of the <code>large-arc-flag</code> and <code>sweep-flag</code>:</p>
+<pre>
+
+	&lt;svg width="200" height="200" style='background-color: grey;'>
+		&lt;path d="M40,20  A30,30 0 0,0 70,70"
+		style="stroke: #cccc00; stroke-width:2; fill:none;"/>
+
+		&lt;path d="M40,20  A30,30 0 1,0 70,70"
+		style="stroke: #ff0000; stroke-width:2; fill:none;"/>
+
+		&lt;path d="M40,20  A30,30 0 1,1 70,70"
+		style="stroke: #00ff00; stroke-width:2; fill:none;"/>
+
+		&lt;path d="M40,20  A30,30 0 0,1 70,70"
+		style="stroke: #0000ff; stroke-width:2; fill:none;"/>
+	&lt;/svg>
+
+</pre>
+<div class="box">
+<svg width="200" height="200" style='background-color: grey;'>
+		<path d="M40,20  A30,30 0 0,0 70,70"
+		style="stroke: #cccc00; stroke-width:2; fill:none;"/>
+
+		<path d="M40,20  A30,30 0 1,0 70,70"
+		style="stroke: #ff0000; stroke-width:2; fill:none;"/>
+
+		<path d="M40,20  A30,30 0 1,1 70,70"
+		style="stroke: #00ff00; stroke-width:2; fill:none;"/>
+
+		<path d="M40,20  A30,30 0 0,1 70,70"
+		style="stroke: #0000ff; stroke-width:2; fill:none;"/>
+	</svg>
+</div>
+<p>Four different arcs can be drawn from <code>40,20</code> to the point <code>70,70</code>. A long arc, a small arc, and two mirrored versions of each small/large arc. The <code>large-arc-flag</code> determines whether the large or small arc is to be drawn. The <code>sweep-flag</code> determines whether the arc is mirrored around the axis going form start point to end point. Actually, the <code>sweep-flag</code> controls the direction the arc is drawn (clock-wise or counter-clock-wise) which results in a "mirroring" effect.</p>
+<p>The first arc drawn is the yellow arc. Having <code>large-arc-flag</code> set to 0 means that the smaller of the possible arcs will be drawn. The <code>sweep-flag</code> is also set to 0 meaning the arc is not mirrored. Here is the yellow arc:</p>
+<pre>
+
+	&lt;svg width="200" height="200" style='background-color: grey;'>
+		&lt;path d="M40,20  A30,30 0 0,0 70,70"
+		style="stroke: #cccc00; stroke-width:2; fill:none;"/>
+	&lt;/svg>
+
+</pre>
+<div class="box">
+<svg width="200" height="200" style='background-color: grey;'>
+		<path d="M40,20  A30,30 0 0,0 70,70"
+		style="stroke: #cccc00; stroke-width:2; fill:none;"/>
+	</svg>
+</div>
+<pre>
+
+	&lt;svg width="200" height="200" style='background-color: grey;'>
+		&lt;path d="M40,20  A30,30 0 0,0 70,70"
+		style="stroke: #cccc00; stroke-width:2; fill:none;"/>
+
+		&lt;path d="M40,20  A30,30 0 1,0 70,70"
+		style="stroke: #ff0000; stroke-width:2; fill:none;"/>
+	&lt;/svg>
+
+</pre>
+<p>The second arc drawn is the red arc. Having the <code>large-arc-flag</code> set to 1 means that the larger of the two possible arcs are drawn from <code>40,20</code> to <code>70,70</code>. Here is the yellow and the red arc shown together to illustrate the difference:</p>
+<div class="box">
+<svg width="200" height="200" style='background-color: grey;'>
+		<path d="M40,20  A30,30 0 0,0 70,70"
+		style="stroke: #cccc00; stroke-width:2; fill:none;"/>
+
+		<path d="M40,20  A30,30 0 1,0 70,70"
+		style="stroke: #ff0000; stroke-width:2; fill:none;"/>
+	</svg>
+</div>
+<p>The green and the blue arc (from the example earlier with all four arcs) are the same as the yellow and red arc, but drawn with the <code>sweep-flag</code> set to 1. This means that they will draw the same arcs but mirrored over the axis going from the starting point to the end point.</p>
+
+<h4>Quadratic Bezier Curves</h4>
+<p>It is also possible to draw quadratic Bezier curves using the <code>&lt;path></code> element. Drawing quadratic Bezier curves is done with the <code>Q</code> and <code>q</code> commands. Like with lines, the uppercase command (Q) uses absolute coordinates for its endpoint, where the lowercase command (q) uses relative coordinates (relative to the start point). Here is a simple quadratic curve example:</p>
+<pre>
+
+	&lt;svg width="200" height="200" style='background-color: whitesmoke;'>
+		&lt;path d="M50,50 Q50,100 100,100" style="stroke: #006666; fill:none;"/> 
+	&lt;/svg>
+
+</pre>
+<div class="box">
+<svg width="200" height="200" style='background-color: whitesmoke;'>
+		<path d="M50,50 Q50,100 100,100" style="stroke: #006666; fill:none;"/> 
+	</svg>
+</div>
+<p>The example draws a quadratic Bezier curve from <code>50,50</code> to the point <code>100,100</code> with a control point at <code>50,100</code>. The control point is the first of the two parameters set on the Q command.</p>
+<p>The control point pulls the curve like a magnet. The closer a point on the curve is to the control point, the more the control point pulls in it, meaning the closer to the control point it will be.</p>
+<p>In fact, if you draw a line from the start point to the control point, and another line from the control point to the end point, then the line from the middle of the first line to the middle of the second line will be a tangent of the curve. Here is an example illustrating that:</p>
+<pre>
+
+	&lt;svg width="200" height="200" style='background-color: whitesmoke;'>
+		&lt;path d="M50,50 Q26,150 150,150" style="stroke: #006666; fill:none;"/> 
+		&lt;line x1="50" y1="50" x2="26" y2="150" stroke="black" stroke-width='1' />
+		&lt;line x1="26" y1="150" x2="150" y2="150" stroke="red" stroke-width='1' />
+		&lt;line x1="36" y1="100" x2="88" y2="150" stroke="green" stroke-width="1">&lt;/line>
+	&lt;/svg>
+
+</pre>
+<div class="box">
+	<svg width="200" height="200" style='background-color: whitesmoke;'>
+		<path d="M50,50 Q26,150 150,150" style="stroke: #006666; fill:none;"/> 
+		<line x1="50" y1="50" x2="26" y2="150" stroke="black" stroke-width='1' />
+		<line x1="26" y1="150" x2="150" y2="150" stroke="red" stroke-width='1' />
+		<line x1="36" y1="100" x2="88" y2="150" stroke="green" stroke-width="1"></line>
+	</svg>
+</div>
+
+<h4>Cubic Bezier Curves</h4>
+<p>Drawing cubic Bezier curves is done using the <code>C</code> and <code>c</code> commands. Cubic Bezier curves are like quadratic Bezier curves except they have two control points instead of one. Like with lines, the uppercase command (C) uses absolute coordinates for its endpoint, where the lowercase command (c) uses relative coordinates (relative to the start point). Here is an example:</p>
+<pre>
+
+	&lt;svg width="200" height="200" style='background-color: whitesmoke;'>
+		&lt;path d="M50,50 C75,80 125,20 150,50" style="stroke: #006666; fill:none;"/>
+	&lt;/svg>
+
+</pre>
+<div class="box">
+<svg width="200" height="200" style='background-color: whitesmoke;'>
+		<path d="M50,50 C75,80 125,20 150,50" style="stroke: #006666; fill:none;"/>
+	</svg>
+</div>
+
+
+<h4>Closing the Path</h4>
+<p>The <code>&lt;path></code> element has a shortcut command for closing the path, meaning drawing a line from the last point back to the first point. The command is <code>Z</code> (or <code>z</code> - there is no difference between the uppercase and lowercase close path command). Here is an example:</p>
+<pre>
+
+	&lt;svg width="200" height="200" style='background-color: whitesmoke;'>
+		&lt;path d="M50,50 L100,50 L100,100 Z" style="stroke: #006666; fill:none;"/>
+	&lt;/svg>
+
+</pre>
+<div class="box">
+<svg width="200" height="200" style='background-color: whitesmoke;'>
+		<path d="M50,50 L100,50 L100,100 Z" style="stroke: #006666; fill:none;"/>
+	</svg>
+</div>
+<h4>Combining Commands</h4>
+<p>You can combine the path commands inside the same <code>&lt;path></code> element. Here is an example:</p>
+<pre>
+
+	&lt;svg width="200" height="200" style='background-color: whitesmoke;'>
+		&lt;path d="M100,100
+			L150,100
+			a50,25 0 0,0 150,100
+			q50,-50 70,-170
+			Z"
+			style="stroke: #006666; fill: none;"/>
+	&lt;/svg>
+
+</pre>
+<div class="box">
+<svg width="500" height="300" style='background-color: whitesmoke;'>
+		<path d="M100,100
+			L150,100
+			a50,25 0 0,0 150,100
+			q50,-50 70,-170
+			Z"
+			style="stroke: #006666; fill: none;"/>
+	</svg>
+</div>
+<h4>Filling Path</h4>
+<p>You can fill paths using the fill CSS property. Here is an example:</p>
+<pre>
+
+	&lt;svg width="200" height="200" style='background-color: whitesmoke;'>
+		&lt;path d="M100,100 L150,100 L150,150  Z"
+			style="stroke: #0000cc;
+			stroke-width: 2px;
+			fill  : #ccccff;"/>
+	&lt;/svg>
+
+</pre>
+<div class="box">
+<svg width="200" height="200" style='background-color: whitesmoke;'>
+		<path d="M100,100 L150,100 L150,150  Z"
+			style="stroke: #0000cc;
+			stroke-width: 2px;
+			fill  : #ccccff;"/>
+	</svg>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

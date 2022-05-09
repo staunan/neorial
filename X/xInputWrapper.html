@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>xInputWrapper</title>
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
+	<script type="text/javascript" src="../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+<h1>xInputWrapper</h1>
+<pre>
+let inputWrapper = dom.createXElement(xInputWrapper, {
+	"type": "xInputWrapper",
+	"expand-collapse-icon": "true",
+	"icon": "material-icon, email",
+	"label": "Input Label",
+	"help-text": "This is a help text"
+});
+</pre>
+<p>This component wraps another input component inside it. Input component like <code>xTextBox</code>, <code>xPasswordBox</code> etc are built on top of this component. Because most input component has a common layout structure like they all have an icon before them, or they all have label. So InputWrapper component defines these element like icon, label etc and their functionality. This component cannot be directly used in your project. You need to create another component which is based on this component and will use its functionality.</p>
+
+<p>The InputWrapper has two part. The top part contains the actual input and the bottom part is used to display any message like help-text or error message or counter etc. The top part is again devided into two part, the left part contains an icon and right part contains the input. The label floats on the input. When the input got focused, the label moves on the top, and when the input looses the focus, the label moves over the input. If the input has any value the label is fixed and stays on the top of the input.</p>
+
+
+<h2>Attributes</h2>
+<h3>label</h3>
+<p>To set label use this attribute.</p>
+
+<h3>icon</h3>
+<p>To set icon use this attribute.</p>
+
+<h3>expand-collapse-icon</h3>
+<p>If you are creating a dropdown component use this attribute and pass <code>true</code>. This will show a expand-collapse icon at the end of the input container to indicate the field is a dropdown.</p>
+
+
+<h2>Methods</h2>
+<h3>setInput</h3>
+<pre>
+inputWrapper.setInput(inputNode);
+</pre>
+<p>This method appends the provided inputNode in its input area.</p>
+
+
+<h3>controlLabelPosition</h3>
+<pre>
+inputWrapper.controlLabelPosition(raised);
+</pre>
+<p>This method is used to control the label. If <code>raised</code> is <code>true</code>, then the label will be moved on the top of the input, and if it is <code>false</code>, the label will be over the input area. The component <code>xTextBox</code> calls this method to control the raising behaviour of the label. If there is a value in the textbox, or if there is a focus on the textbox, the <code>xTextBox</code> raises the label.</p>
+
+<h3>emitValue</h3>
+<pre>
+inputWrapper.emitValue(component);
+</pre>
+<p>This method emits a <code>value</code> event. <code>xTextBox</code> uses this method to send a <code>value</code> event. A parent <code>xForm</code> component always listens for this event, whenever this event occurs, the form component gets the value from this event and update the <code>formData</code> automatically. The data that is passed with the event, is an Object. This object has only one key which is the name of the passed input component, and the value is the value of the passed input component.</p>
+<pre>
+{
+	component_name: component_value
+}
+</pre>
+
+
+
+<h3>validateData</h3>
+<pre>
+inputWrapper.validateData(value, validations);
+</pre>
+<p>This method checks if the passed data is valid or not. The first argument is the input value that will be validated, and the second argument is the validation rule. Currently you can use only three validation rule:</p>
+<ul>
+	<li>required: Returns <code>true</code>, if the <code>value</code> contains a value, and returns <code>false</code>, if the <code>value</code> is <code>null</code> or empty string.</li>
+	<li>email: Returns <code>true</code>, if the <code>value</code> is a valid email, otherwise returns <code>false</code>.</li>
+	<li>number: Returns <code>true</code>, if the provided value is pure number, otherwise it returns <code>false</code>.</li>
+</ul>
+<p>If validation fails, it calls <code>setError</code> and passes the provided error message, then it returns <code>false</code>. If validation passes then it calls <code>removeError</code> to remove the error and then it returns <code>true</code>.</p>
+<p>The format of the validation rule object is as follow:</p>
+<pre>
+{
+	required: {
+		message: "Your email is required",
+	},
+	email: {
+		message: "Provided email is invalid",
+	}
+}
+</pre>
+
+
+<h3>onLabelClick</h3>
+<pre>
+inputWrapper.onLabelClick = function(event){
+	console.log("Label has been Clicked");
+}
+</pre>
+<p>If you click on the label, this component calls this method and passes the event.</p>
+
+
+<h3>playBarAnimation</h3>
+<pre>
+inputWrapper.playBarAnimation(active);
+</pre>
+<p>If <code>active</code> is <code>true</code>, then the bar at the bottom of the input container plays animation and become thick and blue to show that the input is in focus. If <code>active</code> is false, the bar goes back to its normal mode which is a thin border at the bottom of the input container.</p>
+
+
+<h3>setCounter</h3>
+<pre>
+inputWrapper.setCounter(first, second);
+</pre>
+<p>It sets the counter in the counter container. Initially the counter doesn't contain any text, thats why its invisible. If you provide two values, then it will set the counter as <code>first/second</code>. If you provide only the first value, the counter will be set to the passed value.</p>
+
+
+<h3>removeCounter</h3>
+<pre>
+inputWrapper.removeCounter();
+</pre>
+<p>To remove counter call this method.</p>
+
+
+<h3>setError</h3>
+<pre>
+inputWrapper.setError(errorMessage);
+</pre>
+<p>This method sets the error message.</p>
+
+
+<h3>removeError</h3>
+<pre>
+inputWrapper.removeError();
+</pre>
+<p>This method removes the error message.</p>
+
+
+<h3>setHelp</h3>
+<pre>
+inputWrapper.setHelp(helpMessage);
+</pre>
+<p>This method is used to set help text. The help text overrites the error message. It renders the text as a skyblue color.</p>
+
+
+<h3>removeHelp</h3>
+<pre>
+inputWrapper.removeHelp();
+</pre>
+<p>This method is used to remove help text.</p>
+
+
+
+
+<h3>focus</h3>
+<pre>
+inputWrapper.focus();
+</pre>
+<p>When this method is called, the component rotates the expand collapse icon if there is any.</p>
+
+<h3>blur</h3>
+<pre>
+inputWrapper.blur();
+</pre>
+<p>When this method is called, the component rotates the expand collapse icon if there is any.</p>
+
+
+<h3>registerInput</h3>
+<pre>
+inputWrapper.registerInput(this);
+</pre>
+<p>This method register the provided component to the closest <code>form</code> element. Calling this method also causes an <code>inputinitialized</code> event to emit. The nearest closing <code>xForm</code> component always listen for this event. Whenever this event occurs, the <code>xForm</code> component stores the input and its initial value gets stored in its <code>formData</code>. This method is useful if you want to bind your component to the <code>xForm</code> component, so that the form component can perform validation automatically.</p>
+
+<h3>enable</h3>
+<pre>
+inputWrapper.enable();
+</pre>
+<p>When this method is called, it removes <code>disabled</code> class from the root node of this component so that the component can be look enabled visually.</p>
+
+
+<h3>disable</h3>
+<pre>
+inputWrapper.disable();
+</pre>
+<p>When this method is called, it adds a <code>disabled</code> class on the root node of this component so that the component looks like a disabled state visually. It also prevents interacting with the component.</p>
+
+
+
+<h3>addLoading</h3>
+<pre>
+inputWrapper.addLoading();
+</pre>
+<p>Sometimes you want to show a loading animation to indicate that it is loading something from the internet and it might take a while. The method is used by <code>xAutoComplete</code> component to show a loading animation until it fetches sugesstion from the internet. The animation is played on the bottom bar of the input.</p>
+
+
+<h3>removeLoading</h3>
+<pre>
+inputWrapper.removeLoading();
+</pre>
+<p>After calling <code>addLoading()</code> method you can call this method to remove the loading.</p>
+
+
+<h3>setPrefix</h3>
+<pre>
+inputWrapper.setPrefix(prefixNode);
+</pre>
+<p>This method inserts an element as a prefix. This method adds the prefix after the icon and before the input field. You can include a dropdown to select something, or any element you want.</p>
+
+
+<h3>setSuffix</h3>
+<pre>
+inputWrapper.setSuffix(suffixNode);
+</pre>
+<p>This method is used insert an element as suffix. The suffix area is after the editable input field which is at the end of the container. The <code>xPasswordBox</code> component uses this method to insert an eye icon at the end of the input box so that it can be used to toggle the visiblility of obscure text.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

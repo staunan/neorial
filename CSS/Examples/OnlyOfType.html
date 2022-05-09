@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>:only-of-type</title>
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
+	<script type="text/javascript" src="../../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+<pre>
+ul {
+  border: 1px solid #ccc;
+  margin: 20px;
+  padding: 10px 10px 10px 30px;
+}
+
+li:only-of-type {
+  color: red;
+}
+
+&lt;ul>
+  &lt;li>I'm all alone!&lt;/li>
+&lt;/ul>  
+
+&lt;ul>
+  &lt;li>We are together.&lt;/li>
+  &lt;li>We are together.&lt;/li>
+  &lt;li>We are together.&lt;/li>
+&lt;/ul> 
+</pre>
+<style type="text/css">
+ul {
+  border: 1px solid #ccc;
+  margin: 20px;
+  padding: 10px 10px 10px 30px;
+}
+
+li:only-of-type {
+  color: red;
+}
+
+p:only-of-type {
+  color: red;
+}
+</style>
+<div class="box">
+<ul>
+  <li>I'm all alone!</li>
+</ul>  
+
+<ul>
+  <li>We are together.</li>
+  <li>We are together.</li>
+  <li>We are together.</li>
+</ul> 
+</div>
+
+
+<pre>
+p:only-of-type {
+  color: red;
+}
+&lt;div class="box">
+	&lt;div>
+  &lt;p>I'm the only paragraph element in this div.&lt;/p>  
+  &lt;ul>
+    &lt;li>List Item&lt;/li>
+    &lt;li>List Item&lt;/li>
+  &lt;/ul>  
+&lt;/div>
+
+&lt;div>
+  &lt;p>There are multiple paragraphs inside this div.&lt;/p>  
+  &lt;p>Yes there are.&lt;/p>  
+  &lt;ul>
+    &lt;li>List Item&lt;/li>
+    &lt;li>List Item&lt;/li>
+  &lt;/ul>  
+&lt;/div>
+&lt;/div>
+</pre>
+
+
+<div class="box">
+	<div>
+  <p>I'm the only paragraph element in this div.</p>  
+  <ul>
+    <li>List Item</li>
+    <li>List Item</li>
+  </ul>  
+</div>
+
+<div>
+  <p>There are multiple paragraphs inside this div.</p>  
+  <p>Yes there are.</p>  
+  <ul>
+    <li>List Item</li>
+    <li>List Item</li>
+  </ul>  
+</div>
+</div>
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

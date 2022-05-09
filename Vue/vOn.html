@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>v-on</title>
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+	<script src="../Assets/prism.min.js"></script>
+	<script type="text/javascript" src="../Assets/jquery.min.js"></script>
+    <link rel="stylesheet" href="../Assets/prism-dark.css">
+    <script type="text/javascript" src="../Assets/vue.js"></script>
+</head>
+<body class="Body">
+	<div class="Content Card">
+		<h1>Event</h1>
+		<p>
+			We can use the v-on directive to listen to DOM events and run some JavaScript when they’re triggered.
+		</p>
+		<pre>
+			&lt;div id="example-1">
+			  &lt;button v-on:click="counter += 1">Add 1&lt;/button>
+			  &lt;p>The button above has been clicked { { counter }} times.&lt;/p>
+			&lt;/div>
+
+			var example1 = new Vue({
+			  el: '#example-1',
+			  data: {
+			    counter: 0
+			  }
+			});
+		</pre>
+		<div class="box">
+			  <button v-on:click="counter += 1">Add 1</button>
+			  <p>The button above has been clicked {{ counter }} times.</p>
+		</div>
+
+		<h1>Methods</h1>
+		<p>
+			In the above example, we we using inline JS expression as the event handler. In real life the hander contains multiple line and inline expression is not appropriate. That's why v-on can take any method name which you can use as event handler. v-on can also accept the name of a method you’d like to call. But how and where would you define the method? Look below -
+		</p>
+		<pre>
+		&lt;div id="example-2">
+		  &lt;button v-on:click="greet">Greet&lt;/button>
+		&lt;/div>
+
+		var example2 = new Vue({
+		  el: '#example-2',
+		  data: {
+		    name: 'Vue.js'
+		  },
+		  // define methods under the `methods` object
+		  methods: {
+		    greet: function (event) {
+		      // `this` inside methods points to the Vue instance
+		      alert('Hello ' + this.name + '!')
+		      // `event` is the native DOM event
+		      if (event) {
+		        alert(event.target.tagName)
+		      }
+		    }
+		  }
+		});
+		</pre>
+		<p>
+			The Vue instance can take an object <code>method</code> in which you can define as many method you want. And call that method from the <code>v-on</code> directive. That's all.
+		</p>
+		<p class="tip">
+			If you have multiple methods, you can seperate them with the comma.
+		</p>
+
+
+		<h1>Passing Data to a Method</h1>
+		<p>
+			You can pass as many argument u want, the corresponding method should have exact same parameter to capture all the argument that is being passed. You can pass the Vue property (Properties that is inside the data object) to the method directly.
+		</p>
+		<pre>
+		&lt;div id="example-2">
+		  &lt;button v-on:click="greet('hi', name)">Greet&lt;/button>
+		&lt;/div>
+
+		var example2 = new Vue({
+		  el: '#example-2',
+		  data: {
+		    name: 'Vue.js'
+		  },
+		  methods: {
+		    greet: function (say, name) {
+		      alert(say + " " + name)
+		    }
+		  }
+		});
+		</pre>
+		
+
+		<h1>$event</h1>
+		<p>
+			Sometimes we also need to access the original DOM event in an inline statement handler. You can pass it into a method using the special $event variable:
+		</p>
+		<pre>
+			&lt;button v-on:click="warn('Form cannot be submitted yet.', $event)">
+			  Submit
+			&lt;/button>
+			methods: {
+			  warn: function (message, event) {
+			    // now we have access to the native event
+			    if (event) event.preventDefault()
+			    alert(message)
+			  }
+			}
+		</pre>
+		<p>
+			Here, <code>$event</code> is the object which contains everything about the Click event. You can get the element on which the click event occured etc, using the <code>$event</code> object. Note that the order doesn't matter. The following is the same -
+		</p>
+		<pre>
+		&lt;button v-on:click="warn('Form cannot be submitted yet.', $event)">
+		  Submit
+		&lt;/button>
+		methods: {
+		  warn: function (message, event) {
+		    // now we have access to the native event
+		    if (event) event.preventDefault()
+		    console.log(event.target);
+		    alert(message)
+		  }
+		}
+		</pre>
+		<p class="tip">
+			Be careful to preceed event with $ sign(<code>$event</code>).
+		</p>
+		<div class="box">
+			<button v-on:click="warn('Form cannot be submitted yet.', $event)">
+			  Submit
+			</button>
+		</div>
+
+
+		<h1>Accessing Data Properties</h1>
+		<p>
+			Inside the method you can access the Vue properties using <code>this</code> keyword. The keyword <code>this</code> refers to the Vue instance inside which the method exists. Like the following -
+		</p>
+		<pre>
+		data:{
+			name : "Vue.js"
+		}
+		methods:{
+			greet:function(){
+				console.log(this.name);
+			}
+		}
+		</pre>
+		<p>
+			You can even call another method using <code>this</code> -
+		</p>
+		<pre>
+		data:{
+			name : "Vue.js"
+		}
+		methods:{
+			greet:function(){
+				console.log(this.name);
+				this.sayMyName();
+			},
+			sayMyName:function(){
+				console.log("Hello World");
+			}
+		}
+		</pre>
+
+
+		<h1>Event Modifier</h1>
+		<p>
+			It is a very common need to call event.preventDefault() or event.stopPropagation() inside event handlers. Although we can do this easily inside methods, it would be better if the methods can be purely about data logic rather than having to deal with DOM event details.
+		</p>
+		<p>
+			To address this problem, Vue provides event modifiers for v-on. Modifiers are directive postfixes denoted by a dot. You can use the following modifier for the <code>v-on</code> directive.
+		</p>
+		<ul>
+			<li><code>.stop</code></li>
+			<li><code>.prevent</code></li>
+			<li><code>.capture</code></li>
+			<li><code>.self</code></li>
+			<li><code>.once</code></li>
+		</ul>
+		<h3>.stop</h3>
+		<p>
+			This will cause the Event propagation for the event. It means it will stop the Event Bubbling. Event Bubbling is a feature in JS. In Event Bubbling, the event travells through it's accentors.
+		</p>
+		<pre>
+			&lt;a v-on:click.stop="methodName">&lt;/a>
+		</pre>
+
+
+		<h3>.prevent</h3>
+		<p>
+			This will stop the default behaviour of the element when an event is occured. This is same as writting <code>event.preventDefault()</code> inside the method.
+		</p>
+		<pre>
+			&lt;button v-on:click.prevent="methodName">&lt;/button>
+		</pre>
+
+		<h3>Modifier Chaining</h3>
+		<p>
+			You can even chain the modifiers -
+		</p>
+		<pre>
+			&lt;a v-on:click.stop.prevent="doThat">&lt;/a>
+		</pre>
+		<p>
+			Be careful when you are chaining multiple modifiers. Because their orders matter. In case you are confusing about the orders of modifiers, it's better to write those functionality within the method. For example using <code>@click.prevent.self</code> will prevent all clicks while <code>@click.self.prevent</code> will only prevent clicks on the element itself.
+		</p>
+		<p>
+			In real life when we are using Ajax, it is common to call event.preventDefault() on the form. Instead of calling method you can just have the modifer.
+		</p>
+		<pre>
+			&lt;form v-on:submit.prevent>&lt;/form>
+		</pre>
+		<p>
+			This won't call any method but it will call <code>event.preventDefault()</code>
+		</p>
+
+		<h1>Keyboard Modifiers</h1>
+		<p>
+			When listening for keyboard events, we often need to check for common key codes. Vue also allows adding key modifiers for v-on when listening for key events:
+		</p>
+		<pre>
+			&lt;input v-on:keyup.13="submit">
+		</pre>
+		<p>
+			But no one doesn't remember all the ASCII code for every key. To deal with that you can use keywords. Here's the full list of keywords you can use as key modifiers -
+		</p>
+		<ul>
+			<li><code>.enter</code></li>
+			<li><code>.tab</code></li>
+			<li><code>.delete</code> // Delete and Backspace key both</li>
+			<li><code>.esc</code></li>
+			<li><code>.space</code></li>
+			<li><code>.up</code></li>
+			<li><code>.down</code></li>
+			<li><code>.left</code></li>
+			<li><code>.right</code></li>
+		</ul>
+		<p>
+			That's all. If you want to use other key, you always have the option to use the ASCII code as the modifiers. But what if you want to define a keyword for a certain key? You can use the following syntax -
+		</p>
+		<pre>
+			Vue.config.keyCodes.a = 65
+		</pre>
+		<p>
+			You should use this syntax outside of the Vue syntax. Now you can use the following -
+		</p>
+		<pre>
+			&lt;input type="text" v-on:keyup.a="hi">
+
+			methods:{
+				hi:function(){
+					console.log("Hi");
+				}
+			}
+		</pre>
+		<div class="box">
+			<input type="text" v-on:keyup.a="hi">
+		</div>
+
+		<p>
+			In Vue, there are other modifiers you can use like <code>PageDown</code>, <code>CTRL + Key</code>, <code>ALT + Key</code> etc. But this is not useful right now. If you need to work on an application where keyboard shortcut is needed then this feature will be useful for you. It also supports mouse button click modifiers. You can check out the Vue's documentation for more about key modifieres <a href="https://vuejs.org/v2/guide/events.html">here</a>
+		</p>
+		
+
+		<h1>v-on Shortcut</h1>
+		<pre>
+			// full syntax 
+			&lt;a v-on:click="doSomething"> ... &lt;/a>
+
+			// shorthand 
+			&lt;a @click="doSomething"> ... &lt;/a>
+		</pre>
+		<p>
+			There is no difference between the two, one is just a shorthand for the second.
+		</p>
+	</div>
+	<script>
+		Vue.config.keyCodes.a = 65
+		new Vue({
+			el : ".Content",
+			data:{
+				counter : 0
+			},
+			methods:{
+				warn:function(message, event){
+					console.log(message);
+					console.log(event.target);
+					event.preventDefault();
+				},
+				hi:function(){
+					console.log("Hi");
+				}
+			}
+		})
+	</script>
+</body>
+</html>

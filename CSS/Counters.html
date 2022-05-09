@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Counters</title>
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
+	<script type="text/javascript" src="../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+<h1>Counters</h1>
+<p>CSS counters are like "variables". The variable values can be incremented by CSS rules (which will track how many times they are used). To work with CSS counters we will use the following properties:</p>
+<ul>
+	<li><code>counter-reset</code> Creates or resets a counter.</li>
+	<li><code>counter-increment</code> Increments a counter value.</li>
+	<li><code>content</code> - Inserts a Generated Content.</li>
+	<li><code>counter()</code> or counters() function - Adds the value of a counter to an element</li>
+</ul>
+<p>To use a CSS counter, it must first be created with <code>counter-reset</code>.</p>
+<p>The following example creates a counter for the page (in the body selector), then increments the counter value for each &lt;h2> element and adds "Section &lt;value of the counter>:" to the beginning of each &lt;h2> element:</p>
+<style type="text/css">
+body{
+	counter-reset: section;
+}
+h2::before {
+    counter-increment: section;
+    content: "Section " counter(section) ": ";
+}
+</style>
+<pre>
+body{
+	counter-reset: section;
+}
+h2::before {
+    counter-increment: section;
+    content: "Section " counter(section) ": ";
+}
+
+&lt;h1>Using CSS Counters:&lt;/h1>
+&lt;h2>HTML Tutorial&lt;/h2>
+&lt;h2>CSS Tutorial&lt;/h2>
+&lt;h2>JavaScript Tutorial&lt;/h2>
+</pre>
+<div class="box">
+	<h1>Using CSS Counters:</h1>
+	<h2>HTML Tutorial</h2>
+	<h2>CSS Tutorial</h2>
+	<h2>JavaScript Tutorial</h2>
+</div>
+
+
+
+<h1>Nesting Counters</h1>
+<pre>
+body{
+  counter-reset : sectionfirst subheading;
+}
+h1::before{
+  counter-increment: sectionfirst;
+  content: "Chapter " counter(sectionfirst) " : ";
+  counter-reset : subheading;
+}
+h1{
+  counter-reset : subheading;
+}
+h3::before{
+  counter-increment : subheading;
+  content : "Chapter : " counter(sectionfirst) " Section " counter(subheading) " : "
+}
+
+&lt;div class='box'>
+
+  &lt;h1>Heading One&lt;/h1>
+  &lt;h3>Subheading One&lt;/h3>
+  &lt;h3>Subheading Two&lt;/h3>
+
+  &lt;h1>Heading Two&lt;/h1>
+  &lt;h3>Subheading One&lt;/h3>
+  &lt;h3>Subheading Two&lt;/h3>
+  &lt;h3>Subheading Three&lt;/h3>
+  &lt;h3>Subheading Four&lt;/h3>
+
+  &lt;h1>Heading Three&lt;/h1>
+  &lt;h3>Subheading One&lt;/h3>
+  &lt;h3>Subheading Two&lt;/h3>
+
+&lt;/div>
+</pre>
+<img src="Assets/img/counter.jpg">
+<p>As you can see, if you want to use multiple counter, seperate each counter with a space in the <code>counter-reset</code> property. If you want to reset the counter to start counting from the beginning again, use <code>counter-reset</code> property in the element. While rendering the webpage, when the element comes from the top, the counter will be reset and start counting from 1 again.</p>
+
+
+
+
+
+</div>
+</body>
+</html>

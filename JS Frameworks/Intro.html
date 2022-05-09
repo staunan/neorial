@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Intro.js</title>
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
+    <link rel="stylesheet" href="../Assets/prism-dark.css">
+    <script type="text/javascript" src="../Assets/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="Assets/Intro.js/introjs.min.css">
+    <style type="text/css">
+    	.boomBox{
+    		display: flex;
+    		justify-content: center;
+    		align-items: center;
+    		height: 80px;
+    		width: 80px;
+    		background: crimson;
+    		margin: 10px;
+    		color: #fff;
+    		text-align: center;
+    	}
+    </style>
+</head>
+<body class="Body">
+	<div class="Content Card">
+		<h1 class="tourStepOne">Intro.js</h1>
+		<p class="tourStepTwo">
+			If you use facebook, you must have seen that they asked you to take a tour to know what's everything about in the page. It's kind of introduction to the user to make them familiar with the feature. With Vanilla Javascript it will take a lots of time. Intro.js provides a simple and clean API that makes this job easier for you.
+		</p>
+		<h2>Installation</h2>
+		<pre><code class="language-html">
+			&lt;script type="text/javascript" src="Assets/Intro.js/intro.min.js"></script>
+    		&lt;link rel="stylesheet" type="text/css" href="Assets/Intro.js/introjs.min.css">
+		</code></pre>
+		<p>
+			Now add <code>data-intro</code> and <code>data-step</code> attribute to your element.
+		</p>
+		<pre><code class="language-html">
+			&lt;p data-intro="This is the Introducation 1" data-step="1">&lt;/p>
+			&lt;p data-intro="This is the Introducation 2" data-step="3">&lt;/p>
+			&lt;p data-intro="This is the Introducation 3" data-step="2">&lt;/p>
+		</code></pre>
+		<p>
+			Now make a button and on click the button, execute the following to start the introducatio tour.
+		</p>
+		<pre><code class="language-javascript">
+			introJs().start();
+		</code></pre>
+		<p>
+			Boom, Welcome to the Tour. This way you can implement simple tour on your page. This is very basic but it does a lot. It renders the full UI for the tour. Amazing. Very efficient to use.
+		</p>
+		<p>
+			Okay, there's a lot more. We generally don't like to include attribute in the element to look the code messy. Let's do it in Javascript way and let's stick to this way. We will introduce a <code>Step</code> feature. Play with the below demo -
+		</p>
+		<div style="width: 100%; display: flex; flex-wrap: wrap;">
+			<div class="boomBox box1">This is a box One</div>
+			<div class="boomBox box2">This is a box Tow</div>
+			<div class="boomBox box3">This is a box Three</div>
+			<div class="boomBox box4">This is a box Four</div>
+			<div class="boomBox box5">This is a box Five</div>
+			<div class="boomBox box6">This is a box Six</div>
+			<div class="boomBox box7">This is a box Seven</div>
+			<div class="boomBox box8">This is a box Eight</div>
+			<div class="boomBox box9">This is a box Nine</div>
+			<div class="boomBox box10">This is a box Ten</div>
+			<div class="boomBox box11">This is a box 11</div>
+			<div class="boomBox box12">This is a box 12</div>
+			<div class="boomBox box13">This is a box 13</div>
+			<div class="boomBox box14">This is a box 14</div>
+			<div class="boomBox box15">This is a box 15</div>
+			<div class="boomBox box16">This is a box 16</div>
+		</div>
+		<div style="display: flex; justify-content: center;">
+			<a class="button is-primary" onclick="showStepDemo()">Play the Demo</a>
+		</div>
+		<p>Here is the full code -</p>
+		<pre><code class="language-html">
+			&lt;div class="boomBox box1">This is a box One&lt;/div>
+			&lt;div class="boomBox box2">This is a box Tow&lt;/div>
+			&lt;div class="boomBox box3">This is a box Three&lt;/div>
+			&lt;div class="boomBox box4">This is a box Four&lt;/div>
+			&lt;div class="boomBox box5">This is a box Five&lt;/div>
+			&lt;div class="boomBox box6">This is a box Six&lt;/div>
+			&lt;div class="boomBox box7">This is a box Seven&lt;/div>
+			&lt;div class="boomBox box8">This is a box Eight&lt;/div>
+			&lt;div class="boomBox box9">This is a box Nine&lt;/div>
+			&lt;div class="boomBox box10">This is a box Ten&lt;/div>
+			&lt;div class="boomBox box11">This is a box 11&lt;/div>
+			&lt;div class="boomBox box12">This is a box 12&lt;/div>
+			&lt;div class="boomBox box13">This is a box 13&lt;/div>
+			&lt;div class="boomBox box14">This is a box 14&lt;/div>
+			&lt;div class="boomBox box15">This is a box 15&lt;/div>
+			&lt;div class="boomBox box16">This is a box 16&lt;/div>
+		</code></pre>
+		<pre><code class="language-javascript">
+			let tour = introJs();
+			let Steps = [
+				{
+					intro : "<span style='font-size:25px;'>Welcome To The Tour</span>"
+				},
+				{
+	                element: '.box3',
+	                intro: 'Input tool will be used to bring in the Weekly Store Traffic data that was created in the data preparation workflow.',
+	                position: 'right'
+	            },
+	            {
+	            	element: '.box8',
+					intro: 'Numeric measures are needed in order to match treatment stores to control candidates.  Two of the best measures to use are trend and seasonality.  In this case, the AB Trend tool will use weekly store traffic data &ndash; which we created in the data preparation workflow &ndash; to calculate these measures.',
+					position: 'right'
+				},
+				{
+					element: '.box9',
+					intro: "Numeric measures are needed in order to match treatment stores to control candidates.  Two of the best measures to use are trend and seasonality.  In this case, the AB Trend tool will use weekly store traffic data &ndash; which we created in the data preparation workflow &ndash; to calculate these measures.",
+					position: 'right'
+				},
+				{	
+					element: '.box7',
+					intro: 'Numeric measures are needed in order to match treatment stores to control candidates.  Two of the best measures to use are trend and seasonality.  In this case, the AB Trend tool will use weekly store traffic data &ndash; which we created in the data preparation workflow &ndash; to calculate these measures.',
+					position: 'right'
+				},
+				{
+					element: '.box12',
+					intro: 'Numeric measures are needed in order to match treatment stores to control candidates.  Two of the best measures to use are trend and seasonality.  In this case, the AB Trend tool will use weekly store traffic data &ndash; which we created in the data preparation workflow &ndash; to calculate these measures.',
+					position: 'right'
+				}
+			]
+			tour.setOptions({
+	            steps: Steps,
+	            showBullets: false,
+	            showButtons: false,
+	            showProgress: true,
+	            exitOnOverlayClick: false,
+	            showStepNumbers: false,
+	            keyboardNavigation: true
+	        });
+			function showStepDemo(){
+				tour.start();
+			}
+		</code></pre>
+		<p>
+			As you can see clearly we are using <code>setOptions</code> method to set the whole Step tour. The first argument is the steps that we want to create. It is an array of objects. Each object takes three keys. The required key is <code>intro</code> which takes the string. You can embed HTML in the string to render dynamically. Cool. The <code>element</code> key is the element that we want to target. And the <code>position</code> key specifies the position of the presentation window that shows.
+		</p>
+		<p>
+			If you don't specify the <code>element</code> key, presentation window is displayed in the center of the window. The step number are automatically generated in the order they are appeared in the array.
+		</p>
+		<p>
+			The <code>showBullets</code> option specifes wheather to show the bullets in the presentation window.
+		</p>
+		<p>
+			The <code>showButtons</code> option specifes wheather to show the buttons in the presentation window.
+		</p>
+		<p>
+			The <code>showProgress</code> option specifes wheather to show the progress bar in the presentation window.
+		</p>
+		<p>
+			If the <code>exitOnOverlayClick</code> is set to true, then if a user clicks outside of the presentation window, the tour will end. Set it to false so that if a user mistakenly clicks on the outside of the presentation window, the tour will stay.
+		</p>
+		<p>
+			If <code>showStepNumbers</code> is true, then you can see the step number on the left top corner.
+		</p>
+		<p>
+			If <code>keyboardNavigation</code> is true, the user can ineract with the keyboard. <kbd>Right Arrow</kbd> and <kbd>Left Arrow</kbd> and <kbd>ESC</kbd> button to interact.
+		</p>
+		<p>
+			Finally when the button is clicked we are calling <code>start()</code> method to start the tour.
+		</p>
+
+
+		<h2>oncomplete</h2>
+		<p>
+			There might be a situation where you want to do something after a user has finish up the tour. onComplete callback function is executed when the tour is finished.
+		</p>
+		<pre><code class="language-javascript">
+			tour.oncomplete(function() {
+			  alert("end of introduction");
+			});
+		</code></pre>
+
+
+		<h2>onexit</h2>
+		<p>
+			Set callback to exit of introduction. Exit also means pressing ESC key and clicking on the overlay layer by the user. The difference between <code>oncomplete</code> and <code>onexit</code> is that, oncomplete is called when a user successfuly roam the whole tour without skipping anything. On the other hand onexit occurs everytime you exit the introduction.
+		</p>
+		<pre><code class="language-javascript">
+			tour.onexit(function() {
+			  alert("end of introduction");
+			});
+		</code></pre>
+
+
+		<h2>onbeforeexit</h2>
+		<p>
+			This works same as <code>onexit</code> but if you return <code>false</code> from the callback, you can't exit.
+		</p>
+		<pre><code class="language-javascript">
+			tour.onbeforeexit(function(nextElement) {
+			   alert("You are stuck");
+			   return false;
+			});
+		</code></pre>
+
+
+		<h2>onchange</h2>
+		<P>
+			This callback function is called everytime you go to the next step.
+		</P>
+		<pre><code class="language-javascript">
+			tour.onchange(function(nextElement) {
+			  alert(nextElement.innerHTML);
+			});
+		</code></pre>
+		<p>The callback function receives the next step element as argument.</p>
+
+
+		<h2>onbeforechange</h2>
+		<p>
+			same as <code>onchange</code> but it executes before the it goes to the next step.
+		</p>
+		<pre><code class="language-javascript">
+			tour.onbeforechange(function(nextElement) {
+			  alert("This execute before onchange");
+			});
+		</code></pre>
+
+		<h2>onafterchange</h2>
+		<p>
+			It is called after you go to a step.
+		</p>
+		<pre><code class="language-javascript">
+			tour.onafterchange(function(nextElement) {
+			  alert("We are Here finally !");
+			});
+		</code></pre>
+
+		<h1>Options</h1>
+		<ul>
+			<li>steps: For defining steps using JSON configuration (see this example)</li>
+			<li>nextLabel: Next button label</li>
+			<li>prevLabel: Previous button label</li>
+			<li>skipLabel: Skip button label</li>
+			<li>doneLabel: Done button label</li>
+			<li>hidePrev: Hide previous button in the first step? Otherwise, it will be disabled button.</li>
+			<li>hideNext: Hide next button in the last step? Otherwise, it will be disabled button.</li>
+			<li>tooltipPosition: Default tooltip position</li>
+			<li>tooltipClass: Adding CSS class to all tooltips</li>
+			<li>highlightClass: Additional CSS class for the helperLayer</li>
+			<li>exitOnEsc: Exit introduction when pressing Escape button, true or false</li>
+			<li>exitOnOverlayClick: Exit introduction when clicking on overlay layer, true or false</li>
+			<li>showStepNumbers: Show steps number in the red circle or not, true or false</li>
+			<li>keyboardNavigation: Navigating with keyboard or not, true or false</li>
+			<li>showButtons: Show introduction navigation buttons or not, true or false</li>
+			<li>showBullets: Show introduction bullets or not, true or false</li>
+			<li>showProgress: Show introduction progress or not, true or false</li>
+			<li>scrollToElement: Auto scroll to highlighted element if it’s outside of viewport, true or false</li>
+			<li>scrollTo: Target element to scroll to (element or tooltip). Default is element. Applies when scrollToElement is true</li>
+			<li>scrollPadding: Padding of scroll in px. Default is 30. Applies when scrollToElement is true</li>
+			<li>overlayOpacity: Adjust the overlay opacity, Number between 0 and 1</li>
+			<li>disableInteraction: To disable interactions with elements inside the highlighted box, true or false</li>
+		</ul>
+	</div>
+	<script type="text/javascript" src="Assets/Intro.js/intro.min.js"></script>
+	<script type="text/javascript">
+		let tour = introJs();
+		let Steps = [
+			{
+				intro : "<span style='font-size:25px;'>Welcome To The Tour</span>"
+			},
+			{
+                element: '.box3',
+                intro: 'Input tool will be used to bring in the Weekly Store Traffic data that was created in the data preparation workflow.',
+                position: 'right'
+            },
+            {
+            	element: '.box8',
+				intro: 'Numeric measures are needed in order to match treatment stores to control candidates.  Two of the best measures to use are trend and seasonality.  In this case, the AB Trend tool will use weekly store traffic data &ndash; which we created in the data preparation workflow &ndash; to calculate these measures.',
+				position: 'right'
+			},
+			{
+				element: '.box9',
+				intro: "Numeric measures are needed in order to match treatment stores to control candidates.  Two of the best measures to use are trend and seasonality.  In this case, the AB Trend tool will use weekly store traffic data &ndash; which we created in the data preparation workflow &ndash; to calculate these measures.",
+				position: 'right'
+			},
+			{	
+				element: '.box7',
+				intro: 'Numeric measures are needed in order to match treatment stores to control candidates.  Two of the best measures to use are trend and seasonality.  In this case, the AB Trend tool will use weekly store traffic data &ndash; which we created in the data preparation workflow &ndash; to calculate these measures.',
+				position: 'right'
+			},
+			{
+				element: '.box12',
+				intro: 'Numeric measures are needed in order to match treatment stores to control candidates.  Two of the best measures to use are trend and seasonality.  In this case, the AB Trend tool will use weekly store traffic data &ndash; which we created in the data preparation workflow &ndash; to calculate these measures.',
+				position: 'right'
+			},
+			{
+				intro : "Thank you for taking the tour. <br> Bye"
+			}
+		];
+		tour.setOptions({
+            steps: Steps,
+            showBullets: true,
+            showButtons: true,
+            showProgress: true,
+            exitOnOverlayClick: false,
+            showStepNumbers: true,
+            keyboardNavigation: true
+        });
+		function showStepDemo(){
+			tour.start();
+			tour.onchange(function(nextElement) {
+			  alert(nextElement.innerHTML);
+			});
+			tour.onafterchange(function(nextElement) {
+			  alert("We are Here finally !");
+			});
+		}
+	</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+

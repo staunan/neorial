@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Isolates</title>
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+	<script type="text/javascript" src="../Assets/prism.min.js"></script>
+	<script type="text/javascript" src="../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+<h1>Isolates</h1>
+<p>An isolate is what all Dart code runs in. It’s like a little space on the machine with its own, private chunk of memory and a single thread running an event loop. </p>
+<p>In a lot of other languages like C++, you can have multiple threads sharing the same memory and running whatever code you want. In Dart, though, each thread is in its own isolate with its own memory. So in Dart, an Isolate doesn't share memory resources with other Isolates. Isolates has its own memory heap. So how do you communicate with an Isolate?  This is where messages come into play.  Isolates have both a sending and receiving port from which you can send and receive information.</p>
+<p>Many Dart apps run all their code in a single isolate, but you can have more than one if you need it.</p>
+
+<h3>Why use an Isolate?</h3>
+<p>On the surface an Isolate might just seem like another way of executing a task in an asynchronous manner, but there is a key difference. Async operations in Dart operate on the same thread as the user interface whereas an Isolate gets its own thread.  Therefore, if you want to execute a process that is fairly intense and you want to make sure you keep your app responsive and snappy in the eyes of the user, then you should consider using Isolates. Intesive task like converting video from one format to another format or compressing files or running other heavy task that needs a lots of memory and CPU usage. If you run these tasks normally in your app, the user might experience lag. Isolates helps you to seperate the execution of your program while let your app running smoothly.</p>
+
+<h3>How to create and start an Isolate</h3>
+<p>To create an isolate, you may use the <code>spawn</code> method.  At a minimum, you must give the <code>spawn</code> method an 'entry point' method with a single parameter.  It is very typical that this parameter represents the port which the isolate should use to send back notification messages.  Here is the simplest of examples:</p>
+<pre>
+Isolate isolate;
+
+void start() async {
+  ReceivePort receivePort= ReceivePort(); //port for this main isolate to receive messages.
+  isolate = await Isolate.spawn(runTimer, receivePort.sendPort);
+  receivePort.listen((data) {
+    stdout.write('RECEIVE: ' + data + ', ');
+  });
+}
+
+void runTimer(SendPort sendPort) {
+  int counter = 0;
+  Timer.periodic(new Duration(seconds: 1), (Timer t) {
+    counter++;
+    String msg = 'notification ' + counter.toString();  
+    stdout.write('SEND: ' + msg + ' - ');  
+    sendPort.send(msg);
+  });
+}
+</pre>
+<p>In the example above, we have our <code>start()</code> method which creates a port and spawns an isolate. Our start method is marked as async so that we can await the response from the spawning of the isolate and so that we can store a reference to the new isolate (this becomes important later when we cover how to kill a running isolate).</p>
+<p>Note that we are giving the spawn call two things - a callback function to execute - in this case <code>runTimer()</code>, and a port (<code>sendPort</code>) which the callback can use to send messages back to the caller. Ports are how you communicate with your isolate and although we set this up to be one way communication (from the isolate back to the caller) it can be two-way.</p>
+<p>The last thing we do in the start() method is to begin listening on the receivePort for messages from the isolate.  Whenever we receive a message, we write it out to the console.</p>
+<p>Next, take a look at the <code>runTimer</code> method.  This method starts up a periodic Timer that fires every second in order to update a counter and send out a notification message via the port which it received when the isolate was spawned.  If you were to run this code as a console application, you would see the following output:</p>
+<pre>
+SEND: notification 1 - RECEIVE: notification 1, SEND: notification 2 - RECEIVE: notification 2
+</pre>
+
+
+<h3>Stopping an Isolate and cleanup</h3>
+<p>The isolate that we spawned above could go on for an indefinite amount of time.  This is because we created a timer that wakes up every second with no end in sight.  But what if we wanted to stop it?  In order to stop an isolate, you would use the <code>kill</code> method.</p>
+<pre>
+void stop() {  
+  if (isolate != null) {
+      stdout.writeln('killing isolate');
+      isolate.kill(priority: Isolate.immediate);
+      isolate = null;        
+  }  
+}
+</pre>
+<p>The above code kills the running isolate and sets the reference to null.  The priority of Isolate.immediate will cleanly shut down the isolate at the nearest opportunity.</p>
+
+<h3>Complete Example</h3>
+<pre>
+import 'dart:io';
+import 'dart:async';
+import 'dart:isolate';
+
+Isolate isolate;
+
+void start() async {
+  ReceivePort receivePort= ReceivePort(); //port for this main isolate to receive messages.
+  isolate = await Isolate.spawn(runTimer, receivePort.sendPort);
+  receivePort.listen((data) {
+    stdout.write('RECEIVE: ' + data + ', ');
+  });
+}
+
+void runTimer(SendPort sendPort) {
+  int counter = 0;
+  Timer.periodic(new Duration(seconds: 1), (Timer t) {
+    counter++;
+    String msg = 'notification ' + counter.toString();  
+    stdout.write('SEND: ' + msg + ' - ');  
+    sendPort.send(msg);
+  });
+}
+
+void stop() {  
+  if (isolate != null) {
+      stdout.writeln('killing isolate');
+      isolate.kill(priority: Isolate.immediate);
+      isolate = null;        
+  }  
+}
+
+void main() async {
+  stdout.writeln('spawning isolate...');
+  await start();
+  stdout.writeln('press enter key to quit...');
+  await stdin.first;
+  stop();
+  stdout.writeln('goodbye!');
+  exit(0);
+}
+</pre>
+<p>And you would see the output like the following:</p>
+<pre>
+spawning isolate...
+press enter key to quit...
+SEND: notification 1 - RECEIVE: notification 1, 
+SEND: notification 2 - RECEIVE: notification 2, 
+SEND: notification 3 - RECEIVE: notification 3,
+killing isolate
+goodbye!
+</pre>
+
+<p>In this article we covered the basics of spawning an isolate.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

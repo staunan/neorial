@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Variable</title>
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
+	<script type="text/javascript" src="../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+<h1>var()</h1>
+<p><code>var()</code> function can be used to return the value of a CSS variable. It can also be used to assign a value to an existing variable.</p>
+<p>Variables in CSS should be declared within a CSS selector that defines its scope. For a global scope you can use either the <code>:root</code> or the <code>body</code> selector.</p>
+<p>The variable name must begin with two dashes <code>--</code> and is case sensitive!</p>
+
+<pre>
+	// Definition -
+	--variable-name : value;
+
+	// Use -
+	background-color : var(--variable-name);
+
+</pre>
+<p>Consider the following example. The following example first defines a global custom property named "--main-bg-color", then it uses the var() function to insert the value of the custom property later in the style sheet:</p>
+<pre>
+
+	:root {
+		--main-bg-color: coral; 
+	}
+
+	#div1 {
+		background-color: var(--main-bg-color); 
+	}
+
+	#div2 {
+		background-color: var(--main-bg-color);
+	}
+
+</pre>
+
+
+<p>The following example uses the var() function to insert several custom property values:</p>
+<pre>
+	:root {
+	    --main-bg-color: coral;
+	    --main-txt-color: blue; 
+	    --main-padding: 15px; 
+	}
+
+	#div1 {
+	    background-color: var(--main-bg-color);
+	    color: var(--main-txt-color);
+	    padding: var(--main-padding);
+	}
+
+	#div2 {
+	    background-color: var(--main-bg-color);
+	    color: var(--main-txt-color);
+	    padding: var(--main-padding);
+	}
+</pre>
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

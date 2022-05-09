@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Introduction</title>
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
+	<script type="text/javascript" src="../Assets/jquery.min.js"></script>
+    <link rel="stylesheet" href="../Assets/prism-dark.css">
+    <script type="text/javascript" src="../Assets/vue.js"></script>
+</head>
+<body class="Body">
+<style type="text/css">
+	h3{
+		margin-bottom: 0;
+	}
+	h3 + p {
+		margin-top: 0;
+	}
+	h1{
+		margin-bottom: 0;
+	}
+	h1 + p {
+		margin-top: 0;
+	}
+	pre{
+		padding-top: 10px !important; 
+	}
+</style>
+<div class="Content Card">
+
+
+
+
+
+
+
+
+
+
+<h1>Introduction</h1>
+<p>Vue.js is an amazing framework that I ever happened to use in my life. I haven't used any framework like this. This is the first that kind of framework that I'm using for the first time. Well, there's other framework like Vue.js like Angular 2, React.js, but I don't have any experince of using them so Vue.js is my first framework of it's kind.</p>
+<p>Vue.js makes things a lot easier to handle data and other dynamic execution. One of the coolest part of Vue.js is that it is attached to the DOM. It can manipulate the DOM instantly.</p>
+
+
+
+
+
+
+
+<h1>How to Use</h1>
+<p>So, let's start using Vue.js. To use Vue.js we need to import the file in our page. Only a single file is all we need. Within the <code>&lt;head&gt;</code> tag or <code>&lt;body&gt;</code> use the following code -</p>
+<pre>
+	&lt;script type="text/javascript" src="Assets/vue.js">&lt;/script>
+</pre>
+<p>Now we need to tell Vue where to work with Vue.js. This is how it's done -</p>
+<pre>
+	&lt;div id="WorkArea">
+		
+	&lt;/div>
+	&lt;script type="text/javascript">
+		let anyVariable = new Vue({
+			el : '#WorkArea',
+			data : {
+
+			}
+		});
+	&lt;/script>
+</pre>
+<p>This is way of telling Vue that "Hey Vue, I need you to only work within 'WorkArea' div. So writting anything about Vue outside of the 'WorkArea' div won't actually work. Vue is now attached to 'WorkArea' div."</p>
+<p>Here, <code>el</code> stands for 'Element', which specifies the element where the Vue will be attached to. And data is an JavaScript object which contains all the property. Think every property like a variable. Just like a variable within a function or method. You put some value to property and manipulate throughout the entire process.</p>
+<p>These options are the only required option to initiate the Vue instance. There are a lots of options available and you will know them later in this tutorial.</p>
+<p>Well, there are some certain rules you need to follow. Like -</p>
+<ul>
+	<li>
+		Don't write any <code>&lt;script></code> tag or <code>&lt;style></code> tag inside the 'WorkArea' div. Try writing <code>&lt;script></code> tag or <code>&lt;style></code> inside the 'WorkArea' div and you will certainly get error in the console.
+	</li>
+	<li>
+		Try avoiding placing the Vue script in the &lt;head> tag. You should place the Vue script just before the closing tag of &lt;body> tag and it's a good practice. If you initiate the Vue instance within the &lt;head> tag, your Vue won't work. You will get an error message in the console like "Cannot find 'WorkArea' element." This is because &lt;head> tag executes before the &lt;body> tag actually is placed in the DOM. So accessing any element from &lt;head> tag might not get the element as the element is not loaded yet. It's kind of accessing element which doesn't exist at all.
+	</li>
+</ul>
+
+
+
+
+<h1>Data Binding</h1>
+<p>Okay, Now we are all ready to use Vue. At first we will learn Data Binding. Try this -</p>
+<pre>
+	&lt;div id="WorkArea">
+		{{ name }}
+	&lt;/div>
+	&lt;script type="text/javascript">
+		let anyVariable = new Vue({
+			el : '#WorkArea',
+			data : {
+				name : 'Santanu Bera'
+			}
+		});
+	&lt;/script>
+</pre>
+<p>If you refresh the page, you will get "Santanu Bera" instead of {{ name }} in the browser. Amazing isn't it. Well let's learn how it works -</p>
+<p>In the script within the data option, we have an property 'name' and it's value is 'Santanu Bera'. And if you access any property of Vue you do it with Double Curly Bracket way. Vue will dynamically replace the <code>{{ name }}</code> with the value 'Santanu Bera'. We will show you with a TextBox how to change the value dynamically.</p>
+<div class="box" style="margin:10px;">
+	You can store any valid data type to the property. You can store float, int, string, object, array etc.</div>
+<div class="box" style="margin:10px;">
+	You can access any Vue property from anywhere as long as it stays withing 'WorkArea' div. You can access from &lt;p> tag, you can access from &lt;span> tag, you can access from any tag you want but general rule of thumb, don't access it from any attribute of any tag, like - <br>
+	<code>&lt;span style="width: {{ myWidth }}"></code>
+	Well, if you try to access Vue property this way you will get an error in console. Well, using <code>v-bind</code> you can access those property within the tag attribute. We will show them later.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+<h1>Inline Syntax</h1>
+<p>You can also use inline syntax within the double curly bracket. Short inline JS expression is amazing thing happened to Vue.js.</p>
+<pre>
+	&lt;div id="WorkArea">
+		{{ name2 }}
+	&lt;/div>
+	&lt;script type="text/javascript">
+		let anyVariable = new Vue({
+			el : '#WorkArea',
+			data : {
+				name : 'Santanu Bera'
+			}
+		});
+	&lt;/script>
+</pre>
+<p>And this will give the output <code>{{ "Hi " + myName }}</code>. You can also do arithmetic operation, use ternary statement and many more as long as it is one line expression. Like, <code>message.split('').reverse().join('').</code> Few more example -</p>
+<pre>
+	{ { number + 1 }}
+	{ { ok ? 'YES' : 'NO' }}
+	{ { message.split('').reverse().join('') }}
+	&lt;div v-bind:id="'list-' + id">&lt;/div>
+</pre>
+<p>These expressions will be evaluated as JavaScript in the data scope of the owner Vue instance. One restriction is that each binding can only contain one single expression, so the following will NOT work:</p>
+<pre>
+	&lt;!-- this is a statement, not an expression: -->
+	{ { var a = 1 }}
+
+	&lt;!-- flow control won't work either, use ternary expressions -->
+	{ { if (ok) { return message } }}
+</pre>
+
+
+<h1>Directives</h1>
+<p>Directives are special attributes with the <code>v-</code> prefix. Directive attribute values are expected to be a single JavaScript expression (with the exception for v-for, which will be discussed later). A directive’s job is to reactively apply side effects to the DOM when the value of its expression changes. Let’s review the example we saw in the introduction:</p>
+<pre>
+	&lt;p v-if="seen">Now you see me&lt;/p>
+</pre>
+<p>Here, the <code>v-if</code> directive would remove/insert the &lt;p> element based on the truthiness of the value of the expression <code>seen</code>. There are many directives which we will learn later.</p>
+
+
+
+<h3>Arguments</h3>
+<p>Some directives can take an “argument”, denoted by a colon after the directive name. For example, the <code>v-bind</code> directive is used to reactively update an HTML attribute:</p>
+<pre>
+	&lt;a v-bind:href="url"> ... &lt;/a>
+</pre>
+<p>Here <code>href</code> is the argument, which tells the <code>v-bind</code> directive to bind the element’s <code>href</code> attribute to the value of the expression url.</p>
+<p>Another example is the v-on directive, which listens to DOM events:</p>
+<pre>
+	&lt;a v-on:click="doSomething"> ... &lt;/a>
+</pre>
+<p>Here the argument is the event name to listen to. We will talk about event handling in more detail too.</p>
+
+
+
+
+<h3>Modifiers</h3>
+<p>Modifiers are special postfixes denoted by a dot, which indicate that a directive should be bound in some special way. For example, the <code>.prevent</code> modifier tells the <code>v-on</code> directive to call <code>event.preventDefault()</code> on the triggered event:</p>
+<pre>
+	&lt;form v-on:submit.prevent="onSubmit"> ... &lt;/form>
+</pre>
+<p>You’ll see other examples of modifiers later, for <code>v-on</code> and for <code>v-model</code>, when we explore those features.</p>
+
+
+
+
+
+
+
+
+<h3 style="margin-bottom: 0;">Let's End</h3>
+<p style="margin-top: 0;">Now, before ending this chapter, let's show you an real example of a counter.</p>
+<pre>
+&lt;div id="WorkArea">
+	&lt;div style="display: flex; justify-content: center; align-items: center; width: 100%; height: 100px;">
+		&lt;span style="font-size: 30px; font-weight: bold;">{{ hourText }} : {{ minuteText }} : {{ secondText }} &lt;/span>
+	&lt;/div>
+&lt;/div>
+&lt;script type="text/javascript">
+	let anyVariable = new Vue({
+		el : '#WorkArea',
+		data : {
+			second : 0,
+			minute : 0,
+			hour : 0,
+		}
+	});
+	setInterval(function(){
+		anyVariable.second = anyVariable.second + 1;
+		if (anyVariable.second >60) {
+			anyVariable.minute = anyVariable.minute + 1;
+			anyVariable.second = 1;
+		}
+		if (anyVariable.minute > 59) {
+			anyVariable.hour = anyVariable.hour + 1;
+			anyVariable.minute = 0;
+		}
+	},1000);
+&lt;/script>
+</pre>
+<p>And this is the output you will get - </p>
+<div style="display: flex; justify-content: center; align-items: center; width: 100%; height: 100px;">
+	<span style="font-size: 30px; font-weight: bold;">{{ hour }} : {{ minute }} : {{ second }} </span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+
+<script type="text/javascript">
+	let Page = new Vue({
+		el : '.Content',
+		data : {
+			myName : "Santanu Bera",
+			name : '{{ name }}',
+			name2 : '{{ "Hi " + name }}',
+			myWidth : '{{ myWidth }}',
+			counterText : '{{ counter }}',
+			secondText : '{{ second }}',
+			minuteText : '{{ minute }}',
+			hourText : '{{ hour }}',
+			second : 0,
+			minute : 0,
+			hour : 0,
+		},
+	});
+	setInterval(function(){
+		Page.second = Page.second + 1;
+		if (Page.second >60) {
+			Page.minute = Page.minute + 1;
+			Page.second = 0;
+		}
+		if (Page.minute > 60) {
+			Page.hour = Page.hour + 1;
+			Page.minute = 0;
+		}
+	},1000);
+</script>
+</body>
+</html>

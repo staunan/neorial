@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Data types</title>
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
+	<script type="text/javascript" src="../Assets/jquery.min.js"></script>
+	<link rel="stylesheet" href="../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+<h1>Built-in Data Types</h1>
+<p>The Dart language has special support for the following types:</p>
+<ul>
+	<li>numbers</li>
+	<li>strings</li>
+	<li>booleans</li>
+	<li>lists(also known as arrays)</li>
+	<li>sets</li>
+	<li>maps</li>
+	<li>runes(Unicode characters)</li>
+	<li>symbols</li>
+</ul>
+
+
+
+<h2>Numbers</h2>
+<p>Use <code>int</code> and <code>double</code> to represent number.</p>
+<pre>
+int num1 = 50;
+double num2 = 7.88756778;
+</pre>
+<p>Both <code>int</code> and <code>double</code> are subclass of the class <code>num</code>. This <code>num</code> class contains the definition of common mathematical operators like <code>+</code>, <code>-</code>, <code>*</code> and <code>/</code>.</p>
+<p>You will also find some common methods like <code>abs()</code>, <code>floor()</code> etc.</p>
+<pre>
+	var x = 1; // Store a normal integer number 
+	var hex = 0xDEADBEEF; // Store a hexadecimal number
+	var y = 1.1; // Store a double number
+	var exponents = 1.42e5; // Store a double number in scientific notation
+</pre>
+<p>If your expression contains both <code>int</code> and <code>double</code> value. The <code>int</code> value will automatically be converted to <code>double</code> and then the further operation will be carried out. For example,</p>
+<pre>
+	double z = 1; // Equivalent to double z = 1.0.
+</pre>
+<p>The following example shows how you can convert a string to number:</p>
+<pre>
+	// String -> int
+	var value = int.parse('100');
+	assert(value == 100);
+	
+	// String -> double
+	var value = double.parse('1.1');
+	assert(value == 1.1);
+	
+	// int -> String
+	String value = 15.toString();
+	assert(value == '15');
+
+	// double -> String
+	String valueOfPi = 3.14159.toStringAsFixed(2);
+	assert(valueOfPi == '3.14');
+</pre>
+
+
+
+
+
+
+
+
+<h2>String</h2>
+<p>A Dart string is a sequence of UTF-16 code units. You can use either single or double quotes to create a string:</p>
+<pre>
+	var s1 = 'Single quotes work well for string literals.';
+	var s2 = "Double quotes work just as well.";
+	var s3 = 'It\'s easy to escape the string delimiter.';
+	var s4 = "It's even easier to use the other delimiter.";
+</pre>
+<p>You can also use <code>String</code> keyword to create a String.</p>
+<pre>
+	String str = "It's even easier to use the other delimiter.";
+</pre>
+<p>You can put a value of a variable or identifier within a string. Use <code>$variableName</code> within the string.</p>
+<code>
+	var name = "Santanu Bera";
+	var str = "My name is : $name";
+</code>
+<p>Not just that, you can also use complex complex or call a method that returns a value. You just need to put the expression within the curly bracket just like the following syntax -</p>
+<pre>
+var name = "My name is : ${getName()}. And I am ${person.getAge()} years old !".
+</pre>
+<p>Within the curly bracket you can throw any complex logic. This is an awesome feature.</p>
+<h3>Check Equality</h3>
+<p>The <code>==</code> operator is used to check two string if they are equals or not. It returns <code>true</code> if both string are equal otherwise it returns <code>false</code>.</p>
+<h3>String Concatenation</h3>
+<p>The <code>+</code> operator is used to concate two string.</p>
+<h3>toString()</h3>
+<p>Whenever you are adding string with a number, Dart automatically calls <code>toString()</code> method of the inbuilt <code>num</code> class. This methods is predefined and thats why we don't need to define it over and over again whenever we have to use numbers. But what if we want to concatenate our custom object with a string. In these case, we need to define a <code>toString()</code> methods to our custom class. So whenever we add a object with a string, Dart will automatically call the <code>toString()</code> method of the corresponding class.</p>
+<pre>
+var pet1 = "Cat";
+var pet2 = "Dog";
+var pet3 = "Cat";
+var totalPets = 3;
+
+pet1 == pet2 // false
+pet1 == pet3 // true
+
+// Example of Concatenation
+str = "I have " + totalPets + " pets"; 
+</pre>
+<h3>String Concatenation without any operator or methods</h3>
+<p>Another interesting thing about Dart when using String. You can concate strings without using any operator or methods. Just put the string blocks one after another. The compiler will automatically detect them and concate them automatically. But remember, there should be nothing excepts white spaces between two blocks of string.</p>
+<pre>
+	var s1 = 'String '
+	'concatenation'
+	" works even over line breaks.";
+
+
+	assert(s1 ==
+		'String concatenation works even over '
+				'line breaks.');
+
+
+	var str = "hi"
+		" buddy !""";
+	print(str); // hi buddy !
+</pre>
+<h3>Tripple Quote</h3>
+<p>Another way to create multiline string using a tripple quote.</p>
+<pre>
+	var s1 = '''
+	You can create
+	multi-line strings like this one.
+	''';
+	
+	var s2 = """This is also a
+	multi-line string.""";
+</pre>
+<h3>Raw String</h3>
+<p>You can create a “raw” string by prefixing it with <code>r</code>:</p>
+<pre>
+	var s = r'In a raw string, not even \n gets special treatment.';
+</pre>
+<p>Anything inside the Raw String doesn't get escaped. The are displayed and processed as how they are stored, no internal conversion takes place when using Raw String.</p>
+<h3>Check if String is empty or not</h3>
+<p>To check if a string is empty or not use <code>isEmpty</code> property of the string objct.</p>
+<pre>
+var str = "";
+if(str.isEmpty){
+	print("String is Empty");
+}else{
+	print("String is not Empty");
+}
+</pre>
+
+
+
+
+
+
+
+<h2>Boolean</h2>
+<p>To represent boolean values, Dart has a type named <code>bool</code>. Only two objects have type bool: the boolean literals <code>true</code> and <code>false</code>, which are both compile-time constants.</p>
+<p>Dart’s type safety means that you can’t use code like <code>if (nonbooleanValue)</code> or <code>assert (nonbooleanValue)</code>. Instead, explicitly check for values, like this:</p>
+<pre>
+	// Check for an empty string.
+	var fullName = '';
+	assert(fullName.isEmpty);
+	
+	// Check for zero.
+	var hitPoints = 0;
+	assert(hitPoints <= 0);
+	
+	// Check for null.
+	var unicorn;
+	assert(unicorn == null);
+	
+	// Check for NaN.
+	var iMeantToDoThis = 0 / 0;
+	assert(iMeantToDoThis.isNaN);
+</pre>
+
+
+
+
+<h1>Lists</h1>
+<p>Lists are discussed in <code>Lists</code> chapter.</p>
+
+<h1>Sets</h1>
+<p>Sets are discussed in <code>Sets</code> chapter.</p>
+
+<h1>Maps</h1>
+<p>Maps are discussed in <code>Maps</code> chapter.</p>
+
+<h1>Runes and Symbols</h1>
+<p>We will discussed about Runes and symbols later.</p>
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

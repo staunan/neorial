@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Loop</title>
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
+	<script type="text/javascript" src="../Assets/jquery.min.js"></script>
+	<link rel="stylesheet" href="../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+
+
+<h1>Loop</h1>
+<p>Loop is used to repeat the execution of block of code conditionally. It keeps repeating the execution of the code as long as the condition becomes true. When the condition becomes false, the control goes out of the block and the loop breaks.</p>
+<p>There are three types of loop in most programming language -</p>
+<ul>
+	<li>While Loop</li>
+	<li>For Loop</li>
+	<li>Do-While Loop</li>
+</ul>
+
+
+
+
+<h1>While Loop</h1>
+<pre>
+while(condition)
+{
+	// Statements -
+}
+</pre>
+<p>The above syntax is consist of two parts -</p>
+<ul>
+	<li>Loop Statement : In the syntax above, <code>while(condition)</code> part is called Loop Statement. As this is While loop, it is called While Statement.</li>
+	<li>Loop Body : The part from the opening curly bracket to end curly bracket is called Loop Body. As this is While loop, so it is called While Body.</li>
+</ul>
+<p>Here, the condition is comparasion statement, or function that returns value, or expression that evaluates a value. But the condition here is Boolean. So if you use function that returns a value other than Boolean type, it first converted to Boolean type automatically. Same rules for expression to, if you use expression that evaluates a value that is other than Boolean type, then the value is automatically is casted to Boolean type to do further operation. The rule is for numbers <code>0</code> becomes false and other number becomes true, even negative number becomes true. For string, the empty string becomes false and non empty string it becomes true. Remember <code>"0"</code> is true here, as 0 is treated as like any other character. The same rule goes for all kind of loop, not just for While loop.</p>
+<p>However, when the ultimate evaluation of the condition becomes true, the control goes inside the loop and starts executing the code(While Body). When control finish executing the While Body, the control goes back to the condition again. The condition is checked again to see if it's true, if it's true then the while body gets executed again. And this process goes on as long as the condition becomes true. When the condition becomes false, the control goes outside of the loop and starts executing whatever statement the while body follows.</p>
+<p>Here is a simple example of printing 1 to 10 numbers in Javascript -</p>
+<pre>
+let i = 1;
+while(i&lt;=10){
+	console.log("I = " + i);
+	i++;
+}
+console.log("End of the Loop");
+</pre>
+<p>And here is the output -</p>
+<pre>
+I = 1
+I = 2
+I = 3
+I = 4
+I = 5
+I = 6
+I = 7
+I = 8
+I = 9
+I = 10
+End of the Loop
+</pre>
+<p>In the above example, in the first rotation, the condition is checked first. The condition <code>i&lt;=10</code> is evaluates to <code>1&lt;=10</code>, which is true, so the control goes inside the loop and start executing the while body. In the while body, we are login the value in the console and incrementing the value of i by one. At the end of the first rotation the i has incremented, and becomes 2. After that the control goes back to the condition again which is <code>2&lt;=10</code> which is true again. And the while body is executed again. This process goes on untill i becomes 11. At the end of 10<sup>th</sup> rotation, the value of i is 11, now the condition becomes <code>11&lt;=10</code> which is false. As the condition becomes false, the control goes outside of the loop and executes the statement which follows While Body which is in our case printing the message "End of the Loop".</p>
+<p>This functionality is the basic and main functionality of the loop. It is same for other two loops For Loop and Do-While Loop. The only different is in their syntax and few other things. But this concept is same for all the loops.</p>
+
+
+
+
+
+
+<h1>For Loop</h1>
+<pre>
+for(assignment; condition; updation){
+	// Statements
+}
+</pre>
+<p>In the for statement we have three parts. Note that For Loop is totally same as the While Loop, except for the syntax. The same thing can also be written in While loop.</p>
+<pre>
+assignment;
+while(condition){
+	// Statements
+	updation;
+}
+</pre>
+<p>For <code>While Loop</code> we do assignment of the variables before the loop and updatation part inside the while body. <code>For loop</code> exists just for easier readibility.</p>
+<p>The above example can be written in for loop like this -</p>
+<pre>
+let i;
+for(i=1;i<=10;i++){
+	console.log("I = " + i);
+}
+console.log("End of the Body");
+</pre>
+<p>In For Loop, the assignment part executs first. After the assignment part, the condition is checked, if the condition becomes true, the control goes inside the loop. After finishing the <code>For Body</code>, the control goes back to the updation part. After updation part of the for loop, the control checks the condition again. If the condition is true, then the for body gets executed again and after that the control goes to the updation part and after that the condition is checked again. This process goes on like this until the condition becomes false. When the condition becomes false, the control goes outside of the for body and start executing statement whatever it is after the for body.</p>
+<h3>Assignment happens only one time</h3>
+<p>As you can see, the assignment part of the for statment gets executed first. After that the control never returns to that part. The condition keeps rotating in <code>condition->forBody->updation</code> way.</p>
+<h3>Multiple Assignment and Updation</h3>
+<p>In for loop you can have multiple assignment statement which are seperated by comma. You can also have multiple updation part which are seperated by comma.</p>
+<pre>
+for(i=0, a = 36; i&lt;10; i++, a +=35){
+	console.log(a, b);
+}
+</pre>
+<p>Here, before the condition is checked for the first time, all the assignment part gets executed and after that the control never returns to any of the assignment part again. At the end of the each rotation of the loop, the control goes to the updation part and updates all the update statement which are seperated by comma.</p>
+<h3>Multiple condition seperated by comma is not allowed</h3>
+<p>Unlike multiple updation part and assignment part, you cannot write more than one condition which are seperated by comma. So the following example is invalid -</p>
+<pre>
+for(i=20, a = 25; i>=20, a = 25; i++){
+	// body
+}
+</pre>
+<p>If you want to use multiple condition you have to combine them using conditional operators and make a single complex condition.</p>
+<h3>Assignment Part and Updation Part is optional</h3>
+<p>Weird, but true, you can leave out these part. But remember the semicolons are necessary to satisfy the for statement structure.</p>
+<p>For example, if you don't want to use updation part, you must use semicolon after the condition -</p>
+<pre>
+for(i=1; i&lt;=15;){
+	// body
+}
+</pre>
+<p>If you want to leave the first part, the semicolon before the condition is necessary -</p>
+<pre>
+for(;i&lt;10;){
+	
+}
+// or
+for(;i&lt;10;i++){
+	
+}
+</pre>
+<p>Remember, that the conditional part is not optional. You must provide it.</p>
+
+
+
+
+
+
+
+
+<h1>Do-While Loop</h1>
+<pre>
+do{
+	// Do-While Body
+}while(condition);
+</pre>
+<p>Do While Loop is same as While Loop. Excepts for the first rotation the condition is not checked.</p>
+<p>In Do-While loop, the control goes inside the Do-While body first and executes all the statement. After that, the condition is checked. If the condition becomes true, then the Do-While body is executed again and after that the condition is checked. This way it goes on until the condition becomes false. When the condition becomes false, control goes outside of the Do-While body.</p>
+<h3>Semicolon After the While Part is Necessary</h3>
+<p>The semicolon after the while part is necessary. If you miss that, you will get an error. But if you notice in While Loop and For Loop, you should never put semicolon after the block. In Do-While, the While part is kind of statement, and that's why semicolon is necessary.</p>
+<h3>While and Do-While</h3>
+<p>The difference between these two loop is that, in While loop, the control never goes inside directly. The condition is checked first and then if the condition is true, then the control goes inside the While body and executes it. But in Do while, The condition is checked after it's body gets executed. And that's why in Do-While loop, the body will execute even if the condition becomes false for the first time.</p>
+<p>In real life the usage of Do-While loop is very rare. While Loop is the most used loop. For loop is also used but due to it's long syntax, it is not as much popular as for loop.</p>
+
+
+
+
+
+<h1>Few Notes</h1>
+<h3>If you have one statement to execute, you may ommit the curly bracket.</h3>
+<p>Curly bracket is necessary when you want to execute multiple statement. For single statement, you can ommit the curly braces.</p>
+<pre>
+while(condition)
+	console.log("Hello");
+
+for(i=0;i>4;i++)
+	name += "Repeat ";
+</pre>
+<h3>Loop Body must immediately follow Loop statement</h3>
+<p>You cannot put anything in between Loop statement and Loop body. Thus the following is invalid -</p>
+<pre>
+while(condition)
+console.log("In Between Statement is Not Allowed");
+{
+	// While Body
+}
+</pre>
+<p>The correct version is -</p>
+<pre>
+while(condition)
+{
+	// While Body
+}
+</pre>
+<p>But you can insert comment -</p>
+<pre>
+while(condition) // comment {
+	// Perfectly valid in Javascript.
+	// Experiment this in other language to know if it is supported
+}
+</pre>
+<h3>Indefinite Loop</h3>
+<p>Loop that never breaks is called Indefinite Loop. It means the condition never becomes false and thats why the control never can go outside of the loop. It's stuck inside the loop. For example, in the following example if you forgot to increment the variable, the loop will never terminate. It will keep rotating forever. In Javascript, your browser will hang if you run the following -</p>
+<pre>
+let i = 0;
+while(i&lt;5){
+	console.log(i);
+}
+
+// or
+
+while(true){
+	console.log("I'm Stuck Here !");
+}
+</pre>
+<p>When you are using loop, this is the one of the main thing you must remember. Always make sure that at some point the loop will terminate.</p>
+
+
+
+
+
+
+<h1>Nested Loop</h1>
+<p>You can use loop inside another loop. In real life programming you will do this very often. You can put Do-While loop inside While loop, or inside For loop. Or you can put For loop inside another For loop and so on. There is no limit how many loops you can nest inside them and keep nesting. You can also increase the level of nesting which is another loop inside a nested loop and so on. Here is an example -</p>
+<pre>
+let a = 1, b = 1;
+while(a&lt;=3){ // Outer Loop
+	b = 1;
+	while(b&lt;=5){ // Inner Loop
+		console.log("A = " + a + ", B = " + b);
+		b++;
+	}
+	a++;
+}
+</pre>
+<p>You will get the following output -</p>
+<div class="box">
+<style type="text/css">
+#output1 p, #output2 p{
+	margin: 0;
+}
+</style>
+<div id="output1"></div>	
+</div>
+<script type="text/javascript">
+let a = 1, b = 1;
+while(a<=3){ // Outer Loop
+	b = 1;
+	while(b<=5){ // Inner Loop
+		var p = document.createElement('p');
+		p.innerHTML = "A = " + a + ", B = " + b;
+		output1.appendChild(p);
+		b++;
+	}
+	a++;
+}
+</script>
+<p>In the above example, when the Outer loop's condition is true, the control goes inside of the outer loop's body. It executes the whole outer body first and then the condition of the outer body is checked again. So the Inner loop will have to be fully finished on each rotation of the Outer loop. So in the above example, the Inner loop will execute three times while the body of the inner loop will rotate five times.</p>
+
+
+
+
+
+
+
+
+<h1>Break</h1>
+<p>The keyword <code>break</code> statement is used to terminate the for loop at our will. This keyword is used in conjuction with <code>if</code> block. For example, when a specific condition is met, we want to terminate the loop immediately.</p>
+<p>Here is an example. In the following example we will terminate the loop when the number hits 5 -</p>
+<pre>
+let max = 5, i = 1;
+while(i&lt;100){
+	console.log(i);
+	if(i==max){
+		break;
+	}
+	i++;
+}
+console.log("Loop is terminated !");
+</pre>
+<p>Here is the output -</p>
+<div class="box" id="output2">
+<p>1</p>
+<p>2</p>
+<p>3</p>
+<p>4</p>
+<p>5</p>
+<p>Loop is terminated</p>
+</div>
+<p>In the above example, inside the loop body we have a if statement. So in each rotation of the loop, the condition will be checked. When the value of i becomes 5, the condition <code>i==max</code> will be true, and the <code>break</code> keyword will be met. When control meets the break keyword, the loop will be terminated and control will goes outside of the loop.</p>
+<p>Remember, if you use break statement without a condition, the loop will break on first rotation.</p>
+
+
+
+
+
+
+
+
+<h1>Continue</h1>
+<p>When the control hits <code>continue</code> keyword, the following statements of the current rotation will be skipped. It means the control will skip the rest of the statement of the current rotation and continue the execution with the next rotation.</p>
+<pre>
+let i = 0;
+while(i&lt;=5){
+	if(i == 2 || i == 3){
+		continue;
+	}
+	console.log("I = " + i);
+}
+</pre>
+<style type="text/css">
+#output3 p{
+	margin: 0;
+}
+</style>
+<div class="box" id="output3">
+<p>I = 0</p>
+<p>I = 1</p>
+<p>I = 4</p>
+<p>I = 5</p>
+</div>
+<p>Here in the above example, inside the while body we have if statement. So in each rotation of the loop, the condition of the if statement is checked. If the value of i becomes 2 or 3, the following statement will be skipped and the control will directly jump into the condition of the loop for next rotation. In our case, the message will not be logged when i becomes 2 or 3.</p>
+
+
+
+
+
+<h1>Labeled Break</h1>
+<p>When the break statement is met, the control breaks the current loop and goes outside of the current loop only. But what if you are using nested loop, and you are using break statement within the nested loop but want to break outside of the outer loop when the control mets the break statement of the inner loop? We can do this using labeled break. All you need to do is to give a name to the loop. And then use break statement with that name. So the syntax will be -</p>
+<pre>
+nameOfTheLoop:while(condition){
+	while(condition){
+		if(condition){
+			break nameOfTheLoop;
+		}
+	}
+}
+</pre>
+<p>So, when the break statement is met, the control goes outside of the labeled loop.</p>
+<h3>Example : break without a label</h3>
+<pre>
+let a1 = 1, b1 = 1;
+outerLoop:while(a1&lt;=3){ // Outer Loop
+	b1 = 1;
+	while(b1&lt;=5){ // Inner Loop
+		console.log("A = " + a1 + ", B = " + b1);
+		if(a1==b1){
+			break;
+		}
+		b1++;
+	}
+	a1++;
+}
+</pre>
+<p>Here is the output - </p>
+<div class="box">
+<style type="text/css">
+#output4 p{
+	margin: 0;
+}
+</style>
+<div id="output4"></div>
+</div>
+<script type="text/javascript">
+let a1 = 1, b1 = 1;
+outerLoop:while(a1<=3){ // Outer Loop
+	b1 = 1;
+	while(b1<=5){ // Inner Loop
+		var p = document.createElement("p");
+		p.innerHTML = "A = " + a1 + ", B = " + b1;
+		output4.appendChild(p);
+		if(a1==b1){
+			break;
+		}
+		b1++;
+	}
+	a1++;
+}
+</script>
+<h3>Example : break with a label</h3>
+<pre>
+let a2 = 1, b2 = 1;
+outerLoop:while(a2&lt;=3){ // Outer Loop
+	b2 = 1;
+	while(b2&lt;=5){ // Inner Loop
+		console.log("A = " + a2 + ", B = " + b2);
+		if(a2==b2){
+			break outerLoop;
+		}
+		b2++;
+	}
+	a2++;
+}
+</pre>
+<p>Here is the output - </p>
+<div class="box">
+<style type="text/css">
+#output5 p{
+	margin: 0;
+}
+</style>
+<div id="output5"></div>
+</div>
+<script type="text/javascript">
+let a2 = 1, b2 = 1;
+outerLoop:while(a2<=3){ // Outer Loop
+	b2 = 1;
+	while(b2<=5){ // Inner Loop
+		var p = document.createElement("p");
+		p.innerHTML = "A = " + a2 + ", B = " + b2;
+		output5.appendChild(p);
+		if(a2==b2){
+			break outerLoop;
+		}
+		b2++;
+	}
+	a2++;
+}
+</script>
+
+
+
+
+
+
+<h1>Labeled Continue</h1>
+<p>When the control mets the continue keyword, the control skips the rest of the statments for the current loop. But consider this. You are using nested loop, inside the nested loop you have a conditionally continue statement. When the continue statement is met you want to continue the outer loop, not the current loop. They same concept as in break statement.</p>
+<p>Here one thing to remember well that if you use continue with outer loop from inner loop, the inner loop will break. As the outer loop suddenly stops furthur processing of the current rotation of its body and continue with next rotation, whatever inside the body is gets terminated and as a result the inner loop breaks.</p>
+<p>The syntax is same as labeled break statement.</p>
+<h3>Example : continue with a label</h3>
+<pre>
+let a3 = 1, b3 = 1;
+outerLoop:while(a3&lt;=3){ // Outer Loop
+	b3 = 1;
+	while(b3&lt;=5){ // Inner Loop
+		if(a3==b3){
+			a3++;
+			continue outerLoop;
+		}
+		console.log("A = " + a3 + ", B = " + b3);
+		b3++;
+	}
+	a3++;
+}
+</pre>
+<p>Here is the output - </p>
+<div class="box">
+<style type="text/css">
+#output6 p{
+	margin: 0;
+}
+</style>
+<div id="output6"></div>
+</div>
+<script type="text/javascript">
+let a3 = 1, b3 = 1;
+outerLoop:while(a3<=3){ // Outer Loop
+	b3 = 1;
+	while(b3<=5){ // Inner Loop
+		if(a3==b3){
+			a3++;
+			continue outerLoop;
+		}
+		var p = document.createElement("p");
+		p.innerHTML = "A = " + a3 + ", B = " + b3;
+		output6.appendChild(p);
+		b3++;
+	}
+	a3++;
+}
+</script>
+
+
+
+
+
+</div>
+</body>
+</html>

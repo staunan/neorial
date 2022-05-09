@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>:not(X)</title>
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
+	<script type="text/javascript" src="../../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+<pre>
+.box :not(p){
+	color: yellow;
+}
+
+&lt;div class="box">
+	&lt;p>Hello World&lt;/p>
+	&lt;p>Hello Neo&lt;/p>
+	&lt;p>Hey There&lt;/p>
+	&lt;h1>OMG&lt;/h1>
+	&lt;code>Lots of Love&lt;/code>
+	&lt;p>No Way&lt;/p>
+&lt;/div>
+</pre>
+<style type="text/css">
+.box :not(p){
+	color: yellow;
+	background: black;
+}
+</style>
+<div class="box">
+	<p>Hello World</p>
+	<p>Hello Neo</p>
+	<p>Hey There</p>
+	<h1 class="heading1">OMG</h1>
+	<code>Lots of Love</code>
+	<p>No Way</p>
+</div>
+
+</div>
+</body>
+</html>

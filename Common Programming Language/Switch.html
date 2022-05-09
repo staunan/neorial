@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Switch</title>
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
+	<script type="text/javascript" src="../Assets/jquery.min.js"></script>
+	<link rel="stylesheet" href="../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+
+<h1>Switch</h1>
+<p>A switch statement can replace multiple <code>if</code> checks. It gives a more descriptive way to compare a value with multiple variants. The syntax of the <code>switch</code> statement looks like this -</p>
+<pre>
+switch(value){
+	case value1 : 
+		statements...
+	case value2 :
+		statements...
+	case value3 :
+		statements...
+	...
+	default:
+		statements...
+}
+</pre>
+<p>In the switch statement we have <code>value</code>. That value can be an expression, or a function call that returns value, or it can be a variable or constant. However, the final result of the value is considered. When the control is inside the switch statement, the value is checked against each value that is given to the <code>case</code> statements. If any <code>case</code> statement matches with the <code>switch</code> value, then that <code>case</code> statement gets executed even after that all the following case statements also get executed including the default statement. When no <code>case</code> value matches with the <code>switch</code> value, then the default statements gets executed.</p>
+<p>Here is an example -</p>
+<pre>
+let x = 30;
+switch(x){
+	case 10:
+		console.log("Ten");
+	case 20:
+		console.log("Twenty");
+	case 30:
+		console.log("Thirty");
+	case 40:
+		console.log("Fourty");
+	case 50:
+		console.log("Fifty");
+	default:
+		console.log("Unknown");
+}
+</pre>
+<p>And here is the output -</p>
+<pre>
+Thirty
+Fourty
+Fifty
+Unknown
+</pre>
+<p>When the control picks up the value from the <code>switch</code> statement, the value is checked with the first case value, as it doesn't match, the control then check the value with the second case statement, in this case also, the value doesn't match. So control compares the value with the third case value. It matches with the <code>switch</code> value. So control executes all the statement that is under that case statement. But not only that, after finishing all the statements of that case, the control executes all the statement of all the following case statement without checking their values. Even the default statements gets executed too. That means once a <code>case</code> value matches with the <code>switch</code> value, all the statement after that gets executed.</p>
+<h3>Don't enclose multiple statements within brackets</h3>
+<p>Even if you have multiple statement to execute, don't wrap them within the curly braket. Just put them under the case one after another. For example -</p>
+<pre>
+// Wrong
+switch (value){
+	case value:
+		{
+			statement1;
+			statement2;
+			statement3;
+		}
+		...
+}
+
+// Correct
+switch (value){
+	case value:
+		statement1;
+		statement2;
+		statement3;
+		...
+}
+</pre>
+
+
+
+<h1>Switch Statement with Break</h1>
+<p>The <code>break</code> statement can be used with the <code>switch</code> statement. When the control hits the <code>break</code> statement, the control immediately breaks out of the <code>switch</code> statement. And that logic can be used to prevent execution of subsequent case and default statements. Consider the above example, in the following example, we are preventing the control from getting into other case statement after finishing execution of the matched case statements.</p>
+<pre>
+let x = 30;
+switch(x){
+	case 10:
+		console.log("Ten");
+		break;
+	case 20:
+		console.log("Twenty");
+		break;
+	case 30:
+		console.log("Thirty");
+		break;
+	case 40:
+		console.log("Fourty");
+		break;
+	case 50:
+		console.log("Fifty");
+		break;
+	default:
+		console.log("Unknown");
+		break;
+}
+</pre>
+<p>And the output will be -</p>
+<pre>
+Thirty
+</pre>
+<h1>Grouped Case statements</h1>
+<p>Using the <code>break</code> statement, several Case statement can be grouped together. Here is an example -</p>
+<pre>
+let a = 2 + 2;
+
+switch (a) {
+  case 4:
+    alert('Right!');
+    break;
+
+  case 3:  // (*) grouped two cases
+  case 5:
+    alert('Wrong!');
+    alert("Why don't you take a math class?");
+    break;
+
+  default:
+    alert('The result is strange. Really.');
+}
+</pre>
+<p>Now both 3 and 5 show the same message.</p>
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

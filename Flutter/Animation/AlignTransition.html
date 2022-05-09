@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>ScaleTransition</title>
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+	<script type="text/javascript" src="../../Assets/prism.min.js"></script>
+	<script type="text/javascript" src="../../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+
+<h1>AlignTransition</h1>
+<pre>
+AlignTransition({
+  Key key, 
+  @required Animation&lt;AlignmentGeometry> alignment, 
+  @required Widget child, 
+  double widthFactor, 
+  double heightFactor
+})
+</pre>
+<p>Animated version of an <code>Align</code> that animates its <code>Align.alignment</code> property. It has a <code>alignment</code> property that takes an <code>Animation&lt;AlignmentGeometry></code>. So create a animation of that type and pass it to the widget.</p>
+<p>Below is an example that animates the alignment of the box:</p>
+<pre>
+class _TestState extends State&lt;Test> with SingleTickerProviderStateMixin{
+
+  AnimationController controller;
+  Animation&lt;AlignmentGeometry> alignmentAnimation;
+
+  @override
+  initState(){
+    super.initState();
+
+    controller = new AnimationController(
+      duration: Duration(milliseconds: 2000),
+      vsync: this
+    );
+
+    alignmentAnimation = Tween&lt;AlignmentGeometry>(begin: Alignment(0, 0), end: Alignment(0, 1)).animate(
+      CurvedAnimation(
+        parent: controller,
+        curve: Curves.bounceIn
+      )
+    );
+
+    controller.repeat(reverse: true);
+  }
+
+  @override
+  dispose(){
+    controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context){
+    return BeautyBackground(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: &lt;Widget>[
+          BackButton(),
+          Expanded(
+            child: AlignTransition(
+              alignment: alignmentAnimation,
+              child: Box(),
+            ),
+          ),
+        ]
+      )
+    );      
+  }
+}
+
+class Box extends StatelessWidget{
+  @override
+  Widget build(BuildContext context){
+    return SizedBox(
+      width: 100,
+      height: 100,
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          color: Colors.red
+        ),
+        child: SizedBox(
+          width: double.infinity,
+          height: double.infinity,
+        ),
+      ),
+    );
+  }
+}
+</pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>
+

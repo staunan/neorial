@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>AnimatedBuilder</title>
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+	<script type="text/javascript" src="../../Assets/prism.min.js"></script>
+	<script type="text/javascript" src="../../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+<h1>AnimatedBuilder</h1>
+<p>The <code>AnimatedBuilder</code> does the same job a <code>AnimatedWidget</code> does but in a different way. It has a <code>animation</code> property that takes a <code>Listenable</code> object. In this case, you can assign <code>AnimationController</code> or an <code>Animation&lt;T></code> object. It takes another property <code>builder</code>, which is a callback. The <code>builder</code> method should return the UI that is the part of the animation. Whenever the provided <code>Listenable</code> object changes its value, the <code>AnimatedBuilder</code> widget calls its <code>builder</code> callback to return a new UI.</p>
+<p>Let's consider the same example. This time instead of <code>AnimatedWidget</code>, we will use <code>AnimatedBuilder</code> widget to achieve the same animation.</p>
+<pre>
+class _TestState extends State&lt;Test> with SingleTickerProviderStateMixin{
+
+  AnimationController _controller;
+  Animation&lt;double> widthAnimation;
+  Animation&lt;double> opacityAnimation;
+  Animation&lt;Color> colorAnimation;
+
+  @override
+  initState(){
+    super.initState();
+    _controller = new AnimationController(
+      duration: const Duration(milliseconds: 2000), 
+      vsync: this,
+    );
+
+    widthAnimation = Tween&lt;double>(begin: 0.0, end: 100).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: Interval(0.1, 0.4, curve: Curves.bounceIn)
+      )
+    );
+    opacityAnimation = Tween&lt;double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: Interval(0.0, 1.0, curve: Curves.easeIn)
+      )
+    );
+    colorAnimation = ColorTween(begin: Colors.yellow, end: Colors.red).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: Interval(0.4, 1.0, curve: Curves.easeOut)
+      )
+    );
+
+    _controller.addListener((){
+      setState((){});
+    });
+
+    _controller.repeat(reverse: true);
+  
+  }
+
+  @override
+  dispose(){
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context){
+    return BeautyBackground(
+      child: Column(
+        children: &lt;Widget>[
+          BackButton(),
+          Expanded(
+            child: Center(
+              child: SizedBox(
+                width: (widthAnimation.value == null) ? 0.0 : widthAnimation.value,
+                height: 100,
+                child: Opacity(
+                  opacity : (opacityAnimation.value == null) ? 0.0 : opacityAnimation.value,
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
+                      color: (colorAnimation.value == null) ? Colors.red : colorAnimation.value,
+                    ),
+                    child: SizedBox(
+                      width: double.infinity,
+                      height: double.infinity
+                    ),
+                  )
+                ),
+              ),
+            )
+          ),
+        ]
+      ),
+    );
+  }
+}
+</pre>
+<p>Now first thing we need to remove the following part:</p>
+<pre>
+_controller.addListener((){
+  setState((){});
+});
+</pre>
+<p>Second, we need update the <code>build</code> method. We should take the animation part within the <code>AnimatedBuilder</code> widget. Here is the build method:</p>
+<pre>
+@override
+Widget build(BuildContext context){
+  return BeautyBackground(
+    child: Column(
+      children: &lt;Widget>[
+        BackButton(),
+        Expanded(
+          child: Center(
+            child: AnimatedBuilder(
+              animation: _controller,
+              builder: (BuildContext context, Widget child){
+                return SizedBox(
+                  width: (widthAnimation.value == null) ? 0.0 : widthAnimation.value,
+                  height: 100,
+                  child: Opacity(
+                    opacity : (opacityAnimation.value == null) ? 0.0 : opacityAnimation.value,
+                    child: DecoratedBox(
+                      decoration: BoxDecoration(
+                        color: (colorAnimation.value == null) ? Colors.red : colorAnimation.value,
+                      ),
+                      child: SizedBox(
+                        width: double.infinity,
+                        height: double.infinity
+                      ),
+                    )
+                  ),
+                );
+              },
+            ),
+          )
+        ),
+      ]
+    ),
+  );
+}
+</pre>
+<p>The <code>animation</code> property of the <code>AnimatedWidget</code> is assigned to the <code>_controller</code>. So whenever the controller changes its value, the widget calls its <code>builder</code> method. This is done automatically by the widget. The <code>builder</code> callback returns the new UI based on your current animations value. So your main build method which is in <code>_TestState</code> class doesn't get rebuilt with the <code>setState()</code> when controller changes its value. This is very efficient when your main build method is very large and you want only the animation part of the widget tree to be rebuilt.</p>
+
+<p>The builder callback has two parameter, the first parameter is <code>context</code> and second parameter is <code>child</code>. We haven't used the <code>child</code> parameter yet. Now we will see how you can pass a <code>child</code> argument to the widget.</p>
+
+<p>If some part of the widget tree that is returned from the <code>builder</code> callback doesn't rely on the animation values, you can build it only once and reuse its reference. In this case you should pass a <code>child</code> parameter which takes a Widget. This widget is passed to the <code>builder</code> method. The <code>builder</code> method uses that <code>child</code> to insert it in the widget tree and then return it. This way you will be able to avoid unncessary rebuilding a specific part of your animation widget that doesn't change with the animation values.</p>
+
+<p>In our above example, the last <code>SizedBox</code> doesn't rely on the animation values. So we can move this part to the <code>child</code> parameter.</p>
+<pre>
+@override
+Widget build(BuildContext context){
+  return BeautyBackground(
+    child: Column(
+      children: &lt;Widget>[
+        BackButton(),
+        Expanded(
+          child: Center(
+            child: AnimatedBuilder(
+              animation: _controller,
+              child: SizedBox(
+                  width: double.infinity,
+                  height: double.infinity
+              ),
+              builder: (BuildContext context, Widget child){
+                return SizedBox(
+                  width: (widthAnimation.value == null) ? 0.0 : widthAnimation.value,
+                  height: 100,
+                  child: Opacity(
+                    opacity : (opacityAnimation.value == null) ? 0.0 : opacityAnimation.value,
+                    child: DecoratedBox(
+                      decoration: BoxDecoration(
+                        color: (colorAnimation.value == null) ? Colors.red : colorAnimation.value,
+                      ),
+                      child: child,
+                    )
+                  ),
+                );
+              },
+            ),
+          )
+        ),
+      ]
+    ),
+  );
+}
+</pre>
+<p>Using this pre-built child is entirely optional, but can improve performance significantly in some cases and is therefore a good practice.</p>
+<p>So, this is all about <code>AnimatedBuilder</code> widget. It's usage purpose is same as <code>AnimatedWidget</code>, which is avoiding unncessary rebuilding of the whole widget tree. But the way they are used, are different.</p>
+
+
+<h1>AnimatedBuilder Vs AnimatedWidget</h1>
+<p>Even though their key purpose of usage is same, there is a difference where they suits best.</p>
+<p>The <code>AnimatedBuilder</code> is helpful when you want to rebuild the animation part at once. In the above example, the width, opacity and the color all property updates together with a single call of the <code>builder</code> callback. That means you cannot seperate the animations out from each other if you apply the multiple animation on a single widget. You must have to rebuild the whole animated widget at once. In other words the <code>AnimatedBuilder</code> cannot be nested.</p>
+<p>On the other hand <code>AnimatedWidget</code> allows you to define a single animation per class, you cannot use multiple animation instance values. One class will allow only one listenable object. You can nest these subclasses to create the same effect, but each class will update its animation seperately. That means with <code>AnimatedWidget</code>, animated property is updated seperately in seperated class.</p>
+<p>Use either of them where they suits best.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>
+

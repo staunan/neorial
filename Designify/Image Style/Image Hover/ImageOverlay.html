@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Image Overlay</title>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.3.4/vue.js"></script>
+	<link rel="stylesheet" type="text/css" href="ImageHover.css">
+<style>
+.animated{
+	animation-duration: .5s !important;
+}
+
+.Image-Overlay {
+  position: relative;
+}
+
+.Image-Overlay--Image {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.Image-Overlay--Overlay {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #008CBA;
+  overflow: hidden;
+  width: 100%;
+  height:100%;
+  display: none;
+}
+</style>
+</head>
+<body>
+
+<script type="text/javascript">
+let Styles = [
+	'imghvr-fade-in-up',
+	'imghvr-fade-in-down',
+	'imghvr-fade-in-left',
+	'imghvr-fade-in-right',
+	'imghvr-push-up',
+	'imghvr-push-down',
+	'imghvr-push-left',
+	'imghvr-push-right',
+	'imghvr-slide-up',
+	'imghvr-slide-down',
+	'imghvr-slide-left',
+	'imghvr-slide-right',
+	'imghvr-slide-top-right',
+	'imghvr-slide-top-left',
+	'imghvr-slide-bottom-left',
+	'imghvr-slide-bottom-right',
+	'imghvr-reveal-right',
+	'imghvr-reveal-down',
+	'imghvr-reveal-up',
+	'imghvr-reveal-left',
+	'imghvr-reveal-top-right',
+	'imghvr-reveal-top-left',
+	'imghvr-reveal-bottom-right',
+	'imghvr-reveal-bottom-left',
+	'imghvr-hinge-left',
+	'imghvr-hinge-right',
+	'imghvr-hinge-top',
+	'imghvr-hinge-down',
+	'imghvr-flip-horiz',
+	'imghvr-flip-vert',
+	'imghvr-flip-diag-1',
+	'imghvr-flip-diag-2',
+	'imghvr-shutter-out-horiz',
+	'imghvr-shutter-out-vert',
+	'imghvr-shutter-out-diag-1',
+	'imghvr-shutter-out-diag-2',
+	'imghvr-shutter-in-horiz',
+	'imghvr-shutter-in-vert',
+	'imghvr-shutter-in-out-horiz',
+	'imghvr-shutter-in-out-vert',
+	'imghvr-shutter-in-out-diag-1',
+	'imghvr-shutter-in-out-diag-2',
+	'imghvr-fold-up',
+	'imghvr-fold-down',
+	'imghvr-fold-left',
+	'imghvr-fold-right',
+	'imghvr-zoom-in',
+	'imghvr-zoom-out',
+	'imghvr-zoom-out-up',
+	'imghvr-zoom-out-down',
+	'imghvr-zoom-out-left',
+	'imghvr-zoom-out-right',
+	'imghvr-zoom-out-flip-horiz',
+	'imghvr-zoom-out-flip-vert',
+	'imghvr-blur',
+	'imghvr-blocks-rotate-in-left',
+	'imghvr-blocks-zoom-top-left',
+	'imghvr-strip-shutter-right',
+	'imghvr-throw-in-left',
+	'imghvr-blinds-horiz',
+	'imghvr-blinds-vert',
+	'imghvr-blinds-up',
+	'imghvr-blinds-down',
+	'imghvr-blinds-left',
+	'imghvr-blinds-right',
+	'imghvr-border-reveal-top-left',
+	'imghvr-book-open-horiz',
+	'imghvr-stack-up',
+	'imghvr-cube-up',
+	'imghvr-cube-down',
+	'imghvr-cube-left',
+	'imghvr-cube-down',
+	'imghvr-dive-cc'
+];
+</script>
+
+
+
+<div id="Image" style="margin: auto; width: 95%;">
+
+<h1>How To Use</h1>
+<p>Include Vue, jQuery and ImageHover.css. Then write the following code - </p>
+<pre>
+	&lt;figure class="StyleName" style="width: value; height: value;">
+		&lt;img alt="Some Text" src="Location" style="width: 100%; height:100%;">
+		&lt;figcaption>
+			&lt;h3>Put Anything You Want Here !&lt;/h3>
+			&lt;p>You are done !&lt;/p>
+		&lt;/figcaption>
+	&lt;/figure>
+</pre>
+<p>Hover on the images below to see the Style name.</p>
+<hr>
+<div style="display: flex; flex-wrap: wrap;">
+
+		<figure v-for="singleStyle in ImageStyles" :class="singleStyle" style="flex-basis: 200px; flex-grow: 1; box-sizing: border-box; margin:10px;">
+			<img alt="example-image" src="Picture.jpg" style="width: 100%; height: 100%;">
+			<figcaption>
+				<h3>Put Anything You Want Here !</h3>
+				<p>{{ singleStyle }}</p>
+			</figcaption>
+		</figure>
+</div>
+
+</div>
+
+
+<script type="text/javascript">
+Vue.component('imageOverlay',{
+	props:['imageUrl','in','out','id'],
+template:`
+<div class="Image-Overlay" :id="id">
+  <img  :src="imageUrl" alt="Avatar" class="Image-Overlay--Image" :id="ImageID">
+  <div class="Image-Overlay--Overlay animated" :id="OverlayID">
+    <slot></slot>
+  </div>
+</div>
+`,
+computed:{
+	ImageID:function(){
+		return this.id+'Image';
+	},
+	OverlayID:function(){
+		return this.id + 'Overlay';
+	}
+},
+mounted:function(){	
+	$("#"+this.id).mouseover(function(){
+		$("#"+this.OverlayID).removeClass(this.out).addClass(this.in).css('display','block');		
+	}.bind(this));
+	$("#"+this.id).mouseleave(function(){
+  		$("#"+this.OverlayID).removeClass(this.in).addClass(this.out);
+  		window.setTimeout(function(){
+           	$("#"+this.OverlayID).css("display",'none');
+        }, 1000);
+	}.bind(this));
+}
+});
+let pic = new Vue({
+	el:"#Image",
+	data:{
+		ImageStyles : Styles,
+	},
+})
+</script>
+</body>
+</html>

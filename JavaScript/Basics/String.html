@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>String</title>
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+	<script type="text/javascript" src="../../Assets/prism.min.js"></script>
+	<script type="text/javascript" src="../../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+<h1>Special Character : Escape Squence</h1>
+<p>There are special character you can include inside a string, these special character are called <code>Escape Sequence</code>. These character cannot be used directly inside the string. Here are few special character -</p>
+<ul>
+	<li><code>\n</code> : This means a new line.</li>
+	<li><code>\b</code> : This represents a backspace.</li>
+	<li><code>\t</code> : This represents a Tab inside the string.</li>
+	<li><code>\'</code> : This prints a single quote.</li>
+	<li><code>\"</code> : This prints a double quote.</li>
+	<li><code>\\</code> : This prints a blackslash inside the string.</li>
+</ul>
+<p>As you can see each special symbol starts with a blackslash.</p>
+<p>Remember that if you use double quote for string, you can print single quote inside the string directly, you don't need to escape the character with backslash. Also If you use single quote for string, you can print double quote directly. For example -</p>
+<pre>
+let hi = "My Pet's Home";
+let hi = 'He said, "How are you?"';
+</pre>
+<p>If you use backticks for sting, you can print single or double quote directly.</p>
+<pre>
+let hi = `My Pet's Home`;
+let hi = `He said, "How are you?"`;
+</pre>
+<p>If you want to print single quote within the string which is enclosed with single quote, you need to escape it with backslash. Similarly, if you want to print double quote which is enclosed with double quote, you need to escape it with backslash.</p>
+<pre>
+let hi = 'My Pet\'s Home';
+let hi = "He said, \"How are you?\"";
+</pre>
+<p>If you need to print backslash within the string use double backslash -</p>
+<pre>
+alert( `The backslash: \\` ); // The backslash: \
+</pre>
+<p>Here are few example of escape sequence -</p>
+<pre>
+let guestList = "Guests:\n * John\n * Pete\n * Mary";
+
+alert(guestList); // a multiline list of guests
+
+alert( "Hello\nWorld" ); // two lines using a "newline symbol"
+</pre>
+<h3>Hexa Code</h3>
+<p>You can use hexa code to represent other special symbol. Hexa code starts with <code>\u</code> followed by four Hexa digits.</p>
+<pre>
+\uNNNN
+</pre>
+<p>It must be exactly 4 hex digits. For example -</p>
+<pre>
+alert( "\u00A9" ); // ©
+</pre>
+<p>Some rare characters are encoded with two unicode symbols, taking up to 4 bytes. This long unicode requires braces around it.</p>
+<pre>
+\u{NNNNNNNN}
+</pre>
+<p>For example -</p>
+<pre>
+alert( "\u{20331}" ); // 佫, a rare chinese hieroglyph (long unicode)
+alert( "\u{1F60D}" ); // 😍, a smiling face symbol (another long unicode)
+</pre>
+
+
+
+
+
+
+
+
+<h1>String length</h1>
+<p>To get the number of character that a string contains use the property <code>length</code> - </p>
+<pre>
+alert( `My\n`.length ); // 3
+alert("Santanu".length); // 7
+</pre>
+<p>Note that <code>\n</code> is a single “special” character, so the length is indeed <code>3</code>.</p>
+
+
+
+
+
+
+
+<h1>Accessing characters</h1>
+<p>To get a character at position pos, use square brackets [pos] or call the method str.charAt(pos). The first character starts from the zero position:</p>
+<pre>
+let str = `Hello`;
+
+// the first character
+alert( str[0] ); // H
+alert( str.charAt(0) ); // H
+
+// the last character
+alert( str[str.length - 1] ); // o
+</pre>
+<p>The square brackets are a modern way of getting a character, while charAt exists mostly for historical reasons. The only difference between them is that if no character is found, <code>[]</code> returns <code>undefined</code>, and <code>charAt</code> returns an empty string:</p>
+<pre>
+let str = `Hello`;
+
+alert( str[1000] ); // undefined
+alert( str.charAt(1000) ); // '' (an empty string)
+</pre>
+<p>We can also iterate over characters using for..of:</p>
+<pre>
+for (let char of "Hello") {
+  alert(char); // H,e,l,l,o (char becomes "H", then "e", then "l" etc)
+}
+</pre>
+
+
+
+
+
+
+
+
+
+<h1>Strings are immutable</h1>
+<p>Strings can’t be changed in JavaScript. It is impossible to change a character. Let’s try it to show that it doesn’t work:</p>
+<pre>
+let str = 'Hi';
+
+str[0] = 'h'; // error
+alert( str[0] ); // doesn't work
+</pre>
+<p>The usual workaround is to create a whole new string and assign it to <code>str</code> instead of the old one.</p>
+<pre>
+let str = 'Hi';
+
+str = 'h' + str[1];  // replace the string
+
+alert( str ); // hi
+</pre>
+
+
+
+
+
+
+
+
+<h1>Changing the case</h1>
+<p>Methods <code>toLowerCase()</code> and <code>toUpperCase()</code> change the case:</p>
+<pre>
+alert( 'Interface'.toUpperCase() ); // INTERFACE
+alert( 'Interface'.toLowerCase() ); // interface
+</pre>
+<p>Or, if we want a single character lowercased:</p>
+<pre>
+alert( 'Interface'[0].toLowerCase() ); // 'i'
+</pre>
+
+
+
+
+
+
+
+
+<h1>Searching for a substring</h1>
+<p>There are multiple ways to look for a substring within a string.</p>
+<h3>str.indexOf(substr, pos)</h3>
+<p>It looks for the <code>substr</code> in <code>str</code>, starting from the given position <code>pos</code>, and returns the position where the match was found or <code>-1</code> if nothing can be found.</p>
+<pre>
+let str = 'Widget with id';
+
+alert( str.indexOf('Widget') ); // 0, because 'Widget' is found at the beginning
+alert( str.indexOf('widget') ); // -1, not found, the search is case-sensitive
+
+alert( str.indexOf("id") ); // 1, "id" is found at the position 1 (..idget with id)
+</pre>
+<p>The optional second parameter allows us to search starting from the given position.</p>
+<p>For instance, the first occurrence of "id" is at position 1. To look for the next occurrence, let’s start the search from position 2:</p>
+<pre>
+let str = 'Widget with id';
+
+alert( str.indexOf('id', 2) ) // 12
+</pre>
+<p>If you want to search for all the occurance of the substr, then you can run the method within a loop with updated pos. Here is the code -</p>
+<pre>
+let str = "As sly as a fox, as strong as an ox";
+let target = "as";
+
+let pos = -1;
+while ((pos = str.indexOf(target, pos + 1)) != -1) {
+  alert( pos );
+}
+</pre>
+<p>There is a slight inconvenience with indexOf in the if test. We can’t put it in the if like this:</p>
+<pre>
+let str = "Widget with id";
+
+if (str.indexOf("Widget")) {
+    alert("We found it"); // doesn't work!
+}
+</pre>
+<p>The alert in the example above doesn’t show because <code>str.indexOf("Widget")</code> returns <code>0</code> (meaning that it found the match at the starting position). Right, but if considers <code>0</code> to be <code>false</code>.</p>
+<p>So, we should actually check for <code>-1</code>, like this:</p>
+<pre>
+let str = "Widget with id";
+
+if (str.indexOf("Widget") != -1) {
+    alert("We found it"); // works now!
+}
+</pre>
+
+<h3>include()</h3>
+<p>The more modern method <code>str.includes(substr, pos)</code> returns <code>true</code>/<code>false</code> depending on whether <code>str</code> contains <code>substr</code> within.</p>
+<p>It’s the right choice if we need to test for the match, but don’t need its position:</p>
+<pre>
+alert( "Widget with id".includes("Widget") ); // true
+
+alert( "Hello".includes("Bye") ); // false
+</pre>
+<p>The optional second argument of <code>str.includes</code> is the position to start searching from:</p>
+<pre>
+alert( "Midget".includes("id") ); // true
+alert( "Midget".includes("id", 3) ); // false, from position 3 there is no "id"
+</pre>
+
+<h3>startsWith() | endsWith()</h3>
+<p>The methods <code>str.startsWith</code> and <code>str.endsWith</code> do exactly what they say:</p>
+<pre>
+alert( "Widget".startsWith("Wid") ); // true, "Widget" starts with "Wid"
+alert( "Widget".endsWith("get") );   // true, "Widget" ends with "get"
+</pre>
+
+
+
+
+
+
+
+
+
+
+
+
+<h1>Getting a substring</h1>
+<p>There are 3 methods in JavaScript to get a substring: <code>substring</code>, <code>substr</code> and <code>slice</code>.</p>
+<h3>str.slice(start [, end])</h3>
+<p>Returns the part of the string from <code>start</code> to <code>end</code> (but not including).</p>
+<pre>
+let str = "stringify";
+alert( str.slice(0, 5) ); // 'strin', the substring from 0 to 5 (not including 5)
+alert( str.slice(0, 1) ); // 's', from 0 to 1, but not including 1, so only character at 0
+</pre>
+<p>If there is no second argument, then slice goes till the end of the string:</p>
+<pre>
+let str = "stringify";
+alert( str.slice(2) ); // ringify, from the 2nd position till the end
+</pre>
+<p>Negative values for start/end are also possible. They mean the position is counted from the string end:</p>
+<pre>
+let str = "stringify";
+
+// start at the 4th position from the right, end at the 1st from the right
+alert( str.slice(-4, -1) ); // gif
+</pre>
+<p>Note that, the counting starts with <code>-1</code> from the right side.</p>
+
+
+<h3>str.substring(start [, end])</h3>
+<p>Returns the part of the string between <code>start</code> and <code>end</code>. This is almost the same as slice, but it allows <code>start</code> to be greater than <code>end</code>.</p>
+<pre>
+let str = "stringify";
+
+// these are same for substring
+alert( str.substring(2, 6) ); // "ring"
+alert( str.substring(6, 2) ); // "ring"
+
+// ...but not for slice:
+alert( str.slice(2, 6) ); // "ring" (the same)
+alert( str.slice(6, 2) ); // "" (an empty string)
+</pre>
+<p>Between these two arguments, whichever is small is considered as the starting index.</p>
+<p>Negative arguments are (unlike slice) not supported, they are treated as <code>0</code>.</p>
+
+
+<h3>str.substr(start [, length])</h3>
+<p>Returns the part of the string from <code>start</code>, with the given <code>length</code>. In contrast with the previous methods, this one allows us to specify the length instead of the ending position:</p>
+<pre>
+let str = "stringify";
+alert( str.substr(2, 4) ); // ring, from the 2nd position get 4 characters
+</pre>
+<p>The first argument may be negative, to count from the <code>end</code>:</p>
+<pre>
+let str = "stringify";
+alert( str.substr(-4, 2) ); // gi, from the 4th position get 2 characters
+</pre>
+<p>Note that, the second argument, <code>length</code> cannot be negative.</p>
+
+
+
+
+
+
+
+
+<h1>UTF-16 Code</h1>
+<p>All strings are encoded using <code>UTF-16</code>. That is: each character has a corresponding numeric code. There are special methods that allow to get the character for the code and back.</p>
+<h3>str.codePointAt(pos)</h3>
+<p>Returns the code for the character at position <code>pos</code>:</p>
+<pre>
+// different case letters have different codes
+alert( "z".codePointAt(0) ); // 122
+alert( "Z".codePointAt(0) ); // 90
+</pre>
+<h3>String.fromCodePoint(code)</h3>
+<p>Creates a character by its numeric code</p>
+<pre>
+alert( String.fromCodePoint(90) ); // Z
+</pre>
+
+
+
+
+
+
+</div>
+</body>
+</html>

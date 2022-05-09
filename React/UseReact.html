@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Use React</title>
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
+	<script type="text/javascript" src="../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+<h1>Use React</h1>
+<p>In this tutorial I'm going to show you how to use React.js in different way.</p>
+
+
+<h1>CDN</h1>
+<p>Include the following script just after the opening of <code>body</code> element in your HTML file.</p>
+<pre>
+&lt;script src="https://unpkg.com/react@16/umd/react.development.js">&lt;/script>
+&lt;script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js">&lt;/script>
+&lt;script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js">&lt;/script>
+</pre>
+
+<p>Now paste the following code in your HTML page and refresh the page, the component will be mounted on the page and you will see the output -</p>
+<pre>
+&lt;div id="root">&lt;/div>
+
+&lt;script type="text/babel">
+class Clock extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {date: new Date()};
+  }
+
+  render() {
+    return (
+      &lt;div>
+        &lt;h1>Hello, world!&lt;/h1>
+        &lt;h2>It is {this.state.date.toLocaleTimeString()}.&lt;/h2>
+      &lt;/div>
+    );
+  }
+}
+
+ReactDOM.render(
+  &lt;Clock />,
+  document.getElementById('root')
+);
+&lt;/script>
+</pre>
+<p>In this approach we are using In-Browser Babel transformer. This approach is useful only for demos and very small react application. Because each time the page loads, Babel takes some time to transform the React code to ES5 script.</p>
+
+
+
+<h1>CDN - Without Babel Transformer</h1>
+<p>Before we were using Babel transformer to transform JSX Code to pure JS code. However, if you don't want to use JSX, you need to pull in only following two file. Copy and paste the following just after <code>body</code> element in your HTML page - </p>
+<pre>
+&lt;script src="https://unpkg.com/react@16/umd/react.development.js">&lt;/script>
+&lt;script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js">&lt;/script>
+</pre>
+<p>Now paste the following code and refresh the page -</p>
+<pre>
+&lt;script type="text/babel">
+const e = React.createElement;
+
+class LikeButton extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { liked: false };
+  }
+
+  render() {
+    if (this.state.liked) {
+      return 'You liked this.';
+    }
+
+    return e(
+      'button',
+      { onClick: () => this.setState({ liked: true }) },
+      'Like'
+    );
+  }
+}
+
+const domContainer = document.querySelector('#like_button_container');
+ReactDOM.render(e(LikeButton), domContainer);
+&lt;/script>
+</pre>
+
+
+
+<h1>Using JSX Preprocessor</h1>
+<p>In this way, you will transform your JSX to ES5 using Command. The benifit of this method is that your code will already be compiled to ES5 script. So there will be no transformation latency in the Browser. Also you can watch a whole folder and compile many js file together and whenever you make any changes to any file, the preprocessor will compile the file automatically and generate the compiled version instantly. This way your development time will speed up. If you have Node.js installed you can follow the following steps  -</p>
+<ul>
+	<li>Create a new folder. Let's say the folder name is <code>Test</code></li>
+	<li>Open CMD and change your current directory to <code>Test</code> folder.</li>
+	<li>run <code>npm init -y</code>. This will create a <code>package.json</code> file with some content.</li>
+	<li>Next, run the commands - <code>npm install babel-cli@6 babel-preset-react-app@3</code>. This will create a folder <code>node_modules</code> which will contains all the installation files.</li>
+	<li>Now create a folder <code>js</code> inside <code>Test</code> folder. Open <code>js</code> folder.</li>
+	<li>Create two folder inside <code>js</code> - <code>src</code> and <code>build</code></li>
+	<li>After successfully installation  of above command run <code>npx babel --watch js/src --out-dir js/build --presets react-app/prod</code>.</li>
+</ul>
+<p>That's it. Now keep the Console open while you are developing react app. If you create a js file inside <code>src</code> folder, there will be a corresponding file created instantly and automatically with the same name in the <code>build</code> folder. In your HTML file you will refer to the file which are in the <code>build</code> folder. The files in the <code>build</code> folder will be the compiled file from <code>src</code> folder. The console will keep watching for the <code>src</code> folder for any changes. If you make any changes to any file in the src folder, the transformer will rerun automatically and update the build folder.</p>
+
+
+
+
+<h1>Create React App</h1>
+<p>Create React App is a comfortable environment for learning React, and is the best way to start building a new single-page application in React. It sets up your development environment so that you can use the latest JavaScript features, provides a nice developer experience, and optimizes your app for production.</p>
+<p>Run the following command -</p>
+<pre>
+npx create-react-app my-app
+cd my-app
+npm start
+</pre>
+<p>The first command will take some time to install all it needs. After successfully installation and executing the command <code>npm start</code>, it will start a server automatically. Now open the browser and go to <code>http://localhost:3000/</code>, you will see the default page.</p>
+<p>Now open up <code>src/App.js</code>, and make some changes, the build process will run automatically after you save the file and also you don't need to refresh the page on the browser, the updated build will be automatically pushed to the broswer. Awesome. This feature is called <code>Hot Module Replacement(HMR)</code> or <code>Live-editing</code> that comes from Webpack.</p>
+
+<h1>React with Laravel</h1>
+
+<p>Most of the time you will be integrating your React app with a backend framework like Laravel, Node.js framework etc. Let's see how you can use React with Laravel framework.</p>
+
+php artisan preset react
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

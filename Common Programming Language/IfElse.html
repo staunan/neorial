@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>If Else</title>
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
+	<script type="text/javascript" src="../Assets/jquery.min.js"></script>
+	<link rel="stylesheet" href="../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+<h1>If Else Block</h1>
+<p>Now you know about If statement. If statement executes the body of the If, if the condition becomes <code>true</code>. But what if when you want to execute the body when the condition becomes <code>false</code>? Here's come the idea of <code>else</code> block.</p>
+<pre>
+	if(condition){
+		// If body
+	}else{
+		// Else Body
+	}
+	// Outside of if-else block.
+</pre>
+<p>The whole concept of the structure is same as If statement, except, the else block is execute if the condition evaluates to false. It means when the condition evaluates to true, the If Body is get executed and Else Body is get skipped. If the condition becomes false, the If Body gets skipped and Else Body get executed. So either one of them is get executed depending on the condition.</p>
+<p>There are certain rules to remember, like, else part must immediately follow If body. It means you cannot have any statement in the middle of If statement and else statement.</p>
+<pre>
+	If(Condition){
+
+	}
+	Some statement ...
+	else{
+
+	}
+</pre>
+<p>The above code will output error message as we have some statement in the middle of If and Else part.</p>
+<p>Like, If block, if there's only one statement in the else Body to be executed, you can omit the curly bracket.</p>
+<pre>
+	if(condition){
+
+	}
+	else
+		Statement;
+
+	// Or,
+
+	if(condition)
+		Statement;
+	else{
+		//Statements;
+	}
+
+	// Or,
+
+	if(condition)
+		Statement;
+	else
+		Statement;
+</pre>
+<p>The alternative approach to the If-Else statement would be like this -</p>
+<pre>
+	if(condition){
+
+	}
+	if(!condition){
+
+	}
+</pre>
+<p>The above approach is alternative to the If-Else block. Here, the condition is same for both If statement. One advantage of the approach is that you can have any number of statements in the middle of these two <code>if</code> statements, as these two <code>if</code> statement acts as seperate individual statement. But If-Else block is a single individual structure and you can not mess up the structure by inserting any statement in between their blocks. Though the alternative approach looks little messy but there will come situation where you must have to take this approach for just because you can insert some statement in between them.</p>
+<p class="tip">Here, <code>else</code> part is optional.</p>
+
+
+</div>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Switch in Flutter</title>
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+	<script type="text/javascript" src="../../Assets/prism.min.js"></script>
+	<script type="text/javascript" src="../../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+
+
+<h1>Switch</h1>
+<p>A material design switch. Used to toggle the on/off state of a single setting.</p>
+<p>The switch itself does not maintain any state. Instead, when the state of the switch changes, the widget calls the <code>onChanged</code> callback. Most widgets that use a switch will listen for the <code>onChanged</code> callback and rebuild the switch with a new <code>value</code> to update the visual appearance of the switch.</p>
+<p>If the <code>onChanged</code> callback is <code>null</code>, then the switch will be disabled (it will not respond to input). A disabled switch's thumb and track are rendered in shades of grey by default. The default appearance of a disabled switch can be overridden with <code>inactiveThumbColor</code> and <code>inactiveTrackColor</code>.</p>
+<p>Requires one of its ancestors to be a Material widget.</p>
+
+<h2>Properties</h2>
+<h3>activeColor</h3>
+<p>The color to use when this switch is on.</p>
+
+
+<h3>activeTrackColor</h3>
+<p>The color to use on the track when this switch is on. </p>
+
+<h3>inactiveThumbColor</h3>
+<p>The color to use on the thumb when this switch is off.</p>
+
+<h3>inactiveTrackColor</h3>
+<p>The color to use on the track when this switch is off.</p>
+
+
+<h3>onChanged</h3>
+<p>Called when the user toggles the switch on or off.</p>
+
+<h3>value</h3>
+<p>Whether this switch is on or off. If the value is <code>true</code>, the switch will be on, and if <code>false</code>, the switch will be off.</p>
+
+
+<h2>Example</h2>
+<pre>
+import 'package:flutter/material.dart';
+ 
+void main() {
+  runApp(MaterialApp(
+    home: MyApp(),
+  ));
+}
+ 
+class MyApp extends StatefulWidget {
+  @override
+  _State createState() => _State();
+}
+ 
+class _State extends State&lt;MyApp> {
+  bool isSwitched = false;
+ 
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(
+          title: Text('Flutter - tutorialkart.com'),
+        ),
+        body: Center(
+          child: Switch(
+            value: isSwitched,
+            onChanged: (value) {
+              setState(() {
+                isSwitched = value;
+                print(isSwitched);
+              });
+            },
+            activeTrackColor: Colors.lightGreenAccent,
+            activeColor: Colors.green,
+          ),
+        )
+    );
+  }
+}
+</pre>
+<p>The above will produce the following output:</p>
+<img src="../../Assets/flutter/flutter-switch-off.png">
+<p>When you turn on the switch it will look like following:</p>
+<img src="../../Assets/flutter/flutter-switch-on.png">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

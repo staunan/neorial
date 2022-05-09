@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>v-cloak</title>
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+	<script src="../Assets/prism.min.js"></script>
+	<script type="text/javascript" src="../Assets/jquery.min.js"></script>
+    <link rel="stylesheet" href="../Assets/prism-dark.css">
+    <script type="text/javascript" src="../Assets/vue.js"></script>
+    <style type="text/css">
+    	[v-cloak] {
+		    display: none;
+		}
+    </style>
+</head>
+<body class="Body">
+	<div class="Content Card" v-cloak>
+		<h1>v-cloak</h1>
+		<p>
+			What can be annoying with Vue.js is that the HTML elements are present in your page before Vue.js reads and compiles it. If your page goes bigger and there's a lot's of vue.js directive, methods, watchers, etc, it would certainly take sometime to fully compile the full page. During that time a user can see unrendered html in the page. Which doesn't look good at the first moment the page loads. After Vue compiles the file, all is fine. But how do you stop that so that there won't be any glitch before Vue renders the page? The answer is <code>v-cloak</code>. If you put the v-cloak directive on any element, Vue will add CSS related to that directive and remove the v-cloak directive after Vue successfully compiles. This means we can hide the element using <code>display:none;</code> and as soon as Vue removes the directive the content will be visible with fully rendered page. This will give the user a better experience.
+		</p>
+		<pre>
+			&lt;style>
+			  [v-cloak] {
+			    display: none;
+			  }
+			&lt;/style>
+		</pre>
+		<p>
+			Okay, you have defined the style. Now you can use this directive on the element which you want to hide before successfully compiled.
+		</p>
+		<pre>
+			&lt;div id="app">
+			  &lt;div v-cloak>
+			    Hello {{ name }}
+			  &lt;/div>
+			&lt;/div>
+		</pre>
+		<p>
+			You can use <code>v-cloak</code> on multiple element, it doesn't matter. You can also use <code>v-cloak</code> on the root element, so that you don't have to use it on multiple places.
+		</p>
+		<p>
+			If you inspect the DOM, there will be no attribute called <code>v-cloak</code>, as Vue removes it after the compilation.
+		</p>
+	</div>
+	<script type="text/javascript">
+		new Vue({
+			el : ".Content",
+			data : {
+				name : "Santanu Bera"
+			}
+		});
+	</script>
+</body>
+</html>

@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Page LifeCycle</title>
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
+	<script type="text/javascript" src="../../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+
+
+<h1>DOMContentLoaded</h1>
+<p>This event occurs when the browser fully loaded <code>HTML</code>, and the <code>DOM</code> tree is built, but external resources like pictures <code>&lt;img></code> and stylesheets may be not yet loaded.</p>
+<p>The <code>DOMContentLoaded</code> event happens on the <code>document</code> object. So you cannot bind it with any element. We must use <code>addEventListener</code> to catch it:</p>
+<pre>
+&lt;script>
+  function ready() {
+    alert('DOM is ready');
+
+    // image is not yet loaded (unless was cached), so the size is 0x0
+    alert(`Image size: ${img.offsetWidth}x${img.offsetHeight}`);
+  }
+
+  document.addEventListener("DOMContentLoaded", ready);
+&lt;/script>
+
+&lt;img id="img" src="https://en.js.cx/clipart/train.gif?speed=1&cache=0">
+</pre>
+<p>In the example the <code>DOMContentLoaded</code> handler runs when the document is loaded and does not wait for the image to load. So alert shows zero sizes.</p>
+
+
+
+
+<h3>DOMContentLoaded and scripts</h3>
+<p>When the browser initially loads <code>HTML</code> and comes across a <code>&lt;script></code>...<code>&lt;/script></code> in the text, it can’t continue building <code>DOM</code>. It must execute the script right now. So <code>DOMContentLoaded</code> may only happen after all such scripts are executed.</p>
+<p>External scripts (with src) also put <code>DOM</code> building to pause while the script is loading and executing. So <code>DOMContentLoaded</code> waits for external scripts as well.</p>
+<p>The only exception are external scripts with <code>async</code> and defer attributes. They tell the browser to continue processing without waiting for the scripts. This lets the user see the page before scripts finish loading, which is good for performance.</p>
+
+
+
+
+<h3>Scripts with async and defer</h3>
+<p>Attributes <code>async</code> and <code>defer</code> work only for external scripts. They are ignored if there’s no <code>src</code>.</p>
+<p>Both of them tell the browser that it may go on working with the page, and load the script “in background”, then run the script when it loads. So the script doesn’t block DOM building and page rendering.</p>
+<p>There are two differences between them.</p>
+<table class="table">
+	<tr>
+		<th>Difference In</th>
+		<th>async</th>
+		<th>defer</th>
+	</tr>
+	<tr>
+		<td>Order</td>
+		<td>Scripts with <code>async</code> execute in the load-first order. Their document order doesn’t matter – which loads first runs first.</td>
+		<td>Scripts with <code>defer</code> always execute in the document order (as they go in the document).</td>
+	</tr>
+	<tr>
+		<td>DOMContentLoaded</td>
+		<td>Scripts with <code>async</code> may load and execute while the document has not yet been fully downloaded. That happens if scripts are small or cached, and the document is long enough.</td>
+		<td>Scripts with <code>defer</code> execute after the document is loaded and parsed (they wait if needed), right before <code>DOMContentLoaded</code> event occurs.</td>
+	</tr>
+</table>
+<p>So <code>async</code> is used for independent scripts, like counters or ads, that don’t need to access page content. And their relative execution order does not matter.</p>
+<p>While <code>defer</code> is used for scripts that need DOM and/or their relative execution order is important.</p>
+<p>DOMContentLoaded and styles</p>
+<p>External style sheets don’t affect DOM, as DOM is built using only HTML, and that's why <code>DOMContentLoaded</code> does not wait for them. But there’s a pitfall: if we have a script after the style, then that script must wait for the stylesheet to execute:</p>
+<pre>
+&lt;link type="text/css" rel="stylesheet" href="style.css">
+&lt;script>
+  // the script doesn't not execute until the stylesheet is loaded
+  alert(getComputedStyle(document.body).marginTop);
+&lt;/script>
+</pre>
+<p>The reason is that the script may want to get coordinates and other style-dependent properties of elements, like in the example above. Naturally, it has to wait for styles to load.</p>
+<p>As <code>DOMContentLoaded</code> waits for scripts, it now waits for styles before them as well.</p>
+
+
+
+
+
+<h1>window.onload</h1>
+<p>The load event on the window object triggers when the whole page is loaded including styles, images and other resources. The example below correctly shows image sizes, because window.onload waits for all images:</p>
+<pre>
+&lt;script>
+  window.onload = function() {
+    alert('Page loaded');
+
+    // image is loaded at this time
+    alert(`Image size: ${img.offsetWidth}x${img.offsetHeight}`);
+  };
+&lt;/script>
+
+&lt;img id="img" src="https://en.js.cx/clipart/train.gif?speed=1&cache=0">
+</pre>
+
+
+
+
+
+
+
+
+<h1>window.onunload</h1>
+<p>When a visitor leaves the page, the <code>unload</code> event triggers on window. We can do something there that doesn’t involve a delay, like closing related popup windows. But we can’t cancel the transition to another page. For that we should use another event – <code>onbeforeunload</code>.</p>
+<pre>
+&lt;script type="text/javascript">
+window.addEventListener("unload", function(){
+	console.log("Close");
+});
+&lt;/script>
+</pre>
+<p>You won't be able to see the console print because after it do the job it immediately closes the browser tab. So No waiting is involved. Event if you alert something it won't be shown as it causes delay.</p>
+
+
+
+
+
+
+
+
+
+<h1>window.onbeforeunload</h1>
+<p>If a visitor initiated navigation away from the page or tries to close the window, the beforeunload event occurs.</p>
+<pre>
+window.onbeforeunload = function() {
+  return "There are unsaved changes. Leave now?";
+};
+</pre>
+<script type="text/javascript">
+window.onbeforeunload = function() {
+  return "There are unsaved changes. Leave now?";
+};
+</script>
+<p>Try to reload the page or close the tab to see the effect.</p>
+
+
+
+
+
+<h1>readyState</h1>
+<p>What happens if we set the <code>DOMContentLoaded</code> handler after the document is loaded?</p>
+<p>Naturally, it never runs. Becuase the document is already loaded and if we attach <code>DOMContentLoaded</code> after the document is loaded, the event never occurs.</p>
+<p>There are cases when we are not sure whether the document is ready or not, for instance an external script with <code>async</code> attribute loads and runs asynchronously. Depending on the network, it may load and execute before the document is complete or after that, we can’t be sure. So we should be able to know the current state of the document.</p>
+<p>The <code>document.readyState</code> property gives us information about it. There are 3 possible values:</p>
+<ul>
+	<li><code>loading</code> : the document is loading.</li>
+	<li><code>interactive</code> : the document was fully read.</li>
+	<li><code>complete</code> : the document was fully read and all resources (like images) are loaded too.</li>
+</ul>
+<p>So we can check <code>document.readyState</code> and setup a handler or execute the code immediately if it’s ready.</p>
+<pre>
+function work() { /*...*/ }
+
+if (document.readyState == 'loading') {
+  document.addEventListener('DOMContentLoaded', work);
+} else {
+  work();
+}
+</pre>
+
+
+
+
+
+
+
+<h1>document.readystatechange</h1>
+<p>There’s a readystatechange event that triggers when the <code>readyState</code> changes, so we can print all these states like this:</p>
+<pre>
+// current state
+console.log(document.readyState);
+
+// print state changes
+document.addEventListener('readystatechange', () => console.log(document.readyState));
+</pre>
+
+
+
+
+
+
+
+
+<h1>Resource Loading : onload</h1>
+<p>The browser allows to track the loading of external resources – scripts, iframes, pictures and so on. There are two events for it:</p>
+<ul>
+	<li>onload : the document has been successfully loaded</li>
+	<li>onerror : there is a problem and couldn't load the resource successfully</li>
+</ul>
+<pre>
+let script = document.createElement('script');
+
+// can load any script, from any domain
+script.src = "https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.3.0/lodash.js"
+document.head.append(script);
+
+script.onload = function() {
+  // the script creates a helper function "_"
+  alert(_); // the function is available
+};
+</pre>
+<pre>
+let script = document.createElement('script');
+script.src = "https://example.com/404.js"; // no such script
+document.head.append(script);
+
+script.onerror = function() {
+  alert("Error loading " + this.src); // Error loading https://example.com/404.js
+};
+</pre>
+<p>You can also use <code>onerror</code> and <code>onload</code> attribute on the element.</p>
+<pre>
+&lt;script type="text/javascript" onload="scriptLoaded()" onerror="scriptLoadError()">&lt;/script>
+&lt;img src="" onload="imageLoaded" onerror="imageLoadError()">
+
+function scriptLoaded(){
+	// ....
+}
+function scriptLoadError(){
+	// ...
+}
+function imageLoaded(){
+	// ....
+}
+function imageLoadError(){
+	// ...
+}
+</pre>
+<p>These event also works for <code>iframe</code> element.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

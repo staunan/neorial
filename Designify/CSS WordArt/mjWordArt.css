@@ -1,0 +1,20 @@
+.wordArt {font-weight:bold; font-size:48px;}
+.wordArt.wordArt1 {color:#fff; text-shadow:-1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;}
+.wordArt.wordArt2 {color:#fff; text-shadow:3px 3px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;}
+.wordArt.wordArt3 {color:rgb(97, 97, 97); text-shadow:rgb(224, 224, 224) 1px 1px 0px;}
+.wordArt.wordArt4 {color:#fff; text-shadow:rgb(255, 255, 255) 0px -1px 4px, rgb(255, 255, 0) 0px -2px 10px, rgb(255, 128, 0) 0px -10px 20px, rgb(255, 0, 0) 0px -18px 40px;}
+.wordArt.wordArt5 {color:rgb(0, 89, 0); text-shadow:rgb(255, 252, 168) 2px 2px 0px, rgb(156, 156, 156) 4px 4px 0px;}
+.wordArt.wordArt6 {color:#fff; text-shadow:rgb(204, 204, 204) 0px 1px 0px, rgb(201, 201, 201) 0px 2px 0px, rgb(187, 187, 187) 0px 3px 0px, rgb(185, 185, 185) 0px 4px 0px, rgb(170, 170, 170) 0px 5px 0px, rgba(0, 0, 0, 0.0980392) 0px 6px 1px, rgba(0, 0, 0, 0.0980392) 0px 0px 5px, rgba(0, 0, 0, 0.298039) 0px 1px 3px, rgba(0, 0, 0, 0.14902) 0px 3px 5px, rgba(0, 0, 0, 0.2) 0px 5px 10px, rgba(0, 0, 0, 0.2) 0px 10px 10px, rgba(0, 0, 0, 0.0980392) 0px 20px 20px;}
+.wordArt.wordArt7 {color:#fff; text-shadow:0px 1px 0px #999, 0px 2px 0px #888, 0px 3px 0px #777, 0px 4px 0px #666, 0px 5px 0px #555, 0px 6px 0px #444, 0px 7px 0px #333, 0px 8px 7px #001135;}
+.wordArt.wordArt8 {color:#990F0A; text-shadow:5px 5px 0px #EEE, 7px 7px 0px #707070;}
+.wordArt.wordArt9 {color:#00ff0f; text-shadow:0px 0px 10px #00ff0f, -1px -1px #000;}
+.wordArt.wordArt10 {color:#333; text-shadow:-5px 5px 5px rgba(0,0,0, 0.3);}
+.wordArt.wordArt11 {color:rgba(0, 174, 239, 0.2); text-shadow:rgba(0, 0, 30, 0.08) 0px 5px 2px;}
+.wordArt.wordArt12 {color:transparent; text-shadow:rgba(245, 245, 255, 0.35) 0 0px 0px, rgba(0, 0, 30, 0.08) 0px 2px 2px, rgba(0, 0, 30, 0.20) 0px 2px 1px, rgba(0, 0, 30, 0.40) 0px 2px 1px, rgba(0, 0, 0, 0.08) -5px 5px 2px;}
+.wordArt.wordArt13 {color:rgba(0, 168, 255, 0.5); text-shadow:3px 3px 0 rgba(255, 0, 180, 0.5);}
+.wordArt.wordArt14 {color:#1657BD; -webkit-text-stroke:0.01em #91C2FC; filter:progid:DXImageTransform.Microsoft.Glow(Color=#91c2fc, Strength=1); text-shadow:0.04em 0.04em 0 #771515;}
+.wordArt.wordArt15 {color:#24c0fd; -webkit-text-stroke: 0.02em #0000aa; filter:progid:DXImageTransform.Microsoft.Glow(Color=#0000aa, Strength=1); text-shadow:0.13em -0.13em 0px #0000aa; letter-spacing:-0.05em;}
+.wordArt.wordArt16 {color:#333; -webkit-text-fill-color:transparent; position:relative; display:inline-block;}
+.wordArt.wordArt16:before {content:attr(title); position:absolute; left:0; top:0; z-index:2; background:-webkit-linear-gradient(left, rgb(176,9,151) 0%, rgb(227,33,107) 10%, rgb(249,96,30) 25%, rgb(255,180,18) 40%, rgb(255,216,45) 50%, rgb(185,221,23) 61%, rgb(65,160,60) 75%, rgb(19,54,180) 90%, rgb(116,27,157) 100%); -webkit-background-clip:text;
+    -webkit-text-fill-color: transparent;}
+.wordArt.wordArt16:after {content:attr(title); position:absolute; z-index:199; left:-6px; bottom:-10px; z-index:1; -webkit-text-fill-color:#000; -webkit-transform:skew(40deg, 0deg) scaleY(.5); opacity:.3;}

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Ripple</title>
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
+	<script type="text/javascript" src="../Assets/jquery.min.js"></script>
+    <link rel="stylesheet" href="../Assets/prism-dark.css">
+
+    <!-- Ripple.js -->
+    <link rel="stylesheet" type="text/css" href="Assets/Ripple.js/ripple.css">
+    <script type="text/javascript" src="Assets/Ripple.js/ripple.js"></script>
+</head>
+<body class="Body">
+	<div class="Content Card">
+		<h1>Ripple.js</h1>
+		<p>Lets learn how you can use this tiny library to add an awesome ripple effect on your element.</p>
+		<div style="display: flex; justify-content: center; align-items: center; height: 100px;">
+			<a style="margin-right: 10px;" class="button is-success">Hello</a>
+			<a class="button is-default">Hi There !</a>
+		</div>
+		<div style="display: flex; justify-content: center; align-items: center; height: 300px;">
+			<div style="width: 300px; height: 200px; background-color: rgba(0,0,0,0.7);" id="demoRipple">
+				
+			</div>
+		</div>
+		<h2>Installation</h2>
+		<p>
+			Include the following two files in your web page -
+		</p>
+		<pre><code class="language-html">
+			&lt;link href="stylesheet" type="text/css" href="ripple.css">
+			&lt;script type="text/javascript" src="ripple.min.js"></script>
+		</code></pre>
+		<p>
+			This is a jQuery plugin. So you need jQuery before you importing <code>ripple.js</code> file.
+		</p>
+		<h2>Usage</h2>
+		<p>
+			Here is the full code of this framework -
+		</p>
+		<pre><code class="language-javascript">
+			$.ripple(".btn", {
+				debug: false, // Turn Ripple.js logging on/off
+				on: 'mousedown', // The event to trigger a ripple effect
+
+				opacity: 0.4, // The opacity of the ripple
+				color: "auto", // Set the background color. If set to "auto", it will use the text color
+				multi: false, // Allow multiple ripples per element
+
+				duration: 0.7, // The duration of the ripple
+
+				// Filter function for modifying the speed of the ripple
+				rate: function(pxPerSecond) {
+			        return pxPerSecond;
+			    },
+
+				easing: 'linear' // The CSS3 easing function of the ripple
+			});
+		</code></pre>
+		<p>
+			Let's discuss one by one -
+		</p>
+		<p>
+			The only method <code>ripple</code> takes two argument. First is the element on which you want to activate the ripple effect and then Second argument specifies different option for customization. The first argument is the CSS query selector. You can use Id selector to target one element or you can use class selector to target multiple elements. If your CSS selector returns multiple element in the document, it will apply ripple effect to all of your button in the document that matches the query selector.
+		</p>
+		<p>
+			Second argument is an Object where you can set some options.
+		</p>
+		<p>
+			<code>debug</code> Normally you won't need it. If you set the value to true, upon clicking on the ripple effect attached button, there will be some log on the console. <br>
+			<code>opacity</code> You can set the opacity of the ripple. <br>
+			<code>color</code> It specifies the color of the ripple. <br>
+			<code>on</code> This is an interesting setting. You can trigger the ripple effect depending on different. You can use <code>mouseover</code>, <code>mouseup</code>, <code>mousedown</code> or <code>click</code>.
+			<code>duration</code> It specifies the Duration of the ripple animation. The value is in second.<br>
+			<code>easing</code> You can specify the CSS ease function here. You can use keywords like <code>ease-in</code>, <code>ease-out</code>, <code>ease-in-out</code> or you can even use cubic-bezier function. like the following. <br>
+			<code>multi</code> It enables the multiple ripple effect on the element. Let's increase the duration to 5 second to make it understand clearer. And set multi to <code>false</code>. Click on the div and it will start ripple animation. While the ripple is animating, click again on the div. The first animation will end instantly and the new ripple will begin. Now set the multi to <code>true</code>. Follow the same process and you will see there's multiple ripple animation animating at the same time. Click on the div frequently at the same place and it will form like a water wave.
+		</p>
+		<pre><code class="language-javascript">
+			$.ripple(".button", {
+				easing: 'cubic-bezier(0.25,0.1,0.25,1)'
+			});
+		</code></pre>
+		<p>All of the above options are optional. If you don't have any options and want to use all the default values, you can pass only the selector.</p>
+		<pre><code>
+			$.ripple(".button");
+		</code></pre>
+		<h1>Bugs</h1>
+		<p class="tips">
+			Multiple setting for multiple element is not working. The settings are overlapping. All the ripple animation always takes the last element's setting in the order the ripple function are bieng called.
+		</p>
+	</div>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$.ripple(".button");
+			$.ripple("#demoRipple",{
+				color:"green",
+				duration : 5,
+				multi : true,
+				on : "mousedown"
+			});
+		});
+	</script>
+</body>
+</html>

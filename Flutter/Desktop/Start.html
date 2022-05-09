@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Flutter on Desktop</title>
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+	<script type="text/javascript" src="../../Assets/prism.min.js"></script>
+	<script type="text/javascript" src="../../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+<h1>Configuring for Linux</h1>
+<p>First activate the flutter command</p>
+<pre>
+cd Development
+export PATH="$PATH:`pwd`/flutter/bin"
+</pre>
+
+
+<p>For Flutter to run on Desktop, we must be on the master channel, with the latest release. To ensure the same, fire up a terminal and run the following commands.</p>
+<pre>
+flutter channel master
+</pre>
+<p>You will see a output like the following:</p>
+<img src="../../Assets/flutter/masterChannel.png">
+<p>Now you need to run <code>flutter doctor</code> to see if everything is all right.</p>
+<pre>
+flutter doctor 
+</pre>
+<p>You will see output like below:</p>
+<img src="../../Assets/flutter/1_b61ck_NwGpEZQDk23Hp2NA.png">
+<p>Now with that out of our way, we can see that our even though I am on Ubuntu, the Linux system is not being displayed as a connected device, capable of running Flutter. This is because by default Flutter does not not have desktop support enabled.</p>
+<p>To enable support for your target environment:</p>
+<pre>
+Linux: $ flutter config --enable-linux-desktop
+macOS: $ flutter config --enable-macos-desktop
+Windows: $ flutter config --enable-windows-desktop
+</pre>
+<p>On linux the output would look like following:</p>
+<img src="../../Assets/flutter/enable_desktop_linux.png">
+<p>Now run <code>flutter doctor</code> to get the output like the following.</p>
+<img src="../../Assets/flutter/linux_toolchain.png">
+<p>You need to install toolchain for Linux as you will be developing Linux software. Go ahead and install the suggested tools from the above picture. If all goes fine, do a <code>flutter doctor</code> again.</p>
+<img src="../../Assets/flutter/doctorSuccessful.png">
+<p>Congratulations : Doctor said everything is fine. You are all set to create a new project.</p>
+
+
+
+
+
+
+
+<h1>Create Project</h1>
+<p>Flutter for Desktop is still an experimental feature, which means that there is no tooling support for Flutter, also the flutter create command does not currently support creating a new desktop application. So the only option is to manually configure the system specific files. Thankfully for us, the Flutter team at Google already did that for us.</p>
+<p>Go ahead and run this in the terminal:</p>
+<pre>
+git clone https://github.com/google/flutter-desktop-embedding.git
+cd flutter-desktop-embedding
+</pre>
+<p>This will clone the repo and if you open it your project directory would look like this:</p>
+<img src="../../Assets/flutter/flutterembed.png">
+<p>Now the folder <code>testbed</code> is what you will be working on. Get into the <code>testbed</code> directory and install the nessesary packages:</p>
+<pre>
+cd testbed
+flutter packages get
+</pre>
+<p>Just one last step before we go ahead and run our app. The desktop system specific build tools are not download by default, and even though Flutter will download the same when we first run our app, I want to ensure that we have it beforehand. To download the same, run:</p>
+<pre>
+flutter precache --linux
+</pre>
+<p>Congratulations! We are now ready to run our Flutter app as a Desktop application.</p>
+
+
+
+
+
+
+
+
+<h1>Running Flutter Desktop App</h1>
+<p>In the <code>testbed</code> directory, run the following command to run the app:</p>
+<pre>
+flutter run
+</pre>
+<p>It will lunch the app:</p>
+<img src="../../Assets/flutter/Flutter Testbed on linux_010.png">
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>
+

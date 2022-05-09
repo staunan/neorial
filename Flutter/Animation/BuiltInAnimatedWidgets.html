@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Custom Animation</title>
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+	<script type="text/javascript" src="../../Assets/prism.min.js"></script>
+	<script type="text/javascript" src="../../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+
+
+<h1>Built-in AnimatedWidget</h1>
+<p>Flutter ships with few built-in animated widgets. They are derived from <code>AnimatedWidget</code> class. They are named as <code>FooTransition</code> where <code>Foo</code> is the name of non-animated version of that widget or is the name of a animation. Commonly used animated widgets include:</p>
+<ol type="1">
+  <li><code>AnimatedBuilder</code>: The widget <code>AnimatedBuilder</code> is derived from <code>AnimatedWidget</code>. This widget violates the naming convention.</li>
+  <li><a href="AlignTransition.html">AlignTransition</a>: which is an animated version of <code>Align</code>.</li>
+  <li><a href="DecoratedBoxTransition.html">DecoratedBoxTransition</a>: which is an animated version of <code>DecoratedBox</code>.</li>
+  <li><code>DefaultTextStyleTransition</code>: which is an animated version of <code>DefaultTextStyle</code>.</li>
+  <li><code>PositionedTransition</code>: which is an animated version of <code>Positioned</code>.</li>
+  <li><code>RotationTransition</code>: which animates the rotation of a widget.</li>
+  <li><code>ScaleTransition</code>: which animates the scale of a widget.</li>
+  <li><code>SizeTransition</code>: which animates its own size.</li>
+  <li><code>SlideTransition</code>: which animates the position of a widget relative to its normal position.</li>
+  <li><code>FadeTransition</code>: which is an animated version of <code>Opacity</code>.</li>
+  <li><code>AnimatedModalBarrier</code>: which is an animated version of <code>ModalBarrier</code>.</li>
+</ol>
+<p>The above listed widgets are derived from <code>AnimatedWidget</code>. These class requires a <code>Animation&lt;T></code>(<code>Listenable</code>) object through their specific property. They use this <code>Animation</code> object to update their <code>child</code> whenever the <code>Animation</code> object changes their values. These are done by the widget itself. You have the full control of the animation, like using the animation object you can stop an animation or resume an animation.</p>
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>
+

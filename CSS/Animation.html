@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Animation</title>
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
+	<script type="text/javascript" src="../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+<h1>Animation</h1>
+<p>CSS animations are made up of two basic building blocks.</p>
+<ul>
+	<li><code>Keyframes</code> define the stages and styles of the animation.</li>
+	<li><code>Animation Properties</code> assign the @keyframes to a specific CSS element and define how it is animated.</li>
+</ul>
+
+
+<h1>Animatable Properties</h1>
+<p>Some CSS properties are animatable, meaning that they can be used in animations and transitions.</p>
+<p>Animatable properties can change gradually from one value to another, like size, numbers, percentage and color.</p>
+<p>There are lots of properties available in CSS. Not all the properties can be animatable. If a property is animatable, it means we can animate the property. Say, color is animatable property. We can animate the color property of an element, it means we can change the color of an element from red to blue or blue to red etc.</p>
+<p>Click here to know if an property is animatable, this link contains all the animatable properteis -</p>
+<a href="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_animated_properties">Mozilla - CSS animated properties</a>
+
+
+<h1>Keyframes</h1>
+<p>Keyframes are the foundation of CSS animations. They define what the animation looks like at each stage of the animation timeline. Each @keyframes is composed of:</p>
+<ul>
+	<li>Name of the animation: A name that describes the animation, for example, bounceIn</li>
+	<li>Stages of the animation: Each stage of the animation is represented as a percentage. 0% represents the beginning state of the animation. 100% represents the ending state of the animation. Multiple intermediate states can be added in between.</li>
+	<li>CSS Properties: The CSS properties defined for each stage of the animation timeline.</li>
+</ul>
+<p>Let’s take a look at a simple @keyframes I’ve named “bounceIn”. This @keyframes has three stages. At the first stage (0%), the element is at opacity 0 and scaled down to 10 percent of its default size, using CSS transform scale. At the second stage (60%) the element fades in to full opacity and grows to 120 percent of its default size. At the final stage (100%), it scales down slightly and returns to its default size.</p>
+<p>The @keyframes are added to your main CSS file.</p>
+<pre>
+@keyframes bounceIn {
+  0% {
+    transform: scale(0.1);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+</pre>
+
+
+<h1>Animation Properties</h1>
+<p>Once the @keyframes are defined, the animation properties must be added in order for your animation to function.</p>
+<p>Animation properties do two things:</p>
+<ul>
+	<li>They assign the @keyframes to the elements that you want to animate.</li>
+	<li>They define how it is animated.</li>
+</ul>
+<p>The animation properties are added to the CSS selectors (or elements) that you want to animate. You must add the following two animation properties for the animation to take effect:</p>
+<ul>
+	<li>animation-name: The name of the animation, defined in the @keyframes.</li>
+	<li>animation-duration: The duration of the animation, in seconds (e.g., 5s) or milliseconds (e.g., 200ms).</li>
+</ul>
+<p>Continuing with the above bounceIn example, we’ll add animation-name and animation-duration to the div that we want to animate.</p>
+<pre>
+div {
+  animation-duration: 2s;
+  animation-name: bounceIn;
+}
+</pre>
+<p>Shorthand syntax:</p>
+<pre>
+div.bounceIn{
+  animation: bounceIn 2s;
+}
+</pre>
+<style type="text/css">
+@keyframes bounceIn {
+  0% {
+    transform: scale(0.1);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+div.bounceIn{
+	width: 100px;
+	height: 100px;
+	background: crimson;
+  animation: bounceIn 2s;
+}
+</style>
+<p>By adding both the @keyframes and the animation properties, we have a simple animation!</p>
+<div class="box">
+	<div class="bounceIn"></div>
+</div>
+<p>Reload the page again to see the animation again. Now you know how to use animataion. Let's learn everything in details -</p>
+
+
+
+
+
+<h1>animation-name</h1>
+<p>This property is used to specify the name of the animation that we want to animate on the element. This name is the keyframe name that defines the animation. This property is required in order for the animation to work.</p>
+<pre>
+.example{
+	animation-name : slideUp;
+}	
+</pre>
+<p>This property can take <code>none</code> keyword as the value. It means that the element won't animate.</p>
+
+
+<h1>animation-duration</h1>
+<p>This property specifies the duration of the animation for how long the animation will continue. You can provide the value either in second or milliseconds. This is a required property and without this property the animation won't work.</p>
+<pre>
+.example{
+	animation-duration : 5s;
+}
+.example{
+	animation-duration: 1200ms;
+}
+</pre>
+
+
+
+
+<h1>animation-delay</h1>
+<p>This property is used to specify the delay duration for how long it should wait before the animation begins.</p>
+<p>When you activate the animation, if there's a animation-delay, then it will wait for that specified amount, otherwise the animation will start instantlyl.</p>
+<pre>
+.example{
+	animation-delay : 200ms;
+}
+</pre>
+<p>If you don't provide this property, the default value is 0, it means the animation will start immediately after activating the animation.</p>
+<p>Here is an example. Refresh the page to play the animation - </p>
+<style type="text/css">
+.ball{
+	height: 50px;
+	width: 50px;
+	border-radius: 50%;
+}
+.animateBall{
+	animation-name: moveRight;
+	animation-duration: 2s;
+}
+@keyframes moveRight{
+	0%{transform: translate(0px);}
+	50%{transform: translate(700px);}
+	100%{transform: translate(0px);}
+}
+</style>
+<pre>
+.ball{
+	height: 50px;
+	width: 50px;
+	border-radius: 50%;
+}
+.animateBall{
+	animation-name: moveRight;
+	animation-duration: 2s;
+}
+@keyframes moveRight{
+	0%{transform: translate(0px);}
+	50%{transform: translate(700px);}
+	100%{transform: translate(0px);}
+}
+&lt;div class="box" id="animateBall">
+	&lt;div class="ball animateBall" style="background: crimson; animation-delay: 0;">&lt;/div>
+	&lt;div class="ball animateBall" style="background: yellow; animation-delay: 100ms;">&lt;/div>
+	&lt;div class="ball animateBall" style="background: red; animation-delay: 200ms;">&lt;/div>
+	&lt;div class="ball animateBall" style="background: black; animation-delay: 300ms;">&lt;/div>
+	&lt;div class="ball animateBall" style="background: blue; animation-delay: 400ms;">&lt;/div>
+	&lt;div class="ball animateBall" style="background: pink; animation-delay: 500ms;">&lt;/div>
+&lt;/div>
+</pre>
+<div class="box" id="animateBall">
+	<div class="ball animateBall" style="background: crimson; animation-delay: 0;"></div>
+	<div class="ball animateBall" style="background: yellow; animation-delay: 100ms;"></div>
+	<div class="ball animateBall" style="background: red; animation-delay: 200ms;"></div>
+	<div class="ball animateBall" style="background: black; animation-delay: 300ms;"></div>
+	<div class="ball animateBall" style="background: blue; animation-delay: 400ms;"></div>
+	<div class="ball animateBall" style="background: pink; animation-delay: 500ms;"></div>
+</div>
+
+
+
+
+<h1>animation-timing-function</h1>
+<p>You have already learnt about <code>transition-timing-function</code>. <code>animation-timing-function</code> is the same thing. You can use the same value. The default value is <code>ease</code>which starts out slow, speeds up, then slows down. </p>
+<pre>
+.example{
+	animation-timing-function: ease-in-out;
+}
+</pre>
+<p>Here is an example. In the following example, we are using the above example, instead we have removed all the animation-delay property and substituted with animation-timing-function property. See the difference for each keyword -</p>
+<div class="box" id="animateBall">
+	<div class="ball animateBall" style="background: crimson; animation-timing-function: ease;"></div>
+	<div class="ball animateBall" style="background: yellow; animation-timing-function: ease-in;"></div>
+	<div class="ball animateBall" style="background: red; animation-timing-function: ease-out;"></div>
+	<div class="ball animateBall" style="background: black;  animation-timing-function: ease-in-out;"></div>
+	<div class="ball animateBall" style="background: blue; animation-timing-function: linear;"></div>
+	<div class="ball animateBall" style="background: pink; animation-timing-function: ease;"></div>
+</div>
+
+
+
+
+
+<h1>Animation-iteration-count</h1>
+<p>The animation-iteration-count: specifies the number of times that the animation will play. The possible values are:</p>
+<ul>
+	<li>A specific number of iterations (default is 1)</li>
+	<li><code>infinite</code> - the animation repeats forever.</li>
+</ul>
+<style type="text/css">
+@keyframes rotate{
+	0%{transform: rotate(0deg);}
+	50%{transform: rotate(360deg);}
+	100%{transform: rotate(0deg);}
+}
+.rotateBoxy{
+	width: 100px; 
+	height: 100px; 
+	background: crimson; 
+	border-top-left-radius: 50%; 
+	border-bottom-right-radius: 50%; 
+	animation-name: rotate;
+	animation-duration: 2s;
+	animation-iteration-count: infinite;
+}
+</style>
+<pre>
+	@keyframes rotate{
+	0%{transform: rotate(0deg);}
+	50%{transform: rotate(360deg);}
+	100%{transform: rotate(0deg);}
+}
+.rotateBoxy{
+	width: 100px; 
+	height: 100px; 
+	background: crimson; 
+	border-top-left-radius: 50%; 
+	border-bottom-right-radius: 50%; 
+	animation-name: rotate;
+	animation-duration: 2s;
+	animation-iteration-count: infinite;
+}
+&lt;div class="box" style="display: flex; justify-content: center; align-items: center;">
+	&lt;div class="rotateBoxy">&lt;/div>
+&lt;/div>
+</pre>
+<div class="box" style="display: flex; justify-content: center; align-items: center;">
+	<div class="rotateBoxy"></div>
+</div>
+<p>The example above will play the animation forever.</p>
+
+
+
+
+
+
+
+<h1>animation-direction</h1>
+<p>The animation-direction: property specifies whether the animation should play forward, reverse, or in alternate cycles.</p>
+<p>The possible values are:</p>
+<ul>
+	<li><code>normal</code> - The animation plays forward. On each cycle the animation resets to the beginning state (0%) and plays forward again (to 100%). This is the default value.</li>
+	<li><code>reverse</code> - The animation plays backwards. On each cycle the animation resets to the end state (100%) and plays backwards (to 0%).</li>
+	<li><code>alternate</code> - The animation reverses direction every cycle. On each odd cycle, the animation plays forward (0% to 100%). On each even cycle, the animation plays backwards (100% to 0%).</li>
+	<li><code>alternate-reverse</code> - The animation reverses direction every cycle. On each odd cycle, the animation plays in reverse (100% to 0%). On each even cycle, the animation plays forward (0% or 100%).</li>
+</ul>
+<style type="text/css">
+.ballx{
+	height: 40px;
+	width: 40px;
+	background: crimson;
+	border-radius: 50%;
+	margin: 20px;
+	animation-name: moveBallX;
+	animation-duration: 3s;
+}
+@keyframes moveBallX{
+	0%{transform: translate(0px);}
+	25%{transform: translate(200px);}
+	75%{transform: translate(-200px);}
+	100%{transform: translate(0);}
+}
+</style>
+<pre>
+.ballx{
+	height: 40px;
+	width: 40px;
+	background: crimson;
+	border-radius: 50%;
+	margin: 20px;
+	animation-name: moveBallX;
+	animation-duration: 3s;
+}
+@keyframes moveBallX{
+	0%{transform: translate(0px);}
+	25%{transform: translate(200px);}
+	75%{transform: translate(-200px);}
+	100%{transform: translate(0);}
+}
+&lt;div class="box" style="display: flex; justify-content: center; align-items: center; flex-direction: column;">
+	&lt;div class="ballx" style="animation-direction: normal;">&lt;/div>
+	&lt;div class="ballx" style="animation-direction: reverse;">&lt;/div>
+	&lt;div class="ballx" style="animation-direction: alternate;">&lt;/div>
+	&lt;div class="ballx" style="animation-direction: alternate-reverse;">&lt;/div>
+&lt;/div>
+</pre>
+<div class="box" style="display: flex; justify-content: center; align-items: center; flex-direction: column;">
+	<div class="ballx" style="animation-direction: normal;"></div>
+	<div class="ballx" style="animation-direction: reverse;"></div>
+	<div class="ballx" style="animation-direction: alternate;"></div>
+	<div class="ballx" style="animation-direction: alternate-reverse;"></div>
+</div>
+<p>Well, you cannot make much difference between normal and alternate if you place the animation only once or too few times to notice. Let's look at the following example we have animation-iteration-count to 10 -</p>
+<div class="box" style="display: flex; justify-content: center; align-items: center; flex-direction: column;">
+	<div class="ballx" style="animation-iteration-count: 10; animation-direction: normal;"></div>
+	<div class="ballx" style="animation-iteration-count: 10; animation-direction: reverse;"></div>
+	<div class="ballx" style="animation-iteration-count: 10; animation-direction: alternate;"></div>
+	<div class="ballx" style="animation-iteration-count: 10; animation-direction: alternate-reverse;"></div>
+</div>
+
+
+
+
+
+
+<h1>animation-fill-mode</h1>
+<p><code>animation-fill-mode</code> specifies if the animation styles are visible before or after the animation plays. This property is a little confusing, but once understood it is very useful.</p>
+<p>By default, the animation will not effect the styles of the element before the animation begins (if there is an animation-delay) or after the animation is finished. The animation-fill-mode property can override this behavior with the following possible values:</p>
+<ul>
+	<li>backwards - Before the animation (during the animation delay), the styles of the initial keyframe (0%) are applied to the element.</li>
+	<li>forwards - After the animation is finished, the styles defined in the final keyframe (100%) are retained by the element.</li>
+	<li>both - The animation will follow the rules for both forwards and backwards, extending the animation properties before and after the animation.</li>
+	<li>normal (default) - The animation does not apply any styles to the element, before or after the animation.</li>
+</ul>
+<p>Here is an example -</p>
+<pre>
+@keyframes enlarge{
+	from{transform: scale(1);}
+	to{transform: scale(2);}
+}
+.enlargeBox{
+	animation-name: enlarge;
+	animation-duration: 2s;
+	height: 50px;
+	width: 50px;
+	background: crimson;
+	border-radius: 50%;
+	margin: 30px;
+}
+.backwardFillMode{
+	animation-fill-mode: backwards;
+}
+.forwardFillMode{
+	animation-fill-mode: forwards;
+}
+.bothFillMode{
+	animation-fill-mode: both;
+}
+&lt;div class="box" style="height: 150px; display: flex; justify-content: center; align-items: center;">
+	&lt;div style="display: flex; justify-content: center; align-items: center;">
+		&lt;div class="enlargeBox">&lt;/div>
+		&lt;div class="enlargeBox backwardFillMode">&lt;/div>
+		&lt;div class="enlargeBox forwardFillMode">&lt;/div>
+		&lt;div class="enlargeBox bothFillMode">&lt;/div>
+	&lt;/div>
+&lt;/div>
+</pre>
+<style type="text/css">
+@keyframes enlarge{
+	from{transform: scale(1);}
+	to{transform: scale(2);}
+}
+.enlargeBox{
+	animation-name: enlarge;
+	animation-duration: 2s;
+	height: 50px;
+	width: 50px;
+	background: crimson;
+	border-radius: 50%;
+	margin: 30px;
+}
+.backwardFillMode{
+	animation-fill-mode: backwards;
+}
+.forwardFillMode{
+	animation-fill-mode: forwards;
+}
+.bothFillMode{
+	animation-fill-mode: both;
+}
+</style>
+<div class="box" style="height: 150px; display: flex; justify-content: center; align-items: center;">
+	<div style="display: flex; justify-content: center; align-items: center;">
+		<div class="enlargeBox"></div>
+		<div class="enlargeBox backwardFillMode"></div>
+		<div class="enlargeBox forwardFillMode"></div>
+		<div class="enlargeBox bothFillMode"></div>
+	</div>
+</div>
+<p>Refresh the page to play the animation again. As you can see, the first two ball returned back to the previous state it was before the animation. After the animation they are reset again with their original property.</p>
+<p>However the last two ball didn't returned back to the previous state, it catches the final state of the annimation and applies to the element after the animation.</p>
+
+
+
+
+
+
+<h1>animation-play-state</h1>
+<p>The animation-play-state: specifies whether the animation is playing or paused. Resuming a paused animation starts the animation where it was left off.</p>
+<p>The possible values are:</p>
+<ul>
+	<li>running - The animation is currently running</li>
+	<li>paused - The animation is currently paused</li>
+</ul>
+<p>Here is an demo -</p>
+<style type="text/css">
+.leave, .leave1{
+	height: 50px;
+	width: 50px;
+	border-top-left-radius: 50%;
+	border-bottom-right-radius: 50%;
+	height: 100px;
+	width: 100px;
+	background: crimson;
+	animation-name: rotating;
+	animation-duration: 2s;
+	animation-iteration-count: infinite;
+}
+.leave1{
+	animation-play-state: paused;
+}
+.leave1:hover{
+	animation-play-state: running;
+}
+.leave:hover{
+	animation-play-state: paused;
+}
+@keyframes rotating{
+	0%{transform: rotate(0deg);}
+	50%{transform: rotate(3600deg);}
+	100%{transform: rotate(0deg);}
+}
+</style>
+<pre>
+.leave{
+	height: 50px;
+	width: 50px;
+	border-top-left-radius: 50%;
+	border-bottom-right-radius: 50%;
+	height: 100px;
+	width: 100px;
+	background: crimson;
+	animation-name: rotating;
+	animation-duration: 2s;
+	animation-iteration-count: infinite;
+}
+.leave:hover{
+	animation-play-state: paused;
+}
+@keyframes rotating{
+	0%{transform: rotate(0deg);}
+	50%{transform: rotate(3600deg);}
+	100%{transform: rotate(0deg);}
+}
+&lt;div class="box" style="display: flex; justify-content: center; align-items: center; height: 150px;">
+	&lt;div class="leave">&lt;/div>
+&lt;/div>
+</pre>
+<div class="box" style="display: flex; justify-content: center; align-items: center; height: 150px;">
+	<div class="leave"></div>
+</div>
+<p>In the above example, we are pausing the animation on mouse hover on the element. The following example plays the aninmation on mouse hover - </p>
+<div class="box" style="display: flex; justify-content: center; align-items: center; height: 150px;">
+	<div class="leave1"></div>
+</div>
+
+
+
+
+
+
+
+<h1>animation</h1>
+<p><code>animation</code> is the shorthand property of all the above 6 properties.</p>
+<p>Following is the syntax -</p>
+<pre>
+animation: [animation-name] [animation-duration] [animation-timing-function]
+[animation-delay] [animation-iteration-count] [animation-direction]
+[animation-fill-mode] [animation-play-state];
+</pre>
+
+
+<h1>Add Multiple Animation</h1>
+<p>To add multiple animations to a selector, you simply separate the values with a comma. Here’s an example:</p>
+<pre>
+.div {
+  animation: slideIn 2s, rotate 1.75s;
+}
+.element {
+  animation: 
+    pulse 3s ease infinite alternate, 
+    nudge 5s linear infinite alternate;
+}
+</pre>
+
+
+
+
+<h1>Multiple steps</h1>
+<p>If an animation has the same starting and ending properties, it's useful to comma-separate the 0% and 100% values inside @keyframes:</p>
+<pre>
+@keyframes pulse {
+  0%, 100% {
+    background-color: yellow;
+  }
+  50% {
+    background-color: red;
+  }
+}
+</pre>
+
+
+
+
+<h1>from-to</h1>
+<p>Instead of using percentage you can use the keyword <code>from</code> and <code>to</code>. <code>from</code> means 0% and <code>to</code> means 100%.</p>
+<pre>
+@keyframes keyFromTo{
+	from{transform: scale(2);}
+	to{transform: scale(3);}
+}
+</pre>
+<style type="text/css">
+@keyframes keyFromTo{
+	from{transform: scale(2);}
+	to{transform: scale(3);}
+}
+.keyFromToX{
+	height: 100px;
+	width: 100px;
+	background: crimson;
+	border-radius: 50%;
+	animation: keyFromTo 3s;
+	animation-iteration-count: infinite;
+}
+</style>
+<div class="box" style="display: flex; justify-content: center; align-items: center; height: 350px;">
+	<div class="keyFromToX"></div>
+</div>
+<p>You can also combine percentage with keyword like this -</p>
+<pre>
+@keyframes keyFromTo{
+	from{transform: scale(2);}
+	50%{background: yellow;}
+	to{transform: scale(3);}
+}
+</pre>
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Basic</title>
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
+	<script type="text/javascript" src="../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+<h1>What is MJML?</h1>
+<p>MJML is a markup language designed to reduce the pain of coding a responsive email. Its semantic syntax makes it easy and straightforward and its rich standard components library speeds up your development time and lightens your email codebase. MJML’s open-source engine generates high quality responsive HTML compliant with best practices.</p>
+
+
+<h1>mjml</h1>
+<p>A MJML document starts with a <code>&lt;mjml></code> tag, it can contain only <code>mj-head</code> and <code>mj-body</code> tags. Both have the same purpose of head and body in a HTML document.</p>
+
+
+
+<h1>mj-head</h1>
+<p><code>mj-head</code> contains everything related to the document such as style and meta elements. It supports custom head elements and can be registered through registerMJHeadElement(&lt;string> name, &lt;function> handler) api from mjml-core, it acts as a pre-render hook. Note that this tag is optional.</p>
+
+
+
+<h1>mj-body</h1>
+<p><code>mj-body</code> contains everything related to the content of your email. It supports custom elements too and can be registered either through registerMJElement(&lt;MJMLElement> class) api from mjml-core or via a <code>.mjmlconfig</code> file. Unknown element from mjml-core are simply ignored. Note that <code>mj-body</code> should have only one root element due to how React works.</p>
+
+
+<h1>File Extension</h1>
+<p>Note that the file must be a file with a `.mjml` extension.</p>
+
+
+
+<h1>mj-include</h1>
+<p>The mjml-core package allows you to include external mjml files to build your email template.</p>
+<p>You can wrap your external mjml files inside the default mjml > mj-body tags to make it easier to preview outside the main template.</p>
+<p>The MJML engine will then replace your included files before starting the rendering process</p>
+<pre>
+&lt;!-- header.mjml -->
+&lt;mj-section>
+  &lt;mj-column>
+    &lt;mj-text>This is a header&lt;/mj-text>
+  &lt;/mj-column>
+&lt;/mj-section>
+
+&lt;!-- main.mjml -->
+&lt;mjml>
+  &lt;mj-body>
+    &lt;mj-include path="./header" /> &lt;!-- or 'header.mjml' -->
+  &lt;/mj-body>
+&lt;/mjml>
+</pre>
+
+
+</div>
+</body>
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>xTextBox</title>
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
+	<script type="text/javascript" src="../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+<h1>xTextBox</h1>
+<pre>
+let myTextbox = dom.createXElement(xTextBox, {
+	type: "xTextBox",
+	counter: "45",
+	prevent-overflow: true,
+	required: true,
+	disabled: true,
+});
+</pre>
+
+<p>Represents a TextBox. This component is built on top of <code>xInputWrapper</code>.</p>
+
+<h2>Attributes</h2>
+<h3>counter</h3>
+<p>Specifies the maximum number of character that can be allowed in the textbox. It also shows the counter.</p>
+
+<h3>prevent-overflow</h3>
+<p>If this attribute is true, then user cannot type more than maximum character that was specified by <code>counter</code> property.</p>
+
+<h3>required</h3>
+<p>Specifies that the field is required when used inside <code>xForm</code>. If <code>true</code>, whenever the textbox looses focus the component validates the data and shows error message if the value is empty.</p>
+
+<h3>disabled</h3>
+<p>The textbox will be blocked from interacting and visually will be grayed to show it is disabled input.</p>
+
+<h3>help-text</h3>
+<p>It takes a string that will be used to set the help text. Whenever the textbox gains focus, the help text becomes visible. Help text is shown in place of error message. If there is an error, then error message will take the priority.</p>
+
+<h3>format</h3>
+<p>The type of text that can be allowed in the text box. Currently it supports two value:</p>
+<ul>
+  <li><code>numeric</code>: Allows numeric value.</li>
+  <li><code>urlencodestring</code>: Text box for entering url.</li>
+</ul>
+<p>Without this attribute any text can be entered into the textbox.</p>
+
+<h3>autocomplete</h3>
+<p>By default the browser autofills the textbox. You can override this nature of the browser by passing an <code>autocomplete</code> attribute and giving the value <code>off</code>.</p>
+
+<h3>placeholder</h3>
+<p>Specifies the placeholder of the textbox. The placeholder is shown on over the editable area. If you provide both the <code>label</code> and <code>placeholder</code>, then both will be visible and overlap each other. This bug will be fixed very soon. The placeholder is useful when you don't need a label.</p>
+
+<p>You can provide the following attributes which are simply passed to the component <code>xInputWrapper</code>:</p>
+<ul>
+	<li>expand-collapse-icon</li>
+	<li>icon</li>
+	<li>label</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Media Query</title>
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
+	<script type="text/javascript" src="../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+<style type="text/css">
+	h3{margin-bottom: 0;}
+	h3+p{margin-top: 0;}
+</style>
+
+
+<h1>Media Query</h1>
+<p>Media queries can be used to check many things, such as:</p>
+<ul>
+	<li>Width and height of the viewport</li>
+	<li>Width and height of the device</li>
+	<li>Orientation (is the tablet/phone in landscape or portrait mode?)</li>
+	<li>Resolution</li>
+</ul>
+<p>Using media queries are a popular technique for delivering a different style sheet to desktops, laptops, tablets, and mobile phones (such as iPhone and Android phones).</p>
+<pre>
+
+	@media not|only mediatype and (expressions) {
+	    CSS-Code;
+	}
+
+</pre>
+<p>Media query start with the <code>@media</code> rule. After that we have logical operator(not, only). Finally we need to specify the media type and the keyword <code>and</code> followed by an expression within parenthesis.</p>
+<h3>Logical Operator</h3>
+<p>The logical operators not, and, and only can be used to compose a complex media query. You can also combine multiple media queries into a single rule by separating them with commas.</p>
+<p>You can use the following logical operator -</p>
+<ul>
+	<li><code>and</code> The and operator is used for combining multiple media features together into a single media query, requiring each chained feature to return true in order for the query to be true. It is also used for joining media features with media types.</li>
+	<li><code>not</code> The not operator is used to negate a media query, returning true if the query would otherwise return false. If present in a comma-separated list of queries, it will only negate the specific query to which it is applied. If you use the not operator, you must also specify a media type. <em>The not keyword can't be used to negate an individual media feature expression, only an entire media query.</em></li>
+	<li><code>only</code> The only operator is used to apply a style only if an entire query matches, and is useful for preventing older browsers from applying selected styles. If you use the only operator, you must also specify a media type.</li>
+	<li><code>,</code> Commas are used to combine multiple media queries into a single rule. Each query in a comma-separated list is treated separately from the others. Thus, if any of the queries in a list is true, the entire media statement returns true. In other words, lists behave like a logical or operator.</li>
+</ul>
+<h3>Media Type</h3>
+<p>Media types describe the general category of a device. When using the <code>not</code> or <code>only</code> logical operators, the media type is optional and the all type will be implied. You can use the following media type -</p>
+<ul>
+	<li><code>all</code> Suitable for all devices.</li>
+	<li><code>print</code> Intended for paged material and documents viewed on a screen in print preview mode. (Please see paged media for information about formatting issues that are specific to these formats.)</li>
+	<li><code>screen</code> Intended primarily for screens.</li>
+	<li><code>speech</code> Intended for speech synthesizers.</li>
+</ul>
+<h3>Media Features</h3>
+<p>Media features describe specific characteristics of the user agent, output device, or environment. Media feature expressions test for their presence or value, and are entirely optional. Each media feature expression must be surrounded by parentheses. There are lots of option for media feature and the followings are very popular -</p>
+<ul>
+	<li>width</li>
+	<li>height</li>
+	<li>orientation</li>
+	<li>resolution</li>
+	<li>aspect-ratio</li>
+	<li>scan</li>
+	<li>grid</li>
+	<li>update</li>
+</ul>
+<h1>Examples</h1>
+<pre>
+
+	@media screen and (min-width: 480px) {
+	    body {
+	        background-color: lightgreen;
+	    }
+	}
+
+	// or 
+
+	@media only screen and (min-width: 480px) {
+	    body {
+	        background-color: lightgreen;
+	    }
+	}
+
+</pre>
+<p>In the above example, we have two condition, one is the targeting device is screen and another is the min-width must be higher than 480px.</p>
+
+<pre>
+
+	@media screen and (max-width: 600px) {
+	  body {
+	    background-color: olive;
+	  }
+	}
+
+	// or
+
+	@media only screen and (max-width: 600px) {
+	  body {
+	    background-color: olive;
+	  }
+	}
+
+</pre>
+<p>On screens that are 600px or less, set the background color to olive.</p>
+
+<pre>
+
+	@media only screen and (orientation: landscape) {
+	    body {
+	        background-color: lightblue;
+	    }
+	}
+
+</pre>
+<p>In the above example, the CSS will be applied if the targeting media type is screen and the orientation is landscape.</p>
+<pre>
+
+	@media screen and (max-width: 900px) and (min-width: 600px) {
+	  div.example {
+	    font-size: 50px;
+	    padding: 50px;
+	    border: 8px solid black;
+	    background: yellow;
+	  }
+	}
+
+</pre>
+<p>We have three condition here, one the media type is screen, width must be less than 900px and width must be higher than 600px.</p>
+<pre>
+
+	@media screen and (max-width: 900px) and (min-width: 600px), (min-width: 1100px) {
+	  div.example {
+	    font-size: 50px;
+	    padding: 50px;
+	    border: 8px solid black;
+	    background: yellow;
+	  }
+	}
+
+</pre>
+<p>When the width is between 600px and 900px OR above 1100px - change the appearance of &lt;div></p>
+
+
+
+
+<h1><code>media</code> Attribute</h1>
+<p>You can also use the same media query syntax to load different CSS file depending on the conditions.</p>
+<pre>
+
+	&lt;link rel="stylesheet" media="mediatype and|not|only (expressions)" href="print.css">
+
+</pre>
+<p>For example -</p>
+<pre>
+	
+	&lt;link rel="stylesheet" media="screen and (max-width: 600px)" href="mobile.css">
+
+</pre>
+<p>The <code>mobile.css</code> file will be loaded if the screen width is less than 600px.</p>
+
+
+
+
+
+
+<h1>Viewport</h1>
+<p>The viewport is the user's visible area of a web page.</p>
+<p>The viewport varies with the device, and will be smaller on a mobile phone than on a computer screen. Before tablets and mobile phones, web pages were designed only for computer screens, and it was common for web pages to have a static design and a fixed size. Then, when we started surfing the internet using tablets and mobile phones, fixed size web pages were too large to fit the viewport. To fix this, browsers on those devices scaled down the entire web page to fit the screen. This was not perfect!! But a quick fix.</p>
+
+
+<h1>Setting Viewport</h1>
+<p>HTML5 introduced a method to let web designers take control over the viewport, through the <code>&lt;meta></code> tag. You should include the following <code>&lt;meta></code> viewport element in all your web pages:</p>
+<pre>
+	
+	&lt;meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+</pre>
+<p>A <code>&lt;meta></code> viewport element gives the browser instructions on how to control the page's dimensions and scaling. The <code>width=device-width</code> part sets the width of the page to follow the screen-width of the device (which will vary depending on the device). The <code>initial-scale=1.0</code> part sets the initial zoom level when the page is first loaded by the browser.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

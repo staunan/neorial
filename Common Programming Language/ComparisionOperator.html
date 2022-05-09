@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Comparision Operator</title>
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
+	<script type="text/javascript" src="../Assets/jquery.min.js"></script>
+	<link rel="stylesheet" href="../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+
+<h1>Comparision Operator</h1>
+<p>In programming language it is very frequent that we need to execute some statements based on <code>true</code> or <code>false</code>. But how would you determine something if true or false. Comparision Operators are used to determine if something is true or false. Here are common Comparision Operator available almost in every programming language -</p>
+<ul>
+	<li><code>></code> - Greater Than</li>
+	<li><code>&lt;</code> - Less Than</li>
+	<li><code>>=</code> - Greater Than or Equal To</li>
+	<li><code>&lt;=</code> - Less Than or Equal To</li>
+	<li><code>==</code> - Equals To</li>
+	<li><code>!=</code> - Not Equals To</li>
+	<li><code>===</code> - Strict Equals To</li>
+</ul>
+<p>You might already know all of the above except for last three operator. The first four operator are tought in school.</p>
+
+
+<h1>Greater Than</h1>
+<p>This operator returns true if the first operand is bigger than the second one. Other wise it returns false.</p>
+<pre>
+let a = 20;
+let b = 50;
+if(a>b){
+	console.log("This will never be printed as the condition becomes false.")
+}
+</pre>
+<p>Here, <code>a>b</code>, which is <code>20>50</code> evaluates to false. In other words, the <code>></code> operator returns false as 20 is not greater than 50.</p>
+<pre>
+if(b>a){
+	console.log("Got you");
+}
+</pre>
+<p>In the above example <code>b>a</code> evaluates to <code>true</code>, hence the string "Got you" gets printed on the console.</p>
+<pre>
+let a = 30;
+let b = 20;
+a>30               // false. As a is equals to 30
+a>b                // 30>a -- true
+</pre>
+
+
+
+
+
+
+
+<h1>Less Than</h1>
+<p>This operator returns true if the first operand is less than the second operand. Otherwise it returns false.</p>
+<pre>
+let a = 10;
+let b = 15;
+let c = 5;
+if(a&lt;b){   // true
+	console.log("Got you");
+}
+if(a&lt;c){   // false
+	console.log("You missed me");
+}
+</pre>
+
+
+
+
+
+<h1>Greater Than or Equals To</h1>
+<p>This operator returns true if the first operand is either bigger than the second operand or they are both equal. If the first operand is less than the second operand, it returns false.</p>
+<pre>
+let a = 30;
+let b = 50;
+let c = 30;
+let d = 15;
+a>=b          // false
+a>=c          // true
+a>=d          // true
+</pre>
+
+
+
+
+
+
+<h1>Less Than or Equals To</h1>
+<p>This operator returns true if the first operand is less than the second operand or they are both equal. If the first operand is bigger than the second operand, it returns false.</p>
+<pre>
+let a = 30;
+let b = 50;
+let c = 30;
+let d = 15;
+a&lt;=b          // true
+a&lt;=c          // true
+a&lt;=d          // false
+</pre>
+
+
+
+
+
+
+<h1>Equals To</h1>
+<p>This operator returns true, if the first operand is same as the second operand. If they are not equal, it returns false.</p>
+<pre>
+let a = 10;
+let b = 20;
+let c = 30;
+let d = 20;
+let name = "Santanu";
+let anotherName = "Santanu";
+a == b          // false
+b == c          // false
+c == d          // false
+b == d          // true
+name == anotherName    // true
+name == "Santanu"      // true
+name == "Santnau"      // false
+"Snatanu" == anotherName         // false
+true == true              // true
+false == false            // true
+true == false             // false
+false == true             // false
+</pre>
+
+
+
+
+
+
+
+<h1>Not Equals To</h1>
+<p>This operator returns false if the both operand is equals. If they are not equal, this operator returns true. So it is the opposite of Equals To operator.</p>
+<pre>
+let a = 10;
+let b = 20;
+let c = 30;
+let d = 20;
+let name = "Santanu";
+let anotherName = "Santanu";
+a != b          // true
+b != c          // true
+c != d          // true
+b != d          // false
+name != anotherName    // false
+name != "Santanu"      // false
+name != "Santnau"      // true
+"Snatanu" != anotherName         // true
+true != true              // false
+false != false            // false
+true != false             // true
+false != true             // true
+</pre>
+
+
+
+
+
+
+<h1>Strict Equals To</h1>
+<p>This comparision operator is same as Equals to Operator but with one exception. It just doesn't check the value. It also compare their data types. If their values are equals and also their data types are also equals, then this operator returns true. Otherwise it returns false. Even if the values are same but their data types do not match, it returns false.</p>
+<p>It is mostly used to check class objects, if both are of same type and they refer to same instance. For primitive type, we generally don't use that. But there might comes a situation when strict comparison is useful. For example in javascript -</p>
+<pre>
+"30" == 30            // true
+"30" === 30           // false
+</pre>
+<p>The Strict Equals To operator returns false as the first operand is string and second one is Number. In the first comparison, <code>"30" == 30</code>, the string is converted to Number first and then the comparision is performed. But in Strict comparision mode, no automatic type conversion happens, and hence the result also depends on their data types too.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+<h1>Points To Remember</h1>
+<ul>
+	<li>All of these operator works on both variable and literals.</li>
+	<li>All of these operators works well on all the primitive data types like integer, float, double, string, char etc.</li>
+	<li>They works on both negative or positive values.</li>
+	<li>The Operators <code>></code>, <code>>=</code>, <code>&lt;</code> and <code>&lt;=</code> only works on Number type like integer, double, float etc. They do not work on String or Character types. Some programming language allows them on Char or String data type which compares character by character from the left to right. These kind of comparision happens on character's Unicode number and compare which one is greater or less and then returns the ultimate result. However, it is very rare to compare string other than if they are equals or not.</li>
+	<li>The operator <code>==</code>, <code>!=</code>, and <code>===</code> allows to compare String, char and boolean type.</li>
+	<li>In the above examples, we have demonstrated those examples using literals like 20, 30 etc and variables like a, b, c etc. But in real life programming we can use function instead of just simple variable and constant. The returned value of the function is then used to compare with other operand. You can also use long expression. Or even function within expression to create complex expression. Whatever combination you use, it just doesn't matter. The final evaluated result will be used to compare with other operand and then the result of the comparion operator will be returned.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+<h1>String Comparision : “lexicographical” order</h1>
+<p>Some programming language allows you to compare string values, like Javascript and PHP.</p>
+<p>To see which string is greater than the other, the so-called “dictionary” or “lexicographical” order is used. In other words, strings are compared letter-by-letter.</p>
+<pre>
+alert( 'Z' > 'A' ); // true
+alert( 'Glow' > 'Glee' ); // true
+alert( 'Bee' > 'Be' ); // true
+</pre>
+<p>The algorithm to compare two strings is simple:</p>
+<ul>
+	<li>Compare first characters of both strings.</li>
+	<li>If the first one is greater(or less), then the first string is greater(or less) than the second. We’re done.</li>
+	<li>Otherwise if first characters are equal, compare the second characters the same way.</li>
+	<li>Repeat until the end of any string.</li>
+	<li>If both strings ended simultaneously, then they are equal. Otherwise the longer string is greater.</li>
+</ul>
+<p>In the example above, the comparison 'Z' > 'A' gets the result at the first step.</p>
+<p>Strings "Glow" and "Glee" are compared character-by-character:</p>
+<ul>
+	<li>G is the same as G.</li>
+	<li>l is the same as l.</li>
+	<li>o is greater than e. Stop here. The first string is greater.</li>
+</ul>
+<h3>Not a real dictionary, but Unicode order</h3>
+<p>The comparison algorithm given above is roughly equivalent to the one used in book dictionaries or phone books. But it’s not exactly the same.</p>
+<p>For instance, case matters. A capital letter "A" is not equal to the lowercase "a". Which one is greater? Actually, the lowercase "a" is. Why? Because the lowercase character has a greater index in the internal encoding table (Unicode).</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

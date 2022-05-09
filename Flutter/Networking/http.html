@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Using a Package in Flutter</title>
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+	<script type="text/javascript" src="../../Assets/prism.min.js"></script>
+	<script type="text/javascript" src="../../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+<h1>Installing http</h1>
+<p>Install the <code>http</code> package:</p>
+<pre>
+dependencies:
+  http: &lt;latest_version>
+</pre>
+<p>then import the package:</p>
+<pre>
+import 'package:http/http.dart' as http;
+</pre>
+<p>Go to the <a target="_blank" href="https://pub.dev/packages/http#-installing-tab-">Http</a> official website to know more.</p>
+
+
+
+
+<h1>Get Request</h1>
+<p>The method <code>http.get()</code> is used to make a get request. It returns a <code>Future</code> that contains a <code>Response</code></p>
+
+<pre>
+Future&lt;http.Response> fetchAlbum() {
+  return http.get('https://jsonplaceholder.typicode.com/albums/1');
+}
+</pre>
+<p>The <code>http.Response</code> class contains the data received from a successful http call.</p>
+
+
+
+
+
+<h1>http.Response</h1>
+<p>The <code>http.Response</code> class has a <code>statusCode</code> property which contains the status of the request. For example, on successful of fetching the data, the statusCode becomes <code>200</code>, or if you have any error in the server side it will contain <code>500</code> or if the api is invalid you might get statusCode <code>404</code>.</p>
+<p>You can use <code>body</code> property to obtain the response data.</p>
+<p>Here is an example:</p>
+
+<pre>
+final response = await http.get('https://jsonplaceholder.typicode.com/albums/1');
+
+if (response.statusCode == 200) {
+	// Do something
+	// Parse the data
+} else {
+	// Do something
+	// throw Exception('Failed');
+}
+</pre>
+
+
+
+<h1>Converting the Response Data</h1>
+<p>The <code>body</code> property of <code>http.Response</code> object contains the response result which is in string format. You can convert this data to <code>Map&lt;String, dynamic></code> using the following code:</p>
+<pre>
+String result = response.body;
+Map&lt;String, dynamic> mapResult = json.decode(result);
+</pre>
+<p>To use the method <code>json.decode</code> you need to import <code>convert</code> package.</p>
+<pre>
+import 'dart:convert';
+</pre>
+<p>You can also use <code>jsonDecode</code> method:</p>
+<pre>
+String result = response.body;
+Map&lt;String, dynamic> mapResult = jsonDecode(res.body);
+</pre>
+
+
+
+
+
+
+
+
+
+
+<h1>Making Post Request</h1>
+<p>Using <code>http.post</code> method you can make a post request to the server. It returns a Future that contains <code>Response</code>.</p>
+<pre>
+Future&lt;http.Response> createAlbum(String title) {
+  return http.post(
+    'https://jsonplaceholder.typicode.com/albums',
+    headers: &lt;String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
+    body: jsonEncode(&lt;String, String>{
+      'title': title,
+    }),
+  );
+}
+</pre>
+<p>The first argument is url to which the data will be sent.</p>
+<p>The named argument <code>headers</code> takes a <code>Map&lt;String, String></code> that defines the request header.</p>
+<p>The named argument <code>body</code> takes a string data that will be sent to the server. The method <code>jsonEncode()</code> takes a map and converts it into a string which will be sent to the server. To use this method you need to import <code>convert</code> package.</p>
+<p>This method returns <code>http.Response</code> data. That means you can convert the response data and check for status code the same way you would do for get request.</p>
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

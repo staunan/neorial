@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Classes</title>
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+	<script type="text/javascript" src="Assets/main.js"></script>
+</head>
+<body class="Body">
+	<div class="Content Card">
+		<h1>Classes</h1>
+		<pre>
+			class Greeter {
+			    greeting: string;
+			    constructor(message: string) {
+			        this.greeting = message;
+			    }
+			    greet() {
+			        return "Hello, " + this.greeting;
+			    }
+			}
+
+			let greeter = new Greeter("world");
+		</pre>
+		<p>
+			<code>class</code> is a keyword used to define a class. In this class we have a property <code>greeting</code>, a constructor, and a method <code>greet()</code>. All these are optional. If you want to access any of the property from constructor or method you will do it with the keyword <code>this</code>. It is actually a member access keyword. You can access method as well using <code>this</code>. Finally we are creating an instance of the class using the <code>new</code> keyword. While creating the instance it will automatically call the constructor so we must pass the required arguments that a constructor needs. We are doing that by passing the arguments while creating instance.
+		</p>
+		<h1>Inheritance</h1>
+		<pre>
+			class Student{
+				name:string;
+				constructor(name:string){
+					this.name = name;
+				}
+				getName():string{
+					return this.name;
+				}
+			}
+
+			class Boy extends Student{
+				rollNumber:number;
+				constructor(name:string,rollNo:number){
+					super(name);
+					this.rollNumber = rollNo;
+				}
+				getRollNumber():number{
+					return this.rollNumber;
+				}
+			}
+
+			let Amit = new Boy('Amit', 1);
+		</pre>
+		<p>
+			The class Boy derived from Student base class using the keyword <code>extends</code>. If your base class has any constructor you must call the base class constructor explicitily. While creating the instace of Boy class, it doesn't call Student constructor automatically. It only call the constructor of it's own class. And from the Boy constructor we must call Student class's constructor. We do that using <code>super</code> keyword. And this keyword must appear at the beginning of the constructor.
+		</p>
+		<pre>
+			super(arguments);
+		</pre>
+		<p>Arguments are the arguments that is required by the base class constructor.</p>
+		<p>
+			As the class Boy extends the class Student, all the property of the Student is now available in the Boy class. And we can access them.
+		</p>
+		<pre>
+			let Amit = new Boy('Amit',1);
+			console.log(Amit.getName()); // Amit
+			console.log(Amit.getRollNumber()); // 1
+		</pre>
+		<h1>Method Overloading</h1>
+		<pre>
+			class Student{
+				name:string;
+				constructor(name:string){
+					this.name = name;
+				}
+				getStudent():object{
+					return {
+						name : this.name
+					};
+				}
+			}
+
+			class Boy extends Student{
+				rollNumber:number;
+				constructor(name:string,rollNo:number){
+					super(name);
+					this.rollNumber = rollNo;
+				}
+				getStudent():object{
+					return {
+						name : this.name,
+						rollNumber : this.rollNumber
+					};
+				}
+			}
+			let Amit = new Boy('Amit',1);
+			console.log(Amit.getStudent());
+		</pre>
+		<p>
+			The subclass Boy overrides the getStudent method of the superclass Student. Now if you call the method getStudent, the method that is defined in the Boy class will be invoked.
+		</p>
+		<p>
+			The following will give you an error -
+		</p>
+		<pre>
+			class Student{
+				name:string;
+				constructor(name:string){
+					this.name = name;
+				}
+				getStudent():object{
+					return {
+						name : this.name
+					};
+				}
+				updateStudent(name:string):void{
+					this.name = name;
+				}
+			}
+
+			class Boy extends Student{
+				rollNumber:number;
+				constructor(name:string,rollNo:number){
+					super(name);
+					this.rollNumber = rollNo;
+				}
+				getStudent():object{
+					return {
+						name : this.name,
+						rollNumber : this.rollNumber
+					};
+				}
+				updateStudent(student:{name:string, rollNo : number}):void{
+					this.name = student.name;
+					this.rollNumber = student.rollNumber;
+				}
+			}
+		</pre>
+		<p>
+			As we are overloading a method that doesn't match with the parameter signature of the method that is defined in the base class, it will generate an error. So methods can only be overridden with the same parameter and return type signature in the derived class. The following is valid -
+		</p>
+		<pre>
+			class Boy extends Student{
+				rollNumber:number;
+				constructor(name:string,rollNo:number){
+					super(name);
+					this.rollNumber = rollNo;
+				}
+				getStudent():object{
+					return {
+						name : this.name,
+						rollNumber : this.rollNumber
+					};
+				}
+				updateStudent(name:string, rollNo?:number):void{
+					this.name = name;
+					this.rollNumber = rollNo;
+				}
+			}
+		</pre>
+		<p>
+			We have declared the rollNo as optional parameter. So that it matches with the method signature of the base class.
+			Now consider the following -
+		</p>
+		<pre>
+			let Amit = new Boy('Amit',1);
+			Amit.updateStudent("Amit Das");
+			console.log(Amit.getStudent()); // {name : "Amit Das", rollNumber : undefined}
+		</pre>
+		<p>
+			This will call the method of base class and as we are not passing any value for the optional paramter, it is simply <code>undefined</code>. Thinking of assigning a default value on the optional parameter? Well, TypeScript won't like it. You cannot have question mark and default value together.
+		</p>
+	</div>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+

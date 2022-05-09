@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Functions</title>
+    <link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+    <link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
+    <script type="text/javascript" src="../Assets/jquery.min.js"></script>
+    <link rel="stylesheet" href="../Assets/prism-dark.css">
+</head>
+<body class="Body">
+    <div class="Content Card">
+        <h1>Define Functions</h1>
+        <p>
+            You can define a Functions using the following syntax -
+        </p>
+        <pre>
+            function foo($arg1, $arg2, $arg3, ...., $argN)
+            {
+                // Body
+            }
+        </pre>
+        <p>
+            Functions need not be defined before they are referenced, except when a function is conditionally defined as shown in the two examples below.
+        </p>
+        <pre>
+            $makefoo = true;
+            /* We can't call foo() from here  since it doesn't exist yet, but we can call bar() */
+            bar();
+            if ($makefoo) {
+                function foo()
+                {
+                    echo "I don't exist until program execution reaches me.\n";
+                }
+            }
+            /* Now we can safely call foo() since $makefoo evaluated to true */
+
+            if ($makefoo) foo();
+
+            function bar() 
+            {
+                echo "I exist immediately upon program start.\n";
+            }
+        </pre>
+        <pre>
+            function foo() 
+            {
+                function bar() 
+                {
+                echo "I don't exist until foo() is called.\n";
+                }
+            }
+            
+            /* We can't call bar() yet
+                since it doesn't exist. */
+            
+            foo();
+            
+            /* Now we can call bar(),
+                foo()'s processing has
+                made it accessible. */
+            
+            bar();
+        </pre>
+        <p>
+            All functions and classes in PHP have the global scope - they can be called outside a function even if they were defined inside and vice versa. PHP does not support function overloading, nor is it possible to undefine or redefine previously-declared functions.                            
+        </p>
+        <h1>Calling Functions</h1>
+        <p>
+            As you saw already in the above example, you just give the name and put arguments inside the parenthesis if the function has parameters. like this -
+        </p>
+        <pre>
+            function one(){
+                // Body
+            }
+            function two($arg1){
+                // Body
+            }
+            function three($arg1, $arg2){
+                // Body
+            }
+            // Now you can call these methods using the following statement --
+            one();
+            two($arg1);
+            three($arg1, $arg2);
+        </pre>
+        <p>Note that you are calling these methods from directly outside of the functions. What if you are calling from a function? Well, it's same -</p>
+        <pre>
+            function one($arg1){
+                // Body
+            }
+            function two(){
+                one($arg1);
+            }
+        </pre>
+        <p>
+            This is good as long as these functions are outside the class. When you have a class and multiple methods defined inside the class and you are calling a method from the another method of the same class, the calling statement is little different. You use <code>$this->methodName([arguments])</code> syntax to call a method of the same class. You will learn more about class in later section.
+        </p>
+        <h1>Returning Value</h1>
+        <p>A function can return a value. A function can return only one value. If you want a function to return a value just use <code>return</code> statement. You can return any value that is supported by PHP, from small chunk of literal to Big data, there's no limit. If you use return statement, the function ends its execution immediately and pass control back to the line from which it was called.</p>
+        <pre>
+            function foo(){
+                // Statements...
+                return $value;
+            }
+
+            $returnedValue = foo();
+        </pre>
+        <p>Now, <code>$returnedValue</code> contains the value that is returned from the function <code>foo</code>.</p>
+        <p>By default, a function returns <code>null</code> if we don't use return statement.</p>
+        <p>If you want to return multiple value, you can return a single array that contains multiple value.</p>
+    </div>
+</body>
+</html>
+<!DOCTYPE html>

@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Dimension</title>
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+	<script src="../Assets/prism.min.js"></script>
+	<script type="text/javascript" src="../Assets/jquery.min.js"></script>
+    <link rel="stylesheet" href="../Assets/prism-dark.css">
+    <style type="text/css">
+    	.Demo{
+    		height: 100vh;
+    	}
+    </style>
+</head>
+<body class="Body">
+	<div class="Content Card">
+		<h1>Height</h1>
+		<p>
+			The height CSS property specifies the height of an element. By default, the property defines the height of the content area. If box-sizing is set to border-box, it instead determines the height of the border area.
+		</p>
+		<p>
+			The negative value is not allowed. You can not apply height property to non-replaced inline element like span, code, var etc including table columns and column group.
+		</p>
+		<p>
+			The default value is <code>auto</code>. It means the height will be as tall as the content grows vertically. 
+		</p>
+		<p>
+			You can give value of height in percentage, em, px, rem vh etc.
+		</p>
+		<p>
+			Never use height in percentage. It's not wrong to use but you have to use it very carefully. Because using percentage is very tricky and id depends on the parent height behaviour. However, what you are trying to achieve using percentage value, you can get the same result with the flexbox with much more flexibility which we will cover later.
+		</p>
+		<h1>Width</h1>
+		<p>
+			The width property specifies the width of an element. By default, the property defines the width of the content area. If box-sizing is set to border-box, it instead determines the width of the border area.
+		</p>
+		<p>
+			The negative value is not allowed. You can not apply width property to non-replaced inline element like span, code, var etc including table columns and column group.
+		</p>
+		<p>
+			You can give value of height in percentage, em, px, rem vh etc.
+		</p>
+		<p>
+			When using percentage (%) for width, authors must be aware that the percentage is based on the element's parent, or in other words, the width of the containing block. If your parent is set at 480px - as demonstrated by our demo - then the percentage is based on that value. So in our case 50% of 480px leaves us with 240px as a computed pixel value.
+		</p>
+		<pre>
+			div{
+				height : 100px;
+				width : 100px;
+			}
+		</pre>
+		<h1>max-width and min-width</h1>
+		<p>
+			<code>max-width</code> specifies the maximum width of the element and <code>min-width</code> specifies the minimum width of the element. In any cases, the with of the element will never exceeds the max-width and never be less than the min-width. Look at the following example, we set the width is larger than the max-width of the element -
+		</p>
+		<pre>
+			div{
+				width : 100px;
+				max-width : 50px;
+				height : 30px;
+				background-color: red;
+			}
+		</pre>
+		<div style="display: flex; justify-content: center; align-items: center;">
+			<div style="width: 100px; max-width: 50px; height: 30px; background: red;"></div>
+		</div>
+		<p>But if you have the max-width larger than the actual width you will set get the actual width but in case the content grows the element makes sure that the with never will exceeds it's max-width</p>
+		<pre>
+			div{
+				width : 100px;
+				max-width : 150px;
+				height : 30px;
+				background-color: red;
+			}
+		</pre>
+		<div style="display: flex; justify-content: center; align-items: center;">
+			<div style="width: 100px; max-width: 50px; height: 30px; background: red;"></div>
+		</div>
+		<p>
+			The same principle applies to min-width property. In any cases it makes sure that the width will never go below the min-width, no matter how small your content is.
+		</p>
+		<pre>
+			div{
+				width : 0;
+				min-width : 50px;
+				height : 30px;
+				background-color: red;
+			}
+		</pre>
+		<div style="display: flex; justify-content: center; align-items: center;">
+			<div style="width: 0; min-width: 50px; height: 30px; background: red;"></div>
+		</div>
+		<p>As you can see, even if the width is 0, the width is overritten by min-width.</p>
+		<h1>min-height and max-height</h1>
+		<p>
+			Same as min-width, min-height specifies the minimum height of the element. And max-height specifies the maximum height of the element.
+		</p>
+		<p>There's no way you can make the element's height smaller than the min-height and larger than the max-height.</p>
+		<pre>
+			div{
+				width : 100px;
+				min-height : 100px;
+				height : 30px;
+				background-color: red;
+			}
+		</pre>
+		<div style="display: flex; justify-content: center; align-items: center;">
+			<div style="width: 100px; min-height: 100px; height: 30px; background: red;"></div>
+		</div>
+		<pre>
+			div{
+				width : 100px;
+				max-height : 200px;
+				height : 30px;
+				background-color: red;
+			}
+		</pre>
+		<div style="display: flex; justify-content: center; align-items: center;">
+			<div style="width: 100px; min-height: 200px; height: 30px; background: red;">
+				This is a lots of text This is a lots of text This is a lots of text This is a lots of text This is a lots of text This is a lots of text 
+			</div>
+		</div>
+		<h1>Overflow</h1>
+		<p>
+			As you can see the above text has gone outside of the div. The content inside it needs more space than the element's size. In this case we can control these overflow behaviour with the overflow property.
+		</p>
+		<p>The overflow property specifies what happens if content overflows an element's box. It has the following syntax - </p>
+		<p>
+			overflow: visible|hidden|scroll|auto|initial|inherit;
+		</p>
+		<p><code>visible</code> specifies that the overflow content is not clipped. It renders outside the element's box. This is default.</p>
+		<p><code>hidden</code> specifies that the overflow content(rest of the content that goes outside of the container element) will be hidden.</p>
+		<p>
+			<code>scroll</code> specifies that there will always be scrollbar. The scrollbar will be disabled by default if the content is perfectly fitted in the container. But if the content goes outside of the container, the scrollbar will be activated. This value will add both horizontal and vertical scrollbar.
+		</p>
+		<p>
+			<code>auto</code> specifies that initially there will not be any scrollbar. If the content goes outside of the container, then and only then the scrollbar will be added dynamically by the browser to scroll the rest of the content. This value add scrollbar when you need and where you need. It may add vertical or horizontal or even both, depending on the content.
+		</p>
+		<pre>
+			&lt;div style="width: 100px; min-height: 200px; height: 30px; background: red; overflow: scroll;">
+				This is a lots of text This is a lots of text This is a lots of text This is a lots of 
+				text This is a lots of text This is a lots of text This is a lots of text This is a lots 
+				of text This is a lots of text This is a lots of text This is a lots of text This is a 
+				lots of text 
+				&lt;div style="width: 300px; ">
+					This is a lots of text This is a lots of text This is a lots of text This is a 
+					lots of text This is a lots of text This is a lots of text This is a lots of text 
+					This is a lots of text This is a lots of text This is a lots of text This 
+					is a lots of text This is a lots of text 
+				&lt;/div>
+			&lt;/div>
+		</pre>
+		<div style="width: 100px; min-height: 200px; height: 30px; background: red; overflow: scroll;">
+			This is a lots of text This is a lots of text This is a lots of text This is a lots of text This is a lots of text This is a lots of text This is a lots of text This is a lots of text This is a lots of text This is a lots of text This is a lots of text This is a lots of text 
+			<div style="width: 300px; ">
+				This is a lots of text This is a lots of text This is a lots of text This is a lots of text This is a lots of text This is a lots of text This is a lots of text This is a lots of text This is a lots of text This is a lots of text This is a lots of text This is a lots of text 
+			</div>
+		</div>
+		<h1>overflow-x &amp; overflow-y</h1>
+		<p>
+			Note that, overflow is the shorthand of overflow-x and overflow-y. Overflow is for controlling both horizontal and vertical scrollbar, where's overflow-x is for controlling only horizontal and overflow-y is for controlling only vertical scrollbar.
+		</p>
+		<p>
+			Note that the following never works. <code>scroll</code> and <code>visible</code> never work together.
+		</p>
+		<pre>
+			&lt;div style="width: 100px; min-height: 200px; height: 30px; background: red; overflow-y: scroll; overflow-x: visible;">
+				This is a lots of text This is a lots of text This is a lots of text This is a 
+				lots of text This is a lots of text This is a lots of text 
+				&lt;div style="height: 10px; width: 200px; background: green;">&lt;/div>
+			&lt;/div>
+		</pre>
+		<div style="display: flex; justify-content: center; align-items: center;">
+			<div style="width: 100px; min-height: 200px; height: 30px; background: red; overflow-y: scroll; overflow-x: visible;">
+				This is a lots of text This is a lots of text This is a lots of text This is a lots of text This is a lots of text This is a lots of text 
+				<div style="height: 10px; width: 200px; background: green;"></div>
+			</div>
+		</div>
+		<p class="tip">
+			To get around with the above unusual behaviour you can use hidden. So if you don't want a scrollbar use <code>hidden</code> value. But remember you cannot overflow only one side. You have to overflow on both. So applying <code>visible</code> only on one side never works.
+		</p>
+	</div>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+

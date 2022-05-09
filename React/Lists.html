@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Syntax</title>
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
+	<script type="text/javascript" src="../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+<h1>Lists and Keys</h1>
+<p>You can build collections of elements and include them in JSX using curly braces <code>{}</code>.</p>
+<p>Below, we loop through the numbers array using the JavaScript <code>map()</code> function. We return a <code>&lt;li></code> element for each item. Finally, we assign the resulting array of elements to <code>listItems</code>:</p>
+<pre>
+const numbers = [1, 2, 3, 4, 5];
+const listItems = numbers.map((number) =>
+  &lt;li>{number}&lt;/li>
+);
+</pre>
+<p>We include the entire <code>listItems</code> array inside a <code>&lt;ul></code> element, and render it to the <code>DOM</code>:</p>
+<pre>
+ReactDOM.render(
+  &lt;ul>{listItems}&lt;/ul>,
+  document.getElementById('root')
+);
+</pre>
+<p>This code displays a bullet list of numbers between 1 and 5. Usually you would render lists inside a component.</p>
+<p>We can refactor the previous example into a component that accepts an array of numbers and outputs an unordered list of elements.</p>
+<pre>
+function NumberList(props) {
+  const numbers = props.numbers;
+  const listItems = numbers.map((number) =>
+    &lt;li>{number}&lt;/li>
+  );
+  return (
+    &lt;ul>{listItems}&lt;/ul>
+  );
+}
+
+const numbers = [1, 2, 3, 4, 5];
+ReactDOM.render(
+  &lt;NumberList numbers={numbers} />,
+  document.getElementById('root')
+);
+</pre>
+<p>When you run this code, you’ll be given a warning that a key should be provided for list items. A “key” is a special string attribute you need to include when creating lists of elements. We’ll discuss why it’s important in the next section.</p>
+<p>Let’s assign a <code>key</code> to our list items inside <code>numbers.map()</code> and fix the missing key issue.</p>
+<pre>
+function NumberList(props) {
+  const numbers = props.numbers;
+  const listItems = numbers.map((number) =>
+    &lt;li key={number.toString()}>
+      {number}
+    &lt;/li>
+  );
+  return (
+    &lt;ul>{listItems}&lt;/ul>
+  );
+}
+
+const numbers = [1, 2, 3, 4, 5];
+ReactDOM.render(
+  &lt;NumberList numbers={numbers} />,
+  document.getElementById('root')
+);
+</pre>
+
+
+
+
+
+
+<h1>Keys</h1>
+<p>Keys help React identify which items have changed, are added, or are removed. Keys should be given to the elements inside the array to give the elements a stable identity:</p>
+<pre>
+const numbers = [1, 2, 3, 4, 5];
+const listItems = numbers.map((number) =>
+  &lt;li key={number.toString()}>
+    {number}
+  &lt;/li>
+);
+</pre>
+<p>The best way to pick a key is to use a string that uniquely identifies a list item among its siblings. Most often you would use IDs from your data as keys:</p>
+<pre>
+const todoItems = todos.map((todo) =>
+  &lt;li key={todo.id}>
+    {todo.text}
+  &lt;/li>
+);
+</pre>
+<p>When you don’t have stable IDs for rendered items, you may use the item index as a key as a last resort:</p>
+<pre>
+const todoItems = todos.map((todo, index) =>
+  // Only do this if items have no stable IDs
+  &lt;li key={index}>
+    {todo.text}
+  &lt;/li>
+);
+</pre>
+<p>We don’t recommend using indexes for keys if the order of items may change. This can negatively impact performance and may cause issues with component state. Check out Robin Pokorny’s article for an <a href="https://medium.com/@robinpokorny/index-as-a-key-is-an-anti-pattern-e0349aece318">in-depth explanation on the negative impacts of using an index as a key</a>. If you choose not to assign an explicit key to list items then React will default to using indexes as keys.</p>
+<p><a href="https://reactjs.org/docs/reconciliation.html#recursing-on-children">Here is an in-depth explanation about why keys are necessary if you’re interested in learning more.</a></p>
+
+
+
+
+
+
+
+<h1>Extracting Components with Keys</h1>
+<p>Keys only make sense in the context of the surrounding array.</p>
+<p>For example, if you extract a ListItem component, you should keep the key on the <code>&lt;ListItem /></code> elements in the array rather than on the <code>&lt;li></code> element in the ListItem itself.</p>
+<h4>Incorrect Usage of Key</h4>
+<pre>
+function ListItem(props) {
+  const value = props.value;
+  return (
+    // Wrong! There is no need to specify the key here:
+    &lt;li key={value.toString()}>
+      {value}
+    &lt;/li>
+  );
+}
+
+function NumberList(props) {
+  const numbers = props.numbers;
+  const listItems = numbers.map((number) =>
+    // Wrong! The key should have been specified here:
+    &lt;ListItem value={number} />
+  );
+  return (
+    &lt;ul>
+      {listItems}
+    &lt;/ul>
+  );
+}
+
+const numbers = [1, 2, 3, 4, 5];
+ReactDOM.render(
+  &lt;NumberList numbers={numbers} />,
+  document.getElementById('root')
+);
+</pre>
+<h4>Correct Usage of Key</h4>
+<pre>
+function ListItem(props) {
+  // Correct! There is no need to specify the key here:
+  return &lt;li>{props.value}&lt;/li>;
+}
+
+function NumberList(props) {
+  const numbers = props.numbers;
+  const listItems = numbers.map((number) =>
+    // Correct! Key should be specified inside the array.
+    &lt;ListItem key={number.toString()}
+              value={number} />
+
+  );
+  return (
+    &lt;ul>
+      {listItems}
+    &lt;/ul>
+  );
+}
+
+const numbers = [1, 2, 3, 4, 5];
+ReactDOM.render(
+  &lt;NumberList numbers={numbers} />,
+  document.getElementById('root')
+);
+</pre>
+<p>A good rule of thumb is that elements inside the <code>map()</code> call need keys.</p>
+
+
+
+
+<h1>Keys Must Only Be Unique Among Siblings</h1>
+<p>Keys used within arrays should be unique among their siblings. However they don’t need to be globally unique. We can use the same keys when we produce two different arrays:</p>
+<pre>
+function Blog(props) {
+  const sidebar = (
+    &lt;ul>
+      {props.posts.map((post) =>
+        &lt;li key={post.id}>
+          {post.title}
+        &lt;/li>
+      )}
+    &lt;/ul>
+  );
+  const content = props.posts.map((post) =>
+    &lt;div key={post.id}>
+      &lt;h3>{post.title}&lt;/h3>
+      &lt;p>{post.content}&lt;/p>
+    &lt;/div>
+  );
+  return (
+    &lt;div>
+      {sidebar}
+      &lt;hr />
+      {content}
+    &lt;/div>
+  );
+}
+
+const posts = [
+  {id: 1, title: 'Hello World', content: 'Welcome to learning React!'},
+  {id: 2, title: 'Installation', content: 'You can install React from npm.'}
+];
+ReactDOM.render(
+  &lt;Blog posts={posts} />,
+  document.getElementById('root')
+);
+</pre>
+
+
+
+
+
+<h1>Don't access key as props in the Component</h1>
+<p>Keys serve as a hint to React but they don’t get passed to your components. If you need the same value in your component, pass it explicitly as a prop with a different name:</p>
+<pre>
+const content = posts.map((post) =>
+  &lt;Post
+    key={post.id}
+    id={post.id}
+    title={post.title} />
+);
+</pre>
+<p>With the example above, the Post component can read <code>props.id</code>, but not <code>props.key</code>.</p>
+
+
+
+
+<h1>Embedding map() in JSX</h1>
+<p>In the examples above we declared a separate <code>listItems</code> variable and included it in JSX:</p>
+<pre>
+function NumberList(props) {
+  const numbers = props.numbers;
+  const listItems = numbers.map((number) =>
+    &lt;ListItem key={number.toString()}
+              value={number} />
+
+  );
+  return (
+    &lt;ul>
+      {listItems}
+    &lt;/ul>
+  );
+}
+</pre>
+<p>JSX allows embedding any expression in curly braces so we could inline the <code>map()</code> result:</p>
+<pre>
+function NumberList(props) {
+  const numbers = props.numbers;
+  return (
+    &lt;ul>
+      {numbers.map((number) =>
+        &lt;ListItem key={number.toString()} value={number} />
+      )}
+    &lt;/ul>
+  );
+}
+</pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Path</title>
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+	<script type="text/javascript" src="../../Assets/prism.min.js"></script>
+	<script type="text/javascript" src="../../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+
+<h1>Path</h1>
+<p>path is a core module that is used to work with file and folder paths so that the code works seamlessly on any platform.</p>
+<h1>path.join()</h1>
+<p>On Windows paths are separated using a <code>\</code>, while on POSIX (Unix, macOS) paths are separated by a <code>/</code>. Therefore, a path might be <code>app\server.js</code> on Windows and <code>app/server.js</code> on POSIX (Unix, macOS). This difference between platforms can cause problems when a path is a hard coded string.</p>
+<p>The <code>path.join()</code> method is used to create paths that are platform independent. You should use <code>path.join()</code> instead of hard coding the path because <code>path.join()</code> is guaranteed to work across platforms.</p>
+<pre>
+const path = require('path');
+const server = require(path.join('app', 'server.js'));
+// On windows it will be "app\server.js"
+// On POSIX it will be "app/server.js".
+</pre>
+<p>You can combine <code>path.join()</code> with <code>__dirname</code> to use an absolute path instead of a relative one:</p>
+<pre>
+const path = require('path')
+const server = require(path.join(__dirname, 'app', 'server.js')) 
+</pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

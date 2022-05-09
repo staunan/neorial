@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Class Inheritance</title>
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+	<script type="text/javascript" src="../../Assets/prism.min.js"></script>
+	<script type="text/javascript" src="../../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+
+<h1>Inheritance</h1>
+<p>Classes can extend one another. There’s a nice syntax, technically based on the prototypal inheritance. To inherit from another class, we should specify "<code>extends</code>" and the parent class before the brackets <code>{..}</code>.</p>
+<p>Here <code>Rabbit</code> inherits from <code>Animal</code>:</p>
+<pre>
+class Animal {
+
+  constructor(name) {
+    this.speed = 0;
+    this.name = name;
+  }
+
+  run(speed) {
+    this.speed += speed;
+    alert(`${this.name} runs with speed ${this.speed}.`);
+  }
+
+  stop() {
+    this.speed = 0;
+    alert(`${this.name} stopped.`);
+  }
+
+}
+
+// Inherit from Animal
+class Rabbit extends Animal {
+  hide() {
+    alert(`${this.name} hides!`);
+  }
+}
+
+let rabbit = new Rabbit("White Rabbit");
+
+rabbit.run(5); // White Rabbit runs with speed 5.
+rabbit.hide(); // White Rabbit hides!
+</pre>
+<p>The <code>extends</code> keyword actually adds a <code>[[Prototype]]</code> reference from <code>Rabbit.prototype</code> to <code>Animal.prototype</code>, just as you expect it to be, and as we’ve seen before.</p>
+<img src="../Assets/img/animal-rabbit-extends.png">
+<p>So now <code>rabbit</code> has access both to its own methods and to methods of <code>Animal</code>.</p>
+
+
+
+
+
+
+
+
+
+
+<h1>Overriding a method</h1>
+<p>Now let’s move forward and override a method. As of now, <code>Rabbit</code> inherits the <code>stop</code> method that sets <code>this.speed = 0</code> from <code>Animal</code>. If we specify our own <code>stop</code> in <code>Rabbit</code>, then it will be used instead:</p>
+<pre>
+class Rabbit extends Animal {
+  stop() {
+    // ...this will be used for rabbit.stop()
+  }
+}
+</pre>
+
+
+
+
+
+
+<h1>super</h1>
+<p>…But usually we don’t want to totally replace a parent method, but rather to build on top of it, tweak or extend its functionality. We do something in our method, but call the parent method before/after it or in the process. Classes provide "<code>super</code>" keyword for that.</p>
+<ul>
+	<li><code>super.method(...)</code> to call a parent method.</li>
+	<li><code>super(...)</code> to call a parent constructor (inside our constructor only).</li>
+</ul>
+<pre>
+class Animal {
+
+  constructor(name) {
+    this.speed = 0;
+    this.name = name;
+  }
+
+  run(speed) {
+    this.speed += speed;
+    alert(`${this.name} runs with speed ${this.speed}.`);
+  }
+
+  stop() {
+    this.speed = 0;
+    alert(`${this.name} stopped.`);
+  }
+
+}
+
+class Rabbit extends Animal {
+  hide() {
+    alert(`${this.name} hides!`);
+  }
+
+  stop() {
+    super.stop(); // call parent stop
+    this.hide(); // and then hide
+  }
+}
+
+let rabbit = new Rabbit("White Rabbit");
+
+rabbit.run(5); // White Rabbit runs with speed 5.
+rabbit.stop(); // White Rabbit stopped. White rabbit hides!
+</pre>
+<p>Now <code>Rabbit</code> has the stop method that calls the parent <code>super.stop()</code> in the process.</p>
+<h3>Arrow functions have no <code>super</code></h3>
+<p>Arrow functions has no super. If accessed, it’s taken from the outer function. For instance:</p>
+<pre>
+class Rabbit extends Animal {
+  stop() {
+    setTimeout(() => super.stop(), 1000); // call parent stop after 1sec
+  }
+}
+</pre>
+<p>The <code>super</code> in the arrow function is the same as in stop(), so it works as intended. If we specified a “regular” function here, there would be an error:</p>
+<pre>
+// Unexpected super
+setTimeout(function() { super.stop() }, 1000);
+</pre>
+
+
+
+
+
+
+
+<h1>Overriding constructor</h1>
+<p>Till now, <code>Rabbit</code> did not have its own constructor. According to the specification, if a class extends another class and has no <code>constructor</code>, then the following <code>constructor</code> is generated:</p>
+<pre>
+class Rabbit extends Animal {
+  // generated for extending classes without own constructors
+  constructor(...args) {
+    super(...args);
+  }
+}
+</pre>
+<p>As we can see, it basically calls the parent <code>constructor</code> passing it all the arguments. That happens if we don’t write a <code>constructor</code> of our own.</p>
+<p>Now let’s add a custom constructor to <code>Rabbit</code>. It will specify the <code>earLength</code> in addition to <code>name</code>:</p>
+<pre>
+class Animal {
+  constructor(name) {
+    this.speed = 0;
+    this.name = name;
+  }
+  // ...
+}
+
+class Rabbit extends Animal {
+
+  constructor(name, earLength) {
+    this.speed = 0;
+    this.name = name;
+    this.earLength = earLength;
+  }
+
+  // ...
+}
+
+// Doesn't work!
+let rabbit = new Rabbit("White Rabbit", 10); // Error: this is not defined.
+</pre>
+<p>Whoops! We’ve got an error. Now we can’t create rabbits. What went wrong?</p>
+<p>The short answer is: constructors in inheriting classes must call <code>super(...)</code>, and  do it before using <code>this</code>.</p>
+<p>In JavaScript, there’s a distinction between a “constructor function of an inheriting class” and all others. In an inheriting class, the corresponding constructor function is labelled with a special internal property [[ConstructorKind]]:"derived".</p>
+<p>The difference is:</p>
+<ul>
+	<li>When a normal <code>constructor</code> runs, it creates an empty object as <code>this</code> and continues with it.</li>
+	<li>But when a derived constructor runs, it doesn’t do it. It expects the parent constructor to do this job.</li>
+</ul>
+<p>So if we’re making a constructor of our own, then we must call <code>super</code>, because otherwise the object with <code>this</code> reference to it won’t be created. And we’ll get an error.</p>
+<p>For <code>Rabbit</code> to work, we need to call <code>super()</code> before using <code>this</code>, like here:</p>
+<pre>
+class Animal {
+
+  constructor(name) {
+    this.speed = 0;
+    this.name = name;
+  }
+
+  // ...
+}
+
+class Rabbit extends Animal {
+
+  constructor(name, earLength) {
+    super(name);
+    this.earLength = earLength;
+  }
+
+  // ...
+}
+
+// now fine
+let rabbit = new Rabbit("White Rabbit", 10);
+alert(rabbit.name); // White Rabbit
+alert(rabbit.earLength); // 10
+</pre>
+
+
+
+
+
+
+
+
+
+
+
+<h1>Super: internals, [[HomeObject]]</h1>
+<p>Let’s get a little deeper under the hood of <code>super</code>. We’ll see some interesting things by the way.</p>
+<p>First to say, from all that we’ve learned till now, it’s impossible for <code>super</code> to work.</p>
+<p>Yeah, indeed, let’s ask ourselves, how it could technically work? When an object method runs, it gets the current object as <code>this</code>. If we call <code>super.method()</code> then, how to retrieve the method? Naturally, we need to take the method from the prototype of the current object. How, technically, we (or a JavaScript engine) can do it?</p>
+<p>Maybe we can get the method from <code>[[Prototype]]</code> of <code>this</code>, as <code>this.__proto__.method</code>? Unfortunately, that doesn’t work.</p>
+<p>Let’s try to do it. Without classes, using plain objects for the sake of simplicity. Here, <code>rabbit.eat()</code> should call <code>animal.eat()</code> method of the parent object:</p>
+<pre>
+let animal = {
+  name: "Animal",
+  eat() {
+    alert(`${this.name} eats.`);
+  }
+};
+
+let rabbit = {
+  __proto__: animal,
+  name: "Rabbit",
+  eat() {
+    // that's how super.eat() could presumably work
+    this.__proto__.eat.call(this); // (*)
+  }
+};
+
+rabbit.eat(); // Rabbit eats.
+</pre>
+<p>At the line (*) we take <code>eat</code> from the prototype (animal) and call it in the context of the current object. Please note that <code>.call(this)</code> is important here, because a simple <code>this.__proto__.eat()</code> would execute parent <code>eat</code> in the context of the prototype, not the current object.</p>
+<p>And in the code above it actually works as intended: we have the correct <code>alert</code>.</p>
+<p>Now let’s add one more object to the chain. We’ll see how things break:</p>
+<pre>
+let animal = {
+  name: "Animal",
+  eat() {
+    alert(`${this.name} eats.`);
+  }
+};
+
+let rabbit = {
+  __proto__: animal,
+  eat() {
+    // ...bounce around rabbit-style and call parent (animal) method
+    this.__proto__.eat.call(this); // (*)
+  }
+};
+
+let longEar = {
+  __proto__: rabbit,
+  eat() {
+    // ...do something with long ears and call parent (rabbit) method
+    this.__proto__.eat.call(this); // (**)
+  }
+};
+
+longEar.eat(); // Error: Maximum call stack size exceeded
+</pre>
+<p>The code doesn’t work anymore! We can see the error trying to call <code>longEar.eat()</code>.</p>
+<p>It may not be that obvious, but if we trace <code>longEar.eat()</code> call, then we can see why. In both lines (*) and (**) the value of <code>this</code> is the current object (<code>longEar</code>). That’s essential: all object methods get the current object as <code>this</code>, not a prototype or something.</p>
+<p>So, in both lines (*) and (**) the value of <code>this.__proto__</code> is exactly the same: <code>rabbit</code>. They both call <code>rabbit.eat</code> without going up the chain in the endless loop.</p>
+<p>Here’s the picture of what happens:</p>
+<ul>
+  <li>
+    Inside <code>longEar.eat()</code>, the line (**) calls rabbit.eat providing it with <code>this=longEar</code>.
+    <pre>
+    // inside longEar.eat() we have this = longEar
+    this.__proto__.eat.call(this) // (**)
+    // becomes
+    longEar.__proto__.eat.call(this)
+    // that is
+    rabbit.eat.call(this);
+    </pre>
+  </li>
+  <li>
+    <p>Then in the line (*) of <code>rabbit.eat</code>, we’d like to pass the call even higher in the chain, but <code>this=longEar</code>, so <code>this.__proto__.eat</code> is again <code>rabbit.eat</code>!</p>
+    <pre>
+    // inside rabbit.eat() we also have this = longEar
+    this.__proto__.eat.call(this) // (*)
+    // becomes
+    longEar.__proto__.eat.call(this)
+    // or (again)
+    rabbit.eat.call(this);
+    </pre>
+  </li>
+  <li>…So <code>rabbit.eat</code> calls itself in the endless loop, because it can’t ascend any further.</li>
+</ul>
+
+
+
+
+
+
+
+
+<h1>[[HomeObject]]</h1>
+<p>To provide the solution, JavaScript adds one more special internal property for functions: <code>[[HomeObject]]</code>.</p>
+<p style="font-weight: 500; font-style: italic;">When a function is specified as a class or object method, its <code>[[HomeObject]]</code> property becomes that object.</p>
+<p>This actually violates the idea of “unbound” functions, because methods remember their objects. And <code>[[HomeObject]]</code> can’t be changed, so this bound is forever. So that’s a very important change in the language.</p>
+<p>But this change is safe. <code>[[HomeObject]]</code> is used only for calling parent methods in <code>super</code>, to resolve the prototype. So it doesn’t break compatibility.</p>
+<pre>
+let animal = {
+  name: "Animal",
+  eat() {         // [[HomeObject]] == animal
+    alert(`${this.name} eats.`);
+  }
+};
+
+let rabbit = {
+  __proto__: animal,
+  name: "Rabbit",
+  eat() {         // [[HomeObject]] == rabbit
+    super.eat();
+  }
+};
+
+let longEar = {
+  __proto__: rabbit,
+  name: "Long Ear",
+  eat() {         // [[HomeObject]] == longEar
+    super.eat();
+  }
+};
+
+longEar.eat();  // Long Ear eats.
+</pre>
+<p>Every method remembers its object in the internal <code>[[HomeObject]]</code> property. Then <code>super</code> uses it to resolve the parent prototype.</p>
+<p><code>[[HomeObject]]</code> is defined for methods defined both in classes and in plain objects. But for objects, methods must be specified exactly the given way: as <code>method()</code>, not as "<code>method: function()</code>".</p>
+<p>In the example below a non-method syntax is used for comparison. <code>[[HomeObject]]</code> property is not set and the inheritance doesn’t work:</p>
+<pre>
+let animal = {
+  eat: function() { // should be the short syntax: eat() {...}
+    // ...
+  }
+};
+
+let rabbit = {
+  __proto__: animal,
+  eat: function() {
+    super.eat();
+  }
+};
+
+rabbit.eat();  // Error calling super (because there's no [[HomeObject]])
+</pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h1>Static methods and inheritance</h1>
+<p>The <code>class</code> syntax supports inheritance for static properties too.</p>
+<pre>
+class Animal {
+
+  constructor(name, speed) {
+    this.speed = speed;
+    this.name = name;
+  }
+
+  run(speed = 0) {
+    this.speed += speed;
+    alert(`${this.name} runs with speed ${this.speed}.`);
+  }
+
+  static compare(animalA, animalB) {
+    return animalA.speed - animalB.speed;
+  }
+
+}
+
+// Inherit from Animal
+class Rabbit extends Animal {
+  hide() {
+    alert(`${this.name} hides!`);
+  }
+}
+
+let rabbits = [
+  new Rabbit("White Rabbit", 10),
+  new Rabbit("Black Rabbit", 5)
+];
+
+rabbits.sort(Rabbit.compare);
+
+rabbits[0].run(); // Black Rabbit runs with speed 5.
+</pre>
+<p>Now we can call <code>Rabbit.compare</code> assuming that the inherited <code>Animal.compare</code> will be called.</p>
+<p>How does it work? Again, using prototypes. As you might have already guessed, extends also gives Rabbit the <code>[[Prototype]]</code> reference to <code>Animal</code>.</p>
+<img src="../Assets/img/animal-rabbit-static.png">
+<p>So, <code>Rabbit</code> function now inherits from <code>Animal</code> function. And <code>Animal</code> function normally has <code>[[Prototype]]</code> referencing <code>Function.prototype</code>, because it doesn’t extend anything.</p>
+<p>Here, let’s check that:</p>
+<pre>
+class Animal {}
+class Rabbit extends Animal {}
+
+// for static propertites and methods
+alert(Rabbit.__proto__ === Animal); // true
+
+// and the next step is Function.prototype
+alert(Animal.__proto__ === Function.prototype); // true
+
+// that's in addition to the "normal" prototype chain for object methods
+alert(Rabbit.prototype.__proto__ === Animal.prototype);
+</pre>
+<p>This way <code>Rabbit</code> has access to all static methods of <code>Animal</code>.</p>
+
+
+<H3>Static methods and inheritance</H3>
+<p>Please note that built-in classes don’t have such static <code>[[Prototype]]</code> reference. For instance, Object has <code>Object.defineProperty</code>, <code>Object.keys</code> and so on, but Array, Date etc do not inherit them.</p>
+<p>Here’s the picture structure for <code>Date</code> and <code>Object</code>:</p>
+<img src="../Assets/img/object-date-inheritance.png">
+<p>Note, there’s no link between <code>Date</code> and <code>Object</code>. Both <code>Object</code> and <code>Date</code> exist independently. <code>Date.prototype</code> inherits from <code>Object.prototype</code>, but that’s all.</p>
+<p>Such difference exists for historical reasons: there was no thought about class syntax and inheriting static methods at the dawn of JavaScript language.</p>
+
+
+
+
+
+
+
+
+<h1>Natives are extendable</h1>
+<p>Built-in classes like <code>Array</code>, <code>Map</code> and others are extendable also. For instance, here <code>PowerArray</code> inherits from the native <code>Array</code>:</p>
+<pre>
+// add one more method to it (can do more)
+class PowerArray extends Array {
+  isEmpty() {
+    return this.length === 0;
+  }
+}
+
+let arr = new PowerArray(1, 2, 5, 10, 50);
+alert(arr.isEmpty()); // false
+
+let filteredArr = arr.filter(item => item >= 10);
+alert(filteredArr); // 10, 50
+alert(filteredArr.isEmpty()); // false
+</pre>
+<p>Please note one very interesting thing. Built-in methods like <code>filter</code>, <code>map</code> and others – return new objects of exactly the inherited type. They rely on the constructor property to do so. In the example above,</p>
+<pre>
+arr.constructor === PowerArray
+</pre>
+<p>So when <code>arr.filter()</code> is called, it internally creates the new array of results exactly as new <code>PowerArray</code>. And we can keep using its methods further down the chain. Even more, we can customize that behavior. The static getter <code>Symbol.species</code>, if exists, returns the constructor to use in such cases.</p>
+<p>For example, here due to <code>Symbol.species</code> built-in methods like <code>map</code>, <code>filter</code> will return “normal” arrays:</p>
+<pre>
+class PowerArray extends Array {
+  isEmpty() {
+    return this.length === 0;
+  }
+
+  // built-in methods will use this as the constructor
+  static get [Symbol.species]() {
+    return Array;
+  }
+}
+
+let arr = new PowerArray(1, 2, 5, 10, 50);
+alert(arr.isEmpty()); // false
+
+// filter creates new array using arr.constructor[Symbol.species] as constructor
+let filteredArr = arr.filter(item => item >= 10);
+
+// filteredArr is not PowerArray, but Array
+alert(filteredArr.isEmpty()); // Error: filteredArr.isEmpty is not a function
+</pre>
+<p>We can use it in more advanced keys to strip extended functionality from resulting values if not needed. Or, maybe, to extend it even further.</p>
+
+
+
+
+
+
+
+
+<h1>Class checking: "instanceof"</h1>
+<p>The <code>instanceof</code> operator allows to check whether an object belongs to a certain class. It also takes inheritance into account.</p>
+<pre>
+obj instanceof Class
+</pre>
+<p>It returns <code>true</code> if obj belongs to the <code>Class</code> (or a class inheriting from it).</p>
+<pre>
+class Rabbit {}
+let rabbit = new Rabbit();
+
+// is it an object of Rabbit class?
+alert( rabbit instanceof Rabbit ); // true
+</pre>
+<p>It also works with constructor functions:</p>
+<pre>
+// instead of class
+function Rabbit() {}
+
+alert( new Rabbit() instanceof Rabbit ); // true
+</pre>
+<p>…And with built-in classes like <code>Array</code>:</p>
+<pre>
+let arr = [1, 2, 3];
+alert( arr instanceof Array ); // true
+alert( arr instanceof Object ); // true
+</pre>
+<p>Please note that <code>arr</code> also belongs to the <code>Object</code> class. That’s because <code>Array</code> prototypally inherits from <code>Object</code>.</p>
+<p>The <code>instanceof</code> operator examines the prototype chain for the check, and is also fine-tunable using the static method <code>Symbol.hasInstance</code>. The algorithm of obj instanceof Class works roughly as follows:</p>
+<ul>
+  <li>
+    If there’s a static method <code>Symbol.hasInstance</code>, then use it. Like this:
+    <pre>
+    // assume anything that canEat is an animal
+    class Animal {
+      static [Symbol.hasInstance](obj) {
+        if (obj.canEat) return true;
+      }
+    }
+
+    let obj = { canEat: true };
+    alert(obj instanceof Animal); // true: Animal[Symbol.hasInstance](obj) is called
+    </pre>
+  </li>
+  <li>
+    Most classes do not have <code>Symbol.hasInstance</code>. In that case, check if <code>Class.prototype</code> equals to one of prototypes in the obj prototype chain. In other words, compare:
+    <pre>
+    obj.__proto__ === Class.prototype
+    obj.__proto__.__proto__ === Class.prototype
+    obj.__proto__.__proto__.__proto__ === Class.prototype
+    ...
+    </pre>
+  </li>
+</ul>
+<p>In the example above <code>Rabbit.prototype === rabbit.__proto__</code>, so that gives the answer immediately. In the case of an inheritance, rabbit is an instance of the parent class as well:</p>
+<pre>
+class Animal {}
+class Rabbit extends Animal {}
+
+let rabbit = new Rabbit();
+alert(rabbit instanceof Animal); // true
+// rabbit.__proto__ === Rabbit.prototype
+// rabbit.__proto__.__proto__ === Animal.prototype (match!)
+</pre>
+<p>Here’s the illustration of what <code>rabbit instanceof Animal</code> compares with <code>Animal.prototype</code>:</p>
+<img src="../Assets/img/instanceof.png">
+
+
+
+
+
+
+
+
+<h1>isPrototypeOf()</h1>
+<p>By the way, there’s also a method <code>objA.isPrototypeOf(objB)</code>, that returns <code>true</code> if <code>objA</code> is somewhere in the chain of prototypes for <code>objB</code>. So the test of <code>obj instanceof Class</code> can be rephrased as <code>Class.prototype.isPrototypeOf(obj)</code>.</p>
+<p>That’s funny, but the <code>Class</code> constructor itself does not participate in the check! Only the chain of prototypes and <code>Class.prototype</code> matters. That can lead to interesting consequences when <code>prototype</code> is changed.</p>
+<pre>
+function Rabbit() {}
+let rabbit = new Rabbit();
+
+// changed the prototype
+Rabbit.prototype = {};
+
+// ...not a rabbit any more!
+alert( rabbit instanceof Rabbit ); // false
+</pre>
+<p>That’s one of the reasons to avoid changing prototype. Just to keep safe.</p>
+
+
+
+
+
+
+
+
+
+<h1>Symbol.toStringTag</h1>
+<p>We already know that plain objects are converted to string as [object Object]:</p>
+<pre>
+let obj = {};
+
+alert(obj); // [object Object]
+alert(obj.toString()); // the same
+</pre>
+<p>That’s their implementation of <code>toString</code>. But there’s a hidden feature that makes <code>toString</code> actually much more powerful than that. We can use it as an extended <code>typeof</code> and an alternative for <code>instanceof</code>.</p>
+<p>By specification, the built-in <code>toString</code> can be extracted from the object and executed in the context of any other value. And its result depends on that value.</p>
+<ul>
+  <li>For a number, it will be [object Number]</li>
+  <li>For a boolean, it will be [object Boolean]</li>
+  <li>For null: [object Null]</li>
+  <li>For undefined: [object Undefined]</li>
+  <li>For arrays: [object Array]</li>
+  <li>…etc (customizable).</li>
+</ul>
+<pre>
+// copy toString method into a variable for convenience
+let objectToString = Object.prototype.toString;
+
+// what type is this?
+let arr = [];
+
+alert( objectToString.call(arr) ); // [object Array]
+</pre>
+<p>Here we used call to execute the function <code>objectToString</code> in the context <code>this=arr</code>.</p>
+<p>Internally, the <code>toString</code> algorithm examines <code>this</code> and returns the corresponding result. More examples:</p>
+<pre>
+let s = Object.prototype.toString;
+
+alert( s.call(123) ); // [object Number]
+alert( s.call(null) ); // [object Null]
+alert( s.call(alert) ); // [object Function]
+</pre>
+<p>The behavior of Object toString can be customized using a special object property Symbol.toStringTag.</p>
+<pre>
+let user = {
+  [Symbol.toStringTag]: "User"
+};
+
+alert( {}.toString.call(user) ); // [object User]
+</pre>
+<p>For most environment-specific objects, there is such a property. Here are few browser specific examples:</p>
+<pre>
+// toStringTag for the envinronment-specific object and class:
+alert( window[Symbol.toStringTag]); // window
+alert( XMLHttpRequest.prototype[Symbol.toStringTag] ); // XMLHttpRequest
+
+alert( {}.toString.call(window) ); // [object Window]
+alert( {}.toString.call(new XMLHttpRequest()) ); // [object XMLHttpRequest]
+</pre>
+<p>As you can see, the result is exactly <code>Symbol.toStringTag </code> (if exists), wrapped into [object ...].</p>
+<p>At the end we have “typeof on steroids” that not only works for primitive data types, but also for built-in objects and even can be customized. It can be used instead of <code>instanceof</code> for built-in objects when we want to get the type as a string rather than just to check.</p>
+<pre>
+let obj = {
+  'name' : "Santanu Bera",
+  [Symbol.toStringTag] : "Student",
+};
+let AnotherObject = {
+  'name' : "Santanu Bera",
+};
+
+console.log(obj.toString()); // [object Student]
+console.log(AnotherObject.toString()); // [object Object]
+</pre>
+
+
+
+
+
+</div>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>v-once</title>
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
+	<script type="text/javascript" src="../Assets/jquery.min.js"></script>
+    <link rel="stylesheet" href="../Assets/prism-dark.css">
+</head>
+<body class="Body">
+	<div class="Content Card">
+		<h1>Only Once - At the first Time</h1>
+		<p>
+			By default, if you use other directive, the data is always updated instantly if you change the value of Vue property. This is the Vue's nature. But what if you want to take the value from the Vue property and render it but you do not want it to be updated over time if the value of Vue property is changed? And to solve this issue Vue provides us a nice directive which allows us to do exactly that. Althogh you will come accross a very rare situation where it might be useful to use <code>v-once</code> directive, but sometimes it's very useful.
+		</p>
+		<pre>
+			&lt;span v-once>This will never change: {{ name }}&lt;/span>
+			data:{
+				name : "John Doe"
+			}
+		</pre>
+		<p>
+			This will output as <code>This will never change: John Doe</code>. But if you change the value of the <code>name</code> to "Santanu Bera", It's won't be updated.
+		</p>
+		<p>
+			Notice how it is used, It doesn't accept any value, like a boolean attribute in HTML Tag, you use it without any value. Also notice where it is used. It is used with HTML tags, so any Vue property, no matter how many, that resides that HTML tag will be treated as static and Vue will skip it if you change the value of Vue property.
+		</p>
+		<pre>
+			&lt;div v-once>
+				{{ myName }}
+				&lt;span>{{ yourName }}&lt;/span>
+			&lt;/div>
+		</pre>
+	</div>
+	<script type="text/javascript">
+	new Vue({
+		el : ".Content",
+		data : {
+			name : "{{ name }}",
+			myName : "{{ myName }}",
+			yourName : "{{ yourName }}"
+		}
+	});
+	</script>
+</body>
+</html>

@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Parent Child Widget Communication</title>
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+	<script type="text/javascript" src="../../Assets/prism.min.js"></script>
+	<script type="text/javascript" src="../../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+
+
+
+<h1>Communication in Widget</h1>
+<p>Communication between widget means passing data from one widget to another widget. If you build a custom widget you might wanna make the widget in a way that it would change its appearence and behaviour based on different data is given to it. For example, if you build a Widget that shows a clock, this Clock widget may have a <code>size</code> property that takes a dimension. On different dimention the clock might look smaller or bigger. You can configure the Widget in that way so that the Widget would change its size based on the Dimension  provided to it. On the other hand the Clock widget might give the parent widget a signal that the time has changed. The Clock widget might pass some data to its parent widget on time to time or on some user interaction. Thus providing data from parent widget to child widget and receiving the data from child widget to parent widget is called Two Way Communication.</p>
+
+
+<h1>Passing Data to a Stateless Widget</h1>
+<p>Here we will learn how we can pass data from Parent widget to child widget.</p>
+<pre>
+// Represents a Label for the FormField --
+class FormLabel extends StatelessWidget{
+
+  String title;
+
+  FormLabel(this.title);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      alignment : Alignment.centerLeft,
+      padding : EdgeInsets.only(bottom: 5.0),
+      child : Text(title, style: TextStyle(fontWeight : FontWeight.w500, fontSize : 15)),
+    );
+  }
+}
+</pre>
+<p>Here we have created a custom Widget <code>FormLabel</code> and it is a Stateless widget. The constructor has one positional parameter called <code>title</code> which is a required field.</p>
+<p>Now a parent widget can use this FormLabel widget with different label to create label with similar look and feel.</p>
+<pre>
+Container(
+  child: FormLabel("What is your Name?"),
+),
+
+Container(
+  child: FormLabel("What is your Date of Birth?"),
+),
+</pre>
+
+
+
+<h1>Receiving Data from a Stateless Widget</h1>
+<p>Here we will learn how we can receive data from Stateless widget.</p>
+<h3>VoidCallback</h3>
+<pre>
+// Represents a Label for the FormField --
+class FormLabel extends StatelessWidget{
+
+  String title;
+  VoidCallback onUserTap;
+
+  FormLabel({this.title, this.onUserTap});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      alignment : Alignment.centerLeft,
+      padding : EdgeInsets.only(bottom: 5.0),
+      child : GestureDetector(
+        onTap: (){
+          onUserTap();
+        },
+        child: Text(title, style: TextStyle(fontWeight : FontWeight.w500, fontSize : 15)),
+      ),
+    );
+  }
+}
+</pre>
+<p>The <code>FormLabel</code> class now modified to take a callback <code>onUserTap</code>. But look at the constructor, we have embraced the arguments within the curly brackets. By enclosing them within the curly bracket they become named parameters and they are optional.</p>
+<p>We have also put the Text widget within the GestureDetector widget to listen for onTap event. Whenever user taps into the text, it calls <code>onUserTap</code> callback which is provided by the parent. Now a parent widget can provide a callback to the FormLabel widget to listen for tap event.</p>
+<p>As the FormLabel widget now made to take named parameters a parent widget must provide argument name to pass the data. Below is an example.</p>
+<pre>
+Container(
+  title: "What is your name?",
+  onUserTap: (){
+    // Show a help toast maybe --
+  },
+),
+</pre>
+<p>Also notice that on declaring the <code>onUserTap</code> variable we have used <code>VoidCallback</code> data type. Because as our callback doesn't carray any value we must use this data type. Now we will see how we can pass data through callback.</p>
+<h3>Function(x)</h3>
+<pre>
+// Represents a Label for the FormField --
+class FormLabel extends StatelessWidget{
+
+  String title;
+  Function(int) onUserTap;
+
+  FormLabel({this.title, this.onUserTap});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      alignment : Alignment.centerLeft,
+      padding : EdgeInsets.only(bottom: 5.0),
+      child : GestureDetector(
+        onTap: (){
+          onUserTap(title.length);
+        },
+        child: Text(title, style: TextStyle(fontWeight : FontWeight.w500, fontSize : 15)),
+      ),
+    );
+  }
+}
+</pre>
+<p>Now while declaring the <code>onUserTap</code> callback we have used <code>Function(int)</code> syntax. That means we are declaring a callback which will receive a integer value as the first argument. In the build method, we are now sending <code>title.length</code> value to the parent widget. Your parent widget will now be able to receive data from a child widget.</p>
+<pre>
+Container(
+  title: "What is your name?",
+  onUserTap: function(int length){
+    pring(length);
+  }
+),
+</pre>
+<p>This way you can pass as many data as you want and any type of data from child widget to its parent widget.</p>
+
+
+
+
+
+
+<h1>Parent Child Communcation for Stateful Widget</h1>
+<p>The machanism for communcation for Stateful Widget is simmilar to Stateless widget. Below is an example of a DatePicker class which renders a input field for picking Date.</p>
+<pre>
+// DatePicker 
+class DatePicker extends StatefulWidget{
+  Function(DateTime) onDateSelected;
+  bool clearDate;
+  DateTime selectedDate;
+
+  DatePicker({this.onDateSelected, this.clearDate, this.selectedDate});
+
+  @override
+  _DatePickerState createState() => _DatePickerState();
+}
+class _DatePickerState extends State&lt;DatePicker>{
+
+  String dateText = "";
+  bool dateSelected = false;
+  DateTime initialDate = DateTime.now();
+  DateTime userSelectedDate;
+
+  @override
+  initState(){
+    super.initState();
+
+    if(widget.selectedDate == null){
+      dateSelected = false;
+    }else{
+      dateSelected = true;
+      userSelectedDate = widget.selectedDate;
+      widget.onDateSelected(userSelectedDate);
+    }
+  }
+
+  Future&lt;Null> _selectDate(BuildContext context) async {
+    final DateTime picked = await showDatePicker(
+        initialDate: initialDate,
+        firstDate: DateTime(2020, 1),
+        lastDate: DateTime(2101),
+          context: context,
+      );
+      if (picked != null && picked != userSelectedDate){
+        setState(() {
+          initialDate = picked;
+            userSelectedDate = picked;
+            dateSelected = true;
+          });
+
+          widget.onDateSelected(userSelectedDate);
+      }
+  }
+
+  Widget _formatDate(){
+    if(dateSelected == true){
+      List months = [
+                      'January', "February", "March", "April", 
+                      "May", "June", "July", "August", 
+                      "September", "October", "November", "December"
+                    ];
+      String month = months[userSelectedDate.month - 1];
+      int year = userSelectedDate.year;
+      int day = userSelectedDate.day;
+      return RichText(
+        text: TextSpan(
+          text : "$day",
+          style: TextStyle(color: Colors.black87),
+          children : &lt;TextSpan>[
+            TextSpan(text : " $month,", style : TextStyle(fontWeight: FontWeight.w500, color: Colors.black87)),
+            TextSpan(text : " $year", style : TextStyle(color: Colors.black87)),
+          ]
+        )
+      );
+    }else{
+      return Text("");
+    }
+  }
+
+  void _clearDate(){
+    setState(() {
+      initialDate = DateTime.now();
+      userSelectedDate = null;
+      dateSelected = false;
+      });
+
+      widget.onDateSelected(null);
+  }
+
+  @override
+  Widget build(BuildContext context){
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        border: Border.all(width: 2.0, color: const Color.fromRGBO(229, 229, 229, 1)),
+        borderRadius: BorderRadius.all(Radius.circular(4.0)),
+      ),
+      child: SizedBox(
+        height: 30,
+        child: Padding(
+          padding: EdgeInsets.all(5.0),
+          child: Row(
+            children: &lt;Widget>[
+              Expanded(
+                child: GestureDetector(
+                  onTap: (){
+                    _selectDate(context);
+                  },
+                  child: (dateSelected) ? _formatDate() : Text("Choose a Date", style: TextStyle(fontSize: 12)),
+                ),
+              ),
+              (widget.clearDate) ? Padding(
+                padding: EdgeInsets.only(right: 5),
+                child: GestureDetector(
+                  onTap: (){
+                    _clearDate();
+                  },
+                  child: Icon(
+                    Icons.clear, 
+                    size: 15.0,
+                    color: (dateSelected) ? Colors.black54 : Colors.transparent,
+                  ),
+                )
+              ) : SizedBox(height: 0, width: 0)
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+</pre>
+<p>In the constructor, we have named parameters, one is callback which is <code>onDateSelected</code> and another two parameters are <code>clearDate</code> and <code>selectedDate</code>.</p>
+<p>The callback <code>onDateSelected</code> is declared as <code>Function(DateTime)</code> which means the callback will receive a DateTime value. </p>
+
+<p>The paremeter <code>selectedDate</code> is used to provide a initial date that will be present on the input field.</p>
+
+<p>If <code>clearDate</code> is <code>true</code>, than the input field will render a cross icon at the end of the field. This cross icon will appear when user have selected a date or a initial value is present which is provided through <code>selectedDate</code> property. Upon clicking on the cross icon, the date will be cleared from the input field. If <code>clearDate</code> is <code>false</code>, the icon will not be rendered in any situation.</p>
+
+<p>Here is the usage of the above widget:</p>
+<pre>
+DatePicker(
+  clearDate : false,
+  selectedDate : DateTime.now(),
+  onDateSelected: (DateTime date){
+    startingDate = date;
+  }
+),
+</pre>
+
+<h3>widget variable</h3>
+<p>You have declared the class properties within the <code>DatePicker</code> widget class. But how you would access these properties from its <code>State</code> class? Every <code>State</code> class has a <code>widget</code> variable which refers to its widget class. So to access the widget parameters you can use <code>widget</code> variable.</p>
+<p>In the above example, look at the <code>_selectDate()</code> method. When this method is called, a date picker is opened for choosing the date. When a user picks a date from the date picker modal, it calls the callback <code>onDateSelected</code> with the selected date passed to the callback. We are accessing this callback method through <code>widget</code> variable.</p>
+<pre>
+widget.onDateSelected(userSelectedDate);
+</pre>
+
+
+
+
+
+<h3>@required</h3>
+<p>In the above examples, all named parameters are optional. That means you still can use the widget without providing any value to it. But it might cause unexpected result cause unprovided parameter will contain <code>null</code>. Your widget must be capable of handling the null value. But what if you want to make a named parameter required? You can use <code>@required</code> annotation in this case.</p>
+<pre>
+DatePicker({@required this.onDateSelected, this.clearDate, @required this.selectedDate});
+</pre>
+<p>In the above statement, the callback <code>onDateSelected</code> and <code>selectedDate</code> parameter is made required and <code>clearDate</code> is optional parameter. So your parent widget must provide values for these two required parameter.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

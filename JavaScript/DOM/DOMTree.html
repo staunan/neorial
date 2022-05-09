@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>DOM Tree</title>
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
+	<script type="text/javascript" src="../../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+<h1>DOM Tree</h1>
+<p>The backbone of an HTML document are tags. According to Document Object Model (DOM), every HTML-tag is an object. Nested tags are called “children” of the enclosing one. The text inside a tag it is an object as well. All these objects are accessible using JavaScript.</p>
+<p>For example - </p>
+<pre>
+&lt;!DOCTYPE HTML>
+&lt;html>
+&lt;head>
+  &lt;title>About elks&lt;/title>
+&lt;/head>
+&lt;body>
+  The truth about elks.
+&lt;/body>
+&lt;/html>
+</pre>
+<p>If you inspect the document in the browser, the DOM would look like this -</p>
+<img src="../Assets/img/domtree1.jpg">
+<p>Here are two few observation -</p>
+<ul>
+	<li>Tags are called element nodes (or just elements). Nested tags become children of the enclosing ones. As a result we have a tree of elements: <code>&lt;html></code> is at the root, then <code>&lt;head></code> and <code>&lt;body></code> are its children, etc.</li>
+	<li>The text inside elements forms text nodes, labelled as <code>#text</code>. A text node contains only a string. It may not have children and is always a leaf of the tree</li>
+</ul>
+
+
+
+<h3>White Space as #text node</h3>
+<p>Please note the special characters in text nodes:</p>
+<ul>
+	<li>A newline: ↵ (in JavaScript known as \n)</li>
+	<li>A space: ␣</li>
+</ul>
+<p>Spaces and newlines – are totally valid characters, they form text nodes and become a part of the DOM. So, for instance, in the example above the <code>&lt;head></code> tag contains some spaces before <code>&lt;title></code>, and that text becomes a <code>#text</code> node (it contains a newline and some spaces only).</p>
+<p>There are only two top-level exclusions:</p>
+<ul>
+	<li>Spaces and newlines before <code>&lt;head></code> are ignored for historical reasons,</li>
+	<li>If we put something after <code>&lt;/body></code>, then that is automatically moved inside the body, at the end, as the HTML spec requires that all content must be inside <code>&lt;body></code>. So there may be no spaces after <code>&lt;/body></code></li>
+</ul>
+<p>In other cases everything’s straightforward – if there are spaces (just like any character) in the document, then they become text nodes in DOM, and if we remove them, then there won’t be any.</p>
+<p>Here are no white-space-only text nodes:</p>
+<pre>
+&lt;!DOCTYPE HTML>
+&lt;html>&lt;head>&lt;title>About elks&lt;/title>&lt;/head>&lt;body>The truth about elks.&lt;/body>&lt;/html>
+</pre>
+
+
+
+<h3>Autocorrection</h3>
+<p>If the browser encounters malformed HTML, it automatically corrects it when making DOM.</p>
+<p>For instance, the top tag is always <code>&lt;html></code>. Even if it doesn’t exist in the document – it will exist in the DOM, the browser will create it. The same goes for <code>&lt;body></code></p>
+<p>As an example, if the HTML file is a single word "Hello", the browser will wrap it into &lt;html> and &lt;body>, add the required &lt;head>, and the DOM will be:</p>
+<img src="../Assets/img/domtree2.jpg">
+<p>While generating the DOM, browsers automatically process errors in the document, close tags and so on. Such an “invalid” document like the following -</p>
+<pre>
+&lt;p>Hello
+&lt;li>Mom
+&lt;li>and
+&lt;li>Dad
+</pre>
+<p>…Will become a normal DOM, as the browser reads tags and restores the missing parts:</p>
+<img src="../Assets/img/domtree3.jpg">
+<p>An interesting “special case” is tables. By the DOM specification they must have <code>&lt;tbody></code>, but HTML text may (officially) omit it. Then the browser creates <code>&lt;tbody></code> in DOM automatically.</p>
+<pre>
+&lt;table id="table">&lt;tr>&lt;td>1&lt;/td>&lt;/tr>&lt;/table>
+</pre>
+<p>DOM-structure will be:</p>
+<img src="../Assets/img/domtree4.jpg">
+<p>You see? The <code>&lt;tbody></code> appeared out of nowhere. You should keep this in mind while working with tables to avoid surprises.</p>
+
+
+
+<h3>Other node types</h3>
+<pre>
+&lt;!DOCTYPE HTML>
+&lt;html>
+&lt;body>
+  The truth about elks.
+  &lt;ol>
+    &lt;li>An elk is a smart&lt;/li>
+    &lt;!-- comment -->
+    &lt;li>...and cunning animal!&lt;/li>
+  &lt;/ol>
+&lt;/body>
+&lt;/html>
+</pre>
+<img src="../Assets/img/domtree5.jpg">
+<p>Here we see a new tree node type – comment node, labeled as <code>#comment</code>.</p>
+<p>We may think – why a comment is added to the DOM? It doesn’t affect the visual representation in any way. But there’s a rule – <em style="font-weight: 500;">If something’s in HTML, then it also must be in the DOM tree</em>.</p>
+<p><em style="font-weight: 500;">Everything in HTML, even comments, becomes a part of the DOM</em></p>
+<p>Even the <code>&lt;!DOCTYPE...></code> directive at the very beginning of HTML is also a DOM node. It’s in the DOM tree right before <code>&lt;html></code>. We are not going to touch that node, we even don’t draw it on diagrams for that reason, but it’s there.</p>
+<p>The <code>document</code> object that represents the whole document is, formally, a DOM node as well.</p>
+<p>There are 12 node types. In practice we usually work with 4 of them:</p>
+<ul>
+	<li>document – the “entry point” into DOM.</li>
+	<li>element nodes – HTML-tags, the tree building blocks.</li>
+	<li>text nodes – contain text.</li>
+	<li>comments – sometimes we can put the information there, it won’t be shown, but JS can read it from the DOM.</li>
+</ul>
+
+
+
+<h3>Interaction With the Console</h3>
+<p>As we explore the DOM, we also may want to apply JavaScript to it. Like: get a node and run some code to modify it, to see how it looks. Here are few tips to travel between the Elements tab and the console.</p>
+<ul>
+	<li>Select an Element in the Elements tab.</li>
+	<li>Press Esc – it will open console right below the Elements tab.</li>
+</ul>
+<p>Now the last selected element is available as <code>$0</code>, the previously selected is <code>$1</code> etc.</p>
+<p>We can run commands on them. For instance, <code>$0.style.background = 'red'</code> makes the selected list item red, like this:</p>
+<img src="../Assets/img/consoleinteraction.png">
+
+
+
+
+</div>
+</body>
+</html>

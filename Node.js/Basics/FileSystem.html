@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>File System</title>
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+	<script type="text/javascript" src="../../Assets/prism.min.js"></script>
+	<script type="text/javascript" src="../../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+<h1>File System</h1>
+<p>The <code>fs</code> module provides an API for interacting with the file system. To use this module:</p>
+<pre>
+const fs = require('fs');
+</pre>
+<h3>Synchronous vs Asynchronous Form</h3>
+<p>Every method in the <code>fs</code> module has synchronous as well as asynchronous forms. Asynchronous methods take the last parameter as the completion function callback and the first parameter of the callback function as error. It is better to use an asynchronous method instead of a synchronous method, as the former never blocks a program during its execution, whereas the synchronous form does.</p>
+
+
+<h3>Create a Directory</h3>
+<pre>
+fs.mkdir(path[, mode], callback);
+</pre>
+<p>Here, <code>path</code> is the directory name including path. <code>mode</code> is the directory permission to be set. Defaults to <code>0777</code>. The last argument is a callback which is called when the execution is finished.</p>
+<pre>
+let fs = require("fs");
+function createFolder(folderName){
+	fs.mkdir("./"+folderName, function(error){
+		if(error == null){
+			console.log("Folder Created Successfully ");
+		}else{
+			console.log("Cannot Create Folder : "+folderName);
+			if(error.code == "EEXIST"){
+				console.log("Folder Already Exists !");
+			}else{
+				console.log("Unknown Error !");
+			}
+		}
+	});
+}
+createFolder("img");
+</pre>
+<p>The last callback function is called after the execution of <code>mkdir</code>. This callback receives an error object. If the folder is created successfully then the error object is <code>null</code>, otherwise it contains the error object.</p>
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

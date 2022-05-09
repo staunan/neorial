@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Function - II</title>
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+	<script type="text/javascript" src="../../Assets/prism.min.js"></script>
+	<script type="text/javascript" src="../../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+
+
+<h1>Recursion</h1>
+<p>The function that calls itself is called Recursion function. Instead of using recursion function you can also use loop but there are crertain situation where Recursion function plays the best role and plays efficiently.</p>
+<p>Consider the following example. In the following example we are calculating the exponential of a value. Here is the version using loop -</p>
+<pre>
+function pow(x, n) {
+  let result = 1;
+
+  // multiply result by x n times in the loop
+  for (let i = 0; i < n; i++) {
+    result *= x;
+  }
+
+  return result;
+}
+
+alert( pow(2, 3) ); // 8
+</pre>
+<p>The following version uses recursive function -</p>
+<pre>
+function pow(x, n) {
+  if (n == 1) {
+    return x;
+  } else {
+    return x * pow(x, n - 1);
+  }
+}
+
+alert( pow(2, 3) ); // 8
+</pre>
+<p>You can even make it more shorter -</p>
+<pre>
+function pow(x, n) {
+  return (n == 1) ? x : (x * pow(x, n - 1));
+}
+alert( pow(2, 3) ); // 8
+</pre>
+<p>As you can see, the recursive functions are easy to read, and can be done with less code.</p>
+<h3>Recursive traversals</h3>
+<p>Another great application of the recursion is a recursive traversal. Imagine, we have a company. The staff structure can be presented as an object:</p>
+<pre>
+let company = {
+  sales: [{
+    name: 'John',
+    salary: 1000
+  }, {
+    name: 'Alice',
+    salary: 600
+  }],
+
+  development: {
+    sites: [{
+      name: 'Peter',
+      salary: 2000
+    }, {
+      name: 'Alex',
+      salary: 1800
+    }],
+
+    internals: [{
+      name: 'Jack',
+      salary: 1300
+    }]
+  }
+};
+</pre>
+<p>In other words, a company has departments. A department may have an array of staff. For instance, <code>sales</code> department has 2 employees: <code>John</code> and <code>Alice</code>. Or a department may split into subdepartments, like <code>development</code> has two branches: <code>sites</code> and <code>internals</code>. Each of them has the own staff. It is also possible that when a subdepartment grows, it divides into subsubdepartments (or teams). For instance, the <code>sites</code> department in the future may be split into teams for <code>siteA</code> and <code>siteB</code>. And they, potentially, can split even more.</p>
+<p>Now let’s say we want a function to get the sum of all salaries. How can we do that?</p>
+<p>An iterative approach is not easy, because the structure is not simple. The first idea may be to make a for loop over company with nested subloop over 1st level departments. But then we need more nested subloops to iterate over the staff in 2nd level departments like <code>sites</code>. …And then another subloop inside those for 3rd level departments that might appear in the future? Should we stop on level 3 or make 4 levels of loops? If we put 3-4 nested subloops in the code to traverse a single object, it becomes rather ugly.</p>
+<p>Let’s try recursion. As we can see, when our function gets a department to sum, there are two possible cases:</p>
+<ul>
+	<li>Either it’s a “simple” department with an array of people – then we can sum the salaries in a simple loop.</li>
+	<li>Or it’s an object with N subdepartments – then we can make N recursive calls to get the sum for each of the subdeps and combine the results.</li>
+</ul>
+<pre>
+let company = { // the same object, compressed for brevity
+  sales: [{name: 'John', salary: 1000}, {name: 'Alice', salary: 600 }],
+  development: {
+    sites: [{name: 'Peter', salary: 2000}, {name: 'Alex', salary: 1800 }],
+    internals: [{name: 'Jack', salary: 1300}]
+  }
+};
+
+// The function to do the job
+function sumSalaries(department) {
+  if (Array.isArray(department)) { // case (1)
+    return department.reduce((prev, current) => prev + current.salary, 0); // sum the array
+  } else { // case (2)
+    let sum = 0;
+    for (let subdep of Object.values(department)) {
+      sum += sumSalaries(subdep); // recursively call for subdepartments, sum the results
+    }
+    return sum;
+  }
+}
+
+alert(sumSalaries(company)); // 6700
+</pre>
+<p>The code is short and easy to understand. That’s the power of recursion. It also works for any level of subdepartment nesting.</p>
+
+
+
+
+
+
+
+
+
+<h1>Rest parameters</h1>
+<p>Rest parameters allows us to call a method with any number of arguments. Rest parameter is specified as <code>...</code> (three dots together). Consider the following -</p>
+<pre>
+function sum(a, b) {
+  return a + b;
+}
+
+alert( sum(1, 2, 3, 4, 5) );
+</pre>
+<p>There will be no error because of “excessive” arguments. But of course in the result only the first two will be counted. The rest parameters can be mentioned in a function definition with three dots <code>...</code>. They literally mean “gather the remaining parameters into an array”.</p>
+<pre>
+function sumAll(...args) { // args is the name for the array
+  let sum = 0;
+
+  for (let arg of args) sum += arg;
+
+  return sum;
+}
+
+alert( sumAll(1) ); // 1
+alert( sumAll(1, 2) ); // 3
+alert( sumAll(1, 2, 3) ); // 6
+</pre>
+<p>We can choose to get the first parameters as variables, and gather only the rest. Here the first two arguments go into variables and the rest go into <code>titles</code> array:</p>
+<pre>
+function showName(firstName, lastName, ...titles) {
+  alert( firstName + ' ' + lastName ); // Julius Caesar
+
+  // the rest go into titles array
+  // i.e. titles = ["Consul", "Imperator"]
+  alert( titles[0] ); // Consul
+  alert( titles[1] ); // Imperator
+  alert( titles.length ); // 2
+}
+
+showName("Julius", "Caesar", "Consul", "Imperator");
+</pre>
+<h3>The rest parameters must be at the end</h3>
+<p>The rest parameters gather all remaining arguments, so the following does not make sense and causes an error:</p>
+<pre>
+function f(arg1, ...rest, arg2) { // arg2 after ...rest ?!
+  // error
+}
+</pre>
+<p>The <code>...rest</code> must always be last.</p>
+
+
+
+
+
+
+
+
+
+
+<h1>The “arguments” variable</h1>
+<p>There is also a special array-like object named arguments that contains all arguments by their index.</p>
+<pre>
+function showName() {
+  alert( arguments.length );
+  alert( arguments[0] );
+  alert( arguments[1] );
+
+  // it's iterable
+  // for(let arg of arguments) alert(arg);
+}
+
+// shows: 2, Julius, Caesar
+showName("Julius", "Caesar");
+
+// shows: 1, Ilya, undefined (no second argument)
+showName("Ilya");
+</pre>
+<p>In old times, rest parameters did not exist in the language, and using <code>arguments</code> was the only way to get all arguments of the function, no matter their total number. And it still works, we can use it today. But the downside is that although <code>arguments</code> is both array-like and iterable, it’s not an array. It does not support array methods, so we can’t call <code>arguments.map(...)</code> for example.</p>
+<h3>Arrow functions do not have "arguments"</h3>
+<p>If we access the <code>arguments</code> object from an arrow function, it takes them from the outer “normal” function.</p>
+<pre>
+function f() {
+  let showArg = () => alert(arguments[0]);
+  showArg();
+}
+
+f(1); // 1
+</pre>
+<p>If you pass any arguments in the arrow function and you try to access them using <code>arguments</code> object, you won't get the correct result. Arrow function gets the <code>arguments</code> object from the outer context in which the arrow function is defined.</p>
+
+
+
+
+
+
+
+
+<h1>Spread operator</h1>
+<p>We’ve just seen how to get an array from the list of parameters. But sometimes we need to do exactly the reverse. For instance, there’s a built-in function <code>Math.max</code> that returns the greatest number from a list:</p>
+<pre>
+alert( Math.max(3, 5, 1) ); // 5
+</pre>
+<p>Now let’s say we have an array <code>[3, 5, 1]</code>. How do we call <code>Math.max</code> with it? Passing it “as is” won’t work, because <code>Math.max</code> expects a list of numeric arguments, not a single array:</p>
+<pre>
+let arr = [3, 5, 1];
+
+alert( Math.max(arr) ); // NaN
+</pre>
+<p>And surely we can’t manually list items in the code <code>Math.max(arr[0], arr[1], arr[2])</code>, because we may be unsure how many there are. As our script executes, there could be a lot, or there could be none. And that would get ugly. Spread operator to the rescue! It looks similar to rest parameters, also using <code>...</code>, but does quite the opposite.</p>
+<p>When <code>...arr</code> is used in the function call, it “expands” an iterable object <code>arr</code> into the list of arguments.</p>
+<pre>
+let arr = [3, 5, 1];
+
+alert( Math.max(...arr) ); // 5 (spread turns array into a list of arguments)
+</pre>
+<p>We also can pass multiple iterables this way:</p>
+<pre>
+let arr1 = [1, -2, 3, 4];
+let arr2 = [8, 3, -8, 1];
+
+alert( Math.max(...arr1, ...arr2) ); // 8
+</pre>
+<p>We can even combine the spread operator with normal values:</p>
+<pre>
+let arr1 = [1, -2, 3, 4];
+let arr2 = [8, 3, -8, 1];
+
+alert( Math.max(1, ...arr1, 2, ...arr2, 25) ); // 25
+</pre>
+<h3>Merging Array</h3>
+<p>Also, the spread operator can be used to merge arrays:</p>
+<pre>
+let arr = [3, 5, 1];
+let arr2 = [8, 9, 15];
+
+let merged = [0, ...arr, 2, ...arr2];
+
+alert(merged); // 0,3,5,1,2,8,9,15 (0, then arr, then 2, then arr2)
+</pre>
+<h3>Spread Operator Works on any Iterator</h3>
+<p>In the examples above we used an array to demonstrate the spread operator, but any iterable will do. For instance, here we use the spread operator to turn the string into array of characters:</p>
+<pre>
+let str = "Hello";
+
+alert( [...str] ); // H,e,l,l,o
+</pre>
+<p>The spread operator internally uses iterators to gather elements, the same way as <code>for..of</code> does.</p>
+<p>So, for a string, <code>for..of</code> returns characters and <code>...str</code> becomes "H","e","l","l","o". The list of characters is passed to array initializer <code>[...str]</code>.</p>
+
+
+
+
+
+
+
+<h1>Array.from Vs Spread Operator</h1>
+<p>Array.from() can be used to make an array from Object, String etc.</p>
+<pre>
+let str = "Bera";
+let arr = Array.from(str); // ['B', 'e', 'r', 'a']
+</pre>
+<p>You can alos use spead operator to convert an Iterable to an array -</p>
+<pre>
+let str = "Bera";
+let arr = [...str]; // ['B', 'e', 'r', 'a']
+</pre>
+<p>But there’s a subtle difference between <code>Array.from(obj)</code> and <code>[...obj]</code>:</p>
+<ul>
+  <li><code>Array.from</code> operates on both array-likes and iterables.</li>
+  <li>The spread operator operates only on iterables.</li>
+</ul>
+<p>So, for the task of turning something into an array, Array.from tends to be more universal.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+<h1>Closure</h1>
+<p>There is a general programming term “closure”, that developers generally should know.</p>
+<p>A closure is a function that remembers its outer variables and can access them. In some languages, that’s not possible, or a function should be written in a special way to make it happen. But as explained above, in JavaScript, all functions are naturally closures (there is only one exclusion, to be covered in The "new Function" syntax). That is:</p>
+<p style="font-weight: 500;">They automatically remember where they were created using a hidden [[Environment]] property, and all of them can access outer variables.</p>
+<p>JavaScript is a very function-oriented language. It gives us a lot of freedom. A function can be created at one moment, then copied to another variable or passed as an argument to another function and called from a totally different place later.</p>
+<p>We know that a function can access variables outside of it; this feature is used quite often.</p>
+<p>But what happens when an outer variable changes? Does a function get the most recent value or the one that existed when the function was created? Also, what happens when a function travels to another place in the code and is called from there – does it get access to the outer variables of the new place?</p>
+<p>Different languages behave differently here, and in this chapter we cover the behaviour of JavaScript.</p>
+<p>Let’s consider two situations to begin with, and then study the internal mechanics piece-by-piece, so that you’ll be able to answer the following questions and more complex ones in the future.</p>
+<ul>
+<li>
+<p>The function <code>sayHi</code> uses an external variable <code>name</code>. When the function runs, which value is it going to use?</p>
+<pre>
+let name = "John";
+
+function sayHi() {
+  alert("Hi, " + name);
+}
+
+name = "Pete";
+
+sayHi(); // what will it show: "John" or "Pete"?
+</pre>
+<p>Such situations are common both in browser and server-side development. A function may be scheduled to execute later than it is created, for instance after a user action or a network request.</p>
+<p>So, the question is: does it pick up the latest changes?</p>
+</li>
+<li>
+<p>The function <code>makeWorker</code> makes another function and returns it. That new function can be called from somewhere else. Will it have access to the outer variables from its creation place, or the invocation place, or both?</p>
+<pre>
+function makeWorker() {
+  let name = "Pete";
+
+  return function() {
+    alert(name);
+  };
+}
+
+let name = "John";
+
+// create a function
+let work = makeWorker();
+
+// call it
+work(); // what will it show? "Pete" (name where created) or "John" (name where called)?
+</pre>
+</li>
+</ul>
+
+
+
+
+
+
+
+
+<h1>Lexical Environment</h1>
+<p>To understand what’s going on, let’s first discuss what a “variable” actually is. In JavaScript, every running function, code block, and the script as a whole have an associated object known as the Lexical Environment. The Lexical Environment object consists of two parts:</p>
+<ul>
+  <li><code>Environment Record</code> – an object that has all local variables as its properties (and some other information like the value of <code>this</code>).</li>
+  <li>A reference to the outer lexical environment, usually the one associated with the code lexically right outside of it (outside of the current curly brackets).</li>
+</ul>
+<p>So, a “variable” is just a property of the special internal object, Environment Record. “To get or change a variable” means “to get or change a property of the Lexical Environment”.</p>
+<p>For instance, in this simple code, there is only one Lexical Environment:</p>
+<img src="../Assets/img/lexical-environment-global.png">
+<p>This is a so-called global Lexical Environment, associated with the whole script. For browsers, all <code>&lt;script></code> tags share the same global environment.</p>
+<p>On the picture above, the rectangle means Environment Record (variable store) and the arrow means the outer reference. The global Lexical Environment has no outer reference, so it points to <code>null</code>.</p>
+<p>Here’s the bigger picture of how <code>let</code> variables work:</p>
+<img src="../Assets/img/lexical-environment-global-2.png">
+<p>Rectangles on the right-hand side demonstrate how the global Lexical Environment changes during the execution:</p>
+<ul>
+  <li>When the script starts, the Lexical Environment is empty.</li>
+  <li>The <code>let</code> phrase definition appears. It has been assigned no value, so <code>undefined</code> is stored.</li>
+  <li><code>phrase</code> is assigned a value.</li>
+  <li><code>phrase</code> refers to a new value.</li>
+</ul>
+<p>To summarize:</p>
+<ul>
+  <li>A variable is a property of a special internal object, associated with the currently executing block/function/script.</li>
+  <li>Working with variables is actually working with the properties of that object.</li>
+</ul>
+<h3>Function Declaration</h3>
+<p>Function Declarations are special. Unlike <code>let</code> variables, they are processed not when the execution reaches them, but when a Lexical Environment is created. For the global Lexical Environment, it means the moment when the script is started. That is why we can call a function declaration before it is defined. The code below demonstrates that the Lexical Environment is non-empty from the beginning. It has <code>say</code> function, because that’s a Function Declaration. And later it gets <code>phrase</code>, declared with <code>let</code>:</p>
+<img src="../Assets/img/lexical-environment-global-3.png">
+<h3>Inner and outer Lexical Environment</h3>
+<p>During the call, <code>say()</code> uses an outer variable, so let’s look at the details of what’s going on.</p>
+<p>First, when a function runs, a new <code>function Lexical Environment</code> is created automatically. That’s a general rule for all functions. That Lexical Environment is used to store local variables and parameters of the call.</p>
+<p>Here’s the picture of Lexical Environments when the execution is inside say("John"), at the line labelled with an arrow:</p>
+<img src="../Assets/img/lexical-environment-simple.png">
+<p>During the function call we have two Lexical Environments: the inner one (for the function call) and the outer one (global):</p>
+<ul>
+  <li>The inner Lexical Environment corresponds to the current execution of say. It has a single variable: <code>name</code>, the function argument. We called <code>say("John")</code>, so the value of name is "John".</li>
+  <li>The outer Lexical Environment is the global Lexical Environment.</li>
+</ul>
+<p>The inner Lexical Environment has the outer reference to the outer one.</p>
+<p style="font-weight: 500; font-style: italic;">When code wants to access a variable – it is first searched for in the inner Lexical Environment, then in the outer one, then the more outer one and so on until the end of the chain.</p>
+<p>If a variable is not found anywhere, that’s an error in strict mode. Without <code>use strict</code>, an assignment to an <code>undefined</code> variable creates a new global variable, for backwards compatibility.</p>
+<p>Let’s see how the search proceeds in our example:</p>
+<ul>
+  <li>When the <code>alert</code> inside <code>say</code> wants to access <code>name</code>, it finds it immediately in the function Lexical Environment.</li>
+  <li>When it wants to access <code>phrase</code>, then there is no <code>phrase</code> locally, so it follows the outer reference and finds it globally.</li>
+</ul>
+<img src="../Assets/img/lexical-environment-simple-lookup.png">
+<p>Now we can give the answer to the first question from the beginning of the chapter.</p>
+<p style="font-weight: 500; font-style: italic;">A function gets outer variables as they are now; it uses the most recent values.</p>
+<p>That’s because of the described mechanism. Old variable values are not saved anywhere. When a function is called, it takes the current values from its own or an outer Lexical Environment.</p>
+<p>So the answer to the first question is <code>Pete</code>:</p>
+<pre>
+let name = "John";
+
+function sayHi() {
+  alert("Hi, " + name);
+}
+
+name = "Pete"; // (*)
+
+sayHi(); // Pete
+</pre>
+<p>The execution flow of the code above:</p>
+<ul>
+  <li>The global Lexical Environment has <code>name: "John"</code>.</li>
+  <li>At the line (*) the global variable is changed, now it has <code>name: "Pete"</code>.</li>
+  <li>When the function <code>sayHi()</code>, is executed and takes <code>name</code> from outside. Here that’s from the global Lexical Environment where it’s already <code>"Pete"</code>.</li>
+</ul>
+<h3>One call – one Lexical Environment</h3>
+<p>Please note that a new function Lexical Environment is created each time a function runs. And if a function is called multiple times, then each invocation will have its own Lexical Environment, with local variables and parameters specific for that very run.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h1>Nested functions</h1>
+<p>A function is called “nested” when it is created inside another function. It is easily possible to do this with JavaScript. We can use it to organize our code, like this:</p>
+<pre>
+function sayHiBye(firstName, lastName) {
+
+  // helper nested function to use below
+  function getFullName() {
+    return firstName + " " + lastName;
+  }
+
+  alert( "Hello, " + getFullName() );
+  alert( "Bye, " + getFullName() );
+
+}
+</pre>
+<p>What’s more interesting, a nested function can be returned: either as a property of a new object (if the outer function creates an object with methods) or as a result by itself. It can then be used somewhere else. No matter where, it still has access to the same outer variables. An example with the constructor function:</p>
+<pre>
+// constructor function returns a new object
+function User(name) {
+
+  // the object method is created as a nested function
+  this.sayHi = function() {
+    alert(name);
+  };
+}
+
+let user = new User("John");
+user.sayHi(); // the method code has access to the outer "name"
+</pre>
+<p>An example with returning a function:</p>
+<pre>
+function makeCounter() {
+  let count = 0;
+
+  return function() {
+    return count++; // has access to the outer counter
+  };
+}
+
+let counter = makeCounter();
+
+alert( counter() ); // 0
+alert( counter() ); // 1
+alert( counter() ); // 2
+</pre>
+<p>Let’s go on with the <code>makeCounter</code> example. It creates the “counter” function that returns the next number on each invocation. When the inner function runs, the variable in <code>count++</code> is searched from inside out. For the example above, the order will be:</p>
+<img src="../Assets/img/lexical-search-order.png">
+<ul>
+  <li>The locals of the nested function…</li>
+  <li>The variables of the outer function…</li>
+  <li>And so on until it reaches global variables.</li>
+</ul>
+<p>In this example <code>count</code> is found on step 2. When an outer variable is modified, it’s changed where it’s found. So <code>count++</code> finds the outer variable and increases it in the Lexical Environment where it belongs.</p>
+<p>Here are two questions to consider:</p>
+<ul>
+  <li>Can we somehow reset the <code>counter</code> from the code that doesn’t belong to <code>makeCounter</code>? E.g. after <code>alert</code> calls in the example above.</li>
+  <li>If we call <code>makeCounter()</code> multiple times – it returns many <code>counter</code> functions. Are they independent or do they share the same <code>count</code>?</li>
+</ul>
+<p>The answers are -</p>
+<ul>
+  <li>There is no way. The <code>counter</code> is a local function variable, we can’t access it from the outside.</li>
+  <li>For every call to <code>makeCounter()</code> a new function Lexical Environment is created, with its own <code>counter</code>. So the resulting <code>counter</code> functions are independent.</li>
+</ul>
+<pre>
+function makeCounter() {
+  let count = 0;
+  return function() {
+    return count++;
+  };
+}
+
+let counter1 = makeCounter();
+let counter2 = makeCounter();
+
+alert( counter1() ); // 0
+alert( counter1() ); // 1
+
+alert( counter2() ); // 0 (independent)
+</pre>
+
+
+
+
+
+
+
+
+
+
+
+<h1>Environments in detail</h1>
+<p>Now that you understand how closures work generally, we can descend to the very nuts and bolts. Here’s what’s going on in the <code>makeCounter</code> example step-by-step, follow it to make sure that you understand everything. Please note the additional <code>[[Environment]]</code> property that we didn’t cover yet.</p>
+<ul>
+<li>
+<p>When the script has just started, there is only global Lexical Environment:</p>
+<img src="../Assets/img/lexenv-nested-makecounter-1.png">
+<p>At that starting moment there is only <code>makeCounter</code> function, because it’s a Function Declaration. It did not run yet. All functions “on birth” receive a hidden property <code>[[Environment]]</code> with a reference to the Lexical Environment of their creation. We didn’t talk about it yet, but that’s how the function knows where it was made.</p>
+<p>Here, <code>makeCounter</code> is created in the global Lexical Environment, so <code>[[Environment]]</code> keeps a reference to it.</p>
+<p>In other words, a function is “imprinted” with a reference to the Lexical Environment where it was born. And <code>[[Environment]]</code> is the hidden function property that has that reference.</p>
+</li>
+<li>
+<p>The code runs on, the new global variable counter is declared and for its value <code>makeCounter()</code> is called. Here’s a snapshot of the moment when the execution is on the first line inside <code>makeCounter()</code>:</p>
+<img src="../Assets/img/lexenv-nested-makecounter-2.png">
+<p>At the moment of the call of <code>makeCounter()</code>, the Lexical Environment is created, to hold its variables and arguments. As all Lexical Environments, it stores two things:</p>
+<ul>
+<li>An Environment Record with local variables. In our case <code>count</code> is the only local variable (appearing when the line with <code>let count</code> is executed).</li>
+<li>The outer lexical reference, which is set to <code>[[Environment]]</code> of the function. Here <code>[[Environment]]</code> of <code>makeCounter</code> references the global Lexical Environment.</li>
+</ul>
+<p>So, now we have two Lexical Environments: the first one is global, the second one is for the current <code>makeCounter</code> call, with the outer reference to global.</p>
+</li>
+<li>
+<p>During the execution of <code>makeCounter()</code>, a tiny nested function is created. It doesn’t matter whether the function is created using Function Declaration or Function Expression. All functions get the <code>[[Environment]]</code> property that references the Lexical Environment in which they were made. So our new tiny nested function gets it as well.</p>
+<p>For our new nested function the value of <code>[[Environment]]</code> is the current Lexical Environment of <code>makeCounter()</code> (where it was born):</p>
+<img src="../Assets/img/lexenv-nested-makecounter-3.png">
+<p>Please note that on this step the inner function was created, but not yet called. The code inside <code>function() { return count++; }</code> is not running; we’re going to return it soon.</p>
+</li>
+<li>
+<p>As the execution goes on, the call to <code>makeCounter()</code> finishes, and the result (the tiny nested function) is assigned to the global variable <code>counter</code>:</p>
+<img src="../Assets/img/lexenv-nested-makecounter-4.png">
+<p>That function has only one line: <code>return count++</code>, that will be executed when we run it.</p>
+</li>
+<li>
+<p>When the <code>counter()</code> is called, an “empty” Lexical Environment is created for it. It has no local variables by itself. But the <code>[[Environment]]</code> of <code>counter</code> is used as the outer reference for it, so it has access to the variables of the former <code>makeCounter()</code> call where it was created:</p>
+<img src="../Assets/img/lexenv-nested-makecounter-5.png">
+</li>
+<p>Now if it accesses a variable, it first searches its own Lexical Environment (empty), then the Lexical Environment of the former <code>makeCounter()</code> call, then the global one.</p>
+<p style="font-weight: 500; font-style: italic;">Please note how memory management works here. Although <code>makeCounter()</code> call finished some time ago, its Lexical Environment was retained in memory, because there’s a nested function with <code>[[Environment]]</code> referencing it. Generally, a Lexical Environment object lives as long as there is a function which may use it. And only when there are none remaining, it is cleared.</p>
+<li>
+<p>The call to <code>counter()</code> not only returns the value of <code>count</code>, but also increases it. Note that the modification is done “in place”. The value of <code>count</code> is modified exactly in the environment where it was found.</p>
+<img src="../Assets/img/lexenv-nested-makecounter-6.png">
+<p>So we return to the previous step with the only change – the new value of <code>count</code>.</p>
+</li>
+</ul>
+<p>The answer to the second question from the beginning of the chapter should now be obvious. The <code>work()</code> function in the code below uses the name from the place of its origin through the outer lexical environment reference:</p>
+<img src="../Assets/img/lexenv-nested-work.png">
+<p>So, the result is <code>"Pete"</code> here. But if there were no let name in <code>makeWorker()</code>, then the search would go outside and take the global variable as we can see from the chain above. In that case it would be <code>"John"</code>.</p>
+
+
+
+
+
+
+
+
+
+<h1>Lexical Environment for Code blocks and loops, IIFE</h1>
+<p>The examples above concentrated on functions. But Lexical Environments also exist for code blocks <code>{...}</code>. They are created when a code block runs and contain block-local variables. Here are a couple of examples.</p>
+<h3>If</h3>
+<p>In the example below, when the execution goes into if block, the new “if-only” Lexical Environment is created for it:</p>
+<img src="../Assets/img/lexenv-if.png">
+<p>The new Lexical Environment gets the enclosing one as the outer reference, so phrase can be found. But all variables and Function Expressions declared inside <code>if</code> reside in that Lexical Environment and can’t be seen from the outside.</p>
+<p>For instance, after <code>if</code> finishes, the <code>alert</code> below won’t see the <code>user</code>, hence the error.</p>
+<h3>For, while</h3>
+<p>For a loop, every iteration has a separate Lexical Environment. If a variable is declared in for, then it’s also local to that Lexical Environment:</p>
+<pre>
+for (let i = 0; i < 10; i++) {
+  // Each loop has its own Lexical Environment
+  // {i: value}
+}
+
+alert(i); // Error, no such variable
+</pre>
+<p>That’s actually an exception, because <code>let i</code> is visually outside of <code>{...}</code>. But in fact each run of the loop has its own Lexical Environment with the current <code>i</code> in it.</p>
+<h3>Code blocks</h3>
+<p>We also can use a “bare” code block <code>{…}</code> to isolate variables into a “local scope”. For instance, in a web browser all scripts share the same global area. So if we create a global variable in one script, it becomes available to others. But that becomes a source of conflicts if two scripts use the same variable name and overwrite each other. That may happen if the variable name is a widespread word, and script authors are unaware of each other. If we’d like to avoid that, we can use a code block to isolate the whole script or a part of it:</p>
+<pre>
+{
+  // do some job with local variables that should not be seen outside
+
+  let message = "Hello";
+
+  alert(message); // Hello
+}
+
+alert(message); // Error: message is not defined
+</pre>
+<p>The code outside of the block (or inside another script) doesn’t see variables inside the block, because the block has its own Lexical Environment.</p>
+<h3>IIFE</h3>
+<p>In old scripts, one can find so-called “immediately-invoked function expressions” (abbreviated as IIFE) used for this purpose. They look like this:</p>
+<pre>
+(function() {
+
+  let message = "Hello";
+
+  alert(message); // Hello
+
+})();
+</pre>
+<p>Here a Function Expression is created and immediately called. So the code executes right away and has its own private variables.</p>
+<p>The Function Expression is wrapped with parenthesis (function {...}), because when JavaScript meets "function" in the main code flow, it understands it as the start of a Function Declaration. But a Function Declaration must have a name, so there will be an error:</p>
+<pre>
+// Error: Unexpected token (
+function() { // <-- JavaScript cannot find function name, meets ( and gives error
+
+  let message = "Hello";
+
+  alert(message); // Hello
+
+}();
+</pre>
+<p>We can say “okay, let it be so Function Declaration, let’s add a name”, but it won’t work. JavaScript does not allow Function Declarations to be called immediately:</p>
+<pre>
+// syntax error because of brackets below
+function go() {
+
+}(); // <-- can't call Function Declaration immediately
+</pre>
+<p>So, parenthesis are needed to show JavaScript that the function is created in the context of another expression, and hence it’s a Function Expression. It needs no name and can be called immediately.</p>
+
+
+
+
+
+
+
+
+
+
+<h1>Garbage collection of Lexical Environment</h1>
+<p>Lexical Environment objects that we’ve been talking about are subject to the same memory management rules as regular values.</p>
+<p>Usually, Lexical Environment is cleaned up after the function run. For instance:</p>
+<pre>
+function f() {
+  let value1 = 123;
+  let value2 = 456;
+}
+
+f();
+</pre>
+<p>Here two values are technically the properties of the Lexical Environment. But after <code>f()</code> finishes that Lexical Environment becomes unreachable, so it’s deleted from the memory.</p>
+<p>…But if there’s a nested function that is still reachable after the end of <code>f</code>, then its <code>[[Environment]]</code> reference keeps the outer lexical environment alive as well:</p>
+<pre>
+function f() {
+  let value = 123;
+
+  function g() { alert(value); }
+
+  return g;
+}
+
+let g = f(); // g is reachable, and keeps the outer lexical environment in memory
+</pre>
+<p>A Lexical Environment object dies when it becomes unreachable: when no nested functions remain that reference it. In the code below, after g becomes unreachable, the value is also cleaned from memory;</p>
+<pre>
+function f() {
+  let value = 123;
+
+  function g() { alert(value); }
+
+  return g;
+}
+
+let g = f(); // while g is alive
+// there corresponding Lexical Environment lives
+
+g = null; // ...and now the memory is cleaned up
+</pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

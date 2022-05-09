@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Image</title>
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
+	<script type="text/javascript" src="../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+<h1>Image()</h1>
+<pre>
+	
+	Image(string file [, float x [, float y [, float w [, float h [, string type [, mixed link]]]]]])
+
+</pre>
+<p>Puts an image. The size it will take on the page can be specified in different ways:</p>
+<ul>
+	<li>Explicit width and height (expressed in user unit or dpi)</li>
+	<li>One explicit dimension, the other being calculated automatically in order to keep the original proportions</li>
+	<li>No explicit dimension, in which case the image is put at 96 dpi.</li>
+</ul>
+<p>Supported formats are JPEG, PNG and GIF. The GD extension is required for GIF</p>
+<p>For JPEGs, all flavors are allowed:</p>
+<ul>
+	<li>gray scales</li>
+	<li>true colors (24 bits)</li>
+	<li>CMYK (32 bits)</li>
+</ul>
+<p>For PNGs, are allowed:</p>
+<ul>
+	<li>gray scales on at most 8 bits (256 levels)</li>
+	<li>indexed colors</li>
+	<li>true colors (24 bits)</li>
+</ul>
+<p>For GIFs: in case of an animated GIF, only the first frame is displayed.</p>
+<p>Transparency is supported.</p>
+<p>The format can be specified explicitly or inferred from the file extension.</p>
+<p>It is possible to put a link on the image.</p>
+<p>Remark: If an image is used several times, only one copy is embedded in the file.</p>
+
+<h4>file</h4>
+<p>Path or URL of the image.</p>
+<h4>x</h4>
+<p>Abscissa of the upper-left corner. If not specified or equal to null, the current abscissa is used.</p>
+<h4>y</h4>
+<p>Ordinate of the upper-left corner. If not specified or equal to null, the current ordinate is used; moreover, a page break is triggered first if necessary (in case automatic page breaking is enabled) and, after the call, the current ordinate is moved to the bottom of the image.</p>
+<h4>w</h4>
+<p>Width of the image in the page. There are three cases:</p>
+<ul>
+	<li>If the value is positive, it represents the width in user unit</li>
+	<li>If the value is negative, the absolute value represents the horizontal resolution in dpi</li>
+	<li>If the value is not specified or equal to zero, it is automatically calculated</li>
+</ul>
+<h4>h</h4>
+<p>Height of the image in the page. There are three cases:</p>
+<ul>
+	<li>If the value is positive, it represents the height in user unit</li>
+	<li>If the value is negative, the absolute value represents the vertical resolution in dpi</li>
+	<li>If the value is not specified or equal to zero, it is automatically calculated</li>
+</ul>
+<h4>type</h4>
+<p>Image format. Possible values are (case insensitive): JPG, JPEG, PNG and GIF. If not specified, the type is inferred from the file extension.</p>
+<h4>link</h4>
+<p>URL or identifier returned by AddLink().</p>
+<pre>
+	
+	// Insert a logo in the top-left corner at 300 dpi
+	$pdf->Image('logo.png',10,10,-300);
+	// Insert a dynamic image from a URL
+	$pdf->Image('http://chart.googleapis.com/chart?cht=p3&chd=t:60,40&chs=250x100&chl=Hello|World',60,30,90,0,'PNG');
+
+</pre>
+
+
+</div>
+</body>
+</html>

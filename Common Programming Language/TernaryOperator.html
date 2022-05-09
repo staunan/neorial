@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Ternary Operator</title>
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
+	<script type="text/javascript" src="../Assets/jquery.min.js"></script>
+	<link rel="stylesheet" href="../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+<h1>Ternary Operator</h1>
+<p>The ternary operator is an operator that takes three arguments. The condition is a comparison argument, the second is the result upon a true comparison, and the third is the result upon a false comparison. If it helps you can think of the operator as shortened way of writing an if-else statement. It is often used as a way to assign variables based on the result of an comparison. When used correctly it can help increase the readability and reduce the amount of lines in your code.</p>
+<p>Here is the syntax -</p>
+<pre>
+condition ? "trueExpression" : "falseExpression"
+</pre>
+<p>Here is an example -</p>
+<pre>
+let age = 40;
+let access = age>30?"yes":"no";
+</pre>
+<p>In the above example, <code>age>30</code> is the condition which is a conditional statement in our example. You can use function call that returns a value, or expression what evaluates to a value. Whatever you use here it must evaluate to Boolean value. If not, this operator will try to do a implicit conversion. However, based on the Boolean value of the condition it will determine which one should be returned. If the condition is true, the  left operand of the <code>:</code> gets returned. If the condition is <code>false</code>, then the right side operand of the <code>:</code> gets returned. So in the above example, the value of access will be <code>yes</code>.</p>
+<p>The above can be done with if else structure as well - </p>
+<pre>
+if(age>30){
+	access = "yes";
+}else{
+	access = "no";
+}
+</pre>
+<p>But the operator approach is more concise.</p>
+<h3>Nested Ternary Operator</h3>
+<p>You can also write nested ternary operator like the following -</p>
+<pre>
+$variable = ($x==1) ? (($y==2) ? true : false) : false;
+</pre>
+<h3>For complex expression use parenthesis</h3>
+<p>If your condition is a complex statement you should wrap them within a parenthisis. Not just condition, but even left and right operand of the <code>:</code> operator should be within parenthesis if they are complex statement to make sure thing works properly.</p>
+<pre>
+	(condition) ? (firstOperand) : (secondOperand);
+</pre>
+
+
+
+
+
+<h1>Nested Ternary Operator</h1>
+<p>The ternary operator can be nested even furture like this -</p>
+<pre>
+// js
+let age = prompt('age?', 18);
+
+let message = (age < 3) ? 'Hi, baby!' :
+  (age < 18) ? 'Hello!' :
+  (age < 100) ? 'Greetings!' :
+  'What an unusual age!';
+
+alert( message );
+</pre>
+<p>It may be difficult at first to grasp what’s going on. But after a closer look we can see that it’s just an ordinary sequence of tests.</p>
+<ul>
+	<li>The first question mark checks whether <code>age < 3</code>.</li>
+	<li>If true – returns 'Hi, baby!', otherwise – goes after the colon ":" and checks for <code>age < 18</code>.</li>
+	<li>If that’s true – returns 'Hello!', otherwise – goes after the next colon ":" and checks for <code>age < 100</code></li>
+	<li>If that’s true – returns 'Greetings!', otherwise – goes after the last colon ":" and returns 'What an unusual age!'.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Links and Lists</title>
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
+	<script type="text/javascript" src="../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+<h1>Links</h1>
+<p>To style a link differently depending on their state -</p>
+<ul>
+	<li>a:link - a normal, unvisited link</li>
+	<li>a:visited - a link the user has visited</li>
+	<li>a:hover - a link when the user mouses over it</li>
+	<li>a:active - a link the moment it is clicked</li>
+</ul>
+<p>When setting the style for several link states, there are some order rules:</p>
+<ul>
+	<li>a:hover MUST come after a:link and a:visited.</li>
+	<li>a:active MUST come after a:hover.</li>
+</ul>
+<p>By default browser render links with an underline below the text. If you want to remove that underline use <code>text-decoration</code> property with the value <code>none</code></p>
+
+
+
+<h1>list-style-type</h1>
+<p>The list-style-type specifies the type of list-item marker in a list.</p>
+<p>You can use the following values -</p>
+<table class="table is-bordered is-fullwidth">
+  <tr>
+	  <th style="width:24%">Value</th>
+	  <th style="width:64%">Description</th>
+  </tr>
+  <tr>
+    <td>disc</td>
+    <td>Default value. The marker is a filled circle</td>
+  </tr>
+  <tr>
+    <td>armenian</td>
+    <td>The marker is traditional Armenian numbering</td>
+  </tr>
+  <tr>
+    <td>circle</td>
+    <td>The marker is a circle</td>
+  </tr>
+  <tr>
+    <td>cjk-ideographic</td>
+    <td>The marker is plain ideographic numbers</td>
+  </tr>
+  <tr>
+    <td>decimal</td>
+    <td>The marker is a number</td>
+  </tr>
+  <tr>
+    <td>decimal-leading-zero</td>
+    <td>The marker is a number with leading zeros (01, 02,  03, etc.)</td>
+  </tr>
+  <tr>
+    <td>georgian</td>
+    <td>The marker is traditional Georgian numbering</td>
+  </tr>
+  <tr>
+    <td>hebrew</td>
+    <td>The marker is traditional Hebrew numbering</td>
+  </tr>
+  <tr>
+    <td>hiragana</td>
+    <td>The marker is traditional Hiragana numbering</td>
+  </tr>
+  <tr>
+    <td>hiragana-iroha</td>
+    <td>The marker is traditional Hiragana iroha numbering</td>
+  </tr>
+  <tr>
+    <td>katakana</td>
+    <td>The marker is traditional Katakana numbering</td>
+  </tr>
+  <tr>
+    <td>katakana-iroha</td>
+    <td>The marker is traditional Katakana iroha numbering</td>
+  </tr>
+  <tr>
+    <td>lower-alpha</td>
+    <td>The marker is lower-alpha (a, b, c, d, e, etc.)</td>
+  </tr>
+  <tr>
+    <td>lower-greek</td>
+    <td>The marker is lower-greek</td>
+  </tr>
+  <tr>
+    <td>lower-latin</td>
+    <td>The marker is lower-latin (a, b, c, d, e, etc.)</td>
+  </tr>
+  <tr>
+    <td>lower-roman</td>
+    <td>The marker is lower-roman (i, ii, iii, iv, v, etc.)</td>
+  </tr>
+  <tr>
+    <td>none</td>
+    <td>No marker is shown</td>
+  </tr>
+  <tr>
+    <td>square</td>
+    <td>The marker is a square</td>
+  </tr>
+  <tr>
+    <td>upper-alpha</td>
+    <td>The marker is upper-alpha (A, B, C, D, E, etc.)&nbsp;</td>
+  </tr>
+  <tr>
+    <td>upper-greek</td>
+    <td>The marker is upper-greek</td>
+  </tr>
+  <tr>
+    <td>upper-latin</td>
+    <td>The marker is upper-latin (A, B, C, D, E, etc.)</td>
+  </tr>
+  <tr>
+    <td>upper-roman</td>
+    <td>The marker is upper-roman (I, II, III, IV, V, etc.)</td>
+  </tr>
+</table>
+<p>Note that not all the broswer supports all the list-style-type value above. If a browser doesn't support a value it will render as a <code>disc</code> by default.</p>
+<p>Here is an example -</p>
+<pre>
+&lt;div class="box">
+  &lt;ul style="list-style-type: upper-roman;">
+    &lt;li>Mango&lt;/li>
+    &lt;li>Strawberry&lt;/li>
+    &lt;li>Banana&lt;/li>
+    &lt;li>Apple&lt;/li>
+    &lt;li>Guava&lt;/li>
+    &lt;li>Date&lt;/li>
+  &lt;/ul>
+&lt;/div>
+</pre>
+<div class="box">
+  <ul style="list-style-type: upper-roman;">
+    <li>Mango</li>
+    <li>Strawberry</li>
+    <li>Banana</li>
+    <li>Apple</li>
+    <li>Guava</li>
+    <li>Date</li>
+  </ul>
+</div>
+<p>Try inspecting that ul and change the value differently and see the each effect.</p>
+
+
+
+<h1>list-style-image</h1>
+<p>The list-style-image property replaces the list-item marker with an image.</p>
+<p>It can take two values -</p>
+<ul>
+  <li><code>none</code> which means no image will be used as a list marker. No image will be displayed. Instead, the list-style-type property will define what type of list marker will be rendered. This is default.</li>
+  <li><code>url</code> which is used to provide the url of the image that will be used as the image.</li>
+</ul>
+<p>If the image is not found, the default value <code>disc</code> will be used. Here is an example -</p>
+<style type="text/css">
+.ulImage{
+    list-style-image: url('Assets/img/sqpurple.gif');
+}
+</style>
+<pre>
+.ulImage{
+    list-style-image: url('Assets/img/sqpurple.gif');
+}
+
+&lt;div class="box">
+  &lt;ul class="ulImage">
+    &lt;li>Mango&lt;/li>
+    &lt;li>Strawberry&lt;/li>
+    &lt;li>Banana&lt;/li>
+    &lt;li>Apple&lt;/li>
+    &lt;li>Guava&lt;/li>
+    &lt;li>Date&lt;/li>
+  &lt;/ul>
+&lt;/div>
+</pre>
+<div class="box">
+  <ul class="ulImage">
+    <li>Mango</li>
+    <li>Strawberry</li>
+    <li>Banana</li>
+    <li>Apple</li>
+    <li>Guava</li>
+    <li>Date</li>
+  </ul>
+</div>
+
+
+
+
+
+
+
+<h1>list-style-position</h1>
+<p>The list-style-position property specifies the position of the list-item markers (bullet points). It can take the following values -</p>
+<ul>
+  <li><code>inside</code> The bullet points will be inside the list item</li>
+  <li><code>outside</code> The bullet points will be outside the list item. This is default.</li>
+</ul>
+<p>Here is an example -</p>
+<style type="text/css">
+.insideUl{
+  list-style-position: inside;
+}
+.insideUl li{
+  border: 1px solid black;
+}
+.outsideUl{
+  list-style-position: outside;
+}
+.outsideUl li{
+  border: 1px solid black;
+}
+</style>
+<pre>
+.insideUl{
+  list-style-position: inside;
+}
+.insideUl li{
+  border: 1px solid black;
+}
+.outsideUl{
+  list-style-position: outside;
+}
+.outsideUl li{
+  border: 1px solid black;
+}
+
+
+&lt;div class="box">
+  &lt;h3>Inside&lt;/h3>
+  &lt;ul class="insideUl">
+    &lt;li>Mango&lt;/li>
+    &lt;li>Strawberry&lt;/li>
+    &lt;li>Banana&lt;/li>
+    &lt;li>Apple&lt;/li>
+    &lt;li>Guava&lt;/li>
+    &lt;li>Date&lt;/li>
+  &lt;/ul>
+  &lt;h3>Outside&lt;/h3>
+  &lt;ul class="outsideUl">
+    &lt;li>Mango&lt;/li>
+    &lt;li>Strawberry&lt;/li>
+    &lt;li>Banana&lt;/li>
+    &lt;li>Apple&lt;/li>
+    &lt;li>Guava&lt;/li>
+    &lt;li>Date&lt;/li>
+  &lt;/ul>
+&lt;/div>
+</pre>
+<div class="box">
+  <h3>Inside</h3>
+  <ul class="insideUl">
+    <li>Mango</li>
+    <li>Strawberry</li>
+    <li>Banana</li>
+    <li>Apple</li>
+    <li>Guava</li>
+    <li>Date</li>
+  </ul>
+  <h3>Outside</h3>
+  <ul class="outsideUl">
+    <li>Mango</li>
+    <li>Strawberry</li>
+    <li>Banana</li>
+    <li>Apple</li>
+    <li>Guava</li>
+    <li>Date</li>
+  </ul>
+</div>
+
+
+
+
+
+<h1>list-style</h1>
+<p>The list-style property is a shorthand property that sets values for three different list-related properties in one declaration:</p>
+<pre>
+ul {
+    list-style: &lt;list-style-type> || &lt;list-style-position> || &lt;list-style-image>;
+}
+
+ul {
+    list-style: square outside none;
+}
+</pre>
+<p>Which would be the same as the following longhand version:</p>
+<pre>
+ul {
+ list-style-type: square;
+ list-style-position: outside;
+ list-style-image: none;
+}
+</pre>
+<p>In the shorthand, if any values are omitted, they will revert to their initial state.</p>
+
+
+
+<h1>Remove Default Settings</h1>
+<p>The <code>list-style-type:none</code> property can also be used to remove the markers/bullets. Note that the list also has default margin and padding. To remove this, add margin:0 and padding:0 to &lt;ul> or &lt;ol>:</p>
+<pre>
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+</pre>
+
+
+
+
+
+
+</div>
+</body>
+</html>

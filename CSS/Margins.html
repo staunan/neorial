@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Margins</title>
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+	<script src="../Assets/prism.min.js"></script>
+	<script type="text/javascript" src="../Assets/jquery.min.js"></script>
+    <link rel="stylesheet" href="../Assets/prism-dark.css">
+</head>
+<body class="Body">
+	<div class="Content Card">
+		<h1>Margin Left</h1>
+		<p>
+			The <code>margin-left</code> adds margin on the left side of the element. It creates an space on the left side of the element.
+		</p>
+		<p class="tip">
+			You can apply any unit value to the margin like em, rem, percentage, px etc. If you use percentage, the percentage value is relative to it's parent element's width and height. If your parent element is of 100px width, then setting margin on left or right side or both to it's child element to 20% results 20px margin. Same rules for the height too.
+		</p>
+		<pre>
+			div{
+				margin-left : 100px;
+			}
+		</pre>
+
+		<h1>Margin Right</h1>
+		<p>
+			The <code>margin-right</code> adds margin on the right side of the element. It creates an space on the right side of the element.
+		</p>
+		<pre>
+			div{
+				margin-right : 100px;
+			}
+		</pre>
+
+
+		<h1>Margin Top</h1>
+		<p>
+			The <code>margin-top</code> adds margin on the top side of the element. It creates an space on the top side of the element.
+		</p>
+		<pre>
+			div{
+				margin-top : 100px;
+			}
+		</pre>
+
+
+		<h1>Margin Bottom</h1>
+		<p>
+			The <code>margin-bottom</code> adds margin on the bottom side of the element. It creates an space on the bottom side of the element.
+		</p>
+		<pre>
+			div{
+				margin-bottom : 100px;
+			}
+		</pre>
+
+		<h1>Margin</h1>
+		<p>
+			The <code>margin</code> specifies the margin on all four side of the element. It is shorthand syntax of all the above four property.
+		</p>
+		<pre>
+			div{
+				// Add margin on all four side of the element.
+				margin : 10px;
+
+				// Top and bottom is 10px and left and right is 20px
+				margin : 10px 20px;
+
+				// Top is 10px, left and right side is 20px and bottom is 30px;
+				margin : 10px 20px 30px;
+
+				// Starting from the Top and it goes clockwise - top, right, bottom and left.
+				margin : 10px 20px 30px 40px;
+			}
+		</pre>
+
+		<h1>Negative Value</h1>
+		<h1>The <code>auto</code> Keyword</h1>
+		<p>
+			You can set the margin property to auto to horizontally center the element within its container. The element will then take up the specified width, and the remaining space will be split equally between the left and right margins:
+		</p>
+		<pre>
+			div {
+			    width: 300px;
+			    margin: auto;
+			    border: 1px solid red;
+			}
+		</pre>
+	</div>
+</body>
+</html>

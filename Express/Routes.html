@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Routes</title>
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+	<script type="text/javascript" src="../Assets/prism.min.js"></script>
+	<script type="text/javascript" src="../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+<h1>Routes</h1>
+<p>Routing refers to determining how an application responds to a client request to a particular endpoint, which is a URI (or path) and a specific HTTP request method (GET, POST, and so on).</p>
+<p>Each route can have one or more handler functions, which are executed when the route is matched. Route definition takes the following structure:</p>
+<pre>
+app.METHOD(PATH, HANDLER)
+</pre>
+<p>Where:</p>
+<ul>
+	<li><code>app</code> is an instance of express.</li>
+	<li><code>METHOD</code> is an HTTP request method, in lowercase. Like, <code>get</code>, <code>post</code>, <code>put</code>, <code>delete</code> etc.</li>
+	<li><code>PATH</code> is a path on the server.</li>
+	<li><code>HANDLER</code> is the function executed when the route is matched.</li>
+</ul>
+<p>The following examples illustrate defining simple routes. Respond with <code>Hello World!</code> on the homepage:</p>
+<pre>
+app.get('/', function (req, res) {
+  res.send('Hello World!')
+})
+</pre>
+<p>Respond to POST request on the root route (/), the application’s home page:</p>
+<pre>
+app.post('/', function (req, res) {
+  res.send('Got a POST request')
+})
+</pre>
+<p>Respond to a PUT request to the /user route:</p>
+<pre>
+app.put('/user', function (req, res) {
+  res.send('Got a PUT request at /user')
+})
+</pre>
+<p>Respond to a DELETE request to the /user route:</p>
+<pre>
+app.delete('/user', function (req, res) {
+  res.send('Got a DELETE request at /user')
+})
+</pre>
+<p>You can also use <code>app.all()</code> to handle all HTTP methods and <code>app.use()</code> to specify middleware as the callback function.</p>
+<p>In fact, the routing methods can have more than one callback function as arguments. With multiple callback functions, it is important to provide <code>next</code> as an argument to the callback function and then call <code>next()</code> within the body of the function to hand off control to the next callback.</p>
+<p>The following code is an example of a very basic route.</p>
+<pre>
+var express = require('express')
+var app = express()
+
+// respond with "hello world" when a GET request is made to the homepage
+app.get('/', function (req, res) {
+  res.send('hello world')
+})
+</pre>
+
+
+
+
+
+<h1>Route Methods : app.METHOD()</h1>
+<p>Express supports methods that correspond to all HTTP request methods: get, post, and so on. Here is the syntax:</p>
+<pre>
+app.METHOD(path, callback [, callback ...])
+</pre>
+<p>Routes an HTTP request, where METHOD is the HTTP method of the request, such as GET, PUT, POST, and so on, in lowercase. Thus, the actual methods are <code>app.get()</code>, <code>app.post()</code>, <code>app.put()</code>, and so on.</p>
+<p>Here are the arguments described:</p>
+<h3>path</h3>
+<p>The path for which the middleware function is invoked; can be any of:</p>
+<ul>
+	<li>A string representing a path.</li>
+	<li>A path pattern.</li>
+	<li>A regular expression pattern to match paths.</li>
+	<li>An array of combinations of any of the above.</li>
+</ul>
+<h3>callback</h3>
+<p>Callback functions; can be:</p>
+<ul>
+	<li>A middleware function</li>
+	<li>A series of middleware functions (separated by commas).</li>
+	<li>An array of middleware functions.</li>
+	<li>A combination of all of the above.</li>
+</ul>
+<p>You can provide multiple callback functions that behave just like middleware, except that these callbacks can invoke next('route') to bypass the remaining route callback(s). You can use this mechanism to impose pre-conditions on a route, then pass control to subsequent routes if there is no reason to proceed with the current route.</p>
+<p>Since router and app implement the middleware interface, you can use them as you would any other middleware function.</p>
+<h3>Routing methods</h3>
+<p>Express supports the following routing methods corresponding to the HTTP methods of the same names:</p>
+<div style="display: flex;">
+	<ul>
+		<li>checkout</li>
+		<li>copy</li>
+		<li>delete</li>
+		<li>get</li>
+		<li>head</li>
+		<li>lock</li>
+		<li>merge</li>
+		<li>mkactivity</li>
+	</ul>
+	<ul>
+		<li>mkcol</li>
+		<li>move</li>
+		<li>m-search</li>
+		<li>notify</li>
+		<li>options</li>
+		<li>patch</li>
+		<li>post</li>
+	</ul>
+	<ul>
+		<li>purge</li>
+		<li>put</li>
+		<li>report</li>
+		<li>search</li>
+		<li>subscribe</li>
+		<li>trace</li>
+		<li>unlock</li>
+		<li>unsubscribe</li>
+	</ul>
+</div>
+<p>The <code>app.get()</code> function is automatically called for the HTTP HEAD method in addition to the GET method if <code>app.head()</code> was not called for the path before <code>app.get()</code>.</p>
+<p>The API documentation has explicit entries only for the most popular HTTP methods <code>app.get()</code>, <code>app.post()</code>, <code>app.put()</code>, and <code>app.delete()</code>. However, the other methods listed above work in exactly the same way.</p>
+<p>To route methods that translate to invalid JavaScript variable names, use the bracket notation. For example:</p>
+<pre>
+app['m-search'](path, callback...)
+</pre>
+
+
+
+
+
+
+
+<h1>Route paths</h1>
+<p>Route paths, in combination with a request method, define the endpoints at which requests can be made. Route paths can be strings, string patterns, or regular expressions.</p>
+<h3>string</h3>
+<p>Here are some examples of route paths based on strings.</p>
+<pre>
+// This route path will match requests to the root route, /
+app.get('/', function (req, res) {
+  res.send('root')
+})
+
+// This route path will match requests to /about
+app.get('/about', function (req, res) {
+  res.send('about')
+})
+
+// This route path will match requests to /random.text
+app.get('/random.text', function (req, res) {
+  res.send('random.text')
+})
+</pre>
+
+<h3>string patterns</h3>
+<p>Here are some examples of route paths based on string patterns.</p>
+<pre>
+// This route path will match acd and abcd.
+app.get('/ab?cd', function (req, res) {
+  res.send('ab?cd')
+})
+
+// This route path will match abcd, abbcd, abbbcd, and so on.
+app.get('/ab+cd', function (req, res) {
+  res.send('ab+cd')
+})
+
+// This route path will match abcd, abxcd, abRANDOMcd, ab123cd, and so on.
+app.get('/ab*cd', function (req, res) {
+  res.send('ab*cd')
+})
+
+// This route path will match /abe and /abcde.
+app.get('/ab(cd)?e', function (req, res) {
+  res.send('ab(cd)?e')
+})
+</pre>
+<h3>Regular Expressions</h3>
+<p>Examples of route paths based on regular expressions:</p>
+<pre>
+// This route path will match anything with an “a” in it.
+app.get(/a/, function (req, res) {
+  res.send('/a/')
+})
+
+// This route path will match butterfly and dragonfly, but not butterflyman, dragonflyman, and so on.
+app.get(/.*fly$/, function (req, res) {
+  res.send('/.*fly$/')
+})
+</pre>
+
+
+
+
+
+
+
+
+
+
+
+<h1>Route parameters</h1>
+<p>Route parameters are named URL segments that are used to capture the values specified at their position in the URL. The captured values are populated in the <code>req.params</code> object, with the name of the route parameter specified in the path as their respective keys.</p>
+<pre>
+Route path: /users/:userId/books/:bookId
+Request URL: http://localhost:3000/users/34/books/8989
+req.params: { "userId": "34", "bookId": "8989" }
+</pre>
+<p>Here is an example:</p>
+<pre>
+app.get('/users/:userId/books/:bookId', function (req, res) {
+  res.send(req.params)
+})
+</pre>
+<p>Since the hyphen (-) and the dot (.) are interpreted literally, they can be used along with route parameters for useful purposes.</p>
+<pre>
+Route path: /flights/:from-:to
+Request URL: http://localhost:3000/flights/LAX-SFO
+req.params: { "from": "LAX", "to": "SFO" }
+</pre>
+<pre>
+Route path: /plantae/:genus.:species
+Request URL: http://localhost:3000/plantae/Prunus.persica
+req.params: { "genus": "Prunus", "species": "persica" }
+</pre>
+<p>To have more control over the exact string that can be matched by a route parameter, you can append a regular expression in parentheses (()):</p>
+<pre>
+Route path: /user/:userId(\d+)
+Request URL: http://localhost:3000/user/42
+req.params: {"userId": "42"}
+</pre>
+<p>Because the regular expression is usually part of a literal string, be sure to escape any <code>\</code> characters with an additional backslash, for example <code>\\d+</code>.</p>
+
+
+
+
+
+
+
+
+<h1>Route handlers</h1>
+<p>You can provide multiple callback functions that behave like middleware to handle a request. The only exception is that these callbacks might invoke <code>next('route')</code> to bypass the remaining route callbacks. You can use this mechanism to impose pre-conditions on a route, then pass control to subsequent routes if there’s no reason to proceed with the current route.</p>
+<p>Route handlers can be in the form of a function, an array of functions, or combinations of both, as shown in the following examples.</p>
+<p>A single callback function can handle a route. For example:</p>
+<pre>
+app.get('/example/a', function (req, res) {
+  res.send('Hello from A!')
+})
+</pre>
+<p>More than one callback function can handle a route (make sure you specify the next object). For example:</p>
+<pre>
+app.get('/example/b', function (req, res, next) {
+  console.log('the response will be sent by the next function ...')
+  next()
+}, function (req, res) {
+  res.send('Hello from B!')
+})
+</pre>
+<p>An array of callback functions can handle a route. For example:</p>
+<pre>
+var cb0 = function (req, res, next) {
+  console.log('CB0')
+  next()
+}
+
+var cb1 = function (req, res, next) {
+  console.log('CB1')
+  next()
+}
+
+var cb2 = function (req, res) {
+  res.send('Hello from C!')
+}
+
+app.get('/example/c', [cb0, cb1, cb2])
+</pre>
+<p>A combination of independent functions and arrays of functions can handle a route. For example:</p>
+<pre>
+var cb0 = function (req, res, next) {
+  console.log('CB0')
+  next()
+}
+
+var cb1 = function (req, res, next) {
+  console.log('CB1')
+  next()
+}
+
+app.get('/example/d', [cb0, cb1], function (req, res, next) {
+  console.log('the response will be sent by the next function ...')
+  next()
+}, function (req, res) {
+  res.send('Hello from D!')
+})
+</pre>
+
+
+
+
+
+
+
+
+
+
+<h1>Response methods</h1>
+<p>The methods on the response object (res) in the following table can send a response to the client, and terminate the request-response cycle. If none of these methods are called from a route handler, the client request will be left hanging.</p>
+<ul>
+	<li><code>res.download()</code>:	Prompt a file to be downloaded.</li>
+	<li><code>res.end()</code>: 	End the response process.</li>
+	<li><code>res.json()</code>: Send a JSON response.</li>
+	<li><code>res.jsonp()</code>: Send a JSON response with JSONP support.</li>
+	<li><code>res.redirect()</code>: 	Redirect a request.</li>
+	<li><code>res.render()</code>: Render a view template.</li>
+	<li><code>res.send()</code>: Send a response of various types.</li>
+	<li><code>res.sendFile()</code>: Send a file as an octet stream.</li>
+	<li><code>res.sendStatus()</code>: Set the response status code and send its string representation as the response body.</li>
+</ul>
+
+
+
+
+
+
+
+
+<h1>app.route()</h1>
+<p>You can create chainable route handlers for a route path by using <code>app.route()</code>. Because the path is specified at a single location, creating modular routes is helpful, as is reducing redundancy and typos.</p>
+<p>Here is an example of chained route handlers that are defined by using app.route().</p>
+<pre>
+app.route('/book')
+  .get(function (req, res) {
+    res.send('Get a random book')
+  })
+  .post(function (req, res) {
+    res.send('Add a book')
+  })
+  .put(function (req, res) {
+    res.send('Update the book')
+  });
+</pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h1>Router</h1>
+<p>A router object is an isolated instance of middleware and routes. You can think of it as a “mini-application,” capable only of performing middleware and routing functions. Every Express application has a built-in app router. Use the <code>express.Router</code> class to create modular, mountable route handlers. A Router instance is a complete middleware and routing system; for this reason, it is often referred to as a “mini-app”.</p>
+<p>The top-level express object has a <code>Router()</code> method that creates a new router object.</p>
+<p>Once you’ve created a router object, you can add middleware and HTTP method routes (such as get, put, post, and so on) to it just like an application.</p>
+<p>The following example creates a router as a module, loads a middleware function in it, defines some routes, and mounts the router module on a path in the main app. Create a router file named <code>birds.js</code> in the app directory, with the following content:</p>
+<pre>
+var express = require('express')
+var router = express.Router()
+
+// middleware that is specific to this router
+router.use(function timeLog (req, res, next) {
+  console.log('Time: ', Date.now())
+  next()
+})
+// define the home page route
+router.get('/', function (req, res) {
+  res.send('Birds home page')
+})
+// define the about route
+router.get('/about', function (req, res) {
+  res.send('About birds')
+})
+
+module.exports = router
+</pre>
+<p>Then, load the router module in the app:</p>
+<pre>
+var birds = require('./birds')
+
+// ...
+
+app.use('/birds', birds)
+</pre>
+<p>The app will now be able to handle requests to <code>/birds</code> and <code>/birds/about</code>, as well as call the timeLog middleware function that is specific to the route.</p>
+<p>This Class exposese few useful methods, they are described below:</p>
+
+
+<h3>router.all()</h3>
+<p>This method is just like the <code>router.METHOD()</code> methods, except that it matches all HTTP methods (verbs).</p>
+<p>This method is extremely useful for mapping “global” logic for specific path prefixes or arbitrary matches. For example, if you placed the following route at the top of all other route definitions, it would require that all routes from that point on would require authentication, and automatically load a user. Keep in mind that these callbacks do not have to act as end points; loadUser can perform a task, then call <code>next()</code> to continue matching subsequent routes.</p>
+<pre>
+router.all('*', requireAuthentication, loadUser);
+</pre>
+<p>The above is same as the following:</p>
+<pre>
+router.all('*', requireAuthentication)
+router.all('*', loadUser);
+</pre>
+<p>Remember again that the method <code>requireAuthentication</code> needs to call <code>next()</code> method to pass the control to the next route handler.</p>
+<p>Another example of this is white-listed “global” functionality. Here the example is much like before, but it only restricts paths prefixed with “/api”:</p>
+<pre>
+router.all('/api/*', requireAuthentication);
+</pre>
+
+
+<h3>router.METHOD()</h3>
+<pre>
+router.METHOD(path, [callback, ...] callback)
+</pre>
+<p>This method is same as the <code>app.METHOED()</code> that we already have discussed at the beginning.</p>
+
+
+<h3>router.param()</h3>
+<pre>
+router.param(name, callback)
+</pre>
+<p>Adds callback triggers to route parameters, where <code>name</code> is the name of the parameter and <code>callback</code> is the callback function. The parameters of the callback function are:</p>
+<ul>
+	<li>req, the request object.</li>
+	<li>res, the response object.</li>
+	<li>next, indicating the next middleware function.</li>
+	<li>The value of the name parameter.</li>
+	<li>The name of the parameter.</li>
+</ul>
+<p style="font-style: italic; font-weight: 500;">Unlike app.param(), router.param() does not accept an array of route parameters.</p>
+<p>For example, when <code>:user</code> is present in a route path, you may map user loading logic to automatically provide <code>req.user</code> to the route, or perform validations on the parameter input.</p>
+<pre>
+router.param('user', function(req, res, next, id) {
+
+  // try to get the user details from the User model and attach it to the request object
+  User.find(id, function(err, user) {
+    if (err) {
+      next(err);
+    } else if (user) {
+      req.user = user;
+      next();
+    } else {
+      next(new Error('failed to load user'));
+    }
+  });
+});
+</pre>
+<p>Param callback functions are local to the <code>router</code> on which they are defined. They are not inherited by mounted apps or routers. Hence, param callbacks defined on <code>router</code> will be triggered only by route parameters defined on <code>router</code> routes.</p>
+<p>A param callback will be called only once in a request-response cycle, even if the parameter is matched in multiple routes, as shown in the following examples.</p>
+<pre>
+router.param('id', function (req, res, next, id) {
+  console.log('CALLED ONLY ONCE');
+  next();
+});
+
+router.get('/user/:id', function (req, res, next) {
+  console.log('although this matches');
+  next();
+});
+
+router.get('/user/:id', function (req, res) {
+  console.log('and this matches too');
+  res.end();
+});
+</pre>
+<p>On GET <code>/user/42</code>, the following is printed:</p>
+<pre>
+CALLED ONLY ONCE
+although this matches
+and this matches too
+</pre>
+
+
+
+
+
+
+
+
+<h3>router.route()</h3>
+<pre>
+router.route(path)
+</pre>
+<p>This method is same as <code>app.route()</code>. Here is the details explaination of this method.</p>
+<p>Returns an instance of a single route which you can then use to handle HTTP verbs with optional middleware. Use <code>router.route()</code> to avoid duplicate route naming and thus typing errors.</p>
+<p>Building on the <code>router.param()</code> example above, the following code shows how to use <code>router.route()</code> to specify various HTTP method handlers.</p>
+<pre>
+var router = express.Router();
+
+router.param('user_id', function(req, res, next, id) {
+  // sample user, would actually fetch from DB, etc...
+  req.user = {
+    id: id,
+    name: 'TJ'
+  };
+  next();
+});
+
+router.route('/users/:user_id')
+.all(function(req, res, next) {
+  // runs for all HTTP verbs first
+  // think of it as route specific middleware!
+  next();
+})
+.get(function(req, res, next) {
+  res.json(req.user);
+})
+.put(function(req, res, next) {
+  // just an example of maybe updating the user
+  req.user.name = req.params.name;
+  // save user ... etc
+  res.json(req.user);
+})
+.post(function(req, res, next) {
+  next(new Error('not implemented'));
+})
+.delete(function(req, res, next) {
+  next(new Error('not implemented'));
+});
+</pre>
+<p>This approach re-uses the single <code>/users/:user_id</code> path and adds handlers for various HTTP methods.</p>
+
+
+
+
+
+
+<h3>router.use()</h3>
+<pre>
+router.use([path], [function, ...] function)
+</pre>
+<p>Uses the specified middleware function or functions, with optional mount path <code>path</code>, that defaults to “/”.</p>
+<p>This method is similar to <code>app.use()</code>.</p>
+<p>This method mounts the specified middleware function or functions at the specified <code>path</code>: the middleware function is executed when the base of the requested path matches <code>path</code>.</p>
+<p>The argument <code>path</code> can be a string, a string pattern, a regular expression or any combination with them. The second argument can be a middleware function, or series of middleware functions seperated by comma, an array of middleware function, a combination of all the above.</p>
+<p>You can provide multiple callback functions that behave just like middleware, except that these callbacks can invoke <code>next('route')</code> to bypass the remaining route callback(s). You can use this mechanism to impose pre-conditions on a route, then pass control to subsequent routes if there is no reason to proceed with the current route.</p>
+<p>Middleware is like a plumbing pipe: requests start at the first middleware function defined and work their way “down” the middleware stack processing for each path they match.</p>
+<pre>
+var express = require('express');
+var app = express();
+var router = express.Router();
+
+// simple logger for this router's requests
+// all requests to this router will first hit this middleware
+router.use(function(req, res, next) {
+  console.log('%s %s %s', req.method, req.url, req.path);
+  next();
+});
+
+// this will only be invoked if the path starts with /bar from the mount point
+router.use('/bar', function(req, res, next) {
+  // ... maybe some additional /bar logging ...
+  next();
+});
+
+// always invoked
+router.use(function(req, res, next) {
+  res.send('Hello World');
+});
+
+app.use('/foo', router);
+
+app.listen(3000);
+</pre>
+<p>The “mount” path is stripped and is not visible to the middleware function. The main effect of this feature is that a mounted middleware function may operate without code changes regardless of its “prefix” pathname.</p>
+<p>The order in which you define middleware with <code>router.use()</code> is very important. They are invoked sequentially, thus the order defines middleware precedence. For example, usually a logger is the very first middleware you would use, so that every request gets logged.</p>
+<pre>
+var logger = require('morgan');
+
+router.use(logger());
+router.use(express.static(__dirname + '/public'));
+router.use(function(req, res){
+  res.send('Hello');
+});
+</pre>
+<p>Now suppose you wanted to ignore logging requests for static files, but to continue logging routes and middleware defined after <code>logger()</code>. You would simply move the call to <code>express.static()</code> to the top, before adding the logger middleware:</p>
+<pre>
+router.use(express.static(__dirname + '/public'));
+router.use(logger());
+router.use(function(req, res){
+  res.send('Hello');
+});
+</pre>
+<p>Another example is serving files from multiple directories, giving precedence to “./public” over the others:</p>
+<pre>
+app.use(express.static(__dirname + '/public'));
+app.use(express.static(__dirname + '/files'));
+app.use(express.static(__dirname + '/uploads'));
+</pre>
+<p>The <code>router.use()</code> method also supports named parameters so that your mount points for other routers can benefit from preloading using named parameters.</p>
+
+<p><span style="font-weight: 500;">NOTE</span>: Although these middleware functions are added via a particular <code>router</code>, when they run is defined by the path they are attached to (not the router). Therefore, middleware added via one router may run for other routers if its routes match. For example, this code shows two different routers mounted on the same path:</p>
+<pre>
+var authRouter = express.Router();
+var openRouter = express.Router();
+
+authRouter.use(require('./authenticate').basic(usersdb));
+
+authRouter.get('/:user_id/edit', function(req, res, next) { 
+  // ... Edit user UI ...  
+});
+openRouter.get('/', function(req, res, next) { 
+  // ... List users ... 
+})
+openRouter.get('/:user_id', function(req, res, next) { 
+  // ... View user ... 
+})
+
+app.use('/users', authRouter);
+app.use('/users', openRouter);
+</pre>
+<p>In the above example we have two router <code>authRouter</code> and <code>openRouter</code>. Those two router are different. But we are attaching these two router on the same path <code>/users</code>. So when we make a request starts with <code>/users...</code>, both middleware runs. Even though the authentication middleware was added via the <code>authRouter</code> it will run on the routes defined by the <code>openRouter</code> as well since both routers were mounted on <code>/users...</code>. To avoid this behavior, use different paths for each router. To avoid this situation use different path.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

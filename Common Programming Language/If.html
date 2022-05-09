@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>If</title>
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
+	<script type="text/javascript" src="../Assets/jquery.min.js"></script>
+	<link rel="stylesheet" href="../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+<h1>If Statement</h1>
+<pre>
+if(boolean){
+	//body of If
+}
+//Outside of the if body..
+</pre>
+<p>Here, <code>if</code> is a keyword. In the above statement <code>boolean</code> is a boolean value. So <code>if</code> statement takes a boolean value. If the boolean value is <code>true</code> then, the body of if gets executed. And if the value is <code>false</code> then, the body of if is skipped and control is passed over to the <code>outside of the if body</code>. This concept is pretty simple. Sometimes you want to execute one or more statement depending on a conditioin and if statement does so.</p>
+<p>Here, the body of <code>if</code> can contain one or more statment. There's no limit on how many statement you can use inside the body. It's unlimited. You can write any statement you want. But, you can't define functions, classes, interface inside the body of <code>if</code>. Though some programming language allow you to do that. But in most programming language it is forbidden.</p>
+<p>If there's only one statement to be executed inside the body of the <code>if</code>, I mean, if there's only one statement inside the <code>if</code> body, you can omit the curly bracket gracefully. And the code will look simpler.</p>
+<pre>
+if(boolean)
+	//body of If
+//Outside of the if body..
+</pre>
+<p>If the <code>boolean</code> value is <code>true</code>, and there's no curly bracket, the statement will look for a single statement that is immediately after the <code>if</code> statement and execute it. Similar way, if the value is <code>false</code>, then the statement immediately after <code>if</code>, will be skipped.</p>
+<p>But, in real life situation, we always want to execute <code>if</code> body depending on a value, not just predefined <code>true</code> and <code>false</code> keyword. So, the syntax would be more like -</p>
+<pre>
+	if(condition)
+		Statement;
+	//Outside of the if body..
+</pre>
+<p>Here, <code>condition</code> may be any expression, or function call that returns value, or the keyword <code>true</code> or <code>false</code>. But whatever you use, it must be evaluated to boolean value. For example, if you use an expression, the value must be evaluated to either <code>true</code> or <code>false</code>.</p>
+<p>In most programming language, implicit conversion happens. For example, if the expression returns an integer value, the language will convert the integer value automatically to boolean value. The common rules is that if the value is <code>0</code>, the corresponding boolean value would be <code>false</code>. If the value is <code>anything but 0</code>, the corresponding value would be <code>true</code>.</p>
+<p>For, string data type, empty string treated as <code>false</code> whereas the string contains at least one character considered as a <code>true</code> value.</p>
+<pre>
+	if(""){
+		// The body will never be executed.
+	}
+</pre>
+<p>If you use, <code>null</code>, some language will throw an error, and some language will treat this value as a <code>false</code>.</p>
+<pre>
+	if(null){
+		// The body will never be executed.
+	}
+</pre>
+<p>The the point is, whatever value you use inside the if statement, it doesn't matter. The only thing matter that the boolean value that it is converted into. If statement doesn't care about anyvalue other than <code>true</code> and <code>false</code>. If the value is <code>true</code> it will execute the body and if the value is <code>false</code> the body will never execute. </p>
+</div>
+
+
+</body>
+</html>

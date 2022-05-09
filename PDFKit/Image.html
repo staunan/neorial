@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>PDFKit - Images</title>
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
+	<script type="text/javascript" src="../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../Assets/prism-dark.css">
+  <script type="text/javascript" src="pdfkit.js"></script>
+  <script type="text/javascript" src="blob-stream.js"></script>
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+<h1>Image</h1>
+<p>Adding images to PDFKit documents is an easy task. Just pass an image path, buffer, or data uri with base64 encoded data to the image method along with some optional arguments. PDFKit supports the JPEG and PNG formats. If an X and Y position are not provided, the image is rendered at the current point in the text flow (below the last line of text). Otherwise, it is positioned absolutely at the specified point. The image will be scaled according to the following options.</p>
+<ul>
+	<li><code>Neither width or height provided</code> - image is rendered at full size</li>
+	<li><code>width provided but not height</code> - image is scaled proportionally to fit in the provided width</li>
+	<li><code>height provided but not width</code> - image is scaled proportionally to fit in the provided height</li>
+	<li><code>Both width and height provided</code> - image is stretched to the dimensions provided</li>
+	<li><code>fit array provided</code> - image is scaled proportionally to fit within the passed width and height</li>
+</ul>
+<p>Here is an example -</p>
+<pre>
+function Demo1(){
+	// Initializing doc --
+	var doc = new PDFDocument;
+	var stream = doc.pipe(blobStream());
+
+
+	var oReq = new XMLHttpRequest();
+	oReq.open("GET", "https://www.vidhikarya.com/images/Home/slider_1.jpg", true);
+	oReq.responseType = "arraybuffer";
+	var image = "";
+	oReq.onload = function(event){
+			image = oReq.response; // Image as an arrayBuffer
+			// Content Start -----------
+			// Scale proprotionally to the specified width
+			doc.image(image, 0, 15, {width: 300}).text('Proportional to width', 0, 0);
+
+			// Fit the image within the dimensions
+			doc.image(image, 320, 15, {fit: [100, 100]}).text('Fit', 320, 0);
+
+			// Stretch the image
+			doc.image(image, 320, 145, {width: 200, height: 100}).text('Stretch', 320, 130);
+
+			// Scale the image
+			doc.image(image, 320, 280, {scale: 0.25}).text('Scale', 320, 265);
+			// Content End -------------
+
+
+
+
+			// Downloading PDF --
+			doc.end();
+			stream.on('finish', function(){
+				var blob = stream.toBlob('application/pdf');
+				url = stream.toBlobURL('application/pdf');
+				var link = document.createElement('a');
+				link.setAttribute('target', '_blank');
+				link.setAttribute('href', url);
+				document.body.appendChild(link);
+				link.click();
+			});
+	};
+	oReq.send(null);
+}
+</pre>
+<p>You need to setup a local enviornment to run this demo. However you can see the output like the following -</p>
+<a href="imageDemo.pdf" target="_blank">See Result</a>
+
+
+
+</div>
+</body>
+</html>

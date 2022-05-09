@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Property Flag and Descriptor</title>
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+	<script type="text/javascript" src="../../Assets/prism.min.js"></script>
+	<script type="text/javascript" src="../../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+
+
+<h1>Property Flags</h1>
+<p>When you add a new property to an object, besides value, three flags are set with it.</p>
+<ul>
+	<li><code>writable</code> if <code>true</code>, can be changed, otherwise it’s read-only.</li>
+	<li><code>enumerable</code> if <code>true</code>, then listed in loops, otherwise not listed.</li>
+	<li><code>configurable</code> if <code>true</code>, the property can be deleted and these attributes can be modified, otherwise not.</li>
+</ul>
+<p>We didn’t see them yet, because generally they do not show up. When we create a property “the usual way”, all of them are <code>true</code>. But we also can change them anytime.</p>
+<p>The method <code>Object.getOwnPropertyDescriptor</code> allows to query the full information about a property.</p>
+<pre>
+let descriptor = Object.getOwnPropertyDescriptor(obj, propertyName);
+</pre>
+<p>The returned value is a so-called “property descriptor” object: it contains the value and all the flags.</p>
+<pre>
+let user = {
+  name: "John"
+};
+
+let descriptor = Object.getOwnPropertyDescriptor(user, 'name');
+
+alert( JSON.stringify(descriptor, null, 2 ) );
+/* property descriptor:
+{
+  "value": "John",
+  "writable": true,
+  "enumerable": true,
+  "configurable": true
+}
+*/
+</pre>
+<p>To change the flags, we can use <code>Object.defineProperty</code>.</p>
+<pre>
+Object.defineProperty(obj, propertyName, descriptor)
+</pre>
+<p>If the property exists, <code>defineProperty</code> updates its flags. Otherwise, it creates the property with the given value and flags; in that case, if a flag is not supplied, it is assumed <code>false</code>.</p>
+<p>For instance, here a property name is created with all falsy flags:</p>
+<pre>
+let user = {};
+
+Object.defineProperty(user, "name", {
+  value: "John"
+});
+
+let descriptor = Object.getOwnPropertyDescriptor(user, 'name');
+
+alert( JSON.stringify(descriptor, null, 2 ) );
+/*
+{
+  "value": "John",
+  "writable": false,
+  "enumerable": false,
+  "configurable": false
+}
+ */
+</pre>
+<p>Compare it with “normally created” <code>user.name</code> above: now all flags are falsy. If that’s not what we want then we’d better set them to <code>true</code> in descriptor.</p>
+
+
+
+
+
+
+
+
+
+
+<h1>Read-only</h1>
+<p>Let’s make <code>user.name</code> read-only by changing <code>writable</code> flag:</p>
+<pre>
+let user = {
+  name: "John"
+};
+
+Object.defineProperty(user, "name", {
+  writable: false
+});
+
+user.name = "Pete"; // Error: Cannot assign to read only property 'name'...
+</pre>
+<p>Now no one can change the name of our user, unless they apply their own <code>defineProperty</code> to override ours.</p>
+<p>Here’s the same operation, but for the case when a property doesn’t exist:</p>
+<pre>
+let user = { };
+
+Object.defineProperty(user, "name", {
+  value: "Pete",
+  // for new properties need to explicitly list what's true
+  enumerable: true,
+  configurable: true
+});
+
+alert(user.name); // Pete
+user.name = "Alice"; // Error
+</pre>
+
+
+
+
+
+
+
+
+
+<h1>Non-enumerable</h1>
+<p>Now let’s add a custom <code>toString</code> to <code>user</code>.</p>
+<p>Normally, a built-in <code>toString</code> for objects is non-enumerable, it does not show up in <code>for..in</code>. But if we add <code>toString</code> of our own, then by default it shows up in <code>for..in</code>, like this:</p>
+<pre>
+let user = {
+  name: "John",
+  toString() {
+    return this.name;
+  }
+};
+
+// By default, both our properties are listed:
+for (let key in user) alert(key); // name, toString
+</pre>
+<p>If we don’t like it, then we can set <code>enumerable:false</code>. Then it won’t appear in <code>for..in</code> loop, just like the built-in one:</p>
+<pre>
+let user = {
+  name: "John",
+  toString() {
+    return this.name;
+  }
+};
+
+Object.defineProperty(user, "toString", {
+  enumerable: false
+});
+
+// Now our toString disappears:
+for (let key in user) alert(key); // name
+</pre>
+<p>Non-enumerable properties are also excluded from <code>Object.keys</code>:</p>
+<pre>
+alert(Object.keys(user)); // name
+</pre>
+
+
+
+
+
+
+
+
+<h1>Non-configurable</h1>
+<p>The non-configurable flag (<code>configurable:false</code>) is sometimes preset for built-in objects and properties.</p>
+<p>A non-configurable property can not be deleted or altered with <code>defineProperty</code>.</p>
+<p>For instance, <code>Math.PI</code> is read-only, non-enumerable and non-configurable:</p>
+<pre>
+let descriptor = Object.getOwnPropertyDescriptor(Math, 'PI');
+
+alert( JSON.stringify(descriptor, null, 2 ) );
+/*
+{
+  "value": 3.141592653589793,
+  "writable": false,
+  "enumerable": false,
+  "configurable": false
+}
+*/
+</pre>
+<p>So, a programmer is unable to change the value of Math.PI or overwrite it.</p>
+<pre>
+Math.PI = 3; // Error
+delete Math.PI; // Error
+</pre>
+<p>Making a property non-configurable is a one-way road. We cannot change it back, because <code>defineProperty</code> doesn’t work on non-configurable properties.</p>
+<p>Here we are making <code>user.name</code> a “forever sealed” constant:</p>
+<pre>
+let user = { };
+
+Object.defineProperty(user, "name", {
+  value: "John",
+  writable: false,
+  configurable: false
+});
+
+// won't be able to change user.name or its flags
+// all this won't work:
+//   user.name = "Pete"
+//   delete user.name
+//   defineProperty(user, "name", ...)
+Object.defineProperty(user, "name", {writable: true}); // Error
+</pre>
+<h3>use strict</h3>
+<p>Errors appear only in <code>use strict</code>. In the non-strict mode, no errors occur when writing to read-only properties and such. But the operation still won’t succeed. Flag-violating actions are just silently ignored in non-strict.</p>
+
+
+
+
+
+
+
+
+
+
+<h1>Object.defineProperties</h1>
+<p>There’s a method <code>Object.defineProperties(obj, descriptors)</code> that allows to define many properties at once.</p>
+<pre>
+Object.defineProperties(obj, {
+  prop1: descriptor1,
+  prop2: descriptor2
+  // ...
+});
+</pre>
+<p>For example:</p>
+<pre>
+Object.defineProperties(user, {
+  name: { value: "John", writable: false },
+  surname: { value: "Smith", writable: false },
+  // ...
+});
+</pre>
+
+
+
+
+
+
+<h1>Object.getOwnPropertyDescriptors</h1>
+<p>To get all property descriptors at once, we can use the method <code>Object.getOwnPropertyDescriptors(obj)</code>.</p>
+<p>Together with <code>Object.defineProperties</code> it can be used as a “flags-aware” way of cloning an object:</p>
+<pre>
+let clone = Object.defineProperties({}, Object.getOwnPropertyDescriptors(obj));
+</pre>
+<p>Normally when we clone an object, we use an assignment to copy properties, like this:</p>
+<pre>
+for (let key in user) {
+  clone[key] = user[key]
+}
+</pre>
+<p>…But that does not copy flags. So if we want a “better” clone then <code>Object.defineProperties</code> is preferred.</p>
+<p>Another difference is that <code>for..in</code> ignores symbolic properties, but <code>Object.getOwnPropertyDescriptors</code> returns all property descriptors including symbolic ones.</p>
+
+
+
+
+<h1>Object.getOwnPropertyNames</h1>
+<p>The method <code>Object.getOwnPropertyNames()</code> returns an array of all the property. It also includes all symbols, and non-enumerable properties.</p>
+<pre>
+let obj = {
+ name : "Santanu Bera",
+ age : 28,
+};
+Object.defineProperty(obj, 'location', {
+  value : "Kolkata",
+  writable : false,
+  enumerable : false,
+  configurable : false
+});
+console.log(Object.getOwnPropertyNames(obj)); // ["name", "age", "location"]
+</pre>
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

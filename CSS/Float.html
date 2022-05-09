@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Syntax</title>
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
+	<script type="text/javascript" src="../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../Assets/prism-dark.css">
+  <style type="text/css">
+  	h3, p{
+  		margin: 0;
+  	}
+  	.clearfix:after { 
+			content: "."; 
+			visibility: hidden; 
+			display: block; 
+			height: 0; 
+			clear: both;
+		}
+  </style>
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+<h1>What is Float?</h1>
+<p>Float is a CSS positioning property. To understand its purpose and origin, we can look to print design. In a print layout, images may be set into the page such that text wraps around them as needed. This is commonly and appropriately called "text wrap". Here is an example of that.</p>
+<img src="Assets/img/print-layout.png">
+<p>In page layout programs, the boxes that hold the text can be told to honor the text wrap, or to ignore it. Ignoring the text wrap will allow the words to flow right over the image like it wasn't even there. This is the difference between that image being part of the flow of the page (or not). Web design is very similar.</p>
+<img src="Assets/img/web-text-wrap.png">
+<p>In web design, page elements with the CSS float property applied to them are just like the images in the print layout where the text flows around them. Floated elements remain a part of the flow of the web page. This is distinctly different than page elements that use absolute positioning. Absolutely positioned page elements are removed from the flow of the webpage, like when the text box in the print layout was told to ignore the page wrap. Absolutely positioned page elements will not affect the position of other elements and other elements will not affect them, whether they touch each other or not.</p>
+<p>Setting the float on an element with CSS happens like this:</p>
+<pre>
+	#sidebar {
+	  float: right;			
+	}
+</pre>
+<p>There are four valid values for the float property. Left and Right float elements those directions respectively. None (the default) ensures the element will not float and Inherit which will assume the float value from that elements parent element.</p>
+
+
+
+<h1>What are float used for?</h1>
+<p>Aside from the simple example of wrapping text around images, floats can be used to create entire web layouts.</p>
+<img src="Assets/img/web-layout.png">
+<p>Floats are also helpful for layout in smaller instances. Take for example this little area of a web page. If we use float for our little avatar image, when that image changes size the text in the box will reflow to accommodate:</p>
+<img src="Assets/img/reflow-example-1.png">
+<p>This same layout could be accomplished using relative positioning on container and absolute positioning on the avatar as well. In doing it this way, the text would be unaffected by the avatar and not be able to reflow on a size change.</p>
+<img src="Assets/img/reflow-example-2.png">
+
+
+<h1>Clearing Float</h1>
+<p>Float's sister property is clear. An element that has the clear property set on it will not move up adjacent to the float like the float desires, but will move itself down past the float. Again an illustration probably does more good than words do.</p>
+<img src="Assets/img/unclearedfooter.png">
+<p>In the above example, the sidebar is floated to the right and is shorter than the main content area. The footer then is required to jump up into that available space as is required by the float. To fix this problem, the footer can be cleared to ensure it stays beneath both floated columns.</p>
+<pre>
+#footer {
+  clear: both;			
+}
+</pre>
+<img src="Assets/img/clearedfooter.png">
+<p>Clear has four valid values as well. <code>both</code> is most commonly used, which clears floats coming from either direction. <code>left</code> and <code>right</code> can be used to only clear the float from one direction respectively. <code>none</code> is the default, which is typically unnecessary unless removing a clear value from a cascade. <code>inherit</code> would be the fifth, but is strangely not supported in Internet Explorer. Clearing only the left or right float, while less commonly seen in the wild, definitely has its uses.</p>
+<img src="Assets/img/directionalclearing.png">
+
+
+<h1>The Great Collapse</h1>
+<p>One of the more bewildering things about working with floats is how they can affect the element that contains them (their "parent" element). If this parent element contained nothing but floated elements, the height of it would literally collapse to nothing. This isn't always obvious if the parent doesn't contain any visually noticeable background, but it is important to be aware of.</p>
+<img src="Assets/img/collapse.png">
+<pre>
+&lt;div class="box" style="margin-bottom: 100px;">
+	&lt;div style="width: 100px; height: 80px; float: left; background: red;">&lt;/div>
+	&lt;div style="width: 100px; height: 80px; float: left; background: blue;">&lt;/div>
+	&lt;div style="width: 100px; height: 80px; float: left; background: red;">&lt;/div>
+&lt;/div>
+</pre>
+<div class="box" style="margin-bottom: 100px;">
+	<div style="width: 100px; height: 80px; float: left; background: red;"></div>
+	<div style="width: 100px; height: 80px; float: left; background: blue;"></div>
+	<div style="width: 100px; height: 80px; float: left; background: red;"></div>
+</div>
+<p>As anti-intuitive as collapsing seems to be, the alternative is worse. Consider this scenario:</p>
+<img src="Assets/img/whywecollapse.png">
+<p>If the block element on top were to have automatically expanded to accommodate the floated element, we would have an unnatural spacing break in the flow of text between paragraphs, with no practical way of fixing it. If this were the case, us designers would be complaining much harder about this behavior than we do about collapsing.</p>
+<p>Collapsing almost always needs to be dealt with to prevent strange layout and cross-browser problems. We fix it by clearing the float after the floated elements in the container but before the close of the container.</p>
+
+
+<h1>Techniques for Clearing Floats</h1>
+<p>If you are in a situation where you always know what the succeeding element is going to be, you can apply the clear: both; value to that element and go about your business. This is ideal as it requires no fancy hacks and no additional elements making it perfectly semantic. Of course things don't typically work out that way and we need to have more float-clearing tools in our toolbox.</p>
+<ul>
+	<li><code>The Empty Div Method</code> is, quite literally, an empty div. &lt;div style="clear: both;">&/lt;div>. Sometimes you'll see a &lt;br> element or some other random element used, but div is the most common because it has no browser default styling, doesn't have any special function, and is unlikely to be generically styled with CSS. This method is scorned by semantic purists since its presence has no contextual meaning at all to the page and is there purely for presentation. Of course in the strictest sense they are right, but it gets the job done right and doesn't hurt anybody.</li>
+	<li><code>The Overflow Method</code> relies on setting the overflow CSS property on a parent element. If this property is set to auto or hidden on the parent element, the parent will expand to contain the floats, effectively clearing it for succeeding elements. This method can be beautifully semantic as it may not require an additional elements. However if you find yourself adding a new div just to apply this, it is equally as non-semantic as the empty div method and less adaptable. Also bear in mind that the overflow property isn't specifically for clearing floats. Be careful not to hide content or trigger unwanted scrollbars.</li>
+	<li><code>The Easy Clearing Method</code> uses a clever CSS pseudo selector (:after) to clear floats. Rather than setting the overflow on the parent, you apply an additional class like "clearfix" to it. Then apply this CSS:
+		<pre>
+			.clearfix:after { 
+			   content: "."; 
+			   visibility: hidden; 
+			   display: block; 
+			   height: 0; 
+			   clear: both;
+			}
+		</pre>
+		<p>This will apply a small bit of content, hidden from view, after the parent element which clears the float. This isn't quite the whole story, as additional code needs to be used to accomodate for older browsers.</p>
+	</li>
+</ul>
+
+<h3>Example : 1</h3>
+<p>Let's consider the above example again and with <code>Empty Div Method</code> - </p>
+<pre>
+&lt;div class="box">
+	&lt;div style="width: 100px; height: 80px; float: left; background: red;">&lt;/div>
+	&lt;div style="width: 100px; height: 80px; float: left; background: blue;">&lt;/div>
+	&lt;div style="width: 100px; height: 80px; float: left; background: red;">&lt;/div>
+	&lt;div style="clear: both;">&lt;/div>
+&lt;/div>
+</pre>
+<div class="box">
+	<div style="width: 100px; height: 80px; float: left; background: red;"></div>
+	<div style="width: 100px; height: 80px; float: left; background: blue;"></div>
+	<div style="width: 100px; height: 80px; float: left; background: red;"></div>
+	<div style="clear: both;"></div>
+</div>
+
+<h3>Example : 2</h3>
+<p>The following example uses <code>The Overflow Method</code> which adds unwanted scrollbar and the floated content is also hidden. That's why this method is less appropriate -</p>
+<pre>
+&lt;div class="box" style="height: 50px; overflow-y: scroll;">
+	&lt;div style="width: 100px; height: 80px; float: left; background: red;">&lt;/div>
+	&lt;div style="width: 100px; height: 80px; float: left; background: blue;">&lt;/div>
+	&lt;div style="width: 100px; height: 80px; float: left; background: red;">&lt;/div>
+&lt;/div>
+</pre>
+<div class="box" style="height: 50px; overflow-y: scroll;">
+	<div style="width: 100px; height: 80px; float: left; background: red;"></div>
+	<div style="width: 100px; height: 80px; float: left; background: blue;"></div>
+	<div style="width: 100px; height: 80px; float: left; background: red;"></div>
+</div>
+
+<h3>Example : 3</h3>
+<p>This example uses <code>Easy Clear Method</code>. This method is quite neat and clean. Preferable - </p>
+<pre>
+.clearfix:after { 
+	content: "."; 
+	visibility: hidden; 
+	display: block; 
+	height: 0; 
+	clear: both;
+}
+&lt;div class="box clearfix">
+	&lt;div style="width: 100px; height: 80px; float: left; background: red;">&lt;/div>
+	&lt;div style="width: 100px; height: 80px; float: left; background: blue;">&lt;/div>
+	&lt;div style="width: 100px; height: 80px; float: left; background: red;">&lt;/div>
+&lt;/div>
+</pre>
+<div class="box clearfix">
+	<div style="width: 100px; height: 80px; float: left; background: red;"></div>
+	<div style="width: 100px; height: 80px; float: left; background: blue;"></div>
+	<div style="width: 100px; height: 80px; float: left; background: red;"></div>
+</div>
+
+<h1>Where you should use Clear Property?</h1>
+<pre>
+&lt;div class="box" style="margin-bottom: 100px;">
+	&lt;div id="firstContainer" style="border: 5px solid black;">
+		&lt;div id="Child-1" style="float: right; width: 25%; color: #fff; background: blue;">
+			Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+			tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+			quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+			consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+			cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+			proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		&lt;/div>
+		&lt;div id="Child-2" style="background: red; color: #fff; background: green;">
+			Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+			tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+			quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+			consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+			cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+			proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		&lt;/div>
+		&lt;div id="Child-3" style="background: red; color: #fff; background: red; ">
+			Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+			tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+			quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+			consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+			cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+			proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		&lt;/div>
+	&lt;/div>
+	&lt;div id="lastContainer" style="border: 5px solid crimson;">
+		Hello World
+	&lt;/div>
+&lt;/div>
+</pre>
+<div class="box" style="margin-bottom: 100px;">
+	<div id="firstContainer" style="border: 5px solid black;">
+		<div id="Child-1" style="float: right; width: 25%; color: #fff; background: blue;">
+			Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+			tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+			quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+			consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+			cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+			proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		</div>
+		<div id="Child-2" style="background: red; color: #fff; background: green;">
+			Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+			tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+			quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+			consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+			cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+			proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		</div>
+		<div id="Child-3" style="background: red; color: #fff; background: red;">
+			Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+			tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+			quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+			consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+			cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+			proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		</div>
+	</div>
+	<div id="lastContainer" style="border: 5px solid crimson;">
+		Hello World
+	</div>
+</div>
+<p>In the above example the first container's content is overlapping the last div. To stop the overlapping we can clear the float. But it's confusing on which element you should use Clear property?</p>
+
+<h3>Clearing on Child-3</h3>
+If you clear float on an element, it will cause the element to be placed at the new line and it will remain uneffected by the floated element above it. It will be placed at the bottom of all the div that comes before it. But it can create unwanted gap as seen in the following example -
+<pre>
+&lt;div id="Child-3" style="background: red; color: #fff; background: red; clear: both;">
+	Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+</pre>
+<div class="box" style="margin-bottom: 100px;">
+	<div id="firstContainer" style="border: 5px solid black;">
+		<div id="Child-1" style="float: right; width: 25%; color: #fff; background: blue;">
+			Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+			tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+			quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+			consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+			cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+			proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		</div>
+		<div id="Child-2" style="background: red; color: #fff; background: green;">
+			Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+			tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+			quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+			consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+			cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+			proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		</div>
+		<div id="Child-3" style="background: red; color: #fff; background: red; clear: both;">
+			Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+			tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+			quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+			consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+			cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+			proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		</div>
+	</div>
+	<div id="lastContainer" style="border: 5px solid crimson;">
+		Hello World
+	</div>
+</div>
+
+<h3>Clearing it on the Child-2 element</h3>
+<p>This example is same as the above solution. As you can see in this example, we are applying clear on the second element. But the third element is uneffected by the float flow. So the point is, if you apply Clear on an element, all the succeeding element will be uneffected by flow property.</p>
+<pre>
+&lt;div id="Child-2" style="background: red; color: #fff; background: red; clear: both;">
+	Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+</pre>
+<div class="box" style="margin-bottom: 100px;">
+	<div id="firstContainer" style="border: 5px solid black;">
+		<div id="Child-1" style="float: right; width: 25%; color: #fff; background: blue;">
+			Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+			tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+			quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+			consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+			cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+			proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		</div>
+		<div id="Child-2" style="background: red; color: #fff; background: green; clear: both;">
+			Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+			tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+			quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+			consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+			cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+			proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		</div>
+		<div id="Child-3" style="background: red; color: #fff; background: red; ">
+			Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+			tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+			quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+			consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+			cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+			proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		</div>
+	</div>
+	<div id="lastContainer" style="border: 5px solid crimson;">
+		Hello World
+	</div>
+</div>
+
+<h3>Clearing on the lastContainer element</h3>
+<p>As you can see, this example is not appropriate. Other container should not bother about whether another container is using float or not. But still, this approch is not a good idea. First, the firstContainer is not taking full height, it's height has collapsed as you can see the first container's border. Second, because of the floated element, it creates unwanted gap above the lastContainer.</p>
+<pre>
+	&lt;div id="lastContainer" style="border: 5px solid crimson; clear: both;">
+</pre>
+<div class="box" style="margin-bottom: 100px;">
+	<div id="firstContainer" style="border: 5px solid black;">
+		<div id="Child-1" style="float: right; width: 25%; color: #fff; background: blue;">
+			Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+			tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+			quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+			consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+			cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+			proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		</div>
+		<div id="Child-2" style="background: red; color: #fff; background: green;">
+			Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+			tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+			quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+			consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+			cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+			proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		</div>
+		<div id="Child-3" style="background: red; color: #fff; background: red; ">
+			Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+			tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+			quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+			consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+			cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+			proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		</div>
+	</div>
+	<div id="lastContainer" style="border: 5px solid crimson; clear: both;">
+		Hello World
+	</div>
+</div>
+
+<h3>Clearing on the firstContainer</h3>
+<p>Using <code>clear:both;</code> on the element that contains floated element have no effect. Because the clear property works with parent and sibling elements. It doesn't have any effect on the child elements.</p>
+<pre>
+	&lt;div id="firstContainer" style="border: 5px solid black; clear: both;">
+</pre>
+<div class="box" style="margin-bottom: 100px;">
+	<div id="firstContainer" style="border: 5px solid black; clear: both;">
+		<div id="Child-1" style="float: right; width: 25%; color: #fff; background: blue;">
+			Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+			tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+			quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+			consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+			cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+			proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		</div>
+		<div id="Child-2" style="background: red; color: #fff; background: green;">
+			Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+			tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+			quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+			consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+			cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+			proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		</div>
+		<div id="Child-3" style="background: red; color: #fff; background: red; ">
+			Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+			tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+			quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+			consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+			cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+			proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		</div>
+	</div>
+	<div id="lastContainer" style="border: 5px solid crimson;">
+		Hello World
+	</div>
+</div>
+
+<h3>Using clearfix on the Container</h3>
+<p>This solution is not totally perfect but still better than others -</p>
+<pre>
+	&lt;div id="firstContainer" class="clearfix" style="border: 5px solid black;">
+</pre>
+<div class="box">
+	<div id="firstContainer" class="clearfix" style="border: 5px solid black;">
+		<div id="Child-1" style="float: right; width: 25%; color: #fff; background: blue;">
+			Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+			tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+			quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+			consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+			cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+			proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		</div>
+		<div id="Child-2" style="background: red; color: #fff; background: green;">
+			Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+			tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+			quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+			consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+			cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+			proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		</div>
+		<div id="Child-3" style="background: red; color: #fff; background: red; ">
+			Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+			tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+			quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+			consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+			cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+			proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		</div>
+	</div>
+	<div id="lastContainer" style="border: 5px solid crimson;">
+		Hello World
+	</div>
+</div>
+<p>So deciding on which element one should use clear property is totally depend on how they want their structure to be.</p>
+
+
+<h1>Use of float</h1>
+<p>In old website float was used heavily to build structure where there will be a sidebar, header, main content and a footer. But these days flexbox has taken it's place as flexbox is more flexible and can do much more than float. Flexbox solves the problem that float property has. However float is appropritate when you want to wrap text around an element like picture. In this scinario you cannot think of anything else alternative. Here is an example - </p>
+<pre>
+&lt;div class="box">
+	&lt;div style="border: 5px solid black;">
+		&lt;img src="Assets/img/Santanu.jpg" style="height: 100px; width: 100px; float: left; margin: 10px;">
+		&lt;p> 
+			Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+			tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+			quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+			consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+			cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+			proident, sunt in culpa qui officia deserunt mollit anim id est laborum. 
+			Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+			tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+			quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+			consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+			cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+			proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		&lt;/p>
+		&lt;img src="Assets/img/Santanu.jpg" style="height: 100px; width: 100px; float: right; margin: 10px;">
+		&lt;img src="Assets/img/Santanu.jpg" style="height: 100px; width: 100px; float: right; margin: 10px;">
+		&lt;p> 
+			Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+			tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+			quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+			consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+			cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+			proident, sunt in culpa qui officia deserunt mollit anim id est laborum. 
+			Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+			tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+			quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+			consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+			cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+			proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		&lt;/p>
+	&lt;/div>
+&lt;/div>
+</pre>
+<div class="box">
+	<div style="border: 5px solid black;">
+		<img src="Assets/img/Santanu.jpg" style="height: 100px; width: 100px; float: left; margin: 10px;">
+		<p> 
+			Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+			tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+			quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+			consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+			cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+			proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+			tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+			quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+			consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+			cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+			proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		</p>
+		<img src="Assets/img/Santanu.jpg" style="height: 100px; width: 100px; float: right; margin: 10px;">
+		<img src="Assets/img/Santanu.jpg" style="height: 100px; width: 100px; float: right; margin: 10px;">
+		<p> 
+			Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+			tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+			quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+			consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+			cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+			proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+			tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+			quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+			consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+			cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+			proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		</p>
+	</div>
+</div>
+<pre>
+&lt;div class="box">
+	&lt;div style="border: 5px solid black;">
+		&lt;p> 
+			Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+			tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+			quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+			consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+			cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+			proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		&lt;/p>
+		&lt;img src="Assets/img/Santanu.jpg" 
+			style="height: 100px; width: 100px; float: right; margin: 10px;">
+		&lt;img src="Assets/img/Santanu.jpg" 
+			style="height: 100px; width: 100px; clear: right; float: right; margin: 10px;">
+		&lt;p style="text-align: justify;"> 
+			Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+			tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+			quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+			consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+			cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+			proident, sunt in culpa qui officia deserunt mollit anim id est laborum. 
+			Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+			tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+			quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+			consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+			cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+			proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+			Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+			tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+			quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+			consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+			cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+			proident, sunt in culpa qui officia deserunt mollit anim id est laborum. 
+			Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+			tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+			quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+			consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+			cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+			proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		&lt;/p>
+	&lt;/div>
+&lt;/div>
+</pre>
+<div class="box">
+	<div style="border: 5px solid black;">
+		<p> 
+			Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+			tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+			quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+			consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+			cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+			proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		</p>
+		<img src="Assets/img/Santanu.jpg" 
+			style="height: 100px; width: 100px; float: right; margin: 10px;">
+		<img src="Assets/img/Santanu.jpg" 
+			style="height: 100px; width: 100px; clear: right; float: right; margin: 10px;">
+		<p style="text-align: justify;"> 
+			Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+			tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+			quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+			consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+			cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+			proident, sunt in culpa qui officia deserunt mollit anim id est laborum. 
+			Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+			tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+			quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+			consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+			cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+			proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+			Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+			tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+			quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+			consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+			cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+			proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+			tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+			quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+			consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+			cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+			proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		</p>
+	</div>
+</div>
+
+
+</div>
+</body>
+</html>

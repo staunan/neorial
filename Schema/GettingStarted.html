@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Syntax</title>
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
+	<script type="text/javascript" src="../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+<h1>Microdata</h1>
+<p>Most webmasters are familiar with HTML tags on their pages. Usually, HTML tags tell the browser how to display the information included in the tag. For example, <code>&lt;h1>Avatar&lt;/h1></code> tells the browser to display the text string "Avatar" in a heading 1 format. However, the HTML tag doesn't give any information about what that text string means—"Avatar" could refer to the hugely successful 3D movie, or it could refer to a type of profile picture—and this can make it more difficult for search engines to intelligently display relevant content to a user.</p>
+<p>Schema.org provides a collection of shared vocabularies webmasters can use to mark up their pages in ways that can be understood by the major search engines: Google, Microsoft, Yandex and Yahoo!</p>
+<p>You use the schema.org vocabulary along with the <code>Microdata</code>, <code>RDFa</code>, or <code>JSON-LD</code> formats to add information to your Web content. This guide will help get you up to speed with Microdata and schema.org so that you can start adding markup to your web pages.</p>
+<p>Although this guide focuses on <code>Microdata</code>, most examples on the schema.org site show examples in <code>RDFa</code> and <code>JSON-LD</code> too. The basic ideas (types, properties etc.) introduced here are relevant beyond <code>Microdata</code> - take a look at the examples to see how the details compare.</p>
+
+
+<h1>Why Microdata</h1>
+<p>Your web pages have an underlying meaning that people understand when they read the web pages. But search engines have a limited understanding of what is being discussed on those pages. By adding additional tags to the HTML of your web pages—tags that say, "Hey search engine, this information describes this specific movie, or place, or person, or video"—you can help search engines and other applications better understand your content and display it in a useful, relevant way. Microdata is a set of tags, introduced with HTML5, that allows you to do this.</p>
+
+<h1>itemscope and itemtype</h1>
+<p>Let's start with a concrete example. Imagine you have a page about the movie Avatar—a page with a link to a movie trailer, information about the director, and so on. Your HTML code might look something like this:</p>
+
+<pre>
+&lt;div>
+ &lt;h1>Avatar&lt;/h1>
+ &lt;span>Director: James Cameron (born August 16, 1954)&lt;/span>
+ &lt;span>Science fiction&lt;/span>
+ &lt;a href="../movies/avatar-theatrical-trailer.html">Trailer&lt;/a>
+&lt;/div>
+</pre>
+<p>To begin, identify the section of the page that is "about" the movie Avatar. To do this, add the <code>itemscope</code> element to the HTML tag that encloses information about the item, like this:</p>
+<pre>
+&lt;div itemscope>
+ &lt;h1>Avatar&lt;/h1>
+ &lt;span>Director: James Cameron (born August 16, 1954)&lt;/span>
+ &lt;span>Science fiction&lt;/span>
+ &lt;a href="../movies/avatar-theatrical-trailer.html">Trailer&lt;/a>
+&lt;/div>
+</pre>
+<p>By adding <code>itemscope</code>, you are specifying that the HTML contained in the &lt;div>...&lt;/div> block is about a particular item.</p>
+<p>But it's not all that helpful to specify that there is an item being discussed without specifying what kind of an item it is. You can specify the type of item using the <code>itemtype</code> attribute <em style="font-weight: 500;">immediately after the <code>itemscope</code></em>.</p>
+<pre>
+&lt;div itemscope itemtype="http://schema.org/Movie">
+  &lt;h1>Avatar&lt;/h1>
+  &lt;span>Director: James Cameron (born August 16, 1954)&lt;/span>
+  &lt;span>Science fiction&lt;/span>
+  &lt;a href="../movies/avatar-theatrical-trailer.html">Trailer&lt;/a>
+&lt;/div>
+</pre>
+<p>This specifies that the item contained in the div is in fact a Movie, as defined in the schema.org type hierarchy. Item types are provided as URLs, in this case <var>http://schema.org/Movie</var>.</p>
+
+
+
+<h1>itemprop</h1>
+<p>What additional information can we give search engines about the movie Avatar? Movies have interesting properties such as actors, director, ratings. To label properties of an item, use the <code>itemprop</code> attribute. For example, to identify the director of a movie, add itemprop="director" to the element enclosing the director's name. (There's a full list of all the properties you can associate with a movie at http://schema.org/Movie.)</p>
+<pre>
+&lt;div itemscope itemtype ="http://schema.org/Movie">
+  &lt;h1 itemprop="name">Avatar&lt;/h1>
+  &lt;span>Director: &lt;span itemprop="director">James Cameron&lt;/span> (born August 16, 1954)&lt;/span>
+  &lt;span itemprop="genre">Science fiction&lt;/span>
+  &lt;a href="../movies/avatar-theatrical-trailer.html" itemprop="trailer">Trailer&lt;/a>
+&lt;/div>
+</pre>
+<p>Note that we have added additional <code>&lt;span>...&lt;/span></code> tags to attach the itemprop attributes to the appropriate text on the page. <code>&lt;span></code> tags don't change the way pages are rendered by a web browser, so they are a convenient HTML element to use with itemprop.</p>
+<p>Search engines can now understand not just that <var>http://www.avatarmovie.com</var> is a URL, but also that it's the URL for the trailer for the science-fiction movie Avatar, which was directed by James Cameron.</p>
+
+
+
+
+<h1>Nested itemscope</h1>
+<p>Sometimes the value of an item property can itself be another item with its own set of properties. For example, we can specify that the director of the movie is an item of type Person and the Person has the properties name and birthDate. To specify that the value of a property is another item, you begin a new itemscope <em style="font-weight:500; ">immediately after the corresponding itemprop.</em></p>
+<pre>
+&lt;div itemscope itemtype ="http://schema.org/Movie">
+  &lt;h1 itemprop="name">Avatar&lt;/h1>
+  &lt;div itemprop="director" itemscope itemtype="http://schema.org/Person">
+  Director: &lt;span itemprop="name">James Cameron&lt;/span> (born &lt;span itemprop="birthDate">August 16, 1954&lt;/span>)
+  &lt;/div>
+  &lt;span itemprop="genre">Science fiction&lt;/span>
+  &lt;a href="../movies/avatar-theatrical-trailer.html" itemprop="trailer">Trailer&lt;/a>
+&lt;/div>
+</pre>
+
+
+
+
+
+
+</div>
+</body>
+</html>

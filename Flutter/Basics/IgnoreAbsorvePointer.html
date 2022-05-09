@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>IgnorePointer & AbsorbPointer</title>
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+	<script type="text/javascript" src="../../Assets/prism.min.js"></script>
+	<script type="text/javascript" src="../../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+
+<h1>IgnorePointer & AbsorbPointer</h1>
+<p>What if you want to disable the touch in a certain area or in other word, you want to make the touch pointer has no effect. In Flutter, you can use <code>IgnorePointer</code> or <code>AbsorbPointer</code>.</p>
+<pre>
+ IgnorePointer(
+    ignoring: true,
+    child: MyWidget(),
+  )
+</pre>
+<p>If <code>ignoring</code> value is <code>true</code>, any click inside the widget will be ignored. By default the value is <code>true</code>. You can use this property to dynamically toggle the behaviour. If you set <code>ignoring</code> to <code>false</code> dynamically, the child will now will respont to touch.</p>
+
+<p>AbsorbPointer is a kind of control that forbids user input, such as button click, input of input box, scrolling of ListView, etc. you may say that setting the onPressed of button to null can also be realized, yes, but AbsorbPointer can provide unified control of multiple components without requiring you to set each component separately.</p>
+<pre>
+ AbsorbPointer(
+    absorbing: true,
+    child: MyWidget(),
+  )
+</pre>
+<p>If <code>absorbing</code> value is <code>true</code>, any click inside the widget will be absorbed. If you don't pass absorbing parameter, it will use the default value (<code>true</code>) which causes any pointer inside the widget will be absorbed.</p>
+
+
+<h1>Difference Between IgnorePoiner and AbsorbPointer</h1>
+<p>The difference is when we have two widgets overlapping each other's, that can both receive clicks. Consider a red and blue square, both clickable, where the blue square is smaller and on the top of the red square:</p>
+<pre>
+Stack(
+  alignment: Alignment.center,
+  children: [
+     Container(color: Colors.red),
+     Container(width: 42, height: 42, color: Colors.blue),
+  ],
+)
+</pre>
+<p>By default, <b>without</b> IgnorePointer/AbsorbPointer, taping blue send a click event on blue and red gets nothing.</p>
+<p>In that situation, wrapping blue square into an <code>AbsorbPointer</code> means that when tapping the blue zone, neither the blue square nor the red one gets the click event. That means the the event will be absorbed totally and will not pass to any widget.</p>
+<p>If we instead used an <code>IgnorePointer</code>, the red square would receive click events when taping the blue square. That means the event will be passed down to the widget that below the widget.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

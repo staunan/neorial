@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Scrollanim</title>
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
+    <link rel="stylesheet" href="../Assets/prism-dark.css">
+
+    <!-- Scrollanim -->
+    <link rel="stylesheet" type="text/css" href="Assets/Scrollanim.js/animate.css">
+</head>
+<body class="Body">
+	<div class="Content Card">
+		<h1>ScrollAnim</h1>
+		<p>
+			This is a tiny little JS framework fits in 5kb file. It is attached to the element and when the element comes in the viewport while you are scrolling you can animate the element any way you want. This is a small framework but very efficient to use. One thing that I like most is that it uses everyone's favourite Animate.css library to animate the element. But it is not bound to animate.css library. You can define your own animation with keyframe and animate the element. Let's see how it works.
+		</p>
+		<p>
+			First thing first pull in the library -
+		</p>
+		<pre><code class="language-javascript">
+			&lt;script type="text/javascript" src="Assets/Scrollanim.js/scrollanim.min.js"></script>
+		</code></pre>
+		<p>
+			One important thing to note that. This file must be put before the closing of body tag. I mean at the end. Because when the page loads this file and starts executing, it tries to find the element <code>body</code>. Clearly if you include this file in the head section you will get an error like <code>trying to get property scrollHeight of null</code>. Now throughout the document you might be using the functionality of this library. And if this library tries to access an element which is not created yet. It will simply ignore the element and the animation won't happen. So it's better to include this file at the end. Clear enough? Now let's see how we can get the best of this little tiny but powerful library.
+		</p>
+		<pre><code class="language-html">
+			&lt;p data-kui-anim="fadeIn">Show this with fade-in&lt;/p>
+		</code></pre>
+		<p>
+			This is all about this library. Funny. And it does everything you are expecting. If you want to do it with javascript way you can follow the below approach -
+		</p>
+		<pre><code class="language-html">
+			&lt;p>Show this with fade-in&lt;/p>
+			&lt;script type="text/javascript">
+				kissuiScrollAnim.add(element, {
+				  'in': 'fadeIn'
+				});
+			&lt;/script>
+		</code></pre>
+		<p>
+			Now whenever the <code>p</code> element comes in the view, it starts animating with the effect <code>fadeIn</code>.
+		</p>
+		<p>
+			One thing to remember, Your element will start animating only when the whole element comes in the viewport. It means when you scroll down and if the partial of the element is visible, the element won't animate. To make the animation happen you need the element to come whole of it. This is the problem if your element is big. So this library is ideal for small size element in your page.
+		</p>
+		<p>
+			This library doesn't have much options or settings. It works on a basic principle and does the job well. As this library doesn't come with any options, you have to modify the CSS animation any way want. Let's say you want the animation to start 1 second later it comes in the viewport. This has to be done with CSS animation keyframe. Well, this is actually good for some reason. This way your animation will depend on only CSS, in CSS you have the full control to customize your animation any way you want. That's why I kind of like this animation.
+		</p>
+		<p>
+			Following is an example - 
+		</p>
+		<pre><code class="language-html">
+			&lt;div data-kui-anim="fadeInRight" style="background: green; height: 50px; width: 50px; ">
+			&lt;/div>
+			&lt;div data-kui-anim="fadeInRight" 
+				style="background: green; height: 50px; width: 50px; animation-delay: 300ms;">
+			&lt;/div>
+		</code></pre>
+		<p>The above example produce the following result -</p>
+		<div style="margin:30px;">
+			<div data-kui-anim="fadeInRight" style="background: green; height: 50px; width: 50px; ">
+			</div>
+			<div data-kui-anim="fadeInRight" 
+				style="background: green; height: 50px; width: 50px; animation-delay: 300ms;">
+			</div>
+		</div>
+		<h2>More Demo</h2>
+		<div style="display: flex; justify-content: center; flex-direction: column; align-items: center;">
+			<div class="section3" style="height: 100px; width: 100px; background: green;"></div>
+			<div class="section4" style="height: 200px; width: 100px; background: pink;"></div>
+			<div class="section5" style="height: 200px; width: 100px; background: red;"></div>
+			<div class="section0" style="height: 100px; width: 100px; background: green;"></div>
+			<div class="section1" style="height: 200px; width: 100px; background: pink;"></div>
+			<div class="section2" style="height: 200px; width: 100px; background: red;"></div>
+		</div>
+	</div>
+	<script type="text/javascript" src="Assets/Scrollanim.js/scrollanim.min.js"></script>
+	<script type="text/javascript">
+		kissuiScrollAnim.setOptions({ 
+		  "attributePrefix" : "data-",
+		  "attrinuteName" : "animation"
+		});
+		kissuiScrollAnim.add(document.querySelector(".section0"), {
+		  'in' : 'shake'
+		});
+		kissuiScrollAnim.add(document.querySelector(".section1"), {
+		  'in': 'fadeIn'
+		});
+		kissuiScrollAnim.add(document.querySelector(".section2"), {
+		  'in': 'slideInUp'
+		});
+		kissuiScrollAnim.add(document.querySelector(".section3"), {
+		  'in': 'rubberBand'
+		});
+		kissuiScrollAnim.add(document.querySelector(".section4"), {
+		  'in': 'fadeIn'
+		});
+		kissuiScrollAnim.add(document.querySelector(".section5"), {
+		  'in': 'slideInUp'
+		});
+		
+	</script>
+</body>
+</html>

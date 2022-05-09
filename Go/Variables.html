@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Variables</title>
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
+	<script type="text/javascript" src="../Assets/jquery.min.js"></script>
+	<link rel="stylesheet" href="../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+
+<h1>Variables</h1>
+<p>Use <code>var</code> keyword to declare a variable. Here are the rules:</p>
+<ul>
+	<li>The name of the identifier must begin with a letter or an underscore(_). And the names may contain the letters ‘a-z’ or ’A-Z’ or digits 0-9 as well as the character ‘_’.</li>
+	<li>The name of the identifier should not start with a digit.</li>
+	<li>The name of the identifier is case sensitive.</li>
+	<li>Keywords is not allowed to use as an identifier name.</li>
+	<li>There is no limit on the length of the name of the identifier.</li>
+</ul>
+<pre>
+// Valid identifiers:
+_geeks23
+geeks
+gek23sd
+Geeks
+geeKs
+geeks_geeks
+
+// Invalid identifiers:
+212geeks
+if
+default
+</pre>
+<p>Here is an example:</p>
+<pre>
+package main
+import "fmt"
+
+func main() {
+
+ var name = "GeeksforGeeks"
+  
+}
+</pre>
+
+<p>The identifier represented by the underscore character(_) is known as a blank identifier. It is used as an anonymous placeholder instead of a regular identifier, and it has a special meaning in declarations, as an operand, and in assignments.</p>
+
+
+<h3>data type of variable</h3>
+<p>To mention datatype of the variable write the type after the variable name and seperate them with a space.</p>
+<pre>
+var name string, age int
+var c, python, java bool
+</pre>
+<p>Here is an example:</p>
+<pre>
+package main
+
+import "fmt"
+
+// package level variables
+var c, python, java bool
+
+func main() {
+	// function level variable 
+	var i int
+	fmt.Println(i, c, python, java)
+}
+</pre>
+<p>It will produce the following output:</p>
+<pre>
+0 false false false
+</pre>
+
+
+
+<h3>Variables with initializers</h3>
+<p>A var declaration can include initializers, one per variable. If an initializer is present, the type can be omitted; the variable will take the type of the initializer.</p>
+<pre>
+package main
+
+import "fmt"
+
+var i, j int = 1, 2
+
+func main() {
+	var c, python, java = true, false, "no!"
+	fmt.Println(i, j, c, python, java)
+}
+</pre>
+<p>The output of the above code is:</p>
+<pre>
+1 2 true false no
+</pre>
+<p>The first value <code>true</code> goes to the first variable <code>c</code>, the second value <code>false</code> goes to the second variable <code>python</code>, and the last value <code>"no"</code> goes to variable <code>java</code>.</p>
+<p>The number of variables on the left side of the <code>=</code>, and the number of values on the right side of the <code>=</code>, must be same. Otherwise you will get an exception.</p>
+
+
+
+
+<h3>Short variable declarations</h3>
+<p>Inside a function, the <code>:=</code> short assignment statement can be used in place of a <code>var</code> declaration with implicit type.</p>
+<pre>
+package main
+
+import "fmt"
+
+func main() {
+	var i, j int = 1, 2
+	k := 3
+	c, python, java := true, false, "no!"
+
+	fmt.Println(i, j, k, c, python, java)
+}
+</pre>
+<p>Outside a function, every statement begins with a keyword (var, func, and so on) and so the <code>:=</code> construct is not available.</p>
+
+
+
+
+<h3>Zero values</h3>
+<p>Variables declared without an explicit initial value are given their zero value.</p>
+<ul>
+	<li><code>0</code> for numeric types,</li>
+	<li><code>false</code> for the boolean type, and</li>
+	<li><code>""</code> (the empty string) for strings.</li>
+</ul>
+<pre>
+package main
+
+import "fmt"
+
+func main() {
+	var i int
+	var f float64
+	var b bool
+	var s string
+	fmt.Printf("%v %v %v %q\n", i, f, b, s)
+}
+</pre>
+<p>Output:</p>
+<pre>
+0 0 false ""
+</pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Route</title>
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+    <link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
+    <link rel="stylesheet" href="../Assets/prism-dark.css">
+</head>
+<body class="Body">
+	<div class="Content Card">
+        <h1>Route And Closure</h1>
+        <p>
+            Think route as an entry point of your application. All the URL filter is done here. You type the URL in your browser's address bar and and <code>route</code> will tell you what to do next. By the name of it, generally, it actually bypass the control to the specific method. Kind of routing the control flow depending on the different URL.
+        </p>
+        <p>All your Route is defined in <code>route/web.php</code> file. You will define all the route in this file.</p>
+        <p>Let's start defining some basic route -</p>
+        <pre><code class="language-php">
+            Route::get('myName',function(){
+                return "Santanu Bera";
+            });
+        </code></pre>
+        <p>
+            Let's say that your domain is <code>app.com</code>, now if you go to the address <code>app.com/myName</code> you will see <code>Santanu Bera</code> in your browser.
+        </p>
+        <p>
+            Here, get is the HTTP verb or method that defiines the kind of request we are making. In this case it is get as we are requesting through the URL. Now the first argument is the URL part. Whatever comes after the domain name <code>app.com</code> should be in the first argument. In our case as our URL is <code>domain/myName</code>, so the myName should be here in this argument. Note that the backslash here is optional. So, <code>"/myName"</code> and <code>"myName"</code> is same. You can omit the preceding backslash to make the code look more cleaner.
+        </p>
+        <p>
+            Here also we don't need to provide the full URL. If you noticed we didn't provide the domain name in the first argument. A few more example -
+        </p>
+        <pre><code class="language-php">
+            // app.com/student/numberOfStudent
+            Route::get('/student/numberOfStudent',function(){
+                return 30;
+            }); 
+            // app.com/teacher/numberOfTeacher
+            Route::get('/teacher/numberOfTeacher',function(){
+                return 20;
+            });
+        </code></pre>
+        <p>
+            Next, in the second argument, we are using a anonymous function and this is called Closure in PHP. You define list of routes in this <code>web.php</code> file this way and if an URL mathches with the Route's first argument, the corresponding Closure get executed. You can write any statement you want in this Closure. In our above example we are just returning string and integer value. This is very basic and in real life development we never return string or integer, rather we return a View.
+        </p>
+        <p>
+            A View is an HTML representation what we call Web Page. You can return a View from this function this way - 
+        </p>
+        <pre><code class="language-php">
+            Route::get('service',function(){
+                return view('servicePage');
+            });
+        </code></pre>
+        <p>We will talk about view later.</p>
+        <p>
+            So the basic part of the Route is it actually filters the URL and decide what to do when a match found. If there's no match found, Laravel throws an error message.
+        </p>
+        <h1>Home Routing</h1>
+        <p>
+            What if we want to return a particular view when someone visits <code>app.com</code>? How do you filter? well, this is how it's done -
+        </p>
+        <pre><code class="language-php">
+            Route::get('/',function(){
+                return view('homePage');
+            });
+        </code></pre>
+        <h1>Route and Controller</h1>
+        <p>
+            In real life programming, we never use Closure, because as we always approach MVC patter, so we should seperate the logic from the Routing file. This is where the Controller comes in mind. If you use Closure for every route in a single file, the code will grow bigger and it will look messy. But with the help of Controller we can seperate the code from the route and we can make the code look more cleaner. This is how it's done -
+        </p>
+        <pre><code class="language-php">
+            Route::get('/getStudents',"Student@getAll");
+        </code></pre>
+        <p>
+            In the above example, in the second argument, we are not using Closure, instead we are using controller. The first part is the name of the controller and the second part is the name of the method that is defined in that controller and these two are separated by <code>@</code>. So when we make a request to <code>app.com/getStudents</code> it will pass the control to the <code>getAll</code> method of <code>Student</code> controller.
+        </p>
+        <h1>Parameter in Route</h1>
+        <p>Have a look at the following routes -</p>
+        <pre><code class="language-php">
+            Route('/getStudent/30',"Student@getStudent30");
+            Route('/getStudent/31',"Student@getStudent30");
+            Route('/getStudent/32',"Student@getStudent30");
+            Route('/getStudent/33',"Student@getStudent30");
+            Route('/getStudent/34',"Student@getStudent30");
+            ....
+        </code></pre>
+        <p>
+            Now, how far can you go this way? Let's say you have 1000 student. It's kind of pain in the <code>BIG FAT ASS</code> to write 1000 routes for thousand students. And that's where the parameterised routes comes in mind. Now have a look at the following -
+        </p>
+        <pre><code class="language-php">
+            Route('/getStudent/{rollNumber}',"Student@getStudent");
+        </code></pre>
+        <p>
+            Say <code>Thanks</code> to Laravel, it saved you millions of hours with just one line of code. In your URL, whatever comes after <code>getStudent</code>, the above route get matched and the method getStudent in the Student controller get executed. Here, rollNumber acts as an argument that is passed to the getStudent method. So you must define your method that can take this argument. Your getStudent method should look like this -
+        </p>
+        <pre><code class="language-php">
+            public function getStudent($rollNumber){
+
+            }
+        </code></pre>
+        <p>Now you can get student using the url like - </p>
+        <pre><code class="language-php">
+            app.com/getStudent/30
+            app.com/getStudent/40
+            app.com/getStudent/101
+            app.com/getStudent/helloWorld
+        </code></pre>
+        <p>
+            Wait ! Hello World? Yes. everything that comes after the getStudent in your URL, is passed to the method as the argument value. So in your method you must validate if it is really rollNumber or something else.
+        </p>
+        <h1>Optional Parameter</h1>
+        <p>
+            You can have optional parameter in your route. This is done by giving <code>?</code> after the name of the parameter.
+        </p>
+        <pre><code class="language-php">
+            Route('/getStudent/{rollNumber?}', "Student@getStudent");
+        </code></pre>
+        <p>Wait, we are not done yet! You must give the default value to the parameter in your controller method. So your method should look like the following -</p>
+        <pre><code class="language-php">
+            public function getStudent($rollNumber = 30){
+                dd($rollNumber);
+            }
+        </code></pre>
+        <p>
+            Now, whatever you pass in the URL after <code>getStudent</code> will be passed to the method as the argument. If you don't provide the parameter in your URL, I mean if your URL is like <code>app.com/getStudent</code> then in the method the argument <code>rollNumber</code> have the default value 30.
+        </p>
+        <h1>Multilevel Parameterised Route</h1>
+        <p>You can have Multilevel Parameterised Route.</p>
+        <pre><code class="language-php">
+            Route::get('/getStudent/{class}/{section}/{rollNumber}', "Student@getStudent");
+            Route::get('/getStudent/{class}/{rollNumber}', "Student@getStudent");
+        </code></pre>
+        <p>Now, if you want to have some optional paramenter along with the required parameter, general rule of thumb, your trailing paramter shold be the optional one. It mean the optional paramters should come at the end.</p>
+        <p>
+            Another imporatant point to note is that, if you have x number of parameter in your route, your corresponding method should take the same number of parameter. And you must provide the default value for all the optional parameter. For example -
+        </p>
+        <pre><code class="language-php">
+            Route::get('posts/{post}/comments/{comment?}', function ($postId, $commentId = null) {
+                //
+            });
+        </code></pre>
+        <h1>Named Route</h1>
+        <p>
+            Let's say you have a route like "/article/comments/reply/date/getDate". And you have to call this route from controller or View. In this situation you must remember the full route path or you have to open <code>web.php</code> file and search for the route then copy the route and switch to the file in which you were working and then paste it. Uff, lots of work. Well, say Thanks to Laravel again that we have a feature for that, we call it 'Named Route'. Now matter how complex your route is you can give it a name, just like a dog has a name. Okay, so here it is how it's done -
+        </p>
+        <pre><code>
+            Route::get('article/comments/reply/date/getDate', function () {
+                //
+            })->name('getReplyDateofArticle');
+
+            Route::get('article/comments/reply/date/getDate', 'ArticleController@getDateofReply')->name('getReplyDateofArticle');
+        </code></pre>
+        <p>
+            Now from the controller you can redirect to a named route like this -
+        </p>
+        <pre><code class="language-php">
+            return redirect()->route('getReplyDateofArticle');            
+        </code></pre>
+        <p>
+            Or, if you are working in View, you might wanna generate the exact URL in your view so that whenever a user click on the link they can successfully get the full path. You can generate the URL like this -
+        </p>
+        <pre><code class="language-php">
+                $url = route('profile');                
+        </code></pre>
+        <p>
+            If the named route defines parameters, you may pass the parameters as the second argument to the  route function. The given parameters will automatically be inserted into the URL in their correct positions:
+        </p>
+        <pre><code class="language-php">
+            Route::get('user/{id}/profile', function ($id) {
+                //
+            })->name('profile');
+            $url = route('profile', ['id' => 1]);            
+        </code></pre>
+        <h1>Prefix</h1>
+        
+	</div>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

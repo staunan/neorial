@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>v-model</title>
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+	<script src="../Assets/prism.min.js"></script>
+	<script type="text/javascript" src="../Assets/jquery.min.js"></script>
+    <link rel="stylesheet" href="../Assets/prism-dark.css">
+    <script type="text/javascript" src="../Assets/vue.js"></script>
+</head>
+<body class="Body">
+	<div class="Content Card">
+		<h1>v-model</h1>
+		<p>
+			You can use the v-model directive to create two-way data bindings on form input and textarea elements. It automatically picks the correct way to update the element based on the input type. Although a bit magical, v-model is essentially syntax sugar for updating data on user input events, plus special care for some edge cases.
+		</p>
+		<pre>
+			data:{
+				message : "Hello World"
+			}
+
+			&lt;input v-model="message" placeholder="edit me">
+			&lt;p>Message is: { { message }}&lt;/p>
+		</pre>
+		<div class="box">
+			<input v-model="message" placeholder="edit me">
+			<p>Message is: {{ message }}</p>
+		</div>
+
+
+		<h1><code>value</code> Attribute</h1>
+		<p>
+			v-model will ignore the initial value, checked or selected attributes found on any form elements. It will always treat the Vue instance data as the source of truth.
+		</p>
+		<pre>
+			data:{
+				message : "Hello World"
+			}
+
+			&lt;input v-model="message" placeholder="edit me" value="Hi">
+			&lt;p>Message is: { { message }}&lt;/p>
+		</pre>
+		<div class="box">
+			<input v-model="message" placeholder="edit me" value="Hi">
+			<p>Message is: {{ message }}</p>
+		</div>
+		<p>
+			As you can see, the value attribute on the <code>input</code> element has no use if you are using <code>v-model</code>.
+		</p>
+
+
+		<h1>Textarea</h1>
+		<p>
+			<code>v-model</code> also works on text area. But if you have <code>New Line</code> entered in your textarea, the <code>v-model</code> will simply convert it to space.
+		</p>
+		<pre>
+			&lt;textarea v-model="message" placeholder="edit me" value="Hi">
+			&lt;p>Message is: { { message }}&lt;/p>
+		</pre>
+		<div class="box">
+			<textarea v-model="message" placeholder="edit me" value="Hi">Hi There</textarea>
+			<p>Message is: {{ message }}</p>
+		</div>
+		<p>
+			Note that, in regular HTML, when we want to give an initial value to textarea we sometimes do the following -
+		</p>
+		<pre>
+			&lt;textarea>The initial message...&lt;/textarea>
+		</pre>
+		<p>And it will render like the following - </p>
+		<div class="box">
+			<textarea>The initial message...</textarea>
+		</div>
+		<p>
+			In Vue don't do it like this -
+		</p>
+		<pre>
+			// The following is wrong
+			&lt;textarea>{ { message1 }}&lt;/textarea>
+
+			&lt;p> Message : { { message1 }}&lt;/p>
+
+			data:{
+				message1:"The initial message..."
+			}
+		</pre>
+		<div class="box">
+			<textarea>{{ message1 }}</textarea>
+			<p>Message : {{ message1 }}</p>
+		</div>
+		<p>
+			As you can see, when you type in the text area, the value is not updating automatically. Well it won't. You should use <code>v-model</code> isntead.
+		</p>
+
+
+		<h1>Checkbox</h1>
+		<pre>
+			data:{
+				checked : false
+			}
+
+			&lt;input type="checkbox" id="checkbox" v-model="checked">
+			&lt;label for="checkbox">{ { checked }}&lt;/label>
+		</pre>
+		<div class="box">
+			<input type="checkbox" id="checkbox" v-model="checked">
+			<label for="checkbox">{{ checked }}</label>
+		</div>
+		<p>
+			If you want the checkbox to be initially selected, just set the <code>checked</code> to true.
+		</p>
+		<pre>
+			data:{
+				checked : true
+			}
+
+			&lt;input type="checkbox" id="checkbox" v-model="checked">
+			&lt;label for="checkbox">{ { checked }}&lt;/label>
+		</pre>
+		<div class="box">
+			<input type="checkbox" id="checkbox" v-model="checked1">
+			<label for="checkbox">{{ checked1 }}</label>
+		</div>
+		<p>
+			Following is an example of multiple checkbox -
+		</p>
+		<pre>
+		&lt;div id='example-3'>
+		  &lt;input type="checkbox" id="jack" value="Jack" v-model="checkedNames">
+		  &lt;label for="jack">Jack&lt;/label>
+		  &lt;input type="checkbox" id="john" value="John" v-model="checkedNames">
+		  &lt;label for="john">John&lt;/label>
+		  &lt;input type="checkbox" id="mike" value="Mike" v-model="checkedNames">
+		  &lt;label for="mike">Mike&lt;/label>
+		  &lt;br>
+		  &lt;span>Checked names: { { checkedNames }}&lt;/span>
+		&lt;/div>
+
+		new Vue({
+		  el: '#example-3',
+		  data: {
+		    checkedNames: []
+		  }
+		});
+		</pre>
+		<div class="box">
+			<div id='example-3'>
+			  <input type="checkbox" id="jack" value="Jack" v-model="checkedNames">
+			  <label for="jack">Jack</label>
+			  <input type="checkbox" id="john" value="John" v-model="checkedNames">
+			  <label for="john">John</label>
+			  <input type="checkbox" id="mike" value="Mike" v-model="checkedNames">
+			  <label for="mike">Mike</label>
+			  <br>
+			  <span>Checked names: {{ checkedNames }}</span>
+			</div>
+		</div>
+		<p>
+			For multiple checkbox the property in all the checkbox v-model should be same, and the property should be declared as an array. You should provide unique value to each checkbox.
+		</p>
+		
+
+		<h1>Radio Button</h1>
+		<p>
+			Same as multiple checkbox, you can use the same for Radio button. Except you should decalre the property as a string, not an array, as only one value at a time can be stored -
+		</p>
+		<pre>
+		&lt;input type="radio" id="one" value="One" v-model="picked">
+		&lt;label for="one">One&lt;/label>
+		&lt;br>
+		&lt;input type="radio" id="two" value="Two" v-model="picked">
+		&lt;label for="two">Two&lt;/label>
+		&lt;br>
+		&lt;span>Picked: { { picked }}&lt;/span>
+
+		data:{
+			picked : "Two"
+		}
+		</pre>
+		<div class="box">
+			<input type="radio" id="one" value="One" v-model="picked">
+			<label for="one">One</label>
+			<br>
+			<input type="radio" id="two" value="Two" v-model="picked">
+			<label for="two">Two</label>
+			<br>
+			<span>Picked: {{ picked }}</span>
+		</div>
+
+
+		<h1>Select</h1>
+		<p>
+			For select element, v-model should be in the select element, not on the option element.
+		</p>
+		<pre>
+		&lt;select v-model="selected">
+		  &lt;option disabled value="">Please select one&lt;/option>
+		  &lt;option>A&lt;/option>
+		  &lt;option>B&lt;/option>
+		  &lt;option>C&lt;/option>
+		&lt;/select>
+		&lt;span>Selected: { { selected }}&lt;/span>
+
+		new Vue({
+		  el: '...',
+		  data: {
+		    selected: ''
+		  }
+		})
+		</pre>
+		<div class="box">
+			<select v-model="selected">
+			  <option disabled value="">Please select one</option>
+			  <option>A</option>
+			  <option>B</option>
+			  <option>C</option>
+			</select>
+			<span>Selected: {{ selected }}</span>
+		</div>
+		<p class="tip">
+			If the initial value of your v-model expression does not match any of the options, the &lt;select> element will render in an “unselected” state. In iOS, the behaviour is unpredictable, it won't allow user to select the first item from the select box. Weird. 
+		</p>
+		<p>
+			Multiple select -
+		</p>
+		<pre>
+		&lt;select v-model="selected" multiple>
+		  &lt;option>A&lt;/option>
+		  &lt;option>B&lt;/option>
+		  &lt;option>C&lt;/option>
+		&lt;/select>
+		&lt;br>
+		&lt;span>Selected: { { selected }}&lt;/span>
+
+		data:{
+			selected : []
+		}
+		</pre>
+		<div class="box">
+			<select v-model="selectedList" multiple>
+			  <option>A</option>
+			  <option>B</option>
+			  <option>C</option>
+			</select>
+			<br>
+			<span>Selected: {{ selectedList }}</span>
+		</div>
+		<p>
+			You can provide the value attribute in the <code>option</code> if your value is different than the text.
+		</p>
+		<p>Here is an example of <code>v-model</code> along with <code>v-for</code></p>
+		<pre>
+			&lt;select v-model="selected">
+			  &lt;option v-for="option in options" v-bind:value="option.value">
+			    { { option.text }}
+			  &lt;/option>
+			&lt;/select>
+			&lt;span>Selected: { { selected }}&lt;/span>
+
+			new Vue({
+			  el: '...',
+			  data: {
+			    selected: 'A',
+			    options: [
+			      { text: 'One', value: 'A' },
+			      { text: 'Two', value: 'B' },
+			      { text: 'Three', value: 'C' }
+			    ]
+			  }
+			});
+		</pre>
+		<div class="box">
+			<select v-model="dselected">
+			  <option v-for="option in options" v-bind:value="option.value">
+			    {{ option.text }}
+			  </option>
+			</select>
+			<span>Selected: {{ dselected }}</span>
+		</div>
+
+
+		<h1>Dynamic Value Binding</h1>
+		<p>
+			The above examples, except for the last example, uses static string as thier values. You can bind a dynamic property of vue instance to the value.
+		</p>
+		<pre>
+			&lt;input
+			  type="checkbox"
+			  v-model="toggle"
+			  true-value="yes"
+			  false-value="no"
+			>
+			&lt;p>toggle : {{ toggle }}&lt;/p>
+			
+			data:{
+				toggle : 'yes'
+			}
+			// when checked:
+			vm.toggle === 'yes'
+			// when unchecked:
+			vm.toggle === 'no'
+		</pre>
+		<div class="box">
+			<input
+			  type="checkbox"
+			  v-model="toggle"
+			  true-value="yes"
+			  false-value="no"
+			>
+			<p>toggle : {{ toggle }}</p>
+		</div>
+		<p>
+			Here, <code>true-value</code> and <code>false-value</code> is attributes comes with Vue. <code>true-value</code> is used to specify the value when the checkbox will be selected. And <code>false-value</code> is the value that will be assigned to <code>toggle</code> when it is not selected. Note that in the above example, we have assigned the value 'yes' to <code>toggle</code> inside the data object. And this value is the same as <code>true-value</code>'s value. It means initially the checkbox will be selected.
+		</p>
+		<p class="tip">
+			Browsers don’t include unchecked boxes in form submissions. To guarantee that one of two values is submitted in a form (e.g. “yes” or “no”), use radio inputs instead.
+		</p>
+		<p>
+			An example of dynamic value binding would be as the following -
+		</p>
+		<pre>
+		&lt;input type="radio" v-model="pick" v-bind:value="a">
+
+		// when checked:
+		vm.pick === vm.a
+		</pre>
+
+
+		<h1>Object Value for Select</h1>
+		<p>
+			You can even bind an object as the value of the <code>option</code> element.
+		</p>
+		<pre>
+		&lt;select v-model="selected">
+		  &lt;option v-bind:value="{ number: 123 }">123</option>
+		&lt;/select>
+
+		// when selected:
+		typeof vm.selected // => 'object'
+		vm.selected.number // => 123
+		</pre>
+
+
+		<h1>Modifiers</h1>
+		<h3>.lazy</h3>
+		<p>
+			By default, v-model syncs the input with the data after each input event. You can add the lazy modifier to instead sync after change events. In this case the vue property will be updated when the input element loses it's focus.
+		</p>
+		<pre>
+			&lt;input v-model.lazy="msg" >&lt;br>
+			Message : {{ msg }}
+		</pre>
+		<div class="box">
+			<input v-model.lazy="msg" ><br>
+			Message : {{ msg }}
+		</div>
+		
+
+		<h1>.number</h1>
+		<p>
+			If you want user input to be automatically typecast as a number, you can add the number modifier to your v-model managed inputs. Note that you must need <code>type="number"</code> on the input element otherwise this modifier have no effect.
+		</p>
+		<pre>
+			&lt;input v-model.number="age">
+			Number : { { age }}
+		</pre>
+		<div class="box">
+			<input class="input is-success" v-model.number="age" type="number" style="width:50%;">
+			Number : {{ age }}
+		</div>
+		<p>
+			This is often useful, because even with type="number", the value of HTML input elements always returns a string.
+		</p>
+
+		<h3>.trim</h3>
+		<div class="box">
+			If you want user input to be trimmed automatically, you can add the trim modifier to your v-model managed inputs:
+			&lt;input v-model.trim="msg">
+		</div>
+		<p>
+			Now the <code>msg</code> will contain trimmed data.
+		</p>
+	</div>
+	<script type="text/javascript">
+		let vm = new Vue({
+			el : ".Content",
+			data:{
+				message : "Hello World",
+				message1 : "The initial message...",
+				checked: false,
+				checked1 : true,
+				checkedNames: [],
+				picked : "Two",
+				selected : "",
+				selectedList : [],
+				dselected: 'A',
+				msg: "",
+				age : "",
+			    options: [
+			      { text: 'One', value: 'A' },
+			      { text: 'Two', value: 'B' },
+			      { text: 'Three', value: 'C' }
+			    ],
+			    toggle : 'yes'
+			}
+		});
+	</script>
+</body>
+</html>

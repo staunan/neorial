@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Colors in Flutter</title>
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+	<script type="text/javascript" src="../../Assets/prism.min.js"></script>
+	<script type="text/javascript" src="../../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+<h1>Row Widget</h1>
+<p>A widget that displays its children in a horizontal array.</p>
+<pre>
+Row(
+	children : &lt;Widget>[
+		Text("Hi"),
+		Text("Hello"),
+	],
+),
+</pre>
+<p>The <code>Row</code> widget doesn't scroll. If you need scrolling, instead of <code>Row</code> widget, consider using <code>ListView</code> widget.</p>
+<p>The children of <code>Row</code> widget can have two types of widget, they can be non-flexible or flexible. Non-flexible means their size is constant and doesn't expand, they takes space as much as they need. But Flexible widget can expand their width or height in order to fill the available space of the row.</p>
+<p>In general it is considered an error to have more children in a row than will fit in the available room. If the non-flexible contents of the Row are together wider than the row itself, then the row is said to have overflowed. When a row overflows, the row doesn't have any remainin space to share between its expanded and Flexible children. The <code>Row</code> reports this by drawing a yellow and black stripped warning box on the edge that is overflowing.</p>
+<p>When Row widget layouts its children, it follows the following steps : </p>
+<ul>
+	<li>First it gives the actual size of zero flex children (eg. children that are non-flexible).</li>
+	<li>After that the remaining space is distributed to the flexible children accroding to their flex factor. For example, a child with flex factor 2.0 will receive twice the space than the child having flex factor 1.0.</li>
+</ul>
+<p>So, the <code>Row</code> widget gives the proper size to the non-flexible child first, after that if there's remaining space is available, it is divided to the flexible children accroding to their flex factor. If there's no space available to distribute, it will give error.</p>
+<p>So the best practice is to use Flexible widget to fill the available space of the <code>Row</code> widget and make sure in any way the <code>Row</code> doesn't get overflowed. </p>
+<p>Here are some arguments you can use to control the <code>Row</code> widget:</p>
+
+
+<h2>mainAxisAlignment</h2>
+<p>This argument specifies how the children should be placed along the main axis in a flex layout. Use <code>MainAxisAlignment</code> class to provide the value. For <code>Row</code> widget the main axis is from left edge to right edge. The class <code>MainAxisAlignment</code> defines the following constant -</p>
+<ul>
+	<li><code>center</code> : Place the children as close to the middle of the main axis as possible.</li>
+	<li><code>end</code> : Place the children as close to the end of the main axis as possible.</li>
+	<li><code>spaceAround</code> : Place the freespace evenly between the children as well as half of the space before and after the first and last child. That means the each child has its own same amount of space before and after it. In this value, the amount of space between two child is double the space between left edge and the first child.</li>
+	<li><code>spaceBetween</code> : Place the fress space evenly between the children. It cases the first child to appear at the left edge without having any space. And it causes the last child to appear at the right edge without having any space.</li>
+	<li><code>spaceEvenly</code> : Place the free space evenly between the children as well as before and after the first and last child. IN this value, the amount of space between two child is same as the amount of space between the first child and left edge.</li>
+	<li><code>start</code> : Place the children as close to the start of the main axis as possible.</li>
+</ul>
+<p>The following pictures explain each constants visually :</p>
+<img src="../../Assets/flutter/mainAxisAlignmentForRow.png">
+
+
+<h2>crossAxisAlignment</h2>
+<p>This represents how the children should be placed along the cross axis in a flex layout. Use <code>CrossAxisAlignment</code> class to provide the value. For Row widget the cross axis is from top to bottom. This class defines the following constants -</p>
+<ul>
+	<li><code>center</code> : Place the children so that ther centers align with the middle of the cross axis. This is the default.</li>
+	<li><code>end</code> :Place the children as close to the end of the cross axis as possible.</li>
+	<li><code>start</code> : Place the children as close to the start of the cross axis as possible.</li>
+	<li><code>stretch</code> : This value forces the children to fill the cross axis. This means if you use this value, the children's height will be maximum height as this value causes the children to stretch their height so it fills the whole height.</li>
+</ul>
+<p>The following pictures explain each constants visually :</p>
+<img src="../../Assets/flutter/crossAxisAlignmentForRow.png">
+
+
+<h2>mainAxisSize</h2>
+<p>This argument is used to control the width of the Row n the main axis. After allocating space to children, there might be some remaining free space. This argument is used to control wheater to maximize or minimize the amount of free space. This argument is useless when you use flexible or Expanded children in the Row widget, since the Flexible or Expanded children will leave no remaining space and it will make the Row widget to have maximum width always. Use the class <code>MainAxisSize</code> to provide the value. This class defines the following two constants -</p>
+<ul>
+	<li><code>min</code> : Minimize the amount of free space along the main axis.</li>
+	<li><code>max</code> : Maximize the amount of free space along the main axis.</li>
+</ul>
+<p>By default Row widget tries to be as big as possible. That is the default value is **max**</p>
+<p>The following pictures explain each constants visually :</p>
+<img src="../../Assets/flutter/mainAxisSizeForRow.png">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

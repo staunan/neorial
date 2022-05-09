@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Event - Introduction</title>
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
+	<script type="text/javascript" src="../../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+
+<h1>Event</h1>
+<p>An event is a signal that something has happened. All DOM nodes generate such signals (but events are not limited to DOM).</p>
+
+
+
+<h1>Event Handlers</h1>
+<p>To react on events we can assign a handler – a function that runs in case of an event. Handlers is a way to run JavaScript code in case of user actions. There are several ways to assign a handler. Let’s see them, starting from the simplest one.</p>
+
+
+
+
+
+<h1>HTML Attribute</h1>
+<p>A handler can be set in HTML with an attribute named <code>on&lt;event></code>.</p>
+<p>For instance, to assign a click handler for an input, we can use onclick, like here:</p>
+<pre>
+&lt;input value="Click me" onclick="alert('Click!')" type="button">
+</pre>
+<div class="box">
+<input value="Click me" onclick="alert('Click!')" type="button">
+</div>
+<p>In the above example, if you click the button above, it will give an alert message. However, this way is not good to write multiple statement and execute them. For this case, we need to create function and pass the function on the attibute, like this -</p>
+<pre>
+&lt;input value="Click me" onclick="getSum()" type="button">
+
+function getSum(){
+	var firstName = "Santanu";
+	var lastName = "Bera";
+	alert("Full Name = " + firstName + " " + lastName);	
+}
+</pre>
+<div class="box">
+<input value="Click me" onclick="getSum()" type="button">
+<script type="text/javascript">
+function getSum(){
+	var firstName = "Santanu";
+	var lastName = "Bera";
+	alert("Full Name = " + firstName + " " + lastName);
+}
+</script>
+</div>
+<h3>HTML Attribute are case-insensitive</h3>
+<p>As we know, HTML attribute names are not case-sensitive, so <code>ONCLICK</code> works as well as <code>onClick</code> and <code>onCLICK…</code> But usually attributes are lowercased: <code>onclick</code></p>
+
+
+
+
+
+
+
+<h1>DOM Property</h1>
+<p>We can assign a handler using a DOM property <code>on&lt;event></code>. For example -</p>
+<pre>
+&lt;input id="elem" type="button" value="Click me">
+&lt;script>
+  elem.onclick = function() {
+    alert('Thank you');
+  };
+&lt;/script>
+</pre>
+<div class="box">
+<input id="elem" type="button" value="Click me">
+<script>
+  elem.onclick = function() {
+    alert('Thank you');
+  };
+</script>
+</div>
+<p>If the handler is assigned using an HTML-attribute then the browser reads it, creates a new function from the attribute content and writes it to the DOM property. So this way is actually the same as the previous one.</p>
+<p>The handler is always in the DOM property: the HTML-attribute is just one of the ways to initialize it.</p>
+<h3>As there’s only one onclick property, we can’t assign more than one event handler.</h3>
+<pre>
+&lt;input type="button" id="elem" onclick="alert('Before')" value="Click me">
+&lt;script>
+  elem.onclick = function() { // overwrites the existing handler
+    alert('After'); // only this will be shown
+  };
+&lt;/script>
+</pre>
+<div class="box">
+<input type="button" id="elem2" onclick="alert('Before')" value="Click me">
+<script>
+  elem2.onclick = function() { // overwrites the existing handler
+    alert('After'); // only this will be shown
+  };
+</script>
+</div>
+<h3>We can directly assign function name</h3>
+<pre>
+function sayThanks() {
+  alert('Thanks!');
+}
+
+elem.onclick = sayThanks;
+</pre>
+<h3>Use Function, not String</h3>
+<p>While assigning function name to the event property, you should always assign function, not string. Consider the following -</p>
+<pre>
+element.onclick = "functionName()";
+</pre>
+<p>The above will work too for compibility reason. But it is not recomended. Always use function like the following -</p>
+<pre>
+element.onclick = functionName;
+</pre>
+<h3>DOM property are case-sensitive</h3>
+<p>Assign a handler to <code>elem.onclick</code>, not <code>elem.ONCLICK</code>, because DOM properties are case-sensitive. So always use lowercase for the DOM property for Events.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h1>Removing Event handler</h1>
+<p>You can assign <code>null</code> to the <code>on&lt;event></code> to remove an event handler.</p>
+<pre>
+element.onclick=null;
+</pre>
+
+
+
+
+
+
+
+<h1>Accessing the Element : this</h1>
+<p>The value of <code>this</code> inside a handler is the element. The one which has the handler on it.</p>
+<p>In the code below button shows its contents using <code>this.innerHTML</code>:</p>
+<pre>
+&lt;button onclick="alert(this.innerHTML)">Click me&lt;/button>
+</pre>
+<div class="box">
+<button onclick="alert(this.innerHTML)">Click me</button>
+</div>
+
+
+
+
+
+
+
+<h1>Don's use setAttribute</h1>
+<p>Never ever use <code>setAttribute</code> to assign event handler. The following won't work at all -</p>
+<pre>
+// a click on &lt;body> will generate errors,
+// because attributes are always strings, function becomes a string
+document.body.setAttribute('onclick', function() { alert(1) });
+</pre>
+
+
+
+
+<h1>addEventListener</h1>
+<p>The fundamental problem of the aforementioned ways to assign handlers – we can’t assign multiple handlers to one event. For instance, one part of our code wants to highlight a button on click, and another one wants to show a message. We’d like to assign two event handlers for that. But a new DOM property will overwrite the existing one:</p>
+<pre>
+input.onclick = function() { alert(1); }
+// ...
+input.onclick = function() { alert(2); } // replaces the previous handler
+</pre>
+<p>Web-standard developers understood that long ago and suggested an alternative way of managing handlers using special methods <code>addEventListener</code> and <code>removeEventListener</code>. They are free of such a problem.</p>
+<p>The syntax to add a handler:</p>
+<pre>
+element.addEventListener(event, handler[, phase]);
+</pre>
+<pre>
+&lt;button id="element3">Click Me&lt;/button>
+&lt;script type="text/javascript">
+element3.addEventListener('click', function(){
+	var value = 30;
+	alert(value);
+});
+&lt;/script>
+</pre>
+<div class="box">
+<button id="element3">Click Me</button>
+<script type="text/javascript">
+element3.addEventListener('click', function(){
+	var value = 30;
+	alert(value);
+});
+</script>
+</div>
+<h3>Assigning Multiple event handlers -</h3>
+<pre>
+&lt;button id="element4">Click Me&lt;/button>
+&lt;script type="text/javascript">
+element4.addEventListener('click', function(){
+	var value = 30;
+	alert(value);
+});
+element4.addEventListener('click', function(){
+	alert(this.innerHTML);
+});
+&lt;/script>
+</pre>
+<div class="box">
+<button id="element4">Click Me</button>
+<script type="text/javascript">
+element4.addEventListener('click', function(){
+	var value = 30;
+	alert(value);
+});
+element4.addEventListener('click', function(){
+	alert(this.innerHTML);
+});
+</script>
+</div>
+<h3>Some events only work with addEventListener</h3>
+<p>There exist events that can’t be assigned via a DOM-property. Must use <code>addEventListener</code>. For instance, the event <code>transitionend</code> (CSS animation finished) is like that. Try the code below. In most browsers only the second handler works, not the first one.</p>
+<pre>
+&lt;style>
+  input {
+    transition: width 1s;
+    width: 100px;
+  }
+
+  .wide {
+    width: 300px;
+  }
+&lt;/style>
+
+&lt;input type="button" id="elem" onclick="this.classList.toggle('wide')" value="Click me">
+
+&lt;script>
+  elem.ontransitionend = function() {
+    alert("DOM property"); // doesn't work
+  };
+
+  elem.addEventListener("transitionend", function() {
+    alert("addEventListener"); // shows up when the animation finishes
+  });
+&lt;/script>
+</pre>
+
+
+
+
+
+
+
+<h1>removeEventListener</h1>
+<p>To remove the handler, use <code>removeEventListener</code>:</p>
+<pre>
+// exactly the same arguments as addEventListener
+element.removeEventListener(event, handler[, phase]);
+</pre>
+<p>To remove a handler we should pass exactly the same function as was assigned.</p>
+<p>That doesn’t work -</p>
+<pre>
+elem.addEventListener( "click" , () => alert('Thanks!'));
+// ....
+elem.removeEventListener( "click", () => alert('Thanks!'));
+</pre>
+<p>The handler won’t be removed, because <code>removeEventListener</code> gets another function – with the same code, but that doesn’t matter.</p>
+<p>Here’s the right way:</p>
+<pre>
+function handler() {
+  alert( 'Thanks!' );
+}
+
+input.addEventListener("click", handler);
+// ....
+input.removeEventListener("click", handler);
+</pre>
+<p style="font-style: italic; font-weight: bold;">Please note – if we don’t store the function in a variable, then we can’t remove it. There’s no way to “read back” handlers assigned by addEventListener.</p>
+
+
+
+
+
+
+
+
+
+
+<h1>Event Object</h1>
+<p>To properly handle an event we’d want to know more about what’s happened. Not just a “click” or a “keypress”, but what were the pointer coordinates? Which key was pressed? And so on. </p>
+<p>When an event happens, the browser creates an event object, puts details into it and passes it as an argument to the handler. Here’s an example of getting mouse coordinates from the event object:</p>
+<pre>
+&lt;input type="button" value="Click me" id="elem">
+
+&lt;script>
+  elem.onclick = function(event) {
+    // show event type, element and coordinates of the click
+    alert(event.type + " at " + event.currentTarget);
+    alert("Coordinates: " + event.clientX + ":" + event.clientY);
+  };
+&lt;/script>
+</pre>
+<p>Some properties of event object:</p>
+<ul>
+	<li><code>event.type</code> Event type, here it’s "click".</li>
+	<li><code>event.currentTarget</code> Element that handled the event. That’s exactly the same as this, unless you bind this to something else, and then <code>event.currentTarget</code> becomes useful.</li>
+	<li><code>event.clientX / event.clientY</code> Window-relative coordinates of the cursor, for mouse events.</li>
+</ul>
+<p>There are more properties. Some of them specific to the type of event. You can console log the whole objet to get an idea what properties available to you for a particular event type.</p>
+<h3>The event object is also accessible from HTML</h3>
+<p>If we assign a handler in HTML, we can also use the event object, like this:</p>
+<pre>
+&lt;input type="button" onclick="alert(event.type)" value="Event type">
+</pre>
+<div class="box">
+<input type="button" onclick="alert(event.type)" value="Event type">
+</div>
+<h3>For HTML attribute you need to pass the event -</h3>
+<pre>
+&lt;button onclick="sayThankYou(event)">Thank you&lt;/button>
+&lt;script type="text/javascript">
+function sayThankYou(event){
+	alert(event.target.innerHTML);
+}
+&lt;/script>
+</pre>
+<div class="box">
+<button onclick="sayThankYou(event)">Thank you</button>
+<script type="text/javascript">
+function sayThankYou(event){
+	alert(event.target.innerHTML);
+}
+</script>
+</div>
+<p>However, the following won't work, it will result an error - "Cannot read property target of undefined" as we are not passing the event -</p>
+<pre>
+&lt;button onclick="sayThankYou()">Thank you&lt;/button>
+&lt;script type="text/javascript">
+function sayThankYou(event){
+	alert(event.target.innerHTML);
+}
+&lt;/script>
+</pre>
+
+
+
+
+
+
+
+<h1>Handlers as an Object : handleEvent</h1>
+<p>Instead of using function as event handler, we can use object as an event handler. In this case, the object must have a function called <code>handleEvent</code>. So whenever the event occurs, the <code>handleEvent</code> method runs of the object. Here is an example -</p>
+<pre>
+&lt;button id="elem">Click me&lt;/button>
+
+&lt;script>
+  elem.addEventListener('click', {
+    handleEvent(event) {
+      alert(event.type + " at " + event.currentTarget);
+    }
+  });
+&lt;/script>
+</pre>
+<p>In other words, when <code>addEventListener</code> receives an object as the handler, it calls <code>object.handleEvent(event)</code> in case of an event.</p>
+<p>We could also use a class for that:</p>
+<pre>
+&lt;button id="elem">Click me&lt;/button>
+
+&lt;script>
+  class Menu {
+    handleEvent(event) {
+      switch(event.type) {
+        case 'mousedown':
+          elem.innerHTML = "Mouse button pressed";
+          break;
+        case 'mouseup':
+          elem.innerHTML += "...and released.";
+          break;
+      }
+    }
+  }
+
+  let menu = new Menu();
+  elem.addEventListener('mousedown', menu);
+  elem.addEventListener('mouseup', menu);
+&lt;/script>
+</pre>
+<p>In the above example, the same method <code>handleEvent</code> defines handler for mousedowna and mouseup, you can define other handlers too. But the thing is that, the same method would handle all type of event.</p>
+<p>The method handleEvent does not have to do all the job by itself. It can call other event-specific methods instead, like this:</p>
+<pre>
+&lt;button id="elem">Click me&lt;/button>
+
+&lt;script>
+  class Menu {
+    handleEvent(event) {
+      // mousedown -> onMousedown
+      let method = 'on' + event.type[0].toUpperCase() + event.type.slice(1);
+      this[method](event);
+    }
+
+    onMousedown() {
+      elem.innerHTML = "Mouse button pressed";
+    }
+
+    onMouseup() {
+      elem.innerHTML += "...and released.";
+    }
+  }
+
+  let menu = new Menu();
+  elem.addEventListener('mousedown', menu);
+  elem.addEventListener('mouseup', menu);
+&lt;/script>
+</pre>
+<p>Now event handlers are clearly separated, that may be easier to support.</p>
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

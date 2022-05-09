@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Title</title>
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
+	<script type="text/javascript" src="../Assets/jquery.min.js"></script>
+    <link rel="stylesheet" href="../Assets/prism-dark.css">
+    <script type="text/javascript" src="../Assets/vue.js"></script>
+</head>
+<body class="Body">
+<div class="Content Card">
+	<h1>V-IF ~ Condition</h1>
+	<p>
+		Now we will learn about <code>v-if</code> directive. This is a conditional directive. Let's see how it is used -
+	</p>
+	<pre>
+		&lt;div v-if="hasName">
+			{{ vname }}
+		&lt;/div>
+		data :{
+			name : "Santanu Bera",
+			hasName : false
+		}
+	</pre>
+	<p>
+		If you run the code, you will see nothing. But if you change the value of <code>hasName</code> to true, you will see the output as <code>Santanu Bera</code>. The directive <code>v-if</code> accepts boolean value, and it is attached to an element. If the value is <code>true</code> then the element will be rendered, and if the value is <code>false</code>, the element will not be rendered. It's like rendering the element based on a condition. The coolest part is if you change the value of <code>hasName</code> to true dynamically, the element will be rendered dynamically too. 
+	</p>
+	<p>
+		You can also use inline expression or computed property that returns true.
+	</p>
+	<pre>
+		&lt;div v-if="age == 30">
+			{{ vname }}
+		&lt;/div>
+		data :{
+			name : "Santanu Bera",
+			age : 30
+		}
+	</pre>
+	<pre>
+		&lt;div v-if="hasName">
+			{{ vname }}
+		&lt;/div>
+		data :{
+			name : "Santanu Bera",
+			age : 30
+		},
+		computed:{
+			hasName:function(){
+				if(this.name != ""){ return true; }else{ return false;}
+			}
+		}
+	</pre>
+	<h1>! Operator</h1>
+	<p>
+		We all know what this operator is. It's called <code>Not</code> operator. It returns <code>true</code> if the value is <code>false</code> and it returns <code>false</code> if the value is <code>true</code>.
+	</p>
+	<p>If <code>hasName</code> is <code>true</code>, then <code>!hasName</code> is <code>false.</code>. I hope you get it.</p>
+	<p>
+		Now we can use this operator inside the <code>v-if</code> directive.
+	</p>
+	<pre>
+		&lt;div v-if="!hasName">
+			Amazing
+		&lt;/div>
+		data :{
+			name : "Santanu Bera",
+			age : 30
+		},
+		computed:{
+			hasName:function(){
+				if(this.name != ""){ return true; }else{ return false;}
+			}
+		}
+	</pre>
+	<p>
+		Now, you will see <code>Amazing</code> if <code>hasName</code> is false.
+	</p>
+	<h1>V-ELSE</h1>
+	<p>
+		We, all know why we use <code>else</code> block for. The general mechanism exist in every language. If the <code>v-if</code> directive evaluates to <code>false</code>, the <code>v-else</code> will be rendered. And <code>v-else</code> block will be skipped if the <code>v-if</code> evaluates to <code>true</code>.
+	</p>
+	<p>
+		One thing to remember that, the v-else must immediately follow v-if directive. Otherwise the element won't be rendered properly and you will get an error in the console.
+	</p>
+	<p>
+		You are not limited to use v-if and/or v-else in div element, you can use on any HTML element you want.
+	</p>
+	<pre>
+		&lt;div v-if="hasName">
+			{{ vname }}
+		&lt;/div>
+		&lt;div v-else>
+			No Name
+		&lt;/div>
+		data :{
+			name : "Santanu Bera",
+			age : 30
+		},
+		computed:{
+			hasName:function(){
+				if(this.name != ""){ return true; }else{ return false;}
+			}
+		}
+	</pre>
+	<h1>V-ELSE-IF</h1>
+	<p>
+		Just like every other programming language Vue also provides <code>else if</code> block. You already know how it goes.
+	</p>
+	<pre>
+		&lt;div v-if="age>30">
+			You are a Man
+		&lt;/div>
+		&lt;div v-else-if="age<30">
+			You are a Boy
+		&lt;/div>
+		&lt;div v-else>
+			You are In.
+		&lt;/div>
+		data :{
+			age : 30
+		}
+	</pre>
+	<p>
+		You can have more than one <code>v-else-if</code> directive. One thing to remember that, every <code>v-else-if</code> directive must immediately follow the previous <code>v-else-if</code> directive and first <code>v-else-if</code> must follow <code>v-if</code> directive. And if there's <code>v-else</code> directive it must immediately follow <code>v-if</code> directive or last <code>v-else-if</code> directive if ther's any.
+	</p>
+	<h1>v-if on &lt;template></h1>
+	<p>
+		As <code>v-if</code> is a directive, it must be used with a single element. But what if you want to use it for more than one element? One solution that might come up in your mind is that, we can use <code>v-if</code> directive on each element. Well it's kind of lot of work if there's are lot of elements. Like this -
+	</p>
+	<pre>
+		&lt;div v-if="hasName">
+			Do Something
+		&lt;/div>
+		&lt;div v-if="hasName">
+			Do Something Else
+		&lt;/div>
+		&lt;div v-if="hasName">
+			Do Anything
+		&lt;/div>
+		.
+		.
+		.
+	</pre>
+	<p>
+		Another solution is, which is very convenient, use a wrapper div with the <code>v-if</code> directive.
+	</p>
+	<pre>
+		&lt;div v-if="hasName">
+			&lt;div>
+				Do Something
+			&lt;/div>
+			&lt;div>
+				Do Something Else
+			&lt;/div>
+			&lt;div>
+				Do Anything
+			&lt;/div>
+			.
+			.
+			.
+		&lt;/div>
+	</pre>
+	<p>
+		Well, it's good, but you will need to have another unwanted div element for that. To solve the problem Vue provides us a built in component element &lt;template> which we can use in this case.
+	</p>
+	<pre>
+		&lt;template v-if="hasName">
+			&lt;div>
+				Do Something
+			&lt;/div>
+			&lt;div>
+				Do Something Else
+			&lt;/div>
+			&lt;div>
+				Do Anything
+			&lt;/div>
+			.
+			.
+			.
+		&lt;/template>
+	</pre>
+	<p>
+		Now, this time if you look at the DOM, the element &lt;template> is removed from the final rendered result. It servs as invisible wrapper. Pretty Cool.
+	</p>
+	<h1>key</h1>
+	<p>Consider the following example -</p>
+	<pre>
+		&lt;div v-if="isActive" style="margin-bottom: 10px;">
+			&lt;label>User Name&lt;/label>
+			&lt;input type="text" name="username" placeholder="User Name" class="input is-info">
+		&lt;/div>
+		&lt;div v-else style="margin-bottom: 10px;">
+			&lt;label>Email&lt;/label>
+			&lt;input type="text" name="email" placeholder="Email" class="input is-success">
+		&lt;/div>
+		&lt;div style="display: flex; justify-content: flex-end;">
+			&lt;button class="button is-success" v-on:click="toggle" class="input is-success">Toggle&lt;/button>
+		&lt;/div>
+		new Vue({
+			el : "#Page",
+			data : {
+				isActive : true
+			},
+			methods:{
+				toggle:function(){
+					this.isActive = !this.isActive;
+				}
+			}
+		});
+	</pre>
+	<p>
+		And you will get the following output -
+	</p>
+	<div class="Card Output">
+		<div>
+			<div v-if="isActive" style="margin-bottom: 10px;">
+				<label>User Name</label>
+				<input type="text" name="username" placeholder="User Name" class="input is-info">
+			</div>
+			<div v-else style="margin-bottom: 10px;">
+				<label>Email</label>
+				<input type="text" name="email" placeholder="Email" class="input is-success">
+			</div>
+			<div style="display: flex; justify-content: flex-end;">
+				<button class="button is-success" v-on:click="toggle" class="input is-success">Toggle</button>
+			</div>
+		</div>
+	</div>
+	<p>
+		Now, write something in the text box and click the botton Toggle, to toggle the element. You will see all has changed but what you have typed is still in the textbox. The value that is typed in the username textfiled is available in the email textfield. How's that Possible? Well, from Vue's documentation "Vue tries to render elements as efficiently as possible, often re-using them instead of rendering from scratch. Beyond helping make Vue very fast, this can have some useful advantages.". Now it is clear, that Vue tries to reuse an element as far as possible instead of render them from the scratch. So before Vue render the email div block, Vue will take the common elements from the username div block. If the attribute, style or value is different for the new element, Vue will just update them instead of rendering from the scratch.
+	</p>
+	<p>
+		Well, sometimes you don't want that. Sometimes you want Vue to render element from the scratch. So the way to tell Vue is using <code>key</code> attribute with unique value.
+	</p>
+	<pre>
+		&lt;div v-if="isActive" style="margin-bottom: 10px;">
+			&lt;label>User Name&lt;/label>
+			&lt;input type="text" name="username" placeholder="User Name" class="input is-info" key="username-input">
+		&lt;/div>
+		&lt;div v-else style="margin-bottom: 10px;">
+			&lt;label>Email&lt;/label>
+			&lt;input type="text" name="email" placeholder="Email" class="input is-success" key="email-input">
+		&lt;/div>
+		&lt;div style="display: flex; justify-content: flex-end;">
+			&lt;button class="button is-success" v-on:click="toggle" class="input is-success">Toggle&lt;/button>
+		&lt;/div>
+		new Vue({
+			el : "#Page",
+			data : {
+				isActive : true
+			},
+			methods:{
+				toggle:function(){
+					this.isActive = !this.isActive;
+				}
+			}
+		});
+	</pre>
+	<p>
+		And you will get the following output --
+	</p>
+	<div class="Card Output">
+		<div>
+			<div v-if="isActive" style="margin-bottom: 10px;">
+				<label>User Name</label>
+				<input type="text" name="username" placeholder="User Name" class="input is-info" key="username-input">
+			</div>
+			<div v-else style="margin-bottom: 10px;">
+				<label>Email</label>
+				<input type="text" name="email" placeholder="Email" class="input is-success" key="email-input">
+			</div>
+			<div style="display: flex; justify-content: flex-end;">
+				<button class="button is-success" v-on:click="toggle" class="input is-success">Toggle</button>
+			</div>
+		</div>
+	</div>
+	<p>
+		Now, if you type in the textbox and click the toggle button, you won't see the previous value because this time Vue rendered email div block from the scratch. It didn't take anything from the username div block.
+	</p>
+	<p>
+		Note that the &lt;label> elements are still efficiently re-used, because they don’t have key attributes.
+	</p>
+	<h1>v-show</h1>
+	<p>
+		This is another conditional directive provided by Vue. The directive <code>v-if</code> and <code>v-show</code> are almost same. However, there are some differences and they are --
+	</p>
+	<ul>
+		<li>
+			<code>v-show</code> doesn't support v-else or v-else-if. <code>v-show</code> is on it's own.
+		</li>
+		<li>
+			<code>v-show</code> cannot be used with &lt;template> element.
+		</li>
+		<li>
+			If you use v-if and the condition becomes false for the first time, it won't be available in the DOM until, the condition become to <code>true</code>. <code>v-if</code> ensures that the inside the conditional block, the child components and event listeners will be destroyed and recreated properly during toggle. 
+			On the other hand <code>v-show</code> uses the CSS <code>display</code> property to render the element. If the condition is false, <code>v-show</code> changes the display property to none. And if the condition is true, the <code>v-show</code> changes the property to <code>block</code>. So, the components inside the v-show is always available in the DOM.
+		</li>
+	</ul>
+	<p>
+		We should use <code>v-show</code> if the conditional block needs to be changed many times. <code>v-if</code> should be used if the conditional block is unlikely to change many times dynamically.
+	</p>
+	<pre>
+		&lt;div v-show="hasName">
+			{{ vname }}
+		&lt;/div>
+		data :{
+			name : "Santanu Bera",
+			hasName : false
+		}
+	</pre>
+</div>
+<script type="text/javascript">
+new Vue({
+	el : ".Content",
+	data : {
+		vname : "{{ name }}",
+		vhasName : "{{ hasName }}",
+		name : "Santanu Bera",
+		age : 30,
+		isActive : true
+	},
+	methods:{
+		toggle:function(){
+			this.isActive = !this.isActive;
+		}
+	},
+	computed:{
+			hasName:function(){
+				if(this.name != ""){ return true; }else{ return false;}
+			}
+	}
+});
+</script>
+</body>
+</html>

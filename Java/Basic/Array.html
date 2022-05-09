@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" type="text/css" href="bulma.css">
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<title>Java Array</title>
+</head>
+<body>
+	<div style="width: 80%; margin: auto; margin-bottom: 50px; margin-top: 50px;">
+		<h1>Array</h1>
+		<hr>
+		<h2>Creating Array</h2>
+		<pre>
+			dataType[] arrayRefVar;   // preferred way.
+			or
+			dataType arrayRefVar[];  // works but not preferred way.
+		</pre>
+		<div class="box">
+			All the elements inside the array must be similar type of data. We cannot have mixed type of data like, you cannot store integer and float value together within the same array.
+		</div>
+		<p>Example -</p>
+		<pre>
+			double[] myList;   // preferred way.
+			or
+			double myList[];   // works but not preferred way.
+		</pre>
+		<p>You can also create an array using <code>new</code> operator.</p>
+		<pre>
+			arrayRefVar = new dataType[arraySize];
+		</pre>
+		<p>The above statement does two things −</p>
+		<ul>
+			<li>It creates an array using <code>new dataType[arraySize]</code>.</li>
+			<li>It assigns the reference of the newly created array to the variable <code>arrayRefVar</code>.</li>
+		</ul>
+		<p>Declaring an array variable, creating an array, and assigning the reference of the array to the variable can be combined in one statement, as shown below −</p>
+		<pre>
+			dataType[] arrayRefVar = new dataType[arraySize];
+		</pre>
+		<p>Alternatively you can create arrays as follows −</p>
+		<pre>
+			dataType[] arrayRefVar = {value0, value1, ..., valuek};
+		</pre>
+
+		<h2>Accessing Array</h2>
+		<p>The array elements are accessed through the index. Array indices are 0-based; that is, they start from 0 to <code>arrayRefVar.length-1</code>.</p>
+		<pre>
+			dataType[] arrayRefVar = {value0, value1, ..., valuek};
+			var theValue = arrayRefVar[2]; 
+			//Accessing the third element. As the first element is indexed as 0
+		</pre>
+		<p>Example -</p>
+		<pre>
+		public class TestArray {
+
+		   	public static void main(String[] args) {
+		      double[] myList = {1.9, 2.9, 3.4, 3.5};
+
+		      // Print all the array elements
+		      for (int i = 0; i < myList.length; i++) {
+		         System.out.println(myList[i] + " ");
+		      }
+		     
+		      // Summing all elements
+		      double total = 0;
+		      for (int i = 0; i < myList.length; i++) {
+		         total += myList[i];
+		      }
+		      System.out.println("Total is " + total);
+		      
+		      // Finding the largest element
+		      double max = myList[0];
+		      for (int i = 1; i < myList.length; i++) {
+		         if (myList[i] > max) max = myList[i];
+		      }
+		      System.out.println("Max is " + max);  
+		   }
+		}
+		</pre>
+		<p>Output -</p>
+		<pre>
+			1.9
+			2.9
+			3.4
+			3.5
+			Total is 11.7
+			Max is 3.5
+		</pre>
+		<h2>Enhanced For Loop</h2>
+		<p>JDK 1.5 introduced a new for loop known as foreach loop or enhanced for loop, which enables you to traverse the complete array sequentially without using an index variable.</p>
+		<pre>
+			public class TestArray {
+			   	public static void main(String[] args) {
+					double[] myList = {1.9, 2.9, 3.4, 3.5};
+					// Print all the array elements
+					for (double element: myList) {
+						System.out.println(element);
+					}
+				}
+			}
+		</pre>
+		<p>Here, in the first element of the array gets assigned to the variable <code>element</code>. And in the second iteration, the second element is get automatically assigned to the variable <code>element</code> and so on until, the last element of the array comes. When there's no more element, the loops gets terminated automatically. Note the datatype of the <code>element</code> must be the same as the datatype of the element of the array.</p>
+		<h2>Length</h2>
+		<p><code>array.length</code> returns the number of element in the array.</p>
+	</div>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

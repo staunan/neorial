@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Introduction</title>
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+	<script type="text/javascript" src="../Assets/prism.min.js"></script>
+	<script type="text/javascript" src="../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+<h1>Introduction</h1>
+<p>If you don't have <code>package.json</code> file in your working directory, create using the following command :</p>
+<pre>
+npm init --yes
+</pre>
+<p>After that install Express.js:</p>
+<pre>
+npm install express --save
+</pre>
+<p>This will create <code>node_modules</code> in your current directory and install Express.js and all it's dependencies within that directory.</p>
+
+
+
+
+
+
+<h1>Start Server</h1>
+<p>You can start your server using pure Node.js code or you can use Express.js way to create server. Open entry file which is mentioned in package.json file and copy paste the following code:</p>
+<pre>
+const express = require('express');
+const app = express();
+const port = 3000;
+
+app.get('/', (req, res) => res.send('Hello World!'));
+
+app.listen(port, () => console.log(`Example app listening on port ${port}!`));
+</pre>
+<p>First we require the framework and then create an instance of the Express.js. The variable <code>app</code> refers to the <code>Express.js</code> instance. From now on we will use <code>app</code> to specify the Express.js instance.</p>
+<p>Then we registered a route using the method <code>app.get()</code>. It takes first parameter as url path and second parameter as the callback handler. When the url path matches, the handler is executed. For any other route, it returns 404 ("Page Not Found").</p>
+<p>Finally, we create server using <code>app.listen()</code> method. It takes first parameter as port number, and then a callback method which is executed when server starts.</p>
+<p>So let's run the server by running the following command:</p>
+<pre>
+node index.js
+</pre>
+<p>Now open the browser and access <code>http://localhost:3000</code>, you will see <code>Hello World</code> as the output. <code>404 Not Found</code> is returned for other url paths:</p>
+<pre>
+http://localhost:3000/about
+</pre>
+<img src="Images/404.jpg">
+
+
+
+
+
+
+
+
+
+
+<h1>CLI</h1>
+<p>Use the application generator tool, express-generator, to quickly create an application skeleton. The <code>express-generator</code> package installs the express command-line tool. Use the following command to do so:</p>
+<pre>
+npm install express-generator -g
+</pre>
+<p>Now you can use <code>express</code> command on your terminal. To see the help options, run:</p>
+<pre>
+express -h
+</pre>
+<p>The following creates an Express app named <code>myapp</code>. The app will be created in a folder named <code>myapp</code> in the current working directory and the view engine will be set to <code>Pug</code>:</p>
+<pre>
+express --view=pug myapp
+</pre>
+<p>Here is the output:</p>
+<pre>
+ create : myapp
+ create : myapp/package.json
+ create : myapp/app.js
+ create : myapp/public
+ create : myapp/public/javascripts
+ create : myapp/public/images
+ create : myapp/routes
+ create : myapp/routes/index.js
+ create : myapp/routes/users.js
+ create : myapp/public/stylesheets
+ create : myapp/public/stylesheets/style.css
+ create : myapp/views
+ create : myapp/views/index.pug
+ create : myapp/views/layout.pug
+ create : myapp/views/error.pug
+ create : myapp/bin
+ create : myapp/bin/www
+</pre>
+<p>You can see the application directory structure of a simple express.js framework. Now it is just a framework skeleton. You need to install the framework and few other dependencies to work with Express.js. The <code>package.json</code> file already contains the dependency list. Run <code>npm init</code> to install them:</p>
+<pre>
+npm install
+</pre>
+<p>Now run the following command to start the server:</p>
+<pre>
+DEBUG=myapp:* npm start // For Linux, MacOS
+set DEBUG=myapp:* & npm start // For Windows
+</pre>
+<p>Now you will most likely to get the following error when you try to access any page:</p>
+<pre>
+No default engine was specified and no extension was provided.
+</pre>
+<p>If you open <code>routes/index.js</code> file, you will see, we are using <code>res.render()</code> method to render a page. And this method require the <code>view engine</code> to be specified. As the skeleton version didn't provide it we need to do it manually.</p>
+<p>To specify the view engine use the following code before the <code>module.exports</code>:</p>
+<pre>
+app.set('view engine', 'pug');
+</pre>
+<p>Next install pug:</p>
+<pre>
+npm install pug --save
+</pre>
+<p>Try running the server again and this time you will get another error:</p>
+<pre>
+Failed to lookup view "index" in views directory "D:\Playground\expressdemo\views"
+</pre>
+<p>The application skeleton didn't come with any view file. So let's create one. Create a file called <code>index.pug</code> within the view folder and paste the following code:</p>
+<pre>
+html
+	head
+		title Express Demo
+	body
+		h1 Express.js
+</pre>
+<p>Now let's start the server and access <code>http://localhost:3000/</code>, you will see the output this time.</p>
+<p style="font-weight: 500; font-style: italic;">The app structure created by the generator is just one of many ways to structure Express apps. Feel free to use this structure or modify it to best suit your needs.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

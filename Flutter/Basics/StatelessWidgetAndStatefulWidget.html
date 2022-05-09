@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Stateless Widget and Stateful Widget</title>
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+	<script type="text/javascript" src="../../Assets/prism.min.js"></script>
+	<script type="text/javascript" src="../../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+<h1>Stateless Widget</h1>
+<p>A widget is either stateful or stateless. If a widget can change—when a user interacts with it, for example—it’s stateful.</p>
+<p>A widget that does not require mutable state. That means stateless widgets are immutable. A StatelessWidget will never rebuild by itself. Once it is rendered on the screen, it acts like constant UI that means the widget never changes its appearence during the lifetime of the widget.</p>
+<p>A stateless widget never changes. Icon, IconButton, and Text are examples of stateless widgets. Stateless widgets subclass <code>StatelessWidget</code>.</p>
+<p>A stateful widget is dynamic: for example, it can change its appearance in response to events triggered by user interactions or when it receives data. Checkbox, Radio, Slider, InkWell, Form, and TextField are examples of stateful widgets. Stateful widgets subclass <code>StatefulWidget</code>.</p>
+<p>A widget’s state is stored in a <code>State</code> object, separating the widget’s state from its appearance. The state consists of values that can change, like a slider’s current value or whether a checkbox is checked. When the widget’s state changes, the state object calls <code>setState()</code>, telling the framework to redraw the widget.</p>
+<p>Here is the syntax of creating a Stateless widget -</p>
+<pre>
+class WidgetName extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    // Return Widget from this method
+  }
+}
+</pre>
+<p>To create a stateless widget you need to extend <code>StatelessWidget</code> class and within this class you need to override the method <code>build</code>, which is responsible for painting the UI. This <code>build</code> method must return a Widget.</p>
+
+<h1>Creating a stateful widget</h1>
+<p>Implementing a custom stateful widget requires creating two classes:</p>
+<ul>
+	<li>A subclass of <code>StatefulWidget</code> that defines the widget.</li>
+	<li>A subclass of <code>State</code> that contains the state for that widget and defines the widget’s build() method.</li>
+</ul>
+<p>Here is the syntax for creating a stateful widget -</p>
+<pre>
+class WidgetName extends StatefulWidget {
+	// This class is the configuration for the state. It holds the
+  	// values (in this case nothing) provided by the parent and used
+  	// by the build  method of the State. Fields in a Widget
+  	// subclass are always marked "final".
+
+	@override
+  	_WidgetNameState createState() => _WidgetNameState();
+}
+
+class _WidgetNameState extends State&lt;WidgetName> {
+	// Here define all your state --
+
+	@override
+  	Widget build(BuildContext context) {
+  		// Return Widget from here -
+  	}
+}
+</pre>
+<p>First you need to extend the class <code>StatefulWidget</code> and inside the class you must create state by calling <code>createState()</code> method. This method is defined in the <code>State</code> class.</p>
+<pre>
+_WidgetNameState createState() => _WidgetNameState();
+</pre>
+<p>In the next step, you need to create a state object for the widget. The naming convention of the state object of the stateful widget is starts with an underscore and then the widget name and followed by the word <code>State</code>. For example, if the widget name is <code>WidgetName</code> the state class for the widget should be named as <code>_WidgetNameState</code>, and if the widget name is <code>MyButton</code> then the state class for the widget should be named as <code>_MyButtonState</code>. To create a state object for the widget you need to extend the class <code>State</code> and within less than (<code>&lt;</code>) and greater than (<code>&gt;</code>) sign you need to write the widget name.</p>
+<pre>
+class _WidgetNameState extends State&lt;WidgetName> {
+</pre>
+<p>Inside the state class for the object, you need to define all your states or custom methods. This is the place where you must override the build method which draws the UI. The build method must return Widget.</p>
+
+<p>Here is an example of Stateful widget -</p>
+<pre>
+class Counter extends StatefulWidget {
+  @override
+  _CounterState createState() => _CounterState();
+}
+
+class _CounterState extends State&lt;Counter> {
+  int _counter = 0;
+
+  void _increment() {
+    setState(() {
+      // This call to setState tells the Flutter framework that
+      // something has changed in this State, which causes it to rerun
+      // the build method below so that the display can reflect the
+      // updated values. If you change _counter without calling
+      // setState(), then the build method won't be called again,
+      // and so nothing would appear to happen.
+      _counter++;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // This method is rerun every time setState is called,
+    // for instance, as done by the _increment method above.
+    // The Flutter framework has been optimized to make rerunning
+    // build methods fast, so that you can just rebuild anything that
+    // needs updating rather than having to individually change
+    // instances of widgets.
+    return Row(
+      children: <Widget>[
+        RaisedButton(
+          onPressed: _increment,
+          child: Text('Increment'),
+        ),
+        Text('Count: $_counter'),
+      ],
+    );
+  }
+}
+</pre>
+<p>You might wonder why <code>StatefulWidget</code> and <code>State</code> are separate objects. In Flutter, these two types of objects have different life cycles. Widgets are temporary objects, used to construct a presentation of the application in its current state. State objects, on the other hand, are persistent between calls to build(), allowing them to remember information.</p>
+
+</div>
+</body>
+</html>

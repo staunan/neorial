@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Inherited Widget</title>
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+	<script type="text/javascript" src="../../Assets/prism.min.js"></script>
+	<script type="text/javascript" src="../../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+
+
+<h1>InheritedWidget</h1>
+<p><code>InheritedWidget</code> helps you to propagate data to the widgets down the widget tree. If you wrap your widgets within the Inherited Widget, all the widgets that are below the Inherited Widget can get its data easily. You can also do this using simple constructor through. But it would become very tedious if the widget level goes very deep. Consider the following example where we have class A, B and C. The data that we give it to the class A, passes that data to the class B, and the class B passes the same data to the class C. Then C prints the data.</p>
+<pre>
+// A
+class A extends StatelessWidget{
+  int counter;
+  A({this.counter});
+
+  @override
+  Widget build(BuildContext context){
+    return new B(counter: counter);
+  }
+}
+
+// B
+class B extends StatelessWidget{
+  int counter;
+  B({this.counter});
+
+  @override
+  Widget build(BuildContext context){
+    return new C(counter: counter);
+  }
+}
+
+// C
+class C extends StatelessWidget{
+  int counter;
+  C({this.counter});
+
+  @override
+  Widget build(BuildContext context){
+    return Text($counter);
+  }
+}
+</pre>
+<p>This is not a very efficient way of doing this specially if your parent-child level goes very deep. There should be a way to share the data to all the widgets. For example you might wanna have a common state that is application specific, and you want to use it wherever you want without passing the data through constructor to constructor. Much like a State management pattern. The Inherited Widget solves this problem. We will see how we can pass the data to its decendent widgets using Inherited Widget.</p>
+
+<h3>Creating Inherited Widget</h3>
+<p>Create a seperate file where you will define your inherited widget. Here is an example how you can create a Inherited Widget.</p>
+<pre>
+// app_data.dart;
+
+import 'package:flutter/material.dart';
+
+class AppData extends InheritedWidget{
+  int userid;
+
+  AppData({Key key, this.userid, Widget child}) : super(key: key, child: child);
+
+  @override
+  bool updateShouldNotify(AppData old) => true;
+}
+</pre>
+<p>This class is very simple. It extends <code>InheritedWidget</code> class, defines a instance member <code>userid</code>, and overrides the <code>updateShouldNotify</code> method. The only required parameter for Inherited Widget is <code>child</code>, and we pass the child to the parent constructor.</p>
+<p>The method <code>updateShouldNotify</code> method always returns <code>true</code>. We will explain about this later on.</p>
+
+<h3>Using Inherited Widget</h3>
+<p>Now you can use this class as an widget:</p>
+<pre>
+// class_a.dart
+
+import 'package:flutter/material.dart';
+import "app_data.dart";
+
+class ClassA extends StatelessWidget{
+  @override
+  Widget build(BuildContext context){
+    return AppData(
+      userid: 100,
+      child: Center(
+        child: ClassB(),
+      ),
+    ),
+  }
+}
+</pre>
+<p>One important thing to note that we are using the Inherited widget within the <code>ClassA</code>. So only those child widgets that are decendent of the <code>ClassA</code>, will get access to the inherited widget <code>AppData</code>. Any widget that outside of the class <code>ClassA</code> cannot get access to that inherited widget. As <code>ClassA</code> contains <code>ClassB</code>, <code>ClassB</code> will have access to the Inherited widget.</p>
+<p>Next we will see how we can access Inherited Widget from <code>ClassB</code>.</p>
+
+<h3>Accessing Inherited Widget</h3>
+<pre>
+// class_b.dart
+
+import 'package:flutter/material.dart';
+import "app_data.dart";
+
+class ClassB extends StatefulWidget{
+  _ClassBState createState() => _ClassBState();
+}
+class _ClassBState extends State&lt;ClassB>{
+  @override
+  Widget build(BuildContext context){
+    AppData appdataState = context.dependOnInheritedWidgetOfExactType&lt;AppData>();
+    int userid = appdataState.userid;
+    return Center(
+      child: Text("$userid"),
+    );
+  }
+}
+</pre>
+<p>The call to the method <code>dependOnInheritedWidgetOfExactType</code> returns the nearest ancestor Inherited Widget of the type <code>T</code>, in our case the <code>T</code> is <code>AppData</code>. So the method would return the neareset <code>AppData</code> widget or instance. The statement</p>
+<pre>
+AppData appdataState = context.dependOnInheritedWidgetOfExactType&lt;AppData>();
+</pre>
+<p>Looks very unreadable. And you have to use this long statement everywhere you want to access the widget instance. We will simplyfiy this by overriding a static method <code>of</code>.</p>
+<pre>
+// app_data.dart;
+
+import 'package:flutter/material.dart';
+
+class AppData extends InheritedWidget{
+  int userid;
+
+  AppData({Key key, this.userid, Widget child}) : super(key: key, child: child);
+
+  static AppData of(BuildContext context){
+    return context.dependOnInheritedWidgetOfExactType&lt;AppData>();
+  }
+
+  @override
+  bool updateShouldNotify(AppData old) => true;
+}
+</pre>
+<p>Now you can access the Inherited widget in following way:</p>
+<pre>
+AppData appdataState = AppData.of(context);
+</pre>
+<p>This is so far the very basic of Inherited Widget. Next we will learn how everything works.</p>
+
+<h1>Inherited Widget - Internal</h1>
+<p>Every widgets that you are creating its either Stateful or Stateless, always have an internal private variable <code>_inheritedWidgets</code>.</p>
+<pre>
+Map&lt;Type, InheritedElement> _inheritedWidgets;
+</pre>
+<p>This private variable contains all your ancestor Inherited widgets with its corresponding type.
+When you wrap your widget inside a Inherited Widget, that Inherited widget gets added to the variable <code>_inheritedWidgets</code> and that variable is than passed to its child widgets.</p>
+<p>So the code:</p>
+<pre>
+return AppData(
+  userid: 100,
+  child: Center(
+    child: ClassB(),
+  ),
+);
+</pre>
+<p>will add the inherited widget <code>AppData</code> to the variable <code>_inheritedWidgets</code>, and pass that variable to its child widget <code>Center</code> and <code>ClassB</code>.</p>
+
+<p>When you call the method <code>dependOnInheritedWidgetOfExactType</code> on the current <code>context</code>, it will use the variable <code>_inheritedWidgets</code> to look for the desired inherited widget. The type after the method <code>dependOnInheritedWidgetOfExactType</code> specifies which type of inherited widget we want to look for. In our case we want to look for <code>AppData</code> inherited widget, thats why the type is necessary after this method.</p>
+<pre>
+context.dependOnInheritedWidgetOfExactType&lt;AppData>();
+</pre>
+<p>This method will return the specified inherited widget instance.</p>
+<p>This method also subscribes the current calling widget to its dependencies. What does that mean? Well, every inherited widget has a private variable <code>_dependents</code>. This variable stores widgets that depends on this inherited widget. In our above example, the class <code>ClassB</code> calls the method <code>dependOnInheritedWidgetOfExactType&lt;AppData>()</code>, that means the widget <code>ClassB</code> depends on this inherited widget class <code>AppData</code>. So a reference of the widget <code>ClassB</code> will get added to the variable <code>_dependents</code>. That's how a inherited widget knows where it is being used. When you change the value of inherited widget, the inherited widget calls <code>didChangeDependencies()</code> and <code>build()</code> methods of its dependent child widgets. That's how whenever you make a change to the inherited widget, the widgets that uses the inherited widget gets rebuild automatically.</p>
+
+<h3>But how we can change data of a inherited widget?</h3>
+<p>One important point to note that Inherited Widget by nature does nothing but holding the data. It doesn't have any mechanism to update the data it contains. That means you can only access the data from Inherited widget but you won't be able to change it. That is the immutable nature of the Inherited widget. But there will be a situation where you want to mutate the data and notify the dependent widgets that the data has changed so that the dependent widget rebuilds itself to update with the changes. You can directly assign values to the Inherited Widget instance like the following:</p>
+<pre>
+AppData appdataState = context.dependOnInheritedWidgetOfExactType&lt;AppData>();
+appdataState.userid = 100;
+</pre>
+<p>This approach will update the data successfully but it will not notify any dependents. There is no way to tell the inherited widget to notify its dependents. So how can we make things work?</p>
+<p>The solution is to wrap the Inherited Widget inside a StatefulWidget. In the next lession we will cover this topic.</p>
+
+
+<h1>Inherited Widget with Stateful Widget</h1>
+<p>The Stateful widget will define some callback along with the data. When you wrap your Inherited Widget inside a Stateful widget, you will pass these data and callbacks from Stateful widgets to Inherited widgets. When you call that method using the inherited widget instance, it will mutate the data using <code>setState()</code>. This will cause the Stateful widget to rebuild. When it rebuilds, it creates a brand new instance of the Inherited Widget. Here is an example:</p>
+<pre>
+// app_data.dart;
+
+import 'package:flutter/material.dart';
+
+class AppDataContainer extends StatefulWidget{
+
+  Widget child;
+  AppDataContainer({this.child});
+
+  @override
+  _AppDataContainerState createState() => _AppDataContainerState();
+}
+
+class _AppDataContainerState extends State&lt;AppDataContainer>{
+
+  // Define your app data here --
+  int userid;
+
+  // defines your methods here --
+  void assignUser(int userId){
+    setState((){
+      userid = userId;
+    });
+  }
+
+  @override
+  initState(){
+    userid = 0;
+  }
+
+  @override
+  Widget build(BuildContext context){
+    return AppData(
+      child: widget.child,
+      userid: userid,
+      assignUser: assignUser
+    );
+  }
+}
+
+class AppData extends InheritedWidget{
+  
+  int userid;
+  ValueChanged&lt;int> assignUser;
+
+  AppData({
+    Key key, 
+    Widget child,
+    this.userid,
+    this.assignUser,    
+  }) : super(key: key, child: child);
+
+  static AppData of(BuildContext context){
+    return context.dependOnInheritedWidgetOfExactType&lt;AppData>();
+  }
+
+  @override
+  bool updateShouldNotify(AppData old) => true;
+}
+</pre>
+<p>The <code>AppData</code> class which extends <code>InheritedWidget</code> hasn't changed much. This time we have added a new callback <code>assignUser</code> as an instance member so that not only you can access the data the inherited widget contains, but you will also be able to call method on the inherited widget instance.</p>
+<p>The stateful widget <code>AppDataContainer</code> has one required parameter which is <code>child</code>. This <code>child</code> is passed down to the inherited widget.</p>
+<p>In the state class you will define all your instance data and methods. These instance data and methods are passed down to the inherited widget. In the <code>initState</code> method you should initialize your data with the default values. The <code>build</code> method of the state class uses the inherited widget and passes the required data and methods to the inherited widget.</p>
+<p>Now you have wrapped your inherited widget within the stateful widget. Now you can use <code>AppDataContainer</code> class to wrap your widgets.</p>
+<pre>
+// class_a.dart
+
+import 'package:flutter/material.dart';
+import "app_data.dart";
+
+class ClassA extends StatelessWidget{
+  @override
+  Widget build(BuildContext context){
+    return AppDataContainer(
+      child: Center(
+        child: ClassB(),
+      ),
+    ),
+  }
+}
+</pre>
+<p>When you wrap your widgets within <code>AppDataContainer</code> class you are also wrapping your widgets within inherited widget <code>AppData</code>.</p>
+<p>Now use <code>AppData</code> inherited widget to get the instance and call the method to update the data.</p>
+<pre>
+// class_b.dart
+
+import 'package:flutter/material.dart';
+import "app_data.dart";
+
+class ClassB extends StatefulWidget{
+  _ClassBState createState() => _ClassBState();
+}
+class _ClassBState extends State&lt;ClassB>{
+  @override
+  Widget build(BuildContext context){
+    AppData appdataState = AppData.of(context);
+    int userid = appdataState.userid;
+
+    return Center(
+      child: InkWell(
+        onTap: (){
+          appdataState.assignUser(userid + 100);
+        },
+        child: SizedBox(
+          width: double.infinity,
+          height: double.infinity,
+          child: Center(
+            child: Text(userid.toString(), style: TextStyle(fontSize: 30)),
+          ),
+        )
+      ),
+    );
+  }
+}
+</pre>
+<p>This is it, now tap on the box, you will see the value changed instantly. When you tap on the box, it calls the method <code>assignUser</code> with a new value. This method is defined in the state class of <code>AppStateContainer</code> which calls <code>setState()</code> method and update the instance property <code>userid</code>. This will cause the state class to call <code>build()</code> method to rebuilt the state class. When the state class is rebuilt, it create a brand new instance of the inherited widget <code>AppData</code>.</p>
+<p>When a old inherited widget instance is replaced by a new instance, the framework update the private variable <code>_inheritedWidgets</code> with the mapped key which is in our case <code>AppData</code>. Then it calls the <code>didChangeDependencies()</code> and <code>build()</code> method of each dependent that is assigned to inherited widget <code>AppData</code>.</p>
+<p>Thats it, you can have as many data and methods as you want in your state class and if you pass then down to inherited widget, you can access then with the inherited widget instance. This way you can change the data anytime and your UI will always react to the changes instantly.</p>
+
+
+<h3>Limitation</h3>
+<p>But there is one limitation. When you change the data of the state class, it will always create a brand new instance of the inherited widget which will cause the dependent widgets to rebuilt to update themselves. So even if you change something small, all the dependent will be rebuilt. If your page contains too many dependent widgets, for each changes to the data, all dependent widgets will be rebuilt. Sometimes you want a particular dependent to avoid unncecessary rebuilding when you know that this particular dependent widget doesn't rely on the changes. You will want to rebuilt only those dependent widgets that depends on a particular data.</p>
+<p>There should be a way to filter the dependent widgets so that you can decide if a particular dependent widget should respond to the changes. Unfortunately there is no way you can do this with the help of a Inherited Widget.</p>
+<p>This limitation can be removed by using <code>InheritedModel</code> widget. <code>InheritedModel</code> widget is a subclass of <code>InheritedWidget</code> class. <code>InheritedModel</code> works the same way as <code>InheritedWidget</code> but it also has a additional functionality to filter out the dependents before it calls <code>didChangeDependencies()</code> method. We will learn how to do that with <code>InheritedModel</code> widget in the next lesson.</p>
+
+
+
+<h1>InheritedModel</h1>
+<p>The implementation of the InheritedModel is almost same as InheritedWidget. Here is the implementation of the InheritedModel that users the previous example.</p>
+<pre>
+import 'package:flutter/material.dart';
+
+
+enum AspectsList{
+  USERID_CHANGED,
+  COUNTER_CHANGED,
+}
+
+class AppDataContainer extends StatefulWidget{
+
+  Widget child;
+  AppDataContainer({this.child});
+
+  @override
+  _AppDataContainerState createState() => _AppDataContainerState();
+}
+
+class _AppDataContainerState extends State&lt;AppDataContainer>{
+
+  // Define your app data here --
+  int userid;
+  int counter;
+
+  // defines your methods here --
+  void assignUser(int userId){
+    setState((){
+      userid = userId;
+    });
+  }
+
+  void assignCounter(int value){
+    setState((){
+      counter = value;
+    });
+  }
+
+  @override
+  initState(){
+    userid = 0;
+    counter = 0;
+  }
+
+  @override
+  Widget build(BuildContext context){
+    return AppData(
+      child: widget.child,
+      userid: userid,
+      counter: counter,
+      assignUser: assignUser,
+      assignCounter: assignCounter,
+    );
+  }
+}
+
+class AppData extends InheritedModel&lt;AspectsList>{
+  
+  int userid;
+  int counter;
+  ValueChanged&lt;int> assignUser;
+  ValueChanged&lt;int> assignCounter;
+
+  AppData({
+    Key key, 
+    Widget child,
+    this.userid,
+    this.counter,
+    this.assignUser,    
+    this.assignCounter,
+  }) : super(key: key, child: child);
+
+  static AppData of(BuildContext context, {AspectsList aspect}){
+    return InheritedModel.inheritFrom&lt;AppData>(context, aspect: aspect);
+  }
+
+  @override
+  bool updateShouldNotify(AppData old) => true;
+
+  @override
+  updateShouldNotifyDependent(AppData old, Set&lt;AspectsList> aspect){
+    bool changed = false;
+    if(aspect.contains(AspectsList.USERID_CHANGED)){
+      changed = changed || old.userid != userid;
+    }
+    if(aspect.contains(AspectsList.COUNTER_CHANGED)){
+      changed = changed || old.counter != counter;
+    }
+
+    return changed;
+  }
+}
+</pre>
+<h2>Implementation Details</h2>
+<p>First consider the <code>AppData</code> class that extends <code>InheritedModel</code> class. The implementation is almost same as InheritedWidget except few things:</p>
+
+<H4>Specify the type of aspect in class Declaration</H4>
+<p>Specify the type of the aspect that you are going to use after the class name <code>InheritedModel</code>. Here we have used a enum <code>AspectsList</code> type as the type of the aspect.</p>
+<pre>
+class AppData extends InheritedModel&lt;AspectsList>
+</pre>
+
+<p>But what is aspect? You can think of it as a key or keyword. The aspect specifies what kind of change the data of the InheritedModel instance took place. Each aspect should be bound to each data member. For <code>userid</code> data member there is a <code>USERID_CHANGED</code> constant and for <code>counter</code> data member there is a <code>COUNTER_CHANGED</code> constant defined in the enum <code>AspectsList</code>. Leter we will use these aspects to determine if a particular data member has changed or not.</p>
+
+<p>Each dependent of a InheritedModel widget is bound to one or more aspect. If your dependent widget depends on more than one data member, you should specify each aspect for each data member. The above program is currently configured to accept only one aspect. But later we will see how we can configure our example to make it accept multiple aspects.</p>
+
+<p>Everytime you replace an old InheritedModel instance with a new instance, flutter calls a method <code>updateShouldNotifyDependent</code> for each dependent widget to determine if the data members that the dependent widget depends on has changed or not. The method <code>updateShouldNotifyDependent</code> is called with the aspects that the dependent widget is bound to.</p>
+
+<p><code>InheritedModel</code> uses aspects to check if a particular dependent widget should be rebuild. You can also use <code>String</code>, or <code>int</code>, but in our example we have defined it as a <code>enum</code> type. So that the list of aspects can be seen in one place and will be easier to maintain and it is much more redable. Leter we will see how to bind aspects with the dependent widget.</p>
+
+<h4>Use inheritFrom</h4>
+<p>Coming next, another difference is that we are using <code>InheritedModel.inheritFrom&lt;T>()</code> method to look for nearest <code>InheritedModel</code> widget instance instead of <code>dependOnInheritedWidgetOfExactType()</code> method. This is important for <code>InheritedModel</code> widget. You also need to specify the type of the <code>InheritedModel</code> that we are going to search for. In our case we are going to look for <code>AppData</code> InheritedModel widget, that's why there is type mentioned after the method name.</p>
+<pre>
+InheritedModel.inheritFrom&lt;AppData>(context, aspect: aspect);
+</pre>
+<p>This method accepts two argument, the first argument is positional argument which is <code>conext</code>, and second argumen is a named argument <code>aspect</code>. The argument <code>aspect</code> is optional, that is why in the parameter list of <code>of</code> method, we have wrapped it within the curly bracket which makes it named optional parameter.</p>
+<pre>
+static AppData of(BuildContext context, {AspectsList aspect}){
+  return InheritedModel.inheritFrom&lt;AppData>(context, aspect: aspect);
+}
+</pre>
+
+<h4>Override updateShouldNotifyDependent</h4>
+<p>Lastly, another notable difference is that we also have to override the method <code>updateShouldNotifyDependent</code>. This method is responsible for checking if a dependent should be updated. This method has two parameter, the first parameter is the old instance of InheritedModel widget, and second parameter is a Set of aspects. As our aspect type is <code>AspectsList</code>, thats why our second parameter is typed as <code>Set&lt;AspectsList></code>.</p>
+<pre>
+updateShouldNotifyDependent(AppData old, Set&lt;AspectsList> aspect){
+</pre>
+<p>That is all about implementing the InheritedModel widget, the rest of the code is same.</p>
+
+<h2>Using the InheritedModel</h2>
+<p>Using the InheritedModel is same as InheritedWidget. The class <code>ClassA</code> is same as before:</p>
+<pre>
+// class_a.dart
+
+import 'package:flutter/material.dart';
+import "app_data.dart";
+
+class ClassA extends StatelessWidget{
+  @override
+  Widget build(BuildContext context){
+    return AppDataContainer(
+      child: Center(
+        child: ClassB(),
+      ),
+    ),
+  }
+}
+</pre>
+
+<h2>Accessing InheritedModel</h2>
+<p>You can access the InheritedModel widget the same way you have done it with InheritedWidget, excepts you need to pass the <code>aspect</code> as optional argument. Here is a different example of <code>ClassB</code>:</p>
+<pre>
+import 'package:flutter/material.dart';
+import "app_data.dart";
+
+class ClassB extends StatefulWidget{
+  @override
+  _ClassBState createState()=> _ClassBState();
+}
+
+class _ClassBState extends State&lt;ClassB>{
+
+  @override
+  Widget build(BuildContext context){
+
+    return Center(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: &lt;Widget>[
+          UserBox(),
+          SizedBox(width: 100),
+          CounterBox(),
+        ]
+      ),
+    );
+  }
+}
+
+
+class UserBox extends StatefulWidget{
+  @override
+  _UserBoxState createState() => _UserBoxState();
+}
+class _UserBoxState extends State&lt;UserBox>{
+  @override
+  Widget build(BuildContext context){
+
+    print("User");
+
+    AppData model = AppData.of(context, aspect: AspectsList.USERID_CHANGED);
+    int userId = model.userid;
+
+    return DecoratedBox(
+      decoration: BoxDecoration(color: Colors.red),
+      child: InkWell(
+        child: SizedBox(
+          width: 100,
+          height: 100,
+          child: Center(
+            child: Text(userId.toString(), style: TextStyle(fontSize: 30, color: Colors.white)),
+          ),
+        ),
+        onTap: (){
+          model.assignUser(userId + 1);
+        }
+      ),        
+    );
+  }
+}
+
+
+class CounterBox extends StatefulWidget{
+  @override
+  _CounterBoxState createState() => _CounterBoxState();
+}
+class _CounterBoxState extends State&lt;CounterBox>{
+  @override
+  Widget build(BuildContext context){
+
+    print("Counter");
+
+    AppData model = AppData.of(context, aspect: AspectsList.COUNTER_CHANGED);
+    int counter = model.counter;
+
+    return DecoratedBox(
+      decoration: BoxDecoration(color: Colors.pink),
+      child: InkWell(
+        child: SizedBox(
+          width: 100,
+          height: 100,
+          child: Center(
+            child: Text(counter.toString(), style: TextStyle(fontSize: 30, color: Colors.white)),
+          ),
+        ),
+        onTap: (){
+          model.assignCounter(counter + 1);
+        }
+      ),        
+    );
+  }
+}
+</pre>
+<p>Notice how we are accessing the InheritedModel using the following statement:</p>
+<pre>
+AppData.of(context, aspect: AspectsList.COUNTER_CHANGED);
+</pre>
+<p>It is quite same as InheritedWidget but only difference is that we are also passing aspect. When you call this method, the widget is going to be stored as dependent widget of the InheritedModel <code>AppData</code> in the <code>_dependent</code> variable. It also stores the passed aspect along with the dependent widget in the <code>_dependent</code> variable. This way the InheritedModel widget instance tracks its dependent widget. When you create anew instance of the same type of InheritedModel and replace it in place of old one, the flutter calls <code>updateShouldNotify</code> method of the InheritedModel widget, if that returns <code>false</code>, the dependents widgets will not be notified at all. If this method returns <code>true</code>, then flutter calls the method <code>updateShouldNotifyDependent</code> for each and every dependent widget seperately and passes two argument to that method, the first parameter is the old instance of the <code>InheritedModel</code> widget, which is in our case <code>AppData</code> instance, and second parameter is the dependent widget's corresponding <code>aspect</code>. The aspect is passed as a Set.</p>
+<pre>
+updateShouldNotifyDependent(AppData old, Set&lt;AspectsList> aspect){
+  bool changed = false;
+  if(aspect.contains(AspectsList.USERID_CHANGED)){
+    changed = changed || old.userid != userid;
+  }
+  if(aspect.contains(AspectsList.COUNTER_CHANGED)){
+    changed = changed || old.counter != counter;
+  }
+
+  return changed;
+}
+</pre>
+<p>In that method we are checking if the dependent widgets aspect matches any of the contant of the AspectsList enum, if it does, then we are checking if a particular instance field has changed or not, and according to it if this method returns <code>true</code>, the dependent widget will rebuilt and if returns <code>false</code>, it will skip the rebuilding.</p>
+<p>If you do not provide the aspect like the following statement, the method <code>updateShouldNotifyDependent</code> will not be called for that dependent widget. Because if you don't supply aspect, its aspect is <code>null</code>, in this case the dependent widget will be rebuilt unconditionally.</p>
+<pre>
+AppData model = AppData.of(context);
+</pre>
+
+
+
+
+<h2>Multiple Aspects</h2>
+<p>So far we have discussed the InheritedModel which is configured to accept only one aspect. You cannot pass multiple aspects. Even though the doc says that a dependent widget may have multiple aspects but it is not clear how to do that. But the following solution works anyway.</p>
+<p>First change the type of the aspect in the InheritedModel class declaration:</p>
+<pre>
+class AppData extends InheritedModel&lt;Set&lt;AspectsList>>{
+}
+</pre>
+<p>Now our model will accept a set of <code>AspectsList</code> enum constant. Next update the of method. In the parameter list, change the type from <code>AspectsList</code> to <code>Set&lt;AspectsList></code></p>
+<pre>
+static AppData of(BuildContext context, {Set&lt;AspectsList> aspect}){
+  return InheritedModel.inheritFrom&lt;AppData>(context, aspect: aspect);
+}
+</pre>
+<p>Now you can pass a set to the <code>of</code> method as the second argument. Next, update the <code>updateShouldNotifyDependent</code> method.</p>
+<pre>
+updateShouldNotifyDependent(AppData old, Set&lt;Set&lt;AspectsList>> aspect){
+  bool changed = false;
+  Set&lt;AspectsList> widgetAspects = aspect.elementAt(0);
+  if(widgetAspects.contains(AspectsList.USERID_CHANGED)){
+    changed = changed || old.userid != userid;
+  }
+  if(widgetAspects.contains(AspectsList.COUNTER_CHANGED)){
+    changed = changed || old.counter != counter;
+  }
+
+  return changed;
+}
+</pre>
+<p>Now you should always pass a set as the aspect. For example, if your widget depends on both <code>userid</code> and <code>counter</code> data field of the model, then you should use two aspects, <code>USERID_CHANGED</code> for <code>userid</code>, and <code>COUNTER_CHANGED</code> for <code>counter</code> member. If any of these member changes <code>updateShouldNotifyDependent</code> will return <code>true</code> for that widget.</p>
+<pre>
+AppData model = AppData.of(context, aspect: {AspectsList.USERID_CHANGED, AspectsList.COUNTER_CHANGED});
+</pre>
+<p>This way you can specify that your dependent widget depends on more than one aspect. If any of the aspects matches in <code>updateShouldNotifyDependent</code> method, it checks if the corresponding data member has changed or not.</p>
+
+<h1>Summary</h1>
+<p>This is all about InheritedWidget and InheritedModel.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Variable and Constant</title>
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
+	<script type="text/javascript" src="../../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+
+<h1>Variable</h1>
+<p>A variable is a “named storage” for data. We can use variables to store goodies, visitors and other data.</p>
+<p>To create a variable in JavaScript, we need to use the <code>let</code> keyword.</p>
+<p>The statement below creates (in other words: declares or defines) a variable with the name “message”:</p>
+<pre>
+let message;
+</pre>
+<p>Now we can put some data into it by using the assignment operator <code>=</code>:</p>
+<pre>
+let message;
+
+message = 'Hello'; // store the string
+</pre>
+<p>The string is now saved into the memory area associated with the variable. We can access it using the variable name:</p>
+<pre>
+let message;
+message = 'Hello!';
+
+alert(message); // shows the variable contents
+</pre>
+<p>To be concise we can merge the variable declaration and assignment into a single line:</p>
+<pre>
+let message = 'Hello!'; // define the variable and assign the value
+
+alert(message); // Hello!
+</pre>
+<p>We can also declare multiple variables in one line:</p>
+<pre>
+let user = 'John', age = 25, message = 'Hello';
+</pre>
+
+
+
+
+
+<h1>var instead of let</h1>
+<p>In older scripts you may also find another keyword: var instead of let:</p>
+<pre>
+var message = 'Hello';
+</pre>
+<p>The <code>var</code> keyword is almost the same as <code>let</code>. It also declares a variable, but in a slightly different, “old-school” fashion. Let's discuss the difference between <code>var</code> and <code>let</code>.</p>
+<h3>“var” has no block scope</h3>
+<p><code>var</code> variables are either function-wide or global, they are visible through blocks. It means if you declare a variable inside a block using the keyword <code>var</code>, the variable is accessible from outside of the block.</p>
+<pre>
+if (true) {
+  var test = true; // use "var" instead of "let"
+}
+
+alert(test); // true, the variable lives after if
+</pre>
+<p>The same thing happens for the loop too -</p>
+<pre>
+for (var i = 0; i < 10; i++) {
+  // ...
+}
+
+alert(i); // 10, "i" is visible after loop, it's a global variable
+</pre>
+<p>Another difference is that if a code block is inside a function, then <code>var</code> becomes a function-level variable:</p>
+<pre>
+function sayHi() {
+  if (true) {
+    var phrase = "Hello";
+  }
+
+  alert(phrase); // works
+}
+
+sayHi();
+alert(phrase); // Error: phrase is not defined
+</pre>
+<p>...But if you declare a variable inside a function block (outside any other block within the function), it is also available outside of the function -</p>
+<pre>
+function sayHi(name1){
+	var name = name1;
+}
+sayHi("Santanu Bera");
+name = "Hi";
+console.log(name); // Hi
+</pre>
+<p>This mechanisam can be explained in a simple way. When Javascript starts executing file, first it looks for all the function definition and variables defined using <code>var</code>. Then it starts executing the file. That's why no matter where you define your variable doesn't matter at all. All the <code>var</code> declaration happens before execution of the file, and that's why <code>var</code> variables are available before even the execution starts. Using this concept you can even define a variable even after using it -</p>
+<pre>
+function sayHi() {
+  phrase = "Hello";
+
+  alert(phrase);
+
+  var phrase;
+}
+</pre>
+<p>Even the following is not an error -</p>
+<pre>
+function sayHi() {
+  phrase = "Hello"; // (*)
+
+  if (false) {
+    var phrase;
+  }
+
+  alert(phrase);
+}
+</pre>
+<p>People also call such behavior “hoisting” (raising), because all var are “hoisted” (raised) to the top of the function.</p>
+<p style="font-weight: 500; font-style: italic;">Declarations are hoisted, but assignments are not.</p>
+<pre>
+function sayHi() {
+  alert(phrase);
+
+  var phrase = "Hello";
+}
+
+sayHi();
+</pre>
+<p>The line <code>var phrase = "Hello"</code> has two actions in it:</p>
+<ul>
+	<li>Variable declaration <code>var</code></li>
+	<li>Variable assignment <code>=</code>.</li>
+</ul>
+<p>The declaration is processed at the start of function execution (“hoisted”), but the assignment always works at the place where it appears. So the code works essentially like this:</p>
+<pre>
+function sayHi() {
+  var phrase; // declaration works at the start...
+
+  alert(phrase); // undefined
+
+  phrase = "Hello"; // ...assignment - when the execution reaches it.
+}
+
+sayHi();
+</pre>
+<p>Because all <code>var</code> declarations are processed at the function start, we can reference them at any place. But variables are <code>undefined</code> until the assignments. In both examples above <code>alert</code> runs without an error, because the variable phrase exists. But its value is not yet assigned, so it shows <code>undefined</code>.</p>
+
+
+
+
+
+
+
+
+
+
+
+<h1>Variable Naming</h1>
+<p>There are two limitations for a variable name in JavaScript:</p>
+<ul>
+	<li>The name must contain only letters, digits, symbols $ and _.</li>
+	<li>The first character must not be a digit.</li>
+</ul>
+<p>The following are valid -</p>
+<pre>
+let userName;
+let test123;
+</pre>
+<p>When the name contains multiple words, <code>camelCase</code> is commonly used. That is: words go one after another, each word starts with a capital letter: <code>myVeryLongName</code>.</p>
+<p>What’s interesting – the dollar sign '$' and the underscore '_' can also be used in names. They are regular symbols, just like letters, without any special meaning.</p>
+<p>The following variable names are valid -</p>
+<pre>
+let $ = 1; // declared a variable with the name "$"
+let _ = 2; // and now a variable with the name "_"
+
+alert($ + _); // 3
+</pre>
+<p>Examples of incorrect variable names:</p>
+<pre>
+let 1a; // cannot start with a digit
+
+let my-name; // a hyphen '-' is not allowed in the name
+</pre>
+
+
+
+
+
+
+<h1>Case Sensitive</h1>
+<p>Variables named apple and AppLE – are two different variables.</p>
+
+
+<h1>Reserved Names</h1>
+<p>There is a list of reserved words, which cannot be used as variable names, because they are used by the language itself. For example, words <code>let</code>, <code>class</code>, <code>return</code>, <code>function</code> are reserved.</p>
+<pre>
+let let = 5; // can't name a variable "let", error!
+let return = 5; // also can't name it "return", error!
+</pre>
+
+
+
+
+
+
+<h1>An Assignment without <code>use strict</code></h1>
+<p>Normally, we need to define a variable before using it. But in the old times, it was technically possible to create a variable by a mere assignment of the value, without <code>let</code>. This still works now if we don’t put <code>use strict</code>. The behavior is kept for compatibility with old scripts.</p>
+<pre>
+// note: no "use strict" in this example
+
+num = 5; // the variable "num" is created if didn't exist
+
+alert(num); // 5
+</pre>
+<p>That’s a bad practice, it gives an error in the strict mode:</p>
+<pre>
+"use strict";
+
+num = 5; // error: num is not defined
+</pre>
+
+
+
+
+
+<h1>Constant</h1>
+<p>To declare a constant (unchanging) variable, one can use <code>const</code> instead of <code>let</code>:</p>
+<pre>
+const myBirthday = '18.04.1982';
+</pre>
+<p>Variables declared using <code>const</code> are called “constants”. They cannot be changed. An attempt to do it would cause an error:</p>
+<pre>
+const myBirthday = '18.04.1982';
+
+myBirthday = '01.01.2001'; // error, can't reassign the constant!
+</pre>
+
+
+<h3>Uppercase Constant</h3>
+<p>There is a widespread practice to use constants as aliases for difficult-to-remember values that are known prior to execution. Such constants are named using capital letters and underscores.</p>
+<pre>
+const COLOR_RED = "#F00";
+const COLOR_GREEN = "#0F0";
+const COLOR_BLUE = "#00F";
+const COLOR_ORANGE = "#FF7F00";
+
+// ...when we need to pick a color
+let color = COLOR_ORANGE;
+alert(color); // #FF7F00
+</pre>
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

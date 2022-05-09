@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Syntax</title>
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
+	<script type="text/javascript" src="../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+<h1>Pseudo Class</h1>
+<p>A pseudo-class is used to define a special state of an element.</p>
+
+<h1>:active</h1>
+<p>The <code>:active</code> pseudo selector changes the appearance of a link while it is being activated (being clicked on or otherwise activated). It's usually only seen for a split second, and provides visual feedback that the element was indeed clicked. It's most typically used on anchor links (&lt;a href="#">).</p>
+<pre>
+.myLink{
+	position:relative;
+}
+.myLink:active{
+	top : 2px;
+}
+&lt;a class="myLink">Click Here&lt;/a>
+</pre>
+<style type="text/css">
+.lineactiveexample{
+	color: blue;
+	text-decoration: none;
+	position: relative;
+	top: 0;
+}
+.lineactiveexample:active{
+	top: 2px;
+}
+</style>
+<div class="box">
+	<a class="lineactiveexample">Click Here</a>
+</div>
+<p><code>:active</code> also works on any element. But they are used very rarely. 99% of time developer use <code>:active</code> Pseudo class only on link. Here is an example of using <code>:active</code> pseudo class on an div element.</p>
+<style type="text/css">
+.activeondiv{background-color: #ccc; height: 50px; display: flex; justify-content: center; align-items: center;}
+.activeondiv:active{background-color: red;}
+</style>
+<pre>
+.activeondiv{background-color: #ccc;}
+.activeondiv:active{background-color: red;}
+
+&lt;div class="activeondiv">
+	Click On Me
+&lt;/div>
+</pre>
+<div class="box activeondiv">
+	Click On Me
+</div>
+
+
+
+
+<h1>:hover</h1>
+<p>The :hover pseudo class in CSS selects elements when the mouse cursor is current over them. It's commonly associated with link (<a>) elements. But it works with any element.</p>
+<style type="text/css">
+.hovermelink{font-size: 15px;}
+.hovermelink:hover{font-size: 25px;}
+.hovermebox{
+	border-radius : 0;
+	height : 100px;
+	width: 100px;
+	background: crimson;
+	transition: all 0.5s;
+}
+.hovermebox:hover{
+	border-radius: 50%;
+}
+</style>
+<pre>
+.myLink{
+	font-size: 15px;
+}
+.myLink:hover{
+	font-size: 25px;
+}
+&lt;a class="myLink">Click Here&lt;/a>
+</pre>
+<div class="box">
+	<a class="hovermelink">Click Me</a>
+</div>
+<pre>
+.hovermebox{
+	border-radius : 0;
+	height : 100px;
+	width: 100px;
+	background: crimson;
+	transition: all 0.5s;
+}
+.hovermebox:hover{
+	border-radius: 50%;
+}
+&lt;div class="box">
+	&lt;div class="hovermebox">&lt;/div>
+&lt;/div>
+</pre>
+<div class="box">
+	<div class="hovermebox"></div>
+</div>
+
+
+<h1>:visited</h1>
+<p>:visited is a pseudo-class selector that can change some of the styling on an anchor link (a) element if the user's browser has already visited the link. It's meant to help users distinguish the difference between links they have and haven't visited.</p>
+<style type="text/css">
+.visitedLink:visited{
+	color: red;
+}
+</style>
+<pre>
+.visitedLink:visited{
+	color: red;
+}
+&lt;a class="visitedLink" href="Border.html" target="_blank">Click Here&lt;/a>
+</pre>
+<div class="box">
+	<a class="visitedLink" href="Border.html" target="_blank">Click Here</a>
+</div>
+<p>Initially the link color is different. But after clicking on that link the color of the link will be changed to red.</p>
+
+
+
+<h1>:empty</h1>
+<p>The :empty pseudo selector will select elements that contain either nothing or only an HTML comment.</p>
+<pre>
+div:empty {
+   display: none;
+}
+</pre>
+<p>The above selector will match the following --</p>
+<pre>
+&lt;div>&lt;/div>
+
+&lt;div>&lt;!-- test -->&lt;/div>
+</pre>
+<p>But it will not match the following -</p>
+<pre>
+&lt;div> &lt;/div>
+
+&lt;div>
+  <!-- test -->
+&lt;/div>
+
+&lt;div>
+&lt;/div>
+</pre>
+<p>Because the first one has space, and the second one has new line and tab, and the third one has a new line. These white space is also considered as a content as it creates TextNode in dom.</p>
+<p>It's useful for hiding empty elements that might cause weird spacing (e.g. they have padding). Or something like removing the border from the top left table cell element in a cross-referencing table.</p>
+
+
+
+<h1>:blank</h1>
+<p>The :blank pseudo-class builds upon the :empty pseudo-class. Like :empty, :blank will select elements that contain nothing at all, or contain only an HTML comment. But, :blank will also select elements that include whitespace, which :empty will not.</p>
+<pre>
+p:blank {
+  display: none;
+}
+</pre>
+<p>p:blank will select these paragraphs, just like p:empty would:</p>
+<pre>
+&lt;p>&lt;/p>
+&lt;p>&lt;!-- nothing but a comment-->&lt;/p>
+</pre>
+<p>And it will also select these paragraphs, which p:empty would not:</p>
+<pre>
+&lt;p> &lt;/p>
+&lt;p>
+
+  &lt;!--a comment and some whitespace-->
+  
+&lt;/p>
+</pre>
+
+
+<h1>:first-child</h1>
+<p>The :first-child selector allows you to target the first element immediately inside another element.</p>
+<pre>
+&lt;article>
+  &lt;p>First paragraph...&lt;/p>
+  &lt;p>Lorem ipsum...&lt;/p>
+  &lt;p>Dolor sit amet...&lt;/p>
+  &lt;p>Consectetur adipisicing...&lt;/p>
+&lt;/article>
+</pre>
+<p>Instead of giving it a class (e.g. .first), we can use :first-child to select it:</p>
+<pre>
+p:first-child {
+  font-size: 1.5em;
+}
+</pre>
+<p>The above example will select the paragraph which contains "First Paragraph...". You get the idea.</p>
+
+
+<h1>:last-child</h1>
+<p>The :last-child selector allows you to target the last element directly inside its containing element.</p>
+<pre>
+&lt;article>
+  &lt;p>First paragraph...&lt;/p>
+  &lt;p>Lorem ipsum...&lt;/p>
+  &lt;p>Dolor sit amet...&lt;/p>
+  &lt;p>Consectetur adipisicing...&lt;/p>
+&lt;/article>
+</pre>
+<p>Instead of giving it a class (e.g. .last), we can use :last-child to select it:</p>
+<pre>
+p:last-child {
+  font-size: 1.5em;
+}
+</pre>
+<p>The above example will select the paragraph which contains "Consectetur adipisicing...". You get the idea.</p>
+
+
+
+<h1>:nth-child</h1>
+<p>The <code>:nth-child</code> selector allows you to select one or more elements based on their source order, according to a formula.</p>
+<pre>
+.box1{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.box1>div{
+	margin: 20px;
+	height: 50px;
+	width: 50px;
+}
+.childBox:nth-child(3){
+	background: black;
+}
+.childBox:nth-child(2){
+	background: red;
+}
+.childBox:nth-child(1){
+	background: blue;
+}
+.childBox:nth-child(4){
+	background: green;
+}
+&lt;div class="box1">
+	&lt;div class="childBox">&lt;/div>
+	&lt;div class="childBox">&lt;/div>
+	&lt;div class="childBox">&lt;/div>
+	&lt;div class="childBox">&lt;/div>
+&lt;/div>
+</pre>
+<style type="text/css">
+.box1{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.box1>div{
+	margin: 20px;
+	height: 50px;
+	width: 50px;
+}
+.childBox:nth-child(3){
+	background: black;
+}
+.childBox:nth-child(2){
+	background: red;
+}
+.childBox:nth-child(1){
+	background: blue;
+}
+.childBox:nth-child(4){
+	background: green;
+}
+</style>
+<div class="box box1">
+	<div class="childBox"></div>
+	<div class="childBox"></div>
+	<div class="childBox"></div>
+	<div class="childBox"></div>
+</div>
+<p>Rather than adding a class to every item, we can use <code>:nth-child()</code></p>
+<p>As you can see, :nth-child takes an argument: this can be a single integer, the keywords <code>even</code> or <code>odd</code>, or a formula. If an integer is specified only one element is selected—but the keywords or a formula will iterate through all the children of the parent element and select matching elements — similar to navigating items in a JavaScript array. Keywords “even” and “odd” are straightforward (2, 4, 6 etc or 1, 3, 5 respectively). The formula is constructed using the syntax an+b, where:</p>
+<ul>
+	<li>“a” is an integer value</li>
+	<li>“n” is the literal letter “n”</li>
+	<li>“+” is an operator and may be either “+” or “-”</li>
+	<li>“b” is an integer and is required if an operator is included in the formula</li>
+</ul>
+
+<p>It is important to note that this formula is an equation, and iterates through each sibling element, determining which will be selected. The “n” part of the formula, if included, represents a set of increasing positive integers (just like iterating through an array). We can selected every fourth element with the formula 4n, which worked because every time an element was checked, “n” increased by one (4×0, 4×1, 4×2, 4×3, etc). If an element’s order matches the result of the equation, it gets selected (4, 8, 12, etc).</p>
+
+<p>Let's get back to the "3n+3" from the original example though. How does that work? Why does it select every third element? The trick is understanding the "n" and algebraic expression that represents. Think of "n" as starting at zero and then a set of all positive integers. Then complete the expression. So the 3n is "3xn", and the whole expression together is "(3xn)+3". Now substituting in the zero and positive integers, we get:</p>
+
+<ul style="list-style: none;">
+	<li>(3 x 0) + 3 = 3 = 3rd Element</li>
+	<li>(3 x 1) + 3 = 6 = 6th Element</li>
+	<li>(3 x 2) + 3 = 9 = 9th Element</li>
+	<li>etc.</li>
+</ul>
+
+<p>How about the :nth-child(2n+1)?</p>
+
+<ul>
+	<li>(2 x 0) + 1 = 1 = 1st Element</li>
+	<li>(2 x 1) + 1 = 3 = 3rd Element</li>
+	<li>(2 x 2) + 1 = 5 = 5th Element</li>
+	<li>etc.</li>
+</ul>
+
+<p>Hey wait! That's the same as "odd", so probably don't need to use that one very often. But wait now. Haven't we exposed our original example as being overly complicated? What if instead of "3n+3", we used "3n+0", or even simpler "3n".</p>
+
+<ul>
+	<li>(3 x 0) = 0 = no match</li>
+	<li>(3 x 1) = 3 = 3rd Element</li>
+	<li>(3 x 2) = 6 = 6th Element</li>
+	<li>(3 x 3) = 9 = 9th Element</li>
+	<li>etc.</li>
+</ul>
+
+<p>So as you can see, the matches are exactly the same, no need for the "+3". We can use negative n values, as well as use subtraction in the expressions. For example, 4n-1:</p>
+
+<ul>
+	<li>(4 x 0) - 1 = -1 = no match</li>
+	<li>(4 x 1) - 1 = 3 = 3rd Element</li>
+	<li>(4 x 2) - 1 = 7 = 7th Element</li>
+	<li>etc.</li>
+</ul>
+
+
+
+
+<h1>:nth-last-child</h1>
+<p>The :nth-last-child selector allows you select one or more elements based on their source order, according to a formula. It functions the same as :nth-child except it selects items starting at the bottom of the source order, not the top.</p>
+<p>Suppose we have a list with an unknown number of items, and we wish to highlight the second-to-last item (in this exact example, the "Fourth Item"):</p>
+<pre>
+&lt;ul>
+  &lt;li>First Item&lt;/li>
+  &lt;li>Second Item&lt;/li>
+  &lt;li>Third Item&lt;/li>
+  &lt;li>Fourth Item&lt;/li>
+  &lt;li>Fifth Item&lt;/li>
+&lt;/ul>
+</pre>
+<p>Rather than doing something like adding a class to the list item (e.g. .highlight) we can use :nth-last-child:</p>
+<pre>
+li {
+  background: slategrey;
+}
+/* select the second-last item */
+li:nth-last-child(2) {
+  background: lightslategrey;
+}
+</pre>
+<style type="text/css">
+.nthlastchilddemo li {
+  background: slategrey;
+}
+/* select the second-last item */
+.nthlastchilddemo li:nth-last-child(2) {
+  background: yellow;
+}
+</style>
+<div class="box">
+<ul class="nthlastchilddemo">
+  <li>First Item</li>
+  <li>Second Item</li>
+  <li>Third Item</li>
+  <li>Fourth Item</li>
+  <li>Fifth Item</li>
+</ul>
+</div>
+<p>As you can see, :nth-last-child takes an argument: this can be a single integer, the keywords “even” or “odd”, or a formula. Just like <code>:nth-child(expression)</code></p>
+
+
+
+
+
+
+<h1>:in-range</h1>
+<p>The :in-range pseudo selector in CSS matches input elements when their value is within the range specified as being acceptable.</p>
+<pre>
+.rangeInput{
+	border: 5px solid red;
+}
+.rangeInput:in-range{
+	border : 5px solid green;
+}
+&lt;input class="rangeInput" type="number" min="5" max="10">
+</pre>
+<style type="text/css">
+.rangeInput{border: 5px solid red;}
+.rangeInput:in-range{border: 5px solid green;}
+</style>
+<div class="box">
+	<input type="number" min="5" max="10" class="rangeInput">
+</div>
+<p>In the above example, if you put any number between 5 and 10, the border will be green. But for any other value, the border will be red.</p>
+<p>This pseudo element works only on input element with the number type. You must use min and max attribute to make it work well with the element.</p>
+
+
+
+<h1>:invalid</h1>
+<p>The :invalid selector allows you to select &lt;input> elements that do not contain valid content.</p>
+<p>The :invalid selector only works for form elements with limitations, such as input elements with min and max attributes, email fields without a legal email, or number fields without a numeric value, etc.</p>
+<style type="text/css">
+.invalidtest{
+	background : #eee;
+}
+.invalidtest:invalid{
+	background: red;
+}
+</style>
+<pre>
+.invalidtest{
+	background : #eee;
+}
+.invalidtest:invalid{
+	background: red;
+}
+&lt;div class="box">
+	&lt;div>
+		&lt;input type="number" class="invalidtest" min="5" max="10">	
+	&lt;/div>
+	&lt;div>
+		&lt;input type="email" class="invalidtest" placeholder="email">	
+	&lt;/div>
+&lt;/div>
+</pre>
+<div class="box">
+	<div>
+		<input type="number" class="invalidtest" min="5" max="10">	
+	</div>
+	<div>
+		<input type="email" class="invalidtest" placeholder="email">	
+	</div>
+</div>
+<p>Try entering any number other than 5 to 10, the background will change to red. The second textbox accepts an email, so providing wrong email will cause the background to be red.</p>
+
+
+
+<h1>:valid</h1>
+<p>The :valid selector allows you to select &lt;input> elements that contain valid content, as determined by its type attribute.</p>
+<style type="text/css">
+.validtest{background: #eee;}
+.validtest:valid{background: green; color: #fff;}
+</style>
+<pre>
+.validtest{background: #eee;}
+.validtest:valid{background: green; color: #fff;}
+&lt;div class="box">
+	&lt;input type="number" min="5" max="10" class="validtest" required="true">
+	&lt;input type="email" class="validtest" required="true">
+&lt;/div>
+</pre>
+<div class="box">
+	<input type="number" min="5" max="10" class="validtest" required="true">
+	<input type="email" class="validtest" required="true">
+</div>
+<p>Try entering any number between 5 to 10 in the box, the background will change to green as this is a valid value. And also in the second email box, give any valid email, the box will turn to green.</p>
+
+
+
+
+
+
+<h1>:checked</h1>
+<p>The <code>:checked</code> pseudo-class in CSS selects elements when they are in the selected state. It is only associated with input (&lt;input>) elements of type radio and checkbox . The :checked pseudo-class selector matches radio and checkbox input types when checked or toggled to an on state. If they are not selected or checked, there is no match.</p>
+<pre>
+input[type=checkbox] + label {
+  color: #ccc;
+  font-style: italic;
+} 
+input[type=checkbox]:checked + label {
+  color: #f00;
+  font-style: normal;
+}
+&lt;div class="box">
+	&lt;input type="checkbox" value="hello" id="checkdemo">
+	&lt;label for="checkdemo">I Love CSS&lt;/label>
+&lt;/div> 
+</pre>
+<style type="text/css">
+input[type=checkbox] + label {
+  color: #ccc;
+  font-style: italic;
+} 
+input[type=checkbox]:checked + label {
+  color: #f00;
+  font-style: normal;
+}
+input[type=radio] + label {
+  color: #ccc;
+  font-style: italic;
+} 
+input[type=radio]:checked + label {
+  color: #f00;
+  font-style: normal;
+}
+</style>
+<div class="box">
+	<input type="checkbox" value="hello" id="checkdemo">
+	<label for="checkdemo">I Love CSS</label>
+</div>
+<pre>
+input[type=radio] + label {
+  color: #ccc;
+  font-style: italic;
+} 
+input[type=radio]:checked + label {
+  color: #f00;
+  font-style: normal;
+}
+&lt;div class="box">
+	&lt;input type="radio" value="hello" id="checkdemo">
+	&lt;label for="checkdemo">I Love CSS&lt;/label>
+&lt;/div> 
+</pre>
+<div class="box">
+	<input type="radio" value="hello" id="checkdemo">
+	<label for="checkdemo">I Love CSS</label>
+</div>
+
+
+
+
+<h1>:disabled</h1>
+<p>The :disabled pseudo-class selector provides conditional styling to HTML elements that can receive user input, when the elements have the disabled attribute.</p>
+<p>Elements that can receive the disabled attribute include &lt;button>, &lt;input>, &lt;textarea>, &lt;optgroup>, &lt;option> and &lt;fieldset>. There are two valid syntaxes for setting this attribute: either disabled="disabled" or (in HTML5) simply the disabled Boolean keyword. An element is disabled if it can't be activated (e.g. selected, clicked on or accept text input) or accept focus.</p>
+<p>Such an element can be styled using the :disabled pseudo-class selector:</p>
+<pre>
+input:disabled{
+	background: linear-gradient(black, white);
+}
+&lt;div class="box">
+	&lt;input type="text" disabled="disabled">
+&lt;/div>
+</pre>
+<style type="text/css">
+input:disabled{
+	background: linear-gradient(black, white);
+}
+</style>
+<div class="box">
+	<input type="text" disabled="disabled">
+</div>
+
+
+
+<h1>:focus</h1>
+<p>The :focus pseudo class in CSS is used for styling an element that is currently targeted by the keyboard, or activated by the mouse. Here is an example:</p>
+<p>The :focus selector is used to select the element that has focus.</p>
+<pre>
+textarea:focus {
+  background: pink;
+}
+&lt;div class="box">
+	&lt;textarea>&lt;/textarea>
+&lt;/div>
+</pre>
+<style type="text/css">
+textarea:focus {
+  background: pink;
+}
+</style>
+<div class="box">
+	<textarea></textarea>
+</div>
+
+
+
+
+
+<h1>:link</h1>
+<p>The :link selector is used to select unvisited links.</p>
+<p>The :link selector does not style links you have already visited.</p>
+<pre>
+.linktest:link{
+	font-style: italic;
+	border: 1px solid black;
+}
+&lt;div class="box">
+	&lt;a class="linktest" href="https://www.google.com">Google&lt;/a>
+&lt;/div>
+</pre>
+<style type="text/css">
+.linktest:link{
+	font-style: italic;
+	border: 1px solid black;
+}
+</style>
+<div class="box">
+	<a class="linktest" href="https://www.google.com" target="_blank">Google</a>
+</div>
+
+
+
+
+
+
+<h1>:not</h1>
+<p>The :not(X) property in CSS is a negation pseudo class and accepts a simple selector1 as an argument. Essentially, just another selector of any kind.</p>
+<p>:not matches an element that is not represented by the argument.</p>
+<ul>
+	<li>The passed argument may not contain additional selectors or any pseudo-element selectors.</li>
+	<li></li>
+</ul>
+<pre>
+selector :not(selector){
+	// Style
+}
+</pre>
+<p><a href="Examples/NotSelector.html" target="_blank">Click here to See the Example</a></p>
+
+
+
+<h1>:nth-of-type</h1>
+<p>This selector is same as <code>:nth-child</code>. But with one difference. </p>
+<p>The <code>:nth-child</code> will select matching elements if the elements are different type. This selector selects siblings irrespective of the element type. It will try to match all siblinigs.</p>
+<p><code>:nth-of-type—it</code> targets a particular type of element in an arrangement with relation to similar siblings, not all siblings.</p>
+<p>Take a look at the following examples -</p>
+<style type="text/css">
+.nthoftypeDemo:nth-child(2n+1){
+	background: #eee;
+}
+.nthoftypeDemoTwo:nth-of-type(2n+1){
+	background: #eee;
+}
+</style>
+<pre>
+.nthoftypeDemo:nth-child(2n+1){
+	background: #eee;
+}
+
+&lt;div class="box">
+	&lt;div class="nthoftypeDemo">If you ever want to hide a dead body, put it on the second page of Google's Search.&lt;/div>
+	&lt;p class="nthoftypeDemo">"We are having problem with MySQL !"&lt;/p>
+	&lt;p class="nthoftypeDemo">Okay, Fix your SQL as soon as possible.&lt;/p>
+	&lt;p class="nthoftypeDemo">Dad ! What are Clouds made of?&lt;/p>
+	&lt;div class="nthoftypeDemo">Well, it made of Linux Server, MySQL, Apache and lot more.&lt;/div>
+&lt;/div>
+</pre>
+<div class="box">
+	<div class="nthoftypeDemo">If you ever want to hide a dead body, put it on the second page of Google's Search.</div>
+	<p class="nthoftypeDemo">"We are having problem with MySQL !"</p>
+	<p class="nthoftypeDemo">Okay, Fix your SQL as soon as possible.</p>
+	<p class="nthoftypeDemo">Dad ! What are Clouds made of?</p>
+	<div class="nthoftypeDemo">Well, it made of Linux Server, MySQL, Apache and lot more.</div>
+</div>
+<pre>
+.nthoftypeDemoTwo:nth-of-type(2n+1){
+	background: #eee;
+}
+
+&lt;div class="box">
+	&lt;div class="nthoftypeDemoTwo">If you ever want to hide a dead body, put it on the second page of Google's Search.&lt;/div>
+	&lt;p class="nthoftypeDemoTwo">"We are having problem with MySQL !"&lt;/p>
+	&lt;p class="nthoftypeDemoTwo">Okay, Fix your SQL as soon as possible.&lt;/p>
+	&lt;p class="nthoftypeDemoTwo">Dad ! What are Clouds made of?&lt;/p>
+	&lt;div class="nthoftypeDemoTwo">Well, it made of Linux Server, MySQL, Apache and lot more.&lt;/div>
+&lt;/div>
+</pre>
+<div class="box">
+	<div class="nthoftypeDemoTwo">If you ever want to hide a dead body, put it on the second page of Google's Search.</div>
+	<p class="nthoftypeDemoTwo">"We are having problem with MySQL !"</p>
+	<p class="nthoftypeDemoTwo">Okay, Fix your SQL as soon as possible.</p>
+	<p class="nthoftypeDemoTwo">Dad ! What are Clouds made of?</p>
+	<div class="nthoftypeDemoTwo">Well, it made of Linux Server, MySQL, Apache and lot more.</div>
+</div>
+
+
+
+<h1>:only-of-type</h1>
+<p>The <code>:only-of-type</code> pseudo-class selector in CSS represents any element that has no siblings of the given type.</p>
+<p>Here is an <a target="_blank" href="Examples/OnlyOfType.html">Example</a></p>
+<p>As a fun aside, you could achieve the same selection as :only-of-type with :first-of-type:last-of-type or :nth-of-type(1):nth-last-of-type(1). Those use two chained selectors though, meaning the specificity is double that of :only-of-type.</p>
+
+
+
+
+<h1>:only-child</h1>
+<p>The :only-child pseudo-class selector property in CSS represents an element that has a parent element and whose parent element has no other element children. This would be the same as :first-child:last-child or :nth-child(1):nth-last-child(1), but with a lower specificity.</p>
+<p>Here is an <a href="Examples/OnlyChild.html" target="_blank">Example</a> </p>
+
+
+
+<h1>:optional</h1>
+<p>The :optional pseudo class targets inputs (including &lt;select>s) that are not specifically set as required (do not have the required attribute).</p><p>This can be useful when you want to give optional fields a specific look, maybe slightly less visible than required ones.</p>
+<pre>
+input[type=text]:optional {
+  border: 1px solid #eee;
+}
+select:optional{
+	background: red;
+}
+&lt;div class="box">
+  &lt;input type="text">
+  &lt;input type="text" required="true">
+
+  &lt;select>
+    &lt;option>Kolkata&lt;/option>
+    &lt;option>Delhi&lt;/option>
+    &lt;option>Mumbai&lt;/option>
+  &lt;/select>
+  &lt;select required="true">
+    &lt;option>Kolkata&lt;/option>
+    &lt;option>Delhi&lt;/option>
+    &lt;option>Mumbai&lt;/option>
+  &lt;/select>
+&lt;/div>
+</pre>
+<style type="text/css">
+input[type=text]:optional {
+  border: 1px solid #eee;
+}
+select:optional{
+	background: red;
+}
+</style>
+<div class="box">
+	<input type="text">
+	<input type="text" required="true">
+
+	<select>
+		<option>Kolkata</option>
+		<option>Delhi</option>
+		<option>Mumbai</option>
+	</select>
+	<select required="true">
+		<option>Kolkata</option>
+		<option>Delhi</option>
+		<option>Mumbai</option>
+	</select>
+</div>
+
+
+
+
+<h1>:out-of-range</h1>
+<p>
+The :out-of-range pseudo selector in CSS matches input elements when their value is outside the range specified as being acceptable.</p>
+<style type="text/css">
+input:out-of-range {
+  border: 5px solid red;
+}
+</style>
+<pre>
+input:out-of-range {
+  border: 5px solid red;
+}
+&lt;input type="number" min="5" max="10">
+</pre>
+<p>I believe it's only relevant on input[type=number]. Range inputs don't allow values outside their min/max and it doesn't make much sense on any other type of input. </p>
+<div class="box">
+<input type="number" min="5" max="10">
+</div>
+
+
+
+
+
+<h1>:read-only</h1>
+<p>:read-only is mutability pseudo-classes aiming at making form styling easier based on disabled, readonly and contenteditable HTML Attributes.</p>
+<style type="text/css">
+.test {
+  display: block;
+  margin-bottom: 1em;
+  border: 1px solid silver;
+  width: 100%;
+  padding: .5em;
+}
+
+.readonlyparagraph:read-only {
+  background: tomato;
+}
+</style>
+
+<pre>
+.test {
+  display: block;
+  margin-bottom: 1em;
+  border: 1px solid silver;
+  width: 100%;
+  padding: .5em;
+}
+.readonlyparagraph:read-only {
+  background: tomato;
+}
+
+&lt;input class="test" type="text" value="Regular input" />
+&lt;input class="test" type="text" value="Disabled input" disabled />
+&lt;input class="test" type="text" value="Readonly input" readonly />
+&lt;p class="test readonlyparagraph" contenteditable>Contenteditable paragraph&lt;/p>
+&lt;p class="test readonlyparagraph">Regular paragraph&lt;/p>
+</pre>
+
+<div class="box">
+<input class="test" type="text" value="Regular input" />
+<input class="test" type="text" value="Disabled input" disabled />
+<input class="test" type="text" value="Readonly input" readonly />
+<p class="test readonlyparagraph" contenteditable>Contenteditable paragraph</p>
+<p class="test readonlyparagraph">Regular paragraph</p>
+</div>
+
+
+
+
+<h1>:read-write</h1>
+<style type="text/css">
+.testReadWrite {
+  display: block;
+  margin-bottom: 1em;
+  border: 1px solid silver;
+  width: 100%;
+  padding: .5em;
+}
+
+.testReadWrite:read-write {
+  background: tomato;
+}
+</style>
+<p>The :read-write selector selects form elements which are "readable" and "writeable".</p>
+<p>Currently, in most browsers, the :read-write selector only applies to input and textarea elements, where the "readonly" attribute is not present, regardless if the element is disabled or not.</p>
+<pre>
+&lt;input class="testReadWrite" type="text" value="Regular input" />
+&lt;input class="testReadWrite" type="text" value="Disabled input" disabled />
+&lt;input class="testReadWrite" type="text" value="Readonly input" readonly />
+</pre>
+
+<div class="box">
+<input class="testReadWrite" type="text" value="Regular input" />
+<input class="testReadWrite" type="text" value="Disabled input" disabled />
+<input class="testReadWrite" type="text" value="Readonly input" readonly />
+</div>
+
+
+
+
+
+
+<h1>:required</h1>
+<p>The :required pseudo class selector in CSS allows authors to select and style any matched element with the required attribute. Forms can easily indicate which fields must have valid data before the form can be submitted.</p>
+<pre>
+.requiredTesting:required {
+  background: red;
+}
+&lt;input class="requiredTesting" type="name" name="fname" required>
+&lt;input type="name" name="fname" required>
+</pre>
+<style type="text/css">
+.requiredTesting:required {
+  background: red;
+}
+</style>
+<div class="box">
+<input class="requiredTesting" type="name" name="fname" required>
+<input type="name" name="fname" required>
+</div>
+
+
+
+
+
+<h1>:root</h1>
+<p>The :root selector matches the document's root element.</p>
+<p>In the overwhelming majority of cases you're likely to encounter, :root refers to the <html> element in a webpage. In an HTML document the html element will always be the highest-level parent, so the behaviour of :root is predictable. However, since CSS is a styling language that can be used with other document formats, such as SVG and XML, the :root pseudo-class can refer to different elements in those cases. Regardless of the markup language, :root will always select the document's top-most element in the document tree.</p>
+
+<p>While the :root selector and html selector both target the same HTML elements, it may be useful to know that :root actually has a higher specificity. Pseudo-class selectors (but not pseudo-elements) have a specificity equal to that of a class, which is higher than a basic element selector.</p>
+<style type="text/css">
+:root {
+  background-color: cornflowerblue;
+  padding: 0.5em;
+}
+</style>
+<pre>
+:root {
+  background-color: cornflowerblue;
+  padding: 3em;
+}
+</pre>
+
+
+
+<h1>:target</h1>
+<p>
+	URLs with an # followed by an anchor name link to a certain element within a document. The element being linked to is the target element. The :target selector can be used to style the current active target element.
+</p>
+<p><a href="Examples/targetExample.html" target="_blank">Example</a></p>
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Function - III</title>
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+	<script type="text/javascript" src="../../Assets/prism.min.js"></script>
+	<script type="text/javascript" src="../../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+
+<h1>Function object, NFE</h1>
+<p>As we already know, functions in JavaScript are values. Every value in JavaScript has a type. What type is a function? In JavaScript, functions are objects. We can not only call them, but also treat them as objects: add/remove properties, pass by reference etc.</p>
+<h3>The “name” property</h3>
+<p>A function’s name is accessible as the “name” property:</p>
+<pre>
+function sayHi() {
+  alert("Hi");
+}
+
+alert(sayHi.name); // sayHi
+</pre>
+<p>What’s more funny, the name-assigning logic is smart. It also assigns the correct name to functions that are used in assignments:</p>
+<pre>
+let sayHi = function() {
+  alert("Hi");
+}
+
+alert(sayHi.name); // sayHi (works!)
+</pre>
+<p>It also works if the assignment is done via a default value:</p>
+<pre>
+function f(sayHi = function() {}) {
+  alert(sayHi.name); // sayHi (works!)
+}
+
+f();
+</pre>
+<p>In the specification, this feature is called a “contextual name”. If the function does not provide one, then in an assignment it is figured out from the context.</p>
+<p>Object methods have names too:</p>
+<pre>
+let user = {
+
+  sayHi() {
+    // ...
+  },
+
+  sayBye: function() {
+    // ...
+  }
+
+}
+
+alert(user.sayHi.name); // sayHi
+alert(user.sayBye.name); // sayBye
+</pre>
+<h3>The “length” property</h3>
+<p>There is another built-in property “length” that returns the number of function parameters, for instance:</p>
+<pre>
+function f1(a) {}
+function f2(a, b) {}
+function many(a, b, ...more) {}
+
+alert(f1.length); // 1
+alert(f2.length); // 2
+alert(many.length); // 2
+</pre>
+<p>Here we can see that rest parameters are not counted.</p>
+<p>In most cases the length is equals to <code>arguments.length</code>. For example -</p>
+<pre>
+function check(a, b){
+	console.log(arguments.length == check.length); // true
+}
+</pre>
+<h3>Custom properties</h3>
+<p>We can also add properties of our own. Here we add the <code>counter</code> property to track the total calls count:</p>
+<pre>
+function sayHi() {
+  alert("Hi");
+
+  // let's count how many times we run
+  sayHi.counter++;
+}
+sayHi.counter = 0; // initial value
+
+sayHi(); // Hi
+sayHi(); // Hi
+
+alert( `Called ${sayHi.counter} times` ); // Called 2 times
+</pre>
+<p style="font-weight: 500; font-style: italic;">A property is not a variable.</p>
+<p>A property assigned to a function like <code>sayHi.counter = 0</code> does not define a local variable <code>counter</code> inside it. In other words, a property <code>counter</code> and a variable <code>let counter</code> are two unrelated things.</p>
+<h3>Function Closure Vs Function Property</h3>
+<p>Function properties can replace closures sometimes. For instance, we can rewrite the counter function example from the chapter Closure to use a function property:</p>
+<pre>
+function makeCounter() {
+  // instead of:
+  // let count = 0
+
+  function counter() {
+    return counter.count++;
+  };
+
+  counter.count = 0;
+
+  return counter;
+}
+
+let counter = makeCounter();
+alert( counter() ); // 0
+alert( counter() ); // 1
+</pre>
+<p>The <code>count</code> is now stored in the function directly, not in its outer Lexical Environment.</p>
+<p>Is it better or worse than using a closure?</p>
+<p>The main difference is that if the value of <code>count</code> lives in an outer variable (Lexical Environment), then external code is unable to access it. Only nested functions may modify it. And if it’s bound to a function, then such a thing is possible:</p>
+<pre>
+function makeCounter() {
+
+  function counter() {
+    return counter.count++;
+  };
+
+  counter.count = 0;
+
+  return counter;
+}
+
+let counter = makeCounter();
+
+counter.count = 10;
+alert( counter() ); // 10
+alert( counter() ); // 11
+</pre>
+
+
+
+
+
+
+
+
+
+
+
+
+<h1>Named Function Expression(NFE)</h1>
+<p>Named Function Expression, or NFE, is a term for Function Expressions that have a name. For instance, let’s take an ordinary Function Expression:</p>
+<pre>
+let sayHi = function(who) {
+  alert(`Hello, ${who}`);
+};
+</pre>
+<p>And add a name to it:</p>
+<pre>
+let sayHi = function func(who) {
+  alert(`Hello, ${who}`);
+};
+</pre>
+<p>Did we achieve anything here? What’s the purpose of that additional "func" name?</p>
+<p>First let’s note, that we still have a Function Expression. Adding the name "func" after function did not make it a Function Declaration, because it is still created as a part of an assignment expression. Adding such a name also did not break anything. The function is still available as <code>sayHi()</code>:</p>
+<pre>
+let sayHi = function func(who) {
+  alert(`Hello, ${who}`);
+};
+
+sayHi("John"); // Hello, John
+</pre>
+<p>There are two special things about the name <code>func</code>:</p>
+<ul>
+	<li>It allows the function to reference itself internally.</li>
+	<li>It is not visible outside of the function.</li>
+</ul>
+<p>For instance, the function <code>sayHi</code> below calls itself again with "Guest" if no <code>who</code> is provided:</p>
+<pre>
+let sayHi = function func(who) {
+  if (who) {
+    alert(`Hello, ${who}`);
+  } else {
+    func("Guest"); // use func to re-call itself
+  }
+};
+
+sayHi(); // Hello, Guest
+
+// But this won't work:
+func(); // Error, func is not defined (not visible outside of the function)
+</pre>
+<p>Why do we use <code>func</code>? Maybe just use <code>sayHi</code> for the nested call? Actually, in most cases we can:</p>
+<pre>
+let sayHi = function(who) {
+  if (who) {
+    alert(`Hello, ${who}`);
+  } else {
+    sayHi("Guest");
+  }
+};
+</pre>
+<p>The problem with that code is that the value of <code>sayHi</code> may change. The function may go to another variable, and the code will start to give errors:</p>
+<pre>
+let sayHi = function(who) {
+  if (who) {
+    alert(`Hello, ${who}`);
+  } else {
+    sayHi("Guest"); // Error: sayHi is not a function
+  }
+};
+
+let welcome = sayHi;
+sayHi = null;
+
+welcome(); // Error, the nested sayHi call doesn't work any more!
+</pre>
+<p>That happens because the function takes <code>sayHi</code> from its outer lexical environment. There’s no local <code>sayHi</code>, so the outer variable is used. And at the moment of the call that outer <code>sayHi</code> is <code>null</code>. The optional name which we can put into the Function Expression is meant to solve exactly these kinds of problems.</p>
+<pre>
+let sayHi = function func(who) {
+  if (who) {
+    alert(`Hello, ${who}`);
+  } else {
+    func("Guest"); // Now all fine
+  }
+};
+
+let welcome = sayHi;
+sayHi = null;
+
+welcome(); // Hello, Guest (nested call works)
+</pre>
+<p>Now it works, because the name "func" is function-local. It is not taken from outside (and not visible there). The specification guarantees that it will always reference the current function.</p>
+<h3>Function Name is only available for Function Expression</h3>
+<p>The “internal name” feature described here is only available for Function Expressions, not to Function Declarations. For Function Declarations, there’s just no syntax possibility to add a one more “internal” name. Sometimes, when we need a reliable internal name, it’s the reason to rewrite a Function Declaration to Named Function Expression form.</p>
+
+
+
+
+
+
+
+
+<h1>Example : Sum with an arbitrary amount of brackets</h1>
+<h3>Question:</h3>
+<p>WriteSolution function sum that would work like this:</p>
+<pre>
+sum(1)(2) == 3; // 1 + 2
+sum(1)(2)(3) == 6; // 1 + 2 + 3
+sum(5)(-1)(2) == 6
+sum(6)(-1)(-2)(-3) == 0
+sum(0)(1)(2)(3)(4)(5) == 15
+</pre>
+<h3>Solution:</h3>
+<pre>
+function sum(a) {
+
+  let currentSum = a;
+
+  function f(b) {
+    currentSum += b;
+    return f;
+  }
+
+  f.toString = function() {
+    return currentSum;
+  };
+
+  return f;
+}
+
+alert( sum(1)(2) ); // 3
+alert( sum(5)(-1)(2) ); // 6
+alert( sum(6)(-1)(-2)(-3) ); // 0
+alert( sum(0)(1)(2)(3)(4)(5) ); // 15
+</pre>
+
+
+
+
+
+
+
+
+<h1>new Function</h1>
+<p>There’s one more way to create a function. It’s rarely used, but sometimes there’s no alternative. The syntax for creating a function:</p>
+<pre>
+let func = new Function ([arg1[, arg2[, ...argN]],] functionBody)
+</pre>
+<p>In other words, function parameters (or, more precisely, names for them) go first, and the body is last. All arguments are strings. It’s easier to understand by looking at an example. Here’s a function with two arguments:</p>
+<pre>
+let sum = new Function('a', 'b', 'return a + b');
+
+alert( sum(1, 2) ); // 3
+</pre>
+<p>If there are no arguments, then there’s only a single argument, the function body:</p>
+<pre>
+let sayHi = new Function('alert("Hello")');
+
+sayHi(); // Hello
+</pre>
+<p>The major difference from other ways we’ve seen is that the function is created literally from a string, that is passed at run time. All previous declarations required us, programmers, to write the function code in the script. But <code>new Function</code> allows to turn any string into a function. For example, we can receive a new function from a server and then execute it:</p>
+<pre>
+let str = ... receive the code from a server dynamically ...
+
+let func = new Function(str);
+func();
+</pre>
+<p>It is used in very specific cases, like when we receive code from a server, or to dynamically compile a function from a template. The need for that usually arises at advanced stages of development.</p>
+
+
+
+
+
+
+
+
+<h1>Lexical Environment for new Function</h1>
+<p>Usually, a function remembers where it was born in the special property <code>[[Environment]]</code>. It references the Lexical Environment from where it’s created.</p>
+<p>But when a function is created using <code>new Function</code>, its <code>[[Environment]]</code> references not the current Lexical Environment, but instead the global one.</p>
+<pre>
+function getFunc() {
+  let value = "test";
+
+  let func = new Function('alert(value)');
+
+  return func;
+}
+
+getFunc()(); // error: value is not defined
+</pre>
+<p>Compare it with the regular behavior:</p>
+<pre>
+function getFunc() {
+  let value = "test";
+
+  let func = function() { alert(value); };
+
+  return func;
+}
+
+getFunc()(); // "test", from the Lexical Environment of getFunc
+</pre>
+<p>This special feature of new Function looks strange, but appears very useful in practice. Imagine that we must create a function from a string. The code of that function is not known at the time of writing the script (that’s why we don’t use regular functions), but will be known in the process of execution. We may receive it from the server or from another source. Our new function needs to interact with the main script. Perhaps we want it to be able to access outer local variables. In this case the <code>new Function</code> feature saves us.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

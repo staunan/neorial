@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Custom Animation</title>
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+	<script type="text/javascript" src="../../Assets/prism.min.js"></script>
+	<script type="text/javascript" src="../../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+
+
+<h1>About Flutter Animation</h1>
+<p>Flutter animates widget by repeteadly calling build function very frequently. Almost 60 times per second. And every time the build function is called, the widget is redrawn on the screen. For example, if you want to animate width from 300px to 400px, the first build function will be called with the value 300, and then next build function will be called with the value 301 and so on. Frequent changing on the width over a certain period of time makes the UI looks like animating. This is the core mechanism how animation works. You will constantly change the value of a property you want to animate over a certain period of time.</p>
+<p>In this tutorial we will learn how to change the value over a certain period of time.</p>
+<p>Flutter animation has three main component.</p>
+<ul>
+  <li>Ticker</li>
+  <li>Animation</li>
+  <li>AnimationController</li>
+</ul>
+
+
+<h3>Ticker</h3>
+<p>In simple words, a Ticker is a class which sends a signal at almost regular interval (around 60 times per second). Think of your watch which ticks at each second. At each tick, the Ticker invokes callback method(s) with the duration since the first tick, after it was started. To use Ticker you need to implement <code>SingleTickerProviderStateMixin</code> class. Here is a full example:</p>
+<pre>
+class _TestState extends State&lt;Test> with SingleTickerProviderStateMixin{
+
+  AnimationController _controller;
+
+  @override
+  initState(){
+    super.initState();
+    _controller = new AnimationController(
+      duration: const Duration(milliseconds: 1000), 
+      vsync: this,
+    );
+  }
+
+  @override
+  dispose(){
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context){
+    return BeautyBackground(
+      child: Column(
+        children: &lt;Widget>[
+          BackButton(),
+          Expanded(
+            child: Center(
+              child: SizedBox(
+                width: 100,
+                height: 100,
+                child: Opacity(
+                  opacity : 1,
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
+                      color: Colors.pink,
+                    ),
+                    child: SizedBox(
+                      width: double.infinity,
+                      height: double.infinity
+                    ),
+                  )
+                ),
+              ),
+            )
+          ),
+        ]         
+      ),
+    );
+  }
+}
+</pre>
+<p>We will use this example throughout this tutorial. In the above example our state class implements <code>SingleTickerProviderStateMixin</code>, and that makes the state class attached to the ticker. The <code>vsync</code> property of the <code>AnimationController</code> constructor is used to provide the ticker.</p>
+<p>If you implement <code>SingleTickerProviderStateMixin</code>, you can use only one AnimationController in the class. If you want to use multiple AnimationController you must implements <code>TickerProviderStateMixin</code> instead of <code>SingleTickerProviderStateMixin</code>. If your class have only one AnimationController it is better and efficient to use <code>SingleTickerProviderMixin</code>.</p>
+
+ 
+
+<h3>Animation</h3>
+<p>An Animation is nothing else but a value (of a specific type) that can change over the lifetime of the animation. The way the value changes over the time of the animation can be linear (like 1, 2, 3, 4, 5…) or much more complex (see Curves, later).</p>
+
+<h3>AnimationController</h3>
+<p>An AnimationController is a class that controls (start, stop, repeat…) an animation (or several animations). In other words, it makes the Animation value vary from a lowerBound to an upperBound in a certain duration, using a velocity (= rate of change of value per second).</p>
+
+<h1>AnimationController</h1>
+<p>Lets take a look at the AnimationController constructor:</p>
+<pre>
+AnimationController controller = new AnimationController(
+  value:    // the current value of the animation, usually 0.0 (= default)
+  lowerBound: // the lowest value of the animation, usually 0.0 (= default)
+  upperBound: // the highest value of the animation, usually 1.0 (= default)
+  duration: // the total duration of the whole animation (scene)
+  vsync:    // the ticker provider
+  debugLabel: // a label to be used to identify the controller
+      // during debug session
+);
+</pre>
+<p>Most of the time, <code>value</code>, <code>lowerBound</code>, <code>upperBound</code> and <code>debugLabel</code> are not mentioned when initializing an AnimationController.</p>
+<p>In our example, we have,</p>
+<pre>
+_controller = new AnimationController(
+  duration: const Duration(milliseconds: 1000), 
+  vsync: this,
+);
+</pre>
+<p>The line <code>vsync: this</code> binds the ticker with the animation controller. As we haven't provided <code>lowerBound</code> and <code>upperBound</code>, the default will be <code>0.0</code> and <code>1.0</code> respectively. So in our example, the controller will generate the values from <code>0.0</code> to <code>1.0</code> during 1000 milliseconds in a linear way. But how to get the generated value? You need attach a listener to the animation controller in order to get the generated values.</p>
+<pre>
+@override
+  initState(){
+    super.initState();
+    _controller = new AnimationController(
+      duration: const Duration(milliseconds: 1000), 
+      vsync: this,
+    );
+    _controller.addListener((){
+      print(_controller.value);
+    });
+    _controller.forward();
+  }
+</pre>
+<p>In the above example, we have attached a listener to the controller. The provided callback will be called every time the ticker sends a signal and controller will be updated with the new value and the the controller will call the listener callback. To get the value use <code>value</code> property of the animation controller.</p>
+<pre>
+_controller.value
+</pre>
+<p>The above code will keep printing the generated values for whole 1000 milliseconds.</p>
+<pre>
+flutter: 0.033333
+flutter: 0.083333
+flutter: 0.1
+flutter: 0.116667
+flutter: 0.133333
+flutter: 0.15
+flutter: 0.166667
+flutter: 0.183333
+flutter: 0.2
+flutter: 0.216667
+flutter: 0.233333
+flutter: 0.25
+flutter: 0.266667
+flutter: 0.283333
+flutter: 0.3
+flutter: 0.316667
+flutter: 0.35
+flutter: 0.366667
+flutter: 0.383333
+flutter: 0.4
+flutter: 0.416667
+flutter: 0.433333
+flutter: 0.45
+flutter: 0.466667
+flutter: 0.483333
+flutter: 0.5
+flutter: 0.516667
+flutter: 0.533333
+flutter: 0.55
+flutter: 0.566667
+flutter: 0.583333
+flutter: 0.6
+flutter: 0.616667
+flutter: 0.633333
+flutter: 0.65
+flutter: 0.666667
+flutter: 0.683333
+flutter: 0.7
+flutter: 0.716667
+flutter: 0.733333
+flutter: 0.75
+flutter: 0.766667
+flutter: 0.783333
+flutter: 0.8
+flutter: 0.816667
+flutter: 0.833333
+flutter: 0.85
+flutter: 0.866667
+flutter: 0.883333
+flutter: 0.9
+flutter: 0.916667
+flutter: 0.933333
+flutter: 0.95
+flutter: 0.966667
+flutter: 0.983333
+flutter: 1.0
+flutter: 1.0
+</pre>
+<p>As you can see, it generated various value within 1000 milliseconds.</p>
+
+<h3>Example: Animating Opacity</h3>
+<p>The statement <code>_controller.forward()</code> starts the animation. When the control flow mets this statement, the animation controller starts generating the values from lowerbound to upperbound. We have put this statement within the <code>initState()</code> method. That means whenever the widget is painted it immediately starts generating values. You can put this statement within a button so that on button click the animation will start.</p>
+<p>Now we will use this value to change the opacity of the box. In our example, we have wraped the content of SizedBox widget within the Opacity widget with the opacity given <code>1</code>. Now we will change the opacity dynamically with the help of animation controller to make it animate.</p>
+<pre>
+class _TestState extends State&lt;Test> with SingleTickerProviderStateMixin{
+
+  AnimationController _controller;
+
+  double animatedOpacity = 0;
+
+  @override
+  initState(){
+    super.initState();
+    _controller = new AnimationController(
+      duration: const Duration(milliseconds: 1000), 
+      vsync: this,
+    );
+    _controller.addListener((){
+      setState((){
+        animatedOpacity = _controller.value;
+      });
+    });
+    _controller.forward();
+  }
+
+  @override
+  dispose(){
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context){
+    return BeautyBackground(
+      child: Column(
+        children: &lt;Widget>[
+          BackButton(),
+          Expanded(
+            child: Center(
+              child: SizedBox(
+                width: 100,
+                height: 100,
+                child: Opacity(
+                  opacity : animatedOpacity,
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
+                      color: Colors.pink,
+                    ),
+                    child: SizedBox(
+                      width: double.infinity,
+                      height: double.infinity
+                    ),
+                  )
+                ),
+              ),
+            )
+          ),
+        ]         
+      ),
+    );
+  }
+}
+</pre>
+<p>In the above example, we have taken a variable <code>animatedOpacity</code> and assigned it to the <code>opacity</code> property instead of a static value. And whenever the animation controller generates a value, we are calling <code>setState()</code> method and assigning the new generated value to the variable. The <code>setState()</code> method causes the build function to rebuild the widget with the new value.</p>
+
+<h3>Example: Animating Width</h3>
+<p>In the following example, we are animating the width, we have also set lowerBound and upperBound to animate the width.</p>
+<pre>
+class _TestState extends State&lt;Test> with SingleTickerProviderStateMixin{
+
+  AnimationController _controller;
+  double animatedWidth = 100;
+
+  @override
+  initState(){
+    super.initState();
+    _controller = new AnimationController(
+      lowerBound: 100,
+      upperBound: 300,
+      duration: const Duration(milliseconds: 1000), 
+      vsync: this,
+    );
+    _controller.addListener((){
+      setState((){
+        animatedWidth = _controller.value;
+      });
+    });
+    _controller.forward();
+  }
+
+  @override
+  dispose(){
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context){
+    return BeautyBackground(
+      child: Column(
+        children: &lt;Widget>[
+          BackButton(),
+          Expanded(
+            child: Center(
+              child: SizedBox(
+                width: animatedWidth,
+                height: 100,
+                child: Opacity(
+                  opacity : 1,
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
+                      color: Colors.pink,
+                    ),
+                    child: SizedBox(
+                      width: double.infinity,
+                      height: double.infinity
+                    ),
+                  )
+                ),
+              ),
+            )
+          ),
+        ]
+      ),
+    );
+  }
+}
+</pre>
+<p>In the above example, the lowerBound is set to 100 and upperBound is set to 300, that means the generated value will be from 100 to 300. The controller will keep generating the values from 100 to 300 for whole 1 seconds and using the <code>setState()</code> we are updating the UI frequently to turn it into animation.</p>
+
+
+
+
+<h1>AnimationController Properties</h1>
+<h3>value</h3>
+<p>Using the <code>value</code> property you can get the current value of the animation.</p>
+<pre>
+_controller.value
+</pre>
+
+<h3>status</h3>
+<p>The property <code>status</code> represents the current animation status. The status is represented by the <code>AnimationStatus</code> enum. This enum defines the following four constants:</p>
+<ul>
+  <li><code>completed</code>: The animation is stopped at the end.</li>
+  <li><code>dismissed</code>: The animation is stopped at the beginning.</li>
+  <li><code>forward</code>: The animation is running from beginning to end.</li>
+  <li><code>reverse</code>: The animation is running backwards, from end to beginning.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+<h1>AnimationController Methods</h1>
+<h3>.forward()</h3>
+<p>This method starts the animation. That means it starts generating values from lowerBound to upperBound.</p>
+
+
+<h3>.repeat()</h3>
+<p>This method will repeat the animation forever. It will start from lowerBound to upperBound, and when the animation completes, it will again repeat from lowerBound to upperBound. That means it will repeat the animation always in forward direction.</p>
+<pre>
+_controller.repeat();
+</pre>
+<p>It takes an optional argument <code>reverse</code>, if set to <code>true</code>, the animation will start from lowerBound to upperBound, and then upperBound to lowerBound and then it will repeat the cycle. That means the animation will be played in forward and reverse direction both.</p>
+<pre>
+_controller.repeat(reverse: true);
+</pre>
+<p>This method also accepts <code>min</code> and <code>max</code> to set the lowerBound and upperBound value respectively. Without these arguments the controller will use lowerBound and upperBound. <code>min</code> and <code>max</code> property is used to override these two value.</p>
+<pre>
+_controller.repeat(reverse: true, min: 100, max: 150);
+</pre>
+
+<h3>.reverse({from: double})</h3>
+<p>Starts running this animation in reverse (towards the beginning). Means it will start the animation from current value to lowerBound, in reverse direction.</p>
+<pre>
+_controller.reverse();
+</pre>
+<p>It is important to note that, it starts from current value to lowerBound, not upperBound to lowerBound, so if your current value is equal to lowerBound, you won't see any animation.</p>
+<p>This method has optional parameter <code>from</code> which you can use to set the current value from which the animation will start.</p>
+<pre>
+_controller.reverse(from: 300);
+</pre>
+
+<h3>.dispose()</h3>
+<p>Release the resources used by this object. The object is no longer usable after this method is called.</p>
+<pre>
+_controller.dispose();
+</pre>
+
+<h3>.stop()</h3>
+<p>Stops running this animation.</p>
+<pre>
+_controller.stop();
+</pre>
+
+
+<h3>addListener()</h3>
+<p>You can attach a callback(listener) with the controller. The callback will be called each time the controller changes its value. The method <code>addListener()</code> takes one argument which is the callback. The callback doesn't have any parameter.</p>
+<pre>
+_controller.addListener((){
+  print("New value : " + _controller.value.toString());
+});
+</pre>
+<p>Normally you would change the state so that the UI gets rebuild:</p>
+<pre>
+_controller.addListener((){
+  setState((){});
+});
+</pre>
+
+
+
+
+<h3>addStatusListener()</h3>
+<p>The method <code>addStatusListener()</code> takes a callback as a parameter. This callback is called each time the controller changes its animation status. The callback has one parameter which is <code>AnimationStatus</code> that represents the current status of the animation.</p>
+<pre>
+_controller.addStatusListener((AnimationStatus status){
+  switch(status){
+    case AnimationStatus.forward:
+      print("Animation is running in forward mode !");
+      break;
+    case AnimationStatus.reverse:
+      print("Animation is running in reverse mode !");
+      break;
+    case AnimationStatus.completed:
+      print("Animation has been completed !");
+      break;
+    case AnimationStatus.dismissed:
+      print("Animation is dismissed before it began !");
+      break;
+    default:
+      print("Don't know what to say !");
+  }
+});
+</pre>
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>
+

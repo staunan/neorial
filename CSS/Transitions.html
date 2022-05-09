@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Transitions</title>
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
+	<script type="text/javascript" src="../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+<h1>About Transition</h1>
+<p>CSS transitions allows you to change property values smoothly (from one value to another), over a given duration.</p>
+<p>To create a transition effect, you must specify two things:</p>
+<ul>
+	<li>The CSS property you want to add an effect to</li>
+	<li>The duration of the effect</li>
+</ul>
+<p>Note: If the duration part is not specified, the transition will have no effect, because the default value is 0.</p>
+<p>Transition has four property. Let's learn them -</p>
+
+
+
+<h1>transition-property</h1>
+<p>The <code>transition-property</code> property specifies the name of the CSS property the transition effect is for (the transition effect will start when the specified CSS property changes).</p>
+<p>The <code>transition-property</code> property, normally used as part of transition shorthand, is used to define what property, or properties, you want to apply a transition effect to.</p>
+<pre>
+.example {
+    transition-property: color;
+}
+</pre>
+<p>The value can be one of the following:</p>
+<ul>
+	<li>A single property name, as in the example above.</li>
+	<li>A comma-separated list of property names (shorthand or longhand), for transitioning multiple properties on a single element.</li>
+	<li>The keyword <code>none</code>, which indicates that no property will transition.</li>
+	<li>The keyword <code>all</code>, which indicates that all properties will transition (the default).</li>
+</ul>
+<p>It is very common to use <code>all</code> for transition-property property. In real life, there is very rare situation where you transition one property and other will not have transition.</p>
+
+
+
+
+
+<h1>transition-duration</h1>
+<p>The transition-duration property, normally used as part of transition shorthand, is used to define the duration of a specified transition. That is, the length of time it will take for the targeted element to transition between two defined states.</p>
+<pre>
+// duration in seconds
+.example {
+    transition-duration: 3s;
+}
+
+// duration in milliseconds
+.example {
+    transition-duration: 500ms;
+}
+</pre>
+<p>The value can be one of the following:</p>
+<ul>
+	<li>A valid time value (defined in seconds or milliseconds).</li>
+	<li>A comma-separated list of time values, for transitioning multiple properties on a single element</li>
+</ul>
+<p>The default value for transition-duration is 0s, meaning that no transition will take place and the property change will take place immediately, even if the other transition-related properties are defined. The time value can be expressed as a decimal-based number for more precise timing and negative values are not allowed.</p>
+<p>Let's take a look at the following example - </p>
+<style type="text/css">
+.translateToRight{
+	transform: translate(300px);
+}
+</style>
+<div class="box">
+	<h3>Without Transition</h3>
+	<div style="display: flex;">
+		<div id="exampleBox1" style="width: 100px; height: 100px; background: crimson;"></div>
+	</div>
+	<div style="display: flex; justify-content: center; align-items: center;">
+		<a class="button is-small is-primary" onclick='translateToRight()'>Transform</a>
+	</div>
+	<h3>With Transition</h3>
+	<div style="display: flex;">
+		<div id="exampleBox2" style="width: 100px; height: 100px; background: crimson; transition-property: all; transition-duration: 1s;"></div>
+	</div>
+	<div style="display: flex; justify-content: center; align-items: center;">
+		<a class="button is-small is-primary" onclick='translateToRight2()'>Transform</a>
+	</div>
+</div>
+
+
+
+
+
+
+
+<h1>transition-delay</h1>
+<p>The transition-delay property, normally used as part of transition shorthand, is used to define a length of time to delay the start of a transition.</p>
+<pre>
+// Delay in Seconds
+.example {
+    transition-delay: 5s;
+}
+
+// Delay in milliseconds
+.example {
+    transition-delay: 1500ms;
+}
+</pre>
+<p>The value can be one of the following:</p>
+<ul>
+	<li>A valid time value (defined in seconds or milliseconds).</li>
+	<li>A comma-separated list of time values, for defining separate delay values on multiple transitions for a single element.</li>
+</ul>
+<p>The default value for transition-delay is 0s, meaning that no delay will take place and the transition will start to occur immediately.</p>
+<p>When a transition has a delay value that is negative, it will cause the transition to begin immediately (with no delay), however the transition will begin partway through the process, as though it had already begun. So it is advised not to provide negative value.</p>
+<p>Here is an Example -</p>
+<pre>
+.rotate{
+	transform: rotate(450deg);
+	transition-delay: 2s;
+}
+</pre>
+<style type="text/css">
+.rotate{
+	transform: rotate(450deg);
+	transition-delay: 2s;
+}
+</style>
+<div class="box">
+	<div style="display: flex; justify-content:  center; align-items: center;">
+		<div id="exampleBox3" style="width: 100px; height: 100px; background: crimson; border-top-left-radius: 50%; border-bottom-right-radius: 50%; transition-duration: 1s; transition-property: all;"></div>
+	</div>
+	<div style="display: flex; justify-content: center; align-items: center; margin-top: 100px;">
+		<a class="button is-info is-small" onclick="rotate()">Rotate</a>
+	</div>
+</div>
+<p>As you can see, the animation is starting 2 second after you click the button.</p>
+
+
+
+
+
+<h1>transition-timing-function</h1>
+<p>The transition-timing-function property, normally used as part of transition shorthand, is used to define a function that describes how a transition will proceed over its duration, allowing a transition to change speed during its course.</p>
+<pre>
+.example {
+    transition-timing-function: ease-out;
+}
+</pre>
+<p>These timing functions are commonly called easing functions, and can be defined using a predefined keyword value, a stepping function, or a cubic Bézier curve.</p>
+<p>The predefined keyword values allowed are:</p>
+<ul>
+	<li><code>ease</code> Default value. Specifies a transition effect with a slow start, then fast, then end slowly.</li>
+	<li><code>linear</code> Specifies a transition effect with the same speed from start to end.</li>
+	<li><code>ease-in</code> Specifies a transition effect with a slow start.</li>
+	<li><code>ease-out</code> Specifies a transition effect with a slow end.</li>
+	<li><code>ease-in-out</code> Specifies a transition effect with a slow start and end.</li>
+</ul>
+<p>You can also use steps() and Bézier curves. But these are complex one. And rarely used.</p>
+<p>Here is an example -</p>
+<style type="text/css">
+.moveToRight1{
+	transition-timing-function: ease;
+	transform: translate(500px);
+}
+.moveToRight2{
+	transition-timing-function: ease-in-out;
+	transform: translate(500px);
+}
+</style>
+<div class="box">
+	<h3>With Default Value</h3>
+	<div style="display: flex; justify-content: flex-start; align-items: center;">
+		<div id="exampleBox4" style="height: 100px; width: 100px; background: crimson; transition-duration: 4s; transition-property: all;"></div>
+	</div>
+	<h3>With ease-in-out value</h3>
+	<div style="display: flex; justify-content: flex-start; align-items: center;">
+		<div id="exampleBox5" style="height: 100px; width: 100px; background: crimson; transition-duration: 4s; transition-property: all;"></div>
+	</div>
+	<div style="display: flex; justify-content: center; align-items: center; margin-top: 20px;">
+		<a class="button is-primary is-small" onclick="startRace()">Start</a>
+	</div>
+</div>
+<p>In the above example you can see the difference between <code>ease</code> and <code>ease-in-out</code> values.</p>
+
+
+
+
+
+<h1>transition</h1>
+<p>Transition is the shorthand property of the above four property. Here is the syntax -</p>
+<pre>
+	transition: [transition-property] [transition-duration] [transition-timing-function] [transition-delay];
+</pre>
+<p>The transition-property and transition-duration is mandetory. The first value that the browser recognizes as a valid time value will always represent the duration. Any subsequent valid time value will be parsed as the delay.</p>
+<h3>Change Several Property Values</h3>
+<p>You can use different transition rule on different properties. Each rule should be seperated by comma.</p>
+<p>The following example adds a transition effect for both the width and height property, with a duration of 2 seconds for the width and 4 seconds for the height:</p>
+<pre>
+div {
+    -webkit-transition: width 2s, height 4s; /* Safari */
+    transition: width 2s, height 4s;
+}
+</pre>
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+function startRace(){
+	document.getElementById("exampleBox4").classList.add('moveToRight1');
+	document.getElementById("exampleBox5").classList.add('moveToRight2');
+}
+function translateToRight(){
+	document.getElementById("exampleBox1").classList.add('translateToRight');
+}
+function translateToRight2(){
+	document.getElementById("exampleBox2").classList.add('translateToRight');	
+}
+function rotate(){
+	document.getElementById("exampleBox3").classList.add("rotate");
+}
+</script>
+
+</div>
+</body>
+</html>

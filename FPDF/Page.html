@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Page</title>
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
+	<script type="text/javascript" src="../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<style type="text/css">
+	h2{
+		font-size: 18px;
+		font-weight: 700;
+	}
+	h3, h4, h2{
+		margin: 0;
+	}
+	p{
+		margin: 0;
+		margin-bottom: 10px;
+	}
+</style>
+<div class="Content Card">
+
+<h1>AddPage()</h1>
+<pre>
+	
+	AddPage([string orientation [, mixed size [, int rotation]]])
+
+</pre>
+<p>Adds a new page to the document. If a page is already present, the <code>Footer()</code> method is called first to output the footer. Then the page is added, the current position set to the top-left corner according to the left and top margins, and <code>Header()</code> is called to display the header. 
+The font which was set before calling is automatically restored. There is no need to call <code>SetFont()</code> again if you want to continue with the same font. The same is true for colors and line width.
+The origin of the coordinate system is at the top-left corner and increasing ordinates go downwards.</p>
+<h4>orientation</h4>
+<ul>
+	<li>L or Landscape</li>
+	<li>P or Potrait</li>
+</ul>
+<p>The default value is the one passed to the constructor.</p>
+<h4>size</h4>
+<p>Page size. It can be either one of the following values (case insensitive):</p>
+<ul>
+	<li>A3</li>
+	<li>A4</li>
+	<li>A5</li>
+	<li>Letter</li>
+	<li>Legal</li>
+	<li>or an array containing the width and the height (expressed in user unit). <code>[500, 300]</code></li>
+</ul>
+<p>The default value is the one passed to the constructor.</p>
+<h4>rotation</h4>
+<p>Angle by which to rotate the page. It must be a multiple of 90; positive values mean clockwise rotation. The default value is 0.</p>
+
+
+
+
+<h1>PageNo()</h1>
+<pre>
+	
+	int PageNo()
+
+</pre>
+<p>Returns the current page number.</p>
+
+
+
+
+
+
+<h1>GetPageHeight()</h1>
+<pre>
+	
+	float GetPageHeight()
+
+</pre>
+<p>Returns the current page height.</p>
+
+
+
+
+
+
+<h1>GetPageWidth()</h1>
+<pre>
+	
+	float GetPageWidth()
+
+</pre>
+<p>Returns the current page width.</p>
+
+
+
+
+
+
+<h1>GetX()</h1>
+<pre>
+	
+	float GetX()
+
+</pre>
+<p>Returns the abscissa of the current position.</p>
+<pre>
+
+	$pdf = new FPDF();
+	$pdf->SetFont('Arial','B',16);
+	
+	$pdf->AddPage();
+	$x = $pdf->GetX();
+	$pdf->Cell(30, 10, $x."  ", 1);
+	$x = $pdf->GetX();
+	$pdf->Cell(0, 10, $x, 1, 1);
+
+	$pdf->Output('helo.pdf', 'D');
+
+</pre>
+<img src="Images/GetX.jpg">
+<p>Initially the left margin is 10 unit, that's why the GetX returns <code>10.00125</code>, after that the Cell width is 30 unit. And then the GetX returns <code>40.00125</code> which is <code>10.00125+30</code></p>
+
+
+
+
+
+<h1>SetX()</h1>
+<pre>
+
+	SetX(float x)
+
+</pre>
+<p>Defines the abscissa of the current position. If the passed value is negative, it is relative to the right of the page.</p>
+<h4>x</h4>
+<p>The value of the abscissa.</p>
+<pre>
+
+	$pdf = new FPDF();
+	$pdf->SetFont('Arial','B',16);
+	
+	$pdf->AddPage();
+	$pdf->SetX(30);
+	$x = $pdf->GetX();
+	$pdf->Cell(0, 10, $x, 1, 1);
+
+	$pdf->Output('helo.pdf', 'D');
+
+</pre>
+<img src="Images/SetX.jpg">
+<p>As you can see, <code>SetX</code> doesn't include margin. SetX counts from the left edge of the page. </p>
+
+
+
+<h1>GetY()</h1>
+<pre>
+	
+	float GetY()
+
+</pre>
+<p>Returns the ordinate of the current position.</p>
+<pre>
+	
+	$pdf = new FPDF();
+	$pdf->SetFont('Arial','B',16);
+	
+	$pdf->AddPage();
+	$x = $pdf->GetY();
+	$pdf->Cell(0, 10, $x, 1, 1);
+	$x = $pdf->GetY();
+	$pdf->Cell(0, 10, $x, 1, 1);
+
+	$pdf->Output('helo.pdf', 'D');
+
+</pre>
+<img src="Images/GetY.jpg">
+<p>The first position is <code>10.00125</code>, as the Cell is has the height of <code>10</code>, the next position becomes <code>20.00125</code>, that is <code>10+10.00125</code>.</p>
+
+
+
+
+
+
+<h1>SetY()</h1>
+<pre>
+	
+	SetY(float y [, boolean resetX])
+
+</pre>
+<p>Sets the ordinate and optionally moves the current abscissa back to the left margin. If the value is negative, it is relative to the bottom of the page.</p>
+<h4>y</h4>
+<p>The value of the ordinate.</p>
+<h4>resetX</h4>
+<p>Whether to reset the abscissa. Default value: true. If it is true, then the SetX will be reset and will go to the beginning.</p>
+
+<pre>
+
+	$pdf = new FPDF();
+	$pdf->SetFont('Arial','B',16);
+	
+	$pdf->AddPage();
+	$pdf->SetY(-50);
+	$x = $pdf->GetY();
+	$pdf->Cell(0, 10, $x, 1, 1);
+
+	$pdf->Output('helo.pdf', 'D');
+
+</pre>
+<img src="Images/SetY.jpg">
+<p>As you can see we have set the y abscissa with a negative value, which is the relative to the bottom edge of the page.</p>
+
+
+
+
+
+<h1>SetXY</h1>
+<pre>
+
+	SetXY(float x, float y)
+
+</pre>
+<p>Defines the abscissa and ordinate of the current position. If the passed values are negative, they are relative respectively to the right and bottom of the page.</p>
+<h4>x</h4>
+<p>The value of the abscissa.</p>
+<h4>y</h4>
+<p>The value of the ordinate.</p>
+
+
+
+
+
+
+<h1>SetMargins()</h1>
+<pre>
+	
+	SetMargins(float left, float top [, float right])
+
+</pre>
+<p>Defines the left, top and right margins. By default, they equal 1 cm. Call this method to change them.</p>
+<h4>left</h4>
+<p>Specifies the left margin.</p>
+<h4>top</h4>
+<p>Specifies the top margin.</p>
+<h4>right</h4>
+<p>Specifies the right margin.</p>
+
+
+
+<h1>SetLeftMargin()</h1>
+<pre>
+	
+	SetLeftMargin(float margin)
+
+</pre>
+<p>Defines the left margin. The method can be called before creating the first page. If the current abscissa gets out of page, it is brought back to the margin.</p>
+
+
+<h1>SetTopMargin()</h1>
+<pre>
+	
+	SetTopMargin(float margin)
+
+</pre>
+<p>Defines the top margin. The method can be called before creating the first page.</p>
+
+
+
+
+<h1>SetRightMargin()</h1>
+<pre>
+	
+	SetRightMargin(float margin)
+
+</pre>
+<p>Defines the right margin. The method can be called before creating the first page.</p>
+
+
+
+
+
+<h1>SetDisplayMode()</h1>
+<pre>
+	
+	SetDisplayMode(mixed zoom [, string layout])
+
+</pre>
+<p>Defines the way the document is to be displayed by the viewer. The zoom level can be set: pages can be displayed entirely on screen, occupy the full width of the window, use real size, be scaled by a specific zooming factor or use viewer default (configured in the Preferences menu of Adobe Reader). The page layout can be specified too: single at once, continuous display, two columns or viewer default.
+</p>
+<h4>zoom</h4>
+<p>The zoom to use. It can be one of the following string values:</p>
+<ul>
+	<li><code>fullpage</code>: displays the entire page on screen</li>
+	<li><code>fullwidth</code>: uses maximum width of window</li>
+	<li><code>real</code>: uses real size (equivalent to 100% zoom)</li>
+	<li><code>default</code>: uses viewer default mode</li>
+	<li>or a number indicating the zooming factor to use.</li>
+</ul>
+<h4>layout</h4>
+<p>The page layout. Possible values are:</p>
+<ul>
+	<li><code>single</code>: displays one page at once</li>
+	<li><code>continuous</code>: displays pages continuously</li>
+	<li><code>two</code>: displays two pages on two columns</li>
+	<li><code>default</code>: uses viewer default mode</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

@@ -1,0 +1,1048 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Object</title>
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
+	<script type="text/javascript" src="../../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+
+<h1>Object</h1>
+<p>Objects are used to store keyed collections of various data and more complex entities.</p>
+<p>There are two ways we can create an object -</p>
+<pre>
+let user = new Object(); // "object constructor" syntax
+let user = {};  // "object literal" syntax
+</pre>
+<p>Usually, the figure brackets {...} are used. That declaration is called an object literal.</p>
+
+
+
+<h1>Literals and properties</h1>
+<p>We can immediately put some properties into <code>{...}</code> as “key: value” pairs:</p>
+<pre>
+let user = {     // an object
+  name: "John",  // by key "name" store value "John"
+  age: 30        // by key "age" store value 30
+};
+</pre>
+<p>Here, <code>name</code>, <code>age</code> are called Properties, and <code>"John"</code> and <code>30</code> is called value. They are seperated by a colon <code>:</code>. Internally properties are always treated as a string, even though the properties are not quoted, they still are strings. You can optionally enclose the property within the single or double quote.</p>
+<p>A property can contain any type of value. In the first property <code>name</code> we have string data type value, in the second property <code>age</code>, we have Number data type value. We can also add boolean, array, etc. Any type of data is valid for property.</p>
+<p>In the above example, we have assigning literal directly to the property. But we can also add a variable to that property -</p>
+<pre>
+let myName = "Santanu Bera";
+let obj = {
+	name : myName,
+	age : "29"
+};
+</pre>
+<p>In the above example, the property <code>name</code> will contain the value of the variable <code>myName</code> that is "Santanu Bera". In the above case, the value is copied by value. It means the value of the variable <code>myName</code> gets copied to the property <code>name</code>. If the value were array, or another object, then a reference to the variable would get copied to the property.</p>
+
+
+<h3>Adding a Property</h3>
+<p>After you have declared an object, you may want to add more properties to it, you can do it by dot notation -</p>
+<pre>
+object.newProperty = value;
+</pre>
+<p>In the above syntax, if the <code>newProperty</code> already exists, then it updates the value, if it doesn't exists, then it adds a new property called <code>newProperty</code> and assign the value <code>value</code>. For example -</p>
+<pre>
+let myName = "Santanu Bera";
+let obj = {
+	name : myName,
+	age : "29"
+};
+
+obj.height = "6 Feet";
+console.log(obj);
+// name : "Santanu Bera"
+// age : 29
+// height : "6 Feet"
+</pre>
+
+
+
+
+
+<h3>Accessign a Property</h3>
+<p>Property values are accessible using the dot notation:</p>
+<pre>
+// get fields of the object:
+alert( user.name ); // John
+alert( user.age ); // 30
+</pre>
+
+<h3>Delete a Property</h3>
+<p>To remove a property, we can use <code>delete</code> operator:</p>
+<pre>
+delete user.age;
+</pre>
+
+
+
+
+<h3>Multiword Property</h3>
+<p>We can also use multiword property names, but then they must be quoted:</p>
+<pre>
+let user = {
+  name: "John",
+  age: 30,
+  "likes birds": true  // multiword property name must be quoted
+};
+</pre>
+
+<h3>Reserved words are allowed as property names</h3>
+<p>A variable cannot have a name equal to one of language-reserved words like “for”, “let”, “return” etc. But for an object property, there’s no such restriction. Any name is fine:</p>
+<pre>
+let obj = {
+  for: 1,
+  let: 2,
+  return: 3
+};
+alert( obj.for + obj.let + obj.return );  // 6
+</pre>
+
+
+<h3>Special property __proto__</h3>
+<p>You cannot have a property named <code>__proto__</code>, In JS, it convey different meaning and bound to object. So do not ever create a property with the name __proto__.</p>
+
+
+<h3>Trailing Comma</h3>
+<p>The last property in the list may end with a comma:</p>
+<pre>
+let user = {
+  name: "John",
+  age: 30,
+}
+</pre>
+<p>That is called a “trailing” or “hanging” comma. Makes it easier to add/remove/move around properties, because all lines become alike.</p>
+
+
+
+
+<h1>Square brackets</h1>
+<p>For multiword properties, the dot access doesn’t work -</p>
+<pre>
+// this would give a syntax error
+user.likes birds = true
+</pre>
+<p>That’s because the dot requires the key to be a valid variable identifier. That is: no spaces and other limitations.</p>
+<p>There’s an alternative “square bracket notation” that works with any string:</p>
+<pre>
+let user = {};
+
+// set
+user["likes birds"] = true;
+
+// get
+alert(user["likes birds"]); // true
+
+// delete
+delete user["likes birds"];
+</pre>
+<p>Now everything is fine. Please note that the string inside the brackets is properly quoted (any type of quotes will do).</p>
+
+
+
+
+
+<h3>Computed Property : Variable as a property</h3>
+<p>You can use square baracket notation along with variable to create property name. These kind of property is called computed property. For example -</p>
+<pre>
+let name = "Santanu";
+let obj = {};
+obj[name] = "Access Granted";
+console.log(obj);
+// Santanu : "Access Granted"
+</pre>
+<p>But this is not possible with dot notation -</p>
+<pre>
+obj.name = "Access Granted";
+console.log(obj);
+// name : "Access Granted"
+</pre>
+<p>You can use computed property directly within object literal -</p>
+<pre>
+let name = "Santanu";
+let obj = {
+	[name] : "Access Granted",
+};
+console.log(obj);
+// Santanu : "Access Granted";
+</pre>
+
+
+
+
+
+<h1>Property value shorthand</h1>
+<p>In real code we often use existing variables as values for property names.</p>
+<pre>
+function makeUser(name, age) {
+  return {
+    name: name,
+    age: age
+    // ...other properties
+  };
+}
+
+let user = makeUser("John", 30);
+alert(user.name); // John
+</pre>
+<p>In the example above, properties have the same names as variables. The use-case of making a property from a variable is so common, that there’s a special property value shorthand to make it shorter.</p>
+<p>Instead of <code>name:name</code> we can just write <code>name</code>, like this:</p>
+<pre>
+function makeUser(name, age) {
+  return {
+    name, // same as name: name
+    age   // same as age: age
+    // ...
+  };
+}
+</pre>
+<p>We can use both normal properties and shorthands in the same object:</p>
+<pre>
+let user = {
+  name,  // same as name:name
+  age: 30
+};
+</pre>
+
+
+
+
+
+
+
+
+<h1>Existence check</h1>
+<p>To know if a property exists within a object, we can compare with <code>undefined</code> value - </p>
+<pre>
+let obj = {
+	name : "Santanu",
+	age : 30,
+};
+console.log(obj.address == undefined); // true
+console.log(obj.name == undefined); // false
+</pre>
+<p>So, if you try to access any property that doesn't exists, it returns undefined, otherwise it returns it's value. But there is a problem here, what if a property exists but it contains <code>undefined</code> value.</p>
+<pre>
+let obj = {
+	name : undefined,
+};
+console.log(obj.name == undefined); // true
+</pre>
+<p>In the above example, the property <code>name</code> exists, but it still returns true. In these kind of scinario, you can use <code>in</code> operator to check if the operator exists.</p>
+<pre>
+// Syntax --
+"propertyName" in ObjectName
+
+// Example --
+let obj = {
+	name : undefined,
+	"my name" : "Santanu Bera";
+};
+// Exits
+console.log("name" in obj); // true
+
+// Doesn't Exists 
+console.log("address" in obj); // false
+</pre>
+<p>Remember that the property name must be quoted. This example works multiword property too -</p>
+<pre>
+console.log("my name" in obj); // true
+</pre>
+
+
+
+
+
+
+
+
+<h1>For In Loop</h1>
+<p>To walk over all keys of an object, there exists a special form of the loop: <code>for..in</code></p>
+<pre>
+for(key in object) {
+  // executes the body for each key among object properties
+}
+</pre>
+<pre>
+let user = {
+  name: "John",
+  age: 30,
+  isAdmin: true
+};
+
+for(let key in user) {
+  // keys
+  alert( key );  // name, age, isAdmin
+  // values for the keys
+  alert( user[key] ); // John, 30, true
+}
+</pre>
+
+
+
+
+
+
+
+
+
+<h1>Copying By Reference</h1>
+<p>A variable stores not the object itself, but its “address in memory”, in other words “a reference” to it.</p>
+<pre>
+let user = {
+  name: "John"
+};
+</pre>
+<p>Here, the object is stored somewhere in memory. And the variable user has a “reference” to it. When an object variable is copied – the reference is copied, the object is not duplicated. For instance: </p>
+<pre>
+let user = { name: "John" };
+
+let admin = user; // copy the reference
+</pre>
+<p>Now we have two variables, each one with the reference to the same object:</p>
+<pre>
+let user = { name: 'John' };
+
+let admin = user;
+
+admin.name = 'Pete'; // changed by the "admin" reference
+
+alert(user.name); // 'Pete', changes are seen from the "user" reference
+</pre>
+
+
+
+
+
+
+
+<h1>Comparison by reference</h1>
+<p>The equality <code>==</code> and strict equality <code>===</code> operators for objects work exactly the same. Two objects are equal only if they are the same object.</p>
+<pre>
+let a = {};
+let b = a; // copy the reference
+
+alert( a == b ); // true, both variables reference the same object
+alert( a === b ); // true
+</pre>
+<p>And here two independent objects are not equal, even though both are empty:</p>
+<pre>
+let a = {};
+let b = {}; // two independent objects
+
+alert( a == b ); // false
+</pre>
+
+
+
+
+
+
+
+
+
+
+
+
+<h1>Const Object</h1>
+<p>An object declared as <code>const</code> can be changed.</p>
+<pre>
+const user = {
+  name: "John"
+};
+
+user.age = 25; // (*)
+
+alert(user.age); // 25
+</pre>
+<p>It might seem that the line (*) would cause an error, but no, there’s totally no problem. That’s because const fixes the value of user itself. And here user stores the reference to the same object all the time. The line (*) goes inside the object, it doesn’t reassign user.</p>
+
+<p>The <code>const</code> would give an error if we try to set user to something else, for instance:
+</p>
+<pre>
+const user = {
+  name: "John"
+};
+
+// Error (can't reassign user)
+user = {
+  name: "Pete"
+};
+</pre>
+
+
+
+
+
+
+
+<h1>Cloning Object : Object.assign</h1>
+<p>So, copying an object variable creates one more reference to the same object. But what if we need to duplicate an object? Create an independent copy, a clone? That’s also doable, but a little bit more difficult, because there’s no built-in method for that in JavaScript. Actually, that’s rarely needed. Copying by reference is good most of the time. But if we really want that, then we need to create a new object and replicate the structure of the existing one by iterating over its properties and copying them on the primitive level.</p>
+<pre>
+let user = {
+  name: "John",
+  age: 30
+};
+
+let clone = {}; // the new empty object
+
+// let's copy all user properties into it
+for (let key in user) {
+  clone[key] = user[key];
+}
+
+// now clone is a fully independent clone
+clone.name = "Pete"; // changed the data in it
+
+alert( user.name ); // still John in the original object
+</pre>
+<p>Also we can use the method <code>Object.assign</code> for that.</p>
+<pre>
+Object.assign(dest[, src1, src2, src3...])
+</pre>
+<p>Arguments <code>dest</code>, and <code>src1, ..., srcN</code> (can be as many as needed) are objects. It copies the properties of all objects <code>src1, ..., srcN</code> into <code>dest</code>. In other words, properties of all arguments starting from the 2nd are copied into the 1st. Then it returns <code>dest</code>. For example -</p>
+<pre>
+let user = { name: "John" };
+
+let permissions1 = { canView: true };
+let permissions2 = { canEdit: true };
+
+// copies all properties from permissions1 and permissions2 into user
+Object.assign(user, permissions1, permissions2);
+
+// now user = { name: "John", canView: true, canEdit: true }
+</pre>
+<p>If the receiving object (user) already has the same named property, it will be overwritten:</p>
+<pre>
+let user = { name: "John" };
+
+// overwrite name, add isAdmin
+Object.assign(user, { name: "Pete", isAdmin: true });
+
+// now user = { name: "Pete", isAdmin: true }
+</pre>
+<p>We also can use <code>Object.assign</code> to replace the loop for simple cloning:</p>
+<pre>
+let user = {
+  name: "John",
+  age: 30
+};
+
+let clone = Object.assign({}, user);
+</pre>
+<p>It copies all properties of user into the empty object and returns it. Actually, the same as the loop, but shorter.</p>
+
+
+
+
+
+
+
+
+
+
+
+<h1>Deep Cloning</h1>
+<p>Until now we assumed that all properties of user are primitive. But properties can be references to other objects. What to do with them? For example -</p>
+<pre>
+let user = {
+  name: "John",
+  sizes: {
+    height: 182,
+    width: 50
+  }
+};
+
+alert( user.sizes.height ); // 182
+</pre>
+<p>Now if you use loop or Object.assign to clone the object, in the new object, the properties <code>sizes</code> will be copied by reference, as it is an object. So the <code>sizes</code> properties of source object and destination object will share the same reference. If you change in the source, it will be affected in destination object.</p>
+<pre>
+let targetObject = Object.assign({}, user);
+user.sizes.width = 100;
+alert(targetObject.sizes.width); // 100
+</pre>
+<p>So <code>Object.assign</code> actually clone upto the topmost level. It cannot copy in the deep level.</p>
+<p>To fix that, we should use the cloning loop that examines each value of <code>user[key]</code> and, if it’s an object, then replicate its structure as well. That is called a <code>Deep Cloning</code>.</p>
+<p>There’s a standard algorithm for deep cloning that handles the case above and more complex cases, called the Structured cloning algorithm. In order not to reinvent the wheel, we can use a working implementation of it from the JavaScript library lodash, the method is called <code>_.cloneDeep(obj)</code>.</p>
+
+
+
+
+
+
+
+<h1>Methods in an Object</h1>
+<p>An object can also contain methods -</p>
+<pre>
+let user = {
+  name: "John",
+  age: 30
+};
+
+user.sayHi = function() {
+  alert("Hello!");
+};
+
+user.sayHi(); // Hello!
+</pre>
+<p>Of course, we could use a pre-declared function as a method, like this:</p>
+<pre>
+let user = {
+  // ...
+};
+
+// first, declare
+function sayHi() {
+  alert("Hello!");
+};
+
+// then add as a method
+user.sayHi = sayHi;
+
+user.sayHi(); // Hello!
+</pre>
+<h3>Method shorthand</h3>
+<pre>
+// these objects do the same
+
+let user = {
+  sayHi: function() {
+    alert("Hello");
+  }
+};
+
+// method shorthand looks better, right?
+let user = {
+  sayHi() { // same as "sayHi: function()"
+    alert("Hello");
+  }
+};
+</pre>
+<p>As demonstrated, we can omit "function" and just write sayHi().</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h1>this</h1>
+<p>It’s common that an object method needs to access the information stored in the object to do its job. For instance, the code inside <code>user.sayHi()</code> may need the name of the <code>user</code>.</p>
+<p>To access the object, a method can use the <code>this</code> keyword.</p>
+<pre>
+let user = {
+  name: "John",
+  age: 30,
+
+  sayHi() {
+    alert(this.name);
+  }
+
+};
+
+user.sayHi(); // John
+</pre>
+<p>In the above example, the keyword <code>this</code> refers to the same object by which it is called. As we are using <code>user.sayHi()</code>, in this case <code>this</code> refers to the object <code>user</code>.</p>
+<p>Technically, it’s also possible to access the object without <code>this</code>, by referencing it via the outer variable:</p>
+<pre>
+let user = {
+  name: "John",
+  age: 30,
+
+  sayHi() {
+    alert(user.name); // "user" instead of "this"
+  }
+
+};
+</pre>
+<p>But this way of accessing object from inside the method is not recommended. In few cases, it will result unpredictable behaviour. So always use <code>this</code>.</p>
+
+
+
+
+
+
+
+
+<h1>Internals: Reference Type</h1>
+<p>An intricate method call can lose <code>this</code>, for instance:</p>
+<pre>
+let user = {
+  name: "John",
+  hi() { alert(this.name); },
+  bye() { alert("Bye"); }
+};
+
+user.hi(); // John (the simple call works)
+
+// now let's call user.hi or user.bye depending on the name
+(user.name == "John" ? user.hi : user.bye)(); // Error!
+</pre>
+<p>You can see that the last call results in an error, because the value of "this" inside the call becomes <code>undefined</code>.</p>
+<p> If we want to understand why it happens, let’s get under the hood of how <code>obj.method()</code> call works.</p>
+<p>Looking closely, we may notice two operations in <code>obj.method()</code> statement:</p>
+<ol type="1">
+  <li>First, the dot '.' retrieves the property <code>obj.method</code>.</li>
+  <li>Then parentheses <code>()</code> execute it.</li>
+</ol>
+<p>So, how does the information about <code>this</code> get passed from the first part to the second one? If we put these operations on separate lines, then <code>this</code> will be lost for sure:</p>
+<pre>
+let user = {
+  name: "John",
+  hi() { alert(this.name); }
+}
+
+// split getting and calling the method in two lines
+let hi = user.hi;
+hi(); // Error, because this is undefined
+</pre>
+<p>Here <code>hi = user.hi</code> puts the function into the variable, and then on the last line it is completely standalone, and so there’s no <code>this</code>.</p>
+<p style="font-weight: 500; font-style: italic;">To make <code>user.hi()</code> calls work, JavaScript uses a trick – the dot '.' returns not a function, but a value of the special Reference Type.</p>
+<p>The Reference Type is a “specification type”. We can’t explicitly use it, but it is used internally by the language. The value of Reference Type is a three-value combination (base, name, strict), where:</p>
+<ul>
+  <li><code>base</code> is the object.</li>
+  <li><code>name</code> is the property.</li>
+  <li><code>strict</code> is true if use strict is in effect.</li>
+</ul>
+<p>The result of a property access <code>user.hi</code> is not a function, but a value of Reference Type. For <code>user.hi</code> in strict mode it is:</p>
+<pre>
+// Reference Type value
+(user, "hi", true)
+</pre>
+<p>When parentheses <code>()</code> are called on the Reference Type, they receive the full information about the object and its method, and can set the right <code>this</code> (=user in this case).</p>
+<p>Any other operation like assignment <code>hi = user.hi</code> discards the reference type as a whole, takes the value of <code>user.hi</code> (a function) and passes it on. So any further operation “loses” this.</p>
+<p>So, as the result, the value of this is only passed right way if the function is called directly using a dot <code>obj.method()</code> or square brackets <code>obj['method']()</code> syntax (they do the same here). Later in this tutorial, we will learn various ways to solve this problem such as <code>func.bind()</code>.</p>
+
+
+
+
+
+
+
+
+<h1>Arrow functions have no “this”</h1>
+<p>Arrow functions are special: they don’t have their “own” this. If we reference this from such a function, it’s taken from the outer “normal” function. For instance, here <code>arrow()</code> uses <code>this</code> from the outer <code>user.sayHi()</code> method:</p>
+<pre>
+// The following example works
+// as "this" inside the arrow is taken from outer function sayHi()
+let user = {
+  firstName: "Ilya",
+  sayHi() {
+    let arrow = () => alert(this.firstName);
+    arrow();
+  }
+};
+
+user.sayHi(); // Ilya
+</pre>
+<p>That’s a special feature of arrow functions, it’s useful when we actually do not want to have a separate this, but rather to take it from the outer context.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h1>Object to primitive conversion</h1>
+<p>When an object is used in the context where a primitive is required, for instance, in an alert or mathematical operations, it’s converted to a primitive value using the <code>ToPrimitive</code> algorithm. That algorithm allows us to customize the conversion using a special object method. Depending on the context, the conversion has a so-called “hint”. There are three hints -</p>
+<h3>string</h3>
+<p>When an operation expects a string, for object-to-string conversions, like alert:</p>
+<pre>
+// output
+alert(obj);
+
+// using object as a property key
+anotherObj[obj] = 123;
+</pre>
+<h3>number</h3>
+<p>When an operation expects a number, for object-to-number conversions, like maths:</p>
+<pre>
+// explicit conversion
+let num = Number(obj);
+
+// maths (except binary plus)
+let n = +obj; // unary plus
+let delta = date1 - date2;
+
+// less/greater comparison
+let greater = user1 > user2;
+</pre>
+<h3>default</h3>
+<p>Occurs in rare cases when the operator is “not sure” what type to expect.</p>
+<p>For instance, binary plus <code>+</code> can work both with strings (concatenates them) and numbers (adds them), so both strings and numbers would do. Or when an object is compared using <code>==</code> with a string, number or a symbol.</p>
+<pre>
+// binary plus
+let total = car1 + car2;
+
+// obj == string/number/symbol
+if (user == 1) { ... };
+</pre>
+<p>The greater/less operator <code>&lt;></code> can work with both strings and numbers too. Still, it uses “number” hint, not “default”. That’s for historical reasons.</p>
+<p>In practice, all built-in objects except for one case (Date object, we’ll learn it later) implement "default" conversion the same way as "number". And probably we should do the same.</p>
+<p>Please note – there are only three hints. It’s that simple. There is no “boolean” hint (all objects are <code>true</code> in boolean context) or anything else. And if we treat "default" and "number" the same, like most built-ins do, then there are only two conversions.</p>
+<h3>To do the conversion, JavaScript tries to find and call three object methods:</h3>
+<ol type="1">
+  <li>Call <code>obj[Symbol.toPrimitive](hint)</code> if the method exists,</li>
+  <li>Otherwise if hint is "string", try <code>obj.toString()</code> and <code>obj.valueOf()</code>, whatever exists.</li>
+  <li>Otherwise if hint is "number" or "default", try <code>obj.valueOf()</code> and <code>obj.toString()</code>, whatever exists.</li>
+</ol>
+
+
+
+
+
+
+
+
+
+
+<h1>Symbol.toPrimitive</h1>
+<p>Let’s start from the first method. There’s a built-in symbol named <code>Symbol.toPrimitive</code> that should be used to name the conversion method, like this:</p>
+<pre>
+obj[Symbol.toPrimitive] = function(hint) {
+  // return a primitive value
+  // hint = one of "string", "number", "default"
+}
+</pre>
+<p>For instance, here user object implements it:</p>
+<pre>
+let user = {
+  name: "John",
+  money: 1000,
+
+  [Symbol.toPrimitive](hint) {
+    alert(`hint: ${hint}`);
+    return hint == "string" ? `{name: "${this.name}"}` : this.money;
+  }
+};
+
+// conversions demo:
+alert(user); // hint: string -> {name: "John"}
+alert(+user); // hint: number -> 1000
+alert(user + 500); // hint: default -> 1500
+</pre>
+<p>As we can see from the code, user becomes a self-descriptive string or a money amount depending on the conversion. The single method <code>user[Symbol.toPrimitive]</code> handles all conversion cases.</p>
+
+
+
+
+
+
+
+
+
+<h1>toString/valueOf</h1>
+<p>Methods <code>toString</code> and <code>valueOf</code> come from ancient times. They are not symbols (symbols did not exist that long ago), but rather “regular” string-named methods. They provide an alternative “old-style” way to implement the conversion.</p>
+<p>If there’s no <code>Symbol.toPrimitive</code> then JavaScript tries to find them and try in the order:</p>
+<ul>
+  <li><code>toString -> valueOf</code> for “string” hint.</li>
+  <li><code>valueOf -> toString</code> otherwise.</li>
+</ul>
+<p>For instance, here user does the same as above using a combination of toString and valueOf:</p>
+<pre>
+let user = {
+  name: "John",
+  money: 1000,
+
+  // for hint="string"
+  toString() {
+    return `{name: "${this.name}"}`;
+  },
+
+  // for hint="number" or "default"
+  valueOf() {
+    return this.money;
+  }
+
+};
+
+alert(user); // toString -> {name: "John"}
+alert(+user); // valueOf -> 1000
+alert(user + 500); // valueOf -> 1500
+</pre>
+<p>In the absence of Symbol.toPrimitive and valueOf, toString will handle all primitive conversions.</p>
+<pre>
+let user = {
+  name: "John",
+
+  toString() {
+    return this.name;
+  }
+};
+
+alert(user); // toString -> John
+alert(user + 500); // toString -> John500
+</pre>
+<p>In the above example, we didn't implement <code>valueOf</code> method to convert Object to Number type. In these scinario, <code>toString()</code> is called.</p>
+
+
+
+
+
+
+
+
+
+<h1>Constructor Function : new</h1>
+<p>The regular <code>{...}</code> syntax allows to create one object. But often we need to create many similar objects, like multiple users or menu items and so on. That can be done using constructor functions and the <code>"new"</code> operator.</p>
+<p>Constructor functions technically are regular functions. There are two conventions though:</p>
+<ul>
+  <li>They are named with capital letter first.</li>
+  <li>They should be executed only with <code>"new"</code> operator.</li>
+</ul>
+<pre>
+function User(name) {
+  this.name = name;
+  this.isAdmin = false;
+}
+
+let user = new User("Jack");
+
+alert(user.name); // Jack
+alert(user.isAdmin); // false
+</pre>
+<p>When a function is executed as <code>new User(...)</code>, it does the following steps:</p>
+<ul>
+  <li>A new empty object is created and assigned to <code>this</code>.</li>
+  <li>The function body executes. Usually it modifies <code>this</code>, adds new properties to it.</li>
+  <li>The value of <code>this</code> is returned.</li>
+</ul>
+<p>In other words, <code>new User(...)</code> does something like:</p>
+<pre>
+function User(name) {
+  // this = {};  (implicitly)
+
+  // add properties to this
+  this.name = name;
+  this.isAdmin = false;
+
+  // return this;  (implicitly)
+}
+</pre>
+<p>So the result of <code>new User("Jack")</code> is the same object as:</p>
+<pre>
+let user = {
+  name: "Jack",
+  isAdmin: false
+};
+</pre>
+<p>Now if we want to create other users, we can call <code>new User("Ann")</code>, <code>new User("Alice")</code> and so on. Much shorter than using literals every time, and also easy to read.</p>
+<p>That’s the main purpose of constructors – to implement reusable object creation code.</p>
+<h3>Make the constructor not reusable in future</h3>
+<p>If we have many lines of code all about creation of a single complex object, we can wrap them in constructor function, like this:</p>
+<pre>
+let user = new function() {
+  this.name = "John";
+  this.isAdmin = false;
+
+  // ...other code for user creation
+  // maybe complex logic and statements
+  // local variables etc
+};
+</pre>
+<p>The constructor can’t be called again, because it is not saved anywhere, just created and called. So this trick aims to encapsulate the code that constructs the single object, without future reuse.</p>
+<h3>Omitting parentheses</h3>
+<p>By the way, we can omit parentheses after new, if it has no arguments:</p>
+<pre>
+let user = new User; // <-- no parentheses
+// same as
+let user = new User();
+</pre>
+<h3>We can also add methods to Function Constructor</h3>
+<p>Of course, we can add to <code>this</code> not only properties, but methods as well. For instance, <code>new User(name)</code> below creates an object with the given name and the method <code>sayHi</code>:</p>
+<pre>
+function User(name) {
+  this.name = name;
+
+  this.sayHi = function() {
+    alert( "My name is: " + this.name );
+  };
+}
+
+let john = new User("John");
+
+john.sayHi(); // My name is: John
+
+/*
+john = {
+   name: "John",
+   sayHi: function() { ... }
+}
+*/
+</pre>
+
+
+
+
+
+
+
+
+<h1>new.target</h1>
+<p>Inside a function, we can check whether it was called with <code>new</code> or without it, using a special <code>new.target</code> property.</p>
+<p>It is empty for regular calls and equals the function if called with <code>new</code>:</p>
+<pre>
+function User() {
+  alert(new.target);
+}
+
+// without "new":
+User(); // undefined
+
+// with "new":
+new User(); // function User { ... }
+</pre>
+<p>That can be used to allow both <code>new</code> and regular calls to work the same. That is, create the same object:</p>
+<pre>
+function User(name) {
+  if (!new.target) { // if you run me without new
+    return new User(name); // ...I will add new for you
+  }
+
+  this.name = name;
+}
+
+let john = User("John"); // redirects call to new User
+alert(john.name); // John
+</pre>
+<p>This approach is sometimes used in libraries to make the syntax more flexible. So that people may call the function with or without <code>new</code>, and it still works.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+<h1>Global Object : Window</h1>
+<p>When JavaScript was created, there was an idea of a “global object” that provides all global variables and functions. It was planned that multiple in-browser scripts would use that single global object and share variables through it. Since then, JavaScript greatly evolved, and that idea of linking code through global variables became much less appealing. In modern JavaScript, the concept of modules took its place. But the global object still remains in the specification.</p>
+<p>In a browser it is named “window”, for Node.JS it is “global”, for other environments it may have another name.</p>
+<p>It does two things:</p>
+<ul>
+  <li>Provides access to built-in functions and values, defined by the specification and the environment. For instance, we can call <code>alert</code> directly or as a method of <code>window</code>:
+  <pre>
+  alert("Hello");
+
+  // the same as
+  window.alert("Hello");
+  </pre>
+  <p>The same applies to other built-ins. E.g. we can use <code>window.Array</code> instead of <code>Array</code>.</p>
+  </li>
+  <li>Provides access to global Function Declarations and <code>var</code> variables. We can read and write them using its properties, for instance:
+  <pre>
+  var phrase = "Hello";
+
+  function sayHi() {
+    alert(phrase);
+  }
+
+  // can read from window
+  alert( window.phrase ); // Hello (global var)
+  alert( window.sayHi ); // function (global function declaration)
+
+  // can write to window (creates a new global variable)
+  window.test = 5;
+
+  alert(test); // 5
+  </pre>
+  </li>
+</ul>
+<p>…But the global object does not have variables declared with <code>let</code>/<code>const</code>!</p>
+<pre>
+let user = "John";
+alert(user); // John
+
+alert(window.user); // undefined, don't have let
+alert("user" in window); // false
+</pre>
+
+
+
+
+
+
+<h1>Use of Window</h1>
+<p>The usage of window is not very often though but still there are some situation where you can use Window object -</p>
+<h3>Accessing Global Variable</h3>
+<p>To access exactly the global variable if the function has the local one with the same name.</p>
+<pre>
+var user = "Global";
+
+function sayHi() {
+  var user = "Local";
+
+  alert(window.user); // Global
+}
+
+sayHi();
+</pre>
+<p>If you used <code>user</code> instead of <code>window.user</code>, then you would have gotten "Local", local value. Using <code>Window</code>, you now have access to the Global object. The trick doesn’t work with <code>let</code> variables.</p>
+<h3>Check for Existance</h3>
+<p>To check if a certain global variable or a builtin exists. For instance, we want to check whether a global function <code>XMLHttpRequest</code> exists. We can’t write if <code>(XMLHttpRequest)</code>, because if there’s no <code>XMLHttpRequest</code>, there will be an error (variable not defined). But we can read it from <code>window.XMLHttpRequest</code>:</p>
+<pre>
+if (window.XMLHttpRequest) {
+  alert('XMLHttpRequest exists!')
+}
+</pre>
+<p>If there is no such global function then <code>window.XMLHttpRequest</code> is just a non-existing object property. That’s <code>undefined</code>, no error, so it works.</p>
+
+
+
+
+
+<h1>“this” and global object</h1>
+<p>Sometimes, the value of <code>this</code> is exactly the global object. That’s rarely used, but some scripts rely on that.</p>
+<p>In the browser, the value of <code>this</code> in the global area is <code>window</code>:</p>
+<pre>
+// outside of functions
+alert( this === window ); // true
+</pre>
+<p>When a function with <code>this</code> is called in non-strict mode, it gets the global object as this:</p>
+<pre>
+// not in strict mode (!)
+function f() {
+  alert(this); // [object Window]
+}
+
+f(); // called without an object
+</pre>
+<p style="font-style: italic; font-weight: 500;">By specification, this in this case must be the global object, even in non-browser environments like <code>Node.JS</code>. That’s for compatibility with old scripts, in strict mode this would be <code>undefined</code>.</p>
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

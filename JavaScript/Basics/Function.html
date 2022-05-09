@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Function</title>
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
+	<script type="text/javascript" src="../../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+<h1>Function Declaration</h1>
+<p>To create a function we can use a function declaration.</p>
+<pre>
+function showMessage() {
+  alert( 'Hello everyone!' );
+}
+</pre>
+<p>The function keyword goes first, then goes the name of the function, then a list of parameters between the parentheses (empty in the example above) and finally the code of the function, also named “the function body”, between curly braces.</p>
+<p>Our new function can be called by its name: <code>showMessage()</code>.</p>
+<pre>
+function showMessage() {
+  alert( 'Hello everyone!' );
+}
+showMessage();
+showMessage();
+</pre>
+<p>The call <code>showMessage()</code> executes the code of the function. Here we will see the message two times.</p>
+
+
+<h3>Local Variables</h3>
+<p>A variable declared inside a function is only visible inside that function.</p>
+<pre>
+function showMessage() {
+  let message = "Hello, I'm JavaScript!"; // local variable
+
+  alert( message );
+}
+
+showMessage(); // Hello, I'm JavaScript!
+
+alert( message ); // &lt;-- Error! The variable is local to the function
+</pre>
+
+
+<h3>Outer Variables || Global Variable</h3>
+<p>A function can access an outer variable as well, for example:</p>
+<pre>
+let userName = 'John';
+
+function showMessage() {
+  let message = 'Hello, ' + userName;
+  alert(message);
+}
+
+showMessage(); // Hello, John
+</pre>
+<p>The function has full access to the outer variable. It can modify it as well.</p>
+<pre>
+let userName = 'John';
+
+function showMessage() {
+  userName = "Bob"; // (1) changed the outer variable
+
+  let message = 'Hello, ' + userName;
+  alert(message);
+}
+
+alert( userName ); // John before the function call
+
+showMessage();
+
+alert( userName ); // Bob, the value was modified by the function
+</pre>
+<p>If a same-named variable is declared inside the function then it shadows the outer one. For instance, in the code below the function uses the local <code>userName</code>. The outer one is ignored:</p>
+<pre>
+let userName = 'John';
+
+function showMessage() {
+  let userName = "Bob"; // declare a local variable
+
+  let message = 'Hello, ' + userName; // Bob
+  alert(message);
+}
+
+// the function will create and use its own userName
+showMessage();
+
+alert( userName ); // John, unchanged, the function did not access the outer variable
+</pre>
+<p>Variables declared outside of any function, such as the outer <code>userName</code> in the code above, are called <var>global</var>.</p>
+<p>Global variables are visible from any function (unless shadowed by locals).</p>
+
+
+
+<h3>Parameters</h3>
+<p>We can pass arbitrary data to functions using parameters (also called function arguments). In the example below, the function has two parameters: <code>from</code> and <code>text</code>.</p>
+<pre>
+function showMessage(from, text) { // arguments: from, text
+  alert(from + ': ' + text);
+}
+
+showMessage('Ann', 'Hello!'); // Ann: Hello! (*)
+showMessage('Ann', "What's up?"); // Ann: What's up? (**)
+</pre>
+<p>When the function is called in lines (*) and (**), the given values are copied to local variables from and text. Then the function uses them.</p>
+<p>Here’s one more example: we have a variable from and pass it to the function. Please note: the function changes from, but the change is not seen outside, because a function always gets a copy of the value:</p>
+<pre>
+function showMessage(from, text) {
+
+  from = '*' + from + '*'; // make "from" look nicer
+
+  alert( from + ': ' + text );
+}
+
+let from = "Ann";
+
+showMessage(from, "Hello"); // *Ann*: Hello
+
+// the value of "from" is the same, the function modified a local copy
+alert( from ); // Ann
+</pre>
+
+
+<h3>Default Values</h3>
+<p>If a parameter is not provided, then its value becomes undefined.</p>
+<p>For instance, the aforementioned function <code>showMessage(from, text)</code> can be called with a single argument:</p>
+<pre>
+showMessage("Ann");
+</pre>
+<p>That’s not an error. Such a call would output <code>"Ann: undefined"</code>. There’s no text, so it’s assumed that <code>text === undefined</code>.</p>
+<p>If we want to use a “default” text in this case, then we can specify it after <code>=</code>:</p>
+<pre>
+function showMessage(from, text = "no text given") {
+  alert( from + ": " + text );
+}
+
+showMessage("Ann"); // Ann: no text given
+</pre>
+<p>Now if the <code>text</code> parameter is not passed, it will get the value <code>"no text given"</code></p>
+<p>Here <code>"no text given"</code> is a string, but it can be a more complex expression, which is only evaluated and assigned if the parameter is missing. So, this is also possible:</p>
+<pre>
+function showMessage(from, text = anotherFunction()) {
+  // anotherFunction() only executed if no text given
+  // its result becomes the value of text
+}
+</pre>
+
+
+
+
+<h3>Returning Value</h3>
+<p>A function can return a value back into the calling code as the result.</p>
+<pre>
+function sum(a, b) {
+  return a + b;
+}
+
+let result = sum(1, 2);
+alert( result ); // 3
+</pre>
+<p>The directive <code>return</code> can be in any place of the function. When the execution reaches it, the function stops, and the value is returned to the calling code.</p>
+<p>There may be many occurrences of return in a single function. For instance:</p>
+<pre>
+function checkAge(age) {
+  if (age > 18) {
+    return true;
+  } else {
+    return confirm('Got a permission from the parents?');
+  }
+}
+
+let age = prompt('How old are you?', 18);
+
+if ( checkAge(age) ) {
+  alert( 'Access granted' );
+} else {
+  alert( 'Access denied' );
+}
+</pre>
+<p>It is possible to use return without a value. That causes the function to exit immediately.</p>
+<pre>
+function showMovie(age) {
+  if ( !checkAge(age) ) {
+    return;
+  }
+
+  alert( "Showing you the movie" ); // (*)
+  // ...
+}
+</pre>
+<p>In the code above, if <code>checkAge(age)</code> returns <code>false</code>, then <code>showMovie</code> won’t proceed to the <code>alert</code>.</p>
+<p style="font-weight: 500;"><em>A function with an empty return or without it returns <code>undefined</code></em></p>
+<p>If a function does not return a value, it is the same as if it returns <code>undefined</code>:</p>
+<pre>
+function doNothing() { /* empty */ }
+
+alert( doNothing() === undefined ); // true
+</pre>
+<p>An empty <code>return</code> is also the same as return <code>undefined</code>:</p>
+<pre>
+function doNothing() {
+  return;
+}
+
+alert( doNothing() === undefined ); // true
+</pre>
+
+
+
+
+
+
+<h1>Function Expression</h1>
+<p>There is another syntax for creating a function that is called a Function Expression.</p>
+<pre>
+let sayHi = function() {
+  alert( "Hello" );
+};
+</pre>
+<p>Here, the function is created and assigned to the variable explicitly, like any other value. No matter how the function is defined, it’s just a value stored in the variable <code>sayHi</code>.</p>
+<p>The meaning of these code samples is the same: "create a function and put it into the variable sayHi".</p>
+<p>We can even print out that value using alert:</p>
+<pre>
+function sayHi() {
+  alert( "Hello" );
+}
+
+alert( sayHi ); // shows the function code
+</pre>
+<p>Please note that the last line does not run the function, because there are no parentheses after sayHi. There are programming languages where any mention of a function name causes its execution, but JavaScript is not like that. In JavaScript, a function is a value, so we can deal with it as a value. The code above shows its string representation, which is the source code.</p>
+<p>It is a special value of course, in the sense that we can call it like <code>sayHi()</code>.</p>
+<p>But it’s still a value. So we can work with it like with other kinds of values.</p>
+<pre>
+function sayHi() {   // (1) create
+  alert( "Hello" );
+}
+
+let func = sayHi;    // (2) copy
+
+func(); // Hello     // (3) run the copy (it works)!
+sayHi(); // Hello    //     this still works too (why wouldn't it)
+</pre>
+<p>In the above example, we are copying <code>sayHi</code> to <code>func</code>, in this case the reference to the function is gets copied to the <code>func</code>. So, both refers to the same function. So the call <code>func()</code> and <code>sayHi()</code> executes the same function and you will get the same result.</p>
+<h3>Don't miss the semicolon</h3>
+<p>A Function Expression is used inside the statement: <code>let sayHi = ...;</code>, as a value. It’s not a code block. The semicolon <code>;</code> is recommended at the end of statements, no matter what is the value. So the semicolon here is not related to the Function Expression itself in any way, it just terminates the statement.</p>
+
+
+
+
+
+
+
+
+<h1>Callback Function</h1>
+<p>Let’s look at more examples of passing functions as values and using function expressions. In the following example, the function asks the question and, depending on the user’s answer, call yes() or no():</p>
+<pre>
+function ask(question, yes, no) {
+  if (confirm(question)) yes()
+  else no();
+}
+
+function showOk() {
+  alert( "You agreed." );
+}
+
+function showCancel() {
+  alert( "You canceled the execution." );
+}
+
+// usage: functions showOk, showCancel are passed as arguments to ask
+ask("Do you agree?", showOk, showCancel);
+</pre>
+<p>The last two arguments of <code>ask</code> are called callback functions or just callbacks.</p>
+<p>The idea is that we pass a function and expect it to be “called back” later if necessary. In our case, <code>showOk</code> becomes the callback for the “yes” answer, and <code>showCancel</code> for the “no” answer.</p>
+<p>We can use Function Expressions to write the same function much shorter:</p>
+<pre>
+function ask(question, yes, no) {
+  if (confirm(question)) yes()
+  else no();
+}
+
+ask(
+  "Do you agree?",
+  function() { alert("You agreed."); },
+  function() { alert("You canceled the execution."); }
+);
+</pre>
+<p>Here, functions are declared right inside the <code>ask(...)</code> call. They have no name, and so are called <code>anonymous</code>. Such functions are not accessible outside of ask (because they are not assigned to variables), but that’s just what we want here.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h1>Function Declaration Vs Function Expression</h1>
+<p>Here are some difference between these two -</p>
+<h3>Syntax</h3>
+<p><code>Function Declaration</code>: a function, declared as a separate statement, in the main code flow.</p>
+<pre>
+// Function Declaration
+function sum(a, b) {
+  return a + b;
+}
+</pre>
+<p><code>Function Expression</code>: a function, created inside an expression or inside another syntax construct. Here, the function is created at the right side of the “assignment expression” =:</p>
+<pre>
+// Function Expression
+let sum = function(a, b) {
+  return a + b;
+};
+</pre>
+<h3>Creation</h3>
+<p>A Function Declaration is usable in the whole script/code block.</p>
+<p>In other words, when JavaScript prepares to run the script or a code block, it first looks for Function Declarations in it and creates the functions. We can think of it as an “initialization stage”. And after all of the Function Declarations are processed, the execution goes on. As a result, a function declared as a Function Declaration can be called earlier than it is defined. For example, this works:</p>
+<pre>
+sayHi("John"); // Hello, John
+
+function sayHi(name) {
+  alert( `Hello, ${name}` );
+}
+</pre>
+<p>The Function Declaration <code>sayHi</code> is created when JavaScript is preparing to start the script and is visible everywhere in it. If it was a Function Expression, then it wouldn’t work:</p>
+<pre>
+sayHi("John"); // error!
+
+let sayHi = function(name) {
+  alert( `Hello, ${name}` );
+};
+</pre>
+<p>A Function Expression is created when the execution reaches it and is usable from then on.</p>
+<h3>Block Scope</h3>
+<p>When a Function Declaration is made within a code block, it is visible everywhere inside that block. But not outside of it.</p>
+<pre>
+let age = prompt("What is your age?", 18);
+
+// conditionally declare a function
+if (age < 18) {
+
+  function welcome() {
+    alert("Hello!");
+  }
+
+} else {
+
+  function welcome() {
+    alert("Greetings!");
+  }
+
+}
+
+// ...use it later
+welcome(); // Error: welcome is not defined
+</pre>
+<p>What can we do to make welcome visible outside of <code>if</code>?</p>
+<p>The correct approach would be to use a Function Expression and assign welcome to the variable that is declared outside of <code>if</code> and has the proper visibility.</p>
+<p>Now it works as intended:</p>
+<pre>
+let age = prompt("What is your age?", 18);
+
+let welcome;
+
+if (age < 18) {
+
+  welcome = function() {
+    alert("Hello!");
+  };
+
+} else {
+
+  welcome = function() {
+    alert("Greetings!");
+  };
+
+}
+
+welcome(); // ok now
+</pre>
+<p>Or we could simplify it even further using conditional operator :</p>
+<pre>
+let age = prompt("What is your age?", 18);
+
+let welcome = (age < 18) ?
+  function() { alert("Hello!"); } :
+  function() { alert("Greetings!"); };
+
+welcome(); // ok now
+</pre>
+
+
+
+
+
+
+
+
+
+
+<h1>Arrow Function</h1>
+<p>There’s one more very simple and concise syntax for creating functions, that’s often better than Function Expressions. It’s called “arrow functions”, because it looks like this:</p>
+<pre>
+let func = (arg1, arg2, ...argN) => expression
+</pre>
+<p>This creates a function func that has arguments arg1..argN, evaluates the expression on the right side with their use and returns its result. The above syntax is same as -</p>
+<pre>
+let func = function(arg1, arg2, ...argN) {
+  return expression;
+};
+</pre>
+<p>Here is an example -</p>
+<pre>
+let sum = (a, b) => a + b;
+
+/* The arrow function is a shorter form of:
+
+let sum = function(a, b) {
+  return a + b;
+};
+*/
+
+alert( sum(1, 2) ); // 3
+</pre>
+<h3>Parenthesis is not required for one argument</h3>
+<p>If we have only one argument, then parentheses can be omitted, making that even shorter:</p>
+<pre>
+// same as
+// let double = function(n) { return n * 2 }
+let double = n => n * 2;
+
+alert( double(3) ); // 6
+</pre>
+<h3>Empty parenthesis is required for not argument</h3>
+<p>If there are no arguments, parentheses should be empty (but they should be present):</p>
+<pre>
+let sayHi = () => alert("Hello!");
+
+sayHi();
+</pre>
+<p>Arrow functions can be used in the same way as Function Expressions. For instance, here’s the rewritten example with <code>welcome()</code>:</p>
+<pre>
+let age = prompt("What is your age?", 18);
+
+let welcome = (age < 18) ?
+  () => alert('Hello') :
+  () => alert("Greetings!");
+
+welcome(); // ok now
+</pre>
+<p>The above examples of the arrow function has simple one expression and the evaluated value of that expression gets returned. Sometimes we need something a little bit more complex, like multiple expressions or statements. It is also possible, but we should enclose them in curly braces. Then use a normal return within them.</p>
+<pre>
+let sum = (a, b) => {  // the curly brace opens a multiline function
+  let result = a + b;
+  return result; // if we use curly braces, use return to get results
+};
+
+alert( sum(1, 2) ); // 3
+</pre>
+
+
+
+</div>
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Introduction</title>
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
+	<script type="text/javascript" src="../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+<h1>Get Free Zill for Testing</h1>
+<p>Go to this <a href="https://dev-wallet.zilliqa.com/faucet?network=testnet">link</a> to get free zil for testing.</p>
+
+
+
+<h1>Address Format</h1>
+<p>There are two type of address you can use in Zilliqa,  and <code>Base16</code>.</p>
+<ul>
+	<li><code>Bech32</code> : This type of address starts with <code>zil</code>. For example, <code>zil1l3evdmlqla0ca02vj3jjy3npa9n0p7fz730aum</code></li>
+	<li><code>ByStr20</code> : This type of address starts with <code>0x</code>. These are hexadecimal format. For example, <code>0xfc72c6Efe0FF5f8ebD4C9465224661E966F0f922</code>.</li>
+</ul>
+<p>Your ZillPay wallet displays the address in <code>Beach32</code> format by default. To change the format you can go to <code>Settings->Advanced->Address Format</code>, and select <code>Base16</code>.</p>
+
+
+<h1>Zilliqa Web IDE (testnet)</h1>
+<p>To deploy your contract on the Zilliqa testnet, we will use the Scilla web IDE, <a href="https://ide.zilliqa.com/#/">Neo-Savant IDE</a>.</p>
+<p>In this IDE you can write your smart contract and deploy it to the Zilliqa testnet. After deploying the contract, you will see the address where the contract is deployed. You can copy the address and check the status of the contract on the website here <a href="https://devex.zilliqa.com/?network=https://dev-api.zilliqa.com">Devex Zilliqa</a>.</p>
+
+
+https://devex.zilliqa.com/address/0xf4a41b27cdb0b3041eefa532365d91d2ca333f10?network=https://dev-api.zilliqa.com
+
+<script type="text/javascript">
+if(typeof window.zilPay !== 'undefined') {
+	alert("ok");
+}
+console.log(window.zilPay);
+</script>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Toasting</title>
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
+	<script type="text/javascript" src="../Assets/jquery.min.js"></script>
+    <link rel="stylesheet" href="../Assets/prism-dark.css">
+    <script type="text/javascript" src="Assets/iziToast/iziToast.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="Assets/iziToast/iziToast.min.css">
+</head>
+<body class="Body">
+	<div class="Content Card">
+		<h1>iziToast</h1>
+		<p>
+			This is one hell of a toasting framework. It's so tasty and yummy. Include the following files -
+		</p>
+		<pre>
+			&lt;script type="text/javascript" src="Assets/iziToast/iziToast.min.js">&lt;/script>
+    		&lt;link rel="stylesheet" type="text/css" href="Assets/iziToast/iziToast.min.css">
+		</pre>
+		<h2>Basic Toast</h2>
+		<p>
+			iziToast.show({
+			    title: 'Hey',
+			    message: 'What would you like to add?'
+			});
+
+			iziToast.info({
+			    title: 'Hello',
+			    message: 'Welcome!',
+			});
+
+			iziToast.success({
+			    title: 'OK',
+			    message: 'Successfully inserted record!',
+			});
+			iziToast.warning({
+			    title: 'Caution',
+			    message: 'You forgot important data',
+			});
+			iziToast.error({
+			    title: 'Error',
+			    message: 'Illegal operation',
+			});
+		</p>
+		<h2>Options</h2>
+		<p>
+			In addition to <code>title</code> and <code>message</code> it provides a lots of options that you can use -
+		</p>
+		<table class="table">
+			<tr>
+				<td>class</td>
+				<td>The class that will be applied to the toast. It may be used as a reference.</td>
+			</tr>
+			<tr>
+				<td>titleColor</td>
+				<td>Title color.</td>
+			</tr>
+			<tr>
+				<td>titleSize </td>
+				<td>Title font size.</td>
+			</tr>
+			<tr>
+				<td>titleLineHeight </td>
+				<td>CSS lineheight of the title.</td>
+			</tr>
+			<tr>
+				<td>messageColor</td>
+				<td>the color of the message.</td>
+			</tr>
+			<tr>
+				<td>messageSize</td>
+				<td>The font size of the message.</td>
+			</tr>
+			<tr>
+				<td>messageLineHeight</td>
+				<td>Message Line Height</td>
+			</tr>
+			<tr>
+				<td>backgroundColor</td>
+				<td>The background color of the toast.</td>
+			</tr>
+			<tr>
+				<td>theme</td>
+				<td><code>light</code> or <code>dark</code></td>
+			</tr>
+			<tr>
+				<td>color</td>
+				<td>Theme color of the Toast.</td>
+			</tr>
+			<tr>
+				<td>icon</td>
+				<td>For font-awesome, use it like this <code>fa fa-envelop</code>.</td>
+			</tr>
+			<tr>
+				<td>iconText</td>
+				<td>If you are using Material Icon, you can use the icon name. like <code>user</code></td>
+			</tr>
+			<tr>
+				<td>iconColor</td>
+				<td>Icon color.</td>
+			</tr>
+			<tr>
+				<td>image</td>
+				<td>The value is the location of the image.</td>
+			</tr>
+			<tr>
+				<td>maxWidth</td>
+				<td>The maximum width of the toast.</td>
+			</tr>
+			<tr>
+				<td>zindex</td>
+				<td>zindex of the Toast.</td>
+			</tr>
+			<tr>
+				<td>layout</td>
+				<td>1 or 2. 1 is default. If you set it to 2, the toast window will enlarge.</td>
+			</tr>
+			<tr>
+				<td>balloon</td>
+				<td>Default is <code>false</code>. Applies a balloon like toast.</td>
+			</tr>
+			<tr>
+				<td>close</td>
+				<td>Set it to <code>true</code>, if you want the close button.</td>
+			</tr>
+			<tr>
+				<td>closeOnEscape</td>
+				<td>Allows to close toast using the Esc key.</td>
+			</tr>
+			<tr>
+				<td>position</td>
+				<td>Where it will be shown. It can be bottomRight, bottomLeft, topRight, topLeft, topCenter, bottomCenter or center.</td>
+			</tr>
+			<tr>
+				<td>timeout</td>
+				<td>Amount in milliseconds to close the toast or false to disable.</td>
+			</tr>
+			<tr>
+				<td>pauseOnHover</td>
+				<td>Pause the toast timeout while the cursor is on it.</td>
+			</tr>
+			<tr>
+				<td>overlay</td>
+				<td>Enables display the Overlay layer on the page.</td>
+			</tr>
+			<tr>
+				<td>overlayClose</td>
+				<td>Allows to close toast clicking on the Overlay.</td>
+			</tr>
+			<tr>
+				<td>overlayColor</td>
+				<td>Overlay background color.</td>
+			</tr>
+			<tr>
+				<td>transitionIn</td>
+				<td>Default toast open animation. It can be: bounceInLeft, bounceInRight, bounceInUp, bounceInDown, fadeIn, fadeInDown, fadeInUp, fadeInLeft, fadeInRight or flipInX.</td>
+			</tr>
+			<tr>
+				<td>transitionOut</td>
+				<td>Default toast close animation. It can be: fadeOut, fadeOutUp, fadeOutDown, fadeOutLeft, fadeOutRight, flipOutX</td>
+			</tr>
+			<tr>
+				<td>progressBarColor</td>
+				<td>The color of the Progress bar.</td>
+			</tr>
+		</table>
+		<p>
+			If you don't feel these options are not enough, you can get out of here and read the github documentation page for full API. For basic usage it's more than enough. Below is an example -
+		</p>
+		<div style="display: flex; justify-content: center; align-items: center;">
+			<a onclick="showToast()" class="button is-success">Show Toast</a>
+		</div>
+	</div>
+	<script type="text/javascript">
+		function showToast(){
+			iziToast.show({
+				title : 'Hello There',
+				message : "Welcome to the HELL"
+			});
+		}
+		iziToast.show({
+			title : 'Hello There',
+			message : "Welcome to the HELL",
+			theme : 'dark',
+			color : 'red',
+			layout : 2,
+			icon : 'fa fa-user',
+			position : 'topRight',
+			transitionIn : 'flipInX'
+		});
+	</script>
+</body>
+</html>

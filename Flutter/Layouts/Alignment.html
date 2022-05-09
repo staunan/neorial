@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Colors in Flutter</title>
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+	<script type="text/javascript" src="../../Assets/prism.min.js"></script>
+	<script type="text/javascript" src="../../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+<h1>Alignment</h1>
+<p>The Alignment class is used to specify the position of the child within the Container widget. The Alignment constructor takes two argument, the first argument specifies the horizontal position and second argument specifies the vertical position. Consider the following picture :</p>
+<img src="../../Assets/flutter/Selection_002.png">
+<img src="../../Assets/flutter/Selection_003.png">
+<p>The method <code>Alignment(0.0, 0.0)</code> represents the center of the rectangle. The distance from <code>-1.0</code> to <code>1.0</code> is the distance from one side of the rectangle to another side of the rectangle. Therefore <code>2.0</code> units horizontally (or Vertically) is equivalent to the width (or height) of the rectangle.</p>
+<p><code>Alignment(-1.0, -1.0)</code> represents the top left of the rectangle.</p>
+<p><code>Alignment(1.0, 1.0)</code> represents the bottom right of the rectagle.</p>
+<p><code>Alignment(0.0, 3.0)</code> represents a point that is horizontally centered with respect to the rectanlge and vertically below the bottom of the rectangle by the height of the rectagle.</p>
+<p><code>Alignment(0.0, -0.5)</code> represents a point that is horizontally centered and vertically halfway between the top edges and the center.</p>
+<p><code>Alignment(x, y)</code> in a rectangle with height h and width w describes the point:</p>
+<pre>
+(x*(w/2) + w/2, y*(h/2) + h/2)
+</pre>
+<p>in the coordinate system of the rectangle.</p>
+<p>So, if you want your child widget to be positioned centered here is an example for you:</p>
+<pre>
+alignment: Alignment(0.0, 0.0),
+</pre>
+<p>The <code>Alignment</code> class has also following constants you can use instead of the constructor -</p>
+<ul>
+	<li><code>bottomCenter</code> : The center point along the bottom edge. <code>Alignment(-1.0, 1.0)</code></li>
+	<li><code>bottomLeft</code> : The bottom left corner. <code>Alignment(-1.0, 1.0)</code></li>
+	<li><code>bottomRight</code> : The bottom right corner. <code>Alignment(1.0, 1.0)</code></li>
+	<li><code>center</code> : The center point, both horizontally and vertically. <code>Alignment(0.0, 0.0)</code></li>
+	<li><code>centerLeft</code> : The center point along the left edge. <code>Alignment(-1.0, 0.0)</code></li>
+	<li><code>centerRight</code> : The center point along the right edge. <code>Alignment(1.0, 0.0)</code></li>
+	<li><code>topCenter</code> : The center point along the top edge. <code>Alignment(0.0, -1.0)</code></li>
+	<li><code>topLeft</code> : The top left corner. <code>Alignment(-1.0, -1.0)</code></li>
+	<li><code>topRight</code> : The top right corner. <code>Alignment(1.0, -1.0)</code></li>
+</ul>
+
+
+
+<h1>Align Widget</h1>
+<p>This widget helps you to align its child within itself and optionally sizes itself based on the child's size.</p>
+<p>For example, to align a box at the bottom right, you would pass this box a tight constraint that is bigger than the child's natural size, with an alignment of <code>Alignment.bottomRight</code>.</p>
+<p>This widget will be as big as possible if its dimensions are constrained and <code>widthFactor</code> and <code>heightFactor</code> are null. </p>
+<p>If a dimension is unconstrained and the corresponding size factor is null then the widget will match its child's size in that dimension. </p>
+<p>If a size factor is non-null then the corresponding dimension of this widget will be the product of the child's dimension and the size factor. For example if <code>widthFactor</code> is 2.0 then the width of this widget will always be twice its child's width.</p>
+<p>It has following arguments -</p>
+
+<h2>alignment</h2>
+<p>The <code>alignment</code> property describes a point in the child's coordinate system and a different point in the coordinate system of this widget. The <code>Align</code> widget positions the child such that both points are lined up on top of each other.</p>
+
+<h2>heightFactor</h2>
+<p>As given in the doc, “If non-null, sets its height to the child’s height multiplied by this factor”.This way the alignment can be given a consistency across the height. It takes in a double value and it can be used as given below.</p>
+<pre>
+Align(
+	alignment: Alignment.bottomRight,
+	child:FlutterLogo,
+	heightFactor: 0.5
+),
+</pre>
+
+<h2>widthFactor</h2>
+<p>Similar to how the heightFactor works, the widget can also be manipulated. Takes in a double value and can be used as below,</p>
+<pre>
+Align(
+	alignment: Alignment.bottomRight,
+	child:FlutterLogo,
+	widthFactor: 0.5
+)
+</pre>
+
+
+
+
+
+<h1>Center Widget</h1>
+<p>A widget that centers its child within itself.</p>
+<p>This widget is another form of <code>Align</code> widget with alignment is set to <code>Alignment(0.0, 0.0)</code>. Just like <code>Align</code> widget you can also use <code>widthFactor</code> and <code>heightFactor</code> properties.</p>
+<p>This widget will be as big as possible if its dimensions are constrained and <code>widthFactor</code> and <code>heightFactor</code> are null.</p>
+<p>If a dimension is unconstrained and the corresponding size factor is null then the widget will match its child's size in that dimension.</p>
+<p>If a size factor is non-null then the corresponding dimension of this widget will be the product of the child's dimension and the size factor. For example if <code>widthFactor</code> is 2.0 then the width of this widget will always be twice its child's width.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Syntax</title>
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
+	<script type="text/javascript" src="../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+<h1>Position</h1>
+<p>The position property can help you manipulate the location of an element.</p>
+<p>You can use the following values</p>
+<ul>
+	<li>static</li>
+	<li>relative</li>
+	<li>fixed</li>
+	<li>absolute</li>
+	<li>sticky</li>
+</ul>
+
+<h1>static</h1>
+<p>static is the default value. An element with <code>position: static;</code> is not positioned in any special way. A static element is said to be not positioned and an element with its position set to anything else is said to be positioned.</p>
+<p>Every element has a static position by default, so the element will stick to the normal page flow. So if there is a left/right/top/bottom/z-index set then there will be no effect on that element.</p>
+
+<h1>relative</h1>
+<p>relative behaves the same as static unless you add some extra properties. Setting the top, right, bottom, and left properties of a relatively-positioned element will cause it to be adjusted away from its normal position. Other content will not be adjusted to fit into any gap left by the element.</p>
+<pre>
+&lt;div class="box" style="background: #ccc;">
+	&lt;div style="background: yellow; width: 50px; height: 50px;">&lt;/div>
+	&lt;div style="background: pink; width: 50px; height: 50px;">&lt;/div>
+	&lt;div style="background: black; width: 50px; height: 50px;">&lt;/div>
+	&lt;div style="position: relative; top: 15px; left: 100px; background: red; width: 50px; height: 50px;">&lt;/div>
+	&lt;div style="background: blue; width: 50px; height: 50px;">&lt;/div>
+	&lt;div style="background: green; width: 50px; height: 50px;">&lt;/div>
+&lt;/div>
+</pre>
+<div class="box" style="background: #ccc;">
+	<div style="background: yellow; width: 50px; height: 50px;"></div>
+	<div style="background: pink; width: 50px; height: 50px;"></div>
+	<div style="background: black; width: 50px; height: 50px;"></div>
+	<div style="position: relative; top: 0; left: 100px; background: red; width: 50px; height: 50px;"></div>
+	<div style="background: blue; width: 50px; height: 50px;"></div>
+	<div style="background: green; width: 50px; height: 50px;"></div>
+</div>
+<p>In the above example, the red box was supposed to stay on the same column as the others. But as the position relative is applied and <code>left:100px;</code>, it causes the red block to move away 100px to the right from it's original position. So the value "relative" means position relative to it's original position where it was supposed to be.</p>
+<p>You can use following property along with the property "position" to specify the relative position -</p>
+<ul>
+	<li><code>top</code> specifies how much it will move away from the top of it's original position.</li>
+	<li><code>bottom</code> specifies how much it will move away from the bottom of it's original position.</li>
+	<li><code>left</code> specifies how much it will move away from the left of it's original position.</li>
+	<li><code>right</code> specifies how much it will move away from the right of it's original position.</li>
+</ul>
+<p>
+	Remember that, if you move the element away from it's original position using the value "relative", the element's original position is left black. And no other element moves to fill the gap created by <code>position:relative;</code> property. Though this is not true when you are using <code>display:flex;</code> to it's parent element.
+</p>
+
+<h1>absolute</h1>
+<p><code>absolute</code> behaves like fixed except relative to the nearest positioned ancestor instead of relative to the viewport. If an absolutely-positioned element has no positioned ancestors, it uses the document body, and still moves along with page scrolling. Remember, a "positioned" element is one whose position is anything except static.</p>
+<h3>Without nearest positioned ancestor</h3>
+<p>Consider the following example -</p>
+<pre>
+&lt;div class="box">
+	&lt;div style="width: 100px; height: 100px; background: red;">
+		&lt;div style="position: absolute; left: 10px; top: 10px; display: flex; 
+		justify-content: center; align-items: center; padding: 5px; background: #333; color: #fff;">Learn About Position&lt;/div>
+	&lt;/div>
+&lt;/div>
+</pre>
+<div class="box">
+	<div style="width: 100px; height: 100px; background: red;">
+		<div style="position: absolute; left: 10px; top: 10px; display: flex; justify-content: center; align-items: center; padding: 5px; background: #333; color: #fff;">Learn About Position</div>
+	</div>
+</div>
+<p>
+	In the above example, the absolute positioned element is placed at the top of the document. You will see "Learn About Position" if you scroll up the document. This is because this element has no positioned ancestor and that's why this element is taking the main viewport as it's ancestor and positioning the element relative to the main viewport.
+</p>
+
+<h3>With nearest positioned ancestor</h3>
+<p>
+	Now consider the following. The following example is same as above but the parent(ancestor) element has <code>position:relative;</code>
+</p>
+<pre>
+&lt;div class="box">
+	&lt;div style="width: 100px; height: 100px; background: red; position: relative;">
+		&lt;div style="position: absolute; left: 20px; top: 50px; display: flex; 
+		justify-content: center; align-items: center; padding: 5px; background: #333; color: #fff;">Learn About Position&lt;/div>
+	&lt;/div>
+&lt;/div>
+</pre>
+<div class="box">
+	<div style="width: 500px; height: 100px; background: red; position: relative;">
+		<div style="position: absolute; left: 20px; top: 50px; display: flex; justify-content: center; align-items: center; padding: 5px; background: #333; color: #fff;">Learn About Position</div>
+	</div>
+</div>
+<p>Now, the absolute positioned element has nearest positioned ancestor, so the browser is positioning the abosolute element relative to it's nearest positioned ancestor. So it moves 20px left and 50px from the top in it's parent container</p>
+
+<h1>fixed</h1>
+<p>The fixed value is similar to absolute as it can help you position an element anywhere relative to the document, however this value is unaffected by scrolling. See the child element in the demo below and how, once you scroll, it continues to stick to the bottom of the page.</p>
+<pre>
+&lt;div class="box">
+	&lt;div style="width: 500px; height: 100px; background: red; position: relative;">
+		&lt;div style="position: fixed; left: 0; bottom: 0; display: flex; justify-content: center; 
+		align-items: center; padding: 5px; background: #333; color: #fff; width: 100%; ">Learn About Position&lt;/div>
+	&lt;/div>
+&lt;/div>
+</pre>
+<div class="box">
+	<div style="width: 500px; height: 100px; background: red; position: relative;">
+		<div style="position: fixed; left: 0; bottom: 0; display: flex; justify-content: center; align-items: center; padding: 5px; background: #333; color: #fff; width: 100%; ">Learn About Position</div>
+	</div>
+</div>
+<p>
+	So, absolute positioned element moves along with the document while scrolling. But fixed positioned element doesn't move along with the document while scrolling. Another important difference is that, if you notice in the above example, the parent element is positioned by <code>position:relative;</code>, but still the fixed element is being positioning relative to the main viewport (document). So fixed element are always relative to the main viewport (document).
+</p>
+
+<h1>sticky</h1>
+<p>Sticky positioning is a hybrid of relative and fixed positioning. The element is treated as relative positioned until it crosses a specified threshold, at which point it is treated as fixed positioned.</p>
+<p>Note that the nearest ancestor doesn't need to be positioned. you can directly use <code>position:sticky;</code> without caring what it's nearest ancestor's position value. It is kind of fixed element but relative to it's parent container.</p> 
+<pre>
+&lt;div class="box">
+	&lt;div style="height: 200px; overflow-y: scroll;">
+		&lt;div style="width: 100%; height: 50px; display: flex; 
+		justify-content: center; align-items: center; background: red;">Block 1&lt;/div>
+		&lt;div style="width: 100%; height: 50px; display: flex; 
+		justify-content: center; align-items: center; background: red;">Block 2&lt;/div>
+		&lt;div style="width: 100%; height: 50px; display: flex; 
+		justify-content: center; align-items: center; background: red;">Block 3&lt;/div>
+		&lt;div style="width: 100%; height: 50px; display: flex; 
+		justify-content: center; align-items: center; background: red;">Block 1&lt;/div>
+		&lt;div style="width: 100%; height: 50px; display: flex; 
+		justify-content: center; align-items: center; background: red;">Block 2&lt;/div>
+		&lt;div style="width: 100%; height: 50px; display: flex; 
+		justify-content: center; align-items: center; background: red;">Block 3&lt;/div>
+		&lt;div style="width: 100%; height: 50px; display: flex; 
+		justify-content: center; align-items: center; background: yellow; position: sticky; top: 0;">Block 4&lt;/div>
+		&lt;div style="width: 100%; height: 50px; display: flex; 
+		justify-content: center; align-items: center; background: red;">Block 5&lt;/div>
+		&lt;div style="width: 100%; height: 50px; display: flex; 
+		justify-content: center; align-items: center; background: red;">Block 6&lt;/div>
+		&lt;div style="width: 100%; height: 50px; display: flex; 
+		justify-content: center; align-items: center; background: red;">Block 7&lt;/div>
+		&lt;div style="width: 100%; height: 50px; display: flex; 
+		justify-content: center; align-items: center; background: red;">Block 8&lt;/div>
+		&lt;div style="width: 100%; height: 50px; display: flex; 
+		justify-content: center; align-items: center; background: green; position: sticky; top: 50px;">Block 9&lt;/div>
+		&lt;div style="width: 100%; height: 50px; display: flex; 
+		justify-content: center; align-items: center; background: red;">Block 10&lt;/div>
+		&lt;div style="width: 100%; height: 50px; display: flex; 
+		justify-content: center; align-items: center; background: red;">Block 5&lt;/div>
+		&lt;div style="width: 100%; height: 50px; display: flex; 
+		justify-content: center; align-items: center; background: red;">Block 6&lt;/div>
+		&lt;div style="width: 100%; height: 50px; display: flex; 
+		justify-content: center; align-items: center; background: red;">Block 7&lt;/div>
+		&lt;div style="width: 100%; height: 50px; display: flex; 
+		justify-content: center; align-items: center; background: red;">Block 8&lt;/div>
+		&lt;div style="width: 100%; height: 50px; display: flex; 
+		justify-content: center; align-items: center; background: red;">Block 9&lt;/div>
+		&lt;div style="width: 100%; height: 50px; display: flex; 
+		justify-content: center; align-items: center; background: red;">Block 10&lt;/div>
+	&lt;/div>
+&lt;/div>
+</pre>
+<div class="box">
+	<div style="height: 200px; overflow-y: scroll; position: relative;">
+		<div style="width: 100%; height: 50px; display: flex; justify-content: center; align-items: center; background: red;">Block 1</div>
+		<div style="width: 100%; height: 50px; display: flex; justify-content: center; align-items: center; background: red;">Block 2</div>
+		<div style="width: 100%; height: 50px; display: flex; justify-content: center; align-items: center; background: red;">Block 3</div>
+		<div style="width: 100%; height: 50px; display: flex; justify-content: center; align-items: center; background: red;">Block 1</div>
+		<div style="width: 100%; height: 50px; display: flex; justify-content: center; align-items: center; background: red;">Block 2</div>
+		<div style="width: 100%; height: 50px; display: flex; justify-content: center; align-items: center; background: red;">Block 3</div>
+		<div style="width: 100%; height: 50px; display: flex; justify-content: center; align-items: center; background: yellow; position: sticky; top: 0;">Block 4</div>
+		<div style="width: 100%; height: 50px; display: flex; justify-content: center; align-items: center; background: red;">Block 5</div>
+		<div style="width: 100%; height: 50px; display: flex; justify-content: center; align-items: center; background: red;">Block 6</div>
+		<div style="width: 100%; height: 50px; display: flex; justify-content: center; align-items: center; background: red;">Block 7</div>
+		<div style="width: 100%; height: 50px; display: flex; justify-content: center; align-items: center; background: red;">Block 8</div>
+		<div style="width: 100%; height: 50px; display: flex; justify-content: center; align-items: center; background: green; position: sticky; top: 50px;">Block 9</div>
+		<div style="width: 100%; height: 50px; display: flex; justify-content: center; align-items: center; background: red;">Block 10</div>
+		<div style="width: 100%; height: 50px; display: flex; justify-content: center; align-items: center; background: red;">Block 5</div>
+		<div style="width: 100%; height: 50px; display: flex; justify-content: center; align-items: center; background: red;">Block 6</div>
+		<div style="width: 100%; height: 50px; display: flex; justify-content: center; align-items: center; background: red;">Block 7</div>
+		<div style="width: 100%; height: 50px; display: flex; justify-content: center; align-items: center; background: red;">Block 8</div>
+		<div style="width: 100%; height: 50px; display: flex; justify-content: center; align-items: center; background: red;">Block 9</div>
+		<div style="width: 100%; height: 50px; display: flex; justify-content: center; align-items: center; background: red;">Block 10</div>
+	</div>
+</div>
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

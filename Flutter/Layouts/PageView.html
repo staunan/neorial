@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>PageView Widget in Flutter</title>
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+	<script type="text/javascript" src="../../Assets/prism.min.js"></script>
+	<script type="text/javascript" src="../../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+
+
+
+
+<h1>PageView Widget</h1>
+<p>A scrollable list that works page by page. PageView almost similiar to a ListView. In PageView each children is shown at full view of the parent viewport. That means one page per view. You can make part of the next and previous page visible so that user knows that beyond the scroll there are more items. We will learn how to do that.</p>
+<p>Each child of a PageView is forced to be the same size as the viewport.</p>
+<p>Similar to ListView, a PageView has three constructor:</p>
+<ul>
+	<li>ListView()</li>
+	<li>ListView.builder()</li>
+	<li>ListView.custom()</li>
+</ul>
+
+
+
+<h1>PageView()</h1>
+<p>It has a <code>children</code> parameter that takes a fixed length of list of widgets, each widget speicies a page. Here is an example:</p>
+<pre>
+PageView(
+	children: &lt;Widget>[
+		Container(
+			color: Colors.blue,
+			child: Center(child: Text("Page 1")),
+		),
+		Container(
+			color: Colors.pink,
+			child: Center(child: Text("Page 2")),
+		),
+		Container(
+			color: Colors.red,
+			child: Center(child: Text("Page 3")),
+		),
+	]
+)
+</pre>
+<p>The above code will produce output similar to the below demo:</p>
+<img src="../../Assets/flutter/PageView.gif" style="width: 300px; height: 500px;">
+
+
+
+<h1>PageView.builder()</h1>
+<p>Similar to <code>ListView</code>, this constructor has <code>itemCount</code> and <code>itemBuilder</code> property. If <code>itemCount</code> is <code>null</code> or unspecified, then it will create a infinite list of pages.</p>
+<p>The above demo can also be achieve with the <code>builder</code> constructor like the following:</p>
+<pre>
+List&lt;Map&lt;String, dynamic>> items;
+
+@override
+initState(){
+	super.initState();
+
+	items = [
+		{
+			"title": "Page 1",
+			"color": Colors.red,
+		},
+		{
+			"title": "Page 2",
+			"color": Colors.yellow,
+		},
+		{
+			"title": "Page 3",
+			"color": Colors.pink,
+		},
+	];
+}
+
+// in build method --
+
+PageView.builder(
+	itemCount: items.length,
+	itemBuilder: (context, position){
+		var item = items[position];
+		return Container(
+			color: item['color'],
+			child: Center(child: Text(item['title']))
+		);
+	},
+)
+</pre>
+
+
+
+
+<h1>scrollDirection</h1>
+<p>By default the PageView widget creates a horizontal scrolling list of pages. But you can change it to make it vertical list of pages. To change the scrolling direction to vertical use <code>scrollDirection</code> property and set it to <code>Axis.vertical</code>.</p>
+<pre>
+PageView(
+	children: [
+		// Widgets 
+	],
+	scrollDirection: Axis.vertical
+)
+</pre>
+<img src="../../Assets/flutter/PageViewVertical.gif" style="width: 300px; height: 500px;">
+
+
+
+
+
+<h1>pageSnapping</h1>
+<p>If you scroll the page, the next page will slide in and will automatically fit its position in a way that the edge of the page touches with the edge of its parent viewport. That means the page will automatically fixed itself to be viewed fully. You cannot make a page visible by half and show half of the next page side by side within the screen. This behaviour is called <code>pageSnapping</code>. By default it is set to <code>true</code>. If you set it to <code>false</code>, the scrolling behaviour will be like scrolling a normal list like in <code>ListView</code>.</p>
+<p>In other words, Page snapping allows us to keep the page at intermediate values.</p>
+<pre>
+PageView(
+  children: &lt;Widget>[
+    // Add children here
+  ],
+  pageSnapping: false,
+)
+</pre>
+<p>Now you can make a page stay on the screen at any position by scrolling.</p>
+<img src="../../Assets/flutter/PageViewPageSnapping.gif" style="width: 300px; height: 500px;">
+
+
+<h1>scrollPhysics</h1>
+<p>Just like in <code>ListView</code>, the <code>PageView</code> also supports <code>scrollPhysics</code>. Read <code>ListView</code> to know more about scroll physics.</p>
+<pre>
+PageView(
+  children: &lt;Widget>[
+    // Add children here
+  ],
+  physics: BouncingScrollPhysics(),
+)
+</pre>
+
+
+
+<h1>controller</h1>
+<p>The property <code>controller</code> takes a <code>PageController</code> instance. The controller can be used to handle the page view in different ways.</p>
+<pre>
+PageController controller;
+
+@override
+initState(){
+	controller = new PageController();
+}
+
+// in build method --
+
+PageView(
+  children: &lt;Widget>[
+    // Add children here
+  ],
+  controller: controller,
+)
+</pre>
+
+<h3>initialPage</h3>
+<p>The controller takes <code>initialPage</code> parameter which sets the initial page when the widget is added in the widget tree.</p>
+<pre>
+controller = new PageController(initialPage: 2);
+</pre>
+<p>The above statement will initially load the page at index <code>2</code>.</p>
+
+<h3>viewportFraction</h3>
+<p>The controller also takes <code>viewportFraction</code> parameter which specifies how much space each page should occupy. By default <code>viewportFraction</code> is set to <code>1</code>, which means the page will be scaled to fit its viewport. You can set the value that is above <code>0</code> and below <code>1</code>, to indicate the scaling factor of the page. Note that the in the cross axis the page will always be streatched. For example, if the <code>viewportFraction</code> is set to <code>0.5</code>, the page will occupy the half of its parent viewport in its main axis while it will stretch to its cross axis. In the main axis the page will be positioned centered of its parent viewport. The remaining space <code>0.25</code> at the left will be occupied by the previous page and <code>0.25</code> space will be occupied by the next page if there is any. When you scroll the pages, the next or previous page will positioned at the center of the viewport automatically. This way you can always make a small part of the next page or previous page visible while showing the current page fully at center.</p>
+<pre>
+controller = new PageController(initialPage: 2, viewportFraction: 0.8);
+</pre>
+<img src="../../Assets/flutter/viewportFraction.jpg" style="width: 300px; height: 200px;">
+
+<h3>page</h3>
+<p>You can get the current page number from this property. Whenever user scrolls to a new page, this property is updated with the current page number. </p>
+<pre>
+print(controller.page); // Prints the current page index
+</pre>
+
+
+<h3>addListener()</h3>
+<p>You can attach a listener to the controller. This listener is called whenever the user scrolls to a new page. Here is an example:</p>
+<pre>
+PageController controller;
+
+@override
+initState(){
+	super.initState();
+
+	controller = PageController(viewportFraction: 0.6);
+	items = [
+		{
+			"title": "Page 1",
+			"color": Colors.red,
+		},
+		{
+			"title": "Page 2",
+			"color": Colors.yellow,
+		},
+		{
+			"title": "Page 3",
+			"color": Colors.pink,
+		},
+	];
+
+	controller.addListener((){
+		print(controller.page);
+	});
+}
+</pre>
+<p>Now if you scroll to the next page, you will get output like the following:</p>
+<pre>
+flutter: 0.028440475463867188
+flutter: 0.06532516479492187
+flutter: 0.11185150146484375
+flutter: 0.16921666463216145
+flutter: 0.2255589803059896
+flutter: 0.283685302734375
+flutter: 0.346185302734375
+flutter: 0.4003519694010417
+flutter: 0.4545186360677083
+flutter: 0.5003519694010417
+flutter: 0.546185302734375
+flutter: 0.583685302734375
+flutter: 0.608685302734375
+flutter: 0.6253519694010417
+flutter: 0.733446628292908
+flutter: 0.7740466978294858
+flutter: 0.8079674978424838
+flutter: 0.8364510497567924
+flutter: 0.8604669461801261
+flutter: 0.8807854500270506
+flutter: 0.8980277383311057
+flutter: 0.9126936934757397
+flutter: 0.9251922035043588
+flutter: 0.9358621073769486
+flutter: 0.9449823918802925
+flutter: 0.9527860785069995
+flutter: 0.9594698832753183
+flutter: 0.9651982165129958
+flutter: 0.9701102230448738
+flutter: 0.9743247072337948
+flutter: 0.9779418505653489
+flutter: 0.9810470919643137
+flutter: 0.9837138538996896
+flutter: 0.9860043599319253
+flutter: 0.9879719029588973
+flutter: 0.9896624432024221
+flutter: 0.991115036660595
+flutter: 0.9923632106210786
+flutter: 0.9934359343165575
+flutter: 0.9943578608946211
+flutter: 0.9951501794691886
+flutter: 0.9958312169433128
+flutter: 0.9964165816822136
+flutter: 0.9969196975436266
+flutter: 0.9973521812652361
+flutter: 0.9977239303959294
+flutter: 1.0
+</pre>
+<p>As you can see, it prints so many intermediate values from current page index <code>0</code> to the next page index <code>1</code>. When you scroll to page index <code>1</code> to page index <code>2</code>, it will print intermediate values between <code>1</code> and <code>2</code>. These intermediate numbers specifies the position of the next page that specifies how much the next page has scrolled to.</p>
+
+
+
+<h3>dispose()</h3>
+<p>Discards any resources used by the object.</p>
+<pre>
+@override
+dispose(){
+	controller.dispose();
+	super.dispose();
+}
+</pre>
+
+
+<h3>jumpToPage(pageIndex)</h3>
+<p>Changes which page is displayed in the controlled <code>PageView</code>.</p>
+<pre>
+controller.jumpToPage(2);
+</pre>
+<p>When you call this method, it will not smooth scroll to the target page, instead it will instantly show the page. If you attach a <code>addListener</code> you can see, it directly jumps to the target page and doesn't produce any intermediate values.</p>
+<pre>
+flutter: 0.0
+flutter: 2.0
+</pre>
+
+
+
+<h3>animateToPage</h3>
+<pre>
+animateToPage(int page, {Duration duration, Curve curve})
+</pre>
+<p>Unlike <code>jumpToPage</code>, this method will animates to the target page.</p>
+<pre>
+controller.animateToPage(2, duration: Duration(seconds: 1), curve: Curves.easeIn);
+</pre>
+<p>If you attach a <code>addListener</code> and print <code>controller.page</code>, you will see it generates intermediate values from current page index to target page index.</p>
+<p>You should use <code>duration</code> and <code>curve</code> as parameter to define the animation duration and the curve of the animation. These two properties are optional.</p>
+
+
+
+
+<h3>nextPage()</h3>
+<p>It will animate to the next page. You should provide duration and curve value for the animation.</p>
+<pre>
+controller.nextPage(duration: Duration(seconds: 1), curve: Curves.easeIn);
+</pre>
+
+
+<h3>previousPage()</h3>
+<p>It will animates to the previous page. You should provide duration and curve value for the animation.</p>
+controller.previousPage(duration: Duration(seconds: 1), curve: Curves.easeIn);
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

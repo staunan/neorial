@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Custom Animation</title>
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+	<script type="text/javascript" src="../../Assets/prism.min.js"></script>
+	<script type="text/javascript" src="../../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+
+
+<h1>Animation Class</h1>
+<p>In previous article we saw how we can use <code>AnimationController</code> to make animation. But it has some limitation.</p>
+<ul>
+  <li>You cannot use any other data type other than double in lowerBound and uppberBound.</li>
+  <li>You cannot specify a curve for animation progress. That means all your animation is linear.</li>
+  <li>AnimationController alone is not enough to apply more than one animation on a widget. Animation class helps you to define multiple animation on the same widget.</li>
+</ul>
+<p>The class <code>Animation</code> allows us to use data type other than double and also we can specify the animation curve. For example the class Animation allows us to generate intermediate colors between two colors.</p>
+<p>The Animation objects are generated using the Tween class.</p>
+
+<h1>Tween</h1>
+<p>Tweens are one of the most critical concepts in Flutter animations or in other words, to animating anything in Flutter. Tweening stands for inbetweening. To understand what that means, look at the image below:</p>
+<img src="../../Assets/flutter/tween.png" style="width: 500px; height: 200px;">
+<p>We have a box with a blue background initially and we need to animate it to change the color to yellow. Now, an abrupt color change looks terrible to the user. The change has to be smooth. However, it is impossible for us to show all colors that lie between. In such cases, we create a <code>ColorTween</code>, which gives us all the values in between blue and yellow so that we can display them.</p>
+<p>Simply put, a Tween gives us intermediate values between two values like colors, integers, alignments and almost anything you can think of. Just like AnimationController generate values between two double values, Tween is similar to that, but Tween supports other data type like Colors, EdgeInsets, Offset, Size, TextStyle etc. Tween also lets you specify the animation curve.</p>
+<p>The Tween constructor takes two parameter, one is <code>begin</code> another is <code>end</code>:</p>
+<pre>
+Animation&lt;double> animation;
+
+_animation = Tween&lt;double>(begin: 0.0, end: 100.0).animate(_controller);
+</pre>
+<p>In the above example, the statement <code>Tween&lt;double>(begin: 0.0, end: 100.0)</code> creates a Tween object. This object connot be assigned to <code>Animation</code> object directly. To use a Tween object with an animation, call the Tween object's <code>animate</code> method and pass it the <code>Animation</code> object.</p>
+<p>To create a color tween, use <code>ColorTween</code> class. Here is an example:</p>
+<pre>
+Animation&lt;Color> colorAnimation;
+colorAnimation = ColorTween(begin: Colors.blue, end: Colors.yellow).animate(_controller);
+</pre>
+
+<h3>But how Animation and Tween works with the AnimationController?</h3>
+<p>We have created tween and called its <code>animate</code> method and passed the animation controller. The <code>animate()</code> method returns an animation object and gets assigned to the Animation object. This animation object updates its value automatically at each tick when the Ticker sends a signal. The controller also itself update its own value at each ticker signal from lowerBound to upperBound, and as we have passed the controller to the Tween class, the Tween class uses this controller to get the Ticker signal and updates the intermediate value that lies between <code>begin</code> and <code>end</code>. That means you can create multiple <code>Animation</code> object with the same controller and each <code>Animation</code> object will update its value at each ticker signal. That means from each <code>Animation</code> object you will also get its corresponding value.</p>
+<pre>
+_controller.value;
+animation.value;
+colorAnimation.value;
+</pre>
+
+
+<p>Now we can assign that value to the widget and call <code>setState()</code> method to update the widget at each ticker signal.</p>
+
+<h3>Example</h3>
+<p>Lets consider the example from the article AnimationController, we will use <code>Animation</code> and <code>Tween</code> class along with <code>AnimationController</code> to apply multiple animation on the box.</p>
+<pre>
+class _TestState extends State&lt;Test> with SingleTickerProviderStateMixin{
+
+  AnimationController _controller;
+  Animation&lt;double> opacityAnimation;
+  Animation&lt;double> widthAnimation;
+
+  @override
+  initState(){
+    super.initState();
+    _controller = new AnimationController(
+      duration: const Duration(milliseconds: 1000), 
+      vsync: this,
+    );
+    opacityAnimation = Tween&lt;double>(begin: 0.0, end: 1.0).animate(_controller);
+    widthAnimation = Tween&lt;double>(begin: 0.0, end: 100).animate(_controller);
+
+    _controller.addListener((){
+      setState((){});
+    });
+
+    _controller.forward();
+    
+  }
+
+  @override
+  dispose(){
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context){
+    return BeautyBackground(
+      child: Column(
+        children: &lt;Widget>[
+          BackButton(),
+          Expanded(
+            child: Center(
+              child: SizedBox(
+                width: (widthAnimation.value == null) ? 0.0 : widthAnimation.value,
+                height: 100,
+                child: Opacity(
+                  opacity : (opacityAnimation.value == null) ? 0.0 : opacityAnimation.value,
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
+                      color: Colors.pink,
+                    ),
+                    child: SizedBox(
+                      width: double.infinity,
+                      height: double.infinity
+                    ),
+                  )
+                ),
+              ),
+            )
+          ),
+        ]
+      ),
+    );
+  }
+}
+</pre>
+<p>In the above example, we have created two <code>Animation</code> object. At each ticker signal, these two <code>Animation</code> object will update its value and then will call the attached listener. The listener calls <code>setState()</code> which causes the widget to rebuild itself. The Widget gets the width and opacity value from the animation object. The following statement is necessary:</p>
+<pre>
+width: (widthAnimation.value == null) ? 0.0 : widthAnimation.value
+</pre>
+<p>Initially when the build function runs, at very first time the <code>Animation</code> object contains <code>null</code> value, if you assign the animation value directly to the <code>width</code> parameter, it gets <code>null</code> when the build function runs for the first time. And this will throw an exception. So it is always better to check if the value is <code>null</code> or not, if it is <code>null</code>, assign a initial value from which the animation will start.</p>
+
+<h3>Example</h3>
+<p>Here is another example, with the color animation:</p>
+<pre>
+class _TestState extends State&lt;Test> with SingleTickerProviderStateMixin{
+
+  AnimationController _controller;
+  Animation&lt;double> opacityAnimation;
+  Animation&lt;double> widthAnimation;
+  Animation colorAnimation;
+
+  @override
+  initState(){
+    super.initState();
+    _controller = new AnimationController(
+      duration: const Duration(milliseconds: 1000), 
+      vsync: this,
+    );
+    opacityAnimation = Tween&lt;double>(begin: 0.0, end: 1.0).animate(_controller);
+    widthAnimation = Tween&lt;double>(begin: 0.0, end: 100).animate(_controller);
+    colorAnimation = ColorTween(begin: Colors.yellow, end: Colors.red).animate(_controller);
+
+    _controller.addListener((){
+      setState((){});
+    });
+
+    _controller.forward(from: 0.0);
+    
+  }
+
+  @override
+  dispose(){
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context){
+    return BeautyBackground(
+      child: Column(
+        children: &lt;Widget>[
+          BackButton(),
+          Expanded(
+            child: Center(
+              child: SizedBox(
+                width: (widthAnimation.value == null) ? 0.0 : widthAnimation.value,
+                height: 100,
+                child: Opacity(
+                  opacity : (opacityAnimation.value == null) ? 0.0 : opacityAnimation.value,
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
+                      color: (colorAnimation.value == null) ? Colors.red : colorAnimation.value,
+                    ),
+                    child: SizedBox(
+                      width: double.infinity,
+                      height: double.infinity
+                    ),
+                  )
+                ),
+              ),
+            )
+          ),
+        ]
+      ),
+    );
+  }
+}
+</pre>
+
+<h1>CurvedAnimation</h1>
+<p>By default the <code>Animation</code> object will generate the inbetween values in a linear way, just like <code>AnimationController</code> does. You can spcify a predefined curved animation to the <code>Animation</code> object. To do that, pass a CurvedAnimation object to the <code>animate()</code> function of the Tween object. Here is an example:</p>
+<pre>
+Animation&lt;double> angleAnimation = new Tween(begin: 0.0, end: pi/2).animate(
+  new CurvedAnimation(
+    parent: _controller,
+    curve:  Curves.ease,
+    reverseCurve: Curves.easeOut
+  )
+);
+</pre>
+<p>Instead of passing animation controller to the <code>animate</code> function, we are passing <code>CurvedAnimation</code> object. We need to pass the animation controller to the CurvedAnimation constructor using <code>parent</code> property.</p>
+<p>The property <code>curve</code> specifies the Curve style when the animation is in forward mode, that means the animation is happening from <code>begin</code> to <code>end</code>. The <code>reverseCurve</code> property specifies the curve style when animation happens from <code>end</code> to <code>begin</code> that means in reverse mode.</p>
+<p>To know all the available curves go to <a href="https://api.flutter.dev/flutter/animation/Curves-class.html">Curve</a> documentation.</p>
+
+
+
+<h1>Interval</h1>
+<p>An Interval can be used to delay an animation. Interval specifies a timeline of an animation when the animation should start and when the animation should end. The first parameter is <code>begin</code> that specifies when the animation will start and <code>second</code> parameter is <code>end</code> which specifies when the animation will ends.  It takes another optional named parameter <code>curve</code> which specifies the curve of the animation.</p>
+<p>The <code>Interval</code> constructor returns a curve. So you can use this constructor to provide a curve in <code>CurvedAnimation</code>.</p>
+<pre>
+Animation&lt;double> angleAnimation = new Tween(begin: 0.0, end: pi/2).animate(
+  new CurvedAnimation(
+    parent: _controller,
+    curve: Interval(0.2, 0.5, curve: Curves.easeOut),
+  )
+);
+</pre>
+<p>But how you should provide value for <code>begin</code> and <code>end</code> parameter? Think of your animation timeline from <code>0.0</code> to <code>1.0</code>. So your animation starts at <code>0.0</code> means at <code>0%</code>, and ends at <code>1.0</code>, means <code>100%</code>. If you want your animation to happen from <code>20%</code> to <code>70%</code>, you should provide <code>0.2</code> for <code>begin</code> parameter and <code>0.7</code> for <code>end</code> parameter.</p>
+
+<p>When the animation plays in reverse mode, the animation will start from <code>end</code> and ends at <code>begin</code>. If you use <code>Interval</code> for <code>curve</code> parameter, using <code>reverseCurve</code> has no effect.</p>
+
+<p>The following example uses multiple animation that uses Interval:</p>
+<h3>Example</h3>
+<pre>
+class _TestState extends State&lt;Test> with SingleTickerProviderStateMixin{
+
+  AnimationController _controller;
+  Animation&lt;double> opacityAnimation;
+  Animation&lt;double> widthAnimation;
+  Animation colorAnimation;
+
+  @override
+  initState(){
+    super.initState();
+    _controller = new AnimationController(
+      duration: const Duration(milliseconds: 3000), 
+      vsync: this,
+    );
+    opacityAnimation = Tween&lt;double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: Interval(0.0, 1.0, curve: Curves.easeIn)
+      )
+    );
+    widthAnimation = Tween&lt;double>(begin: 0.0, end: 100).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: Interval(0.1, 0.4, curve: Curves.easeOut)
+      )
+    );
+    colorAnimation = ColorTween(begin: Colors.yellow, end: Colors.red).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: Interval(0.4, 1.0, curve: Curves.easeOut)
+      )
+    );
+
+    _controller.addListener((){
+      setState((){});
+    });
+
+    _controller.repeat();
+  
+  }
+
+  @override
+  dispose(){
+  _controller.dispose();
+  super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context){
+    return BeautyBackground(
+      child: Column(
+        children: &lt;Widget>[
+          BackButton(),
+          Expanded(
+            child: Center(
+              child: SizedBox(
+                width: (widthAnimation.value == null) ? 0.0 : widthAnimation.value,
+                height: 100,
+                child: Opacity(
+                  opacity : (opacityAnimation.value == null) ? 0.0 : opacityAnimation.value,
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
+                      color: (colorAnimation.value == null) ? Colors.red : colorAnimation.value,
+                    ),
+                    child: SizedBox(
+                      width: double.infinity,
+                      height: double.infinity
+                    ),
+                  )
+                ),
+              ),
+            )
+          ),
+        ]
+      ),
+    );
+  }
+}
+</pre>
+<p>In the above example, the opacity animation starts at <code>0.0</code> and ends at <code>1.0</code>, means the opacity will be animating during the whole duration of the animation. The width animation starts at <code>0.1</code> and ends at <code>0.4</code>, means after the 10% of the animation, the width will start animating and will be at full width when the animation at <code>40%</code>. After the width animation ends, the color animation begans. It starts at <code>0.4</code> to <code>1.0</code>, which starts after 40% of the animation elapsed and ends when the animation is at <code>100%</code>.</p>
+
+<p>This way using <code>Interval</code> you can overlap animation, or start animation one after another. These type of animation is called <code>Staggered Animation</code>.</p>
+
+
+
+
+
+
+
+
+
+<h1>Animation Properties</h1>
+<h3>value</h3>
+<p>You can use <code>value</code> property to get the animation value. As you can see we have already used <code>value</code> property to get the value from <code>widthAnimation</code>.</p>
+<pre>
+widthAnimation.value;
+opacityAnimation.value;
+</pre>
+
+
+
+<h3>status</h3>
+<p>Just like <code>AnimationController</code>, <code>Animation</code> has the <code>status</code> property which is represented by <code>AnimationStatus</code> enum.</p>
+
+
+
+<h1>Animation Methods</h1>
+<h3>addListener()</h3>
+<p>You can attach a listener to the animation object so that it will be called each time the animation changes its value.</p>
+<pre>
+widthAnimation.addListener((){
+  print("Value changed : " + widthAnimation.value.toString());
+});
+</pre>
+
+
+<h3>addStatusListener()</h3>
+<p>Just like <code>AnimationController</code>, you can attach a listener that will be called each time the animation object changes its animation status. This listener gets the status as the first parameter.</p>
+<pre>
+widthAnimation.addStatusListener((AnimationStatus status){
+  switch(status){
+    case AnimationStatus.forward:
+      print("Animation is running in forward mode !");
+      break;
+    case AnimationStatus.reverse:
+      print("Animation is running in reverse mode !");
+      break;
+    case AnimationStatus.completed:
+      print("Animation has been completed !");
+      break;
+    default:
+      print("Don't know what to say !");
+  }
+});
+</pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>
+

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Class</title>
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+
+<h1>Abstract classes</h1>
+<p>Abstract classes are useful for defining interfaces, often with some implementation.</p>
+<p>Abstruct class in nature cannot be instantiated. Means that you cannot create object directly from it. You must define another class that extends the abstruct class, and then create object from that subclass. Use <code>abstruct</code> keyword to define a abstruct class:</p>
+<pre>
+abstract class class_name {
+  // Body of abstract class
+}
+</pre>
+<p>An abstruct class can contain methods that are either abstruct methods or normal class methods.</p>
+<p>Abstruct methods are those which doesn't have a body. It ends with a semicolon after the function signature. Abstruct methods can only appear within an abstruct class. A normal class cannot have a abstruct method.</p>
+<pre>
+void talk (); // Abstract method
+void walk (); // Abstract method
+</pre>
+<p>Normal classes can extend the abstract class, but they have to override every abstract method. You can also create normal methods in the abstract class. And to override normal method is not mandatory. The abstract class will only complain when you don’t override the abstract method.</p>
+<pre>
+abstract class Person{
+	void walk();  //Abstract Method
+	void talk();  //Abstract Method
+}
+class Jay extends Person{
+	@override
+	void walk() {
+		print("Jay can walk");
+	}
+
+	@override
+	void talk() {
+		print("Jay can talk");
+	}
+}
+main(){
+	Jay jay = new Jay();
+	jay.talk();
+	jay.walk();
+}
+
+Output
+Jay can talk
+Jay can walk
+</pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

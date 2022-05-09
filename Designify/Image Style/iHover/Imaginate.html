@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Imaginate</title>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.3.4/vue.js"></script>
+	<link rel="stylesheet" type="text/css" href="ihover.css">
+</head>
+<body>
+
+<div>
+	<h1>iHover - How To Use</h1>
+	<p>Include iHover.css, jquery, vue.js. Then Copy the following code - </p>
+	<pre>
+	    &lt;div class="ih-item square effect1 left_and_right">
+	    	&lt;a href="#">
+        		&lt;div class="img">
+        			&lt;img src="Picture.jpg" alt="img">
+        		&lt;/div>
+        		&lt;div class="info">
+          			&lt;h3>Heading here&lt;/h3>
+          			&lt;p>Description goes here&lt;/p>
+        		&lt;/div>
+        	&lt;/a>
+        &lt;/div>
+	</pre>
+	<h1>Clases</h1>
+	<p><code>colored</code> Used to change the background color of the hovered layout.</p>
+</div>
+
+<div id="Image" style="margin: auto; width: 95%;">
+
+	    <div class="ih-item square effect1 left_and_right colored">
+	    	<a href="#">
+        		<div class="img">
+        			<img src="Picture.jpg" alt="img">
+        		</div>
+        		<div class="info">
+          			<h3>Heading here</h3>
+          			<p>Description goes here</p>
+        		</div>
+        	</a>
+        </div>
+</div>
+
+
+<script type="text/javascript">
+let pic = new Vue({
+	el:"#Image",
+	data:{},
+})
+</script>
+</body>
+</html>

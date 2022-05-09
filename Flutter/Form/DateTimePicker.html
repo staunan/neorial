@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Date and Time Picker in Flutter</title>
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+	<script type="text/javascript" src="../../Assets/prism.min.js"></script>
+	<script type="text/javascript" src="../../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+
+<h1>showDatePicker</h1>
+<p>Shows a dialog containing a Material Design date picker. The returned <code>Future</code> resolves to the date selected by the user when the user confirms the dialog. If the user cancels the dialog, <code>null</code> is returned.</p>
+
+<p>When the date picker is first displayed, it will show the month of <code>initialDate</code>, with <code>initialDate</code> selected.</p>
+
+<p>The <code>firstDate</code> is the earliest allowable date. The <code>lastDate</code> is the latest allowable date. <code>initialDate</code> must either fall between these dates, or be equal to one of them. For each of these <code>DateTime</code> parameters, only their dates are considered. Their time fields are ignored. They must all be non-null.</p>
+
+<p>An optional <code>selectableDayPredicate</code> function can be passed in to only allow certain days for selection. If provided, only the days that <code>selectableDayPredicate</code> returns <code>true</code> for will be selectable. For example, this can be used to only allow weekdays for selection. If provided, it must return <code>true</code> for <code>initialDate</code>.</p>
+
+<p>Optional strings for the <code>cancelText</code>, <code>confirmText</code>, <code>errorFormatText</code>, <code>errorInvalidText</code>, <code>fieldHintText</code>, <code>fieldLabelText</code>, and <code>helpText</code> allow you to override the default text used for various parts of the dialog:</p>
+
+<ul>
+  <li><code>cancelText</code>, label on the cancel button.</li>
+  <li><code>confirmText</code>, label on the ok button.</li>
+  <li><code>errorFormatText</code>, message used when the input text isn't in a proper date format.</li>
+  <li><code>errorInvalidText</code>, message used when the input text isn't a selectable date.</li>
+  <li><code>fieldHintText</code>, text used to prompt the user when no text has been entered in the field.</li>
+  <li><code>fieldLabelText</code>, label for the date text input field.</li>
+  <li><code>helpText</code>, label on the top of the dialog.</li>
+</ul>
+
+<h2>Example</h2>
+<pre>
+import 'dart:async';
+
+import 'package:flutter/material.dart';
+
+void main() => runApp(MyApp());
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Flutter Demo',
+      home: MyHomePage(title: 'Flutter Demo Home Page'),
+    );
+  }
+}
+
+class MyHomePage extends StatefulWidget {
+  MyHomePage({Key key, this.title}) : super(key: key);
+
+  final String title;
+
+  @override
+  _MyHomePageState createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State&lt;MyHomePage> {
+  DateTime selectedDate = DateTime.now();
+
+  Future&lt;Null> _selectDate(BuildContext context) async {
+    final DateTime picked = await showDatePicker(
+        context: context,
+        initialDate: selectedDate,
+        firstDate: DateTime(2015, 8),
+        lastDate: DateTime(2101)
+    );
+    if (picked != null && picked != selectedDate)
+      setState(() {
+        selectedDate = picked;
+      });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.title),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: &lt;Widget>[
+            Text("${selectedDate.toLocal()}".split(' ')[0]),
+            SizedBox(height: 20.0,),
+            RaisedButton(
+              onPressed: () => _selectDate(context),
+              child: Text('Select date'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+</pre>
+
+
+
+
+
+
+
+<h1>showTimePicker</h1>
+<p>Shows a dialog containing a material design time picker.</p>
+<p>The returned <code>Future</code> resolves to the time selected by the user when the user closes the dialog. If the user cancels the dialog, <code>null</code> is returned.</p>
+<p>The <code>initialTime</code> parameter can be used to provide a initial time that will be selected when the time picker is opened.</p>
+<p>The <code>builder</code> parameter can be used to wrap the dialog widget to add inherited widgets like <code>Localizations.override</code>, <code>Directionality</code>, or <code>MediaQuery</code>.</p>
+<pre>
+Future&lt;TimeOfDay> selectedTime = showTimePicker(
+  initialTime: TimeOfDay.now(),
+  context: context,
+);
+</pre>
+<h2>Example</h2>
+<pre>
+Future&lt;Null> _selectTime(BuildContext context) async {
+    TimeOfDay selectedTime =TimeOfDay.now();
+
+    final TimeOfDay picked_s = await showTimePicker(
+        context: context,
+        initialTime: selectedTime, 
+        builder: (BuildContext context, Widget child) {
+          return MediaQuery(
+            data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: false),
+            child: child,
+          );
+        },
+    );
+
+    if (picked_s != null && picked_s != selectedTime )
+      setState(() {
+        selectedTime = picked_s;
+      });
+}
+</pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

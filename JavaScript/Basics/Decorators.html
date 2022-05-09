@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Decorators</title>
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+	<script type="text/javascript" src="../../Assets/prism.min.js"></script>
+	<script type="text/javascript" src="../../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+
+
+
+<h1>Transparent caching</h1>
+<p>Let’s say we have a function <code>slow(x)</code> which is CPU-heavy, but its results are stable. In other words, for the same <code>x</code> it always returns the same result. If the function is called often, we may want to cache (remember) the results for different <code>x</code> to avoid spending extra-time on recalculations. But instead of adding that functionality into <code>slow()</code> we’ll create a wrapper. As we’ll see, there are many benefits of doing so. Here’s the code, and explanations follow:</p>
+<pre>
+function slow(x) {
+  // there can be a heavy CPU-intensive job here
+  alert(`Called with ${x}`);
+  return x;
+}
+
+function cachingDecorator(func) {
+  let cache = new Map();
+
+  return function(x) {
+    if (cache.has(x)) { // if the result is in the map
+      return cache.get(x); // return it
+    }
+
+    let result = func(x); // otherwise call func
+
+    cache.set(x, result); // and cache (remember) the result
+    return result;
+  };
+}
+
+slow = cachingDecorator(slow);
+
+alert( slow(1) ); // slow(1) is cached
+alert( "Again: " + slow(1) ); // the same
+
+alert( slow(2) ); // slow(2) is cached
+alert( "Again: " + slow(2) ); // the same as the previous line
+</pre>
+<p>In the code above <code>cachingDecorator</code> is a decorator: a special function that takes another function and alters its behavior. The idea is that we can call <code>cachingDecorator</code> for any function, and it will return the caching wrapper. That’s great, because we can have many functions that could use such a feature, and all we need to do is to apply <code>cachingDecorator</code> to them.</p>
+<p>By separating caching from the main function code we also keep the main code simpler. Now let’s get into details of how it works.</p>
+<p>The result of <code>cachingDecorator(func)</code> is a “wrapper”: function(x) that “wraps” the call of <code>func(x)</code> into caching logic:</p>
+<img src="../Assets/img/decorator-makecaching-wrapper.png">
+<p>As we can see, the wrapper returns the result of <code>func(x)</code> “as is”. From an outside code, the wrapped <code>slow</code> function still does the same. It just got a caching aspect added to its behavior.</p>
+<p>To summarize, there are several benefits of using a separate cachingDecorator instead of altering the code of slow itself:</p>
+<ul>
+	<li>The <code>cachingDecorator</code> is reusable. We can apply it to another function.</li>
+	<li>The caching logic is separate, it did not increase the complexity of <code>slow</code> itself (if there were any).</li>
+	<li>We can combine multiple decorators if needed (other decorators will follow).</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+<h1>func.call()</h1>
+<p>The caching decorator mentioned above is not suited to work with object methods. For instance, in the code below <code>worker.slow()</code> stops working after the decoration:</p>
+<pre>
+// we'll make worker.slow caching
+let worker = {
+  someMethod() {
+    return 1;
+  },
+
+  slow(x) {
+    // actually, there can be a scary CPU-heavy task here
+    alert("Called with " + x);
+    return x * this.someMethod(); // (*)
+  }
+};
+
+// same code as before
+function cachingDecorator(func) {
+  let cache = new Map();
+  return function(x) {
+    if (cache.has(x)) {
+      return cache.get(x);
+    }
+    let result = func(x); // (**)
+    cache.set(x, result);
+    return result;
+  };
+}
+
+alert( worker.slow(1) ); // the original method works
+
+worker.slow = cachingDecorator(worker.slow); // now make it caching
+
+alert( worker.slow(2) ); // Whoops! Error: Cannot read property 'someMethod' of undefined
+</pre>
+<p>The error occurs in the line <code>(*)</code> that tries to access <code>this.someMethod</code> and fails. Can you see why?</p>
+<p>The reason is that the wrapper calls the original function as <code>func(x)</code> in the line <code>(**)</code>. And, when called like that, the function gets <code>this = undefined</code>.</p>
+<p>We would observe a similar symptom if we tried to run:</p>
+<pre>
+let func = worker.slow;
+func(2); // Whoops! Error: Cannot read property 'someMethod' of undefined
+</pre>
+<p>So, the wrapper passes the call to the original method, but without the context <code>this</code>. Hence the error.</p>
+<p>Let’s fix it. There’s a special built-in function method <code>func.call(context, …args)</code> that allows to call a function explicitly setting <code>this</code>. The syntax is:</p>
+<pre>
+func.call(context, arg1, arg2, ...)
+</pre>
+<p>It runs <code>func</code> providing the first argument as <code>this</code>, and the next as the arguments. To put it simply, these two calls do almost the same:</p>
+<pre>
+func(1, 2, 3);
+func.call(obj, 1, 2, 3)
+</pre>
+<p>They both call <code>func</code> with arguments <code>1</code>, <code>2</code> and <code>3</code>. The only difference is that <code>func.call</code> also sets <code>this</code> to <code>obj</code>.</p>
+<p>As an example, in the code below we call <code>sayHi</code> in the context of different objects: <code>sayHi.call(user)</code> runs <code>sayHi</code> providing <code>this=user</code>, and the next line sets <code>this=admin</code>:</p>
+<pre>
+function sayHi() {
+  alert(this.name);
+}
+
+let user = { name: "John" };
+let admin = { name: "Admin" };
+
+// use call to pass different objects as "this"
+sayHi.call( user ); // this = John
+sayHi.call( admin ); // this = Admin
+</pre>
+<p>And here we use call to call say with the given context and arguments:</p>
+<pre>
+function say(phrase) {
+  alert(this.name + ': ' + phrase);
+}
+
+let user = { name: "John" };
+
+// user becomes this, and "Hello" becomes the first argument
+say.call( user, "Hello" ); // John: Hello
+</pre>
+<p>In our case, we can use call in the wrapper to pass the context to the original function:</p>
+<pre>
+let worker = {
+  someMethod() {
+    return 1;
+  },
+
+  slow(x) {
+    alert("Called with " + x);
+    return x * this.someMethod(); // (*)
+  }
+};
+
+function cachingDecorator(func) {
+  let cache = new Map();
+  return function(x) {
+    if (cache.has(x)) {
+      return cache.get(x);
+    }
+    let result = func.call(this, x); // "this" is passed correctly now
+    cache.set(x, result);
+    return result;
+  };
+}
+
+worker.slow = cachingDecorator(worker.slow); // now make it caching
+
+alert( worker.slow(2) ); // works
+alert( worker.slow(2) ); // works, doesn't call the original (cached)
+</pre>
+<p>Now everything is fine. To make it all clear, let’s see more deeply how this is passed along:</p>
+<ul>
+	<li>After the decoration <code>worker.slow</code> is now the wrapper <code>function (x) { ... }</code>.</li>
+	<li>So when <code>worker.slow(2)</code> is executed, the wrapper gets 2 as an argument and <code>this=worker</code> (it’s the object before dot).</li>
+	<li>Inside the wrapper, assuming the result is not yet cached, <code>func.call(this, x)</code> passes the current <code>this</code> (=worker) and the current <code>argument</code> (=2) to the original method.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+<h1>func.apply()</h1>
+<p>Now let’s make <code>cachingDecorator</code> even more universal. Till now it was working only with single-argument functions. Now how to cache the multi-argument <code>worker.slow</code> method?</p>
+<pre>
+let worker = {
+  slow(min, max) {
+    return min + max; // scary CPU-hogger is assumed
+  }
+};
+
+// should remember same-argument calls
+worker.slow = cachingDecorator(worker.slow);
+</pre>
+<p>We have two tasks to solve here.</p>
+<ul>
+	<li>First is how to use both arguments <code>min</code> and <code>max</code> for the key in cache <code>map</code>. Previously, for a single argument <code>x</code> we could just <code>cache.set(x, result)</code> to save the result and <code>cache.get(x)</code> to retrieve it. But now we need to remember the result for a combination of arguments (<code>min</code>,<code>max</code>). The native Map takes single value only as the key.</li>
+	<li>The second task to solve is how to pass many arguments to <code>func</code>. Currently, the wrapper <code>function(x)</code> assumes a single argument, and <code>func.call(this, x)</code> passes it.</li>
+</ul>
+<p>There are many solutions possible. </p>
+<ul>
+	<li>Implement a new (or use a third-party) map-like data structure that is more versatile and allows multi-keys.</li>
+	<li>Use nested maps: <code>cache.set(min)</code> will be a Map that stores the pair <code>(max, result)</code>. So we can get result as <code>cache.get(min).get(max)</code>.</li>
+	<li>Join two values into one. In our particular case we can just use a string <code>"min,max"</code> as the Map key. For flexibility, we can allow to provide a hashing function for the decorator, that knows how to make one value from many.</li>
+</ul>
+<p>For many practical applications, the 3rd variant is good enough, so we’ll stick to it. Here we can use another built-in method <code>func.apply</code>.</p>
+<pre>
+func.apply(context, args);
+</pre>
+<p>It runs the <code>func</code> setting <code>this=context</code> and using an array-like object <code>args</code> as the list of arguments. For instance, these two calls are almost the same:</p>
+<pre>
+func(1, 2, 3);
+func.apply(context, [1, 2, 3])
+</pre>
+<p>Both run <code>func</code> giving it arguments <code>1,2,3</code>. But <code>func.apply</code> also sets <code>this=context</code>. For instance, here <code>say</code> is called with <code>this=user</code> and <code>messageData</code> as a list of arguments:</p>
+<pre>
+function say(time, phrase) {
+  alert(`[${time}] ${this.name}: ${phrase}`);
+}
+
+let user = { name: "John" };
+
+let messageData = ['10:00', 'Hello']; // become time and phrase
+
+// user becomes this, messageData is passed as a list of arguments (time, phrase)
+say.apply(user, messageData); // [10:00] John: Hello (this=user)
+</pre>
+<p>The only syntax difference between <code>call</code> and <code>apply</code> is that <code>call</code> expects a list of arguments, while <code>apply</code> takes an array-like object with them.</p>
+<p>You can use spread operator on <code>call</code> to get the same effect as <code>apply</code>. These two calls are almost equivalent:</p>
+<pre>
+let args = [1, 2, 3];
+
+func.call(context, ...args); // pass an array as list with spread operator
+func.apply(context, args);   // is same as using apply
+</pre>
+<p>If we look more closely, there’s a minor difference between such uses of <code>call</code> and <code>apply</code>.</p>
+<ul>
+	<li><code>call</code> only works when you use the argument with spread operator and argument is iterable type.</li>
+	<li><code>apply</code> only works on array-like object.</li>
+</ul>
+<p>And if <code>args</code> is both iterable and array-like, like a real array, then we technically could use any of them, but apply will probably be faster, because it’s a single operation. Most JavaScript engines internally optimize is better than a pair <code>call + spread</code>.</p>
+<p>One of the most important uses of <code>apply</code> is passing the call to another function, like this:</p>
+<pre>
+let wrapper = function() {
+  return anotherFunction.apply(this, arguments);
+};
+</pre>
+<p>That’s called <span style="font-weight: 500; font-style: italic;">Call Forwarding</span>. The wrapper passes everything it gets: the context <code>this</code> and <code>arguments</code> to <code>anotherFunction</code> and returns back its result.</p>
+<p>When an external code calls such wrapper, it is indistinguishable from the call of the original function.</p>
+<p>Now let’s bake it all into the more powerful <code>cachingDecorator</code>:</p>
+<pre>
+let worker = {
+  slow(min, max) {
+    alert(`Called with ${min},${max}`);
+    return min + max;
+  }
+};
+
+function cachingDecorator(func, hash) {
+  let cache = new Map();
+  return function() {
+    let key = hash(arguments); // (*)
+    if (cache.has(key)) {
+      return cache.get(key);
+    }
+
+    let result = func.apply(this, arguments); // (**)
+
+    cache.set(key, result);
+    return result;
+  };
+}
+
+function hash(args) {
+  return args[0] + ',' + args[1];
+}
+
+worker.slow = cachingDecorator(worker.slow, hash);
+
+alert( worker.slow(3, 5) ); // works
+alert( "Again " + worker.slow(3, 5) ); // same (cached)
+</pre>
+<p>Now the wrapper operates with any number of arguments.</p>
+
+
+
+
+
+
+
+
+
+
+<h1>Borrowing a method</h1>
+<p>In JavaScript, sometimes it’s desirable to reuse a function or method on a different object other than the object or prototype it was defined on. By using call(), apply() and bind(), we can easily borrow methods from different objects without having to inherit from them.</p>
+<p>Now let’s make one more minor improvement in the hashing function:</p>
+<pre>
+function hash(args) {
+  return args[0] + ',' + args[1];
+}
+</pre>
+<p>As of now, it works only on two arguments. It would be better if it could glue any number of <code>args</code>.</p>
+<p>The natural solution would be to use <code>arr.join</code> method:</p>
+<pre>
+function hash() {
+  alert( arguments.join() ); // Error: arguments.join is not a function
+}
+
+hash(1, 2);
+</pre>
+<p>…Unfortunately, that won’t work. Because we are calling <code>hash(arguments)</code> and <code>arguments</code> object is both iterable and array-like, but not a real array. So calling join on it would fail.</p>
+<p>Still, there’s an easy way to use array join:</p>
+<pre>
+function hash() {
+  alert( [].join.call(arguments) ); // 1,2
+}
+
+hash(1, 2);
+</pre>
+<p>The trick is called <span style="font-weight: 500; font-style: italic;">Method Borrowing</span>. We take (borrow) a join method from a regular array <code>[].join</code>. And use <code>[].join.call</code> to run it in the context of the object <code>arguments</code>.</p>
+<p>To grasp the concept of Method Borrowing let's continue.</p>
+<p>Let’s look at the following two functions as an example:</p>
+<pre>
+function Dog(name, age){
+   this.name = name;
+   this.age = age;
+   this.numWalksPerDay = 2;
+}
+function Cat(name,age){
+   this.name = name;
+   this.age = age;
+   this.numWalksPerDay = 0;
+}
+</pre>
+<p>Nothing out-of-the-ordinary here. Just two rather simple constructor functions that can be used to create <code>Dog</code> and <code>Cat</code> objects. Creating objects with these is done with the ‘new’ keyword.</p>
+<img src="../Assets/img/1_ZdAG2WEjH-LO9Sa-5AuRvA.png">
+<p>The only issue is that we have to repeat the ‘name’ and ‘age’ attributes for each object. Not very DRY. It would be nice if we could somehow use the attributes defined in the <code>Dog</code> function and apply them to the <code>Cat</code> function. That way, they are only defined once but can be used in as many places as necessary. Luckily, this is where methods like <code>.call()</code> come in.</p>
+<p>The unique thing about the <code>.call()</code>, <code>.apply()</code>, and <code>.bind()</code> functions is that they are methods on the prototype attribute of an object. If you look at the prototype of an object and dig far enough into its prototype chain, then you will see these methods defined.</p>
+<img src="../Assets/img/prototypechain.png">
+<p>These methods also allow you to define the context of the ‘this’ keyword and that is what makes it possible to ‘borrow’ attributes from one function and use them in another. If we were to just add the <code>Dog</code> function as part of the <code>Cat</code> function, this would not work because ‘this’ would have the wrong context.</p>
+<img src="../Assets/img/methodborrowing.png">
+<p>However , we can do this if we redefine the context of ‘this’ using one of the prototype methods. This will then change ‘this’ to be the context of the object being created from the constructor. But how do we redefine ‘this’? With ‘this’. In this case in order to define the context of ‘this’ we need to pass the ‘call’ method the keyword of ‘this’ so that the context is set to the object that is being created.</p>
+<p>Let’s take this step-by-step. You already know that this example won’t work:</p>
+<pre>
+function Cat(name, age){
+   Dog(name, age);
+   this.numWalksPerDay = 0;
+}
+</pre>
+<p>It won’t work because the object being created from the <code>Cat</code> constructor has no idea what <code>Dog</code> is and thus can’t use any of its attributes. Okay, what about using <code>.call()</code> to define the context?</p>
+<pre>
+function Cat(name, age){
+   Dog.call(Dog, name, age);
+   this.numWalksPerDay = 0;
+}
+</pre>
+<p>Nope, the result is the same. The <code>.call()</code> method is still just setting the ‘this’ context to be that of the <code>Dog</code> constructor and the <code>new Cat</code> object being created won’t be aware of that.</p>
+<p>What needs to be done is to explicitly set the context of ‘this’ to the object that is being created.</p>
+<pre>
+function Cat(name, age){
+   Dog.call(this, name, age);
+   this.numWalksPerDay = 0;
+}
+</pre>
+<p>I think of this as being a substitute for the ‘this.name = name; this.age = age’ lines in the original constructor. But rather than writing those same lines again in the <code>Cat</code> constructor, you are looking to the <code>Dog</code> constructor for them.</p>
+<img src="../Assets/img/methodborrowing2.png">
+<p>So, now our two constructor functions look like this:</p>
+<pre>
+function Dog(name, age){
+   this.name = name;
+   this.age = age;
+   this.numWalksPerDay = 2;
+}
+function Cat(name,age){
+   Dog.call(this, name, age);
+   this.numWalksPerDay = 0;
+}
+</pre>
+<p>Since the name and age attributes are shared between these two constructors you can make them DRY by using a prototype method like <code>.call()</code> to reuse code from one constructor to another.</p>
+<p>Coming to our example, let's see how our below example works -</p>
+<pre>
+function hash() {
+  alert( [].join.call(arguments) ); // 1,2
+}
+
+hash(1, 2);
+</pre>
+<p>Here <code>arguments</code> object is iterable and array-like objects but not a real array. And most array methods are written in such a way that they can be used on iterable, array, array-like etc. All you have to do it is to borrow the method and call the method in the context of the object on which you are going to use it.</p>
+<h3>Example : 1</h3>
+<pre>
+let obj = {
+    0 : 1,
+    1 : 2,
+    2 : 3,
+    'length' : 3
+};
+console.log([].join.call(obj)); // 1,2,3
+</pre>
+<h3>Example : 2</h3>
+<pre>
+function name(firstName, lastName){
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.fullName = function(){
+        return this.firstName + " " + this.lastName;
+    };
+}
+function user(firstName, lastName, age){
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.age = age;
+}
+let santanu = new user('Santanu', 'Bera', 30);
+let hisName = new name("Lorem", 'Ipsum');
+console.log(hisName.fullName.call(santanu)); // Santanu Bera
+</pre>
+<p>Note that, the method <code>fullName</code> is not defined on the function <code>user</code>. What we did, we borrowed the method from the function <code>name</code> and used that method in the context of the object <code>santanu</code>. It is like if <code>santanu</code> had the method <code>fullName</code> defined.</p>
+
+
+
+
+
+
+<h1>Function binding</h1>
+<p>When using setTimeout with object methods or passing object methods along, there’s a known problem: "losing this". We already know that in JavaScript it’s easy to lose <code>this</code>. Once a method is passed somewhere separately from the object – <code>this</code> is lost.</p>
+<pre>
+let user = {
+  firstName: "John",
+  sayHi() {
+    alert(`Hello, ${this.firstName}!`);
+  }
+};
+
+setTimeout(user.sayHi, 1000); // Hello, undefined!
+</pre>
+<p>As we can see, the output shows not “John” as <code>this.firstName</code>, but <code>undefined</code>. That’s because <code>setTimeout</code> got the function <code>user.sayHi</code>, separately from the object. The last line can be rewritten as.</p>
+<pre>
+let f = user.sayHi;
+setTimeout(f, 1000); // lost user context
+</pre>
+<p>The task is quite typical – we want to pass an object method somewhere else (here – to the scheduler) where it will be called. How to make sure that it will be called in the right context?</p>
+<h3>Solution 1: a wrapper</h3>
+<p>The simplest solution is to use a wrapping function:</p>
+<pre>
+let user = {
+  firstName: "John",
+  sayHi() {
+    alert(`Hello, ${this.firstName}!`);
+  }
+};
+
+setTimeout(function() {
+  user.sayHi(); // Hello, John!
+}, 1000);
+</pre>
+<p>Now it works, because it receives <code>user</code> from the outer lexical environment, and then calls the method normally.</p>
+<p>But, what if before <code>setTimeout</code> triggers (there’s one second delay!) <code>user</code> changes value? Then, suddenly, it will call the wrong object!</p>
+<pre>
+let user = {
+  firstName: "John",
+  sayHi() {
+    alert(`Hello, ${this.firstName}!`);
+  }
+};
+
+setTimeout(() => user.sayHi(), 1000);
+
+// ...within 1 second
+user = { sayHi() { alert("Another user in setTimeout!"); } };
+
+// Another user in setTimeout?!?
+</pre>
+<p>The next solution guarantees that such thing won’t happen.</p>
+<h3>Solution 2: bind</h3>
+<p>Functions provide a built-in method <code>bind</code> that allows to fix <code>this</code>.</p>
+<pre>
+// more complex syntax will be little later
+let boundFunc = func.bind(context);
+</pre>
+<p>The result of <code>func.bind(context)</code> is a special function-like “exotic object”, that is callable as function and transparently passes the call to <code>func</code> setting <code>this=context</code>. For instance, here <code>funcUser</code> passes a call to <code>func</code> with <code>this=user</code>:</p>
+<pre>
+let user = {
+  firstName: "John"
+};
+
+function func() {
+  alert(this.firstName);
+}
+
+let funcUser = func.bind(user);
+funcUser(); // John
+</pre>
+<p>All arguments are passed to the original func “as is”, for instance:</p>
+<pre>
+let user = {
+  firstName: "John"
+};
+
+function func(phrase) {
+  alert(phrase + ', ' + this.firstName);
+}
+
+// bind this to user
+let funcUser = func.bind(user);
+
+funcUser("Hello"); // Hello, John (argument "Hello" is passed, and this=user)
+</pre>
+<p>Now let’s try with an object method:</p>
+<pre>
+let user = {
+  firstName: "John",
+  sayHi() {
+    alert(`Hello, ${this.firstName}!`);
+  }
+};
+
+let sayHi = user.sayHi.bind(user); // (*)
+
+sayHi(); // Hello, John!
+
+setTimeout(sayHi, 1000); // Hello, John!
+</pre>
+<p>In the line (*) we take the method <code>user.sayHi</code> and bind it to <code>user</code>. The <code>sayHi</code> is a “bound” function, that can be called alone or passed to <code>setTimeout</code> – doesn’t matter, the context will be right.</p>
+<p>Here we can see that arguments are passed “as is”, only <code>this</code> is fixed by <code>bind</code>:</p>
+<pre>
+let user = {
+  firstName: "John",
+  say(phrase) {
+    alert(`${phrase}, ${this.firstName}!`);
+  }
+};
+
+let say = user.say.bind(user);
+
+say("Hello"); // Hello, John ("Hello" argument is passed to say)
+say("Bye"); // Bye, John ("Bye" is passed to say)
+</pre>
+
+
+
+
+
+
+
+<h1>Bind Arguments</h1>
+<p>Until now we have only been talking about binding <code>this</code>. Let’s take it a step further. We can bind not only this, but also arguments. That’s rarely done, but sometimes can be handy. The full syntax of <code>bind</code>:</p>
+<pre>
+let bound = func.bind(context, arg1, arg2, ...);
+</pre>
+<p>It allows to bind <code>context</code> as <code>this</code> and starting arguments of the function. For instance, we have a multiplication function <code>mul(a, b)</code>:</p>
+<pre>
+function mul(a, b) {
+  return a * b;
+}
+</pre>
+<p>Let’s use <code>bind</code> to create a function <code>double</code> on its base:</p>
+<pre>
+let double = mul.bind(null, 2);
+
+alert( double(3) ); // = mul(2, 3) = 6
+alert( double(4) ); // = mul(2, 4) = 8
+alert( double(5) ); // = mul(2, 5) = 10
+</pre>
+<p>The call to <code>mul.bind(null, 2)</code> creates a new function double that passes calls to mul, fixing <code>null</code> as the <code>context</code> and <code>2</code> as the first argument. Further arguments are passed “as is”.</p>
+<p>That’s called <code>partial function application</code> – we create a new function by fixing some parameters of the existing one.</p>
+<p>Please note that here we actually don’t use <code>this</code> here. But <code>bind</code> requires it, so we must put in something like <code>null</code>.</p>
+<p>The function <code>triple</code> in the code below triples the value:</p>
+<pre>
+let triple = mul.bind(null, 3);
+
+alert( triple(3) ); // = mul(3, 3) = 9
+alert( triple(4) ); // = mul(3, 4) = 12
+alert( triple(5) ); // = mul(3, 5) = 15
+</pre>
+<p>Why do we usually make a partial function?</p>
+<p>Here our benefit is that we created an independent function with a readable name (<code>double</code>, <code>triple</code>). We can use it and don’t write the first argument of every time, cause it’s fixed with <code>bind</code>.</p>
+<p>In other cases, partial application is useful when we have a very generic function, and want a less universal variant of it for convenience.</p>
+<p>For instance, we have a function <code>send(from, to, text)</code>. Then, inside a user object we may want to use a partial variant of it: <code>sendTo(to, text)</code> that sends from the current user.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h1>Going partial without context</h1>
+<p>What if we’d like to fix some arguments, but not bind <code>this</code>? The native <code>bind</code> does not allow that. We can’t just omit the context and jump to arguments. Fortunately, a partial function for binding only arguments can be easily implemented.</p>
+<pre>
+function partial(func, ...argsBound) {
+  return function(...args) { // (*)
+    return func.call(this, ...argsBound, ...args);
+  }
+}
+
+// Usage:
+let user = {
+  firstName: "John",
+  say(time, phrase) {
+    alert(`[${time}] ${this.firstName}: ${phrase}!`);
+  }
+};
+
+// add a partial method that says something now by fixing the first argument
+user.sayNow = partial(user.say, new Date().getHours() + ':' + new Date().getMinutes());
+
+user.sayNow("Hello");
+// Something like:
+// [10:00] John: Hello!
+</pre>
+<p>The result of <code>partial(func[, arg1, arg2...])</code> call is a wrapper (*) that calls <code>func</code> with:</p>
+<ul>
+  <li>Same <code>this</code> as it gets (for <code>user.sayNow</code> call it’s <code>user</code>)</li>
+  <li>Then gives it <code>...argsBound</code> – arguments from the partial call (<code>"10:00"</code>)</li>
+  <li>Then gives it <code>...args</code> – arguments given to the wrapper (<code>"Hello"</code>)</li>
+</ul>
+<p>Also there’s a ready <code>_.partial</code> implementation from <code>lodash</code> library.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

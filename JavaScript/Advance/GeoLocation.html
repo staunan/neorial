@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>User Location</title>
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+	<script type="text/javascript" src="../../Assets/prism.min.js"></script>
+	<script type="text/javascript" src="../../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+<h1>User Location</h1>
+<p>There are two ways to detect user's location -</p>
+<ul>
+	<li>HTML5 Feature - Geo Location</li>
+	<li>IP Address</li>
+</ul>
+<h1>Geo Location</h1>
+<p>The HTML Geolocation API is used to locate a user's position. The Geolocation API allows the user to provide their location to web applications if they so desire. For privacy reasons, the user is asked for permission to report location information.</p>
+<p>The Geolocation API is published through the <code>navigator.geolocation</code> object. You can check if the browser supports this API with the following code :</p>
+<pre>
+if ("geolocation" in navigator) {
+  /* geolocation is available */
+} else {
+  /* geolocation IS NOT available */
+}
+</pre>
+
+
+
+
+
+
+<h3>Getting the current position</h3>
+<p>To obtain the user's current location, you can call the <code>getCurrentPosition()</code> method. This initiates an asynchronous request to detect the user's position, and queries the positioning hardware to get up-to-date information. When the position is determined, the defined callback function is executed. You can optionally provide a second callback function to be executed if an error occurs. A third, optional, parameter is an options object where you can set the maximum age of the position returned, the time to wait for a request, and if you want high accuracy for the position.</p>
+<pre>
+navigator.geolocation.getCurrentPosition(callback);
+</pre>
+<p>Here is an example -</p>
+<pre>
+console.log("Getting Position");
+navigator.geolocation.getCurrentPosition(function(position) {
+  console.log(position);
+});
+</pre>
+<pre>
+function getLocation(){
+	console.log("Getting Position");
+	navigator.geolocation.getCurrentPosition(function(position) {
+	  console.log(position);
+	  let output = document.getElementById("Result");
+	  output.innerHTML += "&lt;p style='margin: 0;'>Latitude = " + position.coords.latitude+"&lt;/p>";
+	  output.innerHTML += "&lt;p style='margin: 0;'>Longitude = " + position.coords.longitude+"&lt;/p>";
+	});
+}
+</pre>
+<div class="box">
+<div style="display: flex; justify-content: center; align-items: center;">
+	<button class="button is-success" onclick="getLocation()">Get Position</button>
+</div>
+<div id="Result" class="Result" style="display: flex; justify-content: center; align-items: center; padding: 20px; flex-direction: column;"></div>
+<script type="text/javascript">
+let usersPosition = null;
+function getLocation(){
+	usersPosition = navigator.geolocation.getCurrentPosition(function(position) {
+	  let output = document.getElementById("Result");
+	  output.innerHTML += "<p style='margin: 0;'>Latitude = " + position.coords.latitude+"</p>";
+	  output.innerHTML += "<p style='margin: 0;'>Longitude = " + position.coords.longitude+"</p>";
+	});
+}
+</script>
+</div>
+<p>The second parameter of the <code>getCurrentPosition()</code> method is used to handle errors. It specifies a function to run if it fails to get the user's location. It expects a <code>PositionError</code> object as its first parameter.</p>
+<pre>
+function showError(error) {
+  switch(error.code) {
+    case error.PERMISSION_DENIED:
+      console.log("User denied the request for Geolocation.");
+      break;
+    case error.POSITION_UNAVAILABLE:
+      console.log("Location information is unavailable.");
+      break;
+    case error.TIMEOUT:
+      console.log("The request to get user location timed out.");
+      break;
+    case error.UNKNOWN_ERROR:
+      console.log("An unknown error occurred.");
+      break;
+  }
+}
+</pre>
+<h3>Accurate Result</h3>
+<p>This methods accepts last argument which is <code>options</code>, which you can use for some configuration. To get more accurate result set the <code>enableHighAccuracy</code> property to <code>true</code>.</p>
+<pre>
+var options = {
+  enableHighAccuracy: true,
+  timeout: 5000,
+  maximumAge: 0
+};
+function error(err) {
+  console.warn(`ERROR(${err.code}): ${err.message}`);
+}
+function getLocation(){
+	navigator.geolocation.getCurrentPosition(function(position) {
+		console.log(position);
+	}, error, options);
+}
+</pre>
+<h3>Getting Location using Latitude and Longitude</h3>
+<p>To get user's location using Latitude and Longitude, you can use an external service. Like Google's Map API:</p>
+<p>First add the script:</p>
+<pre>
+&lt;script src="https://maps.googleapis.com/maps/api/js?key=YourAPIKey&libraries=places" async defer>&lt;/script>
+</pre>
+<pre>
+// Get the Coordinates using HTML5 GeoLocation feature -
+var options = {
+  enableHighAccuracy: true,
+  timeout: 5000,
+  maximumAge: 0
+};
+function error(err) {
+  console.warn(`ERROR(${err.code}): ${err.message}`);
+}
+function getLocation(){
+	navigator.geolocation.getCurrentPosition(function(position) {
+		convertToAddress(position);
+	}, error, options);
+}
+
+// Then Convert the position to human redable location using Google Map API -
+function convertToAddress(position){
+	var geocoder  = new google.maps.Geocoder();
+	var location  = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+	geocoder.geocode({'latLng': location}, function (results, status) {
+		if(status == google.maps.GeocoderStatus.OK) {
+			console.log(results);
+			let Positions = new Set();
+			results.forEach(function(item, index, array){
+				item.address_components.forEach(function(item, index, array){
+					if (Number(item.long_name)>0) {
+					}else{
+						Positions.add(item.long_name);
+					}
+				});
+			});
+			console.log(Positions);
+		}
+	});
+}
+</pre>
+
+
+
+
+
+
+
+
+
+<h1>IP Address</h1>
+<h3>STUN IP Address requests for WebRTC</h3>
+<p>Firefox and Chrome have implemented WebRTC that allow requests to STUN servers be made that will return the local and public IP addresses for the user. These request results are available to javascript, so you can now obtain a users local and public IP addresses in javascript. This demo is an example implementation of that.</p>
+<p>Additionally, these STUN requests are made outside of the normal XMLHttpRequest procedure, so they are not visible in the developer console or able to be blocked by plugins such as AdBlockPlus or Ghostery. This makes these types of requests available for online tracking if an advertiser sets up a STUN server with a wildcard domain.</p>
+<h3>Get User's Local IP</h3>
+<pre>
+//get the IP addresses associated with an account
+function getIPs(callback){
+    var ip_dups = {};
+
+    //compatibility for firefox and chrome
+    var RTCPeerConnection = window.RTCPeerConnection
+        || window.mozRTCPeerConnection
+        || window.webkitRTCPeerConnection;
+    var useWebKit = !!window.webkitRTCPeerConnection;
+
+    //bypass naive webrtc blocking using an iframe
+    if(!RTCPeerConnection){
+        //NOTE: you need to have an iframe in the page right above the script tag
+        //
+        //&lt;iframe id="iframe" sandbox="allow-same-origin" style="display: none">&lt;/iframe>
+        //&lt;script>...getIPs called in here...
+        //
+        var win = iframe.contentWindow;
+        RTCPeerConnection = win.RTCPeerConnection
+            || win.mozRTCPeerConnection
+            || win.webkitRTCPeerConnection;
+        useWebKit = !!win.webkitRTCPeerConnection;
+    }
+
+    //minimal requirements for data connection
+    var mediaConstraints = {
+        optional: [{RtpDataChannels: true}]
+    };
+
+    var servers = {iceServers: [{urls: "stun:stun.services.mozilla.com"}]};
+
+    //construct a new RTCPeerConnection
+    var pc = new RTCPeerConnection(servers, mediaConstraints);
+
+    function handleCandidate(candidate){
+        //match just the IP address
+        var ip_regex = /([0-9]{1,3}(\.[0-9]{1,3}){3}|[a-f0-9]{1,4}(:[a-f0-9]{1,4}){7})/
+        var ip_addr = ip_regex.exec(candidate)[1];
+
+        //remove duplicates
+        if(ip_dups[ip_addr] === undefined)
+            callback(ip_addr);
+
+        ip_dups[ip_addr] = true;
+    }
+
+    //listen for candidate events
+    pc.onicecandidate = function(ice){
+
+        //skip non-candidate events
+        if(ice.candidate)
+            handleCandidate(ice.candidate.candidate);
+    };
+
+    //create a bogus data channel
+    pc.createDataChannel("");
+
+    //create an offer sdp
+    pc.createOffer(function(result){
+
+        //trigger the stun server request
+        pc.setLocalDescription(result, function(){}, function(){});
+
+    }, function(){});
+
+    //wait for a while to let everything done
+    setTimeout(function(){
+        //read candidate info from local description
+        var lines = pc.localDescription.sdp.split('\n');
+
+        lines.forEach(function(line){
+            if(line.indexOf('a=candidate:') === 0)
+                handleCandidate(line);
+        });
+    }, 1000);
+}
+
+//Test: Print the IP addresses into the console
+getIPs(function(ip){console.log(ip);});
+</pre>
+<div class="box" style="display: flex; justify-content: center; align-items: center;">
+	<button class="button is-success" onclick="getLocalIP()">Get User's Local IP</button>
+</div>
+<h3>Get User's Public IP</h3>
+<pre>
+function getPublicIPs(callback){
+    var ip_dups = {};
+
+    //compatibility for firefox and chrome
+    var RTCPeerConnection = window.RTCPeerConnection
+        || window.mozRTCPeerConnection
+        || window.webkitRTCPeerConnection;
+    var useWebKit = !!window.webkitRTCPeerConnection;
+
+    //bypass naive webrtc blocking using an iframe
+    if(!RTCPeerConnection){
+        //NOTE: you need to have an iframe in the page right above the script tag
+        //
+        //&lt;iframe id="iframe" sandbox="allow-same-origin" style="display: none">&lt;/iframe>
+        //&lt;script>...getIPs called in here...
+        //
+        var win = iframe.contentWindow;
+        RTCPeerConnection = win.RTCPeerConnection
+            || win.mozRTCPeerConnection
+            || win.webkitRTCPeerConnection;
+        useWebKit = !!win.webkitRTCPeerConnection;
+    }
+
+    //minimal requirements for data connection
+    var mediaConstraints = {
+        optional: [{RtpDataChannels: true}]
+    };
+
+    var servers = {iceServers: [{urls: "stun:stun.l.google.com:19302?transport=udp"}]};
+
+    //construct a new RTCPeerConnection
+    var pc = new RTCPeerConnection(servers, mediaConstraints);
+
+    function handleCandidate(candidate){
+        //match just the IP address
+        var ip_regex = /([0-9]{1,3}(\.[0-9]{1,3}){3}|[a-f0-9]{1,4}(:[a-f0-9]{1,4}){7})/
+        var ip_addr = ip_regex.exec(candidate)[1];
+
+        //remove duplicates
+        if(ip_dups[ip_addr] === undefined)
+            callback(ip_addr);
+
+        ip_dups[ip_addr] = true;
+    }
+
+    //listen for candidate events
+    pc.onicecandidate = function(ice){
+
+        //skip non-candidate events
+        if(ice.candidate)
+            handleCandidate(ice.candidate.candidate);
+    };
+
+    //create a bogus data channel
+    pc.createDataChannel("");
+
+    //create an offer sdp
+    pc.createOffer(function(result){
+
+        //trigger the stun server request
+        pc.setLocalDescription(result, function(){}, function(){});
+
+    }, function(){});
+
+    //wait for a while to let everything done
+    setTimeout(function(){
+        //read candidate info from local description
+        var lines = pc.localDescription.sdp.split('\n');
+
+        lines.forEach(function(line){
+            if(line.indexOf('a=candidate:') === 0)
+                handleCandidate(line);
+        });
+    }, 1000);
+}
+</pre>
+<div class="box" style="display: flex; justify-content: center; align-items: center;">
+	<button class="button is-success" onclick="getPublicIP()">Get User's Public IP</button>
+</div>
+<p>Okay, now you know how to get local and public IP of the User. To get user's location, we need public IP.</p>
+<p>There are many online service available that takes IP as the input and returns the location. For example, <a href="https://www.geoplugin.com/webservices/json">GeoPlugin</a> is one of the great online service which does this job.</p>
+<pre>
+http://www.geoplugin.net/json.gp?ip=xx.xx.xx.xx
+</pre>
+<p>For example:</p>
+<pre>
+http://www.geoplugin.net/json.gp?ip=14.195.239.254
+</pre>
+<div class="box" style="display: flex; justify-content: center; align-items: center;">
+	<a href="http://www.geoplugin.net/json.gp?ip=14.195.239.254" class="button is-success" target="_blank">See Location</a>
+</div>
+
+
+
+
+
+
+<h1>Accuracy</h1>
+<p>Accuracy depends on many factors, some of which are beyond your control, and at best the location information returned by the API is just an approximation.</p>
+<p>Most common use case. For the most part, HTML5 Geolocation works just fine in dense urban areas when you are stationary with your laptop or smartphone Wifi turned on. This is the use case most commonly cited when questions are asked about accuracy. This makes sense because urban areas have many public and private Wifi routers and cell phone towers are typically closer together. As you’ll see, HTML5 uses these and other methods to pinpoint your location. However, it’s not always that simple and below are some other use cases that you should take into consideration.</p>
+<p>How does the API work? Depending on which browser you are using, the HTML5 Geolocation API approximates location based on a number of factors including your public IP address, cell tower IDs, GPS information, a list of Wifi access points, signal strengths and MAC IDs (Wifi and/or Bluetooth). It then passes that information to a Location Service usually via an HTTPS request which attempts to correlate your location from a variety of databases that include Wifi access point locations both public and private, as well as Cell Tower and IP address locations. An approximate location is then returned to your code via a JavaScript callback.</p>
+<p>Consider the following:</p>
+<pre>
+function getLocation(){
+	console.log("Getting Position");
+	navigator.geolocation.getCurrentPosition(function(position) {
+	  console.log(position);
+	});
+}
+</pre>
+<p>If you see the console, <code>position</code> includes <code>coords.accuracy</code> property. It's value is number which represents the radius in meters.</p>
+<img src="../Assets/img/geolocationaccuracy.jpg">
+<p>If the number is very high like greater than <code>10,000</code>, it is very far from the user's location. The greater the number, the greater the inaccurate result. So If the accuracy number is very low, like below <code>1,000</code>, it is nearly accurate result.</p>
+<p>If you use WiFi network accuracy can be 5-50 meters, but you are using LAN. Geolocation by IP is very very inaccurate, it's normaly to get wrong city or country. Like above in the picture.</p>
+<p>If you use mobile, you will get very accurate result as mobile devices uses GPS or other technology which helps to get accurate result.</p>
+
+
+
+
+
+
+
+<script type="text/javascript">
+//get the IP addresses associated with an account
+function getLocalIPs(callback){
+    var ip_dups = {};
+
+    //compatibility for firefox and chrome
+    var RTCPeerConnection = window.RTCPeerConnection
+        || window.mozRTCPeerConnection
+        || window.webkitRTCPeerConnection;
+    var useWebKit = !!window.webkitRTCPeerConnection;
+
+    //bypass naive webrtc blocking using an iframe
+    if(!RTCPeerConnection){
+        //NOTE: you need to have an iframe in the page right above the script tag
+        //
+        //<iframe id="iframe" sandbox="allow-same-origin" style="display: none"></iframe>
+        //<script>...getIPs called in here...
+        //
+        var win = iframe.contentWindow;
+        RTCPeerConnection = win.RTCPeerConnection
+            || win.mozRTCPeerConnection
+            || win.webkitRTCPeerConnection;
+        useWebKit = !!win.webkitRTCPeerConnection;
+    }
+
+    //minimal requirements for data connection
+    var mediaConstraints = {
+        optional: [{RtpDataChannels: true}]
+    };
+
+    var servers = {iceServers: [{urls: "stun:stun.services.mozilla.com"}]};
+
+    //construct a new RTCPeerConnection
+    var pc = new RTCPeerConnection(servers, mediaConstraints);
+
+    function handleCandidate(candidate){
+        //match just the IP address
+        var ip_regex = /([0-9]{1,3}(\.[0-9]{1,3}){3}|[a-f0-9]{1,4}(:[a-f0-9]{1,4}){7})/
+        var ip_addr = ip_regex.exec(candidate)[1];
+
+        //remove duplicates
+        if(ip_dups[ip_addr] === undefined)
+            callback(ip_addr);
+
+        ip_dups[ip_addr] = true;
+    }
+
+    //listen for candidate events
+    pc.onicecandidate = function(ice){
+
+        //skip non-candidate events
+        if(ice.candidate)
+            handleCandidate(ice.candidate.candidate);
+    };
+
+    //create a bogus data channel
+    pc.createDataChannel("");
+
+    //create an offer sdp
+    pc.createOffer(function(result){
+
+        //trigger the stun server request
+        pc.setLocalDescription(result, function(){}, function(){});
+
+    }, function(){});
+
+    //wait for a while to let everything done
+    setTimeout(function(){
+        //read candidate info from local description
+        var lines = pc.localDescription.sdp.split('\n');
+
+        lines.forEach(function(line){
+            if(line.indexOf('a=candidate:') === 0)
+                handleCandidate(line);
+        });
+    }, 1000);
+}
+
+//get the IP addresses associated with an account
+function getPublicIPs(callback){
+    var ip_dups = {};
+
+    //compatibility for firefox and chrome
+    var RTCPeerConnection = window.RTCPeerConnection
+        || window.mozRTCPeerConnection
+        || window.webkitRTCPeerConnection;
+    var useWebKit = !!window.webkitRTCPeerConnection;
+
+    //bypass naive webrtc blocking using an iframe
+    if(!RTCPeerConnection){
+        //NOTE: you need to have an iframe in the page right above the script tag
+        //
+        //<iframe id="iframe" sandbox="allow-same-origin" style="display: none"></iframe>
+        //<script>...getIPs called in here...
+        //
+        var win = iframe.contentWindow;
+        RTCPeerConnection = win.RTCPeerConnection
+            || win.mozRTCPeerConnection
+            || win.webkitRTCPeerConnection;
+        useWebKit = !!win.webkitRTCPeerConnection;
+    }
+
+    //minimal requirements for data connection
+    var mediaConstraints = {
+        optional: [{RtpDataChannels: true}]
+    };
+
+    var servers = {iceServers: [{urls: "stun:stun.l.google.com:19302?transport=udp"}]};
+
+    //construct a new RTCPeerConnection
+    var pc = new RTCPeerConnection(servers, mediaConstraints);
+
+    function handleCandidate(candidate){
+        //match just the IP address
+        var ip_regex = /([0-9]{1,3}(\.[0-9]{1,3}){3}|[a-f0-9]{1,4}(:[a-f0-9]{1,4}){7})/
+        var ip_addr = ip_regex.exec(candidate)[1];
+
+        //remove duplicates
+        if(ip_dups[ip_addr] === undefined)
+            callback(ip_addr);
+
+        ip_dups[ip_addr] = true;
+    }
+
+    //listen for candidate events
+    pc.onicecandidate = function(ice){
+
+        //skip non-candidate events
+        if(ice.candidate)
+            handleCandidate(ice.candidate.candidate);
+    };
+
+    //create a bogus data channel
+    pc.createDataChannel("");
+
+    //create an offer sdp
+    pc.createOffer(function(result){
+
+        //trigger the stun server request
+        pc.setLocalDescription(result, function(){}, function(){});
+
+    }, function(){});
+
+    //wait for a while to let everything done
+    setTimeout(function(){
+        //read candidate info from local description
+        var lines = pc.localDescription.sdp.split('\n');
+
+        lines.forEach(function(line){
+            if(line.indexOf('a=candidate:') === 0)
+                handleCandidate(line);
+        });
+    }, 1000);
+}
+
+let localIP, publicIP;
+getPublicIPs(function(ip){publicIP = ip;});
+getLocalIPs(function(ip){localIP = ip;});
+function getLocalIP(){
+	alert(localIP);
+}
+function getPublicIP(){
+	alert(publicIP);
+}
+</script>
+</div>
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>v-text</title>
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
+	<script type="text/javascript" src="../Assets/jquery.min.js"></script>
+    <link rel="stylesheet" href="../Assets/prism-dark.css">
+    <script type="text/javascript" src="../Assets/vue.js"></script>
+</head>
+<body class="Body">
+<div class="Content Card">
+	<h1>V-TEXT - Render Plain Text</h1>
+	<p>
+		You will always have the option to print the value of Vue property using double curly bracket like <code>{{ curly }}</code>. But if you want to print plain text you can also use <code>v-text</code> directive. This accepts only string.
+	</p>
+	<pre>
+		&lt;span v-text="name">&lt;/span>
+		data:{
+			name : "Santanu Bera"
+		}
+	</pre>
+	<p>This will print <code>Santanu Bera</code></p>
+	<p>
+		You can also pass integer or float value and even object or array datatype. But everything will be rendered as a string. So if you use any HTML tag inside the string, it won't be rendered.
+	</p>
+	<pre>
+		&lt;span v-text="name">&lt;/span>
+		data:{
+			name : {
+				first : 'Santanu',
+				last : "Bera"
+			}
+		}
+	</pre>
+	<p>
+		This will give the output as <code>{ "first": "Santanu", "last": "Bera" }</code>
+	</p>
+	<pre>
+		&lt;span v-text="name">&lt;/span>
+		data:{
+			name : ['Santanu', 'Bera']
+		}
+	</pre>
+	<p>
+		This will give the output as <code>[ "Santanu", "Bera" ]</code>
+	</p>
+	<pre>
+		&lt;span v-text="name">&lt;/span>
+		data:{
+			name : "&lt;span>Hello&lt;/span>"
+		}
+	</pre>
+	<p>
+		This will give the output as <code>&lt;span>Hello&lt;/span></code>
+	</p>
+	<p>
+		So, if you see there's no great advantage of using <code>v-text</code> directive. It's just an alternative way for <code>{{ curly }}</code> syntax. You can also use inline JS expression inside the <code>v-text</code> just like you can do in <code>{{ curly }}</code> way.
+	</p>
+</div>
+<script type="text/javascript">
+new Vue({
+	el : ".Content",
+	data : {
+		obj:['Santanu', 'Bera'],
+		curly : "{{ }}",
+		name : 30
+	}
+});
+</script>
+</body>
+</html>

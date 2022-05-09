@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Checkbox in Flutter</title>
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+	<script type="text/javascript" src="../../Assets/prism.min.js"></script>
+	<script type="text/javascript" src="../../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+
+
+<h1>Checkbox</h1>
+<p>A material design checkbox.</p>
+<p>The checkbox itself does not maintain any state. Instead, when the state of the checkbox changes, the widget calls the <code>onChanged</code> callback. Most widgets that use a checkbox will listen for the <code>onChanged</code> callback and rebuild the checkbox with a new <code>value</code> to update the visual appearance of the checkbox.</p>
+
+<h2>Properties</h2>
+<h3>activeColor</h3>
+<p>The color to use when this checkbox is checked. It specifies the background color, the color that surrounds the tick mark.</p>
+
+
+<h3>checkColor</h3>
+<p>The color to use for the check icon when this checkbox is checked.</p>
+
+
+<h3>onChanged</h3>
+<p>Called when the value of the checkbox should change.</p>
+
+<h3>tristate</h3>
+<p>This property specifies if the checkbox should maintain three state. If this property is set to <code>true</code>, the checkbox's value can be <code>true</code>, <code>false</code>, or <code>null</code>.</p>
+<p>Checkbox displays a dash when its value is <code>null</code>.</p>
+<p>If tristate is <code>false</code> (the default), value must not be <code>null</code>.</p>
+
+
+<h3>value</h3>
+<p>Whether this checkbox is checked. This property is used to provide the checkbox a value. If <code>true</code>, the checkbox will be selected, if <code>false</code>, the checkbox will be unselected and if the value is <code>null</code>(tristate is <code>true</code>), the checkbox will contain a dashed mark.</p>
+
+
+<h2>Example</h2>
+<pre>
+class _MyWidgetState extends State&lt;MyWidget> {
+  bool rememberMe = false;
+
+  void _onRememberMeChanged(bool newValue) => setState(() {
+    rememberMe = newValue;
+
+    if (rememberMe) {
+      // TODO: Here goes your functionality that remembers the user.
+    } else {
+      // TODO: Forget the user
+    }
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Checkbox(
+      value: rememberMe,
+      onChanged: _onRememberMeChanged
+    );
+  }
+}
+</pre>
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

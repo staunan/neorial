@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Transform</title>
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
+	<script type="text/javascript" src="../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+<h1>Transform</h1>
+<p>The transform property allows you to visually manipulate an element by skewing, rotating, translating, or scaling:</p>
+
+
+<h1>Scale</h1>
+<pre>
+.element {
+  width: 20px;
+  height: 20px;
+  transform: scale(20);
+  background-color: crimson;
+}
+&lt;div class="box" style="display: flex; justify-content: center; align-items: center; height: 500px;">
+	&lt;div class="element">&lt;/div>
+&lt;/div>
+</pre>
+<style type="text/css">
+.element {
+  width: 20px;
+  height: 20px;
+  transform: scale(20);
+  background-color: crimson;
+}
+</style>
+<p>If you scale an element, it enlarges the element and everything it contains. It effects height, width, margin, padding, font size, line height, word spacing, letter spacing and many more.</p>
+<div class="box" style="display: flex; justify-content: center; align-items: center; height: 500px;">
+<div class="element"></div>
+</div>
+<p>The function <code>scale</code> takes number without any unit.</p>
+<ul style="">
+	<li>5 means five times larger.</li>
+	<li>2 means twice the element.</li>
+	<li>.5 means half the actual size.</li>
+	<li>1 means the original size.</li>
+	<li>0 means the element will be hidden.</li>
+	<li>etc.</li>
+</ul>
+
+<h3>Two value</h3>
+<p><code>scale()</code> function actually takes two value, first one is for horizontal scale and last value is vertical scale.</p>
+<pre>
+.element{
+	transform:scale(.5,2);
+}
+</pre>
+
+<h3>scaleX()</h3>
+<p><code>scaleX()</code> function is used to specify scale value horizontally.</p>
+<pre>
+.element{
+	transform:scaleX(2);
+	// Same as the following -
+	transform:scale(2, 1);
+}
+</pre>
+
+<h3>scaleY()</h3>
+<p><code>scaleY()</code> function is used to specify scale value vertically.</p>
+<pre>
+.element{
+	transform:scaleY(2);
+	// Same as the following -
+	transform:scale(1, 2);
+}
+</pre>
+<p>So <code>scale()</code> function is shorthand for scaleX() and scaleY()</p>
+<p>Here is an example with an animation -</p>
+<style type="text/css">
+.scaleX, .scaleY, .scaleBoth{
+	display: flex;
+}
+.scaleX .childX, .scaleY .childY, .scaleBoth .childBoth{
+	margin: 30px;
+	width: 100px;
+	height: 100px;
+	background: crimson;
+}
+.childX{
+	animation-name: scaleX;
+	animation-duration: 2s;
+	animation-iteration-count: infinite;
+}
+.childY{
+	animation-name: scaleY;
+	animation-duration: 2s;
+	animation-iteration-count: infinite;
+}
+.childBoth{
+	animation-name: scaleBoth;
+	animation-duration: 2s;
+	animation-iteration-count: infinite;
+}
+@keyframes scaleX{
+	0%{transform: scaleX(0);}
+	50%{transform: scaleX(1);}
+	100%{transform: scaleX(0);}
+}
+@keyframes scaleY{
+	0%{transform: scaleY(0);}
+	50%{transform: scaleY(1);}
+	100%{transform: scaleY(0);}
+}
+@keyframes scaleBoth{
+	0%{transform: scale(0, 0);}
+	50%{transform: scale(1, 1);}
+	100%{transform: scale(0, 0);}
+}
+</style>
+<div class="box">
+	<div class="scaleX">
+		<h2>Scale X</h2>
+		<div class="childX"></div>
+		<div class="childX" style="border-radius: 50%;"></div>
+		<div class="childX"></div>
+	</div>
+	<div class="scaleY">
+		<h2>Scale Y</h2>
+		<div class="childY"></div>
+		<div class="childY" style="border-radius: 50%;"></div>
+		<div class="childY"></div>
+	</div>
+	<div class="scaleBoth">
+		<h2>Scale Both</h2>
+		<div class="childBoth"></div>
+		<div class="childBoth" style="border-radius: 50%;"></div>
+		<div class="childBoth"></div>
+	</div>
+</div>
+<h3>Negative Value</h3>
+<p>scale function accepts negative value which cause the element to flip. <code>scaleX</code> flips the element horizontally, <code>scaleY</code> filps the element vertically.</p>
+<p>In the following example, the first box is the original box, the second box is flipped horizontally, the third box is flipped vertically and the last box is flipped in both direction.</p>
+<pre>
+.notFlipping{
+  height :100px;
+  display : flex;
+  width: 200px;
+  justify-content:center;
+  align-items:center;
+  background-color:purple;
+  color:#fff;
+  padding : 50px;
+  box-sizing: border-box;
+  margin: 20px;
+}
+.flipping1{
+  height :100px;
+  display : flex;
+  width: 200px;
+  justify-content:center;
+  align-items:center;
+  background-color:purple;
+  color:#fff;
+  padding : 50px;
+  box-sizing: border-box;
+  transform:scaleX(-1);
+  margin: 20px;
+}
+.flipping2{
+  height :100px;
+  display : flex;
+  width: 200px;
+  justify-content:center;
+  align-items:center;
+  background-color:purple;
+  color:#fff;
+  padding : 50px;
+  box-sizing: border-box;
+  transform:scaleY(-1);
+  margin: 20px;
+}
+.flipping3{
+  height :100px;
+  display : flex;
+  width: 200px;
+  justify-content:center;
+  align-items:center;
+  background-color:purple;
+  color:#fff;
+  padding : 50px;
+  box-sizing: border-box;
+  transform:scale(-1);
+  margin: 20px;
+}
+
+&lt;div class="notFlipping">Santanu Bera&lt;/div>
+&lt;div class="flipping1">Santanu Bera&lt;/div>
+&lt;div class="flipping2">Santanu Bera&lt;/div>
+&lt;div class="flipping3">Santanu Bera&lt;/div>
+</pre>
+<style type="text/css">
+.notFlipping{
+  height :100px;
+  display : flex;
+  width: 200px;
+  justify-content:center;
+  align-items:center;
+  background-color:purple;
+  color:#fff;
+  padding : 50px;
+  box-sizing: border-box;
+  margin: 20px;
+}
+.flipping1{
+  height :100px;
+  display : flex;
+  width: 200px;
+  justify-content:center;
+  align-items:center;
+  background-color:purple;
+  color:#fff;
+  padding : 50px;
+  box-sizing: border-box;
+  transform:scaleX(-1);
+  margin: 20px;
+
+}
+.flipping2{
+  height :100px;
+  display : flex;
+  width: 200px;
+  justify-content:center;
+  align-items:center;
+  background-color:purple;
+  color:#fff;
+  padding : 50px;
+  box-sizing: border-box;
+  transform:scaleY(-1);
+  margin: 20px;
+}
+.flipping3{
+  height :100px;
+  display : flex;
+  width: 200px;
+  justify-content:center;
+  align-items:center;
+  background-color:purple;
+  color:#fff;
+  padding : 50px;
+  box-sizing: border-box;
+  transform:scale(-1);
+  margin: 20px;
+}
+</style>
+<div class="box">
+	<div class="notFlipping">Santanu Bera</div>
+	<div class="flipping1">Santanu Bera</div>
+	<div class="flipping2">Santanu Bera</div>
+	<div class="flipping3">Santanu Bera</div>
+</div>
+
+
+
+<h1>Skew</h1>
+<p>The skewX and skewY transform functions tilt an element one way or the other. In the example below, we can skew a 100px x 100px square to the left and right with skewX:</p>
+<style type="text/css">
+.scewElement{
+	transform: skewX(30deg);
+	height: 100px;
+	width: 100px;
+	background: crimson;
+	margin: 30px;
+}
+.scewElementY{
+	transform: skewY(30deg);
+	height: 100px;
+	width: 100px;
+	background: crimson;
+	margin: 30px;
+}
+.skewElementBoth{
+	transform: skew(30deg, 45deg);
+	height: 100px;
+	width: 100px;
+	background: crimson;
+	margin: 30px;
+}
+</style>
+<pre>
+.scewElement{
+	transform: skewX(30deg);
+	height: 100px;
+	width: 100px;
+	background: crimson;
+	margin: 30px;
+}
+&lt;div class="box" style="display: flex;">
+	&lt;div class="scewElement">
+	&lt;/div>
+	&lt;div class="scewElement">
+	&lt;/div>
+	&lt;div class="scewElement">
+	&lt;/div>
+&lt;/div>
+</pre>
+<div class="box" style="display: flex;">
+	<div class="scewElement">
+	</div>
+	<div class="scewElement">
+	</div>
+	<div class="scewElement">
+	</div>
+</div>
+<p>Whilst in this example we can skew an element vertically with with skewY:</p>
+<pre>
+.scewElement{
+	transform: skewY(30deg);
+	height: 100px;
+	width: 100px;
+	background: crimson;
+	margin: 30px;
+}
+&lt;div class="box" style="display: flex;">
+	&lt;div class="scewElement">
+	&lt;/div>
+	&lt;div class="scewElement">
+	&lt;/div>
+	&lt;div class="scewElement">
+	&lt;/div>
+&lt;/div>
+</pre>
+<div class="box" style="display: flex;">
+	<div class="scewElementY">
+	</div>
+	<div class="scewElementY">
+	</div>
+	<div class="scewElementY">
+	</div>
+</div>
+<p>You can use <code>scew(xValue, yValue)</code> for a shorthand. If you don't provide the second value, it is assumed to be 0deg.</p>
+<pre>
+.scewElement{
+	transform: skew(30deg, 45deg);
+	height: 100px;
+	width: 100px;
+	background: crimson;
+	margin: 30px;
+}
+&lt;div class="box" style="display: flex;">
+	&lt;div class="scewElement">
+	&lt;/div>
+	&lt;div class="scewElement">
+	&lt;/div>
+	&lt;div class="scewElement">
+	&lt;/div>
+&lt;/div>
+</pre>
+<div class="box" style="display: flex;">
+	<div class="skewElementBoth">
+	</div>
+	<div class="skewElementBoth">
+	</div>
+	<div class="skewElementBoth">
+	</div>
+</div>
+<p>Here is an example with animation so that it will be understandable how skew works -</p>
+<style type="text/css">
+.skewXDemo, .skewYDemo, .skewBothDemo{
+	display: flex;
+}
+.skewXDemo .xChild{
+	margin: 50px;
+	background: crimson;
+	height: 100px;
+	width: 100px;
+	animation-name: skewX;
+	animation-iteration-count: infinite;
+	animation-duration: 2s;
+}
+.skewYDemo .yChild{
+	margin: 50px;
+	background: crimson;
+	height: 100px;
+	width: 100px;
+	animation-name: skewY;
+	animation-iteration-count: infinite;
+	animation-duration: 2s;
+}
+.skewBothDemo .bothChild{
+	margin: 50px;
+	background: crimson;
+	height: 100px;
+	width: 100px;
+	animation-name: skewBoth;
+	animation-iteration-count: infinite;
+	animation-duration: 2s;
+}
+@keyframes skewX {
+  0% {
+    transform: skewX(0);
+  }
+  25%{
+  	transform: skewX(20deg);
+  }
+  50%{
+  	transform: skewX(0deg);
+  }
+  75%{
+  	transform: skewX(-20deg);
+  }
+  100% {
+    transform: skewX(0);
+  }
+}
+@keyframes skewY {
+  0% {
+    transform: skewY(0);
+  }
+  25%{
+  	transform: skewY(20deg);
+  }
+  50%{
+  	transform: skewY(0deg);
+  }
+  75%{
+  	transform: skewY(-20deg);
+  }
+  100% {
+    transform: skewY(0);
+  }
+}
+@keyframes skewBoth {
+  0% {
+    transform: skew(0deg, 0deg);
+  }
+  25%{
+  	transform: skew(20deg, 20deg);
+  }
+  50%{
+  	transform: skew(0deg, 0deg);
+  }
+  75%{
+  	transform: skew(-20deg, -20deg);
+  }
+  100% {
+    transform: skew(0deg, 0deg);
+  }
+}
+</style>
+<div class="box">
+	<h2>Skew X</h2>
+	<div class="skewXDemo">
+		<div class="xChild"></div>
+		<div class="xChild" style="border-radius: 50%;"></div>
+		<div class="xChild"></div>
+	</div>
+	<h2>Skew Y</h2>
+	<div class="skewYDemo">
+		<div class="yChild"></div>
+		<div class="yChild" style="border-radius: 50%;"></div>
+		<div class="yChild"></div>
+	</div>
+	<h2>Skew Both</h2>
+	<div class="skewBothDemo">
+		<div class="bothChild"></div>
+		<div class="bothChild" style="border-radius: 50%;"></div>
+		<div class="bothChild"></div>
+	</div>
+</div>
+
+
+
+<h1>Translate</h1>
+<p>This transform function moves an element sideways, or up and down.</p>
+<style type="text/css">
+.tranlateBox{
+	width: 100px;
+	height: 100px;
+	background: crimson;
+	transform: translate(100px, 50px);
+}
+.normalBox{
+	width: 100px;
+	height: 100px;
+	background: whitesmoke;
+	border: 1px dotted #ccc;
+	position: absolute;
+	top: 1.25rem;
+	left : 1.25rem;
+}
+</style>
+<pre>
+.element{
+	transform:translate(100px, 50px);
+}
+</pre>
+<div class="box" style="height: 200px; position: relative;">
+	<div class="normalBox"></div>
+	<div class="tranlateBox"></div>
+</div>
+<p>The first values is the horizontal value and the second value is the vertical value.</p>
+<p>The first value <code>100px</code> will move the element 100px to the right. And the second value <code>50px</code> will move the element to the bottom from it's current position.</p>
+
+<h3>Negative Value</h3>
+<p>If the horizontal value is negative, it will cause the element to move to the left side. If the vertical value is negative, it will cause the element to move to the upwards.</p>
+
+<h3>transformX &amp; transformY</h3>
+<p>The property <code>transform</code> is shorthand for <code>transformX</code> and <code>transformY</code>.</p>
+<p>The above value can be written as follow -</p>
+<pre>
+.element{
+	transform:translateX(100px);
+	transform:translateY(50px);
+}
+</pre>
+<p>You can use animation with translateX and translateY to move the element diagonally smoothly.</p>
+<p>It’s important to note that an element using transform will not cause other elements to flow around it. By using the translate function below and nudging the green square out of its original position, we’ll notice how the surrounding text will remain fixed in place, as if the square is a block element:</p>
+<pre>
+.square {
+  height: 100px;
+  width: 100px;
+  background-color: #3d9970;
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  align-content: center;
+  color: white;
+  padding: 5px;
+  animation: shimmy 3s infinite;
+  animation-direction: alternate;
+}
+
+@keyframes shimmy {
+  0% {
+    transform: translate(0, 0);    
+  }
+  100% {
+    transform: translate(20px, 50px);
+  }
+}
+&lt;p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus porro officia, quae, explicabo 
+deleniti quasi molestias dolorum non ad pariatur. Illo, inventore at. Odio iure adipisci quisquam, 
+molestias impedit quo.&lt;/p>
+&lt;p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Doloribus unde, quis. Natus quasi, 
+eveniet corporis facere laboriosam voluptatem ad blanditiis, temporibus, laborum voluptate possimus 
+beatae illo. Illo molestiae, iure blanditiis.&lt;/p>
+&lt;div class="square">&lt;/div>
+&lt;p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Harum sit aperiam odit 
+libero soluta delectus voluptatibus saepe laboriosam maiores, quas, fuga vitae. Suscipit 
+eum assumenda hic sunt, debitis voluptatum odit.&lt;/p>
+</pre>
+<style type="text/css">
+.square {
+  height: 100px;
+  width: 100px;
+  background-color: #3d9970;
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  align-content: center;
+  color: white;
+  padding: 5px;
+  animation: shimmy 3s infinite;
+  animation-direction: alternate;
+}
+
+@keyframes shimmy {
+  0% {
+    transform: translate(0, 0);    
+  }
+  100% {
+    transform: translate(20px, 50px);
+  }
+}
+</style>
+<div class="box">
+<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus porro officia, quae, explicabo deleniti quasi molestias dolorum non ad pariatur. Illo, inventore at. Odio iure adipisci quisquam, molestias impedit quo.</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Doloribus unde, quis. Natus quasi, eveniet corporis facere laboriosam voluptatem ad blanditiis, temporibus, laborum voluptate possimus beatae illo. Illo molestiae, iure blanditiis.</p>
+<div class="square"></div>
+<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Harum sit aperiam odit libero soluta delectus voluptatibus saepe laboriosam maiores, quas, fuga vitae. Suscipit eum assumenda hic sunt, debitis voluptatum odit.</p>
+</div>
+
+
+
+
+<h1>Rotate</h1>
+<p>You can rotate an element clockwise or anti-clockwise. If you give positive value, the element will rotate clockwise and if you provide negative value, the element will rotate anti-clockwise.</p>
+
+<h3>rotateX(deg)</h3>
+<p>rotateX rotates the element in respect of X axis(horizontally). Here is an example - </p>
+<style type="text/css">
+.rotateBox{
+	width: 100px;
+	height: 100px;
+	background: crimson;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.rotateX{
+	transform: rotateX(60deg);
+}
+.rotateExamples{
+	display: flex;
+}
+.rotateExamples > div{
+	margin: 20px;
+}
+.aniRotateX{
+	animation-name: rotateX;
+	animation-duration: 2s;
+	animation-iteration-count: infinite;
+}
+@keyframes rotateX{
+	0%{
+		transform: rotateX(0deg);
+		box-shadow: 0px 0px 0 #ccc;
+	}
+	50%{
+		transform: rotateX(60deg);
+		box-shadow: 0px 40px 5px #ccc;
+	}
+	100%{
+		transform: rotateX(0deg);
+		box-shadow: 0px 0px 0 #ccc;
+	}
+}
+.aniRotateY{
+	animation-name: rotateY;
+	animation-duration: 2s;
+	animation-iteration-count: infinite;
+}
+@keyframes rotateY{
+	0%{
+		transform: rotateY(0deg);
+		box-shadow: 0px 0px 0 #ccc;
+	}
+	50%{
+		transform: rotateY(60deg);
+		box-shadow: -40px 0px 5px #ccc;
+	}
+	100%{
+		transform: rotateY(0deg);
+		box-shadow: 0px 0px 0 #ccc;
+	}
+}
+.aniRotateZ{
+	animation-name: rotateZ;
+	animation-duration: 2s;
+	animation-iteration-count: infinite;
+}
+@keyframes rotateZ{
+	0%{
+		transform: rotateZ(0deg);
+	}
+	50%{
+		transform: rotateZ(60deg);
+	}
+	100%{
+		transform: rotateZ(0deg);
+	}
+}
+.justRotate{
+	animation-name: justRotate;
+	animation-duration: 2s;
+	animation-iteration-count: infinite;
+}
+@keyframes justRotate{
+	0%{
+		transform: rotate(0deg);
+	}
+	50%{
+		transform: rotate(60deg);
+	}
+	100%{
+		transform: rotate(0deg);
+	}
+}
+</style>
+<div class="box rotateExamples">
+	<div class="rotateBox">Original</div>
+	<div class="rotateBox rotateX">Rotate 60deg</div>
+	<div class="rotateBox aniRotateX">Content Goes Here .....</div>
+</div>
+
+
+<h3>rotateY(deg)</h3>
+<p>rotateY rotates the element in respect of Y axis(vertically). Here is an example - </p>
+<style type="text/css">
+.rotateY{
+	transform: rotateY(60deg);
+}
+</style>
+<div class="box rotateExamples">
+	<div class="rotateBox">Original</div>
+	<div class="rotateBox rotateY">Rotate 60deg</div>
+	<div class="rotateBox aniRotateY">Rotate 60deg</div>
+</div>
+
+
+<h3>rotateZ(deg)</h3>
+<p>rotateZ rotates the element in respect of Z axis. Here is an example - </p>
+<style type="text/css">
+.rotateZ{
+	transform: rotateZ(60deg);
+}
+</style>
+<div class="box rotateExamples">
+	<div class="rotateBox">Original</div>
+	<div class="rotateBox aniRotateZ">Rotate 60deg</div>
+</div>
+
+
+<h3>rotate(deg)</h3>
+<p>Remember <code>rotate()</code> is not shorthand for <code>rotateX</code>, <code>rotateY</code>, or <code>rotateZ</code>. This function same as <code>rotateZ()</code></p>
+<div class="box rotateExamples">
+	<div class="rotateBox">Original</div>
+	<div class="rotateBox justRotate">Rotate 60deg</div>
+</div>
+
+
+
+
+<h1>Multiple Transforms</h1>
+<p>With a space-separated list you can add multiple values to the transform property:</p>
+<pre>
+.element {
+  width: 20px;
+  height: 20px;
+  transform: scale(20) skew(-20deg);
+}
+</pre>
+<p>It’s worth noting that there is an order in which these transforms will be carried out, in the example above `skew` will be performed first and then the element will be scaled.</p>
+
+
+<h1>transform-origin</h1>
+<p>The transform-origin property is used in conjunction with CSS transforms, letting you change the point of origin of a transform.</p>
+<pre>
+.box {
+  transform: rotate(360deg);
+  transform-origin: top left;
+}
+</pre>
+<p>As indicated above, the transform-origin property can take up to two space-separated keyword or length values for a 2D transform and up to three values for a 3D transform.</p>
+<style type="text/css">
+.originBOx, .originBox2{
+	width: 100px;
+	height: 100px;
+	animation-name: rotateWithDefaultOrigin;
+	animation-duration: 1s;
+	animation-iteration-count: infinite;
+	background: crimson;
+}
+.originBox2{
+	transform-origin: top left;
+}
+@keyframes rotateWithDefaultOrigin{
+	0%{transform: rotate(0deg);}
+	50%{transform: rotate(360deg);}
+	100%{transform: rotate(0deg);}
+}
+</style>
+<div class="box" style="height: 150px; display: flex;">
+	<div class="exampleWithdefault" style="flex: 1; display: flex; justify-content: center; align-items: center;">
+		<div class="originBOx"></div>
+	</div>
+	<div style="flex: 1; display: flex; justify-content: center; align-items: center;">
+		<div class="originBox2"></div>
+	</div>
+</div>
+<p>In the above example the first box has the default origin which is <code>50% 50%</code>. In the second example, we have set the <code>transform-origin</code> to <code>top left</code>. By default, the origin of a transform is "50% 50%", which is exactly in the center of any given element. Changing the origin to "top left" (as in the demo above) causes the element to use the top left corner of the element as a rotation point.</p>
+<style type="text/css">
+.originBOx3, .originBox4{
+	width: 100px;
+	height: 100px;
+	animation-name: rotateWithDefaultOrigin1;
+	animation-duration: 1s;
+	animation-iteration-count: infinite;
+	background: crimson;
+}
+.originBox4{
+	transform-origin: top left;
+}
+@keyframes rotateWithDefaultOrigin1{
+	0%{transform: scale(1);}
+	50%{transform: scale(2);}
+	100%{transform: scale(1);}
+}
+</style>
+<div class="box" style="height: 150px; display: flex;">
+	<div class="exampleWithdefault" style="flex: 1; display: flex; justify-content: center; align-items: center;">
+		<div class="originBOx3"></div>
+	</div>
+	<div style="flex: 1; display: flex; justify-content: center; align-items: center;">
+		<div class="originBox4"></div>
+	</div>
+</div>
+<p>Once again first box has the default origin where is the second box has the origin <code>top left</code>. You can experiment by changing the value to like "bottom right", "bottom left", "top left" etc. "Center Center" is the default value.</p>
+<p>You can also give the percentage value for transform-origin</p>
+<pre>
+.element{
+	transform-origin: -237% 164%;
+}
+</pre>
+<p>Values can be lengths, percentages or the keywords top, left, right, bottom, and center.</p>
+<p>The first value is the horizontal position, the second value is the vertical, and the third value represents the position on the Z axis. The third value will only work if you are using 3D transforms, and it cannot be a percentage.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

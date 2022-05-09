@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Gradient in Flutter</title>
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+	<script type="text/javascript" src="../../Assets/prism.min.js"></script>
+	<script type="text/javascript" src="../../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+
+<h1>Gradient</h1>
+<p>In Flutter, there are three types of gradients, a linear gradient, a radial gradient and a sweep gradient. In this post, we’ll be exploring all three.</p>
+
+<h1>Creating a LinearGradient</h1>
+<p>First of all, let’s implement a linear gradient into our application:</p>
+<pre>
+body: Container(
+  decoration: BoxDecoration(
+    gradient: LinearGradient(
+      colors: [Colors.green, Colors.blue])
+  ),
+  child: Center(
+    child: Text('Gradients are cool!',
+      style: TextStyle(
+        fontSize: 35,
+        color: Colors.white,
+      ),
+    ),
+  ),
+),
+</pre>
+<p>Inside of our BoxDecoration, we’ve added a gradient property, which gives us the ability to use the LinearGradient widget. Inside of our LinearGradient widget we’ve added the property of colors, which we’ve made blue and green. Let’s have a look at what that gives us:</p>
+<img src="../../Assets/flutter/gradient/gradients1.png" style="height: 500px;">
+<p>Great! We now have a linear gradient that goes from green to blue. Our app is already starting to look more beautiful. Let’s begin to explore some properties that we can assign to our LinearGradient in order to change its appearance.</p>
+<p>Firstly, we can change where the gradient stops and starts by adding the <code>begin</code> and <code>end</code> properties. Let’s see if we can make our gradient go from the top left, to the bottom right of the screen.</p>
+<pre>
+body: Container(
+  decoration: BoxDecoration(
+    gradient: LinearGradient(
+      begin: Alignment.topLeft,
+      end: Alignment.bottomRight,
+      colors: [Colors.green, Colors.blue])
+  ),
+  child: Center(
+    child: Text('Gradients are cool!',
+      style: TextStyle(
+        fontSize: 35,
+        color: Colors.white,
+      ),
+    ),
+  ),
+),
+</pre>
+<p>As you can see, we’ve added the properties of <code>begin</code> and <code>end</code> with values of <code>Alignment.topLeft</code> and <code>Alignment.bottomRight</code>. This should change how the gradient is aligned. Let’s have a look at our application now:</p>
+<img src="../../Assets/flutter/gradient/gradients2.png" style="height: 500px;">
+<p>Much better. Now we have a gradient that is properly aligned, and looks great.</p>
+<p>We can also determine the fractions along the gradient by using the stops property. To do that we need to assign a list of values from <code>0.0</code> to <code>1.0</code>. Let’s try that out:</p>
+<pre>
+body: Container(
+  decoration: BoxDecoration(
+    gradient: LinearGradient(
+      begin: Alignment.topLeft,
+      end: Alignment.bottomRight,
+      stops: [0.3, 1],
+      colors: [Colors.green, Colors.blue])
+  ),
+  child: Center(
+    child: Text('Gradients are cool!',
+      style: TextStyle(
+        fontSize: 35,
+        color: Colors.white,
+      ),
+    ),
+  ),
+),
+</pre>
+<p>This value that has been assigned to the stops property should push the green part of our gradient closer to the bottom right of the screen. Let’s have a look at our app:</p>
+<img src="../../Assets/flutter/gradient/gradient3.png" style="height: 500px;">
+<p>As you can see, the fraction of our gradient has been pushed further down the bottom right of the screen. If we increase the value of the stops property, the fraction would be pushed further down, so on and so forth.</p>
+<p>We can also increase the amount of colours in our gradient, so let’s do that:</p>
+<pre>
+body: Container(
+  decoration: BoxDecoration(
+    gradient: LinearGradient(
+      begin: Alignment.topLeft,
+      end: Alignment.bottomRight,
+      stops: [0.1, 0.3, 0.7, 1],
+      colors: [Colors.green, Colors.blue, Colors.orange, Colors.pink])
+  ),
+  child: Center(
+    child: Text('Gradients are cool!',
+      style: TextStyle(
+        fontSize: 35,
+        color: Colors.white,
+      ),
+    ),
+  ),
+),
+</pre>
+<p>We’ve now added 2 colours, orange and pink. We’ve also added two new values to our stops property and changed the point in which the colours in our gradient stop. Let’s have a look at what we have now:</p>
+<img src="../../Assets/flutter/gradient/gradient4.png" style="height: 500px;">
+
+
+
+
+
+
+<h1>Radial Gradients</h1>
+<p>Radial Gradients are quite similar to Linear Gradients, in that they take in properties such as  colors and stops, but they also take in some other properties, such as radius, focal and  tileMode. Let’s implement a radial gradient into our application:</p>
+<pre>
+body: Container(
+  decoration: BoxDecoration(
+      gradient: RadialGradient(
+        colors: [Colors.green, Colors.blue]
+      ),
+      ),
+  child: Center(
+    child: Text(
+      'Gradients are cool!',
+      style: TextStyle(
+        fontSize: 35,
+        color: Colors.white,
+      ),
+    ),
+  ),
+),
+</pre>
+<p>As you can see, implementing a radial gradient is very simple. Let’s have a look at our application:</p>
+<img src="../../Assets/flutter/gradient/gradient5.png" style="height: 500px;">
+<p>Great! We can see that our gradient is fully working and is circle shaped, hence the name radial. Let’s now try and change the appearance of our gradient by assigning some properties.</p>
+<p>We’ll start by adding some more colours, as well as the stops property.</p>
+<pre>
+body: Container(
+  decoration: BoxDecoration(
+      gradient: RadialGradient(
+        colors: [Colors.green, Colors.blue, Colors.orange,Colors.pink],
+        stops: [0.2, 0.5, 0.7, 1]
+      ),
+      ),
+  child: Center(
+    child: Text(
+      'Gradients are cool!',
+      style: TextStyle(
+        fontSize: 35,
+        color: Colors.white,
+      ),
+    ),
+  ),
+),
+</pre>
+<img src="../../Assets/flutter/gradient/gradients6.png" style="height: 500px;">
+<p>Okay, we’ve now got a gradient with multiple colours, so let’s try and change the alignment of our gradient:</p>
+<pre>
+body: Container(
+  decoration: BoxDecoration(
+      gradient: RadialGradient(
+        colors: [Colors.green, Colors.blue, Colors.orange, Colors.pink],
+        stops: [0.2, 0.5, 0.7, 1],
+        center: Alignment(0.1, 0.3),
+      ),
+      ),
+  child: Center(
+    child: Text(
+      'Gradients are cool!',
+      style: TextStyle(
+        fontSize: 35,
+        color: Colors.white,
+      ),
+    ),
+  ),
+),
+</pre>
+<p>As you can see, we’ve added the center property to our gradient, which should shift it downwards and to the right. Let’s have a look at our application now:</p>
+<img src="../../Assets/flutter/gradient/gradients7.png" style="height: 500px;">
+<p>Great! We’ve actually moved our gradient to a different position on the screen now, which is quite interesting. Depending on the values that we assign to our center property, our gradient could be placed anywhere.</p>
+<p>Another thing we can do is change the focal point of our gradient. We can do that by adding the <code>focal</code> property to our gradient. Let’s do that:</p>
+<pre>
+body: Container(
+  decoration: BoxDecoration(
+      gradient: RadialGradient(
+        colors: [Colors.green, Colors.blue, Colors.orange, Colors.pink],
+        stops: [0.2, 0.5, 0.7, 1],
+        center: Alignment(0.1, 0.3),
+        focal: Alignment(-0.1, 0.6),
+      ),
+      ),
+  child: Center(
+    child: Text(
+      'Gradients are cool!',
+      style: TextStyle(
+        fontSize: 35,
+        color: Colors.white,
+      ),
+    ),
+  ),
+),
+</pre>
+<img src="../../Assets/flutter/gradient/gradients8.png" style="height: 500px;">
+<p>Cool, we’ve now changed the focal point of our radial gradient. But what if we wanted to change the size of our focal point? We can do that by using the <code>focalRadius</code> property on our gradient. Here’s how we’d do that:</p>
+<pre>
+body: Container(
+  decoration: BoxDecoration(
+      gradient: RadialGradient(
+        colors: [Colors.green, Colors.blue, Colors.orange, Colors.pink],
+        stops: [0.2, 0.5, 0.7, 1],
+        center: Alignment(0.1, 0.3),
+        focal: Alignment(-0.1, 0.6),
+        focalRadius: 2,
+      ),
+      ),
+  child: Center(
+    child: Text(
+      'Gradients are cool!',
+      style: TextStyle(
+        fontSize: 35,
+        color: Colors.white,
+      ),
+    ),
+  ),
+),
+</pre>
+<img src="../../Assets/flutter/gradient/gradients9.png" style="height: 500px;">
+
+
+
+
+<h1>Sweep Gradients</h1>
+<p>Sweep Gradients are similar to the other two gradients, however they take in properties such as  startAngle and endAngle. Let’s implement a sweep gradient into our application with some colour and some stops:</p>
+<pre>
+body: Container(
+  decoration: BoxDecoration(
+      gradient: SweepGradient(
+        colors: [Colors.blue, Colors.green, Colors.yellow, Colors.red, Colors.blue],
+        stops: [0.0, 0.25, 0.5, 0.75, 1],
+      ),
+      ),
+  child: Center(
+    child: Text(
+      'Gradients are cool!',
+      style: TextStyle(
+        fontSize: 35,
+        color: Colors.white,
+      ),
+    ),
+  ),
+),
+</pre>
+<img src="../../Assets/flutter/gradient/gradients10.png" style="height: 500px;">
+<p>Awesome. With sweep gradients, we can actually create some pretty cool effects with the  startAngle and endAngle properties. Let’s experiment a little bit:</p>
+<pre>
+body: Container(
+  decoration: BoxDecoration(
+      gradient: SweepGradient(
+        colors: [Colors.blue, Colors.green, Colors.yellow, Colors.red, Colors.blue],
+        stops: [0.0, 0.25, 0.5, 0.75, 1],
+        startAngle: 0.5,
+        endAngle: 1
+      ),
+     ),
+  child: Center(
+    child: Text(
+      'Gradients are cool!',
+      style: TextStyle(
+        fontSize: 35,
+        color: Colors.white,
+      ),
+    ),
+  ),
+),
+</pre>
+<img src="../../Assets/flutter/gradient/gradients11.png" style="height: 500px;">
+<p>As you can see, we’ve created a rainbow effect on our screen. This is just one of the many awesome things that we can do with gradients in Flutter.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

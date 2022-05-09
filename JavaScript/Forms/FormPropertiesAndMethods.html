@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Form Properties and Methods</title>
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
+	<script type="text/javascript" src="../../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+<h1>Accessing Forms and Named Inputs</h1>
+<p>If you have form element in your document you can access the form using two ways -</p>
+<ul>
+	<li>document.forms.formName</li>
+	<li>document.forms[index]</li>
+</ul>
+<pre>
+&lt;form name="myForm">
+	
+&lt;/form>
+&lt;script type="text/javascript">
+	console.log(document.forms.myForm);
+&lt;/script>
+</pre>
+<pre>
+&lt;form name="myForm">
+	
+&lt;/form>
+&lt;script type="text/javascript">
+	console.log(document.forms[0]); // First form in the document
+&lt;/script>
+</pre>
+<p>To access any named input inside the form you can use <code>form.elements.namedElement</code> to access named input -</p>
+<pre>
+&lt;form name="myForm">
+	&lt;input type="text" name="firstName">
+&lt;/form>
+&lt;script type="text/javascript">
+var form = document.forms.myForm;
+console.log(form.elements.firstName);
+console.log(form.elements.firstName.value); // Get the value
+&lt;/script>
+</pre>
+<p>There may be multiple elements with the same name, that’s often the case with radio buttons. In that case <code>form.elements[name]</code> is a collection, for instance:</p>
+<pre>
+&lt;form>
+  &lt;input type="radio" name="age" value="10">
+  &lt;input type="radio" name="age" value="20">
+&lt;/form>
+
+&lt;script>
+let form = document.forms[0];
+
+let ageElems = form.elements.age;
+
+alert(ageElems[0].value); // 10, the first input value
+&lt;/script>
+</pre>
+<h3>Fieldsets as "Subforms"</h3>
+<p>A form may have one or many <code>&lt;fieldset></code> elements inside it. They also support the elements property.</p>
+<pre>
+&lt;form id="form" name="myForm">
+  &lt;fieldset name="userFields">
+    &lt;legend>info&lt;/legend>
+    &lt;input name="login" type="text">
+  &lt;/fieldset>
+&lt;/form>
+
+&lt;script>
+	var form = document.forms.myForm;
+  alert(form.elements.login); // &lt;input name="login">
+
+  let fieldset = form.elements.userFields;
+  alert(fieldset); // HTMLFieldSetElement
+
+  // we can get the input both from the form and from the fieldset
+  alert(fieldset.elements.login == form.elements.login); // true
+&lt;/script>
+</pre>
+<p>As you can see, any element inside the <code>fieldset</code> element can be accessed in both ways. It is available within <code>form.elements.namedInput</code> and as well as within <code>form.elements.fieldSetName.elements.namedInput</code></p>
+<h3>Short Notation</h3>
+<p>You can access the named input elements using the short form. Instead of using <code>form.elements.namedInput</code>, you can use <code>form.namedInput</code> directly.</p>
+<p>Here is a live example -</p>
+<pre>
+&lt;form name="myName">
+	&lt;input type="text" name="firstName" value="Santanu">
+	&lt;input type="text" name="lastName" value="Bera">
+	&lt;button onclick="demo1()" type="button">Get Inputs&lt;/button>
+&lt;/form>
+&lt;script type="text/javascript">
+function demo1(){
+	var form = document.forms.myName;
+	console.log("First Name = " + form.elements.firstName.value);
+	console.log("Last Name = " + form.lastName.value);
+}
+&lt;/script>
+</pre>
+<div class="box">
+<form name="myName">
+	<input type="text" name="firstName" value="Santanu">
+	<input type="text" name="lastName" value="Bera">
+	<button onclick="demo1()" type="button">Get Inputs</button>
+</form>
+<script type="text/javascript">
+function demo1(){
+	var form = document.forms.myName;
+	console.log("First Name = " + form.elements.firstName.value);
+	console.log("Last Name = " + form.lastName.value);
+}
+</script>
+</div>
+
+
+
+
+
+<h1>Backreference: element.form</h1>
+<p>For any element, the form is available as <code>element.form</code>. So a form references all elements, and elements reference the form.</p>
+<img src="../Assets/img/form-navigation.png">
+<pre>
+&lt;form id="form">
+  &lt;input type="text" name="login">
+&lt;/form>
+
+&lt;script>
+  // form -> element
+  let login = form.login;
+
+  // element -> form
+  alert(login.form); // HTMLFormElement
+&lt;/script>
+</pre>
+
+
+
+
+
+
+
+
+<h1>Form Elements - Access Values</h1>
+<h3>textbox and textarea</h3>
+<p>To access value of a textbox and textarea you can use <code>value</code> property.</p>
+<pre>
+// textbox
+console.log(input.value); // get value
+input.value = "new value"; // assign new value
+
+// textarea
+console.log(textarea.value); // get value
+textarea.value = "new value"; //assign value
+</pre>
+<p>Please note that we should never use <code>textarea.innerHTML</code>: it stores only the <code>HTML</code> that was initially on the page, not the current value.</p>
+
+<h3>checkbox</h3>
+<p>To access value of a checkbox you can use <code>checked</code> property.</p>
+<pre>
+console.log(checkbox.checked) // get value. Either true or false.
+checkbox.checked = true; // Check the checkbox.
+</pre>
+
+<h3>select</h3>
+<p>A <code>&lt;select></code> element has 3 important properties:</p>
+<ul>
+	<li><code>select.options</code> – the collection of <code>&lt;option></code> elements,</li>
+	<li><code>select.value</code> – the value of the chosen option,</li>
+	<li><code>select.selectedIndex</code> – the number of the selected option.</li>
+</ul>
+<p>So we have three ways to set the value of a <code>&lt;select></code>:</p>
+<ul>
+	<li>Find the needed <code>&lt;option></code> and set option.selected to <code>true</code>.</li>
+	<li>set value using <code>select.value</code></li>
+	<li>Set <code>select.selectedIndex</code> to the number of the option.</li>
+</ul>
+<p>Here is a demo -</p>
+<pre>
+&lt;form name="myForm">
+	&lt;select name="mySelect" value = "Banana">
+		&lt;option value="Banana">Banana&lt;/option>
+		&lt;option value="Mango">Mango&lt;/option>
+		&lt;option value="Grape">Grape&lt;/option>
+		&lt;option value="Date">Date&lt;/option>
+		&lt;option value="Strawberry">Strawberry&lt;/option>
+	&lt;/select>
+	&lt;input type="text" name="fruit">&lt;button type="button" onclick="assign()">Assign&lt;/button>
+&lt;/form>
+&lt;script type="text/javascript">
+function assign(){
+	var form = document.forms.myForm;
+	form.mySelect.value = form.fruit.value;
+}
+&lt;/script>
+</pre>
+<div class="box">
+<form name="myForm">
+	<select name="mySelect" value = "Banana">
+		<option value="Banana">Banana</option>
+		<option value="Mango">Mango</option>
+		<option value="Grape">Grape</option>
+		<option value="Date">Date</option>
+		<option value="Strawberry">Strawberry</option>
+	</select>
+	<input type="text" name="fruit"><button type="button" onclick="assign()">Assign</button>
+</form>
+<script type="text/javascript">
+function assign(){
+	var form = document.forms.myForm;
+	form.mySelect.value = form.fruit.value;
+	// form.mySelect.options[3].selected = true;
+	// form.mySelect.selectedIndex = 1;
+}
+</script>
+</div>
+<p>You can also access/assign the value using the following two ways too -</p>
+<pre>
+function assign(){
+	var form = document.forms.myForm;
+	var index = parseInt(form.fruit.value);
+	if(isNaN(index)) index = 0;
+	form.mySelect.options[index].selected = true;
+}
+</pre>
+<pre>
+function assign(){
+	var form = document.forms.myForm;
+	var index = parseInt(form.fruit.value);
+	if(isNaN(index)) index = 0;
+	form.mySelect.selectedIndex = 2;
+}
+</pre>
+
+
+
+<h1>New Option</h1>
+<p>How to insert a new <code>option</code> element inside the <code>select</code> element? You can do it by appending a new option element to the select. That always works. But let's do it another way without creating and inserting a new node -</p>
+<p>The <code>Option</code> object is used to create a new <code>option</code> element. Here is the syntax -</p>
+<pre>
+option = new Option(text, value, defaultSelected, selected);
+
+// Same as
+&lt;option value="value" selected>text&lt;/option>
+</pre>
+<p>For example -</p>
+<pre>
+let option = new Option("Text", "value");
+// creates &lt;option value="value">Text&lt;/option>
+</pre>
+<p>The same element selected:</p>
+<pre>
+let option = new Option("Text", "value", true, true);
+</pre>
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

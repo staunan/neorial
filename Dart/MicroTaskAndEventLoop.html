@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>MicroTask and Event Loop</title>
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+	<script type="text/javascript" src="../Assets/prism.min.js"></script>
+	<script type="text/javascript" src="../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+<h1>Concept of MicroTask and Event Loop</h1>
+<p>First things first, everyone needs to bear in mind that Dart is Single Thread and Flutter relies on Dart. Dart executes one operation at a time, one after the other meaning that as long as one operation is executing, it cannot be interrupted by any other Dart code.</p>
+<p>In other words, if you consider a purely synchronous method, the latter will be the only one to be executed until it is done.</p>
+<pre>
+void myBigLoop(){
+    for (int i = 0; i < 1000000; i++){
+        _doSomethingSynchronously();
+    }
+}
+</pre>
+<p>In the example above, the execution of the <code>myBigLoop()</code> method will never be interrupted until it completes. As a consequence, if this method takes some time, the application will be “blocked” during the whole method execution.</p>
+
+
+<h2>The Dart execution model</h2>
+<p>Behind the scene, how does Dart actually manage the sequence of operations to be executed? In order to answer this question, we need to have a look at the Dart code sequencer, called the Event Loop.</p>
+<p>When you start a Flutter (or any Dart) application, a new Thread process (in Dart language = “Isolate") is created and launched. This thread will be the only one that you will have to care for the entire application.</p>
+<p>So, when this thread is created, Dart automatically:</p>
+<ol>
+  <li>initializes 2 Queues, namely “MicroTask” and “Event” FIFO queues;</li>
+  <li>executes the main() method and, once this code execution is completed,</li>
+  <li>launches the Event Loop</li>
+</ol>
+<p>During the whole life of the thread, a single internal and invisible process, called the “Event Loop", will drive the way your code will be executed and in which sequence order, depending on the content of both MicroTask and Event Queues.</p>
+<p>The Event Loop corresponds to some kind of infinite loop, cadenced by an internal clock which, at each tick, if no other Dart code is being executed, does something like the following:</p>
+<pre>
+void eventLoop(){
+    while (microTaskQueue.isNotEmpty){
+        fetchFirstMicroTaskFromQueue();
+        executeThisMicroTask();
+        return;
+    }
+
+    if (eventQueue.isNotEmpty){
+        fetchFirstEventFromQueue();
+        executeThisEventRelatedCode();
+    }
+}
+</pre>
+<p>As we can see the <i>MicroTask</i> Queue has precedence over the <i>EventQueue</i> but what are those 2 queues used for?</p>
+
+
+
+<h2>MicroTask Queue</h2>
+<p>The MicroTask Queue is used for very short internal actions that need to be run asynchronously, right after something else completes and before giving the hand back to the Event Queue.</p>
+<pre>
+    MyResource myResource;
+
+    ...
+
+    void closeAndRelease() {
+        scheduleMicroTask(_dispose);
+        _close();
+    }
+
+    void _close(){
+        // The code to be run synchronously
+        // to close the resource
+        ...
+    }
+
+    void _dispose(){
+        // The code which has to be run
+        // right after the _close()
+        // has completed
+    }
+</pre>
+
+
+
+<h2>Event Queue</h2>
+<p>The Event Queue is used to reference operations that result from:</p>
+<ul>
+  <li> external events such as
+    <ul>
+      <li>I/O;</li>
+      <li>gesture;</li>
+      <li>drawing;</li>
+      <li>timers;</li>
+      <li>streams;</li>
+      <li>...</li>
+    </ul>
+  </li>
+  <li>futures</li>
+</ul>
+<p>In fact, each time an external event is triggered, the corresponding code to be executed is referenced into the Event Queue.</p>
+<p>As soon as there is no longer any micro task to run, the Event Loop considers the first item in the Event Queue and will execute it.</p>
+<p>It is very interesting to note that <code>Futures</code> are also handled via the Event Queue.</p>
+<p>Imagine the life of an app stretched out on a timeline. The app starts, the app stops, and in between a bunch of events occur — I/O from the disk, finger taps from the user… all kinds of stuff.</p>
+<p>Your app can’t predict when these events will happen or in what order, and it has to handle all of them with a single thread that never blocks. So, the app runs an event loop. It grabs the oldest event from its event queue, processes it, goes back for the next one, processes it, and so on, until the event queue is empty.</p>
+<p>The whole time the app is running — you’re tapping on the screen, things are downloading, a timer goes off — that event loop is just going around and around, processing those events one at a time.</p>
+<p>When there’s a break in the action, the thread just hangs out, waiting for the next event. It can trigger the garbage collector, get some coffee, whatever.</p>
+<p>All of the high-level APIs and language features that Dart has for asynchronous programming — futures, streams, async and await — they’re all built on and around this simple loop.</p>
+<p>For example, say you have a button that initiates a network request, like this one:</p>
+<pre>
+RaisedButton(
+  child: Text('Click me'),
+  onPressed: () {
+    final myFuture = http.get('https://example.com');
+    myFuture.then((response) {
+      if (response.statusCode == 200) {
+        print('Success!');
+      }
+    });
+  },
+)
+</pre>
+<p>When you run your app, Flutter builds the button and puts it on screen. Then your app waits. Your app’s event loop just sort of idles, waiting for the next event. Events that aren’t related to the button might come in and get handled, while the button sits there waiting for the user to tap on it. Eventually they do, and a tap event enters the queue.</p>
+<p>That event gets picked up for processing. Flutter looks at it, and the rendering system says, “Those coordinates match the raised button,” so Flutter executes the <code>onPressed</code> function. That code initiates a network request (which returns a future) and registers a completion handler for the future by using the <code>then()</code> method.</p>
+<p>That’s it. The loop is finished processing that tap event, and it’s discarded.</p>
+<p>Now, <code>onPressed</code> is a property of RaisedButton, and the network event uses a callback for a future, but both of those techniques are doing the same basic thing. They’re both a way to tell Flutter, “Hey, later on, you might see a particular type of event come in. When you do, please execute this piece of code.”</p>
+<p>So, onPressed is waiting for a tap, and the future is waiting for network data, but from Dart’s perspective, those are both just events in the queue.</p>
+<p>And that’s how asynchronous coding works in Dart. Futures, streams, async and await — these APIs are all just ways for you to tell Dart’s event loop, “Here’s some code, please run it later.”</p>
+
+
+
+
+
+</div>
+</body>
+</html>

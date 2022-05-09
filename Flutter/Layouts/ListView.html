@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>ListView Widget</title>
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+	<script type="text/javascript" src="../../Assets/prism.min.js"></script>
+	<script type="text/javascript" src="../../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+<h1>ListView Widget</h1>
+<p>A scrollable list of widgets arranged linearly.  It displays its children one after another in the scroll direction. In the cross axis, the children are required to fill the ListView.</p>
+<h2>Static ListView</h2>
+<p>If you have a short list of items that don't change, then you can use the default ListView constructor to make it. This is useful for making something like a settings menu page.</p>
+<pre>
+ListView(
+  padding: const EdgeInsets.all(8),
+  children: &lt;Widget>[
+    Container(
+      height: 50,
+      color: Colors.amber[600],
+      child: const Center(child: Text('Entry A')),
+    ),
+    Container(
+      height: 50,
+      color: Colors.amber[500],
+      child: const Center(child: Text('Entry B')),
+    ),
+    Container(
+      height: 50,
+      color: Colors.amber[100],
+      child: const Center(child: Text('Entry C')),
+    ),
+  ],
+)
+</pre>
+<p>The above code would produce the following output:</p>
+<img src="../../Assets/flutter/listview/list_view.png">
+
+
+<h2>ListView.builder()</h2>
+<p>The <code>builder()</code> constructor constructs a repeating list of items. The constructor takes two main parameters: An <code>itemCount</code> for the number of items in the list and an <code>itemBuilder</code> for constructed each list item.</p>
+<pre>
+final List&lt;String> entries = &lt;String>['A', 'B', 'C'];
+final List&lt;int> colorCodes = &lt;int>[600, 500, 100];
+
+ListView.builder(
+  padding: const EdgeInsets.all(8),
+  itemCount: entries.length,
+  itemBuilder: (BuildContext context, int index) {
+    return Container(
+      height: 50,
+      color: Colors.amber[colorCodes[index]],
+      child: Center(child: Text('Entry ${entries[index]}')),
+    );
+  }
+);
+</pre>
+<img src="../../Assets/flutter/listview/list_view_builder.png">
+<p>The general format of the code is:</p>
+<pre>
+ListView.builder(
+  itemCount: itemCount,
+  itemBuilder: (context, position) {
+    return listItem();
+  },
+),
+</pre>
+<p>The list items are constructed lazily, meaning only a specific number of list items are constructed and when a user scrolls ahead, the earlier ones are destroyed.</p>
+<p>The <code>itemCount</code> parameter specifies the total number of item in the list and <code>itemBuilder</code> parameter should return the widget which will be displayed as the list item. The method that is assigned to <code>itemBuilder</code> parameter gets two argument <code>context</code> and <code>position</code>. The position specifies the position or index of the each item in the list.</p>
+
+<h2>Infinite List</h2>
+<p>The argument <code>itemCount</code> is optional. Without this parameter the list is infinite. In the following example, the scrolling never ends.</p>
+<pre>
+ListView.builder(
+  itemBuilder: (context, position) {
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Text(position.toString(), style: TextStyle(fontSize: 22.0),),
+      ),
+    );
+  },
+),
+</pre>
+<img src="../../Assets/flutter/listview/1_oisoTExGF0xjYrcSX1iIxA.gif" style="width: 300px; height: 400px;">
+
+<h2>ListView.separated()</h2>
+<p>The <code>ListView.separated</code> constructor takes two <code>IndexedWidgetBuilders</code>: <code>itemBuilder</code> builds child items on demand, and <code>separatorBuilder</code> similarly builds separator children which appear in between the child items. This constructor is appropriate for list views with a fixed number of children.</p>
+<p><b>Note that the infinite count discussed in the earlier constructor cannot be used here and this constructor enforces an itemCount.</b></p>
+<pre>
+final List&lt;String> entries = &lt;String>['A', 'B', 'C'];
+final List&lt;int> colorCodes = &lt;int>[600, 500, 100];
+
+ListView.separated(
+  padding: const EdgeInsets.all(8),
+  itemCount: entries.length,
+  itemBuilder: (BuildContext context, int index) {
+    return Container(
+      height: 50,
+      color: Colors.amber[colorCodes[index]],
+      child: Center(child: Text('Entry ${entries[index]}')),
+    );
+  },
+  separatorBuilder: (BuildContext context, int index) => const Divider(),
+);
+</pre>
+<img src="../../Assets/flutter/listview/list_view_separated.png">
+<p>This type of list lets you dynamically define separators, have different types of separators for different types of items, add or remove separators when needed, etc.</p>
+<p>This implementation can also be used for inserting other types of elements (advertisements for example) easily and without any modification to the main list in the middle of the list items.</p>
+<img src="../../Assets/flutter/listview/1_e6LEilKRr0p62g7VNat3Bw.png" style="width: 400px; height: 600px;">
+<p><b>Note</b>: The separator list length is 1 less than the item list as a separator does not exist after the last element.</p>
+
+
+<h2>Exploring ScrollPhysics</h2>
+<p>To control the way scrolling takes place, we set the physics parameter in the ListView constructor. The different types of physics are:</p>
+<h3>NeverScrollableScrollPhysics</h3>
+<p><code>NeverScrollableScrollPhysics</code> renders the list non-scrollable. Use this to disable scrolling of the ListView completely.</p>
+
+<h3>BouncingScrollPhysics</h3>
+<p><code>BouncingScrollPhysics</code> bounces back the list when the list ends. A similar effect is used on iOS.</p>
+<img src="../../Assets/flutter/listview/1_8jjtR8LTpfqQ6fd6sGX9jA.gif" style="width: 400px; height: 600px;">
+<h3>ClampingScrollPhysics</h3>
+<p>This is the default scrolling physics used on Android. The list stops at the end and gives an effect indicating it.</p>
+<img src="../../Assets/flutter/listview/1_6MzFiV-QUtu-VBCWO2uTKA.gif" style="width: 400px; height: 600px;">
+<h3>FixedExtentScrollPhysics</h3>
+<p>This is slightly different than the other ones in this list in the sense that it only works with <code>FixedExtendScrollControllers</code> and lists that use them. For an example we will take a <code>ListWheelScrollView</code> wich makes a wheel-like list.</p>
+<p><code>FixedExtentScrollPhysics</code> only scrolls to items instead of any offset in between.</p>
+<img src="../../Assets/flutter/listview/1_4XETw8zoeNGGODA77c09Iw.gif" style="width: 400px; height: 600px;">
+<pre>
+FixedExtentScrollController fixedExtentScrollController = new FixedExtentScrollController();
+ListWheelScrollView(
+  controller: fixedExtentScrollController,
+  physics: FixedExtentScrollPhysics(),
+  children: monthsOfTheYear.map((month) {
+    return Card(
+        child: Row(
+      children: &lt;Widget>[
+        Expanded(
+            child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(
+            month,
+            style: TextStyle(fontSize: 18.0),
+          ),
+        )),
+      ],
+    ));
+  }).toList(),
+  itemExtent: 60.0,
+),
+</pre>
+
+
+
+
+
+
+</div>
+</body>
+</html>

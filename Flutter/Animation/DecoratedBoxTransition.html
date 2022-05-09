@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>DecoratedBoxTransition</title>
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+	<script type="text/javascript" src="../../Assets/prism.min.js"></script>
+	<script type="text/javascript" src="../../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+
+
+
+<h1>DecoratedBoxTransition</h1>
+<pre>
+DecoratedBoxTransition({
+  Key key, 
+  @required Animation&lt;Decoration> decoration, 
+  DecorationPosition position: DecorationPosition.background, 
+  @required Widget child
+})
+</pre>
+<p>Animated version of a <code>DecoratedBox</code> that animates the different properties of its <code>Decoration</code>. Provide a <code>Animation&lt;Decoration></code> object through <code>decoration</code> properties like border width, border color, border radius, background color, background gradient, box shadow etc. You need to use <code>DecorationTween</code> class to animate between two <code>Decoration</code> values. Here is an example that changes its border width and its color:</p>
+<pre>
+class _TestState extends State&lt;Test> with SingleTickerProviderStateMixin{
+
+  AnimationController controller;
+  Animation&lt;Decoration> decorationAnimation;
+
+  @override
+  initState(){
+    super.initState();
+
+    controller = new AnimationController(
+      duration: Duration(milliseconds: 2000),
+      vsync: this
+    );
+
+    decorationAnimation = DecorationTween(
+      begin: BoxDecoration(
+        border: Border.all(color: Colors.black, width: 8),
+      ),
+      end: BoxDecoration(
+        border: Border.all(color: Colors.pink, width: 28),
+      )
+    ).animate(
+      CurvedAnimation(
+        parent: controller,
+        curve: Curves.easeIn
+      )
+    );
+
+    controller.repeat(reverse: true);
+  }
+
+  @override
+  dispose(){
+    controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context){
+    return BeautyBackground(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: &lt;Widget>[
+          BackButton(),
+          Expanded(
+            child: Center(
+              child: SizedBox(
+                width: 200,
+                height: 200,
+                child: DecoratedBoxTransition(
+                  decoration: decorationAnimation,
+                  child: Container(),
+                ),
+              ),
+            ),
+          ),
+        ]
+      )
+    );
+  }
+}
+</pre>
+<p>The following <code>DecorationTween</code> animates the border radius along with border width and its color:</p>
+<pre>
+decorationAnimation = DecorationTween(
+  begin: BoxDecoration(
+    border: Border.all(color: Colors.black, width: 8),
+    borderRadius: BorderRadius.circular(30.0)
+  ),
+  end: BoxDecoration(
+    border: Border.all(color: Colors.pink, width: 28),
+    borderRadius: BorderRadius.circular(0.0)
+  )
+).animate(
+  CurvedAnimation(
+    parent: controller,
+    curve: Curves.easeIn
+  )
+);
+</pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>
+

@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Syntax</title>
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
+	<script type="text/javascript" src="../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+<h1>background-color</h1>
+<p>
+	You have already learnt about background-color in the color Chapter. So Now let's learn about background-image.
+</p>
+<h1>background-image</h1>
+<p>
+	The background-image property in CSS applies a graphic (e.g. PNG, SVG, JPG, GIF, WEBP) or gradient to the background of an element. There are two different types of images you can include with CSS: regular images and gradients.
+</p>
+<p>The url() value allows you to provide a file path to any image, and it will show up as the background for that element.</p>
+<pre>
+	.Content {
+		width: 300px;
+		height: 300px;
+		background-image: url(sweettexture.jpg);
+	}
+</pre>
+<div class="box">
+	<div style="width: 300px; height: 300px; background-image: url('Assets/img/Santanu.jpg');"></div>
+</div>
+<p>
+	Another option when using backgrounds is to tell the browser to create a gradient. Here's a super-duper simple example of a linear gradient:
+</p>
+<pre>
+	.Content {
+		width: 300px;
+		height: 300px;
+		background-image: linear-gradient(black, white);
+	}
+</pre>
+<div class="box">
+	<div style="width: 300px; height: 300px; background-image: linear-gradient(black, white);"></div>
+</div>
+<p>You will learn about gradient later.</p>
+<h1>Setting a Fallback Color</h1>
+<p>
+	If a background image fails to load, or your gradient background is viewed on a browser that doesn't support gradients, the browser will look for a background color as a fallback. You can specify your fallback color like this:
+</p>
+<pre>
+	.Content {
+		width: 300px;
+		height: 300px;
+		background: url(sweettexture.jpg) blue;
+	}
+</pre>
+<div class="box">
+	<div style="width: 300px; height: 300px; background: url(sweettexture.jpg) blue;"></div>
+</div>
+<p>
+	The image is failed to load in browser, so the browser uses blue as a background color as a fallback. In this case "background-image" won't work, you have to use the property "background".
+</p>
+
+<h1>background-attachment</h1>
+<p>The background-attachment property in CSS specifies how to move the background relative to the viewport.</p>
+<p>There are three values: scroll, fixed, and local.</p>
+<p>There are two different views to think about when talking about background-attachment: the main view (browser window), and the local view (element where the background image is attached).</p>
+
+
+<h3>scroll</h3>
+<p>This is the default value. It scrolls with the main view, but stays fixed inside the local view.</p>
+<p>Consider the following example -</p>
+<pre>
+&lt;div class="box" style="display: flex; justify-content: center; flex-direction: column; align-items: center;">
+	&lt;div style="height:250px;width:900px;background-image:url(Assets/img/Santanu.jpg);background-attachment: scroll; overflow:scroll;">
+		&lt;ul>
+			&lt;li>Content&lt;/li>
+			&lt;li>Content&lt;/li>
+			&lt;li>Content&lt;/li>
+			&lt;li>Content&lt;/li>
+			&lt;li>Content&lt;/li>
+			&lt;li>Content&lt;/li>
+			&lt;li>Content&lt;/li>
+			&lt;li>Content&lt;/li>
+			&lt;li>Content&lt;/li>
+			&lt;li>Content&lt;/li>
+			&lt;li>Content&lt;/li>
+			&lt;li>Content&lt;/li>
+			&lt;li>Content&lt;/li>
+			&lt;li>Content&lt;/li>
+			&lt;li>Content&lt;/li>
+			&lt;li>Content&lt;/li>
+			&lt;li>Content&lt;/li>
+			&lt;li>Content&lt;/li>
+			&lt;li>Content&lt;/li>
+			&lt;li>Content&lt;/li>
+			&lt;li>Content&lt;/li>
+			&lt;li>Content&lt;/li>
+			&lt;li>Content&lt;/li>
+			&lt;li>Content&lt;/li>
+			&lt;li>Content&lt;/li>			
+		&lt;/ul>
+	&lt;/div>
+&lt;/div>
+</pre>
+<div class="box" style="display: flex; justify-content: center; flex-direction: column; align-items: center;">
+	<div style="height: 250px; width: 900px; background-image: url(Assets/img/Santanu.jpg); background-attachment: scroll; overflow: scroll; color: #fff;">
+		<ul>
+			<li>Content</li>
+			<li>Content</li>
+			<li>Content</li>
+			<li>Content</li>
+			<li>Content</li>
+			<li>Content</li>
+			<li>Content</li>
+			<li>Content</li>
+			<li>Content</li>
+			<li>Content</li>
+			<li>Content</li>
+			<li>Content</li>
+			<li>Content</li>
+			<li>Content</li>
+			<li>Content</li>
+			<li>Content</li>
+			<li>Content</li>
+			<li>Content</li>
+			<li>Content</li>
+			<li>Content</li>
+			<li>Content</li>
+			<li>Content</li>
+			<li>Content</li>
+			<li>Content</li>
+			<li>Content</li>
+			<li>Content</li>
+			<li>Content</li>
+			<li>Content</li>
+			<li>Content</li>
+			<li>Content</li>
+			<li>Content</li>
+			<li>Content</li>
+			<li>Content</li>
+			<li>Content</li>
+			<li>Content</li>
+			<li>Content</li>
+		</ul>
+	</div>
+</div>
+
+
+<h3>fixed</h3>
+<p>Stays fixed no matter what. It's kind of like a physical window: moving around the window changes your perspective, but it doesn't change where things are outside of the window.</p>
+<p>Consider the previous example but with the value "fixed" for "background-attachment" -</p>
+<div class="box" style="display: flex; justify-content: center; flex-direction: column; align-items: center;">
+	<div style="height: 250px; width: 900px; background-image: url(Assets/img/Santanu.jpg); background-attachment: fixed; overflow: scroll; color: #fff;">
+		<ul>
+			<li>Content</li>
+			<li>Content</li>
+			<li>Content</li>
+			<li>Content</li>
+			<li>Content</li>
+			<li>Content</li>
+			<li>Content</li>
+			<li>Content</li>
+			<li>Content</li>
+			<li>Content</li>
+			<li>Content</li>
+			<li>Content</li>
+			<li>Content</li>
+			<li>Content</li>
+			<li>Content</li>
+			<li>Content</li>
+			<li>Content</li>
+			<li>Content</li>
+			<li>Content</li>
+			<li>Content</li>
+			<li>Content</li>
+			<li>Content</li>
+			<li>Content</li>
+			<li>Content</li>
+			<li>Content</li>
+			<li>Content</li>
+			<li>Content</li>
+			<li>Content</li>
+			<li>Content</li>
+			<li>Content</li>
+			<li>Content</li>
+			<li>Content</li>
+			<li>Content</li>
+			<li>Content</li>
+			<li>Content</li>
+			<li>Content</li>
+		</ul>
+	</div>
+</div>
+
+
+<h3>local</h3>
+<p> It was invented because the default scroll value scrolls both with the main view and the local view. But this value scrolls the background image in respect with both the local and main view.</p>
+<p>Consider the previous example but with the value "local" for "background-attachment" -</p>
+<div class="box" style="display: flex; justify-content: center; flex-direction: column; align-items: center;">
+	<div style="height: 250px; width: 900px; background-image: url(Assets/img/Santanu.jpg); background-attachment: local; overflow: scroll; color: #fff;">
+		<ul>
+			<li>Content</li>
+			<li>Content</li>
+			<li>Content</li>
+			<li>Content</li>
+			<li>Content</li>
+			<li>Content</li>
+			<li>Content</li>
+			<li>Content</li>
+			<li>Content</li>
+			<li>Content</li>
+			<li>Content</li>
+			<li>Content</li>
+			<li>Content</li>
+			<li>Content</li>
+			<li>Content</li>
+			<li>Content</li>
+			<li>Content</li>
+			<li>Content</li>
+			<li>Content</li>
+			<li>Content</li>
+			<li>Content</li>
+			<li>Content</li>
+			<li>Content</li>
+			<li>Content</li>
+			<li>Content</li>
+			<li>Content</li>
+			<li>Content</li>
+			<li>Content</li>
+			<li>Content</li>
+			<li>Content</li>
+			<li>Content</li>
+			<li>Content</li>
+			<li>Content</li>
+			<li>Content</li>
+			<li>Content</li>
+			<li>Content</li>
+		</ul>
+	</div>
+</div>
+
+
+<h1>background-clip</h1>
+<p>background-clip lets you control how far a background image or color extends beyond an element's padding or content.</p>
+<ul>
+	<li><code>border-box</code> is the default value. This allows the background to extend all the way to the outside edge of the element's border.</li>
+	<li><code>padding-box</code> clips the background at the outside edge of the element's padding and does not let it extend into the border.</li>
+	<li><code>content-box</code> clips the background at the edge of the content box.</li>
+</ul>
+<div class="box" style="display: flex; flex-direction: column; align-items: center;">
+	<div style="margin: 20px; padding: 30px; background-image: url(Assets/img/Santanu.jpg); width: 300px; height: 300px; border: 20px solid rgba(0,0,0,0.3); background-clip: border-box; display: flex;justify-content: center;align-items: center;">
+		<label style="background: black; color: #fff;">border-box</label>
+	</div>
+
+	<div style="margin: 20px; padding: 30px; background-image: url(Assets/img/Santanu.jpg); width: 300px; height: 300px; border: 20px solid rgba(0,0,0,0.3); background-clip: padding-box; display: flex;justify-content: center;align-items: center;">
+		<label style="background: black; color: #fff;">padding-box</label>
+	</div>
+
+	<div style="margin: 20px; padding: 30px; background-image: url(Assets/img/Santanu.jpg); width: 300px; height: 300px; border: 20px solid rgba(0,0,0,0.3); background-clip: content-box; display: flex;justify-content: center;align-items: center;">
+		<label style="background: black; color: #fff;">content-box</label>
+	</div>
+</div>
+
+
+<h1>background-origin</h1>
+<p>background-origin is same as background-clip. There is slightly difference between them. But without major difference they can be used interchangably. They both have the same value.</p>
+
+<h1>background-position</h1>
+<p>The background-position property in CSS allows you to move a background image (or gradient) around within its container.</p>
+<p>It has three type of values -</p>
+<ul>
+	<li>Length values (100px 5px)</li>
+	<li>Percentages (10% 20%)</li>
+	<li>Keywords (top, right)</li>
+</ul>
+<p>The default values are 0 0. This places your background image at the top left of the container.</p>
+<p>Length values are pretty simple: the first value is the horizontal position, second value is the vertical position. So 100px 5px will move the image 100px to the right and five pixels down. You can set length values in px, em, or any of the other CSS length values.</p>
+<p>Percentages work a little differently. Get your math hats out: moving a background image by X% means it will align the X% point in the image to the X% point in the container. For example, 50% means it will align the middle of the image with the middle of the container. 100% means it will align the last pixel of the image with the last pixel of the container, and so on.</p>
+<p>Keywords are just shortcuts for percentages. It's easier to remember and write top right than 100% 0, and that's why keywords are a thing. Here is a list of all five keywords and their equivalent values:</p>
+<ul>
+	<li><code>top</code> 0% vertically</li>
+	<li><code>right</code> 100% horizontally</li>
+	<li><code>bottom</code> 100% vertically</li>
+	<li><code>left</code> 0% horizontally</li>
+	<li><code>center</code> 50% horizontally if horizontal isn't already defined. If it is then this is applied vertically.</li>
+</ul>
+<p>It's interesting to note that it doesn't matter what order you use for the keywords: top center is the same as center top. You can only do this if you're exclusively using keywords, though. center 10% is not the same as 10% center.</p>
+<p>Consider the following example -</p>
+<pre>
+&lt;div class="box">
+	&lt;div style="width: 500px; height: 500px; background: url(Assets/img/Santanu.jpg); 
+	border: 1px solid black; background-size: 200px 200px; 
+	background-repeat: no-repeat; background-position: 20% 30%;">&lt;/div>
+&lt;/div>
+</pre>
+<div class="box">
+	<div style="width: 500px; height: 500px; background: url(Assets/img/Santanu.jpg); border: 1px solid black; background-size: 200px 200px; background-repeat: no-repeat; background-position: 20% 30%;"></div>
+</div>
+
+<h3>Using More than two values</h3>
+<p>You can give background-position up to four values in modern browsers.</p>
+<p>If you declare one value, that value is the horizontal offset. The browser sets the vertical offset to center by default.</p>
+<p>When you declare two values, the first value is the horizontal offset and the second value is the vertical offset.</p>
+<p>When you specify three values, the browser interpets the "missing" fourth value as 0. Here's an example of a three-value background-position:</p>
+<pre>
+	#threevalues {
+	  background-position: right 45px bottom;
+	}
+</pre>
+<p>This positions the background image 45px from the right and 0px from the bottom of the container. Here's an example of a four-value background-position:</p>
+<pre>
+	#fourvalues {
+	  background-position: right 45px bottom 20px;
+	}
+</pre>
+<p>This puts the background image 45px from the right and 20px from the bottom of the container. Here is an example - </p>
+<pre>
+	&lt;div class="box">
+		&lt;div style="width: 500px; height: 500px; background: url(Assets/img/Santanu.jpg); border: 1px solid black; 
+		background-size: 200px 200px; background-repeat: no-repeat; background-position: right 20px bottom 30px;">&lt;/div>
+	&lt;/div>
+</pre>
+<div class="box">
+	<div style="width: 500px; height: 500px; background: url(Assets/img/Santanu.jpg); border: 1px solid black; background-size: 200px 200px; background-repeat: no-repeat; background-position: right 20px bottom 30px;"></div>
+</div>
+
+<h1>background-repeat</h1>
+<p>If a background-image property is specified, the background-repeat property in CSS defines if (and how) it will repeat. You can use the following values -</p>
+<ul>
+	<li><code>repeat</code> tile the image in both directions. This is the default value.</li>
+	<li><code>repeat-x</code> tile the image horizontally</li>
+	<li><code>repeat-y</code> tile the image vertically</li>
+	<li><code>no-repeat</code> don't tile, just show the image once</li>
+	<li><code>space</code> tile the image in both directions. Never crop the image unless a single image is too large to fit. If multiple images can fit, space them out evently images always touching the edges</li>
+	<li><code>round</code> tile the image in both directions. Never crop the image unless a single image is too large to fit. If multiple images can fit with leftover space, squish them or stretch them to fill the space. If it's less than half one image width left, stretch, if it's more, stretch.</li>
+</ul>
+<pre>
+&lt;div class="box">
+	&lt;div style=" margin: 20px; width: 500px; height: 500px; background: url(Assets/img/Santanu.jpg); 
+	border: 1px solid black; background-size: 150px 150px; background-repeat: repeat;">&lt;/div>
+	&lt;div style=" margin: 20px; width: 500px; height: 500px; background: url(Assets/img/Santanu.jpg); 
+	border: 1px solid black; background-size: 150px 150px; background-repeat: repeat-x;">&lt;/div>
+	&lt;div style=" margin: 20px; width: 500px; height: 500px; background: url(Assets/img/Santanu.jpg); 
+	border: 1px solid black; background-size: 150px 150px; background-repeat: repeat-y;">&lt;/div>
+	&lt;div style=" margin: 20px; width: 500px; height: 500px; background: url(Assets/img/Santanu.jpg); 
+	border: 1px solid black; background-size: 150px 150px; background-repeat: no-repeat;">&lt;/div>
+	&lt;div style=" margin: 20px; width: 500px; height: 500px; background: url(Assets/img/Santanu.jpg); 
+	border: 1px solid black; background-size: 150px 150px; background-repeat: space;">&lt;/div>
+	&lt;div style=" margin: 20px; width: 500px; height: 500px; background: url(Assets/img/Santanu.jpg); 
+	border: 1px solid black; background-size: 150px 150px; background-repeat: round;">&lt;/div>
+&lt;/div>
+</pre>
+<div class="box">
+	<div style=" margin: 20px; width: 500px; height: 500px; background: url(Assets/img/Santanu.jpg); border: 1px solid black; background-size: 150px 150px; background-repeat: repeat;"></div>
+	<div style=" margin: 20px; width: 500px; height: 500px; background: url(Assets/img/Santanu.jpg); border: 1px solid black; background-size: 150px 150px; background-repeat: repeat-x;"></div>
+	<div style=" margin: 20px; width: 500px; height: 500px; background: url(Assets/img/Santanu.jpg); border: 1px solid black; background-size: 150px 150px; background-repeat: repeat-y;"></div>
+	<div style=" margin: 20px; width: 500px; height: 500px; background: url(Assets/img/Santanu.jpg); border: 1px solid black; background-size: 150px 150px; background-repeat: no-repeat;"></div>
+	<div style=" margin: 20px; width: 500px; height: 500px; background: url(Assets/img/Santanu.jpg); border: 1px solid black; background-size: 150px 150px; background-repeat: space;"></div>
+	<div style=" margin: 20px; width: 500px; height: 500px; background: url(Assets/img/Santanu.jpg); border: 1px solid black; background-size: 150px 150px; background-repeat: round;"></div>
+</div>
+<h3>Using two values</h3>
+<p>Till now we are using one values to the bakground-repeat. But technically it accepts two values. One for horizontal repeatation and another is vertically repeatation. Which makes the single-value syntaxes just shorthand for the two-value syntax. For example, round is really round round. Try changing the single value with two values with different combination and see the effect. You will get an idea.</p>
+
+<h1>background-size</h1>
+<p>It specifies the size of the background image. It can take three values -</p>
+<ul>
+	<li>One Value</li>
+	<li>Two Values</li>
+	<li>Keyword (auto, cover and contain)</li>
+</ul>
+
+<h3>One Value</h3>
+<p>If you only provide one value (e.g. background-size: 400px) it counts for the width, and the height is set to auto. You can use any CSS size units you like, including pixels, percentages, ems, viewport units, etc.</p>
+<pre>
+&lt;div class="box">
+	&lt;div style=" margin: 20px; width: 500px; height: 500px; 
+	background: url(Assets/img/Santanu.jpg); border: 1px solid black; background-size: 350px; background-repeat: no-repeat;">&lt;/div>
+&lt;/div>
+</pre>
+<div class="box">
+	<div style=" margin: 20px; width: 500px; height: 500px; background: url(Assets/img/Santanu.jpg); border: 1px solid black; background-size: 350px; background-repeat: no-repeat;"></div>
+</div>
+
+<h3>Two Value</h3>
+<p>If you provide two values, the first sets the background image's width and the second sets the height. Like the single value syntax, you can use whatever measurement units you like.</p>
+<pre>
+&lt;div class="box">
+	&lt;div style=" margin: 20px; width: 500px; height: 500px; background: url(Assets/img/Santanu.jpg); 
+	border: 1px solid black; background-size: 350px 100px; background-repeat: no-repeat;">&lt;/div>
+&lt;/div>
+</pre>
+<div class="box">
+	<div style=" margin: 20px; width: 500px; height: 500px; background: url(Assets/img/Santanu.jpg); border: 1px solid black; background-size: 350px 100px; background-repeat: no-repeat;"></div>
+</div>
+
+<h3>Keyword values</h3>
+<p>cover tells the browser to make sure the image always covers the entire container, even if it has to stretch the image or cut a little bit off one of the edges. contain, on the other hand, says to always show the whole image, even if that leaves a little space to the sides or bottom.</p>
+<p>The default keyword — auto — tells the browser to automatically calculate the size based on the actual size of the image and the aspect ratio.</p>
+<p>Following syntax uses the value cover - </p>
+<pre>
+&lt;div class="box">
+	&lt;div style="width: 500px; height: 500px; background: url(Assets/img/Santanu.jpg); 
+	border: 1px solid black; background-repeat: no-repeat; background-size: cover;">&lt;/div>
+&lt;/div>
+</pre>
+<div class="box">
+	<div style="width: 500px; height: 500px; background: url(Assets/img/Santanu.jpg); border: 1px solid black; background-repeat: no-repeat; background-size: cover;"></div>
+</div>
+<p>Following syntax uses the value contain - </p>
+<pre>
+&lt;div class="box">
+	&lt;div style="width: 500px; height: 500px; background: url(Assets/img/Santanu.jpg); 
+	border: 1px solid black; background-repeat: no-repeat; background-size:contain; ">&lt;/div>
+&lt;/div>
+</pre>
+<div class="box">
+	<div style="width: 500px; height: 500px; background: url(Assets/img/Santanu.jpg); border: 1px solid black; background-repeat: no-repeat; background-size:contain; "></div>
+</div>
+<p>Following syntax uses the value auto - </p>
+<pre>
+&lt;div class="box">
+	&lt;div style="width: 500px; height: 500px; background: url(Assets/img/Santanu.jpg); 
+	border: 1px solid black; background-repeat: no-repeat; background-size:auto; ">&lt;/div>
+&lt;/div>
+</pre>
+<div class="box">
+	<div style="width: 500px; height: 500px; background: url(Assets/img/Santanu.jpg); border: 1px solid black; background-repeat: no-repeat; background-size:auto; "></div>
+</div>
+
+<h1>background</h1>
+<p>The background property in CSS allows you to control the background of any element (what paints underneath the content in that element). It is a shorthand property, which means that it allows you to write what would be multiple CSS properties in one. Like this:</p>
+<pre>
+	body {
+	  background:
+	     url(sweettexture.jpg)    /* image */
+	     top center / 200px 200px /* position / size */
+	     no-repeat                /* repeat */
+	     fixed                    /* attachment */
+	     padding-box              /* origin */
+	     content-box              /* clip */
+	     red;                     /* color */
+	}
+</pre>
+<p>You can use any combination of these properties that you like, in almost any order (although the order recommended in the spec is above). There is a gotcha though: anything you don't specify in the background property is automatically set to its default. So if you do something like this:</p>
+<p>Using background as a shorthand property is not recomended. As it is not readable much and it's difficult to understand. Use individual background property to make your code readable.</p>
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

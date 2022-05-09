@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Maps</title>
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
+	<script type="text/javascript" src="../Assets/jquery.min.js"></script>
+	<link rel="stylesheet" href="../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+<h1>Maps</h1>
+<p>In general, a map is an object that associates keys and values. Both keys and values can be any type of object. Each key occurs only once, but you can use the same value multiple times.</p>
+<pre>
+var gifts = {
+  // Key:    Value
+  'first': 'partridge',
+  'second': 'turtledoves',
+  'fifth': 'golden rings'
+};
+
+var nobleGases = {
+  2: 'helium',
+  10: 'neon',
+  18: 'argon',
+};
+</pre>
+<p>Dart infers that gifts has the type <code>Map&lt;String, String></code> and nobleGases has the type <code>Map&lt;int, String></code>. If you try to add the wrong type of value to either map, the analyzer or runtime raises an error. </p>
+<p>You can create the same objects using a Map constructor:</p>
+<pre>
+var gifts = Map();
+gifts['first'] = 'partridge';
+gifts['second'] = 'turtledoves';
+gifts['fifth'] = 'golden rings';
+
+var nobleGases = Map();
+nobleGases[2] = 'helium';
+nobleGases[10] = 'neon';
+nobleGases[18] = 'argon';
+</pre>
+<p>You might expect to see new Map() instead of just Map(). As of Dart 2, the new keyword is optional.</p>
+
+
+<h2>Add a new key-vaule pair</h2>
+<p>Add a new key-value pair to an existing map just as you would in JavaScript:</p>
+<pre>
+var gifts = {'first': 'partridge'};
+gifts['fourth'] = 'calling birds'; // Add a key-value pair
+</pre>
+
+
+<h2>Retrive a value</h2>
+<p>Retrieve a value from a map the same way you would in JavaScript:</p>
+<pre>
+var gifts = {'first': 'partridge'};
+assert(gifts['first'] == 'partridge');
+</pre>
+
+<h2>Accessing Map using Undefined key will return null</h2>
+<p>If you look for a key that isn’t in a map, you get a <code>null</code> in return:</p>
+<pre>
+var gifts = {'first': 'partridge'};
+assert(gifts['fifth'] == null);
+</pre>
+
+<h2>Number of key-valule pair</h2>
+<p>Use <code>.length</code> to get the number of key-value pairs in the map:</p>
+<pre>
+var gifts = {'first': 'partridge'};
+gifts['fourth'] = 'calling birds';
+assert(gifts.length == 2);
+</pre>
+
+
+<h2>Making a Map literal constant</h2>
+<p>To create a map that’s a compile-time constant, add const before the map literal:</p>
+<pre>
+final constantMap = const {
+  2: 'helium',
+  10: 'neon',
+  18: 'argon',
+};
+
+// constantMap[2] = 'Helium'; // Uncommenting this causes an error.
+</pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

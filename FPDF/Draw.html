@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Draw</title>
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
+	<script type="text/javascript" src="../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<style type="text/css">
+	h2{
+		font-size: 18px;
+		font-weight: 700;
+	}
+	h3, h4, h2{
+		margin: 0;
+	}
+	p{
+		margin: 0;
+		margin-bottom: 10px;
+	}
+</style>
+<div class="Content Card">
+
+<h1>Line()</h1>
+<pre>
+	
+	Line(float x1, float y1, float x2, float y2)
+
+</pre>
+<p>Draws a line between two points.</p>
+<ul>
+	<li><code>x1</code> Abscissa of first point.</li>
+	<li><code>y1</code> Ordinate of first point.</li>
+	<li><code>x2</code> Abscissa of second point.</li>
+	<li><code>y2</code> Ordinate of second point.</li>
+</ul>
+<pre>
+
+	$pdf = new FPDF();
+	$pdf->SetFont('Arial','B',16);
+	
+	$pdf->AddPage();
+	$pdf->Line(30, 40, 60, 70);
+
+	$pdf->Output('helo.pdf', 'D');
+
+</pre>
+<img src="Images/Line.jpg">
+<p><code>SetLineWidth()</code> can be used to specify the thickness of the line.</p>
+<p><code>SetDrawColor()</code> can be used to specify the line color.</p>
+
+
+
+
+<h1>SetLineWidth()</h1>
+<pre>
+	
+	SetLineWidth(float width)
+
+</pre>
+<p>Defines the line width. By default, the value equals 0.2 mm. The method can be called before the first page is created and the value is retained from page to page.</p>
+<h4>width</h4>
+<p>The width.</p>
+<pre>
+
+	$pdf = new FPDF();
+	$pdf->SetFont('Arial','B',16);
+	
+	$pdf->AddPage();
+	$pdf->SetLineWidth(5);
+	$pdf->Line(30, 40, 60, 70);
+
+	$pdf->Output('helo.pdf', 'D');
+
+</pre>
+<img src="Images/SetLineWidth.jpg">
+
+
+
+<h1>Rect()</h1>
+<pre>
+	
+	Rect(float x, float y, float w, float h [, string style])
+
+</pre>
+<p>Outputs a rectangle. It can be drawn (border only), filled (with no border) or both.</p>
+<ul>
+	<li><code>x</code> Abscissa of upper-left corner.</li>
+	<li><code>y</code> Ordinate of upper-left corner.</li>
+	<li><code>w</code> Width.</li>
+	<li><code>h</code> Height.</li>
+	<li><code>style</code> Style of rendering. Possible values are:
+		<ul>
+			<li>D or empty string: draw. This is the default value.</li>
+			<li>F: fill</li>
+			<li>DF or FD: draw and fill</li>
+		</ul>
+	</li>
+</ul>
+<pre>
+
+		$pdf = new FPDF();
+		$pdf->SetFont('Arial','B',16);
+		
+		$pdf->AddPage();
+		$pdf->SetLineWidth(5);
+		$pdf->Rect(30, 40, 30, 30);
+
+		$pdf->Output('helo.pdf', 'D');
+
+</pre>
+<img src="Images/Rect.jpg">
+<p><code>SetLineWidth()</code> can be used to specify the thickness of the frame.</p>
+<p><code>SetFillColor()</code> can be used as background color.</p>
+<p><code>SetDrawColor()</code> can be used to specify the frame color.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

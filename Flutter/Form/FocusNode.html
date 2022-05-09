@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>FocusNode in Flutter</title>
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+	<script type="text/javascript" src="../../Assets/prism.min.js"></script>
+	<script type="text/javascript" src="../../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+<h1>FocusNode</h1>
+<p>What if we want to change the focus on demand and not just <code>autofocus</code>? Since we need some way to refer which TextField we want to focus to next, we attach a <code>FocusNode</code> to the TextField and use it to switch the focus.</p>
+<p>First, create a FocusNode. Use the FocusNode to identify a specific TextField in Flutter’s “focus tree.” This allows you to give focus to the TextField in the next steps.</p>
+<p>Since focus nodes are long-lived objects, manage the lifecycle using a <code>State</code> object. Use the following instructions to create a FocusNode instance inside the <code>initState()</code> method of a <code>State</code> class, and clean it up in the <code>dispose()</code> method:</p>
+<pre>
+// Define a custom Form widget.
+class MyCustomForm extends StatefulWidget {
+  @override
+  _MyCustomFormState createState() => _MyCustomFormState();
+}
+
+// Define a corresponding State class.
+// This class holds data related to the form.
+class _MyCustomFormState extends State&lt;MyCustomForm> {
+  // Define the focus node. To manage the lifecycle, create the FocusNode in
+  // the initState method, and clean it up in the dispose method.
+  FocusNode myFocusNode;
+
+  @override
+  void initState() {
+    super.initState();
+
+    myFocusNode = FocusNode();
+  }
+
+  @override
+  void dispose() {
+    // Clean up the focus node when the Form is disposed.
+    myFocusNode.dispose();
+
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // Fill this out in the next step.
+  }
+}
+</pre>
+<p>Now that you have a <code>FocusNode</code>, pass it to a specific <code>TextField</code> in the <code>build()</code> method.</p>
+<pre>
+class _MyCustomFormState extends State&lt;MyCustomForm> {
+  // Code to create the Focus node...
+
+  @override
+  Widget build(BuildContext context) {
+    return TextField(
+      focusNode: myFocusNode,
+    );
+  }
+}
+</pre>
+<p>Finally, focus the text field when the user taps a floating action button. Use the <code>requestFocus()</code> method to perform this task.</p>
+<pre>
+FloatingActionButton(
+  // When the button is pressed, give focus to the text field using
+  // myFocusNode.
+  onPressed: () => myFocusNode.requestFocus(),
+);
+</pre>
+<p>If you want to manage focus on multiple TextField you need to have seperate FocusNode for each TextField. But you need to use <code>FocusScope</code> to move focus from one input to another. For example:</p>
+<pre>
+// Initialise outside the build method
+FocusNode nodeOne = FocusNode();
+FocusNode nodeTwo = FocusNode();
+// Do this inside the build method
+TextField(
+  focusNode: nodeOne,
+),
+TextField(
+  focusNode: nodeTwo,
+),
+RaisedButton(
+  onPressed: () {
+    FocusScope.of(context).requestFocus(nodeTwo);
+  },
+  child: Text("Next Field"),
+),
+</pre>
+<img src="../../Assets/flutter/1_vMJw-_qx5DjX7Q3NZ5TTbg.gif" style="width: 200px; height: 400px;">
+
+
+
+</div>
+</body>
+</html>

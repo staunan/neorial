@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Pseudo Elements</title>
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
+	<script type="text/javascript" src="../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+<h1>Pseudo Elements</h1>
+<p>A CSS pseudo-element is used to style specified parts of an element.</p>
+<p>For example, it can be used to:</p>
+<ul>
+	<li>Style the first letter, or line, of an element</li>
+	<li>Insert content before, or after, the content of an element</li>
+</ul>
+<p>Note that, Pseudo Elements preceed by double colon.</p>
+
+
+<h1>::after</h1>
+<p>The ::after selector inserts something after the content of each selected element(s).</p>
+<style type="text/css">
+.recBox{
+	padding: 10px;
+	background-color: #333;
+	color: #fff;
+}
+.recBox::after{
+	content: "3";
+	padding: 3px;
+	background: #fff;
+	color: #333;
+}
+.recBoxTwo{
+	padding: 10px;
+	background-color: #333;
+	color: #fff;
+}
+.recBoxTwo::after{
+	content: url(Assets/img/Santanu.jpg);
+	width: 100px;
+	height: 100px;
+}
+</style>
+<pre>
+.recBox{
+	padding: 10px;
+	background-color: #333;
+	color: #fff;
+}
+.recBox::after{
+	content: "3";
+	padding: 3px;
+	background: #fff;
+	color: #333;
+}
+
+&lt;div class="box">
+  &lt;div class="recBox">
+    &lt;p>
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+      tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+      quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+      consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+      cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+      proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+    &lt;/p>
+  &lt;/div>
+&lt;/div>
+</pre>
+<div class="box">
+	<div class="recBox">
+		<p>
+			Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+			tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+			quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+			consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+			cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+			proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		</p>
+	</div>
+</div>
+
+
+
+
+<h3>Inserting Image</h3>
+<p>You can insert string like above. You can also insert an image or gradient. But in this case you cannot use resize the image, or you cannot give a size to the gradient. That's why content as image or gradient is rarely used. Mostly string is used.</p>
+<pre>
+.recBoxTwo{
+	padding: 10px;
+	background-color: #333;
+	color: #fff;
+}
+.recBoxTwo::after{
+	content: url(Assets/img/Santanu.jpg);
+	padding: 3px;
+	background: #fff;
+	color: #333;
+}
+
+&lt;div class="box">
+  &lt;div class="recBoxTwo">
+    &lt;p>
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+      tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+      quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+      consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+      cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+      proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+    &lt;/p>
+  &lt;/div>
+&lt;/div>
+</pre>
+<div class="box">
+	<div class="recBoxTwo">
+		<p>
+			Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+			tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+			quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+			consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+			cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+			proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		</p>
+	</div>
+</div>
+
+
+<h3>Changing position of ::after element</h3>
+<p>What if you want to change the position of the ::after element. Well you can do it in the way you do for normal element. You can use position.</p>
+<p>Consider the following --</p>
+<style type="text/css">
+.recBoxThree{
+	padding: 10px;
+	background-color: #333;
+	color: #fff;
+	position: relative;
+	padding-bottom: 50px;
+}
+.recBoxThree::after{
+	content: "50";
+	padding: 3px;
+	background: #fff;
+	color: #333;
+	position: absolute;
+	right: 30px;
+}
+</style>
+
+<pre>
+.recBoxThree{
+	padding: 10px;
+	background-color: #333;
+	color: #fff;
+	position: relative;
+	padding-bottom: 50px;
+}
+.recBoxThree::after{
+	content: "50";
+	padding: 3px;
+	background: #fff;
+	color: #333;
+	position: absolute;
+	right: 30px;
+}	
+</pre>
+<div class="box">
+	<div class="recBoxThree">
+		<p>
+			Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+			tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+			quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+			consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+			cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+			proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		</p>
+	</div>
+</div>
+<p>This way you can place <code>::after</code> element anywhere you want.</p>
+
+
+
+
+
+<h1>::before Element</h1> 
+<p><code>::before</code> element is same as <code>::after</code>. The only difference is that, for <code>::before</code> element, browser will insert the content before the other element of the container. It means before any other child element.</p>
+
+
+
+<h1>::first-letter</h1>
+<p>::first-letter is a pseudo element which allows you to style the first letter in an element, without needing to stick a <span> tag around that first letter in your HTML.</p>
+<pre>
+	
+	.firstletterDemo::first-letter {
+	  font-weight: bold;
+	  color: red;
+	}
+	&lt;p class="firstletterDemo">The first letter is bold and red&lt;/p>
+
+</pre>
+<style type="text/css">
+.firstletterDemo::first-letter {
+  font-weight: bold;
+  color: red;
+}
+</style>
+<div class="box">
+	<p class="firstletterDemo">The first letter is bold and red</p>
+</div>
+<p>The pseudo element only works if the parent element is a block container box (in other words, it doesn't work on the first letter of display: inline; elements.</p>
+
+
+
+
+<h1>::first-line</h1>
+<p>The ::first-line pseudo-element is for applying styles to the first line of an element. Imagine a paragraph that is several lines long (like this one!). ::first-line allows you to style that first line of text. You could use it to make it larger or set it in small-caps as a stylistic choice. The amount of text targeted by this pseudo-element depends on the several factors like line length, viewport width, font-size, letter-spacing, word-spacing. As soon as the line breaks, the text after that is no longer selected. Note that there is no actual DOM element being selected here (thus "pseudo" element).</p>
+<p>This pseudo-element only works on block-level elements (when display is set to either block, inline-block, table-caption, table-cell). If set on an inline element, nothing happens, even if that inline element has a line break within it.</p>
+<p>Also note that not all properties can be used in a ruleset containing ::first-line. Mostly:</p>
+<pre>
+
+	.element::first-line {
+	    font-style: ...
+	    font-variant: ...
+	    font-weight: ...
+	    font-size: ...
+	    font-family: ...
+
+	    line-height: ...
+	    color: ...
+	    word-spacing: ...
+	    letter-spacing: ...
+	    text-decoration: ...
+	    text-transform: ...
+
+	    background-color: ...
+	    background-image: ...
+	    background-position: ...
+	    background-repeat: ...
+	    background-size: ...
+	    background-attachment: ...
+	}
+
+</pre>
+<p>Here is an <a href="Examples/FirstLine.html" target="_blank">Example</a></p>
+
+
+
+
+
+<h1>::selection</h1>
+<p>Using your cursor select this sentence. Notice how as you select the text a background color fills the space? You can change the background color and color of selected text by styling ::selection. Styling this pseudo element is great for matching user-selected text to your sites color scheme.</p>
+<pre>
+
+	p::-moz-selection { color: red}
+	p::selection { color: red; }
+
+</pre>
+<p>As seen above, you can style ::selection on individual elements. You can also style the entire page by dropping the bare pseudo element in your stylesheet.</p>
+<pre>
+
+	::-moz-selection { background: yellow; }
+	::selection { background: yellow; }
+
+</pre>
+<p>There are only four properties that ::selection will work with:</p>
+<ul>
+	<li>color</li>
+	<li>background-color</li>
+	<li>background-image</li>
+	<li>text-shadow</li>
+</ul>
+<style type="text/css">
+.example-color::selection {
+  color: #8e44ad;
+}
+.example-background-color::selection {
+  background-color: #f1c40f;
+}
+.example-background::selection {
+  background: #e74c3c;
+}
+.example-both::selection {
+  background-color: #8e44ad;
+  color: white;
+}
+.example-shadow::selection {
+  text-shadow: 1px 1px 0 #27ae60;
+}
+.example-input::selection {
+  background: #2ecc71;
+}
+.example-textarea::selection {
+  background: #34495e;
+  color: white;
+}
+</style>
+<pre>
+
+	.example-color::selection {
+	  color: #8e44ad;
+	}
+	.example-background-color::selection {
+	  background-color: #f1c40f;
+	}
+	.example-background::selection {
+	  background: #e74c3c;
+	}
+	.example-both::selection {
+	  background-color: #8e44ad;
+	  color: white;
+	}
+	.example-shadow::selection {
+	  text-shadow: 1px 1px 0 #27ae60;
+	}
+	.example-input::selection {
+	  background: #2ecc71;
+	}
+	.example-textarea::selection {
+	  background: #34495e;
+	  color: white;
+	}
+	body {
+	  font-family: 'Source Sans Pro', Arial, sans-serif;
+	  line-height: 1.45;
+	  background: #E0DCCC;
+	  color: #333;
+	  padding: 1em;
+	  font-size: 18px;
+	}
+
+	p,input,textarea  {
+	  margin-bottom: 1em;
+	}
+	input,textarea {
+	  display: block;
+	  font-size: 1em;
+	  font-family: inherit;
+	}
+	&lt;p>Select me to see normal behavior.&lt;/p>
+	&lt;p class='example-color'>Try selecting me for a different text color.&lt;/p>
+	&lt;p class='example-background-color'>You can select me for a different background color.&lt;/p>
+	&lt;p class='example-background'>You can also select me for a different background.&lt;/p>
+	&lt;p class='example-both'>Guess what&hellip; you can select me for a different background color and text color.&lt;/p>
+	&lt;p class='example-shadow'>How about a text-shadow? Sure, select me for a different text-shadow.&lt;/p>
+	&lt;p class='example-background-color'>
+	  What about nest elements? Select me for a different background color.
+	  &lt;span class='example-color'>And this sentence is just a color selection.&lt;/span>
+	  Nesting works!
+	&lt;/p>
+	&lt;input class='example-input' type='text' value='Inputs work!*'>
+	&lt;textarea class='example-textarea' cols='30' name='' rows='10'>Textarea, too!*&lt;/textarea>
+	&lt;div class='foot-notes'>*not Safari&lt;/div>
+
+</pre>
+<div class="box">
+<p>Select me to see normal behavior.</p>
+<p class='example-color'>Try selecting me for a different text color.</p>
+<p class='example-background-color'>You can select me for a different background color.</p>
+<p class='example-background'>You can also select me for a different background.</p>
+<p class='example-both'>Guess what&hellip; you can select me for a different background color and text color.</p>
+<p class='example-shadow'>How about a text-shadow? Sure, select me for a different text-shadow.</p>
+<p class='example-background-color'>
+  What about nest elements? Select me for a different background color.
+  <span class='example-color'>And this sentence is just a color selection.</span>
+  Nesting works!
+</p>
+<input class='example-input' type='text' value='Inputs work!*'>
+<textarea class='example-textarea' cols='30' name='' rows='10'>Textarea, too!*</textarea>
+<div class='foot-notes'>*not Safari</div>
+</div>
+
+
+
+
+
+
+<h1>content</h1>
+<p>The content property in CSS is used in conjunction with the pseudo elements <code>::before</code> and <code>::after</code>. It is used to literally insert content. There are four value types it can have.</p>
+<pre>
+
+	.name::before {
+	  content: "Name: ";
+	}
+
+</pre>
+<p>Then an element like this:</p>
+<pre>
+
+	&lt;div class="name">Chris&lt;/div>
+
+</pre>
+<p>Would render like this:</p>
+<pre>
+
+	Name: Chris
+
+</pre>
+<p>It could also be an empty string, which is commonly seen in things like the clearfix.</p>
+<p>You can give the following values to the content property -</p>
+<ul>
+	<li><code>counter</code> Sets the content as a counter.</li>
+	<li><code>attr</code> Sets the content as one of the selector's attribute.</li>
+	<li><code>string</code> Sets the content to the text you specify.</li>
+	<li><code>url</code> Sets the content to be some kind of media (an image, a sound, a video, etc.)</li>
+	<li>open-quote</li>
+	<li>close-quote</li>
+	<li>no-open-quote</li>
+	<li>no-close-quote</li>
+	<li>initial</li>
+	<li>inherit</li>
+	<li><code>none</code> Sets the content to nothing.</li>
+</ul>
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

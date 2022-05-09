@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Dom Manipulation</title>
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
+	<script type="text/javascript" src="../../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+
+<h1>Attributes and Properties</h1>
+<p>When the browser loads a page, it reads the HTML content and generates DOM object form it. For element nodes most standard HTML attributes automatically become properties of DOM objects.</p>
+<p>Consider the following example -</p>
+<pre>
+&lt;body id="page">
+</pre>
+<p>You can access the above element using -</p>
+<pre>
+document.body.id
+</pre>
+<p>As you can see, <code>body</code> becomes the property of <code>document</code> and <code>id</code> becomes the property of <code>body</code>.</p>
+<p>We can add our own property like this -</p>
+<pre>
+document.body.myData = {
+  name: 'Caesar',
+  title: 'Imperator'
+};
+
+alert(document.body.myData.title); // Imperator
+</pre>
+<p>We can add a method as well -</p>
+<pre>
+document.body.sayTagName = function() {
+  alert(this.tagName);
+};
+
+document.body.sayTagName(); // BODY (the value of "this" in the method is document.body)
+</pre>
+<p>We can also modify built-in prototypes like <code>Element.prototype</code> and add new methods to all elements:</p>
+<pre>
+Element.prototype.sayHi = function() {
+  alert(`Hello, I'm ${this.tagName}`);
+};
+
+document.documentElement.sayHi(); // Hello, I'm HTML
+document.body.sayHi(); // Hello, I'm BODY
+</pre>
+<p>So, DOM properties and methods behave just like those of regular JavaScript objects:</p>
+<ul>
+	<li>They can have any type of value.</li>
+	<li>They are case-sensitive (elem.nodeType and elem.NoDeTyPe both considered as different property).</li>
+</ul>
+
+
+
+
+
+
+<h2>HTML Attributes</h2>
+<p>In HTML language, tags may have attributes. When the browser reads HTML text and creates DOM objects for tags, it recognizes standard attributes and creates DOM properties from them. So when an element has <code>id</code> or another standard attribute, the corresponding property gets created. But that doesn’t happen if the attribute is non-standard.</p>
+<pre>
+&lt;body id="test" something="non-standard">
+  &lt;script>
+    alert(document.body.id); // test
+    // non-standard attribute does not yield a property
+    alert(document.body.something); // undefined
+  &lt;/script>
+&lt;/body>
+</pre>
+<p>Please note that a standard attribute for one element can be unknown for another one. For instance, "type" is standard for <code>&lt;input></code> (HTMLInputElement), but not for <code>&lt;body></code> (HTMLBodyElement). Another example is, the attribute <code>href</code> is standerd for <code>a</code> and <code>link</code> element but not for <code>div</code> or any other element.</p>
+<pre>
+&lt;body id="body" type="...">
+  &lt;input id="input" type="text">
+  &lt;script>
+    alert(input.type); // text
+    alert(body.type); // undefined: DOM property not created, because it's non-standard
+  &lt;/script>
+&lt;/body>
+</pre>
+<p>So, if an attribute is non-standard, there won’t be DOM-property for it. Is there a way to access such attributes? Sure. All attributes are accessible using following methods:</p>
+<ul>
+	<li><code>elem.hasAttribute(name)</code> – checks for existence.</li>
+	<li><code>elem.getAttribute(name)</code> – gets the value.</li>
+	<li><code>elem.setAttribute(name, value)</code> – sets the value.</li>
+	<li><code>elem.removeAttribute(name)</code> – removes the attribute.</li>
+</ul>
+
+<h3>elem.hasAttribute("attributeName")</h3>
+<p>This method is used to check if the attribute exists for the element. It returns true if it exists. Or, false if the attribute doesn't exists. For example -</p>
+<pre>
+&lt;p id="demo" author="Santanu Bera" publishedon="2018-05-06">Lorem ipsum dolor sit amet&lt;/p>
+
+
+var article = document.getElementById("demo");
+article.hasAttribute("author"); // true
+article.hasAttribute("price"); // false
+</pre>
+
+
+
+
+
+<h3>elem.getAttribute("attributeName")</h3>
+<p>This methods is used to return the value of the specified attribute.</p>
+<pre>
+&lt;p id="demo" author="Santanu Bera" publishedon="2018-05-06">Lorem ipsum dolor sit amet&lt;/p>
+
+
+var article = document.getElementById("demo");
+article.getAttribute("author"); // Santanu Bera
+article.hasAttribute("price"); // null
+</pre>
+
+
+
+
+<h3>elem.setAttribute("attributeName", newValue)</h3>
+<p>This method is used to change the value of the specifed attribute. The first argument is the name of the attribute and the second argument is the new value.</p>
+<pre>
+&lt;p id="demo" author="Santanu Bera" publishedon="2018-05-06">Lorem ipsum dolor sit amet&lt;/p>
+
+
+var article = document.getElementById("demo");
+document.write(article.getAttribute("author")); // Santanu Bera
+article.setAttribute("author", "Lorem Ipsum");
+document.write(article.getAttribute("author")); // Lorem Ipsum
+</pre>
+<p>If the attribute already exists, it updates the value, and if the attribute doesn't exists, it creates new attribute.</p>
+<pre>
+article.setAttribute("price", 123);
+article.hasAttribute("price"); // true
+article.getAttribute("Price"); // "123"
+</pre>
+<p>Remember the following thing -</p>
+<ul>
+	<li><span style="font-style: italic; font-weight: 500;">Attributes name are case-insensitive.</span> In the last example, we are acessing the price attribute using "Price", and it still works.</li>
+	<li><span style="font-style: italic; font-weight: 500;">Attributes values are always string value.</span> In the first statement, we have used the Number value <code>123</code> for the price attribute. But when we return it, it is returened as String. Infact it is assigned as String on the attribute.</li>
+</ul>
+<pre>
+console.log(article.outerHTML);
+</pre>
+<p>Here is an example -</p>
+<pre>
+&lt;div class="box">
+&lt;p id="setDemo" author="Santanu Bera">Hello World&lt;/p>
+
+&lt;script type="text/javascript">
+var var1 = document.getElementById("setDemo");
+var1.setAttribute("hello", 123);
+console.log(var1.outerHTML);
+&lt;/script>
+&lt;/div>
+</pre>
+<div class="box">
+<p id="setDemo" author="Santanu Bera">Hello World</p>
+
+<script type="text/javascript">
+var var1 = document.getElementById("setDemo");
+var1.setAttribute("hello", 123);
+console.log(var1.outerHTML);
+</script>
+</div>
+
+
+
+
+<h3>elem.removeAttribute("attributeName")</h3>
+<p>This method is used to remove an attribute from the element.</p>
+<pre>
+&lt;p id="demo" author="Santanu Bera" publishedon="2018-05-06">Lorem ipsum dolor sit amet&lt;/p>
+
+
+document.write(article.hasAttribute("author") + "<br>"); // true
+article.removeAttribute("author");
+document.write(article.hasAttribute("author")); // false
+</pre>
+
+
+
+
+
+
+<h3>elem.attributes</h3>
+<p>The <code>attributes</code> property is used to get all the properties from the Element. It contains a collection of objects that belong to a built-in <code>Attr</code> class, with <code>name</code> and <code>value</code> properties.</p>
+<pre>
+&lt;p id="demo" author="Santanu Bera">
+	Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+	tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+	quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+	consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+	cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+	proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+&lt;/p>
+
+var article = document.getElementById("demo");
+var allAttributes = article.attributes;
+var i = 0;
+while(i&lt;allAttributes.length){
+	console.log(allAttributes[i].name + " = " + allAttributes[i].value)
+	i++;
+}
+</pre>
+<div class="box">
+<p id="demo" author="Santanu Bera">
+	Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+	tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+	quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+	consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+	cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+	proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+</p>
+<script type="text/javascript">
+var article = document.getElementById("demo");
+var allAttributes = article.attributes;
+var i = 0;
+while(i<allAttributes.length){
+	console.log(allAttributes[i].name + " = " + allAttributes[i].value)
+	i++;
+}
+</script>
+</div>
+
+
+
+
+
+
+
+<h1>Property and Attribute Synchronization</h1>
+<p>When a standard attribute changes, the corresponding property is auto-updated, and (with some exceptions) vice versa. In the example below id is modified as an attribute, and we can see the property changed too. And then the same backwards:</p>
+<pre>
+&lt;input>
+
+&lt;script>
+  let input = document.querySelector('input');
+
+  // attribute => property
+  input.setAttribute('id', 'id');
+  alert(input.id); // id (updated)
+
+  // property => attribute
+  input.id = 'newId';
+  alert(input.getAttribute('id')); // newId (updated)
+&lt;/script>
+</pre>
+<p>But there are exclusions, for instance input.value synchronizes only from attribute → to property, but not back:</p>
+<pre>
+&lt;input>
+
+&lt;script>
+  let input = document.querySelector('input');
+
+  // attribute => property
+  input.setAttribute('value', 'text');
+  alert(input.value); // text
+
+  // NOT property => attribute
+  input.value = 'newValue';
+  alert(input.getAttribute('value')); // text (not updated!)
+&lt;/script>
+</pre>
+<p>That “feature” may actually come in handy, because the user may modify value, and then after it, if we want to recover the “original” value from HTML, it’s in the attribute.</p>
+<p>Here is an demo -</p>
+<pre>
+&lt;div class="box">
+&lt;input id="myInput">&lt;button type="button" onclick="resetInput()">Go&lt;/button>
+
+
+&lt;script type="text/javascript">
+function resetInput(){
+	var myInput = document.getElementById("myInput");
+	console.log("Property = " + myInput.value);
+	console.log("Attribute = " + myInput.getAttribute("value"));
+	myInput.value = myInput.getAttribute("value");
+}
+var myInput = document.getElementById("myInput");
+myInput.setAttribute("value", "Lorem Ipsum");
+&lt;/script>
+&lt;/div>
+</pre>
+
+<div class="box">
+<input id="myInput"><button type="button" onclick="resetInput()">Go</button>
+
+
+<script type="text/javascript">
+function resetInput(){
+	var myInput = document.getElementById("myInput");
+	console.log("Property = " + myInput.value);
+	console.log("Attribute = " + myInput.getAttribute("value"));
+	myInput.value = myInput.getAttribute("value");
+}
+var myInput = document.getElementById("myInput");
+myInput.setAttribute("value", "Lorem Ipsum");
+</script>
+</div>
+
+
+
+
+
+
+
+<h1>Properties are typed</h1>
+<p>DOM properties are not always strings. For instance, the <code>input.checked</code> property (for checkboxes) is a boolean:</p>
+<pre>
+&lt;input id="input" type="checkbox" checked> checkbox
+
+&lt;script>
+  alert(input.getAttribute('checked')); // the attribute value is: empty string
+  alert(input.checked); // the property value is: true
+&lt;/script>
+</pre>
+<p>There are other examples. The <code>style</code> attribute is a string, but the <code>style</code> property is an object:</p>
+<pre>
+&lt;div id="div" style="color:red;font-size:120%">Hello&lt;/div>
+
+&lt;script>
+  // string
+  alert(div.getAttribute('style')); // color:red;font-size:120%
+
+  // object
+  alert(div.style); // [object CSSStyleDeclaration]
+  alert(div.style.color); // red
+&lt;/script>
+</pre>
+<p style="font-style: italic; font-weight: 500;">That’s an important difference. But even if a DOM property type is a string, it may differ from the attribute!</p>
+
+<h3>href Attribute Vs href Property</h3>
+<p>For instance, the <code>href</code> DOM property is always a full URL, even if the attribute contains a relative URL or just a #hash.</p>
+<pre>
+&lt;a id="a" href="#hello">link&lt;/a>
+&lt;script>
+  // attribute
+  alert(a.getAttribute('href')); // #hello
+
+  // property
+  alert(a.href ); // full URL in the form http://site.com/page#hello
+&lt;/script>
+</pre>
+<p>If we need the value of <code>href</code> or any other attribute exactly as written in the HTML, we can use <code>getAttribute</code>.</p>
+
+
+
+
+
+
+
+
+<h1>Non-standard attributes, dataset</h1>
+<p>When writing HTML, we use a lot of standard attributes. But what about non-standard, custom ones? First, let’s see whether they are useful or not? What for?</p>
+<p>Sometimes non-standard attributes are used to pass custom data from HTML to JavaScript, or to “mark” HTML-elements for JavaScript.</p>
+<pre>
+&lt;!-- mark the div to show "name" here -->
+&lt;div show-info="name">&lt;/div>
+&lt;!-- and age here -->
+&lt;div show-info="age">&lt;/div>
+
+&lt;script>
+  // the code finds an element with the mark and shows what's requested
+  let user = {
+    name: "Pete",
+    age: 25
+  };
+
+  for(let div of document.querySelectorAll('[show-info]')) {
+    // insert the corresponding info into the field
+    let field = div.getAttribute('show-info');
+    div.innerHTML = user[field]; // Pete, then age
+  }
+&lt;/script>
+</pre>
+<p>Also they can be used to style an element. For instance, here for the order state the attribute order-state is used:</p>
+<pre>
+&lt;style>
+  /* styles rely on the custom attribute "order-state" */
+  .order[order-state="new"] {
+    color: green;
+  }
+
+  .order[order-state="pending"] {
+    color: blue;
+  }
+
+  .order[order-state="canceled"] {
+    color: red;
+  }
+&lt;/style>
+
+&lt;div class="order" order-state="new">
+  A new order.
+&lt;/div>
+
+&lt;div class="order" order-state="pending">
+  A pending order.
+&lt;/div>
+
+&lt;div class="order" order-state="canceled">
+  A canceled order.
+&lt;/div>
+</pre>
+<p>Why the attribute may be preferable to classes like <code>.order-state-new</code>, <code>.order-state-pending</code>, <code>.order-state-canceled?</code> That’s because an attribute is more convenient to manage. The state can be changed as easy as:</p>
+<pre>
+// a bit simpler than removing old/adding a new class
+div.setAttribute('order-state', 'canceled');
+</pre>
+<p>But there may be a possible problem with custom attributes. What if we use a non-standard attribute for our purposes and later the standard introduces it and makes it do something? The HTML language is alive, it grows, more attributes appear to suit the needs of developers. There may be unexpected effects in such case.</p>
+<p>To avoid conflicts, there exist <code>data-*</code> attributes.</p>
+<p style="font-style: italic; font-weight: bold;">All attributes starting with “data-” are reserved for programmers’ use. They are available in the dataset property.</p>
+<p>For instance, if an <code>elem</code> has an attribute named <code>data-about</code>, it’s available as <code>elem.dataset.about</code>.</p>
+<pre>
+&lt;body data-about="Elephants">
+&lt;script>
+  alert(document.body.dataset.about); // Elephants
+&lt;/script>
+</pre>
+<p>Multiword attributes like <code>data-order-state</code> become camel-cased: <code>dataset.orderState</code>.</p>
+<pre>
+&lt;style>
+  .order[data-order-state="new"] {
+    color: green;
+  }
+
+  .order[data-order-state="pending"] {
+    color: blue;
+  }
+
+  .order[data-order-state="canceled"] {
+    color: red;
+  }
+&lt;/style>
+
+&lt;div id="order" class="order" data-order-state="new">
+  A new order.
+&lt;/div>
+
+&lt;script>
+  // read
+  alert(order.dataset.orderState); // new
+
+  // modify
+  order.dataset.orderState = "pending"; // (*)
+&lt;/script>
+</pre>
+<p>Using <code>data-*</code> attributes is a valid, safe way to pass custom data.</p>
+<p>Please note that we can not only read, but also modify data-attributes. Then CSS updates the view accordingly: in the example above the last line (*) changes the color to blue.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

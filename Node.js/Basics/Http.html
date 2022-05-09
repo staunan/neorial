@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Http</title>
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+	<script type="text/javascript" src="../../Assets/prism.min.js"></script>
+	<script type="text/javascript" src="../../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+
+
+<h1>HTTP</h1>
+<p>The http module of Node.js provides useful functions and classes to build an HTTP server. It allows you to transfer data over the Hyper Text Transfer Protocol (HTTP). To use HTTP you need to require that module:</p>
+<pre>
+var http = require('http');
+</pre>
+<p>The HTTP module contains lots of methods, properties and classes. Here are some of them which are very useful:</p>
+<ul>
+	<li>Properties
+		<ul>
+			<li>http.METHODS</li>
+			<li>http.STATUS_CODES</li>
+			<li>http.globalAgent</li>
+      <li>http.maxHeaderSize</li>
+		</ul>
+	</li>
+	<li>Methods
+		<ul>
+			<li><a href="#CreateServer">http.createServer()</a></li>
+			<li><a href="#httprequest">http.request()</a></li>
+			<li><a href="#httpget">http.get()</a></li>
+		</ul>
+	</li>
+	<li>Classes
+		<ul>
+			<li>http.Agent</li>
+			<li>
+        http.ClientRequest
+        <ul>
+          <li><a href="#requestURL">request.url</a></li>
+          <li><a href="#requestwrite">request.write()</a></li>
+          <li><a href="#requestend">request.end()</a></li>
+          <li><a href="#requestfinished">request.finished</a></li>
+          <li><a href="#requestsetheader">request.setHeader()</a></li>
+          <li><a href="#requestgetheader">request.getHeader()</a></li>
+        </ul>
+      </li>
+			<li>http.Server</li>
+			<li>
+        http.ServerResponse
+        <ul>
+          <li><a href="#setHeader">response.setHeader()</a></li>
+          <li><a href="#writeHead">response.writeHead()</a></li>
+          <li><a href="#responsegetheader">response.getHeader()</a></li>
+          <li><a href="#responsegetheadernames">response.getHeaderNames()</a></li>
+          <li><a href="#responsegetheaders">response.getHeaders()</a></li>
+          <li><a href="#responsehasheader">response.hasHeader()</a></li>
+          <li><a href="#responseheadersent">response.headersSent</a></li>
+          <li><a href="#responseremoveheader">response.removeHeader(name)</a></li>
+          <li><a href="#responsestatuscode">response.statusCode</a></li>
+          <li><a href="#reponsestatusmessage">response.statusMessage</a></li>
+        </ul>
+      </li>
+			<li>http.IncomingMessage</li>
+		</ul>
+	</li>
+</ul>
+<p>As we go through this tutorial, we will see lots of stuff that we can do with HTTP.</p>
+
+
+
+
+
+
+
+
+
+<h1 id="CreateServer">Creating a Server : http.createServer()</h1>
+<p>The HTTP module can create an HTTP server that listens to server ports and gives a response back to the client. Use the <code>createServer()</code> method to create an HTTP server:</p>
+<pre>
+var http = require('http');
+
+//create a server object:
+http.createServer(function (req, res) {
+  res.write('Hello World!'); //write a response to the client
+  res.end(); //end the response
+}).listen(8080); //the server object listens on port 8080
+</pre>
+<p>The above code creates a server on the port <code>8080</code> and starts listening for new request. Now go to the browser and type <code>http://localhost:8080/</code>, you will see <code>Hello World</code> printed in the browser.</p>
+<p>The method <code>createServer</code> takes a callback function as an argument. This callback function is called <code>RequestListener</code>. Initially the RequestListener is not executed. Whenever an user tries to send a request on the same port <code>8080</code>, that RequestListener is executed.</p>
+<p>The RequestListener method of <code>createServer</code> takes two parameter. First <code>req</code>, which contains the request details that came from the client. Second <code>res</code> is the response object which you can use to send the response to the user.</p>
+<p>The <code>createServer</code> returns a <code>HTTP.Server</code> instance. You can store it in a variable:</p>
+<pre>
+let server = http.createServer(function (req, res) {
+  res.write('Hello World!');
+  res.end();
+});
+
+server.listen(8080);
+</pre>
+<p>The <code>createServer</code> method only creates the server, but it doesn't start it. In order to start listening for the incoming requests, you must start the server. The <code>listen</code> method of <code>HTTP.Server</code> class does that job.</p>
+<pre>
+server.listen(8080);
+</pre>
+<p>Now the server will start listen to that provided port <code>8080</code>.</p>
+<h3>Don't foget the Callback</h3>
+<p>If you don't provide callback function(RequestListener), the server will still start. But the user won't be able to get the response.</p>
+<pre>
+http.createServer().listen(8080);
+</pre>
+<p>As there is no callback method to send the response back to the user, the user will wait forever for the response from the server.</p>
+<p>So, this is the basic structure of how you can create server and listen for the incoming request and send the response.</p>
+
+
+
+
+
+
+
+
+
+
+<h1 id="setHeader">Add an HTTP Header : response.setHeader()</h1>
+<p>Sets a single header value for implicit headers. If this header already exists in the to-be-sent headers, its value will be replaced. Use an array of strings here to send multiple headers with the same name. Non-string values will be stored without modification. Therefore, <code>response.getHeader()</code> may return non-string values. However, the non-string values will be converted to strings for network transmission.</p>
+<p>When you send a response from the server to the client, you should specify what kind of data you are sending, so that the client can understand and knows how to deal with that data. You can specify the type of data by adding a header to the response.</p>
+<p>The response header contains the information about the data you are sending. There is also request header when you request from the client to the server. So there are two types of header:</p>
+<ul>
+	<li>Response Header : Header when you send response from the server to the Client.</li>
+	<li>Request Header : Header when you send request from client to the server.</li>
+</ul>
+<p>The Header is automatically passed along with the data.</p>
+<p>You can explicitly queue any HTTP header in the response using the <code>response.setHeader(name, value)</code> member function. One common header that you need to set is the <code>Content-Type</code> of the response so that the client knows how to interpret the data the server sends in the body. For example, if you are sending down an HTML file to the client, you should set the <code>Content-Type</code> to <code>text/html</code>, which you can with the following code:</p>
+<pre>
+res.setHeader(“Content-Type”, “text/html”);
+</pre>
+<p>Note that, this is set by default, if you are not adding any header in the response. And that's why the browser automatically display the content as HTML format. But it is required when you send a JSON or Text file.</p>
+<h3>Custom Entry in Header</h3>
+<p>You can add any key-value pair in the header:</p>
+<pre>
+res.setHeader("foo", "Bar");
+</pre>
+<img src="../Assets/images/customHeader.jpg">
+
+
+
+
+<h1 id="writeHead">response.writeHead()</h1>
+<p>There is another way to set the header, using <code>writeHead()</code> method of response object.</p>
+<pre>
+response.writeHead(statusCode[, statusMessage][, headers])
+</pre>
+<p>Sends a response header to the request. The status code is a 3-digit HTTP status code, like <code>404</code>. The last argument, headers, are the response headers. Optionally one can give a human-readable <code>statusMessage</code> as the second argument. With this method you can add header at once.</p>
+<pre>
+res.writeHead(200, {
+	'Content-Type': 'text/html',
+	'foo' : "Bar"
+});
+</pre>
+<p>Returns a reference to the <code>ServerResponse</code>, so that calls can be chained.</p>
+<pre>
+const body = 'hello world';
+response
+  .writeHead(200, {
+    'Content-Length': Buffer.byteLength(body),
+    'Content-Type': 'text/plain'
+  })
+  .end(body);
+</pre>
+<p>This method must only be called once on a message and it must be called before <code>response.end()</code> is called.</p>
+<p>When headers have been set with <code>response.setHeader()</code>, they will be merged with any headers passed to <code>response.writeHead()</code>, with the headers passed to <code>response.writeHead()</code> given precedence.</p>
+<h3>Overwriting Predefined Headers</h3>
+<p>Note that, regardless of what you are using either <code>setHeader</code> or <code>writeHead</code>, there are few extra entry in the response header is added automatically by Node.js. You can overrite them:</p>
+<pre>
+var http = require('http');
+
+//create a server object:
+http.createServer(function (req, res) {
+	res.writeHead(200, { 
+		'Content-Type': 'text/javascript', 
+		'foo' : 'Bar',
+		'Connection' : "Keep Dead",
+	});
+  res.write('&lt;h1>Hello World!&lt;/h1>'); //write a response to the client
+  res.end(); //end the response
+}).listen(8080); //the server object listens on port 8080
+</pre>
+<img src="../Assets/images/overritingExistingHeader.jpg">
+
+
+
+
+
+
+<h1 id="requestURL">Read the Query String : request.url</h1>
+<p>The request object contains <code>url</code> property that contains the part of the URL(without domain name). For example:</p>
+<pre>
+var http = require('http');
+
+//create a server object:
+http.createServer(function (req, res) {
+	res.writeHead(200, {'Content-Type': 'text/html'});
+  res.write(req.url);
+  res.end(); //end the response
+}).listen(8080); //the server object listens on port 8080
+</pre>
+<pre>
+localhost:8080/about
+/about
+
+localhost:8080/contact-us
+/contact-us
+
+localhost:8080/getUser?id=100
+/getUser?id=100
+</pre>
+<p>So the <code>url</code> contains the url part as a string. To interpret the URL and get the parameters from the URL, we need to use another core module called "URL". Here is the code:</p>
+<pre>
+var http = require('http');
+var url = require('url');
+
+http.createServer(function (req, res) {
+  res.writeHead(200, {'Content-Type': 'text/html'});
+  var q = url.parse(req.url, true).query;
+  var txt = q.year + " " + q.month;
+  res.end(txt);
+}).listen(8080);
+</pre>
+<p>The url module defines <code>parse</code> method which converts the query string into an object.</p>
+<p>Now if you access <code>http://localhost:8080/?year=2019&month=10</code>, you will get <code>2019 10</code> as the output.</p>
+<p>We will cover more about <code>url</code> module later chapter.</p>
+
+
+
+
+
+<h1>Routing</h1>
+<p>Based on the query string you can send custom response to the client. This is the underlying mechanism for routing that the different Node.js framework like Express uses. Framework like Express.js has more advance abstruct level to work with router but the mechanism for routing is based on <code>url</code> module. You can route your control flow based on the url string. Here is an example :</p>
+<pre>
+var http = require('http');
+var url = require('url');
+
+http.createServer(function (req, res) {
+  res.writeHead(200, {'Content-Type': 'text/html'});
+  if (req.url == "/") {
+  	res.write('Home Page');
+  }else if (req.url == "/about") {
+  	res.write("About Page");
+  }else if (req.url == "/contact-us") {
+  	res.write("Contact Us");
+  }else{
+  	res.write("Page Not Found !");
+  }
+  res.end();
+}).listen(8080);
+</pre>
+<p>And here is the output:</p>
+<pre>
+localhost:8080
+Home Page
+
+localhost:8080/about
+About Page
+
+localhost:8080/contact-us
+Contact Us
+
+localhost:8080/lsdjfljdk
+Page Not Found !
+</pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h1 id="httpget">Send Request : http.get()</h1>
+<p>Using <code>Http</code> module not only you can send responses, but also you can make a request to another server. This module uses the event emitter pattern. The idea is that you get a small chunk of the overall response (usually a single line of the overall payload/body) during each data event. You can process the data right away (preferred for large data) or save it all together in a buffer variable for future use once all the data has been received (preferred for JSON).</p>
+<p>You can use <code>get</code> method of <code>http</code> module to make a get request. The first argument is the url you are requesting to and the second argument is the callback methods which is executed either when it gets the whole data at once or gets the small chunk of the data.</p>
+<pre>
+const http = require('http')
+const url = 'http://nodeprogram.com'
+http.get(url, (response) => {
+  response.on('data', (chunk) => { 
+    console.log(chunk.toString('utf8'))
+  })
+  response.on('end', () => {
+    console.log('response has ended')
+  })
+}).on('error', (error) => {
+  console.error(`Got error: ${error.message}`)
+})
+</pre>
+<p>In the above example, we are listening to <code>data</code> and <code>end</code> events. The <code>data</code> event occurs when it gets the chunk of the data. And <code>end</code> events is triggered once the whole request is finished. We are consoling the output as soon as it gets the small chunk of the whole data.</p>
+<p>We are loading <code>http://nodeprogram.com</code>. It's home page is relatively big in size. So it is noticable in the console that the part of the data is getting printed in the console. And finally when everything is loaded, the <code>end</code> event is triggered and the message <code>response has ended</code> gets printed.</p>
+<p>Sometimes you want to wait for the data to be fully loaded and do somthing with that data. In this case you need to create a buffer and store the data into that buffer. And when the data loading is done, you can do whatever you wanna do with that data. Here is an example:</p>
+<pre>
+const http = require('http')
+const url = 'http://nodeprogram.com'
+http.get(url, (response) => {
+  let rawData = ''
+  response.on('data', (chunk) => { 
+    rawData += chunk
+  })
+  response.on('end', () => {
+    console.log(rawData)
+  })
+}).on('error', (error) => {
+  console.error(`Got error: ${error.message}`)
+})
+</pre>
+<p>If you receive a JSON data, you must process the data after you receive the whole data. Because the part of the JSON file is invalid.</p>
+<p>The <code>http.get</code> method returns <code>http.ClientRequest</code> instance. This method triggers <code>error</code> event if there is any error.</p>
+<p>There are another useful way to send request using <code>http.request()</code> method. Let's dive deep into that.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h1 id="httprequest">Http.request()</h1>
+<p>This method is used to make request from Node.js server to other domain. Here is the syntax:</p>
+<pre>
+http.request(options[, callback])
+http.request(url[, options][, callback])
+</pre>
+<p>The first argument should be either <code>options</code> or <code>url</code>. The second argument can be either <code>options</code> or a callback function.</p>
+<p>The argument <code>url</code> can be a string or a <code>URL</code> object. If url is a string, it is automatically parsed with <code>new URL()</code>. If it is a URL object, it will be automatically converted to an ordinary <code>options</code> object.</p>
+<p>If both <code>url</code> and <code>options</code> are specified, the objects are merged, with the <code>options</code> properties taking precedence.</p>
+<p>The optional <code>callback</code> parameter will be added as a one-time listener for the 'response' event.</p>
+<p>The method <code>http.request()</code> returns an instance of the <code>http.ClientRequest</code> class. The <code>ClientRequest</code> instance is a writable stream. If one needs to upload a file with a POST request, then write to the <code>ClientRequest</code> object.</p>
+<p>Here is a complete example of how to make a post request using <code>Http.request()</code>:</p>
+<pre>
+const postData = querystring.stringify({
+  'msg': 'Hello World!'
+});
+
+const options = {
+  hostname: 'www.google.com',
+  port: 80,
+  path: '/upload',
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/x-www-form-urlencoded',
+    'Content-Length': Buffer.byteLength(postData)
+  }
+};
+
+const req = http.request(options, (res) => {
+  console.log(`STATUS: ${res.statusCode}`);
+  console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
+  res.setEncoding('utf8');
+  res.on('data', (chunk) => {
+    console.log(`BODY: ${chunk}`);
+  });
+  res.on('end', () => {
+    console.log('No more data in response.');
+  });
+});
+
+req.on('error', (e) => {
+  console.error(`problem with request: ${e.message}`);
+});
+
+// write data to request body
+req.write(postData);
+req.end();
+</pre>
+<p>Let's explore each part of the above example:</p>
+<p>Here, <code>postData</code> is the actual data that we are sending. We have converted the data from JSON to string value. Next, we set few options to control our request. The options are described below:</p>
+<ul>
+  <li><code>protocol</code> : [string] This is the protocal of the requested domain. The default is <code>HTTP</code>. Note that you cannot use <code>HTTPS</code>. To use <code>HTTPS</code> you need to use another Node.js module called <code>https</code> which we will learn later.</li>
+  <li><code>host</code> : [string] A domain name or IP address of the server to issue the request to. Default: 'localhost'.</li>
+  <li><code>hostname</code> : [string] This is same as <code>host</code> option. If both are used, the <code>hostname</code> takes the priority.</li>
+  <li><code>port</code> : [number] Port of remote server. Default is <code>80</code>.</li>
+  <li><code>method</code> : [string] This specify the HTTP request method. Default is <code>GET</code>.</li>
+  <li><code>path</code> : [string] Request path. Should include query string if any. E.G. <code>'/index.html?page=12'</code>. An exception is thrown when the request path contains illegal characters. Currently, only spaces are rejected but that may change in the future. Default: '<code>/</code>'.</li>
+  <li><code>headers</code> : [object] An object containing request headers.</li>
+  <li><code>auth</code> : [string] Basic authentication i.e. '<code>user:password</code>' to compute an Authorization header.</li>
+</ul>
+<p>Next, <code>http.request()</code> method is used to create the request. It is same as <code>http.get()</code> method. We have used <code>options</code> as the first paramenter and <code>callback</code> as the last parameter. The callback receives a response object.</p>
+<p>Note that the method <code>http.request()</code> just creates the request. But that's not all. There are two operation pending. One is sending the data and then end the request. So the flow is like this:</p>
+<ul>
+  <li>You create a request using <code>http.request()</code>. The request is created and connected. But it is in hanging state. The requested server is waiting for the data to be received.</li>
+  <li>You call <code>request.write()</code> method to send the data as many times as you want.</li>
+  <li>When you are done with sending data call <code>request.end()</code> to end the request.</li>
+</ul>
+<p>In the method <code>http.get()</code> method we don't need to call <code>request.end()</code> manually. The method <code>res.end()</code> is called automatically by the method <code>http.get()</code>. But in the case of <code>http.request()</code> we need to call <code>res.end()</code> manually to end the request.</p>
+<p>So in the next lesson, we will learn about <code>request.end()</code> and <code>request.write()</code>.</p>
+
+
+
+
+
+
+
+
+<h1 id="requestwrite">request.write()</h1>
+<pre>
+request.write(chunk[, encoding][, callback])
+</pre>
+<p>This method sends the data to the server. It sends a chunk of the body. By calling this method many times, a request body can be sent to a server — in that case it is suggested to use the ['<code>Transfer-Encoding</code>', '<code>chunked</code>'] header line when creating the request.</p>
+<p>If you are sending small data you don't need to call that method many times. But suppose if you send a big data like a video, you need to call that method many times. Letter we will see how to send big data.</p>
+<p>The <code>encoding</code> argument is optional and only applies when chunk is a string. Defaults to 'utf8'.</p>
+<p>The <code>callback</code> argument is optional and will be called when this chunk of data is flushed.</p>
+<p>Returns <code>true</code> if the entire data was flushed successfully to the kernel buffer. Returns <code>false</code> if all or part of the data was queued in user memory. The event '<code>drain</code>' will be emitted when the buffer is free again.</p>
+
+
+
+
+
+
+
+
+
+<h1 id="requestend">request.end()</h1>
+<pre>
+request.end([data[, encoding]][, callback])
+</pre>
+<p>Finishes sending the request. If any parts of the body are unsent, it will flush them to the stream. If the request is chunked, this will send the terminating '0\r\n\r\n'.</p>
+<p>If <code>data</code> is specified, it is equivalent to calling <code>request.write(data, encoding)</code> followed by <code>request.end(callback)</code>.</p>
+<p>If <code>callback</code> is specified, it will be called when the request stream is finished.</p>
+<pre>
+request.write(data[, encoding]);
+request.end([callback]);
+// Same as 
+request.end(data[, encoding] [, callback]);
+</pre>
+
+
+
+
+
+
+<h1 id="requestfinished">request.finished</h1>
+<p>The request.finished property will be true if <code>request.end()</code> has been called. <code>request.end()</code> will automatically be called if the request was initiated via <code>http.get()</code></p>
+
+
+
+
+
+
+<h1 id="requestsetheader">request.setHeader()</h1>
+<pre>
+request.setHeader(name, value)
+</pre>
+<p>Sets a single header value for headers object. If this header already exists in the to-be-sent headers, its value will be replaced. Use an array of strings here to send multiple headers with the same name. Non-string values will be stored without modification. Therefore, <code>request.getHeader()</code> may return non-string values. However, the non-string values will be converted to strings for network transmission.</p>
+<pre>
+request.setHeader('Content-Type', 'application/json');
+request.setHeader('Cookie', ['type=ninja', 'language=javascript']);
+</pre>
+
+
+
+
+
+
+
+
+
+<h1 id="requestgetheader">request.getHeader()</h1>
+<p>Reads out a header on the request. Note that the name is case insensitive. The type of the return value depends on the arguments provided to <code>request.setHeader()</code>.</p>
+<pre>
+request.setHeader('content-type', 'text/html');
+request.setHeader('Content-Length', Buffer.byteLength(body));
+request.setHeader('Cookie', ['type=ninja', 'language=javascript']);
+const contentType = request.getHeader('Content-Type');
+// contentType is 'text/html'
+const contentLength = request.getHeader('Content-Length');
+// contentLength is of type number
+const cookie = request.getHeader('Cookie');
+// cookie is of type string[]
+</pre>
+
+
+
+
+
+
+
+
+
+<h1 id="responsegetheader">response.getHeader()</h1>
+<p>Reads out a header that's already been queued but not sent to the client. Note that the name is case insensitive. The type of the return value depends on the arguments provided to response.setHeader().</p>
+<pre>
+response.setHeader('Content-Type', 'text/html');
+response.setHeader('Content-Length', Buffer.byteLength(body));
+response.setHeader('Set-Cookie', ['type=ninja', 'language=javascript']);
+const contentType = response.getHeader('content-type');
+// contentType is 'text/html'
+const contentLength = response.getHeader('Content-Length');
+// contentLength is of type number
+const setCookie = response.getHeader('set-cookie');
+// setCookie is of type string[]
+</pre>
+
+
+
+
+
+
+
+<h1 id="responsegetheadernames">response.getHeaderNames()</h1>
+<p>Returns an array containing the unique names of the current outgoing headers. All header names are lowercase.</p>
+<pre>
+response.setHeader('Foo', 'bar');
+response.setHeader('Set-Cookie', ['foo=bar', 'bar=baz']);
+
+const headerNames = response.getHeaderNames();
+// headerNames === ['foo', 'set-cookie']
+</pre>
+
+
+
+
+
+
+
+
+
+<h1 id="responsegetheaders">response.getHeaders()</h1>
+<p>It returns the outgoing response header object. All header names are lowercase. The object returned by the <code>response.getHeaders()</code> method does not prototypically inherit from the JavaScript Object. This means that typical Object methods such as <code>obj.toString()</code>, <code>obj.hasOwnProperty()</code>, and others are not defined and will not work.</p>
+
+
+
+
+
+
+<h1 id="responsehasheader">response.hasHeader(name)</h1>
+<p>Returns <code>true</code> if the header identified by name is currently set in the outgoing headers. Note that the header name matching is case-insensitive.</p>
+<pre>
+const hasContentType = response.hasHeader('content-type');
+</pre>
+
+
+
+
+
+
+<h1 id="responseheadersent">response.headersSent</h1>
+<p>Boolean (read-only). <code>True</code> if headers were sent, <code>false</code> otherwise.</p>
+
+
+
+
+
+
+
+<h1 id="responseremoveheader">response.removeHeader(name)</h1>
+<p>Removes a header that's queued for implicit sending.</p>
+<pre>
+response.removeHeader('Content-Encoding');
+</pre>
+
+
+
+
+
+
+
+
+
+<h1 id="responsestatuscode">response.statusCode</h1>
+<p>When using implicit headers (not calling <code>response.writeHead()</code> explicitly), this property controls the status code that will be sent to the client when the headers get flushed.</p>
+<pre>
+response.statusCode = 404;
+</pre>
+<p>After response header was sent to the client, this property indicates the status code which was sent out.</p>
+
+
+
+
+
+
+
+<h1 id="reponsestatusmessage">response.statusMessage</h1>
+<p>When using implicit headers (not calling <code>response.writeHead()</code> explicitly), this property controls the status message that will be sent to the client when the headers get flushed. If this is left as <code>undefined</code> then the standard message for the status code will be used.</p>
+<pre>
+response.statusMessage = 'Not found';
+</pre>
+<p>After response header was sent to the client, this property indicates the status message which was sent out.</p>
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

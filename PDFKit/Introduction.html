@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>PDFKit - Introduction</title>
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
+	<script type="text/javascript" src="../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../Assets/prism-dark.css">
+  <script type="text/javascript" src="pdfkit.js"></script>
+  <script type="text/javascript" src="blob-stream.js"></script>
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+
+<h1>PDFKit</h1>
+<button onclick="createPDF()">PDF</button>
+<script type="text/javascript">
+function createPDF(){
+	// Initializing doc --
+	var doc = new PDFDocument;
+	var stream = doc.pipe(blobStream());
+
+	doc.text('Hello world!');
+
+
+
+
+	// Downloading PDF --
+	doc.end();
+	stream.on('finish', function(){
+		var blob = stream.toBlob('application/pdf');
+		url = stream.toBlobURL('application/pdf');
+		var link = document.createElement('a');
+		link.setAttribute('target', '_blank');
+		link.setAttribute('href', url);
+		document.body.appendChild(link);
+		link.click();
+	});
+}  
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

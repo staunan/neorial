@@ -1,0 +1,12 @@
+#FlyOverActivator{
+	width: 100%;
+	height: 30px;
+	background: crimson;
+	position: fixed;
+	right: 0;
+	top: 200px;
+	cursor: pointer;
+	overflow-x: hidden;
+	transform: translateX(95%);
+	transition: all 1s;
+}

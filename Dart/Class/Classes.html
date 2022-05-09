@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Class</title>
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+
+
+<h1>Class</h1>
+<p>In Dart, everything is an object. And each object belongs to its corresponding class. Each class is a subclass of <code>Object</code> class. A class in dart contains several things, like:</p>
+<ul>
+	<li>Static variables</li>
+	<li>Static Methods</li>
+	<li>Instance variables</li>
+	<li>Instance Methods</li>
+	<li>Getter/Setter</li>
+	<li>Constructors</li>
+  <li>Private members</li>
+</ul>
+
+
+
+
+
+<h1>Defining a Class</h1>
+<p>To create a class, use <code>class</code> keyword, followed by the name of the class. And then the body of the class follows.</p>
+<pre>
+class className{
+	// body of the class
+}
+</pre>
+<p>For example:</p>
+<pre>
+class Point{
+	num x;
+	num y;
+}
+</pre>
+<p>Now you can create object of the class <code>Point</code> and get access to it's properties <code>x</code> and <code>y</code>. The variable <code>x</code> and <code>y</code> is called instance variable or properties.</p>
+
+
+
+<h1>Instance variables</h1>
+<p>Here’s how you declare instance variables:</p>
+<pre>
+class Point {
+  num x; // Declare instance variable x, initially null.
+  num y; // Declare y, initially null.
+  num z = 0; // Declare z, initially 0.
+}
+</pre>
+<p>All uninitialized instance variables have the value <code>null</code>.</p>
+
+
+
+
+
+
+<h1>Constructor</h1>
+<p>Constructors are of two types:</p>
+<ul>
+  <li>Unnamed Constructor</li>
+  <li>Named Constructor</li>
+</ul>
+
+<h2>Unnamed Constructor</h2>
+<p>Declare a unnamed constructor by creating a function with the same name as its class. Here is an example:</p>
+<pre>
+class Point {
+  num x, y;
+
+  Point(num x, num y) {
+    // There's a better way to do this, stay tuned.
+    this.x = x;
+    this.y = y;
+  }
+}
+</pre>
+<p>The <code>this</code> keyword refers to the current instance.</p>
+<p>The pattern of assigning a constructor argument to an instance variable is so common, Dart has syntactic sugar to make it easy:</p>
+<pre>
+class Point {
+  num x, y;
+
+  // Syntactic sugar for setting x and y
+  // before the constructor body runs.
+  Point(this.x, this.y);
+}
+</pre>
+
+<h3>Default Constructor</h3>
+<p>If you don’t declare a constructor, a default constructor is provided for you. The default constructor has no arguments and it is a unnamed constructor, which means the default constructor has the same name of the class name.</p>
+
+<h3>Constructors are not Inherited</h3>
+<p>Subclasses don’t inherit constructors from their superclass. A subclass that declares no constructors has only the default constructor.</p>
+
+<h2>Named Constructor</h2>
+<p>Use a named constructor to implement multiple constructors for a class or to provide extra clarity:</p>
+<pre>
+class Point {
+  num x, y;
+
+  Point(this.x, this.y);
+
+  // Named constructor
+  Point.origin() {
+    x = 0;
+    y = 0;
+  }
+}
+</pre>
+<p>Here we have a named constructor <code>Point.origin()</code>.</p>
+<p>Remember that constructors are not inherited, which means that a superclass’s named constructor is not inherited by a subclass.</p>
+
+
+
+<h1>Instance Methods</h1>
+<p>Instance methods on objects can access instance variables and <code>this</code>. </p>
+<pre>
+import 'dart:math';
+
+class Point {
+  num x, y;
+
+  Point(this.x, this.y);
+
+  num distanceTo(Point other) {
+    var dx = x - other.x;
+    var dy = y - other.y;
+    return sqrt(dx * dx + dy * dy);
+  }
+}
+</pre>
+<p>Here we have defined an instance method, called <code>distanceTo()</code>.</p>
+
+
+
+
+
+<h1>Using instance members</h1>
+<p>Objects have members consisting of functions and data (methods and instance variables, respectively). When you call a method, you invoke it on an object: the method has access to that object’s functions and data. Use a dot (.) to refer to an instance variable or method:</p>
+<pre>
+var p = Point(2, 2);
+
+// Set the value of the instance variable y.
+p.y = 3;
+
+// Get the value of y.
+assert(p.y == 3);
+
+// Invoke distanceTo() on p.
+num distance = p.distanceTo(Point(4, 4));
+</pre>
+<p>Use <code>?.</code> instead of <code>.</code> to avoid an exception when the leftmost operand is <code>null</code>:</p>
+<pre>
+// If p is non-null, set its y value to 4.
+p?.y = 4;
+</pre>
+
+
+
+
+
+
+
+<h1>Using constructors</h1>
+<p>You can create an object using a constructor. Constructor names can be either <code>ClassName</code> or <code>ClassName.identifier</code>. The second form of the constructor is called Named Constructor. For example, the following code creates Point objects using the <code>Point()</code> and <code>Point.fromJson()</code> constructors:</p>
+<pre>
+var p1 = Point(2, 2);
+var p2 = Point.fromJson({'x': 1, 'y': 2});
+</pre>
+<p>The following code has the same effect, but uses the optional <code>new</code> keyword before the constructor name:</p>
+<pre>
+var p1 = new Point(2, 2);
+var p2 = new Point.fromJson({'x': 1, 'y': 2});
+</pre>
+<p>The <code>new</code> keyword became optional in <code>Dart 2</code>.</p>
+
+
+
+<h1>Private instance Members</h1>
+<p>Use <code>_</code>(Underscore) before the member name to make it private to the class itself. The private member can be accessible by the class method itself. You cannot access them from its object.</p>
+<pre>
+class Person{
+  final string _id; // Private property
+  string name;
+
+  Person._internal(this.name); // private named constructor
+
+  void _generateId(){ // A private method
+    // Code --
+  }
+}
+</pre>
+
+
+
+<h1>Summary</h1>
+<p>In this section we have learned the following:</p>
+<ul>
+  <li>How to declare a class.</li>
+  <li>Instance Members: Instance Variables and Instance Methods.</li>
+  <li>Constructor: Unnamed and Named Constructor.</li>
+  <li>How to use instance members using dot notation.</li>
+  <li>How to create object using the Constructor.</li>
+  <li>How to create private instance member.</li>
+</ul>
+<p>In the next section we will explore various parts of the class.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

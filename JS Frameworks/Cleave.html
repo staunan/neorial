@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Title</title>
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+	<script src="../Assets/prism.min.js"></script>
+	<script type="text/javascript" src="../Assets/jquery.min.js"></script>
+    <link rel="stylesheet" href="../Assets/prism-dark.css">
+    <script src="Assets/Cleave/cleave.min.js"></script>
+</head>
+<body class="Body">
+	<div class="Content Card">
+		<div class="box">
+			<input id="input-element" type="text"/>
+		</div>
+	</div>
+	<script>
+		var cleave = new Cleave('#input-element', {
+		    date: true,
+		    datePattern: ['m', 'y']
+		});
+	</script>
+</body>
+</html>

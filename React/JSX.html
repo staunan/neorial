@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>JSX</title>
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
+	<script type="text/javascript" src="../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+<h1>Introducing JSX</h1>
+<p>JSX syntax looks like following --</p>
+<pre>
+	const element = &lt;h1>Hello, world!&lt;/h1>;
+</pre>
+<p>In the above example <code>&lt;h1>Hello, world!&lt;/h1></code> is called JSX.</p>
+
+
+
+<h1>Embedding Expressions in JSX</h1>
+<p>In the example below, we declare a variable called <code>name</code> and then use it inside JSX by wrapping it in curly braces:</p>
+<pre>
+const name = 'Josh Perez';
+const element = &lt;h1>Hello, {name}&lt;/h1>;
+
+ReactDOM.render(
+  element,
+  document.getElementById('root')
+);
+</pre>
+<p>You can put any valid JavaScript expression inside the curly braces in JSX. For example, <code>2 + 2</code>, <code>user.firstName</code>, or <code>formatName(user)</code> are all valid JavaScript expressions.</p>
+<p>In the example below, we embed the result of calling a JavaScript function, <code>formatName(user)</code>, into an <code>&lt;h1></code> element.</p>
+<pre>
+function formatName(user) {
+  return user.firstName + ' ' + user.lastName;
+}
+
+const user = {
+  firstName: 'Harper',
+  lastName: 'Perez'
+};
+
+const element = (
+  &lt;h1>
+    Hello, {formatName(user)}!
+  &lt;/h1>
+);
+
+ReactDOM.render(
+  element,
+  document.getElementById('root')
+);
+</pre>
+<p style="font-weight: 500; font-style: italic;">If you notice in the above example, we have wrapped the whole JSX code within a Parenthesis. It is a good practice to avoid the pitfalls of automatic semicolon insertion.</p>
+
+
+
+
+
+<h1>JSX is an Expression Too</h1>
+<p>After compilation, JSX expressions become regular JavaScript function calls and evaluate to JavaScript objects.</p>
+<p>This means that you can use JSX inside of if statements and for loops, assign it to variables, accept it as arguments, and return it from function</p>
+<pre>
+function getGreeting(user) {
+  if (user) {
+    return &lt;h1>Hello, {formatName(user)}!&lt;/h1>;
+  }
+  return &lt;h1>Hello, Stranger.&lt;/h1>;
+}
+</pre>
+
+
+
+
+
+<h1>Specifying Attributes with JSX</h1>
+<p>You may use quotes to specify string literals as attributes:</p>
+<pre>
+const element = &lt;div tabIndex="0">&lt;/div>;
+</pre>
+<p>You may also use curly braces to embed a JavaScript expression in an attribute:</p>
+<pre>
+const element = &lt;img src={user.avatarUrl}>&lt;/img>;
+</pre>
+<p style="font-weight: 500; font-style: italic;">Don’t put quotes around curly braces when embedding a JavaScript expression in an attribute. You should either use quotes (for string values) or curly braces (for expressions), but not both in the same attribute.</p>
+<p>Notice in the above example, we have used closed tag for <code>img</code> element. You can also use empty version of this element -</p>
+<pre>
+const element = &lt;img src={user.avatarUrl} />;
+</pre>
+
+
+
+
+
+<h1>Specifying Children with JSX</h1>
+<p>JSX tags may contain children:</p>
+<pre>
+const element = (
+  &lt;div>
+    &lt;h1>Hello!&lt;/h1>
+    &lt;h2>Good to see you here.&lt;/h2>
+  &lt;/div>
+);
+</pre>
+
+
+
+
+<h1>JSX Prevents Injection Attacks</h1>
+<p>It is safe to embed user input in JSX:</p>
+<pre>
+const title = response.potentiallyMaliciousInput;
+// This is safe:
+const element = &lt;h1>{title}&lt;/h1>;
+</pre>
+<p>By default, React DOM escapes any values embedded in JSX before rendering them. Thus it ensures that you can never inject anything that’s not explicitly written in your application. Everything is converted to a string before being rendered. This helps prevent XSS (cross-site-scripting) attacks.</p>
+
+
+
+
+
+<h1>JSX Represents Objects</h1>
+<p>Babel compiles JSX down to <code>React.createElement()</code> calls.</p>
+<pre>
+const element = (
+  &lt;h1 className="greeting">
+    Hello, world!
+  &lt;/h1>
+);
+</pre>
+<p>The above code snipped will be converted to the following -</p>
+<pre>
+const element = React.createElement(
+  'h1',
+  {className: 'greeting'},
+  'Hello, world!'
+);
+</pre>
+<p><code>React.createElement()</code> performs a few checks to help you write bug-free code but essentially it creates an object like this:</p>
+<pre>
+// Note: this structure is simplified
+const element = {
+  type: 'h1',
+  props: {
+    className: 'greeting',
+    children: 'Hello, world!'
+  }
+};
+</pre>
+<p>These objects are called <code>React elements</code>. You can think of them as descriptions of what you want to see on the screen. React reads these objects and uses them to construct the DOM and keep it up to date.</p>
+
+
+
+
+<h1>Updating the Rendered Element</h1>
+<p>React elements are <code>immutable</code>. Once you create an element, you can’t change its children or attributes. An element is like a single frame in a movie: it represents the UI at a certain point in time.</p>
+<p>With our knowledge so far, the only way to update the UI is to create a new element, and pass it to <code>ReactDOM.render()</code>.</p>
+<p>Consider the following example -</p>
+<pre>
+function tick() {
+  const element = (
+    &lt;div>
+      &lt;h1>Hello, world!&lt;/h1>
+      &lt;h2>It is {new Date().toLocaleTimeString()}.&lt;/h2>
+    &lt;/div>
+  );
+  ReactDOM.render(element, document.getElementById('root'));
+}
+
+setInterval(tick, 1000);
+</pre>
+<p>It calls <code>ReactDOM.render()</code> every second from a <code>setInterval()</code> callback.</p>
+<p>React DOM compares the element and its children to the previous one, and only applies the DOM updates necessary to bring the DOM to the desired state.</p>
+<p>Even though we create an element describing the whole UI tree on every tick, only the text node whose contents has changed gets updated by React DOM. You can see in the DOM that only neccessary part of the DOM gets updated with every tick, not the whole UI.</p>
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

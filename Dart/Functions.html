@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Functions</title>
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
+	<script type="text/javascript" src="../Assets/jquery.min.js"></script>
+	<link rel="stylesheet" href="../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+<h1>Functions</h1>
+<p>In Dart, Functions are special kind of Object. It means you can assign function to a variable or pass it to another function as arguments. Here is how a function is defined -</p>
+<pre>
+bool isNoble(int atomicNumber) {
+  return _nobleGases[atomicNumber] != null;
+}
+</pre>
+<p>Here, <code>bool</code> is the type of return value that the function returns. You can also omit this. So the following is perfectly valid.</p>
+<pre>
+isNoble(int atomicNumber) {
+  return _nobleGases[atomicNumber] != null;
+}
+</pre>
+
+
+<h1>Arrow Function</h1>
+<p>Arrow function is a shorthand syntax for the function. You can use shorthand syntax only if there is one expression (not a statement) to be executed and the evaluated value to be returned. The above example can be rewritten as -</p>
+<pre>
+bool isNoble(int atomicNumber) => _nobleGases[atomicNumber] != null;
+</pre>
+<p>The <code>=> expr</code> syntax is a shorthand for <code>{ return expr; }</code>. The <code>=></code> notation is sometimes referred to as arrow syntax. That's why these functions are called <code>arrow</code> functions.</p>
+<p>Only an expression—not a statement—can appear between the arrow (<code>=></code>) and the semicolon (<code>;</code>). For example, you can’t put an <code>if</code> statement there, but you can use a conditional expression.</p>
+
+
+<h1>Function Parameters</h1>
+<p>Function parameters are two types -</p>
+<ul>
+	<li>Required Parameters</li>
+	<li>Optional Parameters</li>
+</ul>
+<p>The required parameters are listed first. Followed by optional parameters.</p>
+<p>Optional parameters can be of two types -</p>
+<ul>
+	<li>named</li>
+	<li>positional</li>
+</ul>
+
+
+<h2>Optional Parameters</h2>
+<p>Optional parameters can be either named or positional but not both. Some APIs — notably Flutter widget constructors — use only named parameters, even for parameters that are mandatory.</p>
+
+
+<h3>Named Parameters</h3>
+<p>Use square bracket to define named parameters:</p>
+<pre>
+/// Sets the [bold] and [hidden] flags ...
+void enableFlags({bool bold, bool hidden}) {...}
+</pre>
+<p>Now when you call a function, you can specify named parameters using <code>paramName: value</code>. For example:</p>
+<pre>
+enableFlags(bold: true, hidden: false);
+</pre>
+
+
+<h3>Positional Parameters</h3>
+<p>Wrapping a set of function parameters in [] marks them as optional positional parameters:</p>
+<pre>
+String say(String from, String msg, [String device]) {
+  var result = '$from says $msg';
+  if (device != null) {
+    result = '$result with a $device';
+  }
+  return result;
+}
+</pre>
+<p>Here’s an example of calling this function without the optional parameter:</p>
+<pre>
+assert(say('Bob', 'Howdy') == 'Bob says Howdy');
+</pre>
+<p>And here’s an example of calling this function with the third parameter:</p>
+<pre>
+assert(say('Bob', 'Howdy', 'smoke signal') == 'Bob says Howdy with a smoke signal');
+</pre>
+
+
+
+<h2>@required annotation</h2>
+<p>Although named parameters are optional parameters, you can make them required by adding <code>@required</code> annotation.</p>
+<pre>
+const Scrollbar({Key key, @required Widget child})
+</pre>
+<p>Now the user must provide value of the parameter <code>child</code>. If someone tries to create a <code>Scrollbar</code> without specifying the child argument, then the analyzer reports an issue.</p>
+<p>The <code>@required</code> annotation is defined in <code>meta</code> package. So you need to import that package (<code>package:meta/meta.dart</code>)</p>
+<p>This way you can stick to the named parameter syntax and make the parameter required using <code>@required</code> annotation on the parameter of your choice.</p>
+
+
+<h2>Required Parameters</h2>
+<p>Required parameter appears at the beginning of the parameter list and outside of the optional parameter syntax. In other words, outside of square bracket or curly bracket.</p>
+<pre>
+String say(String from, String msg, [String device]) {
+  var result = '$from says $msg';
+  if (device != null) {
+    result = '$result with a $device';
+  }
+  return result;
+}
+</pre>
+<p>In the above example, the parameter <code>from</code> and <code>msg</code> is known as required attribute and user must provide their values when calling the function.</p>
+
+
+
+<h2>Default Parameter values</h2>
+<p>Your function can use <code>=</code> to define default values for both named and positional parameters. The default values must be compile-time constants. If no default value is provided, the default value is <code>null</code>.</p>
+<pre>
+/// Sets the [bold] and [hidden] flags ...
+void enableFlags({bool bold = false, bool hidden = false}) {...}
+
+// bold will be true; hidden will be false.
+enableFlags(bold: true);
+</pre>
+<p>The next example shows how to set default values for positional parameters:</p>
+<pre>
+String say(String from, String msg,
+    [String device = 'carrier pigeon', String mood]) {
+  var result = '$from says $msg';
+  if (device != null) {
+    result = '$result with a $device';
+  }
+  if (mood != null) {
+    result = '$result (in a $mood mood)';
+  }
+  return result;
+}
+
+assert(say('Bob', 'Howdy') == 'Bob says Howdy with a carrier pigeon');
+</pre>
+
+
+
+
+
+
+
+
+
+
+<h1>main() Function</h1>
+<p>Every app must have a top-level <code>main()</code> function, which serves as the entrypoint to the app. The <code>main()</code> function returns <code>void</code> and has an optional <code>List&lt;String></code> parameter for arguments.</p>
+<p>Here’s an example of the <code>main()</code> function for a web app:</p>
+<pre>
+void main() {
+  querySelector('#sample_text_id')
+    ..text = 'Click me!'
+    ..onClick.listen(reverseText);
+}
+</pre>
+
+
+
+
+
+
+
+<h1>Anonymous Function</h1>
+<p>Most functions are named, such as <code>main()</code> or <code>printElement()</code>. You can also create a nameless function called an <code>anonymous</code> function, or sometimes a <code>lambda</code> or <code>closure</code>. You might assign an anonymous function to a variable so that, for example, you can add or remove it from a collection.</p>
+<p>An anonymous function looks similar to a named function— zero or more parameters, separated by commas and optional type annotations, between parentheses.</p>
+<p>The following example defines an anonymous function with an untyped parameter, <code>item</code>. The function, invoked for each item in the list, prints a string that includes the value at the specified index.</p>
+<pre>
+var list = ['apples', 'bananas', 'oranges'];
+list.forEach((item) {
+  print('${list.indexOf(item)}: $item');
+});
+</pre>
+<p>The above example can be rewritten using arrow syntax:</p>
+<pre>
+list.forEach(
+    (item) => print('${list.indexOf(item)}: $item')
+);
+</pre>
+
+
+
+
+<h1>Return values</h1>
+<p>All functions return a value. If no return value is specified, the statement <code>return null;</code> is implicitly appended to the function body.</p>
+<pre>
+foo() {}
+
+assert(foo() == null);
+</pre>
+
+
+
+<h1>Lexical Scope</h1>
+<p>Dart is a lexically scoped language, which means that the scope of variables is determined statically, simply by the layout of the code. You can “follow the curly braces outwards” to see if a variable is in scope.</p>
+<pre>
+bool topLevel = true;
+
+void main() {
+  var insideMain = true;
+
+  void myFunction() {
+    var insideFunction = true;
+
+    void nestedFunction() {
+      var insideNestedFunction = true;
+
+      assert(topLevel);
+      assert(insideMain);
+      assert(insideFunction);
+      assert(insideNestedFunction);
+    }
+  }
+}
+</pre>
+<p>The main function defines <code>insideMain</code> variable which is accessible anywhere in that function. That means if you define a function inside the main function, that function can have access to anything that the main function defines. So in the above example, the nested function <code>myFunction</code> can access <code>insideMain</code> variable. This philosiphy is similar to what Javascript have.</p>
+
+
+
+<h1>Lexical Closure</h1>
+<p>A closure is a function object that has access to variables in its lexical scope, even when the function is used outside of its original scope.</p>
+<pre>
+/// Returns a function that adds [addBy] to the
+/// function's argument.
+Function makeAdder(num addBy) {
+  return (num i) => addBy + i;
+}
+
+void main() {
+  // Create a function that adds 2.
+  var add2 = makeAdder(2);
+
+  // Create a function that adds 4.
+  var add4 = makeAdder(4);
+
+  assert(add2(3) == 5);
+  assert(add4(3) == 7);
+}
+</pre>
+<p>When you call the function <code>makeAdder(2)</code>, an anonymous function is created inside the <code>makeAdder</code> function and gets returned. In this process, a lexical environment is created for newly created function and the value <code>2</code> is stored in the variable <code>addBy</code>.</p>
+<p>The returned anonymous function is stored in the variable <code>add2</code>. Now, whenever and wherever you use <code>add2</code>, it remembers where it is created and what values it has by looking at it's lexical environment. In our case, the call <code>add2(3)</code> is evaluated as:</p>
+<pre>
+(num i) => 2 + 3
+</pre>
+<p>Because, it remember what the value of <code>addBy</code> is, in this case the value of <code>addBy</code> is <code>2</code></p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

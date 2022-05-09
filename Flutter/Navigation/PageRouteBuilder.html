@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>PageRouteBuilder</title>
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+	<script type="text/javascript" src="../../Assets/prism.min.js"></script>
+	<script type="text/javascript" src="../../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+<h1>PageRouteBuilder</h1>
+<p>With the help of <code>PageRouteBuilder</code> we can create our own transition animation of the pages. We know that to show a page we need the following statement:</p>
+<pre>
+Navigator.push(context, MaterialPageRoute(builder: (context) => NoteBooks()));
+</pre>
+<p>Here the <code>push</code> method takes a <code>Route</code> object as the second parameter. The class <code>MaterialPageRoute</code> creates a route object and returns it. This class is derived from <code>PageRoute</code>, and <code>PageRoute</code> is derived from <code>ModalRoute</code>.</p>
+<p>There are three class derived from <code>PageRoute</code> and they are <code>MaterialPageRoute</code>, <code>CupertinoPageRoute</code> and <code>PageRouteBuilder</code>.</p>
+<p>A <code>PageRoute</code> is a modal route that replaces the entire screen.</p>
+<p>The <code>MaterialPageRoute</code> creates a <code>PageRoute</code> object based on the given page, and then adds transition to it. <code>CupertinoPageRoute</code> does the similar thing but it adds different style animation (iOS style). The class <code>PageRouteBuilder</code> has the ability to create <code>PageRoute</code> and adding transition to the page but a developer must provide the transition effect.</p>
+<p>So, we can extend the class <code>PageRouteBuilder</code> to create our own transition effect. We can also use the constructor. So lets first create a custom transition using the constructor:</p>
+
+<h2>Using Constructor</h2>
+<p>The constructor has a required parameter <code>pageBuilder</code>. This takes a callback. The callback should return the page that we are going to push.</p>
+<pre>
+Navigator.push(context, PageRouteBuilder(
+  pageBuilder: (context, animation, secondaryAnimation){
+    return NewPage();
+  }
+));
+</pre>
+<p>The <code>animation</code> parameter is a <code>Animation&lt;double></code> that generate values between 0 and 1. You can use this parameter to create transition.</p>
+<pre>
+Navigator.push(context, PageRouteBuilder(
+  pageBuilder: (context, animation, secondaryAnimation){
+    return FadeTransition(
+      opacity: animation,
+      child: NoteBooks(),
+    );
+  }
+));
+</pre>
+<p>The above code will animate the page which fades in. To customize the duration you can pass <code>transitionDuration</code> property:</p>
+<pre>
+Navigator.push(context, PageRouteBuilder(
+  pageBuilder: (context, animation, secondaryAnimation){
+    return FadeTransition(
+      opacity: animation,
+      child: NoteBooks(),
+    );
+  },
+  transitionDuration: Duration(seconds: 2),
+));
+</pre>
+<p>The constructor takes another parameter which is <code>transitionsBuilder</code>, this takes a callback. The purpose of this parameter is to seperate the transition part from the main Page construction. Thus, the <code>pageBuilder</code> should be only responsible for creating the page and <code>transitionsBuilder</code> should be responsible for adding the transition effect to the page.</p>
+<pre>
+Navigator.push(context, PageRouteBuilder(
+  pageBuilder: (context, animation, secondaryAnimation){
+    return NoteBooks();
+  },
+  transitionsBuilder: (context, animation, secondaryAnimation, child){
+    return FadeTransition(
+      opacity: animation,
+      child: child,
+    );
+  },
+  transitionDuration: Duration(seconds: 2),
+));
+</pre>
+<p>The method <code>pageBuilder</code> runs first and it returns the page widget. Then it calls the <code>transitionsBuilder</code> callback and passes the returned page from the <code>pageBuilder</code> as <code>child</code> parameter. You can then use the <code>child</code> parameter to incorporate within the transition widget. As both callback receives <code>animation</code> and <code>secondaryAnimation</code> parameter we can build the transition in either of the builder method. It is more effecient to built the transition part within the <code>pageBuilder</code> as the page is generally contained in seperate file and we only uses the constructor to build the page.</p>
+
+<h3>secondaryAnimation</h3>
+<p>Both the callback receives <code>secondaryAnimation</code> parameter. This is a Animation&lt;double> animation. We can use this controller to show animation when another another page pushes on top of this one. This animation is run in the following two cases:</p>
+<ul>
+  <li>When another pages is opened on top of this page. The secondary animation runs for this page.</li>
+  <li>When the topmost page is popped out and this page is now the topmost page, the secondary animation runs for this page.</li>
+</ul>
+<pre>
+Navigator.push(context, PageRouteBuilder(
+  pageBuilder: (context, animation, secondaryAnimation){
+    return Test();
+  },
+  transitionsBuilder: (context, animation, secondaryAnimation, child){
+    Animation&lt;double> ani = Tween&lt;double>(begin: 1, end: 0).animate(secondaryAnimation);
+      return FadeTransition(
+        opacity: animation,
+        child: ScaleTransition(
+          scale: ani,
+          child: child,
+        ),
+      );
+
+  },
+));
+</pre>
+
+
+
+
+
+
+
+
+<h2>Extending Class</h2>
+<p>You can extend the class <code>PageRouteBuilder</code> to create a custom <code>PageRoute</code> object. The class should accept a parameter <code>child</code> which is the actual page. In the constructor you must call <code>super</code> and pass the required parameter <code>pageBuilder</code>.</p>
+<p>The class <code>PageRouteBuilder</code> defines two metehod, <code>pageBuilder</code> and <code>transitionsBuilder</code>. You can override them to customize the transition. Following is an example:</p>
+
+
+
+
+<pre>
+import 'package:flutter/material.dart';
+
+class BeautyTransition extends PageRouteBuilder{
+  Widget child;
+
+  BeautyTransition(this.child) : super(
+    pageBuilder: (BuildContext context,
+      Animation&lt;double> animation,
+      Animation&lt;double> secondaryAnimation){
+      return child;
+    },
+    transitionDuration: Duration(milliseconds: 70),
+  );
+
+  @override
+  buildTransitions(BuildContext context, Animation&lt;double> animation, Animation&lt;double> secondaryAnimation, Widget child){
+    Animation&lt;double> scaleAnimation = Tween&lt;double>(begin: 0.6, end: 1.0).animate(CurvedAnimation(
+        parent: animation,
+        curve: Interval(0.0, 0.8, curve: Curves.easeIn),
+      )
+    );
+    Animation&lt;double> opacityAnimation = Tween&lt;double>(begin: 0.0, end: 1).animate(
+      CurvedAnimation(
+        parent: animation,
+        curve: Interval(0.0, 1.0, curve: Curves.easeIn),
+      ),
+    );
+
+    return ScaleTransition(
+      scale: scaleAnimation,
+      child: FadeTransition(
+        opacity: opacityAnimation,
+        child: child
+      )
+    );
+  }
+}
+</pre>
+<p>In the above example, we have initialize the parent constructor using the following:</p>
+<pre>
+BeautyTransition(this.child) : super(
+  pageBuilder: (BuildContext context,
+    Animation&lt;double> animation,
+    Animation&lt;double> secondaryAnimation){
+    return child;
+  },
+  transitionDuration: Duration(milliseconds: 70),
+);
+</pre>
+<p>In the above constructor the required parameter <code>pageBuilder</code> takes a callback and it just returns the child and does nothing else. Most of the time its sufficient for parent constructor to be like this. We have also passed <code>transitionDuration</code> parameter to parent constructor to override the default duration of the animation. The parameter <code>transitioniDuration</code> is optional.</p>
+<p>Next, we are overriding the method <code>buildTransitions</code>, this is where our custom transition will be defined. You can create any animation you want and return the animated version of the Page from this method.</p>
+<p>Note that we have not defined <code>buildPage</code> method. As it is not necessary. If you define this method then it will override the <code>pageBuilder</code> in the super constructor. As there is no customization needed for pages, the method <code>buildPage</code> won't do anything extra. It is rarely defined.</p>
+<pre>
+@override
+buildPage(BuildConext context, Animation&lt;double> animation, Animation&lt;double> secondaryAnimation){
+  return child;
+}
+</pre>
+<p>Just like in the constructor you can also define the animation within the <code>pageBuild</code> method. Like the following:</p>
+<pre>
+import 'package:flutter/material.dart';
+
+class BeautyTransition extends PageRouteBuilder{
+  Widget child;
+
+  BeautyTransition(this.child) : super(pageBuilder: (context, animation, secondaryAnimation)=> child);
+
+  @override
+  buildPage(BuildContext context, Animation&lt;double> animation, Animation&lt;double> secondaryAnimation){
+    Animation&lt;double> scaleAnimation = Tween&lt;double>(begin: 0.6, end: 1.0).animate(CurvedAnimation(
+        parent: animation,
+        curve: Interval(0.0, 0.8, curve: Curves.easeIn),
+      )
+    );
+    Animation&lt;double> opacityAnimation = Tween&lt;double>(begin: 0.0, end: 1).animate(
+      CurvedAnimation(
+        parent: animation,
+        curve: Interval(0.0, 1.0, curve: Curves.easeIn),
+      ),
+    );
+
+    return ScaleTransition(
+      scale: scaleAnimation,
+      child: FadeTransition(
+        opacity: opacityAnimation,
+        child: child
+      )
+    );
+  }
+}
+</pre>
+<p>As you can see you can use either of the method to define the transition. But the initialization of parent constructor is must.</p>
+<p>Now you can use the custom class in <code>Navigator</code> call like following:</p>
+<pre>
+Navigator.push(context, BeautyTransition(NewPage()));
+</pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>v-for</title>
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+	<script src="../Assets/prism.min.js"></script>
+	<script type="text/javascript" src="../Assets/jquery.min.js"></script>
+    <link rel="stylesheet" href="../Assets/prism-dark.css">
+    <script type="text/javascript" src="../Assets/vue.js"></script>
+</head>
+<body class="Body">
+	<div class="Content Card">
+		<h1>Number</h1>
+		<p>
+			This directive is used for looping. Consider the following example -
+		</p>
+		<pre>
+			&lt;ul>
+				&lt;li v-for="n in 10">{ { n }}&lt;/li>
+			&lt;/ul>
+		</pre>
+		<div class="box">
+			<ul>
+				<li v-for="n in 10">{{ n }}</li>
+			</ul>
+		</div>
+		<p>
+			So <code>v-for</code> is used on an element. If the <code>v-for</code> can iterate <code>n</code> times, it will create <code>n</code> number of same element. In the above example <code>n</code> is the variable in which we want to store each item. By specifing integer it will start iterating from <code>1</code> and will continue until the integer number comes and iterate. 
+		</p>
+		<h1>Array</h1>
+		<p>
+			You can also provide an array. Consider the following --
+		</p>
+		<pre>
+			data: {
+				names : ['Santanu', 'Atanu', 'Sumita', 'Aloke']
+			}
+			&lt;ul>
+				&lt;li v-for="name in names">{ { name }}&lt;/li>
+			&lt;/ul>
+		</pre>
+		<div class="box">
+			<ul>
+				<li v-for="name in names">{{ name }}</li>
+			</ul>
+		</div>
+		<p>
+			You can also have an array of object. Consider the following --
+		</p>
+		<pre>
+			data:{
+				names : ['Santanu', 'Atanu', 'Sumita', 'Aloke'],
+				Students : [
+					{
+						name : 'Santanu Bera',
+						roll : 20
+					},
+					{
+						name : 'Manik Sen',
+						roll : 10
+					}
+				]
+			}
+
+			&lt;ul>
+				&lt;li v-for="student in Students">
+					Name : { { student.name }}, Roll No : { { student.roll }}
+				&lt;/li>
+			&lt;/ul>
+		</pre>
+		<div class="box">
+			<ul>
+				<li v-for="student in Students">
+					Name : {{ student.name }}, Roll No : {{ student.roll }}
+				</li>
+			</ul>
+		</div>
+		<p>
+			Instead of using <code>{ { }}</code> brackets, you can use <code>v-text</code> or <code>v-html</code> depending on your test and requirements. The above example can be replaced with the following -
+		</p>		
+		<pre>
+		&lt;li v-for="student in Students" 
+			v-html="'Name :' + student.name + ', Roll No : ' + student.roll ">
+		&lt;/li>
+		</pre>
+		<h1>Parent Scope</h1>
+		<p>
+			Inside v-for blocks we have full access to parent scope properties. v-for also supports an optional second argument for the index of the current item.
+		</p>
+		<pre>
+			var example2 = new Vue({
+			  el: '#example-2',
+			  data: {
+			    parentMessage: 'Parent',
+			    items: [
+			      { message: 'Foo' },
+			      { message: 'Bar' }
+			    ]
+			  }
+			});
+
+			&lt;ul id="example-2">
+			  &lt;li v-for="(item, index) in items">
+			    { { parentMessage }} - { { index }} - { { item.message }}
+			  &lt;/li>
+			&lt;/ul>
+		</pre>
+		<h1>of</h1>
+		<p>
+			We are using <code>in</code> operator within the <code>v-for</code> syntax. But we can also use <code>of</code> operator instead of <code>in</code> operator. And that will make it closer to Pure JS syntax. But there's no different between these two. It's only user's taste of choice.
+		</p>
+		<pre>
+			&lt;div v-for="item of items">&lt;/div>
+		</pre>
+		<h1>Object</h1>
+		<p>
+			You can use object too.
+		</p>
+		<pre>
+			&lt;ul>
+				&lt;li v-for="item in Students[0]">{ { item }}&lt;/li>
+			&lt;/ul>
+		</pre>
+		<div class="box">
+			<ul>
+				<li v-for="item in Students[0]">{{ item }}</li>
+			</ul>
+		</div>
+		<p>
+			You can also provide <code>key</code> as the second argument. In the following example, the first argument is value and the second argument is key.
+		</p>
+		<pre>
+		&lt;ul>
+			&lt;li v-for="(theValue, theKey) in Students[0]">
+				{ { theKey }} : { { theValue }}
+			&lt;/li>
+		&lt;/ul>
+		</pre>
+		<div class="box">
+			<ul>
+				<li v-for="(item, key) in Students[0]">{{ key }} : {{ item }}</li>
+			</ul>
+		</div>
+		<p>
+			You can also provide the <code>index</code> as the third argument -
+		</p>
+		<pre>
+		&lt;ul>
+			&lt;li v-for="(theValue, theKey, i) in Students[0]">
+				{ { i }}. { { theKey }} : { { theValue }}
+			&lt;/li>
+		&lt;/ul>
+		</pre>
+		<div class="box">
+			<ul>
+				<li v-for="(item, key, i) in Students[0]">{{ i }}. {{ key }} : {{ item }}</li>
+			</ul>
+		</div>
+		<h1>Key</h1>
+		<p>
+			It is always recomended to use <code>key</code> attribute with the element whenever possible. Because internally how Vue works, using key will make it render the element efficiently and correctly.
+		</p>
+		<p>
+			A <code>key</code> is the unique string to identify element or component.
+		</p>
+		<pre>
+			&lt;ul>
+				&lt;li v-for='(item, index) in items' :key="index">{ { item }}&lt;/li>
+			&lt;/ul>
+		</pre>
+		<h1>Mutation Methods</h1>
+		<p>
+			Sometimes you want to change the array dynamically and also update the rendering when you are using v-for. Well, Vue does take cares of all the thing. You just update the array and vue dynamically and instantly will update the DOM according to the updated array. Consider the following example -
+		</p>
+		<pre>
+			data : {
+				items : ['Pear', 'Date', 'Coconut'],
+				writeItem : ""
+			},
+			methods:{
+				addItem:function(){
+					if(this.writeItem!="")
+						this.items.push(this.writeItem);
+					this.writeItem = "";
+				}
+			}
+			
+			&lt;input type="text" v-model="writeItem">
+			&lt;button type="button" v-on:click="addItem">&lt;/button>
+			&lt;ul>
+				&lt;li v-for='(item, index) in items' :key="index">{ {  item }}&lt;/li>
+			&lt;/ul>
+		</pre>
+		<p>
+			The above code will output the following -
+		</p>
+		<div class="box">
+			<input type="text" v-model="writeItem">
+			<button type="button" v-on:click="addItem">Add Item</button>
+			<ul>
+				<li v-for='(item, index) in items' :key="index">{{ item }}</li>
+			</ul>
+		</div>
+		<p>
+			In the above demo you can see how it works. Everytime you push an item to the array, Vue updates the DOM. Pretty cool. You can do much more than this.
+		</p>
+		<p>
+			The above example shows the mutation method <code>push</code>. But there are other function which you can also apply. Like <code>pop()</code>, <code>shift()</code>, <code>unshift()</code>, <code>slice()</code>, <code>sort()</code>, <code>reverse()</code> etc.
+		</p>
+		<h1>Non Mutation Methods</h1>
+		<p>
+			There are other methods that doesn't update the original array. Rather, the take the copy of original array and return a new array. For example, <code>slice()</code> method. When working with non-mutating methods, you can replace the old array with the new one.
+		</p>
+		<pre>
+			this.items = example1.items.filter(function (item) {
+			  return item.message.match(/Foo/)
+			})
+		</pre>
+		<p>
+			In the above example, we are returning a new array and assigning it to. You might think this will cause Vue to throw away the existing DOM and re-render the entire list - luckily, that is not the case. Vue implements some smart heuristics to maximize DOM element reuse.
+		</p>
+		<h1>Caveats</h1>
+		<p>
+			When working with <code>v-for</code> there are certain thing you should remember.
+		</p>
+		<h2>Direct Modification of Array</h2>
+		<p>
+			When you directly set an item with the index, e.g. this.items[indexOfItem] = newValue; Vue cannot track the update in the array and you won't see any change. So avoid modify the array directly.
+		</p>
+		<p>
+			Always use method like <code>push()</code>, <code>slice()</code> etc to update the array. Or, you can go with the following -
+		</p>
+		<h3>Vue.set()</h3>
+		<p>
+			It takes three argument - <code>target</code>, <code>key</code> and <code>value</code>. And returns the value that has been set. This method set a property on an object. If the object is reactive, ensure the property is created as a reactive property and trigger view updates. This is primarily used to get around the limitation that Vue cannot detect property additions.
+		</p>
+		<pre>
+			Vue.set(target, key, value);
+		</pre>
+		<p>
+			We generaly always update the array using methods, there's no situation when we need to modify the array using index way or neither do we need to update the length directly. That's a bad idea. But for Object type in JS, we generally update object using the syntax like <code>obj[key] = value;</code>. But due to limitatio of JS, Vue cannot detect the change, that's why <code>Vue.set()</code> is used to set a new key to the object so that Vue can update the DOM accordingly.
+		</p>
+		<pre>
+			var vm = new Vue({
+			  data: {
+			    a: 1 // The property a is <span style="color: crimson;">reactive</span>
+			  }
+			});
+		</pre>
+		<p>
+			What if you want to another property to data object from inside the Vue instance or outside the vue whatever. Doing it like the following?
+		</p>
+		<pre>
+			vm.b = 2 //The property b is <span style="color: crimson;">not reactive</span>
+		</pre>
+		<p>
+			The above will surely add the key <code>b</code> to the data, but it won't be reactive. You can also directly access it using <code>vm.b</code> and it will return <code>2</code>, but if you do <code>vm.$data</code>, you won't see any property called <code>b</code>. So this not the proper way to assign a new property to data object. Infact there's no way. Because the following won't work properly -
+		</p>
+		<pre>
+			Vue.set(vm.$data, "name", "Santanu");
+		</pre>
+		<p>
+			Try the above code in the console it will output error. Vue won't like it. Because Vue doesn't allow root instance(vm) or data property (vm.$data) to be passed in the method <code>Vue.set()</code>. It can take any object except this two.
+		</p>
+		<p>
+			As Vue does not allow dynamically adding new root-level reactive properties to an already created instance. However, it’s possible to add reactive properties to a nested object using the Vue.set(object, key, value) method. For example, given:
+		</p>
+		<pre>
+			var vm = new Vue({
+			  data: {
+			    userProfile: {
+			      name: 'Anika'
+			    }
+			  }
+			})
+		</pre>
+		<p>
+			You could add a new age property to the nested userProfile object with:
+		</p>
+		<pre>
+			Vue.set(vm.userProfile, 'age', 27);
+		</pre>
+
+		<h3>vm.$set()</h3>
+		<p>
+			You can also use the vm.$set instance method, which is an alias for the global Vue.set:
+		</p>
+		<pre>
+			vm.$set(this.userProfile, 'age', 27);
+		</pre>
+		
+		<h3>Vue.delete()</h3>
+		<p>
+			What if you want to delete an object instead of adding. Using a <code>delete</code> operator? Well, once again, Vue cannot detect it and cannot update the DOM accordingly. That's why similarly to Vue.set(), Vue provides <code>Vue.delete()</code> to delete a key on an object.
+		</p>
+		<pre>
+			Vue.delete(target, key);
+		</pre>
+		<p>
+			The above methoed deletes a property on an object. If the object is reactive, ensure the deletion triggers view updates. This is primarily used to get around the limitation that Vue cannot detect property deletions, but you should rarely need to use it.
+		</p>
+		<p>
+			In the above example, target is the target object on which you want to perform the deletion and key is the key that exists in that object.
+		</p>
+		<p class="tip">
+			The target object cannot be a Vue instance, or the root data object of a Vue instance.
+		</p>
+		<h3>vm.$delete</h3>
+		<p>
+			This is just an alias of Vue.delete() method.
+		</p>
+		<h2>Directly Assigning a Length</h2>
+		<p>
+			Also don't assign the length property directly like <code>this.items.length = 100;</code>
+		</p>
+		<p>
+			You might already know that if you assign a length to an array that is less than the array's actual length, JS will trancate the array.
+		</p>
+		<pre>
+			let arr = ['Apple', 'Banana', 'Guava', 'Pear', 'Date', 'Coconut'];
+			arr.length = 3;
+			log(arr); // ['Apple', 'Banana', 'Guava'];
+		</pre>
+		<p>
+			But if you do it for an array that is reactive, Vue won't detect it that the array has changed. To get around with this problem you can use method <code>splice()</code>. The above deletion operation is same as the following -
+		</p>
+		<pre>
+			vm.items.splice(newLength);
+		</pre>
+		<p>
+			Now the Vue will update the DOM according to the new change in the array.
+		</p>
+
+		<h1>Assign The Whole Object</h1>
+		<p>
+			Sometimes you may want to assign a number of new properties to an existing object, for example using Object.assign() or _.extend(). In such cases, you should create a fresh object with properties from both objects. So instead of:
+		</p>
+		<pre>
+			Object.assign(this.userProfile, {
+			  age: 27,
+			  favoriteColor: 'Vue Green'
+			});
+		</pre>
+		<p>
+			You would add new, reactive properties with:
+		</p>
+		<pre>
+			this.userProfile = Object.assign({}, this.userProfile, {
+			  age: 27,
+			  favoriteColor: 'Vue Green'
+			});
+		</pre>
+
+		<h1>Template</h1>
+		<p>
+			Sometimes you may want to render multiple block of element using v-for. You can do this using <code>div</code> as a wrapper like this -
+		</p>
+		<pre>
+			&lt;ul>
+				&lt;div v-for='(item, index) in items' :key="index">
+					&lt;li>{ { item }}&lt;/li>	
+					&lt;li class="divider">&lt;/li>
+				&lt;/div>
+			&lt;/ul>
+		</pre>
+		<p>
+			This is fine but not logical. In the DOM, the <code>ul</code> element will contain div and inside it li element. Which is not standard and may not work properly in certain situation. For these kind of scinario, you can use <code>template</code> tag. This tag is built in tag comes with Vue.js. The above example can be replaced with the following -
+		</p>
+		<pre>
+			&lt;ul>
+				&lt;template v-for='(item, index) in items' :key="index">
+					&lt;li>{ { item }}&lt;/li>	
+					&lt;li class="divider">&lt;/li>
+				&lt;/template>
+			&lt;/ul>
+		</pre>
+		<p>
+			Now if you look in the DOM, the Vue removes the template element. It doesn't render this element. Which is more convenient.
+		</p>
+
+		<h1>V-IF</h1>
+		<p>
+			Sometimes you want to conditionally render the element. But some learner may get confused with the usage of <code>v-if</code> along with <code>v-for</code>. Consider the following example -
+		</p>
+		<pre>
+			&lt;li v-for="(item, index) in items" :key="index" v-if="age>18">&lt;/li>
+		</pre>
+		<p>
+			Now the question is? which one of the following is true?
+		</p>
+		<ul>
+			<li>v-for will not iterate if age is less than 18?</li>
+			<li>Or, v-for will not render the particular li element on it's current iteration if age is less than 18?</li>
+		</ul>
+		<p>
+			Learners get confused at first. The correct answer is the second one. <code>v-if</code> will run on each iteration and check if it's true. If it is, then Vue will render the element, otherwise v-for will continue with the next iteration.
+		</p>
+		<pre>
+			&lt;li v-for="todo in todos" v-if="!todo.isComplete">
+			  { { todo }}
+			&lt;/li>
+		</pre>
+		<p>
+			Okay, what if you want to achieve the first one where you want to iterate the v-for only if the condition is true?
+		</p>
+		<p>
+			The answer is <code>template</code> tag. You can wrap the whole v-for block within the template tag with the v-if condition.
+		</p>
+		<pre>
+		&lt;template v-if="age>18">
+			&lt;ul>
+				&lt;li v-for="(item, index) in  items" :key="index">{ { item }}&lt;/li>
+			&lt;/ul>
+		&lt;/template>
+		</pre>
+
+		<h1>Component</h1>
+		<p>
+			You can use <code>v-for</code> on a component directly just like the normal element. In this case using key is must in the new version of Vue.
+		</p>
+		<pre>
+			&lt;my-component
+			  v-for="(item, index) in items"
+			  v-bind:item="item"
+			  v-bind:index="index"
+			  v-bind:key="item.id"
+			>&lt;/my-component>
+		</pre>
+	</div>
+	<script type="text/javascript">
+		let Demo = new Vue({
+			el : ".Content",
+			data:{
+				names : ['Santanu', 'Atanu', 'Sumita', 'Aloke'],
+				items : ['Pear', 'Date', 'Coconut'],
+				writeItem : "",
+				Students : [
+					{
+						name : 'Santanu Bera',
+						roll : 20
+					},
+					{
+						name : 'Manik Sen',
+						roll : 10
+					}
+				]
+			},
+			methods:{
+				addItem:function(){
+					if(this.writeItem!="")
+						this.items.push(this.writeItem);
+					this.writeItem = "";
+				}
+			}
+		})
+	</script>
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Hero</title>
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
+	<script type="text/javascript" src="../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+<h1>mj-hero</h1>
+<p>Display a section with a background image and some content inside (mj-text, mj-button, mj-image ...)</p>
+<pre>
+&lt;mjml>
+  &lt;mj-body>
+
+    &lt;mj-hero
+      mode="fixed-height"
+      height="469px"
+      background-width="600px"
+      background-height="469px"
+      background-url="image.jpg"
+      background-color="#2a3448"
+      padding="100px 0px">
+      &lt;mj-text
+        padding="20px"
+        color="#ffffff"
+        font-family="Helvetica"
+        align="center"
+        font-size="45"
+        line-height="45px"
+        font-weight="900">
+        GO TO SPACE
+      &lt;/mj-text>
+      &lt;mj-button href="https://mjml.io/" align="center">ORDER YOUR TICKET NOW&lt;/mj-button>
+    &lt;/mj-hero>
+
+  &lt;/mj-body>
+&lt;/mjml>
+</pre>
+<p>Here is the following attribute you can use -</p>
+<ul>
+	<li><code>width</code> the width of the hero container.</li>
+	<li><code>mode</code> specify how the height will be calculated. You can use only two value. One is <code>fixed-height</code> another is <code>fluid-height</code>. choose if the height is fixed based on the height attribute or fluid.</li>
+	<li><code>height</code> is the height of the hero. This is required if you are using <code>fixed-height</code> mode.
+	</li>
+	<li><code>background-width</code> the width of the background image.</li>
+	<li><code>background-height</code> the height of the background image.</li>
+	<li><code>background-url</code> the url of the background image.</li>
+	<li><code>background-color</code> the background of the Hero container.</li>
+	<li><code>background-position</code> background image position. The value consist of two keywords. Each keyword represent the position. You can use these keywords - <code>top</code>, <code>center</code>, <code>bottom</code>, <code>left</code>, <code>bottom</code> </li>
+	<li>padding</li>
+	<li>padding-top</li>
+	<li>padding-bottom</li>
+	<li>padding-left</li>
+	<li>padding-right</li>
+</ul>
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

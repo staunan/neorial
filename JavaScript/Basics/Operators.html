@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Basics - Operators</title>
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
+	<script type="text/javascript" src="../../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+<h1>Basic Operators</h1>
+<p>Please Refer To <a href="#">Common Programming Language</a></p>
+
+
+<h1>String Concatenation</h1>
+<p><code>+</code> operator is used to concatenate two string. If one of them is string and another one is number then the number is converted to string automatically and then the concatenation process.</p>
+<pre>
+let s = "my" + "string";
+alert(s); // mystring
+
+alert( '1' + 2 ); // "12"
+alert( 2 + '1' ); // "21"
+</pre>
+<p>However, note that operations run from left to right. If there are two numbers followed by a string, the numbers will be added before being converted to a string:</p>
+<pre>
+alert(2 + 2 + '1' ); // "41" and not "221"
+</pre>
+<p>Note that, other arithmetic operators work only with numbers. They always convert their operands to numbers.</p>
+<pre>
+alert( 2 - '1' ); // 1
+alert( '6' / '2' ); // 3
+</pre>
+
+
+
+
+<h1>Unary Plus</h1>
+<p>The unary plus or, in other words, the plus operator <code>+</code> applied to a single value, doesn’t do anything with numbers, but if the operand is not a number, then it is converted into it.</p>
+<pre>
+// No effect on numbers
+let x = 1;
+alert( +x ); // 1
+
+let y = -2;
+alert( +y ); // -2
+
+// Converts non-numbers
+alert( +true ); // 1
+alert( +"" );   // 0
+</pre>
+<p>It actually does the same as Number(...), but is shorter.</p>
+<pre>
+let apples = "2";
+let oranges = "3";
+
+// both values converted to numbers before the binary plus
+alert( +apples + +oranges ); // 5
+
+// the longer variant
+// alert( Number(apples) + Number(oranges) ); // 5
+</pre>
+
+
+
+
+
+
+
+<h1>Assignment</h1>
+<p>Let’s note that an assignment <code>=</code> is also an operator. It is listed in the precedence table with the very low priority of 3. That’s why when we assign a variable, like <code>x = 2 * 2 + 1</code>, then the calculations are done first, and afterwards the <code>=</code> is evaluated, storing the result in x.</p>
+<pre>
+let x = 2 * 2 + 1;
+
+alert( x ); // 5
+</pre>
+<p>It is possible to chain assignments:</p>
+<pre>
+let a, b, c;
+
+a = b = c = 2 + 2;
+
+alert( a ); // 4
+alert( b ); // 4
+alert( c ); // 4
+</pre>
+<p>Chained assignments evaluate from right to left. First the rightmost expression <code>2 + 2</code> is evaluated then assigned to the variables on the left: c, b and a. At the end, all variables share a single value.</p>
+<h3>Assignment Operator returns a value</h3>
+<p>An operator always returns a value. That’s obvious for most of them like an addition <code>+</code> or a multiplication <code>*</code>. But the assignment operator follows that rule too.</p>
+<p>The call <code>x = value</code> writes the <code>value</code> into <code>x</code> and then returns it.</p>
+<p>Here’s the demo that uses an assignment as part of a more complex expression:</p>
+<pre>
+let a = 1;
+let b = 2;
+
+let c = 3 - (a = b + 1);
+
+alert( a ); // 3
+alert( c ); // 0
+</pre>
+<p>In the example above, the result of <code>(a = b + 1)</code> is the value which is assigned to a (that is 3). It is then used to subtract from 3.</p>
+
+
+
+
+
+
+
+<h1>Reminder %</h1>
+<p>The remainder operator % despite its look does not have a relation to percents. The result of <code>a % b</code> is the remainder of the integer division of a by b.</p>
+<pre>
+alert( 5 % 2 ); // 1 is a remainder of 5 divided by 2
+alert( 8 % 3 ); // 2 is a remainder of 8 divided by 3
+alert( 6 % 3 ); // 0 is a remainder of 6 divided by 3
+</pre>
+
+
+
+
+
+
+<h1>Exponentiation **</h1>
+<p>The exponentiation operator <code>**</code> is a recent addition to the language. For a natural number b, the result of a ** b is a multiplied by itself b times.</p>
+<pre>
+alert( 2 ** 2 ); // 4  (2 * 2)
+alert( 2 ** 3 ); // 8  (2 * 2 * 2)
+alert( 2 ** 4 ); // 16 (2 * 2 * 2 * 2)
+</pre>
+<p>The operator works for non-integer numbers of a and b as well, for instance:</p>
+<pre>
+alert( 4 ** (1/2) ); // 2 (power of 1/2 is the same as a square root, that's maths)
+alert( 8 ** (1/3) ); // 2 (power of 1/3 is the same as a cubic root)
+</pre>
+
+
+
+
+
+
+
+
+
+
+<h1>Increment/Decrement</h1>
+<p>Increasing or decreasing a number by one is among the most common numerical operations. So, there are special operators for that:</p>
+<p>Increment ++ increases a variable by 1:</p>
+<pre>
+let counter = 2;
+counter++;      // works the same as counter = counter + 1, but is shorter
+alert( counter ); // 3
+</pre>
+<p>Decrement -- decreases a variable by 1:</p>
+<pre>
+let counter = 2;
+counter--;      // works the same as counter = counter - 1, but is shorter
+alert( counter ); // 1
+</pre>
+<p style="font-weight: 500;">Increment/decrement can be applied only to a variable. An attempt to use it on a value like 5++ will give an error.</p>
+<p>Just like in any other language, increment and decrement operators comes with two variant. One is Postfix notation and another is Prefix notation. To know about this notation please refer to Common Programming Language.</p>
+
+
+
+
+
+
+<h1>Comma</h1>
+<p>The comma operator allows us to evaluate several expressions, dividing them with a comma ,. Each of them is evaluated, but the result of only the last one is returned.</p>
+<pre>
+let a = (1 + 2, 3 + 4);
+
+alert( a ); // 7 (the result of 3 + 4)
+</pre>
+<p>Here, the first expression <code>1 + 2</code> is evaluated, and its result is thrown away, then <code>3 + 4</code> is evaluated and returned as the result.</p>
+<p>Please note that the comma operator has very low precedence, lower than =, so parentheses are important in the example above. Without them: <code>a = 1 + 2, 3 + 4</code> evaluates + first, summing the numbers into <code>a = 3, 7</code>, then the assignment operator = assigns a = 3, and then the number after the comma 7 is not processed anyhow, so it’s ignored.</p>
+<p style="font-weight: bold;">Why do we need such an operator which throws away everything except the last part?</p>
+<p>Sometimes people use it in more complex constructs to put several actions in one line.</p>
+<pre>
+for (a = 1, b = 3, c = a * b; a < 10; a++) {
+ ...
+}
+</pre>
+<p>Such tricks are used in many JavaScript frameworks, that’s why we mention them. But usually they don’t improve the code readability, so we should think well before writing like that.</p>
+
+
+
+
+
+
+
+<h1>Comparasion Operator</h1>
+<p>Please refer to <a href="file:///D:/Neorial/Common%20Programming%20Language/ComparisionOperator.html">Common Programming Language</a> For Comparasion Operators.</p>
+<h3>String comparison</h3>
+<p>To see which string is greater than the other, the so-called “dictionary” or “lexicographical” order is used. In other words, strings are compared letter-by-letter.</p>
+<pre>
+alert( 'Z' > 'A' ); // true
+alert( 'Glow' > 'Glee' ); // true
+alert( 'Bee' > 'Be' ); // true
+</pre>
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

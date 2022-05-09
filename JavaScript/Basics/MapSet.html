@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Map and Sets</title>
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+	<script type="text/javascript" src="../../Assets/prism.min.js"></script>
+	<script type="text/javascript" src="../../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+<h1>Map</h1>
+<p>Map is a collection of keyed data items, just like an Object. But the main difference is that Map allows keys of any type.</p>
+<p>Here are some main operation you can do with a map:</p>
+<ul>
+	<li><code>new Map()</code> – creates the map.</li>
+	<li><code>map.set(key, value)</code> – stores the value by the key.</li>
+	<li><code>map.get(key)</code> – returns the value by the key, <code>undefined</code> if key doesn’t exist in map.</li>
+	<li><code>map.has(key)</code> – returns true if the key exists, false otherwise.</li>
+	<li><code>map.delete(key)</code> – removes the value by the key.</li>
+	<li><code>map.clear()</code> – clears the map</li>
+	<li><code>map.size</code> – returns the current element count.</li>
+</ul>
+<p>Here is an example:</p>
+<pre>
+let map = new Map();
+
+map.set('1', 'str1');   // a string key
+map.set(1, 'num1');     // a numeric key
+map.set(true, 'bool1'); // a boolean key
+
+// remember the regular Object? it would convert keys to string
+// Map keeps the type, so these two are different:
+alert( map.get(1)   ); // 'num1'
+alert( map.get('1') ); // 'str1'
+
+alert( map.size ); // 3
+
+let map = new Map();
+map.set('1', 'Santanu');
+map.set(1, 'Kolkata');
+console.log(map); // [["1","Santanu"],[1,"Kolkata"]] 
+map.delete(1);
+console.log(map); // [["1","Santanu"]] 
+
+// Use object as an Key -
+let obj = {
+    'key' : 'Value'
+};
+map.set(obj, "Hi");
+console.log(map); // [["1","Santanu"],[{"key":"Value"},"Hi"]]
+console.log(map.get(obj)); // Hi
+console.log(map.size); // 2
+</pre>
+<p>As we can see, unlike objects, keys are not converted to strings. Any type of key is possible. Using objects as keys is one of most notable and important Map features. To test values for equivalence, Map uses the algorithm <code>SameValueZero</code>. It is roughly the same as strict equality <code>===</code>, but the difference is that <code>NaN</code> is considered equal to <code>NaN</code>. So <code>NaN</code> can be used as the key as well.</p>
+<h3>Chaining</h3>
+<p>Every <code>map.set</code> call returns the map itself, so we can “chain” the calls:</p>
+<pre>
+map.set('1', 'str1')
+  .set(1, 'num1')
+  .set(true, 'bool1');
+</pre>
+
+
+
+
+
+<h1>Map from Object : Object.entries()</h1>
+<p>When a Map is created, we can pass an array (or another iterable) with key-value pairs, like this:</p>
+<pre>
+// array of [key, value] pairs
+let map = new Map([
+  ['1',  'str1'],
+  [1,    'num1'],
+  [true, 'bool1']
+]);
+</pre>
+<p>There is a built-in method <code>Object.entries(obj)</code> for Object which converts the object and returns equivalent two dimensional array. For example -</p>
+<pre>
+let obj = {
+	'name' : "Santanu",
+	'location' : "Kolkata"
+};
+console.log(Object.entries(obj)) // [ ['name', 'Santanu'], ['location' : 'Kolkata'] ];
+</pre>
+<p>So we can initialize a map from an object like this</p>
+<pre>
+let map = new Map(Object.entries({
+  name: "John",
+  age: 30
+}));
+console.log(map); // [ ["name","John"], ["age", 30] ]
+</pre>
+<p>Here, Object.entries returns the array of key/value pairs: <code>[ ["name","John"], ["age", 30] ]</code>. That’s what Map needs.</p>
+
+
+
+
+
+
+
+
+
+
+<h1>Iteration over Map</h1>
+<p>For looping over a map, there are 3 methods:</p>
+<ul>
+	<li><code>map.keys()</code> – returns an iterable for keys,</li>
+	<li><code>map.values()</code> – returns an iterable for values,</li>
+	<li><code>map.entries()</code> – returns an iterable for entries [key, value], it’s used by default in <code>for..of</code>.</li>
+</ul>
+<pre>
+let recipeMap = new Map([
+  ['cucumber', 500],
+  ['tomatoes', 350],
+  ['onion',    50]
+]);
+
+// iterate over keys (vegetables)
+for (let vegetable of recipeMap.keys()) {
+  alert(vegetable); // cucumber, tomatoes, onion
+}
+
+// iterate over values (amounts)
+for (let amount of recipeMap.values()) {
+  alert(amount); // 500, 350, 50
+}
+
+// iterate over [key, value] entries
+for (let entry of recipeMap) { // the same as of recipeMap.entries()
+  alert(entry); // cucumber,500 (and so on)
+}
+</pre>
+<p>Besides that, Map has a built-in <code>forEach</code> method, similar to Array:</p>
+<pre>
+recipeMap.forEach( (value, key, map) => {
+  alert(`${key}: ${value}`); // cucumber: 500 etc
+});
+</pre>
+
+
+
+
+
+
+
+
+
+<h1>Set</h1>
+<p>A Set is a collection of values, where each value may occur only once. Unlike array, it doesn't accept duplicate values.</p>
+<p>Its main methods are:</p>
+<ul>
+	<li><code>new Set(iterable)</code> – creates the set, optionally from an array of values (any iterable will do).</li>
+	<li><code>set.add(value)</code> – adds a value, returns the set itself.</li>
+	<li><code>set.delete(value)</code> – removes the value, returns true if value existed at the moment of the call, otherwise false.</li>
+	<li><code>set.has(value)</code> – returns true if the value exists in the set, otherwise false.</li>
+	<li><code>set.clear()</code> – removes everything from the set.</li>
+	<li><code>set.size</code> – is the elements count.</li>
+</ul>
+<pre>
+let set = new Set();
+
+let john = { name: "John" };
+let pete = { name: "Pete" };
+let mary = { name: "Mary" };
+
+// visits, some users come multiple times
+set.add(john);
+set.add(pete);
+set.add(mary);
+set.add(john);
+set.add(mary);
+
+// set keeps only unique values
+alert( set.size ); // 3
+
+for (let user of set) {
+  alert(user.name); // John (then Pete and Mary)
+}
+</pre>
+<p>You can use array as an alternative to set. But array is slow. Because on each insertion, you need to check the whole array if the item is already exists. As array grows in size, the performance gets slower. On the other hand set is better optimized and perfectly suited for this case.</p>
+
+
+
+
+
+
+<h1>Iteration over Set</h1>
+<p>We can loop over a set either with <code>for..of</code> or using <code>forEach</code>:</p>
+<pre>
+let set = new Set(["oranges", "apples", "bananas"]);
+
+for (let value of set) alert(value);
+
+// the same with forEach:
+set.forEach((value, valueAgain, set) => {
+  alert(value);
+});
+</pre>
+<p>Note the funny thing. The <code>forEach</code> function in the Set has 3 arguments: a <code>value</code>, then again a <code>value</code>, and then the target object. Indeed, the same value appears in the arguments twice.</p>
+<p>That’s for compatibility with <code>Map</code> where <code>forEach</code> has three arguments. Looks a bit strange, for sure. But may help to replace <code>Map</code> with <code>Set</code> in certain cases with ease, and vice versa.</p>
+<p>The same methods <code>Map</code> has for iterators are also supported:</p>
+<ul>
+	<li><code>set.keys()</code> – returns an iterable object for values,</li>
+	<li><code>set.values()</code> – same as <code>set.keys</code>, for compatibility with <code>Map</code>,</li>
+	<li><code>set.entries()</code> – returns an iterable object for entries [value, value], exists for compatibility with <code>Map</code>.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+<h1>keys(), values() and entries() for Object</h1>
+<p>Note that the methods <code>keys()</code>, <code>values()</code> and <code>entries()</code> are well supported for <code>Map</code>, <code>Set</code> and <code>Array</code>. For example -</p>
+<pre>
+let set = new Set(["oranges", "apples", "bananas"]);
+let values = set.values();
+</pre>
+<p>These methods return an Iterable, Not real Array. Object also supports these methods but in a different way. And also, for Object the returned value is an real Array. For Object -</p>
+<ul>
+	<li><code>Object.keys(obj)</code> – returns an array of keys.</li>
+	<li><code>Object.values(obj)</code> – returns an array of values.</li>
+	<li><code>Object.entries(obj)</code> – returns an array of [key, value] pairs.</li>
+</ul>
+<p>Note the difference that these methods for Object return “real” array objects, not just an iterable. That’s mainly for historical reasons.</p>
+<pre>
+let user = {
+  name: "John",
+  age: 30
+};
+// Object.keys(user) = ["name", "age"]
+// Object.values(user) = ["John", 30]
+// Object.entries(user) = [ ["name","John"], ["age",30] ]
+</pre>
+<p>Here’s an example of using <code>Object.values</code> to loop over property values:</p>
+<pre>
+let user = {
+  name: "John",
+  age: 30
+};
+
+// loop over values
+for (let value of Object.values(user)) {
+  alert(value); // John, then 30
+}
+</pre>
+<p style="font-weight: 500;">Just like <code>for..in</code>loop these methods for Object ignores the Symbol properties. If an Object has Symbol as key, it is not included in any of these methods.</p>
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>v-bind</title>
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
+	<script type="text/javascript" src="../Assets/jquery.min.js"></script>
+    <link rel="stylesheet" href="../Assets/prism-dark.css">
+    <script type="text/javascript" src="../Assets/vue.js"></script>
+</head>
+<body class="Body">
+<div class="Content Card">
+	<h1>v-bind</h1>
+	<p>
+		In regular HTML there's no way to change the attribute value of an HTML element dynamically. You need Javascript or JQuery to change the value of the attribute. And thanks to Vue.js which makes it even simpler. For Example take an look at this example -------
+	</p>
+	<pre>
+		&lt;div id="Example">
+			&lt;input type="text" v-bind:placeholder="name">
+		&lt;/div>
+		&lt;script type="text/javascript">
+			new Vue({
+				el : "#Example",
+				data : {
+					name : "Type your name";
+				}
+			});
+		&lt;/script>
+	</pre>
+	<p>Now if you run the above script you will get the followin -- </p>
+	<div style="display: flex; justify-content: center; margin-bottom: 10px;">
+		<div class="field" style="width: 50%;">
+		  <div class="control">
+		    <input class="input is-success" type="text" v-bind:placeholder="name">
+		  </div>
+		</div>
+	</div>
+	<p>
+		If you can see, the value of the property "name" is automatically reflected in the HTML attribute. This way we can change any HTML tag's attribute.
+	</p>
+	<p>
+		The v-bind directive also works on boolean property. Before going further let's take a look at the following example -
+	</p>
+	<pre>
+		&lt;div id="Example">
+			&lt;button v-bind:disabled="isActive">&lt;/button>
+		&lt;/div>
+		&lt;script type="text/javascript">
+			new Vue({
+				el : "#Example",
+				data : {
+					isActive : true
+				}
+			});
+		&lt;/script>
+	</pre>
+	<div style="display: flex; justify-content: center; margin:20px;">
+		<button class="button is-success" v-bind:disabled=isActive>Hello</button>
+	</div>
+	<p>
+		If you change <code>isActive : false</code>, the button will be activated. Well, the way it works little bit different from the earlier example. When the value <code>isActive</code> is <code>false</code>, the boolean attribute <code>attribute</code> is removed from the DOM and when the value of <code>isActive</code> is <code>true</code>, the <code>disabled</code> attribute will be attached with the Button element and the Button will be disabled.
+	</p>
+	<h1>Object Way</h1>
+	<p>
+		The above example of v-bind is very basic and straight forward. We will show you a real and practical use of v-bind which is very popular. It's called dynamic class binding - 
+	</p>
+	<pre>
+		&lt;div id="Example">
+			&lt;a v-bind:class="myClass">&lt;/a>
+		&lt;/div>
+		&lt;script type="text/javascript">
+			new Vue({
+				el : "#Example",
+				data : {
+					myClass : 'button'
+				}
+			});
+		&lt;/script>
+	</pre>
+	<div style="display: flex; justify-content: center; margin:20px;">
+		<button :class="myClass">Hello</button>
+	</div>
+	<p>
+		Well, it's still a basic usage. But let's look at the below example -
+	</p>
+	<pre>
+		&lt;div id="Example">
+			&lt;a class="button" v-bind:class="{ 'is-success' : isSuccess }">&lt;/a>
+		&lt;/div>
+		&lt;script type="text/javascript">
+			new Vue({
+				el : "#Example",
+				data : {
+					isSuccess : true,
+				}
+			});
+		&lt;/script>
+	</pre>
+	<div style="display: flex; justify-content: center; margin:20px;">
+		<button class="button" :class="{ 'is-success' : isSuccess }">Hello</button>
+	</div>
+	<p>
+		In real life, most of the time we use more than one class on an element. And sometimes we want to render different style in different situation. For this case, Vue.js provides us an awesome mechanism which only applicable for class attribute of all HTML element. You can write maximum two class attribute and one of them is dynamic and the other one is static. In the above example <code>class="button"</code> is an static class attribute and <code>:class="{ 'is-success' : isSuccess }"</code> is a dynamic attribute.
+	</p>
+	<p>If the value of <code>isSuccess</code> is <code>true</code>, the class <code>is-active</code> will be added to the button. But what if you want to include another class which depends on another vue property. This is done with a comma separator  - </p>
+	<pre>
+		v-bind:class="{ active: isActive, 'text-danger': hasError }">
+	</pre>
+	<p>
+		Did you notice the enclosing single inverted comma on the class name? Well, general rule of thumb if you use special character other than underscore, you will always want to enclose them within single or double inverted comma.
+	</p>
+	<p>As I have said, this mechanism is only applicable for class attribute only, so doing something like this is totally crime - </p>
+	<pre>
+		&lt;input type="text" name="" placeholder="Hello" :placeholder="{ 'is-success' : isSuccess }">
+	</pre>
+	<p>The above line won't give you nothing but a broken placeholder which might make your life miserable.</p>
+	<p>
+		Hey, can you tell me why there's a { and } in the dynamic class attribute? Well, if you notice it's an object. General rule of thumb, the <code>key</code> is the name of the class and the <code>value</code> is boolean which determines whether to include the key to the class attribute. So, doing something like this is totally fine -
+	</p>
+	<pre>
+		&lt;div v-bind:class="classObject">&lt;/div>
+
+		data:{
+			isSuccess : true,
+			classObject : {
+				'is-success' : this.isSuccess,
+				'is-disabled' : false,
+				button : true
+			},
+		}
+	</pre>
+	<p>
+		And this will render as <code>class="is-success button"</code>
+	</p>
+	<p>
+		You can also use a computed property which returns an object. The following is a complex example -
+	</p>
+	<pre>
+		&lt;div v-bind:class="classObject">&lt;/div>
+		data: {
+		  isActive: true,
+		  error: null
+		},
+		computed: {
+		  classObject: function () {
+		    return {
+		      active: this.isActive &amp;&amp; !this.error,
+		      'text-danger': this.error &amp;&amp; this.error.type === 'fatal'
+		    }
+		  }
+		}
+	</pre>
+	<h1>Array Way</h1>
+	<p>
+		You can also pass an array to v-bind directive. 
+	</p>
+	<pre>
+		&lt;div v-bind:class="[activeClass, errorClass]">&lt;/div>
+		data: {
+		  activeClass: 'active',
+		  errorClass: 'text-danger'
+		}
+	</pre>
+	<p>This will render as <code>&lt;div class="active text-danger">&lt;/div></code></p>
+	<p>
+		One of the coolest part of Vue.js is that it gives you the ability to use inline javascript syntax where you can use Vue property - 
+	</p>
+	<pre>
+		&lt;div v-bind:class="[isActive ? activeClass : '', errorClass]">&lt;/div>
+	</pre>
+	<p>
+		Here, <code>errorClass</code> will always be rendered. But the class <code>isActive</code> will be rendered conditionally. If the <code>activeClass</code> is true the class <code>isActive</code> will be included. Otherwise not.
+	</p>
+	<p>
+		But this seems quite complex and is not readable. But you will always include object within the array which looks simpler than the above and quite readable.
+	</p>
+	<pre>
+		&lt;div v-bind:class="[{ isActive : activeClass }, errorClass]">&lt;/div>
+	</pre>
+	<p>
+		So, if the <code>activeClass</code> becomes true, only then <code>isActive</code> is included in the class list.
+	</p>
+	<h1>Rendering Style Attribute</h1>
+	<p>
+		So far, we have been using v-bind to class attribute. One of the good usage of v-bind is on the style attribute. Which gives us a lot more flexibility to write dynamic value.
+	</p>
+	<pre>
+		&lt;div v-bind:style="{ color: activeColor, fontSize: fontSize + 'px' }">&lt;/div>
+		data: {
+		  activeColor: 'red',
+		  fontSize: 30
+		}
+	</pre>
+	<p>
+		Here, we are using object inside the v-bind. This way you can dynamically bind style values with any tag you want. Pretty amazing. You now don't need to use jQuery. Notice that we are writing inline javascript statement for <code>fontSize</code> property. However, if your css property grows in number it looks messy. So it is always a better idea to directly pass an object to style using v-bind.
+	</p>
+	<pre>
+		&lt;div v-bind:style="styleObject">&lt;/div>
+		data: {
+		  styleObject: {
+		    color: 'red',
+		    width: '500px'
+		  }
+		}
+	</pre>
+	<p>
+		Once again, here styleObject can also be an computed property that returns an object.
+	</p>
+	<p>
+		You can use Array which is consists of some object which holds the different css property.
+	</p>
+	<pre>
+		&lt;div v-bind:style="[obj1, obj2]" style="background-color:yellow;>&lt;/div>
+		data:{
+			obj1:{
+				width : '100px',
+				'background-color' : 'red'
+			},
+			obj2:{
+				height : '300px',
+				color : 'white'
+			}
+		}
+	</pre>
+	<p>
+		And this will render as <code>&lt;div style="width: 100px; background-color: red; height: 300px; color: white;" style="background-color:yellow;">&lt;/div></code>
+	</p>
+	<p>
+		And this will give the following output --
+	</p>
+	<div :style="[obj1, obj2]" style="background-color: yellow; margin-bottom: 20px;"></div>
+	<p>
+		If you notice in the above example, we have also written static style property. This is also allowed. But one thing to remember that if you bind the style property with v-bind, all the dynamic css property will override the static css property. And that's why the <code>background-color</code> didn't changed to yellow.
+	</p>
+	<h1>Shorthand Syntax</h1>
+	<p>
+		Well, there's shorthand syntax of v-bind directive. Instead of always writting <code>v-bind:class="" </code> you can use <code>:class=""</code>. Means you can ommit the keyword <code>v-bind</code>. Just prefix the HTML attribute with the colon and Vue will take care the rest of the things.
+	</p>
+	<h1>Inline Syntax</h1>
+	<p>
+		As we have seen earlier that we can write inline JS statement where we can write Vue property - 
+	</p>
+	<pre>
+		&lt;input type="text" :value="myValue + 1">
+		data : {
+			myValue : 30
+		}
+	</pre>
+	<div style="width: 50%; margin:auto; margin-top: 20px; margin-bottom: 20px; display: flex; justify-content: center; align-items: center;">
+		<input class="input is-success" type="text" :value="myValue + 1">
+	</div>
+	<pre>
+		&lt;input type="text" :value="theValue == myValue">
+		data : {
+			myValue : 30,
+			theValue : 30,
+		}
+	</pre>
+	<div style="width: 50%; margin:auto; margin-top: 20px; margin-bottom: 20px; display: flex; justify-content: center; align-items: center;">
+		<input class="input is-success" type="text" :value="theValue == myValue">
+	</div>
+	<pre>
+		&lt;input type="text" :value="theValue > 10 ? 'Yes' : 'No' ">
+		&lt;input type="text" :value="{ Yes : theValue > 10 }">
+		&lt;input type="text" :value="[theValue > 10 ? 'Yes' : myValue, 'Hello']">
+		data : {
+			myValue : 30,
+			theValue : 30,
+		}
+	</pre>
+	<div style="width: 50%; margin:auto; margin-top: 20px; margin-bottom: 20px; display: flex; justify-content: center; align-items: center; flex-direction: column;">
+		<input style="margin-bottom: 20px;" class="input is-success" type="text" :value="theValue > 10 ? 'Yes' : 'No' ">
+		<input style="margin-bottom: 20px;" class="input is-success" type="text" :value="{ hello : myValue > 20}">
+		<input class="input is-success" type="text" :value="[theValue > 10 ? 'Yes' : myValue, 'Hello']">
+	</div>
+</div>
+<script type="text/javascript">
+new Vue({
+	el : ".Content",
+	data : {
+		name : "Type your name",
+		isActive : true,
+		isSuccess : true,
+		myClass : "button",
+		myValue : 30,
+		theValue : 30,
+		obj1:{
+				width : '100px',
+				'background-color' : 'red'
+			},
+			obj2:{
+				height : '300px',
+				color : 'white'
+			}
+	}
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Json</title>
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+	<script type="text/javascript" src="../../Assets/prism.min.js"></script>
+	<script type="text/javascript" src="../../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+
+
+<h1>JSON</h1>
+<p>When you want to send some request to the server, in most situation you will send some data. But in which format you should send the data? Most of the time, these data contains lot of information. The format you are sending should be recognized by the backend server and interpret as well. If you send Javascript Object, there are few languages which cannot recognize this format. So Javascript Object is not right format to send. You can send string, but converting object data to string and parse it in the backend to the right data type is not a very convenient thing. For example -</p>
+<pre>
+let user = {
+  name: "John",
+  age: 30,
+
+  toString() {
+    return `{name: "${this.name}", age: ${this.age}}`;
+  }
+};
+
+alert(user); // {name: "John", age: 30}
+</pre>
+<p>…But in the process of development, new properties are added, old properties are renamed and removed. Updating such toString every time can become a pain. We could try to loop over properties in it, but what if the object is complex and has nested objects in properties? We’d need to implement their conversion as well. And, if we’re sending the object over a network, then we also need to supply the code to “read” our object on the receiving side.</p>
+<p>For small information like just a name, or number, string format is fine. But when there are lots of information, String is inappropriate. JSON solves this problem. It is a format which is recognized by most programming language and easy to work with.</p>
+<p>The <code>JSON</code> (JavaScript Object Notation) is a general format to represent values and objects. Initially it was made for JavaScript, but many other languages have libraries to handle it as well. So it’s easy to use <code>JSON</code> for data exchange when the client uses JavaScript and the server is written on Ruby/PHP/Java/Whatever.</p>
+
+
+
+
+
+
+
+
+
+<h1>JSON.stringify()</h1>
+<p>This method converts objects into JSON.</p>
+<pre>
+let student = {
+  name: 'John',
+  age: 30,
+  isAdmin: false,
+  courses: ['html', 'css', 'js'],
+  wife: null
+};
+
+let json = JSON.stringify(student);
+
+alert(typeof json); // we've got a string!
+
+alert(json);
+/* JSON-encoded object:
+{
+  "name": "John",
+  "age": 30,
+  "isAdmin": false,
+  "courses": ["html", "css", "js"],
+  "wife": null
+}
+*/
+</pre>
+<p>The method <code>JSON.stringify(student)</code> takes the object and converts it into a string.</p>
+<p>The resulting json string is a called <code>JSON-encoded</code> or <code>serialized</code> or <code>stringified</code> or <code>marshalled</code> object. We are ready to send it over the wire or put into a plain data store.</p>
+<p>Please note that a JSON-encoded object has several important differences from the object literal:</p>
+<ul>
+	<li>Strings use double quotes. No single quotes or backticks in JSON. So <code>'John'</code> becomes <code>"John"</code>.</li>
+	<li>Object property names are double-quoted also. That’s obligatory. So <code>age:30</code> becomes <code>"age":30</code>.</li>
+</ul>
+<h3>Convert primitive type</h3>
+<p>Using JSON.stringify() not only you can convert Object to string. But also you can convert other data type too like String, Array, Boolean, Numbers etc.</p>
+<pre>
+// a number in JSON is just a number
+alert( JSON.stringify(1) ) // 1
+
+// a string in JSON is still a string, but double-quoted
+alert( JSON.stringify('test') ) // "test"
+
+alert( JSON.stringify(true) ); // true
+
+alert( JSON.stringify([1, 2, 3]) ); // [1,2,3]
+</pre>
+<h3>Nested Objects are converted too</h3>
+<p>The great thing is that nested objects are supported and converted automatically.</p>
+<pre>
+let meetup = {
+  title: "Conference",
+  room: {
+    number: 23,
+    participants: ["john", "ann"]
+  }
+};
+
+alert( JSON.stringify(meetup) );
+/* The whole structure is stringified:
+{
+  "title":"Conference",
+  "room":{"number":23,"participants":["john","ann"]},
+}
+*/
+</pre>
+<h3>Few properties are skipped by JSON.stringify</h3>
+<p>There are few properties that doesn't get included during the conversion -</p>
+<ul>
+  <li>Function properties (methods).</li>
+  <li>Symbolic properties.</li>
+  <li>Properties that store <code>undefined</code></li>
+</ul>
+<pre>
+let user = {
+  sayHi() { // ignored
+    alert("Hello");
+  },
+  [Symbol("id")]: 123, // ignored
+  something: undefined // ignored
+};
+
+alert( JSON.stringify(user) ); // {} (empty object)
+</pre>
+<h3>JSON.stringify fails for Circular Reference</h3>
+<p>If your object references in a circular direction, then the method <code>JSON.stringify()</code> fails to convert to JSON. Consider the following example -</p>
+<pre>
+let room = {
+  number: 23
+};
+
+let meetup = {
+  title: "Conference",
+  participants: ["john", "ann"]
+};
+
+meetup.place = room;       // meetup references room
+room.occupiedBy = meetup; // room references meetup
+</pre>
+<p>The property <code>place</code> of <code>meetup</code> object has the reference to the object <code>room</code>. Now <code>occupiedBy</code> property of <code>room</code> object refers to the object <code>meetup</code>. It mean both object refers to both object. If you try to convert that object to JSON, you will get an error.</p>
+<pre>
+JSON.stringify(meetup); // Error: Converting circular structure to JSON
+</pre>
+
+
+
+
+
+
+
+
+
+<h1>toJSON()</h1>
+<p>Like <code>toString</code> for string conversion, an object may provide method toJSON for to-JSON conversion. <code>JSON.stringify</code> automatically calls it if available.</p>
+<pre>
+let room = {
+  number: 23
+};
+
+let meetup = {
+  title: "Conference",
+  date: new Date(Date.UTC(2017, 0, 1)),
+  room
+};
+
+alert( JSON.stringify(meetup) );
+/*
+  {
+    "title":"Conference",
+    "date":"2017-01-01T00:00:00.000Z", 
+    "room": {"number":23}               
+  }
+*/
+</pre>
+<p>Here we can see that date became a string. That’s because all dates have a built-in <code>toJSON</code> method which returns such kind of string.</p>
+<p>Now let’s add a custom <code>toJSON</code> for our object room:</p>
+<pre>
+let room = {
+  number: 23,
+  toJSON() {
+    return this.number;
+  }
+};
+
+let meetup = {
+  title: "Conference",
+  room
+};
+
+alert( JSON.stringify(room) ); // 23
+
+alert( JSON.stringify(meetup) );
+/*
+  {
+    "title":"Conference",
+    "room": 23
+  }
+*/
+</pre>
+<p>As we can see, <code>toJSON</code> is used both for the direct call <code>JSON.stringify(room)</code> and for the nested object <code>JSON.stringify(meetup)</code>.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h1>JSON.parse()</h1>
+<p>The method JSON.parse() converts a JSON string to JS object. It does the reverse of the <code>JSON.stringify()</code>.</p>
+<pre>
+let value = JSON.parse(str[, reviver]);
+</pre>
+<p>For example -</p>
+<pre>
+// stringified array
+let numbers = "[0, 1, 2, 3]";
+
+numbers = JSON.parse(numbers);
+
+alert( numbers[1] ); // 1
+
+
+// Also works for Nested Object -
+let user = '{ "name": "John", "age": 35, "isAdmin": false, "friends": [0,1,2,3] }';
+
+user = JSON.parse(user);
+
+alert( user.friends[1] ); // 1
+</pre>
+<h3>Using reviver</h3>
+<p>The <code>JSON.parse()</code> method takes an optional function(key,value) as a second argument that will be called for each (key, value) pair and can transform the value. This argument is called <code>Reviver</code>.</p>
+<p>Imagine, we got a stringified <code>meetup</code> object from the server.</p>
+<pre>
+// title: (meetup title), date: (meetup date)
+let str = '{"title":"Conference","date":"2017-11-30T12:00:00.000Z"}';
+</pre>
+<p>…And now we need to deserialize it, to turn back into JavaScript object.</p>
+<p>Let’s do it by calling <code>JSON.parse</code>:</p>
+<pre>
+let str = '{"title":"Conference","date":"2017-11-30T12:00:00.000Z"}';
+
+let meetup = JSON.parse(str);
+
+alert( meetup.date.getDate() ); // Error!
+</pre>
+<p>The value of <code>meetup.date</code> is a string, not a <code>Date</code> object. How could <code>JSON.parse</code> know that it should transform that string into a Date?</p>
+<p>Let’s pass to <code>JSON.parse</code> the reviving function that returns all values “as is”, but date will become a <code>Date</code>:</p>
+<pre>
+let str = '{"title":"Conference","date":"2017-11-30T12:00:00.000Z"}';
+
+let meetup = JSON.parse(str, function(key, value) {
+  if (key == 'date') return new Date(value);
+  return value;
+});
+
+alert( meetup.date.getDate() ); // now works!
+</pre>
+<p>By the way, that works for nested objects as well:</p>
+<pre>
+let schedule = `{
+  "meetups": [
+    {"title":"Conference","date":"2017-11-30T12:00:00.000Z"},
+    {"title":"Birthday","date":"2017-04-18T12:00:00.000Z"}
+  ]
+}`;
+
+schedule = JSON.parse(schedule, function(key, value) {
+  if (key == 'date') return new Date(value);
+  return value;
+});
+
+alert( schedule.meetups[1].date.getDate() ); // works!
+</pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Padding Widget in Flutter</title>
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+	<script type="text/javascript" src="../../Assets/prism.min.js"></script>
+	<script type="text/javascript" src="../../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+<h1>Padding Widget</h1>
+<p>You can use Padding widget instead of Container widget with padding argument. There is not any difference at all. If you use Container widget with padding argument it will make the Container widget to make a Padding widget for you internally.</p>
+<p>Container doesn't inplement its properties directly, instead Container combines a number of simple widgets and wraps them into a convenient package. For example, the Container.padding property causes the Container to build a Padding widget and the Container.decoration property causes the Container to build a DecoratedBox widget. Here is an example of Padding widget :</p>
+<pre>
+const Card(
+	child : Padding(
+		padding : EdgeInsets.all(8.0),
+		child : Text("Hello world"),
+	),
+)
+</pre>
+
+
+
+
+<h1>EdgeInsets for Padding</h1>
+<p>You need to use EdgeInsets class in order to specify padding or margin. This method has following three methods :</p>
+<h3>EdgeInsets.all()</h3>
+<p>The method <code>all()</code> is used to provide padding in all four sides equally. You can use double value which specifies the amount in pixel.</p>
+<pre>
+padding : EdgeInsets.all(8.0),
+</pre>
+<p>The above example, provides padding of 8.0 pixel to all four sides left, top, right and bottom.</p>
+
+<h3>EdgeInsets.symmentric()</h3>
+<p>This method provides padding vertically or horizontally or both.</p>
+<pre>
+padding : EdgeInsets.symmentric(horizontal:8.0),
+</pre>
+<p>The above example provides 8.0 pixel padding on left and right side.</p>
+<pre>
+padding : EdgeInsets.symmentric(vertical: 10.5),
+</pre>
+<p>The above example provides 10.0 pixel padding on top and bottom side.</p>
+<pre>
+padding : EdgeInsets.symmetric(horizontal: 3.0, vertical: 2.0),
+</pre>
+<p>The above example provides 3.0 pixel padding on left and right side and 2.0 pixel padding on top and bottom side. The order of the argument doesn't matter. Hence, the following example is also valid : </p>
+<pre>
+padding : EdgeInsets.symmetric(vertical: 2.0, horizontal : 3.0),
+</pre>
+
+<h3>EdgeInsets.only()</h3>
+<p>When you want to explicitily provide padding to all four sides, you can use the method <code>only()</code></p>
+<pre>
+padding : EdgeInsets.only(left:3.0, top: 4.0, right: 5, bottom : 6),
+padding : EdgeInsets.only(left: 5, bottom: 7.3),
+</pre>
+
+<h3>EdgeInsets.fromLTRB()</h3>
+<p>The term <code>fromLTRB</code> means "from Left Top Right Bottom", that means, the padding starts from left and it goes clockwise to bottom side. You must provide all four value to use this method. For example,</p>
+<pre>
+EdgeInsets.fromLTRB(10, 5.0, 5.0, 10),
+</pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Gradient</title>
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
+	<script type="text/javascript" src="../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+<h1>Gradient</h1>
+<p>CSS gradients let you display smooth transitions between two or more specified colors.</p>
+<p>There are two types of Gradient -</p>
+<ul>
+	<li>Linear Gradient</li>
+	<li>Radial Gradient</li>
+</ul>
+<h1>Linear Gradient</h1>
+<p>To create a linear gradient you must define at least two color stops. Color stops are the colors you want to render smooth transitions among. You can also set a starting point and a direction (or an angle) along with the gradient effect.</p>
+<pre>
+background: linear-gradient(direction, color-stop1, color-stop2, ...);
+</pre>
+
+
+<h3>Top to bottom</h3>
+<p>By default the direction is top to bottom</p>
+<pre>
+#grad {
+    background: linear-gradient(red, yellow);
+}
+</pre>
+<div class="box" style="background: linear-gradient(red, yellow); height: 50px;">
+</div>
+
+
+<h3>Left to right</h3>
+<pre>
+#grad {
+  background: linear-gradient(to right, red , yellow);
+}
+</pre>
+<div class="box" style="background: linear-gradient(to right, red, yellow); height: 50px;"></div>
+
+
+<h3>Diagonal</h3>
+<p>You can make a gradient diagonally by specifying both the horizontal and vertical starting positions.</p>
+<p>The following example shows a linear gradient that starts at top left (and goes to bottom right). It starts red, transitioning to yellow:</p>
+<pre>
+#grad {
+  background: linear-gradient(to bottom right, red, yellow);
+}
+</pre>
+<div class="box" style="background: linear-gradient(to bottom right, red, yellow); height: 100px; width: 100px;"></div>
+<pre>
+#grad {
+  background: linear-gradient(to top right, red, yellow);
+}
+</pre>
+<div class="box" style="background: linear-gradient(to top right, red, yellow); height: 100px; width: 100px;"></div>
+<pre>
+#grad {
+  background: linear-gradient(to top left, red, yellow);
+}
+</pre>
+<div class="box" style="background: linear-gradient(to top left, red, yellow); height: 100px; width: 100px;"></div>
+<pre>
+#grad {
+  background: linear-gradient(to bottom left, red, yellow);
+}
+</pre>
+<div class="box" style="background: linear-gradient(to bottom left, red, yellow); height: 100px; width: 100px;"></div>
+
+
+<h3>Using Angle</h3>
+<p>If you want more control over the direction of the gradient, you can define an angle, instead of the predefined directions (to bottom, to top, to right, to left, to bottom right, etc.).</p>
+<pre>
+background: linear-gradient(angle, color-stop1, color-stop2);
+</pre>
+<pre>
+#grad {
+  background: linear-gradient(64deg, red, yellow);
+}
+</pre>
+<div class="box" style="background: linear-gradient(64deg, red, yellow); height: 100px; width: 100px;"></div>
+<p>You can also use negative deg like this -</p>
+<pre>
+#grad {
+  background: linear-gradient(-64deg, red, yellow);
+}
+</pre>
+<div class="box" style="background: linear-gradient(-64deg, red, yellow); height: 100px; width: 100px;"></div>
+
+
+<h3>Using Multiple Colors</h3>
+<p>You can use as many color as you want -</p>
+<pre>
+#grad {
+  background: linear-gradient(red, yellow, green);
+}
+</pre>
+<div class="box" style="background: linear-gradient(red, yellow, green); height: 100px;"></div>
+
+
+<h3>Repeating a linear-gradient</h3>
+<p>The repeating-linear-gradient() function is used to repeat linear gradients:</p>
+<pre>
+#grad {
+  background: repeating-linear-gradient(red, yellow 10%, green 20%);
+}
+</pre>
+<div class="box" style="background: repeating-linear-gradient(red, yellow 10%, green 20%); height: 100px;"></div>
+
+
+<h3>Specifying Color Stops</h3>
+<p>You can also declare where you want any particular color to "start". Those are called "color-stops". Say you wanted yellow to take up the majority of the space, but red only a little bit in the beginning, you could make the yellow color-stop pretty early:</p>
+<pre>
+#grad {
+  background-image:linear-gradient(to right, red,yellow 40%);
+}
+</pre>
+<div class="box" style="background: linear-gradient(red, yellow, green 40%); height: 100px;"></div>
+
+
+<h1>Radial Gradient</h1>
+<p>A radial gradient is defined by its center. To create a radial gradient you must also define at least two color stops.</p>
+<pre>
+background: radial-gradient(shape size at position, start-color, ..., last-color);
+</pre>
+<pre>
+#grad {
+  background: radial-gradient(red, yellow);
+}
+</pre>
+<div class="box" style="background: radial-gradient(red, yellow); height: 100px; width: 100px;"></div>
+<div class="box" style="background: radial-gradient(red, yellow); height: 100px; width: 400px;"></div>
+<p>The above two example are the same except the last one is ellipse. So if you increase the width, the gradient is graducally become ellipse. To stop this behaviour you can go following approach.</p>
+
+
+<h3>Specifying Shape</h3>
+<p>The shape parameter defines the shape. It can take the value circle or ellipse. The default value is ellipse.</p>
+<pre>
+#grad {
+  background: radial-gradient(circle, red, yellow, green);
+}
+</pre>
+<div class="box" style="background: radial-gradient(circle, red, yellow); height: 100px; width: 400px;"></div>
+<pre>
+#grad {
+  background: radial-gradient(ellipse, red, yellow, green);
+}
+</pre>
+<div class="box" style="background: radial-gradient(ellipse, red, yellow); height: 100px; width: 400px;"></div>
+
+
+<h3>Specifying Color Stops</h3>
+<p>The following example shows a radial gradient with differently spaced color stops:</p>
+<pre>
+#grad {
+  background: radial-gradient(red 5%, yellow 15%, green 60%);
+}
+</pre>
+<div class="box" style="background: radial-gradient(red 5%, yellow 15%, green 60%); height: 100px; width: 400px;"></div>
+
+
+<h3>Repeating a radial-gradient</h3>
+<p>The repeating-radial-gradient() function is used to repeat radial gradients:</p>
+<pre>
+#grad {
+  background: repeating-radial-gradient(red, yellow 10%, green 15%);
+}
+</pre>
+<div class="box" style="background: repeating-radial-gradient(red 5%, yellow 15%, green 60%); height: 100px; width: 400px;"></div>
+
+
+<h3>Use of Different Size Keywords</h3>
+<p>The size parameter defines the size of the gradient. It can take four values:</p>
+<ul>
+	<li><code>closest-side</code> ensures that the entire graient will be visible within the element.</li>
+	<li>farthest-side</li>
+	<li>closest-corner</li>
+	<li>farthest-corner</li>
+</ul>
+<pre>
+#grad1 {
+  background: radial-gradient(closest-side at 60% 55%, red, yellow, black);
+}
+
+#grad2 {
+  background: radial-gradient(farthest-side at 60% 55%, red, yellow, black);
+}
+</pre>
+<div class="box" style="background: radial-gradient(closest-side at 60% 55%, red, yellow, black); height: 300px;"></div>
+<div class="box" style="background: radial-gradient(farthest-side at 60% 55%, red, yellow, black); height: 300px;"></div>
+<p>You can also use gradient shape, but must remember that you should not give any comma after the shape value.</p>
+<pre>
+#grad1 {
+  background: radial-gradient(circle closest-side at 60% 55%, red, yellow, black);
+}
+#grad2 {
+  background: radial-gradient(circle farthest-side at 60% 55%, red, yellow, black);
+}
+</pre>
+<div class="box" style="background: radial-gradient(circle closest-side at 60% 55%, red, yellow, black); height: 300px;"></div>
+<div class="box" style="background: radial-gradient(circle farthest-side at 60% 55%, red, yellow, black); height: 300px;"></div>
+<pre>
+#grad1 {
+  background: radial-gradient(circle closest-corner at 60% 55%, red, yellow, black);
+}
+#grad2 {
+  background: radial-gradient(circle farthest-corner at 60% 55%, red, yellow, black);
+}
+</pre>
+<div class="box" style="background: radial-gradient(circle closest-corner at 60% 55%, red, yellow, black); height: 300px;"></div>
+<div class="box" style="background: radial-gradient(circle farthest-corner at 60% 55%, red, yellow, black); height: 300px;"></div>
+
+
+
+<h3>Starting from Another position</h3>
+<p>A radial gradient doesn't have to start at the default center either, you can specify a certain point by using "at ______" as part of the first parameter, like:</p>
+<pre>
+#grad2 {
+   background: radial-gradient( circle at top right, yellow, #f06d06 50%);
+}
+</pre>
+<div class="box" style="background: radial-gradient( circle at top right, yellow, #f06d06 50%); height: 300px;"></div>
+
+
+
+
+
+
+</div>
+</body>
+</html>

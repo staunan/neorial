@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Typography</title>
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
+	<script type="text/javascript" src="../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+<style type="text/css">
+	h2{
+		font-size: 18px;
+		font-weight: 700;
+	}
+	h3, h4, h2{
+		margin: 0;
+	}
+	p{
+		margin: 0;
+		margin-bottom: 10px;
+	}
+</style>
+
+
+
+
+<h1>SetTextColor()</h1>
+<pre>
+		
+		SetTextColor(int r [, int g, int b])
+
+</pre>
+<p>Defines the color used for text. It can be expressed in RGB components or gray scale. The method can be called before the first page is created and the value is retained from page to page.</p>
+<h4>r</h4>
+<p>Value between 0 and 255.</p>
+<h4>g</h4>
+<p>Green component (between 0 and 255).</p>
+<h4>b</h4>
+<p>Blue component (between 0 and 255).</p>
+<p>Here is an Example -</p>
+<pre>
+	
+	$str = "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do";
+	$pdf->setTextColor(103, 58, 183);
+	$pdf->MultiCell(0, 10, $str, 1, 'J');
+
+</pre>
+<p>The above example gives the following output - </p>
+<img src="Images/SetTextColor.jpg">
+
+
+
+
+
+
+
+<h1>SetFillColor()</h1>
+<pre>
+	
+	SetFillColor(int r [, int g, int b])
+
+</pre>
+<p>Defines the color used for all filling operations (filled rectangles and cell backgrounds). It can be expressed in RGB components or gray scale. The method can be called before the first page is created and the value is retained from page to page.</p>
+<h4>r</h4>
+<p>Value between 0 and 255.</p>
+<h4>g</h4>
+<p>Green component (between 0 and 255).</p>
+<h4>b</h4>
+<p>Blue component (between 0 and 255).</p>
+<p>You can set the color to <code>Cell()</code> or <code>MultiCell()</code> methods. But you cannot set color to <code>Write()</code> method. It means methods which accepts <code>fill</code> arguments, only those can have background and border color.</p>
+<p>To make <code>SetDrawColor()</code> and <code>SetFillColor()</code> effective, you must provide the <code>fill</code> value to <code>true</code> in <code>Cell()</code> or <code>MultiCell()</code> method.</p>
+<p>Consider the following example -</p>
+<pre>
+	$pdf = new FPDF();
+	$pdf->SetTextColor(255, 255, 255);
+	$pdf->SetFillColor(0, 80, 180);
+	// Fourth Page --
+	$pdf->AddPage();
+	$pdf->SetFont('Arial','B',16);
+	$pdf->Cell(0, 10, "Hello Santanu", 1, 1, 'C', true);
+
+	$pdf->Output('helo.pdf', 'D');
+</pre>
+<p>The above code produce the following output -</p>
+<img src="Images/SetFillColor.jpg">
+
+
+
+
+
+
+
+<h1>SetDrawColor()</h1>
+<pre>
+
+	SetDrawColor(int r [, int g, int b])
+
+</pre>
+<p>Defines the color used for all drawing operations (lines, rectangles and cell borders). It can be expressed in RGB components or gray scale. The method can be called before the first page is created and the value is retained from page to page.</p>
+<h4>r</h4>
+<p>Value between 0 and 255.</p>
+<h4>g</h4>
+<p>Green component (between 0 and 255).</p>
+<h4>b</h4>
+<p>Blue component (between 0 and 255).</p>
+<p>Consider the following example -</p>
+<pre>
+		$pdf->AddPage();
+		$pdf->SetFont('Arial','B',16);
+		$pdf->SetFillColor(0, 80, 180);
+		$pdf->SetDrawColor(255, 0, 0);
+		$pdf->SetTextColor(103, 58, 183);
+		$pdf->Cell(0, 10, "Hello Santanu", 1, 1, 'C' ,true);
+</pre>
+<p>The above example produce the following output -</p>
+<img src="Images/SetDrawColor.jpg">
+<p>Notice the use of <code>SetFillColor()</code> before using <code>SetDrawColor()</code> method? It is mandatory to use <code>SetFillColor()</code> before drawing any cell. Otherwise the fill color will be black by default.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

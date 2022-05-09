@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Getting Started</title>
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
+	<script type="text/javascript" src="../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+<h1>Getting Started</h1>
+<p>The body of your email, represented by the <code>mj-body</code> tag contains the entire content of your document:</p>
+<p><code>mj-body</code> tag can contain one or more <code>mj-section</code>. <code>mj-section</code> creates a section.</p>
+<p>Inside any section, there should be columns (even if you need only one column). Columns are what makes MJML responsive. Columns are created by <code>mj-column</code>. So a section consist of one or more column.</p>
+
+
+<h1>Column Auto Sizing</h1>
+<p>By default <code>mj-section</code> takes 600px width. To change the width of <code>mj-section</code> use width attribute on <code>mj-body</code> tag.</p>
+<p>Consider the following -</p>
+<pre>
+&lt;mjml>
+  &lt;mj-body>
+    &lt;mj-section>
+      &lt;mj-column>
+        &lt;!-- First column content -->
+      &lt;/mj-column>
+      &lt;mj-column>
+        &lt;!-- Second column content -->
+      &lt;/mj-column>
+    &lt;/mj-section>
+  &lt;/mj-body>
+&lt;/mjml>
+</pre>
+<p>Since the first section defines only 2 columns, the engine will translate that in a layout where each column takes 50% of the total space (300px each). If we add a third one, it goes down to 33%, and with a fourth one to 25%.</p>
+
+
+
+<h1>Column Manual Sizing</h1>
+<p>You can also manually set the size of your columns, in pixels or percentage, by using the width attribute on mj-column.</p>
+<pre>
+&lt;mjml>
+  &lt;mj-body>
+    &lt;mj-section>
+      &lt;mj-column width="200px">
+        &lt;!-- First column content -->
+      &lt;/mj-column>
+      &lt;mj-column width="400px">
+        &lt;!-- Second column content -->
+      &lt;/mj-column>
+    &lt;/mj-section>
+  &lt;/mj-body>
+&lt;/mjml>
+</pre>
+
+<h1>Example</h1>
+<p>In this section, you're going to learn how to code a basic email template using MJML.Here is the final render we want to end with:</p>
+<img src="Images/achieve.png">
+
+<h3>Structure</h3>
+<p>First, we will implement the skeleton which are the sections. Here, our email is going to be divided into 6 sections.</p>
+<pre>
+&lt;mjml>
+  &lt;mj-body>
+
+    &lt;!-- Company Header -->
+    &lt;mj-section background-color="#f0f0f0">&lt;/mj-section>
+
+    &lt;!-- Image Header -->
+    &lt;mj-section background-color="#f0f0f0">&lt;/mj-section>
+
+    &lt;!-- Introduction Text -->
+    &lt;mj-section background-color="#fafafa">&lt;/mj-section>
+
+    &lt;!-- 2 columns section -->
+    &lt;mj-section background-color="white">&lt;/mj-section>
+
+    &lt;!-- Icons -->
+    &lt;mj-section background-color="#fbfbfb">&lt;/mj-section>
+
+    &lt;!-- Social icons -->
+    &lt;mj-section background-color="#f0f0f0">&lt;/mj-section>
+
+  &lt;/mj-body>
+&lt;/mjml>
+</pre>
+
+
+<h3>Company Header</h3>
+<p>The first section of the email consists in a centered banner, containing only the company name. The following markup is the MJML representation of the layout we want to obtain.</p>
+<p>The tag <code>mj-text</code> allows you to display text in your email. You can use the following attribute for <code>mj-text</code></p>
+<ul>
+	<li>color</li>
+	<li>font-family</li>
+	<li>font-size</li>
+	<li>font-style</li>
+	<li>font-weight</li>
+	<li>line-height</li>
+	<li>letter-spacing</li>
+	<li>height</li>
+	<li>text-decoration</li>
+	<li>text-transform</li>
+	<li>align</li>
+	<li>container-background-color</li>
+	<li>padding</li>
+	<li>padding-top</li>
+	<li>padding-bottom</li>
+	<li>padding-left</li>
+	<li>padding-right</li>
+	<li>css-class</li>
+	<li>And many more</li>
+</ul>
+<p>`MjText` can contain any HTML tag with any attributes. Don't forget to encode special characters to avoid unexpected behaviour from MJML's parser.</p>
+
+
+
+<h3>Image Header</h3>
+<p>Next comes a section with a background image and a block of text (representing the company slogan) and a button pointing to a page listing all the company promotions. To add the image header, you will have to replace the section's background-color by a background-url. Similarly to the first header, you will have to center the text both vertically and horizontally. The padding remains the same. The button href sets the button location. In order to have the background rendered full-width in the column, set the column width to 600px with width="600".</p>
+<pre>
+&lt;!-- Image Header -->
+&lt;mj-section background-url="imageUrl.jpg"
+	background-size="cover"
+	background-repeat="no-repeat">
+	&lt;mj-column width="600">
+		&lt;mj-text align="center"
+			color="#fff"
+			font-size="40"
+			font-family="Helvetica Neue">Slogan here
+		&lt;/mj-text>
+		&lt;mj-button background-color="#F63A4D" href="#">Promotion&lt;/mj-button>
+	&lt;/mj-column>
+&lt;/mj-section>
+</pre>
+
+
+
+
+<h3>Introduction Text</h3>
+<p>
+The introduction text will consist of a title, a main text and a button. The title is a regular mj-text that can be customized.
+</p>
+<pre>
+&lt;!-- Intro text -->
+&lt;mj-section background-color="#fafafa">
+	&lt;mj-column width="400">
+		&lt;mj-text font-style="italic" font-size="20" font-family="Helvetica Neue" color="#626262">
+			My Awesome Text
+		&lt;/mj-text>
+		&lt;mj-text color="#525252">
+			Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin rutrum enim eget magna efficitur, 
+			eu semper augue semper. Aliquam erat volutpat. Cras id dui lectus. Vestibulum sed finibus lectus, 
+			sit amet suscipit nibh. Proin nec commodo purus. Sed eget nulla elit. Nulla aliquet mollis faucibus.
+		&lt;/mj-text>
+		&lt;mj-button background-color="#F45E43" href="#">Learn more&lt;/mj-button>
+	&lt;/mj-column>
+&lt;/mj-section>
+</pre>
+
+
+
+
+
+
+<h1>2 Columns Section</h1>
+<p>This sections is made up of 2 columns. One containing an image, the other one containing a text. For the image part, note that when a tag does not have any child, you can use the XML self-closing tag syntax: <code>&lt;mj-image /></code></p>
+<p>For the text part, you are going to need two <code>&lt;mj-text></code>s like above. One with a title format, and the other one as a regular text.</p>
+<pre>
+&lt;!-- Side image -->
+&lt;mj-section background-color="white">
+
+  &lt;!-- Left image -->
+  &lt;mj-column>
+    &lt;mj-image width="200" src="https://designspell.files.wordpress.com/2012/01/sciolino-paris-bw.jpg" />
+  &lt;/mj-column>
+
+  &lt;!-- right paragraph -->
+  &lt;mj-column>
+    &lt;mj-text font-style="italic" font-size="20" font-family="Helvetica Neue" color="#626262">
+      Find amazing places
+    &lt;/mj-text>
+    &lt;mj-text color="#525252">
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin rutrum enim eget magna efficitur, 
+      eu semper augue semper. Aliquam erat volutpat. Cras id dui lectus. Vestibulum sed finibus lectus.
+    &lt;/mj-text>
+  &lt;/mj-column>
+
+&lt;/mj-section>
+</pre>
+
+
+
+
+<h1>Icons</h1>
+<p>This section is a 3-columns-based section. Please notice you can make the padding vary to change the space around the images.</p>
+<pre>
+&lt;!-- Icons -->
+&lt;mj-section background-color="#fbfbfb">
+  &lt;mj-column>
+    &lt;mj-image width="100" src="http://191n.mj.am/img/191n/3s/x0l.png" />
+  &lt;/mj-column>
+  &lt;mj-column>
+    &lt;mj-image width="100" src="http://191n.mj.am/img/191n/3s/x01.png" />
+  &lt;/mj-column>
+  &lt;mj-column>
+    &lt;mj-image width="100" src="http://191n.mj.am/img/191n/3s/x0s.png" />
+  &lt;/mj-column>
+&lt;/mj-section>
+</pre>
+
+
+
+
+<h3>Social Icons</h3>
+<p>The MJML standard components library comes with a mj-social component. By default, every social network is enabled. To disable some of them, just use their names as an attribute with a false value. Here, we're going to use facebook only.</p>
+<pre>
+&lt;mj-section background-color="#e7e7e7">
+  &lt;mj-column>
+    &lt;mj-social>
+      &lt;mj-social-element name="facebook" />
+      &lt;mj-social-element name="twitter" />
+    &lt;/mj-social>
+  &lt;/mj-column>
+&lt;/mj-section>
+</pre>
+
+
+
+
+
+
+</div>
+</body>
+</html>

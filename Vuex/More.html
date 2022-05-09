@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Syntax</title>
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
+	<script type="text/javascript" src="../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+
+<h1>Application Structure</h1>
+<p>Vuex doesn't really restrict how you structure your code. Rather, it enforces a set of high-level principles:</p>
+<ul>
+	<li>Application-level state is centralized in the store.</li>
+	<li>The only way to mutate the state is by committing mutations, which are synchronous transactions.</li>
+	<li>Asynchronous logic should be encapsulated in, and can be composed with actions.</li>
+</ul>
+<p>As long as you follow these rules, it's up to you how to structure your project. If your store file gets too big, simply start splitting the actions, mutations and getters into separate files.</p>
+<p>For any non-trivial app, we will likely need to leverage modules. Here's an example project structure:</p>
+<img src="Assets/ApplicationStructure.jpg">
+
+
+
+
+
+
+
+<h1>Strict Mode</h1>
+<p>To enable strict mode, simply pass in <code>strict: true</code> when creating a Vuex store:</p>
+<pre>
+const store = new Vuex.Store({
+  // ...
+  strict: true
+})
+</pre>
+<p>In strict mode, whenever <code>Vuex</code> state is mutated outside of mutation handlers, an error will be thrown. This ensures that all state mutations can be explicitly tracked by debugging tools.</p>
+
+
+<h3>Development vs. Production</h3>
+<p><em style="font-weight: bold;">Do not enable strict mode when deploying for production!</em> Strict mode runs a synchronous deep watcher on the state tree for detecting inappropriate mutations, and it can be quite expensive when you make large amount of mutations to the state. Make sure to turn it off in production to avoid the performance cost.</p>
+<p>Similar to plugins, we can let the build tools handle that:</p>
+<pre>
+const store = new Vuex.Store({
+  // ...
+  strict: process.env.NODE_ENV !== 'production'
+})
+</pre>
+<p>The above code dynamically detects if the environment is production. If it is, the strict mode is disabled. Otherwise it is enabled. <em style="font-weight: bold;">Btw, what is <code>process</code> here?</em></p>
+
+
+
+
+
+
+
+<h1>Form Handling</h1>
+<p>When using <code>Vuex</code> in strict mode, it could be a bit tricky to use <code>v-model</code> on a piece of state that belongs to <code>Vuex</code>:</p>
+<pre>
+&lt;input v-model="obj.message">
+</pre>
+<p>Assuming <code>obj</code> is a computed property that returns an Object from the store, the <code>v-model</code> here will attempt to directly mutate <code>obj.message</code> when the user types in the input. In strict mode, this will result in an error because the mutation is performed directly without commiting mutation.</p>
+<p>To deal with the above problem you can use the following approach -</p>
+<pre>
+&lt;input :value="message" @input="updateMessage">
+
+// ...
+computed: {
+  ...mapState({
+    message: state => state.obj.message
+  })
+},
+methods: {
+  updateMessage (e) {
+    this.$store.commit('updateMessage', e.target.value)
+  }
+}
+
+
+// Mutation Handler --
+mutations: {
+  updateMessage (state, message) {
+    state.obj.message = message
+  }
+}
+</pre>
+<p>The above approach uses <code>v-bind</code> instead of <code>v-model</code>. And Whenever we type something, the <code>updateMessage</code> is called which mutates the <code>obj</code> object.</p>
+<p>But the above approach is little bit verbose and if there's many inputs, the code gets messier. Also, we will loose many feature from <code>v-model</code>. There is another alternative way to solve this problem using <code>setter</code> on computed property.</p>
+
+<h3>Two-way Computed Property</h3>
+<pre>
+&lt;input v-model="message">
+// ...
+computed: {
+  message: {
+    get () {
+      return this.$store.state.obj.message
+    },
+    set (value) {
+      this.$store.commit('updateMessage', value)
+    }
+  }
+}
+</pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

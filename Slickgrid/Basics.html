@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Basics</title>
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
+	<script type="text/javascript" src="../Assets/jquery.min.js"></script>
+	<link rel="stylesheet" href="../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+<h1>Specify Column Width</h1>
+<pre>
+var columns = [
+	{id: "id", name: "ID", field: "id", width : 50},
+	{id: "email", name: "Email", field: "email", width : 300},
+	{id: "state", name: "State", field: "state", width : 150, formatter : this.stateFormat},
+	{id: "city", name: "City", field: "city", width : 150},
+];
+</pre>
+<p>The width values are in <code>px</code></p>
+
+
+
+<h1>Cell Formatting</h1>
+<p>Let's say you want to format the <code>State</code> column. The <code>format</code> option is used to specify the format function that will return the formatted value. Here is the example -</p>
+<pre>
+// Options --
+var columns = [
+	{id: "id", name: "ID", field: "id", width : 50},
+	{id: "email", name: "Email", field: "email", width : 300},
+	{id: "state", name: "State", field: "state", width : 150, formatter : this.stateFormat},
+	{id: "city", name: "City", field: "city", width : 150},
+];
+
+// Format Function
+function stateFormat(row, cell, value, columnDef, dataContext){
+	if (value == 'Delhi') {
+		return `&lt;div style="background-color:red;">`+ value +`&lt;/div>`;
+	}else{
+		return value;
+	}
+}
+</pre>
+
+
+
+<h1>Adding a class to a Column</h1>
+<p>If you want to apply a CSS rule to a column use <code>cssClass</code> option in column configuration.</p>
+<pre>
+	var columns = [
+		{id: "title", name: "Title", field: "title", width: 200, cssClass: "cell-title"},
+		{id: "priority", name: "Priority", field: "priority", width: 80}
+	];
+</pre>
+
+
+
+
+
+
+<h1>Handling Cell Clicking</h1>
+<pre>
+grid.onClick.subscribe(function (e) {
+	var cell = grid.getCellFromEvent(e);
+	let rowNumber = cell.row;
+	let columnNumber = cell.cell;
+	if (columnNumber == 2) {
+		// Updating the data Object --
+		AllRows[rowNumber].state = "Sangram";
+
+		// After you update the Object you should update the Grid as well. This is how it is done -
+		grid.updateRow(rowNumber);
+		e.stopPropagation();
+	}
+});
+</pre>
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>iziModal</title>
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
+	<script type="text/javascript" src="../Assets/jquery.min.js"></script>
+    <link rel="stylesheet" href="../Assets/prism-dark.css">
+
+    <link rel="stylesheet" type="text/css" href="Assets/iziModal/iziModal.css">
+    <script type="text/javascript" src="Assets/iziModal/iziModal.min.js"></script>
+</head>
+<body class="Body">
+	<div class="Content Card">
+		<h1>iziModal</h1>
+		<p>
+			This is one hell of a Modal display. Awesome.
+		</p>
+		<pre>
+			&lt;script type="text/javascript" src="Assets/iziModal/iziModal.min.js">&lt;/script>
+    		&lt;link rel="stylesheet" type="text/css" href="Assets/iziModal/iziModal.css">
+		</pre>
+		<div style="display: flex; justify-content: center; align-content: center;">
+			<a class="button is-success" onclick="showSimple()">Show Modal</a>
+			<div id="modal">
+				<h1>Hello World</h1>
+			</div>
+		</div>
+		<p>
+			Cool, Now let's learn some useful option you can apply -
+		</p>
+		<table class="table">
+			<tr>
+				<td>title</td>
+				<td>The title of the modal</td>
+			</tr>
+			<tr>
+				<td>subtitle</td>
+				<td>The subtitle of the modal. It shows below the title.</td>
+			</tr>
+			<tr>
+				<td>headerColor</td>
+				<td>The background color of the header</td>
+			</tr>
+			<tr>
+				<td>background</td>
+				<td>The background color of the modal body. Default is <code>#fff</code></td>
+			</tr>
+			<tr>
+				<td>theme</td>
+				<td>Theme of the modal, can be empty or "light".</td>
+			</tr>
+			<tr>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td></td>
+			</tr>
+		</table>
+	</div>
+	<script type="text/javascript">
+		$("#modal").iziModal({
+			title: 'Welcome to Vidhikarya',
+    		subtitle: 'Start your journey',
+    		theme : 'light'
+		});
+		function showSimple(){
+			$('#modal').iziModal('open');
+		}
+	</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+

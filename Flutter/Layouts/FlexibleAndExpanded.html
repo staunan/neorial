@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Colors in Flutter</title>
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+	<script type="text/javascript" src="../../Assets/prism.min.js"></script>
+	<script type="text/javascript" src="../../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+<h1>Flexible Widget</h1>
+<p>A widget that controls how a child of a <code>Row</code>, <code>Column</code>, or <code>Flex</code> flexes.</p>
+<p>Using a <code>Flexible</code> widget gives a child of a <code>Row</code>, <code>Column</code>, or <code>Flex</code> the flexibility to expand to fill the available space in the main axis (e.g., horizontally for a Row or vertically for a <code>Column</code>), but, unlike <code>Expanded</code>, <code>Flexible</code> does not require the child to fill the available space.</p>
+<p>So if you wrap your widget with a Flexible, there are two things that can happen based on the parameter fit.</p>
+
+
+<h2>Loose fit</h2>
+<p>If you wrap your widget with loose fit, your widget will try to take up the remaining least amount of space available along the main axis. For example if you have a container inside a column with height 600 pixels but the only available space is maybe 250 pixels, the container ends up being 250 pixels. On the other hand, if our container is 150 pixels but the available space is more than that, the container will be 150 pixels which was assigned to it. That means in loose fit, the widget will expand as far as it needs to show the content, not more than that. </p>
+
+<h2>Tight fit</h2>
+<p>When tight fit is used, the widgets dimension inside the Column or Row along the main axis has no bearing at all. Let’s take the container example which has height 150 pixels from before which is inside a Column widget. When you wrap the container with a Flexible with a tight fit, the Flexible will ignore the height of the child container altogether and take up whatever space is available, could be 10 pixels, could be 300 pixels, whatever space is left.</p>
+
+
+<h2>Arguments</h2>
+<h3>fit</h3>
+<p>How a flexible child is inscribed into the available space. Use <code>FlexFit</code> class to represent the values. This class defines two constants which are <code>tight</code> and <code>loose</code>.</p>
+
+<h3>flex</h3>
+<p>The flex factor to use for this child.</p>
+<p>If null or zero, the child is inflexible and determines its own size. If non-zero, the amount of space the child's can occupy in the main axis is determined by dividing the free space (after placing the inflexible children) according to the flex factors of the flexible children.</p>
+
+
+
+<h1>Expanded Widget</h1>
+<p>A widget that expands a child of a Row, Column, or Flex so that the child fills the available space.</p>
+<p>Using an Expanded widget makes a child of a Row, Column, or Flex expand to fill the available space along the main axis (e.g., horizontally for a Row or vertically for a Column). If multiple children are expanded, the available space is divided among them according to the flex factor.</p>
+<p>Expanded widget is a shorthand for Flexible with <code>tight</code> fit.</p>
+
+<h2>Arguments</h2>
+<h3>fit</h3>
+<p>Just like <code>Flexible</code> widget you can use this argument to specify the expanding behaviour. By default the value is <code>tight</code>, but you can change this to <code>loose</code> using this argument.</p>
+
+<h3>flex</h3>
+<p>Similar way you can use this argument to specify the flex factor of the widget.</p>
+
+
+<h1>Which one do I use?</h1>
+<p>If you want to a widget to expand as much available space there is along the main axis inside a Column or Row then use Exapaned but if you feel that you want to let a widget expand along the main axis inside a Column or Row but don’t want it to Expand beyond a certain dimension becuase of legal reasons or maybe for a better customer experience, switch to Flexible with loose fit.</p>
+
+
+<h1>Spacer Widget</h1>
+<p>Spacer creates an adjustable, empty spacer that can be used to tune the spacing between widgets in a Flex container, like Row or Column.</p>
+<p>The Spacer widget will take up any available space, so setting the Flex.mainAxisAlignment on a flex container that contains a Spacer to MainAxisAlignment.spaceAround, MainAxisAlignment.spaceBetween, or MainAxisAlignment.spaceEvenly will not have any visible effect: the Spacer has taken up all of the additional space, therefore there is none left to redistribute.</p>
+
+<h2>Arguments</h2>
+<h3>flex</h3>
+<p>You can use this argument to specify the flex factor. If you have more than one spacer you can use this argument to specify how each of the **Spacer** widget will take up the space.</p>
+<pre>
+Row(
+  children: &lt;Widget>[
+    Text('Begin'),
+    Spacer(), // Defaults to a flex of one.
+    Text('Middle'),
+    // Gives twice the space between Middle and End than Begin and Middle.
+    Spacer(flex: 2),
+    Text('End'),
+  ],
+)
+</pre>
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

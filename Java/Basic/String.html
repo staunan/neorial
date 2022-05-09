@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" type="text/css" href="bulma.css">
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<title>String</title>
+</head>
+<body>
+	<div style="margin: auto; width: 80%; margin-bottom: 50px; margin-top: 50px;">
+		<h1>String</h1>
+		<hr>
+		<p>Strings, which are widely used in Java programming, are a sequence of characters. In Java programming language, strings are treated as objects. Strings, which are widely used in Java programming, are a sequence of characters. In Java programming language, strings are treated as objects.</p>
+		<p>The Java platform provides the String class to create and manipulate strings.</p>
+		<h2>Creating String</h2>
+		<pre>
+			String greeting = "Hello world!";
+		</pre>
+		<p>Whenever it encounters a string literal in your code, the compiler creates a String object with its value in this case, "Hello world!'.</p>
+		<p>
+			As with any other object, you can create String objects by using the new keyword and a constructor. The String class has 11 constructors that allow you to provide the initial value of the string using different sources, such as an array of characters.
+		</p>
+		<pre>
+			public class StringDemo {
+
+				public static void main(String args[]) {
+					char[] helloArray = { 'h', 'e', 'l', 'l', 'o', '.' };
+					String helloString = new String(helloArray);  
+					System.out.println( helloString );
+			   }
+			}
+		</pre>
+		<p>Output -</p>
+		<pre>
+			hello.
+		</pre>
+		<div class="box">
+			Note − The String class is immutable, so that once it is created a String object cannot be changed. If there is a necessity to make a lot of modifications to Strings of characters, then you should use String Buffer &amp; String Builder Classes.
+		</div>
+		<h2>Length</h2>
+		<p>The <code>length()</code> methods integer that specifies the number of character in a string.</p>
+		<pre>
+			String palindrome = "Hello World";
+			int len = palindrome.length();
+		</pre>
+		<h2>Concatenating Strings</h2>
+		<p>The method <code>concat()</code> is used to concatenate string.</p>
+		<pre>
+			string1.concat(string2);
+		</pre>
+		<p>This returns a new string that is string1 with string2 added to it at the end. You can also use the concat() method with string literals, as in −</p>
+		<pre>
+			"My name is ".concat("Zara");
+		</pre>
+		<p>Strings are more commonly concatenated with the + operator, as in −</p>
+		<pre>"Hello," + " world" + "!</pre>
+		<p>Example -</p>
+		<pre>
+			public class StringDemo {
+
+				public static void main(String args[]) {
+					String string1 = "saw I was ";
+					System.out.println("Dot " + string1 + "Tod");
+				}
+			}
+		</pre>
+		<p>Output - </p>
+		<pre>
+			Dot saw I was Tod
+		</pre>
+		
+	</div>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Life Cycle</title>
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+	<script src="../Assets/prism.min.js"></script>
+	<script type="text/javascript" src="../Assets/jquery.min.js"></script>
+    <link rel="stylesheet" href="../Assets/prism-dark.css">
+    <script type="text/javascript" src="../Assets/vue.js"></script>
+</head>
+<body class="Body">
+	<div class="Content Card">
+		<h1>Lifecycle Methods</h1>
+		<div style="display:flex; justify-content:center; width:100%; height: auto;">
+			<img src="Assets/images/component-lifecycle.png" style="height:1400px; width: 50%;">
+		</div>
+		<p>
+			Lifecycle methods serve as a viewpoint into how our built components work behind the scenes. They provide you with methods that enable you trigger different actions at different junctures of a component’s lifecycle. They also auto-bind to your component so that you can use the component’s state and methods. Actions of lifecycle methods can be broken down into four categories:
+		</p>
+		<ul>
+			<li>Creation</li>
+			<li>Mounting</li>
+			<li>Updating</li>
+			<li>Destruction</li>
+		</ul>
+
+		<h1>Creation</h1>
+		<p>
+			Creation methods are used to perform actions on your component before adding it to the DOM. They should be used when configuring your component during both client as well as server side rendering. Creation methods are implemented using <code>beforeCreate()</code> and <code>created()</code> hooks.
+		</p>
+		<p>
+			The <code>beforeCreate()</code> hook observes data and initialization events in your component. Here, data is still not reactive and events that occur during the component’s lifecycle have not been set up yet. Check out the example below:
+		</p>
+		<pre>
+		new Vue({
+			data: {
+				x: 5
+			},
+			beforeCreate: function () {
+				// `this` points to the view model instance
+				console.log('x is: ' + this.x)
+			}
+		});
+
+		// x is: undefined
+		</pre>
+		<p>
+			The <code>created()</code> hook is invoked when Vue has set up events and data observation. Here, events are active and access to reactive data is enabled though templates have not yet been mounted or rendered. Check out the code block below:
+		</p>
+		<pre>
+		new Vue({
+			data: {
+				x: 5
+			},
+			created: function () {
+				// `this` points to the view model instance
+				console.log('x is: ' + this.x)
+			}
+		});
+
+		// x is: 5
+		</pre>
+
+		<h1>Mounting</h1>
+		<p>
+			The most used methods when working with components, mounting methods let you access your component immediately before and after it is rendered the first time. They should be used if the DOM of your component needs to be modified immediately before or after it is initially rendered.
+		</p>
+		<p class="tip">
+			As mounting hooks do not run during server side rendering, they shouldn’t be used for fetching data for components on initialization. <code>created()</code> methods are best suited for that purpose.
+		</p>
+		<p>
+			The <code>beforeMount()</code> method is invoked after our template has been compiled and our virtual DOM updated by Vue.
+		</p>
+		<pre>
+		new Vue({
+			beforeMount: function () {
+				// `this` points to the view model instance
+				console.log(`this.$el is yet to be created`)
+			}
+		});
+		</pre>
+		<p>
+			The <code>mounted()</code> hook invoked when the <code>$el</code> property is added to the Vue instance and the DOM is rendered completely.
+		</p>
+		<p>
+			The mounted() method gives you access to templates and enables interaction with the DOM. It is mostly used for fetching data for your component and modifying the DOM to integrate other libraries and frameworks asides Vue.
+		</p>
+		<pre>
+		&lt;div id="app">
+			&lt;p>I'm text inside the component.&lt;/p>
+		&lt;/div>
+		
+		new Vue({
+			el: '#app',
+			mounted: function() {
+				console.log(this.$el.textContent) 
+			}
+		})
+		// I'm text inside the component.
+		</pre>
+
+
+		<h1>Updating</h1>
+		<p>
+			Updating methods are useful for debugging. They are called whenever a reactive property used by your component changes or re-renders.
+		</p>
+		<p>
+			This hook <code>beforeUpdate()</code> runs after data changes on your component and the update cycle begins right before the DOM is patched and re-rendered. It allows you get the new state of any reactive data on your component before it is rendered.
+		</p>
+		<pre>
+		&lt;div id="app">
+			&lt;p>{{counter}}&lt;/p>
+		&lt;/div>
+		</pre>
+		<p>
+			Interaction with our Vue instance:
+		</p>
+		<pre>
+		new Vue({
+			el: '#app',
+			data() {
+				return {
+					counter: 0
+				}
+			},
+			created: function() {
+				setInterval(() => {
+					this.counter++
+				}, 1000)
+			},
+
+			beforeUpdate: function() {
+				console.log(this.counter) // Logs the counter value every second, before the DOM updates.
+			}
+		})
+		</pre>
+		<p>
+			The <code>updated()</code> method runs after data changes on your component and the DOM re-renders.
+		</p>
+		<pre>
+		&lt;div id="app">
+			&lt;p ref="dom">{{counter}}&lt;/p>
+		&lt;/div>
+
+		new Vue({
+			el: '#app',
+			data() {
+				return {
+					counter: 0
+				}
+			},
+			created: function() {
+				setInterval(() => {
+					this.counter++
+				}, 1000)
+			},
+			updated: function() {
+				console.log(+this.$refs['dom'].textContent === this.counter) // Logs true every second
+			}
+		})
+		</pre>
+
+		<h1>Destruction</h1>
+		<p>
+			Destruction methods are used in the final moments of a component’s lifecycle. They allow you perform actions such as cleanup when your component is destroyed and are executed when your component is torn down and removed from the DOM.
+		</p>
+		<p>
+			The hook <code>beforeDestroy()</code> is executed right before your component is destroyed. Here your component is still fully present and functional. If you need to cleanup events, beforeDestroy() is the best time to do that.
+		</p>
+		<pre>
+		new Vue ({
+			data() {
+				return {
+					coolMethods: 'Lifecycle methods are awesome!'
+				}
+			},
+
+			beforeDestroy: function() {
+				// Perform the teardown procedure for coolMethods which in this case is nothing.
+				this.coolMethods = null
+				delete this.coolMethods
+			}
+		})
+		</pre>
+		<p>
+			The hook <code>destroyed()</code> is called after your component has been destroyed, its directives have been unbound and its event listeners have been removed. The destroyed() method can be used to do any last minute cleanup or informing a remote server that the component was destroyed. 
+		</p>
+		<pre>
+		import destructionUpdateBot from './destruction-site'
+		new Vue ({
+			destroyed: function() {
+				console.log(this) // Nothing to show here
+				destructionUpdateBot.bomb('Target acquired.')
+			}
+		});
+		</pre>
+	</div>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>SharedPreference</title>
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+	<script type="text/javascript" src="../../Assets/prism.min.js"></script>
+	<script type="text/javascript" src="../../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+<h1>SharedPreference</h1>
+<p>If you have a relatively small collection of key-values to save, you can use the <code>shared_preferences</code> plugin. The shared preferences plugin wraps <code>NSUserDefaults</code> on iOS and <code>SharedPreferences</code> on Android, providing a persistent store for simple data.</p>
+<p>SharedPreference can store only primitive type data. It is not designed to store data type like List, Map, or Stream or any other data type. You can only store <code>int</code>, <code>string</code>, <code>bool</code>, <code>double</code> and <code>stringList</code>. SharedPreference is also not good idea when you want to store a lot of information, like more than 2MB data.</p>
+
+<p>First add the dependencies:</p>
+<pre>
+dependencies:
+  flutter:
+    sdk: flutter
+  shared_preferences: "&lt;newest version>"
+</pre>
+<p>After installing the package, import the plugin in your dart file:</p>
+<pre>
+import 'package:shared_preferences/shared_preferences.dart';
+</pre>
+<p>After that, the first thing you must do is to obtain the instance of SharedPreference:</p>
+<pre>
+final prefs = await SharedPreferences.getInstance();
+</pre>
+<p>Now you can call various methods using the <code>prefs</code> object.</p>
+
+
+
+
+<h1>Saving Data</h1>
+<p>To persist data, use the setter methods provided by the SharedPreferences class. Setter methods are available for various primitive types, such as <code>setInt</code>, <code>setBool</code>, and <code>setString</code>.</p>
+<pre>
+// obtain shared preferences
+final prefs = await SharedPreferences.getInstance();
+
+// set value
+prefs.setInt('counter', counter);
+</pre>
+
+
+<h1>Read Data</h1>
+<p>To read data, use the appropriate getter method provided by the SharedPreferences class. For each setter there is a corresponding getter. For example, you can use the <code>getInt</code>, <code>getBool</code>, and <code>getString</code> methods.</p>
+<pre>
+final prefs = await SharedPreferences.getInstance();
+
+// Try reading data from the counter key. If it doesn't exist, return 0.
+final counter = prefs.getInt('counter') ?? 0;
+</pre>
+
+
+
+<h1>Remove Data</h1>
+<p>To delete data, use the <code>remove()</code> method.</p>
+<pre>
+final prefs = await SharedPreferences.getInstance();
+
+prefs.remove('counter');
+</pre>
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Semicolon</title>
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
+	<script type="text/javascript" src="../../Assets/jquery.min.js"></script>
+    <link rel="stylesheet" href="../../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+
+<h1>Semicolons</h1>
+<p>A semicolon may be omitted in most cases when a line break exists. The following would work -</p>
+<pre>
+alert('Hello')
+alert('World')
+</pre>
+<p>Here JavaScript interprets the line break as an “implicit” semicolon. That’s also called an <code>automatic semicolon insertion</code>.</p>
+<p><b>In most cases a newline implies a semicolon. But “in most cases” does not mean “always”!</b></p>
+<pre>
+alert(3 +
+1
++ 2);
+</pre>
+<p>The code outputs 6, because JavaScript does not insert semicolons here. It is intuitively obvious that if the line ends with a plus "+", then it is an “incomplete expression”, no semicolon required. And in this case that works as intended.</p>
+<p><b>But there are situations where JavaScript “fails” to assume a semicolon where it is really needed.</b></p>
+<p>It’s recommended to put semicolons between statements even if they are separated by newlines. This rule is widely adopted by the community. Let’s note once again – it is possible to leave out semicolons most of the time. But it’s safer – especially for a beginner – to use them.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

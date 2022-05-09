@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Inclusion</title>
+    <link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+    <link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
+    <script type="text/javascript" src="../Assets/jquery.min.js"></script>
+    <link rel="stylesheet" href="../Assets/prism-dark.css">
+</head>
+<body class="Body">
+    <div class="Content Card">
+        <h1>Inclusion</h1>
+        <p>
+            In HTML you can include CSS in three ways -
+        </p>
+        <h2>Inline Style</h2>
+        <p>Almost every elements in HTML support an attribute <code>style</code> which allows us to write CSS within this attribute. For Example -</p>
+        <pre class="language-html"><code class="language-css">
+            &lt;a href="url" style="text-decoration:none;">Click Here&lt;/a>
+        </code></pre>
+        <p>
+            You can write more than one CSS Rules inside this attribute -
+        </p>
+        <pre><code class="language-css">
+                &lt;a href="url" style="text-decoration:none; color:blue; font-size:10px;">Click Here&lt;/a>
+        </code></pre>
+        <h2>Internal Stylesheet</h2>
+        <p>
+            You can write all the CSS code inside the <code>style</code> element using CSS Query selector.
+        </p>
+        <pre><code class="language-html">
+                &lt;head>
+                    &lt;style>
+                        body {
+                            background-color: linen;
+                        }
+                        
+                        h1 {
+                            color: maroon;
+                            margin-left: 40px;
+                        } 
+                    &lt;/style>
+                &lt;/head>
+        </code></pre>
+        <p>
+            It doesn't matter where you write your internal style sheet. You can place <code>style</code> element anywhere in the document. But the best practice is inside the <code>head</code> element.
+        </p>
+        <h2>External Stylesheet</h2>
+        <p>
+            You can use External stylesheet file and include them in your HTML file. Using <code>link</code> tag we can do this -
+        </p>
+        <pre><code class="language-css">
+            &lt;head>
+                &lt;link rel="stylesheet" href="url">
+            &lt;/head>
+            &lt;body>
+                &lt;!-- body -->
+            &lt;/body>
+        </code></pre>
+        <p>
+            You can use two kind of links here. One is CDN and another is local file. Local file is relative to the HTML document. For this concept refer to the HTML tutorial. You can use CDN that pulls in the file from the dedicated server. It's actually an URL where the file is located. There are some disadvantage and advantage of Using CDN.
+        </p>
+        <p>
+            It is always better to use local version of file rather than using CDN. Because if you use CDN and the framework version is updated, the update will reflect in your file. This is good as long as you get what you are expecting. Otherwise you have to update your code with the framework version to adopt the changes.
+        </p>
+    </div>
+</body>
+</html>

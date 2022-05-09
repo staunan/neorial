@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>RadioButton in Flutter</title>
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+	<script type="text/javascript" src="../../Assets/prism.min.js"></script>
+	<script type="text/javascript" src="../../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+
+
+<h1>RadioButton</h1>
+<p>A material design radio button. Radio button are used in groups. In a group only one button can be selected. The radio button itself does not maintain any state. Instead, selecting the radio invokes the <code>onChanged</code> callback, passing value as a parameter. If <code>groupValue</code> and <code>value</code> match, this radio will be selected. Most widgets will respond to <code>onChanged</code> by calling <code>State.setState</code> to update the radio button's <code>groupValue</code>.</p>
+
+
+<h2>Properties</h2>
+<h3>activeColor</h3>
+<p>The color to use when this radio button is selected. This specifies the background color of the radio button.</p>
+
+<h3>groupValue</h3>
+<p>The currently selected value for a group of radio buttons. The value can be any type which a developer will decide. If the <code>value</code> is matched with <code>groupValue</code> then the radio button will be selected.</p>
+
+<h3>onChanged</h3>
+<p>Called when the user selects this radio button.</p>
+
+<h3>value</h3>
+<p>The value represented by this radio button. Values must be unique accros the radio button group.</p>
+
+<h2>Example</h2>
+<pre>
+// Declare this variable
+int selectedRadio;
+ 
+@override
+void initState() {
+  super.initState();
+  selectedRadio = 0;
+}
+ 
+// Changes the selected value on 'onChanged' click on each radio button
+setSelectedRadio(int val) {
+  setState(() {
+    selectedRadio = val;
+  });
+}
+ 
+// This goes to the build method 
+ButtonBar(
+  alignment: MainAxisAlignment.center,
+  children: &lt;Widget>[
+    Radio(
+      value: 1,
+      groupValue: selectedRadio,
+      activeColor: Colors.green,
+      onChanged: (val) {
+        print("Radio $val");
+        setSelectedRadio(val);
+      },
+    ),
+    Radio(
+      value: 2,
+      groupValue: selectedRadio,
+      activeColor: Colors.blue,
+      onChanged: (val) {
+        print("Radio $val");
+        setSelectedRadio(val);
+      },
+    ),
+  ],
+)
+</pre>
+<p>In the above example, we declared a variable <code>selectedRadio</code> which we have used it as <code>groupValue</code>. Initially it is set to <code>0</code>, which doesn't match with any radiobutton's value. That means no radio button will be selected initially. When we tap any of the radio button, it invokes the <code>onChanged</code> method with the <code>value</code> that was given to it. In <code>setState</code> method, we set the <code>selectedRadio</code> variable to that value. This will cause other radio button to be deselected as the <code>groupValue</code> will not match.</p>
+
+<p>To select a radio button initially you must set the <code>groupValue</code> to the particular radio button value to match with it.</p>
+
+
+
+
+
+</div>
+</body>
+</html>

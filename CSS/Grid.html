@@ -1,0 +1,2698 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>CSS Grid</title>
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
+	<script type="text/javascript" src="../Assets/jquery.min.js"></script>
+	<link rel="stylesheet" href="../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+<h1>Grid Terminology</h1>
+<p>Before diving into the concepts of Grid it's important to understand the terminology.</p>
+<h3>Grid Container</h3>
+<p>The element on which <code>display: grid</code> is applied. It's the direct parent of all the grid items. In the following example <code>container</code> is the grid container.</p>
+<pre>
+&lt;div class="container">
+	&lt;div class="item item-1">&lt;/div>
+	&lt;div class="item item-2">&lt;/div>
+	&lt;div class="item item-3">&lt;/div>
+&lt;/div>
+</pre>
+<h3>Grid Item</h3>
+<p>The children (i.e. direct descendants) of the grid container. Here the <code>item</code> elements are grid items, but <code>sub-item</code> isn't.</p>
+<pre>
+&lt;div class="container">
+	&lt;div class="item">&lt;/div> 
+	&lt;div class="item">
+		&lt;p class="sub-item">&lt;/p>
+	&lt;/div>
+	&lt;div class="item">&lt;/div>
+&lt;/div>
+</pre>
+<h3>Grid Line</h3>
+<p>The dividing lines that make up the structure of the grid. They can be either vertical ("column grid lines") or horizontal ("row grid lines") and reside on either side of a row or column. Here the yellow line is an example of a column grid line.</p>
+<img src="Assets/img/grid-line.png">
+<p>Remember that there is also a grid line on the top of the first grid row and on the bottom of the last grid row. And also on the left edge of the first column and on the right edge of the last column.</p>
+<h3>Grid Track</h3>
+<p>The space between two adjacent grid lines. You can think of them like the columns or rows of the grid. Here's the grid track between the second and third row grid lines.</p>
+<img src="Assets/img/grid-track.png">
+<h3>Grid Cell</h3>
+<p>The space between two adjacent row and two adjacent column grid lines. It's a single "unit" of the grid. Here's the grid cell between row grid lines 1 and 2, and column grid lines 2 and 3.</p>
+<img src="Assets/img/grid-cell.png">
+<h3>Grid Area</h3>
+<p>The total space surrounded by four grid lines. A grid area may be comprised of any number of grid cells. Here's the grid area between row grid lines 1 and 3, and column grid lines 1 and 3.</p>
+<img src="Assets/img/grid-area.png">
+
+
+
+
+
+<h1>display:grid</h1>
+<p>An HTML element becomes a grid container by setting the display property to <code>grid</code> or <code>inline-grid</code>.</p>
+<pre>
+.grid-container {
+	display: grid | inline-grid;
+}
+</pre>
+<p>Now, all direct children of the grid container automatically become grid items. Here is an example - </p>
+<pre>
+div.grid-container-1{
+	width : 500px;
+	margin: auto;
+	margin-top: 20px;
+	background-color : pink;
+	border: 1px solid black;
+	
+	display : grid;
+}
+
+
+&lt;div class="grid-container-1">
+	&lt;div class="grid-item">1&lt;/div>
+	&lt;div class="grid-item">2&lt;/div>
+	&lt;div class="grid-item">3&lt;/div>
+	&lt;div class="grid-item">4&lt;/div>
+	&lt;div class="grid-item">5&lt;/div>
+	&lt;div class="grid-item">6&lt;/div>
+&lt;/div>
+</pre>
+<div class="box">
+	<style type="text/css">
+	div.grid-container-1{
+		width : 500px;
+		margin: auto;
+		margin-top: 20px;
+		background-color : pink;
+		border: 1px solid black;
+		
+		display : grid;
+	}
+	</style>
+	<div class="grid-container-1">
+		<div class="grid-item">1</div>
+		<div class="grid-item">2</div>
+		<div class="grid-item">3</div>
+		<div class="grid-item">4</div>
+		<div class="grid-item">5</div>
+		<div class="grid-item">6</div>
+	</div>
+</div>
+
+
+
+<h1>grid-template-columns</h1>
+<p>This property is used to specify the number of columns that the grid will hold. Here is the syntax -</p>
+<pre>
+.grid-container{
+	display : grid;
+	grid-template-columns: 50px 100px auto;
+}
+</pre>
+<p>In the example above we are specifying three column and amonth them the first column will be 50px width, second column will be 100px width and the last column will take the remaining space of the grid. Specifying the value <code>auto</code> will make the column auto adjustable. It means when you resize your grid the last column will accordingly be resized while the other fixed value column will remain with the same width which are defined on them. Here is an example -</p>
+<pre>
+div.grid-container-1{
+  width : 500px;
+  margin: auto;
+  margin-top: 20px;
+  background-color : pink;
+  border: 1px solid black;
+  
+  display : grid;
+  grid-template-columns : 50px 100px auto;
+}
+.grid-item{
+	border: 1px solid black;
+}
+</pre>
+<div class="box">
+<style type="text/css">
+div.grid-container-2{
+  width : 500px;
+  margin: auto;
+  margin-top: 20px;
+  background-color : pink;
+  border: 1px solid black;
+  
+  display : grid;
+  grid-template-columns : 50px 100px auto;
+}
+.grid-item-2{
+	border: 1px solid black;
+}
+</style>
+<div class="grid-container-2">
+  <div class="grid-item-2">1</div>
+  <div class="grid-item-2">2</div>
+  <div class="grid-item-2">3</div>
+  <div class="grid-item-2">4</div>
+  <div class="grid-item-2">5</div>
+  <div class="grid-item-2">6</div>
+</div>
+</div>
+<p>You can also make the second column <code>auto</code>, so that the last two column will take up equal width. You can give any width to any column according to your needs. Whatever combination you like.</p>
+<p>If you don't specify the columns width, it will have the value <code>auto</code>.</p>
+<pre>
+.grid-container{
+	grid-template-columns : 50px 100px;
+}
+</pre>
+<div class="box">
+<div class="grid-container-2">
+  <div class="grid-item-2">1</div>
+  <div class="grid-item-2">2</div>
+  <div class="grid-item-2">3</div>
+  <div class="grid-item-2">4</div>
+  <div class="grid-item-2">5</div>
+  <div class="grid-item-2">6</div>
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+<h1>grid-template-rows</h1>
+<p>Using this property you can define your row and their height. Just like the <code>grid-template-columns</code> this property has the same value format.</p>
+<pre>
+.grid-container{
+	display : grid;
+	grid-template-rows : 50px 150px;
+}
+</pre>
+<p>In the above example, we are specifying that, the first row will have 50px height, and the second column will take 150px height. Here is a demo -</p>
+<pre>
+div.grid-container-3{
+  width : 500px;
+  margin: auto;
+  margin-top: 20px;
+  background-color : pink;
+  border: 1px solid black;
+  
+  display : grid;
+  grid-template-columns : 50px 100px auto;
+  grid-template-rows: 50px 150px;
+}
+.grid-item-3{
+  border: 1px solid black;
+}
+
+
+&lt;div class="grid-container-3">
+  &lt;div class="grid-item-3">1&lt;/div>
+  &lt;div class="grid-item-3">2&lt;/div>
+  &lt;div class="grid-item-3">3&lt;/div>
+  &lt;div class="grid-item-3">4&lt;/div>
+  &lt;div class="grid-item-3">5&lt;/div>
+  &lt;div class="grid-item-3">6&lt;/div>
+&lt;/div>
+</pre>
+<div class="box">
+<style type="text/css">
+div.grid-container-3{
+  width : 500px;
+  margin: auto;
+  margin-top: 20px;
+  background-color : pink;
+  border: 1px solid black;
+  
+  display : grid;
+  grid-template-columns : 50px 100px auto;
+  grid-template-rows: 50px 150px;
+}
+.grid-item-3{
+  border: 1px solid black;
+}
+</style>
+<div class="grid-container-3">
+  <div class="grid-item-3">1</div>
+  <div class="grid-item-3">2</div>
+  <div class="grid-item-3">3</div>
+  <div class="grid-item-3">4</div>
+  <div class="grid-item-3">5</div>
+  <div class="grid-item-3">6</div>
+</div>
+</div>
+<p>As you can see, the first row has 50px height and the second row has 150px height. If you set the height of the grid-container, you can see the remaining space are empty.</p>
+<pre>
+.grid-container-3{
+	height : 300px;
+}
+</pre>
+<div class="box">
+<style type="text/css">
+div.grid-container-4{
+  width : 500px;
+  margin: auto;
+  margin-top: 20px;
+  background-color : pink;
+  border: 1px solid black;
+  height: 300px;
+  
+  display : grid;
+  grid-template-columns : 50px 100px auto;
+  grid-template-rows: 50px 150px;
+}
+.grid-item-4{
+  border: 1px solid black;
+}
+</style>
+<div class="grid-container-4">
+  <div class="grid-item-4">1</div>
+  <div class="grid-item-4">2</div>
+  <div class="grid-item-4">3</div>
+  <div class="grid-item-4">4</div>
+  <div class="grid-item-4">5</div>
+  <div class="grid-item-4">6</div>
+</div>
+</div>
+<p>You can make the last row take up the remaining space of the grid by setting the last value to <code>auto</code> of <code>grid-template-rows</code> property -</p>
+<pre>
+.grid-container-3{
+	grid-template-rows: 50px auto;
+}
+</pre>
+<div class="box">
+<style type="text/css">
+div.grid-container-5{
+  width : 500px;
+  margin: auto;
+  margin-top: 20px;
+  background-color : pink;
+  border: 1px solid black;
+  height: 300px;
+  
+  display : grid;
+  grid-template-columns : 50px 100px auto;
+  grid-template-rows: 50px auto;
+}
+.grid-item-5{
+  border: 1px solid black;
+}
+</style>
+<div class="grid-container-5">
+  <div class="grid-item-5">1</div>
+  <div class="grid-item-5">2</div>
+  <div class="grid-item-5">3</div>
+  <div class="grid-item-5">4</div>
+  <div class="grid-item-5">5</div>
+  <div class="grid-item-5">6</div>
+</div>
+</div>
+<p>By default, the row height is <code>auto</code>. It means if you don't specify the last row height on <code>grid-template-rows</code> property, it will have the value <code>auto</code>.</p>
+<pre>
+.grid-container-3{
+	grid-template-rows: 50px;
+}
+</pre>
+<div class="box">
+<div class="grid-container-5">
+  <div class="grid-item-5">1</div>
+  <div class="grid-item-5">2</div>
+  <div class="grid-item-5">3</div>
+  <div class="grid-item-5">4</div>
+  <div class="grid-item-5">5</div>
+  <div class="grid-item-5">6</div>
+</div>
+</div>
+
+
+
+
+
+<h1>repeat()</h1>
+<p>Repeat function repeats a value for multiple times. Suppose, your grid contains 10 column and you want to have the value <code>50px</code> or <code>auto</code> for each column. You have to write <code>50px</code> or <code>auto</code> for ten times. It is not efficient and also harder to manage later times. Repeat function simplyfy this and save us some keystroke. Here is the syntax -</p>
+<pre>
+.grid-container{
+	grid-template-columns : repeat(10, 50px);
+}
+</pre>
+<p>Here the first argument specifies how many times the function will repeat and the second argument specifies what to repeat. So in the above example, <code>50px</code> will be repeated 10 times. The above example is equivalent to -</p>
+<pre>
+grid-teplate-columns : 50px 50px 50px 50px 50px 50px 50px 50px 50px 50px;
+</pre>
+<p>You can also use this function for <code>grid-template-rows</code> property.</p>
+
+
+
+
+
+<h1>The fr Unit</h1>
+<p><code>fr</code> stands for fraction. It is the ratio you can specify. Let's say you have 500px grid container with three column. You want to give 100px to the middle column and the remaining space will be equally divided for first and last column. You can do it with <code>fr</code> unit like this -</p>
+<pre>
+.grid-container{
+	grid-template-columns : 1fr 100px 1fr;
+}
+</pre>
+<p>Well, you can also achieve the above problem using the value <code>auto</code> like this -</p>
+<pre>
+.grid-container{
+	grid-template-columns : auto 100px auto;
+}
+</pre>
+<p>So what's the benefit of using <code>fr</code> unit. Okay, what if you want to distribute the remaining space with 2:3 ratio? You can achieve this by <code>fr</code> unit like this -</p>
+<pre>
+.grid-container{
+	grid-template-columns : 2fr 100px 3fr;
+}
+</pre>
+<p>But it is impossible with <code>auto</code> value. If you think about solving the above problem using percentage value, it won't help. Because percentage value is calculated based on the grid width, not based on the remaining space.</p>
+<p>Here is a demo -</p>
+<pre>
+div.grid-container-fr{
+  width : 500px;
+  margin: auto;
+  margin-top: 20px;
+  background-color : pink;
+  border: 1px solid black;
+  height: 300px;
+  
+  display : grid;
+  grid-template-columns : 2fr 100px 1fr;
+  grid-template-rows:50px;
+}
+.grid-item-fr{
+  border: 1px solid black;
+}
+
+
+&lt;div class="grid-container-fr">
+  &lt;div class="grid-item-fr">1&lt;/div>
+  &lt;div class="grid-item-fr">2&lt;/div>
+  &lt;div class="grid-item-fr">3&lt;/div>
+  &lt;div class="grid-item-fr">4&lt;/div>
+  &lt;div class="grid-item-fr">5&lt;/div>
+  &lt;div class="grid-item-fr">6&lt;/div>
+&lt;/div>
+</pre>
+<div class="box">
+<style type="text/css">
+div.grid-container-fr{
+  width : 500px;
+  margin: auto;
+  margin-top: 20px;
+  background-color : pink;
+  border: 1px solid black;
+  height: 300px;
+  
+  display : grid;
+  grid-template-columns : 2fr 100px 1fr;
+  grid-template-rows:50px;
+}
+.grid-item-fr{
+  border: 1px solid black;
+}
+</style>
+<div class="grid-container-fr">
+  <div class="grid-item-fr">1</div>
+  <div class="grid-item-fr">2</div>
+  <div class="grid-item-fr">3</div>
+  <div class="grid-item-fr">4</div>
+  <div class="grid-item-fr">5</div>
+  <div class="grid-item-fr">6</div>
+</div>
+</div>
+
+
+
+
+
+
+
+<h1>Moving a Grid Item</h1>
+<p>By default grid items are structured how they appear on the HTML. Just like above example, all grid items are structured one after another the way they appear in the HTML code. But what if you want to move the third box to the place of 5th box? With the help of the following grid properties we will be able to do that -</p>
+<ul>
+	<li>grid-column-start</li>
+	<li>grid-column-end</li>
+	<li>grid-row-start</li>
+	<li>grid-row-end</li>
+</ul>
+<p>Consider the following example. Here we have highlighted the third box with the red color and 5th box with the blue color.</p>
+<pre>
+div.grid-container{
+  width : 500px;
+  margin: auto;
+  margin-top: 20px;
+  background-color : pink;
+  border: 1px solid black;
+  height: 200px;
+  
+  display : grid;
+  grid-template-columns : repeat(3, auto);
+  grid-template-rows: auto auto;
+}
+.grid-item{
+  border: 1px solid black;
+}
+.box-3{
+  background-color : red;
+  color: white;
+}
+.box-5{
+  background-color: blue;
+  color: white;
+}
+
+&lt;div class="grid-container">
+  &lt;div class="grid-item box-1">1&lt;/div>
+  &lt;div class="grid-item box-2">2&lt;/div>
+  &lt;div class="grid-item box-3">3&lt;/div>
+  &lt;div class="grid-item box-4">4&lt;/div>
+  &lt;div class="grid-item box-5">5&lt;/div>
+  &lt;div class="grid-item box-6">6&lt;/div>
+&lt;/div>
+</pre>
+<div class="box">
+<style type="text/css">
+div.grid-container-6{
+  width : 500px;
+  margin: auto;
+  margin-top: 20px;
+  background-color : pink;
+  border: 1px solid black;
+  height: 200px;
+  
+  display : grid;
+  grid-template-columns : repeat(3, auto);
+  grid-template-rows: auto auto;
+}
+.grid-item-6{
+  border: 1px solid black;
+}
+.grid-item-6.box-3{
+  background-color : red;
+  color: white;
+}
+.grid-item-6.box-5{
+  background-color: blue;
+  color: white;
+}
+</style>
+<div class="grid-container-6">
+  <div class="grid-item-6 box-1">1</div>
+  <div class="grid-item-6 box-2">2</div>
+  <div class="grid-item-6 box-3">3</div>
+  <div class="grid-item-6 box-4">4</div>
+  <div class="grid-item-6 box-5">5</div>
+  <div class="grid-item-6 box-6">6</div>
+</div>
+</div>
+<p>Now we will move the red box to the place of blue box. Here is the code -</p>
+<pre>
+.grid-item.box-3{
+	grid-column-start: 2;
+	grid-column-end: 3;
+	grid-row-start: 2;
+	grid-row-end: 3;
+}
+</pre>
+<div class="box">
+<style type="text/css">
+div.grid-container-7{
+  width : 500px;
+  margin: auto;
+  div.grid-container-7margin-top: 20px;
+  background-color : pink;
+  border: 1px solid black;
+  height: 200px;
+  
+  display : grid;
+  grid-template-columns : repeat(3, auto);
+  grid-template-rows: auto auto;
+}
+.grid-item-7{
+  border: 1px solid black;
+}
+.grid-item-7.box-3{
+  background-color : red;
+  color: white;
+  grid-column-start: 2;
+	grid-column-end: 3;
+	grid-row-start: 2;
+	grid-row-end: 3;
+}
+.grid-item-7.box-5{
+  background-color: blue;
+  color: white;
+}
+</style>
+<div class="grid-container-7">
+  <div class="grid-item-7 box-1">1</div>
+  <div class="grid-item-7 box-2">2</div>
+  <div class="grid-item-7 box-3">3</div>
+  <div class="grid-item-7 box-4">4</div>
+  <div class="grid-item-7 box-5">5</div>
+  <div class="grid-item-7 box-6">6</div>
+</div>
+</div>
+<p>Here, <code>grid-column-start</code> takes the column line of the grid. Vertical grid lines are called column lines and horizontal grid lines are called row lines. The line starts from the edge of the grid container. So the first grid cell is between column line 1 and 2 and row line 1 and 2. The second grid cell is between column line 2 and 3 and row line 1 and 2, the third grid cell is between grid line 3 and 4 and row line 1 and 2 and so on.</p>
+<p>So the above example tells that, the third box will start at the column line 2(grid-column-start) and end at the column line 3(grid-column-end) and start at row line 2(grid-row-start) and end at row line 3(grid-row-end).</p>
+
+<h3>Spanning of Grid Cell</h3>
+<p>Using the above properties you can make a cell span over multiple grid cell -</p>
+<pre>
+&lt;style type="text/css">
+div.grid-container-8{
+  width : 500px;
+  margin: auto;
+  div.grid-container-7margin-top: 20px;
+  background-color : pink;
+  border: 1px solid black;
+  height: 300px;
+  
+  display : grid;
+  grid-template-columns : repeat(3, auto);
+  grid-template-rows: repeat(3, 50px);
+}
+.grid-item-8{
+  border: 1px solid black;
+}
+.grid-item-8.box-3{
+  background-color : red;
+  color: white;
+  grid-column-start: 2;
+  grid-column-end: 4;
+  grid-row-start: 2;
+  grid-row-end: 3;
+}
+.box-5{
+  background-color: blue;
+  color: white;
+}
+&lt;/style>
+&lt;div class="grid-container-8">
+  &lt;div class="grid-item-8 box-1">1&lt;/div>
+  &lt;div class="grid-item-8 box-2">2&lt;/div>
+  &lt;div class="grid-item-8 box-3">3&lt;/div>
+  &lt;div class="grid-item-8 box-4">4&lt;/div>
+  &lt;div class="grid-item-8 box-5">5&lt;/div>
+  &lt;div class="grid-item-8 box-6">6&lt;/div>
+&lt;/div>
+</pre>
+<div class="box">
+<style type="text/css">
+div.grid-container-8{
+  width : 500px;
+  margin: auto;
+  div.grid-container-7margin-top: 20px;
+  background-color : pink;
+  border: 1px solid black;
+  height: 300px;
+  
+  display : grid;
+  grid-template-columns : repeat(3, auto);
+  grid-template-rows: repeat(3, 50px);
+}
+.grid-item-8{
+  border: 1px solid black;
+}
+.grid-item-8.box-3{
+  background-color : red;
+  color: white;
+  grid-column-start: 2;
+  grid-column-end: 4;
+  grid-row-start: 2;
+  grid-row-end: 3;
+}
+.grid-item-8.box-5{
+  background-color: blue;
+  color: white;
+}
+</style>
+<div class="grid-container-8">
+  <div class="grid-item-8 box-1">1</div>
+  <div class="grid-item-8 box-2">2</div>
+  <div class="grid-item-8 box-3">3</div>
+  <div class="grid-item-8 box-4">4</div>
+  <div class="grid-item-8 box-5">5</div>
+  <div class="grid-item-8 box-6">6</div>
+</div>
+</div>
+<pre>
+.grid-item-8.box-3{
+  background-color : red;
+  color: white;
+  grid-column-start: 2;
+  grid-column-end: 4;
+  grid-row-start: 1;
+  grid-row-end: 3;
+}
+</pre>
+<div class="box">
+<style type="text/css">
+div.grid-container-9{
+  width : 500px;
+  margin: auto;
+  div.grid-container-7margin-top: 20px;
+  background-color : pink;
+  border: 1px solid black;
+  height: 300px;
+  
+  display : grid;
+  grid-template-columns : repeat(3, auto);
+  grid-template-rows: repeat(3, 50px);
+}
+.grid-item-9{
+  border: 1px solid black;
+}
+.grid-item-9.box-3{
+  background-color : red;
+  color: white;
+  grid-column-start: 2;
+  grid-column-end: 4;
+  grid-row-start: 1;
+  grid-row-end: 3;
+}
+.grid-item-9.box-5{
+  background-color: blue;
+  color: white;
+}
+</style>
+<div class="grid-container-9">
+  <div class="grid-item-9 box-1">1</div>
+  <div class="grid-item-9 box-2">2</div>
+  <div class="grid-item-9 box-3">3</div>
+  <div class="grid-item-9 box-4">4</div>
+  <div class="grid-item-9 box-5">5</div>
+  <div class="grid-item-9 box-6">6</div>
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+<h1>grid-column</h1>
+<p>The property <code>grid-column</code> is a shorthand for <code>grid-column-start</code> and <code>grid-column-end</code>. Here is the syntax -</p>
+<pre>
+.grid-item{
+	grid-column: start / end;
+}
+</pre>
+<p>From the above example, we can rewrite the code using <code>grid-column</code> property -</p>
+<pre>
+.grid-item-9.box-3{
+  background-color : red;
+  color: white;
+  grid-column: 2 / 4;
+  grid-row-start: 1;
+  grid-row-end: 3;
+}
+</pre>
+
+
+
+
+
+<h1>grid-row</h1>
+<p>The property <code>grid-row</code> is a shorthand for <code>grid-row-start</code> and <code>grid-row-end</code>. Here is the syntax -</p>
+<pre>
+.grid-item{
+	grid-row: start / end;
+}
+</pre>
+<p>From the above example, we can rewrite the code using <code>grid-row</code> property -</p>
+<pre>
+.grid-item-9.box-3{
+  background-color : red;
+  color: white;
+  grid-column: 2 / 4;
+  grid-row: 1 / 3;
+}
+</pre>
+
+
+
+
+
+
+<h1>grid-area</h1>
+<p>This property can be used to give a name to the grid item so that the name can be used as a reference to somewhere else. It can also be used as a shorthand property for <code>grid-column</code> and <code>grid-row</code> property.</p>
+<p>The syntax for grid-area as shorthand is below -</p>
+<pre>
+grid-area : row-start / column-start / row-end / column-end;
+</pre>
+<p>Here is an example -</p>
+<pre>
+// Giving a grid item a name
+.grid-item-9.box-3{
+	grid-area: redBox;
+}
+.grid-item-9.box-5{
+	grid-area: blueBox;
+}
+
+
+// Shorthand syntax -
+.grid-item-9.box-3{
+  background-color : red;
+  color: white;
+  grid-area : 1 / 2 / 3 / 4;
+}
+</pre>
+
+
+
+
+
+<h1>grid-column-gap</h1>
+<p><code>grid-column-gap</code> is used to give a gap between to adjacent gap on the column.</p>
+<pre>
+div.grid-container-10{
+  width : 500px;
+  margin: auto;
+  margin-top: 20px;
+  background-color : pink;
+  border: 1px solid black;
+  height: 300px;
+  
+  display : grid;
+  grid-template-columns : 2fr 100px 1fr;
+  grid-template-rows:50px;
+  grid-column-gap: 10px;
+}
+.grid-item-10{
+  border: 1px solid black;
+}
+.box-3{
+  background-color : red;
+  grid-area : 1 / 2 / 3 / 4;
+}
+.box-5{
+  background-color: blue;
+}
+
+&lt;div class="grid-container-10">
+  &lt;div class="grid-item-10 box-1">1&lt;/div>
+  &lt;div class="grid-item-10 box-2">2&lt;/div>
+  &lt;div class="grid-item-10 box-3">3&lt;/div>
+  &lt;div class="grid-item-10 box-4">4&lt;/div>
+  &lt;div class="grid-item-10 box-5">5&lt;/div>
+  &lt;div class="grid-item-10 box-6">6&lt;/div>
+&lt;/div>
+</pre>
+<div class="box">
+<style type="text/css">
+div.grid-container-10{
+  width : 500px;
+  margin: auto;
+  margin-top: 20px;
+  background-color : pink;
+  border: 1px solid black;
+  height: 300px;
+  
+  display : grid;
+  grid-template-columns : 2fr 100px 1fr;
+  grid-template-rows:50px;
+  grid-column-gap: 10px;
+}
+.grid-item-10{
+  border: 1px solid black;
+}
+.grid-item-10.box-3{
+  background-color : red;
+  grid-area : 1 / 2 / 3 / 4;
+}
+.grid-item-10.box-5{
+  background-color: blue;
+}
+</style>
+<div class="grid-container-10">
+  <div class="grid-item-10 box-1">1</div>
+  <div class="grid-item-10 box-2">2</div>
+  <div class="grid-item-10 box-3">3</div>
+  <div class="grid-item-10 box-4">4</div>
+  <div class="grid-item-10 box-5">5</div>
+  <div class="grid-item-10 box-6">6</div>
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+<h1>grid-row-gap</h1>
+<p><code>grid-row-gap</code> is used to give a gap between to adjacent gap on the row.</p>
+<pre>
+div.grid-container-11{
+  width : 500px;
+  margin: auto;
+  margin-top: 20px;
+  background-color : pink;
+  border: 1px solid black;
+  height: 300px;
+  
+  display : grid;
+  grid-template-columns : 2fr 100px 1fr;
+  grid-template-rows:50px;
+  grid-row-gap: 10px;
+}
+.grid-item-11{
+  border: 1px solid black;
+}
+.box-3{
+  background-color : red;
+  grid-area : 1 / 2 / 3 / 4;
+}
+.box-5{
+  background-color: blue;
+}
+
+&lt;div class="grid-container-11">
+  &lt;div class="grid-item-11 box-1">1&lt;/div>
+  &lt;div class="grid-item-11 box-2">2&lt;/div>
+  &lt;div class="grid-item-11 box-3">3&lt;/div>
+  &lt;div class="grid-item-11 box-4">4&lt;/div>
+  &lt;div class="grid-item-11 box-5">5&lt;/div>
+  &lt;div class="grid-item-11 box-6">6&lt;/div>
+&lt;/div>
+</pre>
+<div class="box">
+<style type="text/css">
+div.grid-container-11{
+  width : 500px;
+  margin: auto;
+  margin-top: 20px;
+  background-color : pink;
+  border: 1px solid black;
+  height: 300px;
+  
+  display : grid;
+  grid-template-columns : 2fr 100px 1fr;
+  grid-template-rows:50px;
+  grid-row-gap: 10px;
+}
+.grid-item-11{
+  border: 1px solid black;
+}
+.grid-item-11.box-3{
+  background-color : red;
+  grid-area : 1 / 2 / 3 / 4;
+}
+.grid-item-11.box-5{
+  background-color: blue;
+}
+</style>
+<div class="grid-container-11">
+  <div class="grid-item-11 box-1">1</div>
+  <div class="grid-item-11 box-2">2</div>
+  <div class="grid-item-11 box-3">3</div>
+  <div class="grid-item-11 box-4">4</div>
+  <div class="grid-item-11 box-5">5</div>
+  <div class="grid-item-11 box-6">6</div>
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h1>grid-gap</h1>
+<p><code>grid-gap</code> is a shorthand syntax for <code>grid-column-gap</code> and <code>grid-row-gap</code>. Here is the syntax -</p>
+<pre>
+grid-gap: rowGap columnGap;
+</pre>
+<pre>
+.grid-container{
+	grid-gap: 10px 10px;
+}
+</pre>
+<p>If you specify one value, it will be same for both <code>grid-column-gap</code> and <code>grid-row-gap</code>.</p>
+<pre>
+div.grid-container-11{
+  width : 500px;
+  margin: auto;
+  margin-top: 20px;
+  background-color : pink;
+  border: 1px solid black;
+  height: 300px;
+  
+  display : grid;
+  grid-template-columns : 2fr 100px 1fr;
+  grid-template-rows:50px;
+  grid-gap: 10px;
+}
+.grid-item-11{
+  border: 1px solid black;
+}
+.box-3{
+  background-color : red;
+  grid-area : 1 / 2 / 3 / 4;
+}
+.box-5{
+  background-color: blue;
+}
+
+&lt;div class="grid-container-11">
+  &lt;div class="grid-item-11 box-1">1&lt;/div>
+  &lt;div class="grid-item-11 box-2">2&lt;/div>
+  &lt;div class="grid-item-11 box-3">3&lt;/div>
+  &lt;div class="grid-item-11 box-4">4&lt;/div>
+  &lt;div class="grid-item-11 box-5">5&lt;/div>
+  &lt;div class="grid-item-11 box-6">6&lt;/div>
+&lt;/div>
+</pre>
+<div class="box">
+<style type="text/css">
+div.grid-container-12{
+  width : 500px;
+  margin: auto;
+  margin-top: 20px;
+  background-color : pink;
+  border: 1px solid black;
+  height: 300px;
+  
+  display : grid;
+  grid-template-columns : 2fr 100px 1fr;
+  grid-template-rows:50px;
+  grid-gap: 10px;
+}
+.grid-item-12{
+  border: 1px solid black;
+}
+.grid-item-12.box-3{
+  background-color : red;
+  grid-area : 1 / 2 / 3 / 4;
+}
+.grid-item-12.box-5{
+  background-color: blue;
+}
+</style>
+<div class="grid-container-12">
+  <div class="grid-item-12 box-1">1</div>
+  <div class="grid-item-12 box-2">2</div>
+  <div class="grid-item-12 box-3">3</div>
+  <div class="grid-item-12 box-4">4</div>
+  <div class="grid-item-12 box-5">5</div>
+  <div class="grid-item-12 box-6">6</div>
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+<h1>justify-content</h1>
+<p>This property specifies how the content should be aligned horizontally. The grid's total width has to be less than the container's width for the justify-content property to have any effect. Consider the following example -</p>
+<pre>
+div.grid-container-3{
+  width : 500px;
+  margin: auto;
+  margin-top: 20px;
+  background-color : pink;
+  border: 1px solid black;
+  height: 300px;
+  
+  display : grid;
+  grid-template-columns : 50px 50px 50px;
+  grid-template-rows:50px 50px;
+  grid-column-gap: 10px
+}
+.grid-item-3{
+  border: 1px solid black;
+}
+
+
+&lt;div class="grid-container-3">
+  &lt;div class="grid-item-3 box-1">1&lt;/div>
+  &lt;div class="grid-item-3 box-2">2&lt;/div>
+  &lt;div class="grid-item-3 box-3">3&lt;/div>
+  &lt;div class="grid-item-3 box-4">4&lt;/div>
+  &lt;div class="grid-item-3 box-5">5&lt;/div>
+  &lt;div class="grid-item-3 box-6">6&lt;/div>
+&lt;/div>
+</pre>
+<div class="box">
+<style type="text/css">
+div.grid-container-13{
+  width : 500px;
+  margin: auto;
+  margin-top: 20px;
+  background-color : pink;
+  border: 1px solid black;
+  height: 300px;
+  
+  display : grid;
+  grid-template-columns : 50px 50px 50px;
+  grid-template-rows:50px 50px;
+  grid-column-gap: 10px
+}
+.grid-item-13{
+  border: 1px solid black;
+}
+</style>
+<div class="grid-container-13">
+  <div class="grid-item-13 box-1">1</div>
+  <div class="grid-item-13 box-2">2</div>
+  <div class="grid-item-13 box-3">3</div>
+  <div class="grid-item-13 box-4">4</div>
+  <div class="grid-item-13 box-5">5</div>
+  <div class="grid-item-13 box-6">6</div>
+</div>
+</div>
+<pre>
+.grid-container{
+	justify-content: center;
+}
+</pre>
+<div class="box">
+<div class="grid-container-13" style="justify-content: center;">
+  <div class="grid-item-13 box-1">1</div>
+  <div class="grid-item-13 box-2">2</div>
+  <div class="grid-item-13 box-3">3</div>
+  <div class="grid-item-13 box-4">4</div>
+  <div class="grid-item-13 box-5">5</div>
+  <div class="grid-item-13 box-6">6</div>
+</div>
+</div>
+<pre>
+.grid-container{
+	justify-content: start;
+}
+</pre>
+<div class="box">
+<div class="grid-container-13" style="justify-content: start;">
+  <div class="grid-item-13 box-1">1</div>
+  <div class="grid-item-13 box-2">2</div>
+  <div class="grid-item-13 box-3">3</div>
+  <div class="grid-item-13 box-4">4</div>
+  <div class="grid-item-13 box-5">5</div>
+  <div class="grid-item-13 box-6">6</div>
+</div>
+</div>
+<pre>
+.grid-container{
+	justify-content: end;
+}
+</pre>
+<div class="box">
+<div class="grid-container-13" style="justify-content: end;">
+  <div class="grid-item-13 box-1">1</div>
+  <div class="grid-item-13 box-2">2</div>
+  <div class="grid-item-13 box-3">3</div>
+  <div class="grid-item-13 box-4">4</div>
+  <div class="grid-item-13 box-5">5</div>
+  <div class="grid-item-13 box-6">6</div>
+</div>
+</div>
+<pre>
+.grid-container{
+	justify-content: stretch;
+}
+</pre>
+<p>The value <code>stretch</code> resizes the grid items to allow the grid to fill the full width of the grid container.</p>
+<div class="box">
+<div class="grid-container-13" style="justify-content: stretch;">
+  <div class="grid-item-13 box-1">1</div>
+  <div class="grid-item-13 box-2">2</div>
+  <div class="grid-item-13 box-3">3</div>
+  <div class="grid-item-13 box-4">4</div>
+  <div class="grid-item-13 box-5">5</div>
+  <div class="grid-item-13 box-6">6</div>
+</div>
+</div>
+<pre>
+.grid-container{
+	justify-content: space-evenly;
+}
+</pre>
+<div class="box">
+<div class="grid-container-13" style="justify-content: space-evenly;">
+  <div class="grid-item-13 box-1">1</div>
+  <div class="grid-item-13 box-2">2</div>
+  <div class="grid-item-13 box-3">3</div>
+  <div class="grid-item-13 box-4">4</div>
+  <div class="grid-item-13 box-5">5</div>
+  <div class="grid-item-13 box-6">6</div>
+</div>
+</div>
+<pre>
+.grid-container{
+	justify-content: space-around;
+}
+</pre>
+<div class="box">
+<div class="grid-container-13" style="justify-content: space-around;">
+  <div class="grid-item-13 box-1">1</div>
+  <div class="grid-item-13 box-2">2</div>
+  <div class="grid-item-13 box-3">3</div>
+  <div class="grid-item-13 box-4">4</div>
+  <div class="grid-item-13 box-5">5</div>
+  <div class="grid-item-13 box-6">6</div>
+</div>
+</div>
+<pre>
+.grid-container{
+	justify-content: space-between;
+}
+</pre>
+<div class="box">
+<div class="grid-container-13" style="justify-content: space-between;">
+  <div class="grid-item-13 box-1">1</div>
+  <div class="grid-item-13 box-2">2</div>
+  <div class="grid-item-13 box-3">3</div>
+  <div class="grid-item-13 box-4">4</div>
+  <div class="grid-item-13 box-5">5</div>
+  <div class="grid-item-13 box-6">6</div>
+</div>
+</div>
+
+
+
+
+
+
+<h1>align-content</h1>
+<p>Sometimes the total size of your grid might be less than the size of its grid container. This could happen if all of your grid items are sized with non-flexible units like px. In this case you can set the alignment of the grid within the grid container. This property aligns the grid along the block (column) axis (as opposed to justify-content which aligns the grid along the inline (row) axis).</p>
+<pre>
+.grid-container{
+	justify-content: start;
+}
+</pre>
+<div class="box">
+<div class="grid-container-13" style="align-content: start;">
+  <div class="grid-item-13 box-1">1</div>
+  <div class="grid-item-13 box-2">2</div>
+  <div class="grid-item-13 box-3">3</div>
+  <div class="grid-item-13 box-4">4</div>
+  <div class="grid-item-13 box-5">5</div>
+  <div class="grid-item-13 box-6">6</div>
+</div>
+</div>
+<pre>
+.grid-container{
+	justify-content: center;
+}
+</pre>
+<div class="box">
+<div class="grid-container-13" style="align-content: center;">
+  <div class="grid-item-13 box-1">1</div>
+  <div class="grid-item-13 box-2">2</div>
+  <div class="grid-item-13 box-3">3</div>
+  <div class="grid-item-13 box-4">4</div>
+  <div class="grid-item-13 box-5">5</div>
+  <div class="grid-item-13 box-6">6</div>
+</div>
+</div>
+<pre>
+.grid-container{
+	justify-content: end;
+}
+</pre>
+<div class="box">
+<div class="grid-container-13" style="align-content: end;">
+  <div class="grid-item-13 box-1">1</div>
+  <div class="grid-item-13 box-2">2</div>
+  <div class="grid-item-13 box-3">3</div>
+  <div class="grid-item-13 box-4">4</div>
+  <div class="grid-item-13 box-5">5</div>
+  <div class="grid-item-13 box-6">6</div>
+</div>
+</div>
+<pre>
+.grid-container{
+	justify-content: stretch;
+}
+</pre>
+<div class="box">
+<div class="grid-container-13" style="align-content: stretch;">
+  <div class="grid-item-13 box-1">1</div>
+  <div class="grid-item-13 box-2">2</div>
+  <div class="grid-item-13 box-3">3</div>
+  <div class="grid-item-13 box-4">4</div>
+  <div class="grid-item-13 box-5">5</div>
+  <div class="grid-item-13 box-6">6</div>
+</div>
+</div>
+<pre>
+.grid-container{
+	justify-content: space-evenly;
+}
+</pre>
+<div class="box">
+<div class="grid-container-13" style="align-content: space-evenly;">
+  <div class="grid-item-13 box-1">1</div>
+  <div class="grid-item-13 box-2">2</div>
+  <div class="grid-item-13 box-3">3</div>
+  <div class="grid-item-13 box-4">4</div>
+  <div class="grid-item-13 box-5">5</div>
+  <div class="grid-item-13 box-6">6</div>
+</div>
+</div>
+<pre>
+.grid-container{
+	justify-content: space-around;
+}
+</pre>
+<div class="box">
+<div class="grid-container-13" style="align-content: space-around;">
+  <div class="grid-item-13 box-1">1</div>
+  <div class="grid-item-13 box-2">2</div>
+  <div class="grid-item-13 box-3">3</div>
+  <div class="grid-item-13 box-4">4</div>
+  <div class="grid-item-13 box-5">5</div>
+  <div class="grid-item-13 box-6">6</div>
+</div>
+</div>
+<pre>
+.grid-container{
+	justify-content: space-between;
+}
+</pre>
+<div class="box">
+<div class="grid-container-13" style="align-content: space-between;">
+  <div class="grid-item-13 box-1">1</div>
+  <div class="grid-item-13 box-2">2</div>
+  <div class="grid-item-13 box-3">3</div>
+  <div class="grid-item-13 box-4">4</div>
+  <div class="grid-item-13 box-5">5</div>
+  <div class="grid-item-13 box-6">6</div>
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+<h1>justify-items</h1>
+<p>The property <code>justify-items</code> is used to align content of the grid cell horizontally. Consider the following example -</p>
+<pre>
+div.grid-container-3{
+  width : 500px;
+  margin: auto;
+  margin-top: 20px;
+  background-color : pink;
+  border: 1px solid black;
+  height: 300px;
+  
+  display : grid;
+  grid-template-columns : auto auto auto;
+  grid-template-rows:auto auto;
+  grid-gap: 10px;
+}
+.grid-item-3{
+  border: 1px solid black;
+}
+
+&lt;div class="grid-container-3">
+  &lt;div class="grid-item-3 box-1">1&lt;/div>
+  &lt;div class="grid-item-3 box-2">2&lt;/div>
+  &lt;div class="grid-item-3 box-3">3&lt;/div>
+  &lt;div class="grid-item-3 box-4">4&lt;/div>
+  &lt;div class="grid-item-3 box-5">5&lt;/div>
+  &lt;div class="grid-item-3 box-6">6&lt;/div>
+&lt;/div>
+</pre>
+<div class="box">
+<div class="grid-container-14">
+  <div class="grid-item-14 box-1">1</div>
+  <div class="grid-item-14 box-2">2</div>
+  <div class="grid-item-14 box-3">3</div>
+  <div class="grid-item-14 box-4">4</div>
+  <div class="grid-item-14 box-5">5</div>
+  <div class="grid-item-14 box-6">6</div>
+</div>
+<style type="text/css">
+div.grid-container-14{
+  width : 500px;
+  margin: auto;
+  margin-top: 20px;
+  background-color : pink;
+  border: 1px solid black;
+  height: 300px;
+  
+  display : grid;
+  grid-template-columns : auto auto auto;
+  grid-template-rows:auto auto;
+  grid-gap: 10px;
+}
+.grid-item-14{
+  border: 1px solid black;
+}
+</style>
+</div>
+<pre>
+.grid-item-14{
+	justify-items : start;
+}
+</pre>
+<div class="box">
+<div class="grid-container-14" style="justify-items : start;">
+  <div class="grid-item-14 box-1">1</div>
+  <div class="grid-item-14 box-2">2</div>
+  <div class="grid-item-14 box-3">3</div>
+  <div class="grid-item-14 box-4">4</div>
+  <div class="grid-item-14 box-5">5</div>
+  <div class="grid-item-14 box-6">6</div>
+</div>
+</div>
+<pre>
+.grid-item-14{
+	justify-items : end;
+}
+</pre>
+<div class="box">
+<div class="grid-container-14" style="justify-items : end;">
+  <div class="grid-item-14 box-1">1</div>
+  <div class="grid-item-14 box-2">2</div>
+  <div class="grid-item-14 box-3">3</div>
+  <div class="grid-item-14 box-4">4</div>
+  <div class="grid-item-14 box-5">5</div>
+  <div class="grid-item-14 box-6">6</div>
+</div>
+</div>
+<pre>
+.grid-item-14{
+	justify-items : stretch;
+}
+</pre>
+<div class="box">
+<div class="grid-container-14" style="justify-items : stretch;">
+  <div class="grid-item-14 box-1">1</div>
+  <div class="grid-item-14 box-2">2</div>
+  <div class="grid-item-14 box-3">3</div>
+  <div class="grid-item-14 box-4">4</div>
+  <div class="grid-item-14 box-5">5</div>
+  <div class="grid-item-14 box-6">6</div>
+</div>
+</div>
+<pre>
+.grid-item-14{
+	justify-items : center;
+}
+</pre>
+<div class="box">
+<div class="grid-container-14" style="justify-items : center;">
+  <div class="grid-item-14 box-1">1</div>
+  <div class="grid-item-14 box-2">2</div>
+  <div class="grid-item-14 box-3">3</div>
+  <div class="grid-item-14 box-4">4</div>
+  <div class="grid-item-14 box-5">5</div>
+  <div class="grid-item-14 box-6">6</div>
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+<h1>align-items</h1>
+<p>The property <code>align-items</code> is used to align content of the grid cell vertically. Consider the following example -</p>
+<pre>
+.grid-item-14{
+	align-items : start;
+}
+</pre>
+<div class="box">
+<div class="grid-container-14" style="align-items : start;">
+  <div class="grid-item-14 box-1">1</div>
+  <div class="grid-item-14 box-2">2</div>
+  <div class="grid-item-14 box-3">3</div>
+  <div class="grid-item-14 box-4">4</div>
+  <div class="grid-item-14 box-5">5</div>
+  <div class="grid-item-14 box-6">6</div>
+</div>
+</div>
+<pre>
+.grid-item-14{
+	align-items : end;
+}
+</pre>
+<div class="box">
+<div class="grid-container-14" style="align-items : end;">
+  <div class="grid-item-14 box-1">1</div>
+  <div class="grid-item-14 box-2">2</div>
+  <div class="grid-item-14 box-3">3</div>
+  <div class="grid-item-14 box-4">4</div>
+  <div class="grid-item-14 box-5">5</div>
+  <div class="grid-item-14 box-6">6</div>
+</div>
+</div>
+<pre>
+.grid-item-14{
+	align-items : stretch;
+}
+</pre>
+<div class="box">
+<div class="grid-container-14" style="align-items : stretch;">
+  <div class="grid-item-14 box-1">1</div>
+  <div class="grid-item-14 box-2">2</div>
+  <div class="grid-item-14 box-3">3</div>
+  <div class="grid-item-14 box-4">4</div>
+  <div class="grid-item-14 box-5">5</div>
+  <div class="grid-item-14 box-6">6</div>
+</div>
+</div>
+<pre>
+.grid-item-14{
+	align-items : center;
+}
+</pre>
+<div class="box">
+<div class="grid-container-14" style="align-items : center;">
+  <div class="grid-item-14 box-1">1</div>
+  <div class="grid-item-14 box-2">2</div>
+  <div class="grid-item-14 box-3">3</div>
+  <div class="grid-item-14 box-4">4</div>
+  <div class="grid-item-14 box-5">5</div>
+  <div class="grid-item-14 box-6">6</div>
+</div>
+</div>
+
+
+
+
+
+
+
+<h1>place-items</h1>
+<p>The property <code>place-items</code> is shorthand for <code>justify-items</code> and <code>align-items</code>. Here is the syntax -</p>
+<pre>
+.grid-container{
+	place-items: align-items / justify-items;
+}
+</pre>
+<p>For example -</p>
+<pre>
+.grid-container{
+	place-items: center / space-around;
+}
+</pre>
+<p style="font-style: italic; font-weight: bold;">This property is not well supported in most browsers. Should avoid using this property.</p>
+
+
+
+
+
+
+<h1>place-content</h1>
+<p>The property <code>place-content</code> is used as a shorthand of <code>justify-content</code> and <code>align-content</code> property. Here is the syntax -</p>
+<pre>
+.grid-container{
+	place-content: align-items / justify-items;
+}
+</pre>
+<p>For example -</p>
+<pre>
+.grid-container{
+	place-content: center / space-around;
+}
+</pre>
+<p style="font-style: italic; font-weight: bold;">This property is not well supported in most browsers. Should avoid using this property.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+<h1>grid-template-areas</h1>
+<p>Defines a grid template by referencing the names of the grid areas which are specified with the grid-area property. Repeating the name of a grid area causes the content to span those cells. A period signifies an empty cell. The syntax itself provides a visualization of the structure of the grid.</p>
+<pre>
+.container {
+  grid-template-areas: 
+    "&lt;grid-area-name> | . | none | ..."
+    "...";
+}
+</pre>
+<p>Consider the following example -</p>
+<pre>
+&lt;div class="grid-container">
+  &lt;div class="header">Header&lt;/div>
+  &lt;div class="main">Main&lt;/div>
+  &lt;div class="leftSidebar">Left Sidebar&lt;/div>
+  &lt;div class="rightSidebar">Right Sidebar&lt;/div>
+  &lt;div class="footer">Footer&lt;/div>
+&lt;/div>
+
+div.grid-container{
+  width : 500px;
+  margin: auto;
+  margin-top: 20px;
+  background-color : pink;
+  border: 1px solid black;
+  height: 300px;
+
+  
+  display : grid;
+  grid-template-columns: 100px auto 100px;
+}
+.grid-container>div{
+  border: 1px solid black;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+.header{
+  grid-area: header;
+  background: blue;
+  color: #fff;
+}
+.main{
+  grid-area: main;
+  background: green;
+  color: #fff;
+}
+.leftSidebar{
+  grid-area: leftSidebar;
+  background: crimson;
+  color: #fff;
+}
+.rightSidebar{
+  grid-area: rightSidebar;
+  background: crimson;
+  color: #fff;
+}
+.demoFooter{
+  grid-area: footer;
+  background : black;
+  color: #fff;
+}
+</pre>
+<div class="box">
+<div class="grid-container">
+  <div class="header">Header</div>
+  <div class="main">Main</div>
+  <div class="leftSidebar">Left Sidebar</div>
+  <div class="rightSidebar">Right Sidebar</div>
+  <div class="demoFooter">Footer</div>
+</div>
+
+<style type="text/css">
+div.grid-container{
+  width : 500px;
+  margin: auto;
+  margin-top: 20px;
+  background-color : pink;
+  border: 1px solid black;
+  height: 300px;
+  grid-template-columns: 100px auto 100px;
+  
+  display : grid;
+}
+.grid-container>div{
+  border: 1px solid black;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+.header{
+  grid-area: header;
+  background: blue;
+  color: #fff;
+}
+.main{
+  grid-area: main;
+  background: green;
+  color: #fff;
+}
+.leftSidebar{
+  grid-area: leftSidebar;
+  background: crimson;
+  color: #fff;
+}
+.rightSidebar{
+  grid-area: rightSidebar;
+  background: crimson;
+  color: #fff;
+}
+.demoFooter{
+  grid-area: footer;
+  background : black;
+  color: #fff;
+}
+</style>
+</div>
+<p>Initially, it overlaps with each other. It will look like the above. Now we will use <code>grid-template-areas</code> to define the layout of the grid. In the above example we have given each grid item their name using <code>grid-area</code> property.</p>
+<pre>
+.grid-container{
+	grid-template-areas : 
+			"header header header"
+			"leftSidebar main rightSidebar"
+			"footer footer footer";
+}
+</pre>
+<div class="box">
+<div class="grid-container" style="grid-template-areas : 'header header header' 'leftSidebar main rightSidebar' 'footer footer footer';">
+  <div class="header">Header</div>
+  <div class="main">Main</div>
+  <div class="leftSidebar">Left Sidebar</div>
+  <div class="rightSidebar">Right Sidebar</div>
+  <div class="demoFooter">Footer</div>
+</div>
+</div>
+<p>As you can see how we defined our grid layout using <code>grid-template-areas</code>. It consists of some string seperated with a space. Each string represents an individual row. Each row consists of one or more grid name which are specified by <code>grid-area</code>.</p>
+<p>Each name in the string represents a column. In the first string, we have header three times. It means the header will space over three columns. In the second string, we have leftSidebar, main and rightSidebar. And in the last string, we have footer three times.</p>
+<p>There are one rule to remember- The number of grid name that appears on each string must be same in all string. For example if one string or row contains three names, then each string must contain three names. Each name represents a column. We have three columns mentioned on each row. Any mismatch on the number of name within the string would cause problem and the layout will break.</p>
+<p>Now let's play around with the layout. What if you want your left sidebar to be below of the header and goes all the way down the footer so that the footer will be by the side of the leftSidebar. Consider the following example -</p>
+<pre>
+.grid-container{
+	grid-template-areas : 
+			"header header header"
+			"leftSidebar main rightSidebar"
+			"leftSidebar footer footer";
+}
+</pre>
+<div class="box">
+<div class="grid-container" style="grid-template-areas : 'header header header' 'leftSidebar main rightSidebar' 'leftSidebar footer footer';">
+  <div class="header">Header</div>
+  <div class="main">Main</div>
+  <div class="leftSidebar">Left Sidebar</div>
+  <div class="rightSidebar">Right Sidebar</div>
+  <div class="demoFooter">Footer</div>
+</div>
+</div>
+<p>You can do the same thing for the right sidebar too -</p>
+<pre>
+.grid-container{
+	grid-template-areas : 
+			"header header header"
+			"leftSidebar main rightSidebar"
+			"leftSidebar footer rightSidebar";
+}
+</pre>
+<div class="box">
+<div class="grid-container" style="grid-template-areas : 'header header header' 'leftSidebar main rightSidebar' 'leftSidebar footer rightSidebar';">
+  <div class="header">Header</div>
+  <div class="main">Main</div>
+  <div class="leftSidebar">Left Sidebar</div>
+  <div class="rightSidebar">Right Sidebar</div>
+  <div class="demoFooter">Footer</div>
+</div>
+</div>
+<p>You can also give the entire left side for the left sidebar -</p>
+<pre>
+.grid-container{
+	grid-template-areas : 
+			"leftSidebar header header"
+			"leftSidebar main rightSidebar"
+			"leftSidebar footer rightSidebar";
+}
+</pre>
+<div class="box">
+<div class="grid-container" style="grid-template-areas : 'leftSidebar header header' 'leftSidebar main rightSidebar' 'leftSidebar footer rightSidebar';">
+  <div class="header">Header</div>
+  <div class="main">Main</div>
+  <div class="leftSidebar">Left Sidebar</div>
+  <div class="rightSidebar">Right Sidebar</div>
+  <div class="demoFooter">Footer</div>
+</div>
+</div>
+<p>Your layout will work as long as the structure logically make sense. For example, consider the following -</p>
+<pre>
+.grid-container{
+	grid-template-areas : 
+			"leftSidebar header footer"
+			"leftSidebar main rightSidebar"
+			"leftSidebar footer rightSidebar";
+}
+</pre>
+<div class="box">
+<div class="grid-container" style="grid-template-areas : 'leftSidebar header footer' 'leftSidebar main rightSidebar' 'leftSidebar footer rightSidebar';">
+  <div class="header">Header</div>
+  <div class="main">Main</div>
+  <div class="leftSidebar">Left Sidebar</div>
+  <div class="rightSidebar">Right Sidebar</div>
+  <div class="demoFooter">Footer</div>
+</div>
+</div>
+<p>Things is not working for the above layout. Because on the first row we have mentioned footer, logically it doesn't make a sense how the structure should be. Always remember that the grid item should not be seperated and geomatrically it always should be rectangle. Now you can have any layout as long as this rule doesn't break.</p>
+
+
+
+
+
+
+
+
+
+
+
+<h1>grid-template</h1>
+<p>A shorthand for setting grid-template-rows, grid-template-columns, and grid-template-areas in a single declaration. Here is the syntax -</p>
+<pre>
+.container {
+  grid-template: none | &lt;grid-template-rows> / &lt;grid-template-columns>;
+}
+</pre>
+<p>If you use the value <code>none</code>, it sets all three properties to their initial values. If you use the second value, it sets the <code>grid-template-rows</code> and <code>grid-template-columns</code> respectively but it sets <code>grid-template-ares</code> to none.</p>
+<p>Another syntax of this property is to specify all three values at once -</p>
+<pre>
+.container {
+  grid-template:
+    [row1-start] "header header header" 25px [row1-end]
+    [row2-start] "footer footer footer" 25px [row2-end]
+    / auto 50px auto;
+}
+</pre>
+<p>The above is equivalent to -</p>
+<pre>
+.container {
+  grid-template-rows: [row1-start] 25px [row1-end row2-start] 25px [row2-end];
+  grid-template-columns: auto 50px auto;
+  grid-template-areas: 
+    "header header header" 
+    "footer footer footer";
+}
+</pre>
+<p style="font-style: italic; font-weight: bold;">Even though using this property will save you some keystroke, but it looses the readibility. That's why explicit declaration using all three properties are prefferable.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+<h1>span Keyword</h1>
+<p>So far we have been using numeric number for the property <code>grid-column-end</code> and <code>grid-row-end</code>. You can also specify <code>span</code> keyword followed by a numeric number. For example consider the following example -</p>
+<pre>
+&lt;div class="grid-container-15">
+  &lt;div class="grid-item-15">1&lt;/div>
+  &lt;div class="grid-item-15">2&lt;/div>
+  &lt;div class="grid-item-15">3&lt;/div>
+  &lt;div class="grid-item-15">4&lt;/div>
+  &lt;div class="grid-item-15">5&lt;/div>  
+&lt;/div>
+
+div.grid-container-15{
+  width : 500px;
+  margin: auto;
+  margin-top: 20px;
+  background-color : pink;
+  border: 1px solid black;
+  height: 300px;
+  
+  display : grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  grid-gap: 10px;
+  padding: 10px;
+}
+.grid-container-15>div{
+  border: 1px solid black;
+}
+.grid-container-15>div:nth-child(2){
+  grid-column: 2 / 4;
+  background-color : red;
+}
+</pre>
+<div class="box">
+<div class="grid-container-15">
+  <div class="grid-item-15">1</div>
+  <div class="grid-item-15">2</div>
+  <div class="grid-item-15">3</div>
+  <div class="grid-item-15">4</div>
+  <div class="grid-item-15">5</div>  
+</div>
+<style type="text/css">
+div.grid-container-15{
+  width : 500px;
+  margin: auto;
+  margin-top: 20px;
+  background-color : pink;
+  border: 1px solid black;
+  
+  display : grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  grid-gap: 10px;
+  padding: 10px;
+}
+.grid-container-15>div{
+  border: 1px solid black;
+  padding: 20px;
+}
+.grid-container-15>div:nth-child(2){
+  grid-column: 2 / 4;
+  background-color : red;
+}
+</style>
+</div>
+<p>In the above example we are dealing with numeric number for the <code>grid-column</code> property. In the above example, we are saying that the second grid item will start at grid line 2 and end at grid line 4. It means it will span over two grid column. You can specify how much grid column the grid item will span over using the keyword <code>span</code> followed by a numeric number which specifies the number of column that the grid item will span over.</p>
+<pre>
+grid-column: 2 / span 2;
+</pre>
+<p>You will get the same output.</p>
+<pre>
+.grid-container-15>div:nth-child(2){
+  grid-column: 2 / span 2;
+  background-color : red;
+}
+</pre>
+<div class="box">
+<div class="grid-container-15">
+  <div class="grid-item-15">1</div>
+  <div class="grid-item-15">2</div>
+  <div class="grid-item-15">3</div>
+  <div class="grid-item-15">4</div>
+  <div class="grid-item-15">5</div>  
+</div>
+</div>
+<p>The same rule goes for the <code>grid-row</code> property. Consider the following example -</p>
+<pre>
+.grid-container-15>div:nth-child(2){
+  grid-column: 2 / span 2;
+  grid-row: 1 / span 2;
+  background-color : red;
+}
+</pre>
+<div class="box">
+<div class="grid-container-15">
+  <div class="grid-item-15">1</div>
+  <div class="grid-item-15" style="grid-row: 1 / span 2;">2</div>
+  <div class="grid-item-15">3</div>
+  <div class="grid-item-15">4</div>
+  <div class="grid-item-15">5</div>  
+</div>
+</div>
+<p>The keyword <code>span</code> is invalid for <code>grid-column-start</code> and <code>grid-row-start</code>.</p>
+<p>You can explicitily specify the <code>span</code> keyword on the <code>grid-column-end</code> and <code>grid-row-end</code> property.</p>
+<pre>
+.grid-container-15>div:nth-child(2){
+  grid-column-start: 2;
+  grid-column-end: span 2;
+  grid-row-start: 1;
+  grid-row-end: span 2;
+  background-color : red;
+}
+</pre>
+
+
+
+
+
+
+
+<h1>auto-fill keyword</h1>
+<p>The keyword <code>auto-fill</code> is used as the first argument of <code>repeat()</code> function which tells the browser to automatically create as many grid columns as possible. The second argument specifies the each grid column width.</p>
+<p>Consider the following example -</p>
+<pre>
+div.grid-container-16{
+  width : 500px;
+  margin: auto;
+  margin-top: 20px;
+  background-color : pink;
+  border: 1px solid black;
+  
+  display : grid;
+  grid-template-columns: repeat(auto-fill, 1fr);
+  grid-gap: 10px;
+  padding: 10px;
+}
+.grid-container-16>div{
+  border: 1px solid black;
+  padding: 20px
+}
+
+&lt;div class="grid-container-16">
+  &lt;div class="grid-item-16">1&lt;/div>
+  &lt;div class="grid-item-16">2&lt;/div>
+  &lt;div class="grid-item-16">3&lt;/div>
+  &lt;div class="grid-item-16">4&lt;/div>
+  &lt;div class="grid-item-16">5&lt;/div>  
+  &lt;div class="grid-item-16">6&lt;/div>
+&lt;/div>
+</pre>
+<div class="box">
+<div class="grid-container-16">
+  <div class="grid-item-16">1</div>
+  <div class="grid-item-16">2</div>
+  <div class="grid-item-16">3</div>
+  <div class="grid-item-16">4</div>
+  <div class="grid-item-16">5</div>  
+  <div class="grid-item-16">6</div>
+</div>
+<style type="text/css">
+div.grid-container-16{
+  width : 500px;
+  margin: auto;
+  margin-top: 20px;
+  background-color : pink;
+  border: 1px solid black;
+  
+  display : grid;
+  grid-template-columns: repeat(auto-fill, 1fr);
+  grid-gap: 10px;
+  padding: 10px;
+}
+.grid-container-16>div{
+  border: 1px solid black;
+  padding: 20px
+}
+</style>
+</div>
+<p>As you can see in the above example, we are using <code>auto-fill</code>. It means we are telling browser to create as many columns as possible and each one have the <code>1fr</code> width. Since <code>1fr</code> means the whole with, so only one column is created. Now consider the following example -</p>
+<pre>
+.grid-container-16{
+	grid-template-columns: repeat(auto-fill, 100px);
+}
+</pre>
+<div class="box">
+<div class="grid-container-17">
+  <div class="grid-item-17">1</div>
+  <div class="grid-item-17">2</div>
+  <div class="grid-item-17">3</div>
+  <div class="grid-item-17">4</div>
+  <div class="grid-item-17">5</div>  
+  <div class="grid-item-17">6</div>
+</div>
+<style type="text/css">
+div.grid-container-17{
+  width : 500px;
+  margin: auto;
+  margin-top: 20px;
+  background-color : pink;
+  border: 1px solid black;
+  
+  display : grid;
+  grid-template-columns: repeat(auto-fill, 100px);
+  grid-gap: 10px;
+  padding: 10px;
+}
+.grid-container-17>div{
+  border: 1px solid black;
+  padding: 20px
+}
+</style>
+</div>
+<p>In the above example, we are specifying <code>100px</code> for each grid item. So only four can be created with the <code>grid-gap</code>.</p>
+<p>You can achieve the same thing using the following code -</p>
+<pre>
+grid-template-columns: repeat(4, 100px);
+</pre>
+<p>So what's the benefit of using <code>auto-fill</code>? Well, if you use fixed value for the number of columns, and then if you resize your grid, the grid-items will overflow and will be hidden. But with the <code>auto-fill</code> keyword, if you resize your grid container, the grid column will also auto adjust. If you shrink your grid container enough, the trailer grid item will span over next line. You can experiment in the browser console.</p>
+<p>If you notice, after creating four columns there are some gap at the end of the last column. In the next section with the help of <code>minmax()</code> we will see how to fill that gap.</p>
+
+
+
+
+
+
+<h1>minmax()</h1>
+<p><code>minmax()</code> function is used with <code>repeat()</code> function and is used to specify the minimum width and the maximum width of the grid column. Consider the following example -</p>
+<pre>
+grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+</pre>
+<div class="box">
+<div class="grid-container-18">
+  <div class="grid-item-18">1</div>
+  <div class="grid-item-18">2</div>
+  <div class="grid-item-18">3</div>
+  <div class="grid-item-18">4</div>
+  <div class="grid-item-18">5</div>  
+  <div class="grid-item-18">6</div>
+</div>
+<style type="text/css">
+div.grid-container-18{
+  width : 500px;
+  margin: auto;
+  margin-top: 20px;
+  background-color : pink;
+  border: 1px solid black;
+  
+  display : grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  grid-gap: 10px;
+  padding: 10px;
+}
+.grid-container-18>div{
+  border: 1px solid black;
+  padding: 20px
+}
+</style>
+</div>
+<p>The function <code>minmax</code> takes the minimum width as the first argument and maximum width as the second argument. The browser first creates grid columns with the min-width to see how much grid column can be created, then the browser uses the second argument to distribute the remaining space to each grid item. Here, you can use any absolute value (like px) for the maximum width instead of using <code>1fr</code>. But there is no guarantte  that after reaching maximum width of the grid item, there won't be any remaining space. Here is an example -</p>
+<div class="box">
+<div class="grid-container-19">
+  <div class="grid-item-19">1</div>
+  <div class="grid-item-19">2</div>
+  <div class="grid-item-19">3</div>
+  <div class="grid-item-19">4</div>
+  <div class="grid-item-19">5</div>  
+  <div class="grid-item-19">6</div>
+</div>
+<style type="text/css">
+div.grid-container-19{
+  width : 500px;
+  margin: auto;
+  margin-top: 20px;
+  background-color : pink;
+  border: 1px solid black;
+  
+  display : grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 105px));
+  grid-gap: 10px;
+  padding: 10px;
+}
+.grid-container-19>div{
+  border: 1px solid black;
+  padding: 20px
+}
+</style>
+</div>
+<p>As you notice in the above example, there are still some space left over. So it is always better to use <code>1fr</code> as the maximum width.</p>
+<p>The function minmax() can also be used with fixed numbered columns. For example -</p>
+<pre>
+grid-template-columns: repeat(4, minmax(100px, 1fr));
+</pre>
+<div class="box">
+<div class="grid-container-20">
+  <div class="grid-item-20">1</div>
+  <div class="grid-item-20">2</div>
+  <div class="grid-item-20">3</div>
+  <div class="grid-item-20">4</div>
+  <div class="grid-item-20">5</div>  
+  <div class="grid-item-20">6</div>
+</div>
+<style type="text/css">
+div.grid-container-20{
+  width : 500px;
+  margin: auto;
+  margin-top: 20px;
+  background-color : pink;
+  border: 1px solid black;
+  
+  display : grid;
+  grid-template-columns: repeat(4, minmax(100px, 1fr));
+  grid-gap: 10px;
+  padding: 10px;
+}
+.grid-container-20>div{
+  border: 1px solid black;
+  padding: 20px
+}
+</style>
+</div>
+<p>In the above example, we are telling browser to create grid columns with the minimum width 100px, and if there are some space available use the maximum width to stretch all the grid items equally untill the grid container fills with the grid item.</p>
+<p>In the above examples, the outputs are same for fixed numbered column and <code>auto-fill</code> keyword. Well, one thing to note that, if you use fixed number for the column, the grid will always have fixed number of column regerdless if you resize your grid container. But for the keyword <code>auto-fill</code>, the grid columns are dynamic. If you resize your grid container, your grid columns will change accordingly and causing the trailling grid-item to span over next grid row.</p>
+<p>So with the combination of <code>auto-fill</code> and <code>min-max</code> you can have more flexibility.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+<h1>auto-fit Keyword</h1>
+<p>Just like <code>auto-fill</code>, you can also use <code>auto-fit</code> keyword as the first argument. <code>auto-fit</code> is just like <code>auto-fill</code> with a major difference. Consider the following example -</p>
+<pre>
+div.grid-container-21{
+  width : 700px;
+  margin: auto;
+  margin-top: 20px;
+  background-color : pink;
+  border: 1px solid black;
+  
+  display : grid;
+  grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+  grid-gap: 10px;
+  padding: 10px;
+}
+.grid-container-21>div{
+  border: 1px solid black;
+  padding: 20px
+}
+
+&lt;div class="grid-container-21">
+  &lt;div class="grid-item-21">1&lt;/div>
+  &lt;div class="grid-item-21">2&lt;/div>
+  &lt;div class="grid-item-21">3&lt;/div>
+  &lt;div class="grid-item-21">4&lt;/div>
+  &lt;div class="grid-item-21">5&lt;/div>  
+  &lt;div class="grid-item-21">6&lt;/div>
+&lt;/div>
+</pre>
+<div class="box">
+<div class="grid-container-21">
+  <div class="grid-item-21">1</div>
+  <div class="grid-item-21">2</div>
+  <div class="grid-item-21">3</div>
+  <div class="grid-item-21">4</div>
+  <div class="grid-item-21">5</div>  
+  <div class="grid-item-21">6</div>
+</div>
+<style type="text/css">
+div.grid-container-21{
+  width : 700px;
+  margin: auto;
+  margin-top: 20px;
+  background-color : pink;
+  border: 1px solid black;
+  
+  display : grid;
+  grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+  grid-gap: 10px;
+  padding: 10px;
+}
+.grid-container-21>div{
+  border: 1px solid black;
+  padding: 20px
+}
+</style>
+</div>
+<p>In the example above, there are 6 grid items. But the number of grid column created is 8. So there are 8 grid columns above. As there are only 6 grid items, two grid columns remains empty. That's why even though you are using <code>1fr</code> as the maximum width, the grid items are not filling the grid container as there are still two columns acting as a placeholder. Now consider the same example with the <code>auto-fit</code> keyword.</p>
+<pre>
+grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
+</pre>
+<div class="box">
+<div class="grid-container-22">
+  <div class="grid-item-22">1</div>
+  <div class="grid-item-22">2</div>
+  <div class="grid-item-22">3</div>
+  <div class="grid-item-22">4</div>
+  <div class="grid-item-22">5</div>  
+  <div class="grid-item-22">6</div>
+</div>
+<style type="text/css">
+div.grid-container-22{
+  width : 700px;
+  margin: auto;
+  margin-top: 20px;
+  background-color : pink;
+  border: 1px solid black;
+  
+  display : grid;
+  grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
+  grid-gap: 10px;
+  padding: 10px;
+}
+.grid-container-22>div{
+  border: 1px solid black;
+  padding: 20px
+}
+</style>
+</div>
+<p>You can see visually that the grid items are stretched to fill the grid container. You might think that with the keyword <code>auto-fit</code>, only six columns are created. But no. It creates the same number of grid column as <code>auto-fill</code> would. But the difference is that the empty grid columns are not acting as a placeholder anymore. Instead they are squeezed in on a single line with the width of nothing. In other words they are not displayed on the grid container. That's why the six columns are stretched out to fill out the available gap.</p>
+
+
+
+
+
+
+<h1>grid-auto-columns</h1>
+<p>Suppose you have 3/3 grid, on which you want to move a grid out of the grid container. Consider the following example -</p>
+<pre>
+&lt;div class="grid-container">
+  &lt;div class="grid-item">1&lt;/div>
+  &lt;div class="grid-item">2&lt;/div>
+  &lt;div class="grid-item">3&lt;/div>
+  &lt;div class="grid-item">4&lt;/div>
+  &lt;div class="grid-item">5&lt;/div>  
+  &lt;div class="grid-item">6&lt;/div>
+  &lt;div class="grid-item">7&lt;/div>
+  &lt;div class="grid-item">8&lt;/div>  
+  &lt;div class="grid-item">9&lt;/div>
+&lt;/div>
+
+
+div.grid-container{
+  margin: auto;
+  margin-top: 20px;
+  background-color : pink;
+  border: 1px solid black;
+  
+  display : grid;
+  grid-template-columns: repeat(3, 100px);
+  grid-gap: 10px;
+  padding: 10px;
+}
+.grid-container>div{
+  border: 1px solid black;
+}
+</pre>
+<div class="box">
+<style type="text/css">
+div.grid-container-23{
+  margin: auto;
+  margin-top: 20px;
+  background-color : pink;
+  border: 1px solid black;
+  
+  display : grid;
+  grid-template-columns: repeat(3, 100px);
+  grid-gap: 10px;
+  padding: 10px;
+}
+.grid-container-23>div{
+  border: 1px solid black;
+}
+</style>
+<div class="grid-container-23">
+  <div class="grid-item-23">1</div>
+  <div class="grid-item-23">2</div>
+  <div class="grid-item-23">3</div>
+  <div class="grid-item-23">4</div>
+  <div class="grid-item-23">5</div>  
+  <div class="grid-item-23">6</div>
+  <div class="grid-item-23">7</div>
+  <div class="grid-item-23">8</div>  
+  <div class="grid-item-23">9</div>
+</div>
+</div>
+<p>Now you want to move grid item 4 to the grid column 5, which doesn't exists -</p>
+<pre>
+grid-container>div:nth-child(4){
+	grid-column : 5 / 6;
+	grid-row : 2 / 3;
+}
+</pre>
+<div class="box">
+<style type="text/css">
+div.grid-container-24{
+  margin: auto;
+  margin-top: 20px;
+  background-color : pink;
+  border: 1px solid black;
+  
+  display : grid;
+  grid-template-columns: repeat(3, 100px);
+  grid-gap: 10px;
+  padding: 10px;
+}
+.grid-container-24>div{
+  border: 1px solid black;
+}
+.grid-container-24>div:nth-child(4){
+	grid-column: 5 / 6;
+	grid-row : 2 / 3;
+}
+</style>
+<div class="grid-container-24">
+  <div class="grid-item-24">1</div>
+  <div class="grid-item-24">2</div>
+  <div class="grid-item-24">3</div>
+  <div class="grid-item-24">4</div>
+  <div class="grid-item-24">5</div>  
+  <div class="grid-item-24">6</div>
+  <div class="grid-item-24">7</div>
+  <div class="grid-item-24">8</div>  
+  <div class="grid-item-24">9</div>
+</div>
+</div>
+<p>As you can see, initially we had three columns and each column had width of 100px. But when we moved 4th box to the 5th column which doesn't exists, the browser creates extra grid column automatically. And those extra grid columns fill out the whole grid-container as they have the <code>auto</code> value by default. As those columns are created automatically they are called <code>auto-columns</code>. You can control their width by using <code>grid-auto-columns</code> property.</p>
+<pre>
+.grid-container{
+	grid-auto-columns: 50px;
+}
+</pre>
+<div class="box">
+<div class="grid-container-24" style="grid-auto-columns: 50px;">
+  <div class="grid-item-24">1</div>
+  <div class="grid-item-24">2</div>
+  <div class="grid-item-24">3</div>
+  <div class="grid-item-24">4</div>
+  <div class="grid-item-24">5</div>  
+  <div class="grid-item-24">6</div>
+  <div class="grid-item-24">7</div>
+  <div class="grid-item-24">8</div>  
+  <div class="grid-item-24">9</div>
+</div>
+</div>
+<p>You can also use <code>minmax</code> to specify the minimum width and maximum width of the auto generated column.</p>
+
+
+
+
+
+
+
+
+
+<h1>grid-auto-rows</h1>
+<p>Consider the above example where we want to move the 4th grid item to the 5th grid row which doesn't exists -</p>
+<pre>
+&lt;style type="text/css">
+div.grid-container-25{
+  margin: auto;
+  margin-top: 20px;
+  background-color : pink;
+  border: 1px solid black;
+  
+  display : grid;
+  grid-template-columns: repeat(3, 100px);
+  grid-template-rows: repeat(3, 100px);
+  grid-gap: 10px;
+  padding: 10px;
+}
+.grid-container-25>div{
+  border: 1px solid black;
+}
+.grid-container-25>div:nth-child(4){
+	grid-column: 1 / 2;
+	grid-row : 5 / 6;
+}
+&lt;/style>
+&lt;div class="grid-container-25">
+  &lt;div class="grid-item-25">1&lt;/div>
+  &lt;div class="grid-item-25">2&lt;/div>
+  &lt;div class="grid-item-25">3&lt;/div>
+  &lt;div class="grid-item-25">4&lt;/div>
+  &lt;div class="grid-item-25">5&lt;/div>  
+  &lt;div class="grid-item-25">6&lt;/div>
+  &lt;div class="grid-item-25">7&lt;/div>
+  &lt;div class="grid-item-25">8&lt;/div>  
+  &lt;div class="grid-item-25">9&lt;/div>
+&lt;/div>
+</pre>
+<div class="box">
+<style type="text/css">
+div.grid-container-25{
+  margin: auto;
+  margin-top: 20px;
+  background-color : pink;
+  border: 1px solid black;
+  
+  display : grid;
+  grid-template-columns: repeat(3, 100px);
+  grid-template-rows: repeat(3, 100px);
+  grid-gap: 10px;
+  padding: 10px;
+}
+.grid-container-25>div{
+  border: 1px solid black;
+}
+.grid-container-25>div:nth-child(4){
+	grid-column: 1 / 2;
+	grid-row : 5 / 6;
+}
+</style>
+<div class="grid-container-25">
+  <div class="grid-item-25">1</div>
+  <div class="grid-item-25">2</div>
+  <div class="grid-item-25">3</div>
+  <div class="grid-item-25">4</div>
+  <div class="grid-item-25">5</div>  
+  <div class="grid-item-25">6</div>
+  <div class="grid-item-25">7</div>
+  <div class="grid-item-25">8</div>  
+  <div class="grid-item-25">9</div>
+</div>
+</div>
+<p>Notice in the above example, the broswer creates extra grid rows to accomodate the 4th grid item. They have the default value <code>auto</code>, it means they will take up as much space as possible to fill out the available grid container height. As we don't have specified height for the grid-container, they are taking minimum height. If you explicitily want to control the height of the extra automatically generated rows, you can do it with <code>grid-auto-rows</code> property.</p>
+<pre>
+.grid-container{
+	grid-auto-rows: 50px;
+}
+</pre>
+<div class="box">
+<style type="text/css">
+div.grid-container-26{
+  margin: auto;
+  margin-top: 20px;
+  background-color : pink;
+  border: 1px solid black;
+  
+  display : grid;
+  grid-template-columns: repeat(3, 100px);
+  grid-template-rows: repeat(3, 100px);
+  grid-auto-rows: 50px;
+  grid-gap: 10px;
+  padding: 10px;
+}
+.grid-container-26>div{
+  border: 1px solid black;
+}
+.grid-container-26>div:nth-child(4){
+	grid-column: 1 / 2;
+	grid-row : 5 / 6;
+}
+</style>
+<div class="grid-container-26">
+  <div class="grid-item-26">1</div>
+  <div class="grid-item-26">2</div>
+  <div class="grid-item-26">3</div>
+  <div class="grid-item-26">4</div>
+  <div class="grid-item-26">5</div>  
+  <div class="grid-item-26">6</div>
+  <div class="grid-item-26">7</div>
+  <div class="grid-item-26">8</div>  
+  <div class="grid-item-26">9</div>
+</div>
+</div>
+<p>You can also use <code>minmax</code> to specify the minimum height and maximum height of the auto generated row.</p>
+
+
+
+
+
+
+
+<h1>justify-self</h1>
+<p>The property <code>justify-items</code> for grid container applies to all grid items. What if you want to specify different horizontal position for a particular grid items? The property <code>justify-self</code> for the grid item solves this problem. Here is an example -</p>
+<pre>
+&lt;div class="grid-container">
+  &lt;div class="grid-item">1&lt;/div>
+  &lt;div class="grid-item">2&lt;/div>
+  &lt;div class="grid-item">3&lt;/div>
+  &lt;div class="grid-item">4&lt;/div>
+  &lt;div class="grid-item">5&lt;/div>  
+  &lt;div class="grid-item">6&lt;/div>
+  &lt;div class="grid-item">7&lt;/div>
+  &lt;div class="grid-item">8&lt;/div>  
+  &lt;div class="grid-item">9&lt;/div>
+&lt;/div>
+
+
+div.grid-container{
+  width : 700px;
+  margin: auto;
+  margin-top: 20px;
+  background-color : pink;
+  border: 1px solid black;
+  height: 500px;
+  
+  display : grid;
+  grid-template-columns: repeat(3, 100px);
+  grid-template-rows: repeat(3, 70px);
+  grid-gap: 10px;
+  padding: 10px;
+  justify-content: center;
+}
+.grid-container>div{
+  border: 1px solid black;
+  padding: 20px
+}
+.grid-container>div:nth-child(5){
+  justify-self: end;
+}
+</pre>
+<div class="box">
+<style type="text/css">
+div.grid-container-27{
+  width : 700px;
+  margin: auto;
+  margin-top: 20px;
+  background-color : pink;
+  border: 1px solid black;
+  height: 500px;
+  
+  display : grid;
+  grid-template-columns: repeat(3, 100px);
+  grid-template-rows: repeat(3, 70px);
+  grid-gap: 10px;
+  padding: 10px;
+  justify-content: center;
+}
+.grid-container-27>div{
+  border: 1px solid black;
+  padding: 20px;
+}
+.grid-container-27>div:nth-child(5){
+  justify-self: end;
+}
+</style>
+<div class="grid-container-27">
+  <div class="grid-item-27">1</div>
+  <div class="grid-item-27">2</div>
+  <div class="grid-item-27">3</div>
+  <div class="grid-item-27">4</div>
+  <div class="grid-item-27">5</div>  
+  <div class="grid-item-27">6</div>
+  <div class="grid-item-27">7</div>
+  <div class="grid-item-27">8</div>  
+  <div class="grid-item-27">9</div>
+</div>
+</div>
+
+
+
+
+
+
+
+
+<h1>align-self</h1>
+<p>The property <code>align-items</code> for grid container applies to all grid items. What if you want to specify different vertical position for a particular grid items? The property <code>align-self</code> for the grid item solves this problem. Here is an example -</p>
+<div class="box">
+<style type="text/css">
+div.grid-container-28{
+  width : 700px;
+  margin: auto;
+  margin-top: 20px;
+  background-color : pink;
+  border: 1px solid black;
+  height: 500px;
+  
+  display : grid;
+  grid-template-columns: repeat(3, 100px);
+  grid-template-rows: repeat(3, 100px);
+  grid-gap: 10px;
+  padding: 10px;
+  justify-content: center;
+}
+.grid-container-28>div{
+  border: 1px solid black;
+  padding: 20px;
+}
+.grid-container-28>div:nth-child(5){
+  align-self: end;
+}
+</style>
+<div class="grid-container-28">
+  <div class="grid-item-28">1</div>
+  <div class="grid-item-28">2</div>
+  <div class="grid-item-28">3</div>
+  <div class="grid-item-28">4</div>
+  <div class="grid-item-28">5</div>  
+  <div class="grid-item-28">6</div>
+  <div class="grid-item-28">7</div>
+  <div class="grid-item-28">8</div>  
+  <div class="grid-item-28">9</div>
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+<h1>place-self</h1>
+<p><code>place-self</code> sets both the <code>align-self</code> and <code>justify-self</code> properties in a single declaration.</p>
+<pre>
+.grid-item{
+	place-self: align-self justify-self;
+}
+</pre>
+<p>For example -</p>
+<pre>
+.grid-item{
+	place-self : center center;
+}
+</pre>
+<div class="box">
+<style type="text/css">
+div.grid-container-29{
+  width : 700px;
+  margin: auto;
+  margin-top: 20px;
+  background-color : pink;
+  border: 1px solid black;
+  height: 500px;
+  
+  display : grid;
+  grid-template-columns: repeat(3, 100px);
+  grid-template-rows: repeat(3, 100px);
+  grid-gap: 10px;
+  padding: 10px;
+  justify-content: center;
+}
+.grid-container-29>div{
+  border: 1px solid black;
+  padding: 20px;
+}
+.grid-container-29>div:nth-child(5){
+  place-self: center center;
+}
+</style>
+<div class="grid-container-29">
+  <div class="grid-item-29">1</div>
+  <div class="grid-item-29">2</div>
+  <div class="grid-item-29">3</div>
+  <div class="grid-item-29">4</div>
+  <div class="grid-item-29">5</div>  
+  <div class="grid-item-29">6</div>
+  <div class="grid-item-29">7</div>
+  <div class="grid-item-29">8</div>  
+  <div class="grid-item-29">9</div>
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

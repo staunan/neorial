@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Go</title>
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
+	<script type="text/javascript" src="../Assets/jquery.min.js"></script>
+	<link rel="stylesheet" href="../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+
+<h1>Setup Go</h1>
+<p>Download the setup file from the official page. Then run the following command:</p>
+<pre>
+sudo tar -C /usr/local -xzf go$VERSION.$OS-$ARCH.tar.gz
+</pre>
+<p>It will unpack and extract the file and create a new folder <code>go</code> under <code>/usr/local</code> directory.</p>
+
+
+<h1>Add Go binary to your path</h1>
+<p>To work with Go, you need to add path to the environment variable. Run the following command:</p>
+<pre>
+export PATH=$PATH:/usr/local/go/bin
+</pre>
+
+
+<h1>Testing a File</h1>
+<p>Create a directory called <code>GoPlayground</code> and change your directory to the newly created directory</p>
+<pre>
+mkdir GoPlayground
+cd GoPlayground
+</pre>
+<p>Under the directory create a file <code>demo.go</code> and paste the following code:</p>
+<pre>
+package main
+
+import "fmt"
+
+func main() {
+	fmt.Printf("hello, world\n")
+}
+</pre>
+<p>Then build it with the go tool:</p>
+<pre>
+go build demo.go
+</pre>
+<p>The command above will build an executable named demo in the current directory alongside your source code. Execute it to see the greeting:</p>
+<pre>
+./demo
+</pre>
+<p>It will produce the following output:</p>
+<pre>
+hello, world
+</pre>
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

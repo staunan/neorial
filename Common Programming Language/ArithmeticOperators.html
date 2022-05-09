@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Arithmetic Operators</title>
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
+	<script type="text/javascript" src="../Assets/jquery.min.js"></script>
+	<link rel="stylesheet" href="../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+<h1>Arithmetic Operators</h1>
+<p>Arithmetic Operators are those which are used to calculate arithmetic operaton like addition, subtraction, multiplication etc. They are learnt in school. They always works on number.</p>
+<p>In most programming language the following arithmetic operators are always available -</p>
+<ul>
+	<li><code>+</code> - This is called <code>Addition Operator</code>. It adds two number. and return the result.</li>
+	<li><code>-</code> - This is called <code>Subtraction Operator</code>. It subtract one number from another and then returns it.</li>
+	<li><code>*</code> - This is called <code>Multiplication Operator</code>. It multiply first number with the second number and returns it.</li>
+	<li><code>/</code> - This is called <code>Division Operator</code>. It divides first number with the second number and returns it.</li>
+	<li><code>%</code> - This is called <code>Moduler Division Operator</code> or <code>Reminder Operator</code>. It returns the reminder after doing division of two number.</li>
+	<li><code>-</code> - Negation Operator. Turns positive number into negative number or turns negative number into positive number and returns it.</li>
+	<li><code>++</code> - This is called <code>Increment Operator</code>. It increments variable by one and then returns it.</li>
+	<li><code>--</code> - This is called <code>Decrement Operator</code>. It decrements variable by one and then returns it.</li>
+</ul>
+
+
+<h1>Addition Operator</h1>
+<p>This operator takes two operand and sums up and then returns the result.</p>
+<pre>
+5 + 7     // 12
+-5 + 7    // 2
+-5 + -7   // -12
+a + b
+x + y 
+</pre>
+<pre>
+let a = 30;
+let b = 10;
+let c = a + b;
+console.log(c);                 // 40
+</pre>
+
+
+
+<h1>Subtraction Operator</h1>
+<p>This operator takes two operand and subtracts the second number from first number and then returns it.</p>
+<pre>
+9 - 2          // 7
+-7 - 8         // -15
+19 - 23        // -4
+15 - 10        // 5
+x - y
+a - a          // 0
+</pre>
+<pre>
+let a = 30;
+let b = 10;
+let c = a - b;
+console.log(c);                 // 20
+</pre>
+
+
+
+
+
+
+<h1>Multiplication Operator</h1>
+<p>This operator takes two operand and multiply two numbers and then returns it.</p>
+<pre>
+2 * 7              // 14
+6 * -6             // -36
+-6 * -6            // 36
+5 * 0              // 0
+a * b              
+</pre>
+<pre>
+let a = 30;
+let b = 10;
+let c = a * b;
+console.log(c);                 // 300
+</pre>
+
+
+
+<h1>Division Operator</h1>
+<p>This operator takes two operand and multiply two numbers and then returns it. But the result varies in differnt language. In some language if you divide integer number with integer number, the result will be integer too. If the result yeilds to floating number, then the fraction part gets truncated. While in other language, if the result yields to float value, then the float value is returned.</p>
+<p>For example in C programming language -</p>
+<pre>
+5 / 2                // 2
+</pre>
+<p>And in JavaScript -</p>
+<pre>
+5 / 2                // 2.5
+x / y
+</pre>
+<pre>
+let a = 30;
+let b = 10;
+let c = a / b;
+console.log(c);                 // 3
+</pre>
+
+
+
+
+
+<h1>Modular Division Operator</h1>
+<p>Modular division operator is also called Reminder Operator as it returns the reminder of division. While the Division operator returns the result, Reminder operator returns the reminder.</p>
+<pre>
+5 % 2           // 1
+4 % 2           // 0
+53 % 7          // 4
+a % b
+</pre>
+<pre>
+let a = 30;
+let b = 10;
+let c = a % b;
+console.log(c);                 // 0
+</pre>
+
+
+
+
+
+<h1>Negation Operator</h1>
+<p>The Negation operator <code>-</code> same as Subtraction operator. But difference is how many operand the operator is applied to. If you apply <code>-</code> operator to two operand it becomes subtraction operator and if you apply to one operand it becomes Negation operator. Negation Operation is a Unary Operator as it takes only one operand and Subtraction Operator is called Binary Operator as it takes two operand.</p>
+<p>The following example turns positive number to negative number -</p>
+<pre>
+let a = 30;
+a = -a;
+console.log(a);          // -30
+</pre>
+<p>The following example turns negative number to positive number -</p>
+<pre>
+let a = -30;
+a = -a;
+console.log(a);          // 30
+</pre>
+<p>You can also apply to number directly -</p>
+<pre>
+-30               // -30
+-(-30)            // 30
+</pre>
+<p>Here parenthesis is required. If you don't use parenthesis, then it becomes <code>--30</code> which means <code>Prefix Decrement Operator</code> which you will learn later.</p>
+
+
+
+
+
+
+<h1>Increment Operator</h1>
+<p>Increment Operator increments variable by one and then returns it.</p>
+<pre>
+let a = 30, b = -20;
+a++;
+console.log(a);         // 31
+b++;
+let c = a++;            
+console.log(b);         // -19
+console.log(c);         // 31
+console.log(a);         // 32
+</pre>
+<p>Unlinke any other arithmetic operator it cannot be used directly on number. So the followings are invalid -</p>
+<pre>
+console.log(30++);             // Error
+console.log(-30++);            // Also Error
+</pre>
+<p>The following two are equivalent -</p>
+<pre>
+let a = 30;
+a = a + 1;
+
+
+
+let a = 30;
+a++;
+</pre>
+
+
+
+
+
+<h1>Decrement Operator</h1>
+<p>Decrement Operator decrements the variable by one and then returns it.</p>
+<pre>
+let a = 30, b = -10;
+a--;
+console.log(a);           // 29
+b--;
+let c = a--;              
+console.log(b);           // -11
+console.log(c);           // 29
+console.log(a);           // 28
+</pre>
+<p>Just like Increment operator you cannot use this operator directly on numbers. It will result an error.</p>
+<p>The followings two are equivalent -</p>
+<pre>
+let a = 30;
+a--;
+
+
+let a = 30;
+a = a - 1;
+</pre>
+
+
+
+
+
+
+
+<h1>Postfix and Prefix Notation</h1>
+<p>The Increment and Decrement operator comes in two variation. One is Postfix Notation and another is Prefix Notation. In Postfix notation the operator is written after the operand and in Prefix notation the operator is written before the operand.</p>
+<pre>
+--a;      // Prefix Form
+--b;      // Prefix Form
+
+
+a++;      // Postfix Form
+b++;      // Postfix Form
+</pre>
+<p>In the above example, you won't see any difference as the there are no other expression. The whole statement is about incrementing and decrementing values. But if you use them with other expression the Postfix and Prefix Form acts differently.</p>
+<p>Prefix Increment first increment the variable and then the returned value is used in the expression. While Postfix form of the Increment operator increment the operator after the value is used within the expression. The same logic goes for Decrement operator too.</p>
+<p>Consider the following example -</p>
+<pre>
+let a = 30, b = 20;
+let c = a + b++;
+console.log(c);            // 50
+
+
+let x = 30, y = 20;
+let z = x + ++y;
+console.log(z);            // 51
+</pre>
+<p>In the first example, we have used Postfix notation. It means the value is used first so <code>a+b</code> is performed first which is <code>30+20</code> becomes <code>50</code> and then the value is stored in the variable <code>c</code>, and after the whole operation, the <code>b</code> is incremented by one.</p>
+<p>In the second example, we have used Prefix notation. It means the value is incremented first and then the value will be used in the expression. So <code>++y</code> is performed first which result <code>21</code> and then the addtion of <code>x+y</code> which is <code>30+21</code> is performed which results <code>51</code></p>
+<p>The same logic is applied to decrement operator.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

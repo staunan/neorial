@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Promise</title>
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+	<script type="text/javascript" src="../../Assets/prism.min.js"></script>
+	<script type="text/javascript" src="../../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+<h1>Promise</h1>
+<p>Imagine that you’re a top singer, and fans ask day and night for your upcoming single.</p>
+<p>To get some relief, you promise to send it to them when it’s published. You give your fans a list to which they can subscribe for updates. They can fill in their email addresses, so that when the song becomes available, all subscribed parties instantly receive it. And even if something goes very wrong, say, if plans to publish the song are cancelled, they will still be notified.</p>
+<p>Everyone is happy, because the people don’t crowd you any more, and fans, because they won’t miss the single. This is a real-life analogy for things we often have in programming:</p>
+<ul>
+	<li>A “producing code” that does something and takes time. For instance, the code loads a remote script. That’s a “singer”.</li>
+	<li>A “consuming code” that wants the result of the “producing code” once it’s ready. Many functions may need that result. These are the “fans”.</li>
+	<li>A promise is a special JavaScript object that links the “producing code” and the “consuming code” together. In terms of our analogy: this is the “subscription list”. The “producing code” takes whatever time it needs to produce the promised result, and the “promise” makes that result available to all of the subscribed code when it’s ready.</li>
+</ul>
+<p>The analogy isn’t terribly accurate, because JavaScript promises are more complex than a simple subscription list: they have additional features and limitations. But it’s fine to begin with.</p>
+<p>The constructor syntax for a promise object is:</p>
+<pre>
+let promise = new Promise(function(resolve, reject) {
+  // executor (the producing code, "singer")
+});
+</pre>
+<p>The function passed to <code>new Promise</code> is called the <code>Executor</code>. When the promise is created, this executor function runs automatically. It contains the producing code, that should eventually produce a result. In terms of the analogy above: the executor is the “singer”.</p>
+<p>The resulting <code>promise</code> object has internal properties:</p>
+<ul>
+	<li><code>state</code> — initially “pending”, then changes to either “fulfilled” or “rejected”,</li>
+	<li><code>result</code> — an arbitrary value of your choosing, initially <code>undefined</code>.</li>
+</ul>
+<p>When the executor finishes the job, it should call one of the functions that it gets as arguments:</p>
+<ul>
+	<li>
+		<code>resolve</code>(value) — to indicate that the job finished successfully:
+		<ul>
+			<li>sets <code>state</code> to "fulfilled",</li>
+			<li>sets <code>result</code> to <code>value</code>.</li>
+		</ul>
+	</li>
+	<li>
+		<code>reject</code>(error) — to indicate that an error occurred:
+		<ul>
+			<li>sets <code>state</code> to "rejected",</li>
+			<li>sets <code>result</code> to <code>error</code>.</li>
+		</ul>
+	</li>
+</ul>
+<img src="../Assets/img/promise-resolve-reject.png">
+<p>Later we’ll see how these changes become known to “fans”.</p>
+<p>Here’s an example of a Promise constructor and a simple executor function with its “producing code” (the <code>setTimeout</code>):</p>
+<pre>
+let promise = new Promise(function(resolve, reject) {
+  // the function is executed automatically when the promise is constructed
+
+  // after 1 second signal that the job is done with the result "done!"
+  setTimeout(() => resolve("done!"), 1000);
+});
+</pre>
+<p>We can see two things by running the code above:</p>
+<ul>
+	<li>The executor is called automatically and immediately (by the <code>new Promise</code>).</li>
+	<li>The executor receives two arguments: <code>resolve</code> and <code>reject</code> — these functions are pre-defined by the JavaScript engine. So we don’t need to create them. Instead, we should write the executor to call them when ready.</li>
+</ul>
+<p>After one second of “processing” the executor calls <code>resolve("done")</code> to produce the result:</p>
+<img src="../Assets/img/promise-resolve-1.png">
+<p>That was an example of a successful job completion, a “fulfilled promise”. And now an example of the executor rejecting the promise with an error:</p>
+<pre>
+let promise = new Promise(function(resolve, reject) {
+  // after 1 second signal that the job is finished with an error
+  setTimeout(() => reject(new Error("Whoops!")), 1000);
+});
+</pre>
+<img src="../Assets/img/promise-reject-1.png">
+<p>To summarize, the executor should do a job (something that takes time usually) and then call <code>resolve</code> or <code>reject</code> to change the state of the corresponding <code>Promise</code> object.</p>
+<p>The Promise that is either resolved or rejected is called <code>“Settled”</code>, as opposed to a <code>“Pending”</code> Promise.</p>
+<h3>There can be only a single result or an error</h3>
+<p>The executor should call only one <code>resolve</code> or <code>reject</code>. The promise’s state change is final. All further calls of <code>resolve</code> and <code>reject</code> are ignored:</p>
+<pre>
+let promise = new Promise(function(resolve, reject) {
+  resolve("done");
+
+  reject(new Error("…")); // ignored
+  setTimeout(() => resolve("…")); // ignored
+});
+</pre>
+<h3>Reject with Error objects</h3>
+<p>In case if something goes wrong, we can call <code>reject</code> with any type of argument (just like <code>resolve</code>). But it is recommended to use <code>Error</code> objects (or objects that inherit from Error). The reasoning for that will soon become apparent.</p>
+<h3>Immediately calling resolve/reject</h3>
+<p>In practice, an executor usually does something asynchronously and calls <code>resolve</code>/<code>reject</code> after some time, but it doesn’t have to. We also can call <code>resolve</code> or <code>reject</code> immediately, like this:</p>
+<pre>
+let promise = new Promise(function(resolve, reject) {
+  // not taking our time to do the job
+  resolve(123); // immediately give the result: 123
+});
+</pre>
+<p>For instance, this might happen when we start to do a job but then see that everything has already been completed. That’s fine. We immediately have a resolved Promise, nothing wrong with that.</p>
+<h3>The state and result are internal</h3>
+<p>The properties <code>state</code> and <code>result</code> of the <code>Promise</code> object are internal. We can’t directly access them from our “consuming code”. We can use the methods <code>.then</code>/<code>.catch</code> for that. They are described below.</p>
+
+
+
+
+
+
+
+<h1>Consumers: “then” and “catch”</h1>
+<p>A Promise object serves as a link between the executor (the “producing code” or “singer”) and the consuming functions (the “fans”), which will receive the result or error. Consuming functions can be registered (subscribed) using the methods <code>.then</code> and <code>.catch</code>.</p>
+<p>The syntax of <code>.then</code> is:</p>
+<pre>
+promise.then(
+  function(result) { /* handle a successful result */ },
+  function(error) { /* handle an error */ }
+);
+</pre>
+<p>The first argument of <code>.then</code> is a function that:</p>
+<ul>
+	<li>runs when the Promise is resolved, and</li>
+	<li>receives the result.</li>
+</ul>
+<p>The second argument of <code>.then</code> is a function that:</p>
+<ul>
+	<li>runs when the Promise is rejected, and</li>
+	<li>receives the error.</li>
+</ul>
+<p>For instance, here’s the reaction to a successfuly resolved promise:</p>
+<pre>
+let promise = new Promise(function(resolve, reject) {
+  setTimeout(() => resolve("done!"), 1000);
+});
+
+// resolve runs the first function in .then
+promise.then(
+  result => alert(result), // shows "done!" after 1 second
+  error => alert(error) // doesn't run
+);
+</pre>
+<p>The first function was executed. And in the case of a rejection – the second one:</p>
+<pre>
+let promise = new Promise(function(resolve, reject) {
+  setTimeout(() => reject(new Error("Whoops!")), 1000);
+});
+
+// reject runs the second function in .then
+promise.then(
+  result => alert(result), // doesn't run
+  error => alert(error) // shows "Error: Whoops!" after 1 second
+);
+</pre>
+<p>If we’re interested only in successful completions, then we can provide only one function argument to <code>.then</code>:</p>
+<pre>
+let promise = new Promise(resolve => {
+  setTimeout(() => resolve("done!"), 1000);
+});
+
+promise.then(alert); // shows "done!" after 1 second
+</pre>
+<p>If we’re interested only in errors, then we can use <code>null</code> as the first argument: <code>.then(null, errorHandlingFunction)</code>. Or we can use <code>.catch(errorHandlingFunction)</code>, which is exactly the same:</p>
+<pre>
+let promise = new Promise((resolve, reject) => {
+  setTimeout(() => reject(new Error("Whoops!")), 1000);
+});
+
+// .catch(f) is the same as promise.then(null, f)
+promise.catch(alert); // shows "Error: Whoops!" after 1 second
+</pre>
+<p>The call <code>.catch(f)</code> is a complete analog of <code>.then(null, f)</code>, it’s just a shorthand.</p>
+<h3>On settled promises then runs immediately</h3>
+<p>If a promise is pending, <code>.then/catch</code> handlers wait for the result. Otherwise, if a promise has already settled, they execute immediately:</p>
+<h3>Handlers of .then/.catch are always asynchronous</h3>
+<p>Even when the Promise is immediately resolved, code which occurs on lines below your <code>.then/.catch</code> may still execute first. The JavaScript engine has an internal execution queue which gets all <code>.then/catch</code> handlers. But it only looks into that queue when the current execution is finished.</p>
+<p>In other words, <code>.then/catch</code> handlers are pending execution until the engine is done with the current code.</p>
+<pre>
+// an "immediately" resolved Promise
+const executor = resolve => resolve("done!");
+const promise = new Promise(executor);
+
+promise.then(alert); // this alert shows last (*)
+
+alert("code finished"); // this alert shows first
+</pre>
+<p>The promise becomes settled immediately, but the engine first finishes the current code, calls alert, and only afterwards looks into the queue to run <code>.then</code> handler.</p>
+<p>So the code after <code>.then</code> ends up always running before the Promise’s subscribers, even in the case of an immediately-resolved Promise.</p>
+<p>Usually that’s unimportant, but in some scenarios the order may matter a great deal.</p>
+<p>Next, let’s see more practical examples of how promises can help us to write asynchronous code.</p>
+
+
+
+
+
+
+
+
+
+
+<h1>Example: loadScript</h1>
+<p>We’ve got the loadScript function for loading a script from the previous chapter. Here’s the callback-based variant, just to remind us of it:</p>
+<pre>
+function loadScript(src, callback) {
+  let script = document.createElement('script');
+  script.src = src;
+
+  script.onload = () => callback(null, script);
+  script.onerror = () => callback(new Error(`Script load error ` + src));
+
+  document.head.append(script);
+}
+</pre>
+<p>Let’s rewrite it using Promises. The new function <code>loadScript</code> will not require a callback. Instead, it will create and return a Promise object that resolves when the loading is complete. The outer code can add handlers (subscribing functions) to it using <code>.then</code>:</p>
+<pre>
+function loadScript(src) {
+  return new Promise(function(resolve, reject) {
+    let script = document.createElement('script');
+    script.src = src;
+
+    script.onload = () => resolve(script);
+    script.onerror = () => reject(new Error("Script load error: " + src));
+
+    document.head.append(script);
+  });
+}
+</pre>
+<p>Usage:</p>
+<pre>
+let promise = loadScript("https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.2.0/lodash.js");
+
+promise.then(
+  script => alert(`${script.src} is loaded!`),
+  error => alert(`Error: ${error.message}`)
+);
+
+promise.then(script => alert('One more handler to do something else!'));
+</pre>
+<p>We can immediately see a few benefits over the callback-based pattern:</p>
+<ul>
+	<li>Promises allow us to do things in the natural order. First, we run <code>loadScript</code>, and <code>.then</code> we write what to do with the result.</li>
+	<li>We can call <code>.then</code> on a Promise as many times as we want. Each time, we’re adding a new “fan”, a new subscribing function, to the “subscription list”. More about this in the next section: Promise Chaining.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

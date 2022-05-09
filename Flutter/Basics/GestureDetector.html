@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>GestureDetector</title>
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+	<script type="text/javascript" src="../../Assets/prism.min.js"></script>
+	<script type="text/javascript" src="../../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+<h1>GestureDetector Widget</h1>
+<p>A widget that detects gestures. If you want your widget to respond on user interaction simply wrap the widget within <CODE>GestureDetector</CODE> widget and assign the callback method to its particular arguments.</p>
+<p>By default a GestureDetector with an invisible child ignores touches; this behavior can be controlled with <code>behavior</code>.</p>
+<p>GestureDetector also listens for accessibility events and maps them to the callbacks. To ignore accessibility events, set <code>excludeFromSemantics</code> to true.</p>
+<pre>
+Container(
+  alignment: FractionalOffset.center,
+  color: Colors.white,
+  child: Column(
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: &lt;Widget>[
+      Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Icon(
+          Icons.lightbulb_outline,
+          color: _lights ? Colors.yellow.shade600 : Colors.black,
+          size: 60,
+        ),
+      ),
+      GestureDetector(
+        onTap: () {
+          setState(() {
+            _lights = true;
+          });
+        },
+        child: Container(
+          color: Colors.yellow.shade600,
+          padding: const EdgeInsets.all(8),
+          child: const Text('TURN LIGHTS ON'),
+        ),
+      ),
+    ],
+  ),
+)
+</pre>
+<video width="200" height="200" loop controls autoplay="autoplay">
+	<source src="../../Assets/flutter/gesture_detector.mp4" type="video/mp4">
+</video>
+<p>Here are some arguments you can use:</p>
+<ul>
+	<li><code>behavior</code>: How this gesture detector should behave during hit testing.</li>
+	<li><code>excludeFromSemantics</code>: Whether to exclude these gestures from the semantics tree. For example, the long-press gesture for showing a tooltip is excluded because the tooltip itself is included in the semantics tree directly and so having a gesture to show it would result in duplication of information.</li>
+</ul>
+
+
+
+<p>Here are some popular guesture are listed below:</p>
+<ul>
+	<li><code>onTap</code>: A tap with a primary button has occurred.</li>
+	<li><code>onDoubleTap</code>: The user has tapped the screen with a primary button at the same location twice in quick succession.</li>
+	<li><code>onLongPress</code>: Called when a long press gesture with a primary button has been recognized.</li>
+	<li><code>onLongPressEnd</code>: A pointer that has triggered a long-press with a primary button has stopped contacting the screen.</li>
+</ul>
+<p>To know more guesture <a target="_blank" href="https://api.flutter.dev/flutter/widgets/GestureDetector-class.html">click here</a>.</p>
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

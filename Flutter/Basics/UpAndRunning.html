@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Up and Running</title>
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+	<script type="text/javascript" src="../../Assets/prism.min.js"></script>
+	<script type="text/javascript" src="../../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+<h1>Start Flutter</h1>
+<p>Go to the flutter installation folder where the Flutter is installed. In my machine the flutter is installed within the <code>Development</code> directory.</p>
+<pre>
+cd Development
+export PATH="$PATH:`pwd`/flutter/bin"
+flutter --version
+</pre>
+<p>The above command starts flutter.</p>
+
+<h1>Create a New Flutter App</h1>
+<pre>
+Open VSCode
+Invoke "View > Command Palette"
+Type "Flutter: New Project"
+Give a name to the project
+Choose the project directory where you want to save your project
+</pre>
+
+<h1>Hello World</h1>
+<p>Open <code>lib/main.dart</code> file and delete everything. Then paste the following code. The following example is a basic "Hello World" example.</p>
+<pre>
+import 'package:flutter/material.dart';
+
+void main() => runApp(new HelloWorldApp());
+
+class HelloWorldApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return new MaterialApp(
+      home: new Material(
+        child: new Center(
+          child: new Text("Mr. Crazy!"),
+        ),
+      ),
+    );
+  }
+}
+</pre>
+
+<h1>Running the App</h1>
+<p>Go to your project directory in the terminal and then run the following command:</p>
+<pre>
+flutter run
+</pre>
+<p>This command will do everything and makes the app running on your phone device after a few while. If you make any changes to the file and want to see the effect instantly press <code>r</code> to hot reload and <code>R</code> to hot restart.</p>
+
+
+<h1>Details : Hello World</h1>
+<h2>Importing a package</h2>
+<pre>
+import 'package:flutter/material.dart';
+</pre>
+<p>In Flutter almost everything is a widget, widgets are the building blocks of Flutter apps, and luckily a variety of widgets are offered by Flutter: Buttons, input fields, lists, tables, dialogs, tab bars, card views, … You name it! Here we’re importing the library <code>material.dart</code> containing a rich set of material widgets that implement the material design guidelines.</p>
+
+<h2>main()</h2>
+<pre>
+void main() => runApp(new HelloWorldApp());
+</pre>
+<p>The <code>main</code> function acts as an entry point of the app. When an app starts it first calls the <code>main</code> method.</p>
+
+<h2>runApp()</h2>
+<p>Here is the definition of the <code>runApp()</code> method.</p>
+<pre>
+void runApp(Widget app) {
+  // ---
+}
+</pre>
+<p>The <code>runApp</code> method returns nothing. And it takes a widget as a parameter. This widget is used to draw the screen. It fills the entire screen by default. If you wish to align your widget to one side of the screen (e.g., the top), consider using the <code>Align</code> widget. If you wish to center your widget, you need to use the <code>Center</code> widget.</p>
+<p>Calling <code>runApp</code> again will detach the previous root widget from the screen and attach the given widget in its place. The new widget tree is compared against the previous widget tree and any differences are applied to the underlying render tree, similar to what happens when a <code>StatefulWidget</code> rebuilds after calling <code>State.setState</code>.</p>
+
+<h2>Creating Widget</h2>
+<p>The above method <code>runApp()</code> takes a widget as a parameter which will be used to draw on the entire screen. And that's why we need to provide a widget to the <code>runApp()</code> method. We are doing this by creating a widget on our own. And then passing an instance of that widget to the method <code>runApp()</code>.</p>
+<pre>
+class HelloWorldApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return new MaterialApp(
+      home: new Material(
+        child: new Center(
+          child: new Text("Mr. Crazy!"),
+        ),
+      ),
+    );
+  }
+}
+</pre>
+<p>The above code is used to create a new widget. The class extends the <code>StatelessWidget</code>. But why? In Flutter you can create two types of widget.</p>
+<ul>
+	<li>Stateless Widget</li>
+	<li>Stateful Widget</li>
+</ul>
+<p>Stateless widgets are those who do not requires any type of variable or states to keep its local data which might be changed later. On the other hand, stateful widgets are those who keeps its private data or states.</p>
+<p>In the example above we don't have any data to store. And that's why are are extending <code>StatelessWidget</code> to create a stateless widget.</p>
+
+<h2>build()</h2>
+<p>When you are creating layouts you need to define the structure of your layout somewhere in the code. And the predefined method of <code>StatelessWidget</code> class is the place where you need to define that. On the other hand, this method describes the part of the user interface represented by this widget. This method is predefined in the <code>StatelessWidget</code> class and our derived class must override it. This method must return the definition of the widget, or the structure of the UI.</p>
+<p>The widget that are are returning is:</p>
+<pre>
+new MaterialApp(
+  home: new Material(
+    child: new Center(
+      child: new Text("Mr. Crazy!"),
+    ),
+  ),
+);
+</pre>
+
+<h2>The Structure</h2>
+<p>In the structure, firstly we are creating a new instance of <code>MaterialApp</code>. But why? In Flutter Material app, most of the time you will be writting this code very often. This code does a lots of job and one of the primary material widget. By creating this widget we are creating a material app and wrapping its core functionality within the app. There are a lot of core stuff, or technical stuff which requires a low level dart concept to deal with. These technical solution and common workaround is wrapped within the material design so that the developer doesn't have to write everything from the scratch. Instead of reinventing the wheel the developer can focus on writting app rather than dealing with these common stuff everytime they write an app. For example, the localization, the direction of text, AnimatedTheme, GridPaper and other numerous thinigs already set by this widget so you don't need to care for all these stuff.</p>
+<p>This widget takes a lots of named parameter which you will learn as we walk through the tutorial. In the above example, there is only one named parameter called <code>home</code> which is assigned with another widget. But first let's see what <code>home</code> parameter is doin' here?</p>
+<p>The <code>MaterialApp</code> widget configures top level <code>Navigator</code> widget. In other words, the <code>MaterialApp</code> extends the core <code>Navigator</code> widget and modifies its functionality. This gives us the functionality to create a routing mechanism of multiple pages. The <code>home</code> named parameter is used to specify the layout of the first page that will be appeared when the app starts. So this parameter specifies the home page.</p>
+<p>And the following is the structure of our home page:</p>
+<pre>
+new Material(
+	child: new Center(
+	  child: new Text("Mr. Crazy!"),
+	),
+),
+</pre>
+<p>Our home page starts with <code>Material</code> wrapper Widget. This widget is used to tell flutter that we are going to use material guidelines. This widget does a few things to make the UI looks better and pleasing. For example, it configures the Clipping, Elevation, Ink Effects etc. These are very low level stuff that deals with pixel. You can learn these things later or leave it completely. Just remember to use the <code>Material</code> widget as the parent widget whenever you are going to use any widget that has material look and feel and functionality. It's like a <code>Container</code> widget in native flutter.</p>
+
+<p>The <code>Material</code> wrapper widget has one child widget which is <code>Center</code>. It places its content to the center. Now <code>Center</code> widget contains one chlild widget which is called <code>Text</code> widget. The <code>Text</code> widget is used to show a piece of text on the screen.</p>
+
+<p>Note that the above example uses <code>new</code> operator to ceate a new widget instance. But this is totally optional. So the following example is valid:</p>
+<pre>
+class HelloWorldApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Material(
+        child: Center(
+          child: Text("Mr. Crazy!"),
+        ),
+      ),
+    );
+  }
+}
+</pre>
+
+
+
+
+<h1>Summary</h1>
+<p>In this tutorial you have learnt :</p>
+<ul>
+	<li>How to start Flutter</li>
+	<li>How to create a Flutter app</li>
+	<li>Example : Hello World</li>
+	<li>Details : Hello World</li>
+</ul>
+
+
+
+</div>
+</body>
+</html>
+

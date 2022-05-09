@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Drag and Drop</title>
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
+	<script type="text/javascript" src="../../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+
+
+<h1>Drag and Drop Algorithm</h1>
+<p>The basic Drag’n’Drop algorithm looks like this:</p>
+<ul>
+	<li>Catch <code>mousedown</code> on a draggable element.</li>
+	<li>Prepare the element to moving (maybe create a copy of it or whatever).</li>
+	<li>Then on mousemove move it by changing <code>left</code>/<code>top</code> and <code>position:absolute</code>.</li>
+	<li>On mouseup (button release) – perform all actions related to a finished Drag’n’Drop.</li>
+</ul>
+<p>Here is an example -</p>
+<style type="text/css">
+.ballRoom1{
+	height: 100px;
+	border: 1px solid #333;
+	position: relative;
+}
+#ball1{
+	position: absolute;
+	top: 0;
+	left: 0;
+	cursor: pointer;
+	z-index: 1000;
+}
+</style>
+<div class="box">
+<div class="ballRoom1">
+	<img id="ball1" src="../Assets/img/ball.svg"></img>
+</div>
+<script type="text/javascript">
+ball1.onmousedown = function(event) {
+  document.body.append(ball1);
+  moveAt(event.pageX, event.pageY);
+  function moveAt(pageX, pageY) {
+    ball1.style.left = pageX + 'px';
+    ball1.style.top = pageY + 'px';
+  }
+  function onMouseMove(event) {
+    moveAt(event.pageX, event.pageY);
+  }
+  document.addEventListener('mousemove', onMouseMove);
+  ball1.onmouseup = function() {
+    document.removeEventListener('mousemove', onMouseMove);
+    ball1.onmouseup = null;
+  };
+};
+</script>
+</div>
+
+
+
+
+<h1>Will be continued...</h1>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

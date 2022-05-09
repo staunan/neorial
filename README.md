@@ -1,2 +1,2 @@
-# neorial
-Tutorials of many languages
+# Neorial
+Doc

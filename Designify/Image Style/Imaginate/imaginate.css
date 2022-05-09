@@ -1,0 +1,22 @@
+.animated{
+	animation-duration: .5s !important;
+}
+.Image-Overlay {
+  position: relative;
+}
+.Image-Overlay--Image {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.Image-Overlay--Overlay {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #008CBA;
+  overflow: hidden;
+  width: 100%;
+  height:100%;
+  display: none;
+}

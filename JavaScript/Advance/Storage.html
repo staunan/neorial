@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Storage</title>
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
+	<script type="text/javascript" src="../../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+<h1>Storage</h1>
+<p>In this article we will learn about Javascript storage. In JS you can store data in various way. They are -</p>
+<ul>
+	<li>In App Variables</li>
+	<li>Web Storage</li>
+	<li>Coockies</li>
+	
+</ul>
+
+<h1>In App Variables</h1>
+<p>Every programming language has a fundamental feature to declare variable. And this is one of the way in Javascript to store variable. Well, everyone who codes JS, must use this way. Without this approach you cannot code JS. This is so fundamental and basic feature that everyone knows about it.</p>
+<p>You can declare variable and store your desired data within it. You use either <code>let</code> or <code>var</code> keyword to declare variable. The recommended keyword is <code>let</code>.</p>
+<pre>
+var variable1 = "Some Data";
+let variable2 = ['Apple', 'Banana'];
+var obj = {'name' : "Santanu Bera", 'roll' : 36};
+</pre>
+<h3>Advantages</h3>
+<ul>
+	<li>Easy to Use. Easily declare, store and retrive of the data.</li>
+	<li>You can store huge amount of data. As long as your RAM can hold. It comes in GB. But if you store that amount of data, say, more than one GB, you might see a little big of slow performance on the browser.</li>
+</ul>
+<h3>Disadvantages</h3>
+<li>Data gets lost when you refresh the page. Or if you move from one page to another.</li>
+
+
+<h1>Web Storage</h1>
+<p>Another modern way to store data is Web Storage. This way you can store data within the browser. It is not document specific. That means when you reload the page, the data is still persisted. This feature is new addition to HTML5. Before HTML5, people have to store their data within coockies. Though coockies has some disadvantage, we will cover about cookies later.</p>
+<p>Web Storage is domain specific. It means one domain cannot access another domains local storage. All pages, from one origin, can store and access the same data. It means your data is secure from other domain.</p>
+<p>Another great advantage of the localStorage is that you can store upto 5mb of data with it. (And you call it great advantage?). Though the size depends on the browser itself.</p>
+
+<p>Web Storage has two types -</p>
+<ul>
+	<li>Local Storage</li>
+	<li>Session Storage</li>
+</ul>
+<p>Before you use Local Storage, let's check if your browser supports this storage system -</p>
+<pre>
+if (typeof(Storage) === "undefined") {
+    // Your browser doesn't support Loacal Storage
+} else {
+    // Congratulation ! you can use Local Storage
+}
+</pre>
+
+<h2>Local Storage</h2>
+<p>The <code>localStorage</code> object stores the data with no expiration date. The data will not be deleted when the browser is closed, and will be available the next day, week, or year.</p>
+<h4>Store and Retrive</h4>
+<pre>
+// Storing Data --
+// lastname is the key and Smith is the value.
+localStorage.setItem("lastname", "Smith");
+// Retrieving Data --
+localStorage.getItem('lastname');
+</pre>
+<p>You can also do it directly instead of using methods -</p>
+<pre>
+localStorage.lastname = "Smith";
+localStorage.lastname;
+</pre>
+<h4>Remove Item</h4>
+<p>If you want to remove a key from the localStorage you can use <code>removeItem(keyName)</code> -</p>
+<pre>
+localStorage.removeItem('lastname');
+</pre>
+<p>Another important point to note that, <code>localStorage</code> always stores data in <code>String</code> format. You cannot store object, array, number. Only string. I know it sucks. But hey, you can convert them. (Still, it sucks !)</p>
+<h4>Check if there is a Key exists in the localStorage</h4>
+<pre>
+if(localStorage.getItem('key') === null){
+	// Doesn't exist
+}else{
+	// Exist
+}
+</pre>
+<h4>Example</h4>
+<p>Consider the following simple snippet and reload the page. You can see on every reload, the counter get's incremented by one -</p>
+<pre>
+if (localStorage.getItem('counter') === null) {
+	localStorage.setItem('counter', "1");
+	document.getElementById('example1').innerHTML = "Counter = " + localStorage.getItem('counter');
+}else{
+	localStorage.setItem('counter', parseInt(localStorage.getItem('counter')) + 1);
+	document.getElementById('example1').innerHTML = "Counter = " + localStorage.getItem('counter');
+}
+</pre>
+<div class="box">
+	<div id="example1"></div>
+</div>
+<script>
+if (localStorage.getItem('counter') === null) {
+	localStorage.setItem('counter', "1");
+	document.getElementById('example1').innerHTML = "Counter = " + localStorage.getItem('counter');
+}else{
+	localStorage.setItem('counter', parseInt(localStorage.getItem('counter')) + 1);
+	document.getElementById('example1').innerHTML = "Counter = " + localStorage.getItem('counter');
+}
+</script>
+
+<h2>Session Storage</h2>
+<p>The <code>sessionStorage</code> object is equal to the <code>localStorage</code> object, except that it stores the data for only one session. The data is deleted when the user closes the specific browser tab.</p>
+<p>You can store, retrive or delete a key from the <code>sessionStorage</code> in the same way you do with <code>localStorage</code>. Only difference is that for <code>sessionStorage</code> you will use <code>sessionStorage</code> object. For example -</p>
+<pre>
+sessionStorage.setItem('name', 'Santanu Bera');
+</pre>
+
+
+
+<h1>Coockies</h1>
+<p>In practice, usage of Cookies are very rare. But they can be useful sometimes.</p>
+<div style="background: #333; color: #fff; padding: 10px;">
+	<span>Article is Pending</span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

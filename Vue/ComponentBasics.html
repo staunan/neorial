@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Component - Basics</title>
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+	<script src="../Assets/prism.min.js"></script>
+	<script type="text/javascript" src="../Assets/jquery.min.js"></script>
+    <link rel="stylesheet" href="../Assets/prism-dark.css">
+    <script src="../Assets/vue.js"></script>
+    <script type="text/javascript" src="Assets/ShowAlert.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-icons/3.0.1/iconfont/material-icons.min.css">
+    <link rel="stylesheet" type="text/css" href="Assets/animations.css">
+</head>
+<body class="Body">
+	<div class="Content Card">
+		<show-alert type="error" :active="activeShowAlert" title="This is a title" message="Hello World"></show-alert>
+		<h1>What is Component?</h1>
+		<p>
+			Components are one of the most powerful features of Vue. They help you extend basic HTML elements to encapsulate reusable code. At a high level, components are custom elements that Vue’s compiler attaches behavior to.
+		</p>
+		<p class="tip">
+			All Vue components are also Vue instances, and so accept the same options object (except for a few root-specific options) and provide the same lifecycle hooks.
+		</p>
+
+		<h1>Basic Syntax</h1>
+		<p>
+			<code>Vue.component(tagName, options)</code>
+		</p>
+		<pre>
+			Vue.component('my-component', {
+			  // options
+			});
+		</pre>
+		<p>
+			For example, consider the following simple example -
+		</p>
+		<pre>
+		&lt;div>
+			&lt;my-heading>&lt;/my-heading>
+		&lt;/div>
+
+		Vue.component('my-heading',{
+			template : `
+				&lt;h1>Hello World&lt;/h1>
+			`,
+		});
+		</pre>
+		<p>
+			If you refresh the page and inspect the DOM, the element <code>&lt;my-heading></code> is replaced with <code>&lt;h1>Hello World&lt;/h1></code>. This is simple logic, anything that is inside the <code>template</code> option of Vue component replces the DOM <code>tagName</code>. The template option can be complex as far as it could go. You can build a big component in any way you want. Throughout the tutorial we will learn about many options ane their proper usage.
+		</p>
+
+		<h1>Component Registration</h1>
+		<h2>Global Registration</h2>
+		<p>
+			A component needs to be registered before you the root <code>el</code> element is mounted in the DOM. In simple language, you must define your component before writting the root Vue instance. 
+		</p>
+		<p>
+			When a Vue root instance is mounted, if Vue finds any custom component used inside the <code>el</code> element, Vue will replace the custom component tag name with the Component template option and will do other operation to make the component dynamic and active. That's why component definition should come before Vue start mounting the root instance. If you define your component after the root instance, during the root instance mountation, Vue will be unable to find the component definition at that time, and Vue certainly give you error in the browser console.
+		</p>
+		<pre>
+			&lt;div id="example">
+			  &lt;my-component>&lt;/my-component>
+			&lt;/div>
+
+
+			// register
+			Vue.component('my-component', {
+			  template: '&lt;div>A custom component!&lt;/div>'
+			})
+
+			// create a root instance
+			new Vue({
+			  el: '#example'
+			})
+		</pre>
+		<p>
+			The above example will render the following in the DOM -
+		</p>
+		<pre>
+			&lt;div id="example">
+			  &lt;div>A custom component!&lt;/div>
+			&lt;/div>
+		</pre>
+
+
+		<h2>Local Registration</h2>
+		<p>
+			If you go with the above approach <code>Vue.component(tagname, options)</code>, this way the component is registered globally. It means you can use the component anywhere within the root instance. Also you can use it inside another component.
+		</p>
+		<p>
+			However what if you want to put a scope of a component so that it can only be used in a specific area. For this case, we need to define our component in different way. Here is the syntax -
+		</p>
+		<pre>
+			var Child = {
+			  template: '&lt;div>A custom component!&lt;/div>'
+			};
+		</pre>
+		<p>
+			Here we are creating a component variable which is an object and we can use all the options like we can use it in <code>Vue.component()</code>.
+		</p>
+		<p>
+			Now we can make a component available only in the scope of another instance/component by registering it with the components instance option:
+		</p>
+		<pre>
+			new Vue({
+			  // ...
+			  components: {
+			    // &lt;my-component> will only be available in this component.
+			    'my-component': Child
+			  }
+			});
+		</pre>
+		<p class="tip">
+			You can use components option in multiple component to make the <code>Child</code> component available in multiple component. It means if you want to use this <code>Child</code> component in another component, all you have to do is register the component(like above) with the <code>components</code> options.
+		</p>
+
+
+		<h1>Data Option</h1>
+		<p>
+			Most of the options that can be passed into the Vue constructor can be used in a component, with one special case: <code>data must be a function</code>. In fact, if you try this:
+		</p>
+		<pre v-pre>
+			Vue.component('my-component', {
+			  template: '&lt;span>{{ message }}&lt;/span>',
+			  data: {
+			    message: 'hello'
+			  }
+			});
+		</pre>
+		<p>
+			Then Vue will halt and emit warnings in the console, telling you that data must be a function for component instances. So instead of an object you must provide an option which returns a fresh object. Like the following -
+		</p>
+		<pre v-pre>
+			Vue.component('my-component', {
+			  template: '&lt;span>{{ message }}&lt;/span>',
+			  data: function(){
+			    return {
+					message : 'hello'
+				}
+			  }
+			});
+		</pre>
+		<p class="tip">
+			One thing to remember that every property you have inside the data option is local to this component only. Only this component can use these data properties. It's parent cannot access these properties in any way or even this component cannot access it's parent's data properties. Defining a component means it's states and logic is totally seperate from the other component and even from parent.
+		</p>
+
+
+		<h1>props</h1>		
+		<p>
+			Now you know that, every property is local to the component and a component cannot access it's parent componnet's property. So what if you need to use a parent component's property? The answer is <code>props</code>. It is similar to arguments of a method. You pass the properties to the component so that the component can have it's own copy of parent component's properties. So changing them within the component never update parent component's property. Just like method parameters.
+		</p>
+		<pre v-pre>
+			&lt;div id="example">
+				&lt;my-component v-bind:name="name">&lt;/my-component>
+			&lt;/div>
+
+
+			Vue.component('my-component', {
+			  props : ['name'],
+			  template: '&lt;span> Hello {{ name }}&lt;/span>',
+			});
+			new Vue({
+				el : "#example",
+				data : {
+					name : "Santanu Bera"
+				}
+			});
+		</pre>
+		<p>
+			In the above example, we have defined a component that takes a prop <code>name</code>. Now each prop can be used as attribute in the DOM. So the <code>example</code> element, we have <code>my-component</code> tag and it's attributes are the props. Anyway we are passing a dynamic value of <code>name</code> so we need to bind the prop using <code>v-bind</code> directive. You can have multiple props seperated by comma.
+		</p>
+		<pre>
+			&lt;my-element prop1="value" prop2="value2" prop3="value3">&lt;/my-element>
+
+			props : ['prop1', 'prop2', 'prop3'],
+		</pre>
+		<p class="tip">
+			Each prop must be enclosed within double or single inverted comma.
+		</p>
+
+
+		<h1>Props as an Object</h1>
+		<p>
+			In the above example, we have defined <code>props</code> as an Array. This is the basic, limited and shortcut way. If you want to have more control over your properties you must use object way.
+		</p>
+		<pre>
+		props : {
+			prop1 :{
+				required : true,
+				type : String,
+			},
+			prop2 :{
+				required : false,
+				type : String,
+				default : "Default Value"		
+			},
+			prop3 :{
+				required : true,
+				type : String,
+				default : "Default Value"		
+			}
+		},
+		</pre>
+		<p>There are few things or trips and tricks to remember -</p>
+		<ul>
+			<li>
+				When a prop is not optional <code>required : true</code>, you should not use default value. Because as it is required, the custom element must provide the value to that prop.
+			</li>
+			<li>
+				If a prop has a default value <code>default : value</code>, the value data type must match with the data type given in the <code>type</code> option.
+			</li>
+			<li>
+				If you don't provide <code>type</code> option, by default property type is null. It means it can accept any type of value. You can also provide <code>type: null</code> explicitily but it is the same.
+			</li>
+			<li>
+				If a prop can accept multiple data type you can use array containing the data types. <code>type: [String, Array, Number]</code>. In this case the prop can accept value of type String, Array or Number. If you provide value of data type Boolean or Object, Vue will emit error.
+			</li>
+			<li>
+				The Default value commonly take an literal. But you can provide a custom function that returns the value. But this is very rarely used. For example -
+			<pre>
+			propE: {
+				type: Object,
+				default: function () {
+					return { message: 'hello' }
+				}
+			},
+			</pre> 
+			</li>
+			<li>
+				If you need to validate the property you can use <code>validator</code> option.
+				<pre>
+				propF: {
+					validator: function (value) {
+						return value > 10
+					}
+				}
+				</pre>
+				<p>
+					The validator function must return <code>Boolean</code>. If the returned value is <code>true</code>, the validation check is passed and if the <code>false</code> value is returned, the validation is failed and Vue will emit error in the console.
+				</p>
+				<pre v-pre>
+		&lt;my-component :age="7">&lt;/my-component>
+
+		Vue.component("myComponent",{
+			props : {
+				age : {
+					type : Number,
+					required : true,
+					validator : function(value){
+						return value>18; 
+					}
+				}
+			},
+			template : `
+				&lt;div>
+					Age : {{ age }}
+				&lt;/div>
+			`,
+		});
+				</pre>
+				<p>
+					Note that props are validated before a component instance is created, so within default or validator functions, instance properties such as from data, computed, or methods will not be available.
+				</p>
+			</li>
+		</ul>
+
+		<div class="box">
+			<my-component :age="100"></my-component>
+		</div>
+
+		<p>You can use these type  - </p>
+		<ul>
+			<li><code>String</code></li>
+			<li><code>Number</code></li>
+			<li><code>Boolean</code></li>
+			<li><code>Function</code></li>
+			<li><code>Object</code></li>
+			<li><code>Array</code></li>
+			<li><code>Symbol</code></li>
+		</ul>
+
+		<h1>camelCase vs. kebab-case</h1>
+		<p>
+			We generally use camel-case for property name(myName). And it's corresponding attribute name should be in kebab-case(my-name). Like the following -
+		</p>
+		<pre v-pre>
+		Vue.component('child', {
+			// camelCase in JavaScript
+			props: ['myMessage'],
+			template: '<span>{{ myMessage }}</span>'
+		});
+
+		&lt;!-- kebab-case in HTML -->
+		&lt;child my-message="hello!">&lt;/child>
+		</pre>
+
+		<h1>Dynamic Props</h1>
+		<p>
+			Similar to binding a normal attribute to an expression, we can also use v-bind for dynamically binding props to data on the parent. Whenever the data is updated in the parent, it will also flow down to the child:
+		</p>
+		<pre>
+		&lt;div>
+			&lt;input v-model="parentMsg">
+			&lt;br>
+			&lt;child v-bind:my-message="parentMsg">&lt;/child>
+		&lt;/div>
+		</pre>
+		<p>You can also use the shorthand syntax for <code>v-bind</code>:</p>
+		<pre>
+		&lt;child :my-message="parentMsg">&lt;/child>
+		</pre>
+
+
+	</div>
+	<script>
+		Vue.component("myComponent",{
+			props : {
+				age : {
+					type : Number,
+					required : true,
+					validator : function(value){
+						return value>18; 
+					}
+				}
+			},
+			template : `
+				<div>
+					Age : {{ age }}
+				</div>
+			`,
+		});
+		new Vue({
+			el : ".Content",
+			data : {
+				activeShowAlert : true
+			}
+		});
+	</script>
+</body>
+</html>

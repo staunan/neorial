@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>::first-line</title>
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
+	<script type="text/javascript" src="../../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+<pre>
+article {
+  padding: 20px;
+}
+p {
+  color: #444;
+}
+p:first-line {
+  color: deepskyblue;
+}
+.p2 {
+  color: #444;
+}
+.p2:first-line {
+  color: tomato;
+}
+#p3 {
+  color: #444;
+}
+#p3:first-line {
+  color: firebrick;
+}
+#p4 {
+  color: #444 !important;
+}
+#p4:first-line {
+  color: hotpink;
+}
+
+&lt;article>
+&lt;h2>::first-line vs. tag selector&lt;/h2>
+  &lt;p>This paragraph color is set to &lt;code>#444&lt;/code> with &lt;code>p { color: #444; }&lt;/code>. 
+  Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. 
+  Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero 
+  sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.&lt;/p>  
+
+&lt;h2>::first-line vs class selector&lt;/h2>
+&lt;p class="p2">This paragraph color is set to &lt;code>#444&lt;/code> 
+with &lt;code>.p2 { color: #444; }&lt;/code>. Pellentesque habitant morbi tristique senectus et netus et 
+malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, 
+ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend 
+leo.&lt;/p>  
+
+&lt;h2>::first-line vs ID selector&lt;/h2>
+&lt;p id="p3">This paragraph color is set to &lt;code>#444&lt;/code> 
+with &lt;code>#p3 { color: #444; }&lt;/code>. Pellentesque habitant morbi tristique senectus et netus 
+et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit 
+amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat 
+eleifend leo.&lt;/p>  
+
+&lt;h2>::first-line vs !important&lt;/h2>
+&lt;p id="p4">This paragraph color is set to &lt;code>#444&lt;/code> 
+with &lt;code>#p4 { color: #444 !important; }&lt;/code>. Pellentesque habitant morbi tristique senectus et 
+netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor 
+sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat 
+eleifend leo.&lt;/p>  
+&lt;/article>
+</pre>
+
+</div>
+
+
+
+<style type="text/css">
+article {
+  padding: 20px;
+}
+
+p {
+  color: #444;
+}
+
+p:first-line {
+  color: deepskyblue;
+}
+
+.p2 {
+  color: #444;
+}
+
+.p2:first-line {
+  color: tomato;
+}
+
+#p3 {
+  color: #444;
+}
+
+#p3:first-line {
+  color: firebrick;
+}
+
+#p4 {
+  color: #444 !important;
+}
+
+#p4:first-line {
+  color: hotpink;
+}
+</style>
+
+
+<div class="box">
+<article>
+<h2>::first-line vs. tag selector</h2>
+  <p>This paragraph color is set to <code>#444</code> with <code>p { color: #444; }</code>. 
+  Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. 
+	Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. 
+	Aenean ultricies mi vitae est. Mauris placerat eleifend leo.</p>  
+
+<h2>::first-line vs class selector</h2>
+<p class="p2">This paragraph color is set to <code>#444</code> with <code>.p2 { color: #444; }</code>. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.</p>  
+
+<h2>::first-line vs ID selector</h2>
+<p id="p3">This paragraph color is set to <code>#444</code> with <code>#p3 { color: #444; }</code>. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.</p>  
+
+<h2>::first-line vs !important</h2>
+<p id="p4">This paragraph color is set to <code>#444</code> with <code>#p4 { color: #444 !important; }</code>. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.</p>  
+</article>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

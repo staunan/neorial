@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Properties One</title>
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
+	<script type="text/javascript" src="../Assets/jquery.min.js"></script>
+	<link rel="stylesheet" href="../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+<h1>Resize</h1>
+<p>The resize property controls if and how an element can be resized by the user by clicking and dragging the bottom right corner of the element.</p>
+<p>It is important to know that, resize does nothing unless the <code>overflow</code> property is set to something other than <code>visible</code>, which is its initial value for most elements.</p>
+<p>It's also worth knowing that Firefox will let you resize an element smaller than its original size. Webkit browsers will not let you resize an element to make it smaller, only larger (in both dimensions).</p>
+<p>Resize property is commonly used in textarea element.</p>
+<pre>
+.module {
+	resize: both;
+}
+</pre>
+<p>Here are the following values you can use -</p>
+<ul>
+	<li><code>none</code> The element is not resizeable. This is the initial value for most elements. The textarea element is the most common exception—in many browsers its default resize value is <code>both</code>.</li>
+	<li><code>both</code> The user can resize the element's height and/or width.</li>
+	<li><code>horizontal</code> The user can resize the element horizontally (increasing the width).</li>
+	<li><code>vertical</code> The user can resize the element vertically (increasing the height).</li>
+</ul>
+<pre>
+&lt;div class="box">
+	&lt;p style="background: whitesmoke; padding: 20px; resize: both; height: 30px; width: 300px; overflow: hidden;">
+		Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+		tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+		quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+		consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+		cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+		proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+	&lt;/p>
+&lt;/div>
+</pre>
+<div class="box">
+	<p style="background: whitesmoke; padding: 20px; resize: both; height: 30px; width: 300px; overflow: hidden;">
+		Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+		tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+		quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+		consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+		cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+		proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+	</p>
+</div>
+
+
+
+
+
+<h1>cursor</h1>
+<p>The cursor property in CSS controls what the mouse cursor will look like when it is located over the element in which this property is set. Obviously, it only is relevant in browsers/operating systems in which there is a mouse and cursor. They are used essentially for UX - as they convey the idea of certain functionality.</p>
+<pre>
+.auto            { cursor: auto; }
+.default         { cursor: default; }
+.none            { cursor: none; }
+.context-menu    { cursor: context-menu; }
+.help            { cursor: help; }
+.pointer         { cursor: pointer; }
+.progress        { cursor: progress; }
+.wait            { cursor: wait; }
+.cell            { cursor: cell; }
+.crosshair       { cursor: crosshair; }
+.text            { cursor: text; }
+.vertical-text   { cursor: vertical-text; }
+.alias           { cursor: alias; }
+.copy            { cursor: copy; }
+.move            { cursor: move; }
+.no-drop         { cursor: no-drop; }
+.not-allowed     { cursor: not-allowed; }
+.all-scroll      { cursor: all-scroll; }
+.col-resize      { cursor: col-resize; }
+.row-resize      { cursor: row-resize; }
+.n-resize        { cursor: n-resize; }
+.e-resize        { cursor: e-resize; }
+.s-resize        { cursor: s-resize; }
+.w-resize        { cursor: w-resize; }
+.ns-resize       { cursor: ns-resize; }
+.ew-resize       { cursor: ew-resize; }
+.ne-resize       { cursor: ne-resize; }
+.nw-resize       { cursor: nw-resize; }
+.se-resize       { cursor: se-resize; }
+.sw-resize       { cursor: sw-resize; }
+.nesw-resize     { cursor: nesw-resize; }
+.nwse-resize     { cursor: nwse-resize; }
+</pre>
+<div class="box">
+<h1>The Cursors of CSS</h1>
+<style type="text/css">
+.cursors {
+	display: flex;
+	flex-wrap: wrap;
+}
+.cursors > div {
+	flex: 150px;
+	padding: 10px 2px;
+	white-space: nowrap;
+	border: 1px solid #eee;
+	border-radius: 5px;
+	margin: 0 5px 5px 0;
+	display: flex;
+	justify-content: center;
+}
+.cursors > div:hover {
+	background: #eee;
+}
+.auto            { cursor: auto; }
+.default         { cursor: default; }
+.none            { cursor: none; }
+.context-menu    { cursor: context-menu; }
+.help            { cursor: help; }
+.pointer         { cursor: pointer; }
+.progress        { cursor: progress; }
+.wait            { cursor: wait; }
+.cell            { cursor: cell; }
+.crosshair       { cursor: crosshair; }
+.text            { cursor: text; }
+.vertical-text   { cursor: vertical-text; }
+.alias           { cursor: alias; }
+.copy            { cursor: copy; }
+.move            { cursor: move; }
+.no-drop         { cursor: no-drop; }
+.not-allowed     { cursor: not-allowed; }
+.all-scroll      { cursor: all-scroll; }
+.col-resize      { cursor: col-resize; }
+.row-resize      { cursor: row-resize; }
+.n-resize        { cursor: n-resize; }
+.e-resize        { cursor: e-resize; }
+.s-resize        { cursor: s-resize; }
+.w-resize        { cursor: w-resize; }
+.ns-resize       { cursor: ns-resize; }
+.ew-resize       { cursor: ew-resize; }
+.ne-resize       { cursor: ne-resize; }
+.nw-resize       { cursor: nw-resize; }
+.se-resize       { cursor: se-resize; }
+.sw-resize       { cursor: sw-resize; }
+.nesw-resize     { cursor: nesw-resize; }
+.nwse-resize     { cursor: nwse-resize; }
+</style>
+<div class="cursors">
+		<div class="auto">auto</div>
+		<div class="default">default</div>
+		<div class="none">none</div>
+		<div class="context-menu">context-menu</div>
+		<div class="help">help</div>
+		<div class="pointer">pointer</div>
+		<div class="progress">progress</div>
+		<div class="wait">wait</div>
+		<div class="cell">cell</div>
+		<div class="crosshair">crosshair</div>
+		<div class="text">text</div>
+		<div class="vertical-text">vertical-text</div>
+		<div class="alias">alias</div>
+		<div class="copy">copy</div>
+		<div class="move">move</div>
+		<div class="no-drop">no-drop</div>
+		<div class="not-allowed">not-allowed</div>
+		<div class="all-scroll">all-scroll</div>
+		<div class="col-resize">col-resize</div>
+		<div class="row-resize">row-resize</div>
+		<div class="n-resize">n-resize</div>
+		<div class="s-resize">s-resize</div>
+		<div class="e-resize">e-resize</div>
+		<div class="w-resize">w-resize</div>
+		<div class="ns-resize">ns-resize</div>
+		<div class="ew-resize">ew-resize</div>
+		<div class="ne-resize">ne-resize</div>
+		<div class="nw-resize">nw-resize</div>
+		<div class="se-resize">se-resize</div>
+		<div class="sw-resize">sw-resize</div>
+		<div class="nesw-resize">nesw-resize</div>
+		<div class="nwse-resize">nwse-resize</div>
+</div>
+</div>
+
+<p>You can also have the cursor be an image:</p>
+<pre>
+.custom {
+	cursor: url(images/my-cursor.png), auto;
+}
+</pre>
+
+
+
+
+
+<h1>pointer-events</h1>
+<p>The pointer-events property defines whether or not an element reacts to pointer events.</p>
+<p>The pointer-events property allows for control over how HTML elements respond to mouse/touch events – including CSS hover/active states, click/tap events in Javascript, and whether or not the cursor is visible.</p>
+<pre>
+.avoid-clicks {
+	pointer-events: none;
+}
+</pre>
+<p>While the pointer-events property takes eleven possible values, all but three of them are reserved for use with SVG. The three valid values for any HTMl element are:</p>
+<ul>
+	<li><code>none</code> prevents all click, state and cursor options on the specified HTML element</li>
+	<li><code>auto</code> restores the default functionality (useful for use on child elements of an element with <code>pointer-events: none;</code> specified</li>
+	<li><code>inherit</code> will use the pointer-events value of the element's parent</li>
+</ul>
+<p>The prime use case for pointer-events is to allow click or tap behaviour to “pass through” an element to another element below it on the Z axis. For example, this would be useful for graphic overlays, or hiding elements with opacity (eg. tooltips) and still allowing text-selection on the content below it.</p>
+<style type="text/css">
+.avoid-clicks {
+	display: block;
+	width: 8em;
+	height: 8em;
+	background: rgba(51,51,51,0.85);
+	position: absolute;
+	top: 1em;
+	left: 4em;
+	padding: 0.75em;
+	pointer-events: none;
+	color: whitesmoke;
+}
+.DemoPointerEvent {
+	padding: 0.75em;
+	background: #ddd;
+}
+</style>
+<pre>
+.avoid-clicks {
+	display: block;
+	width: 8em;
+	height: 8em;
+	background: rgba(51,51,51,0.85);
+	position: absolute;
+	top: 1em;
+	left: 4em;
+	padding: 0.75em;
+	pointer-events: none;
+	color: whitesmoke;
+}
+.DemoPointerEvent {
+	padding: 0.75em;
+	background: #ddd;
+}
+
+&lt;div class="box" style="position: relative;">
+	&lt;p class="DemoPointerEvent">This is some basic flow content. Lorem ipsu
+		This is some basic flow content. Lorem ipsum dolor sit amet, 
+		consectetur adipisicing elit. Magni eos ipsum sunt repellat nisi 
+		modi voluptatum ipsa eligendi minima cumque. Accusantium laudantium autem quae earum eaque 
+		expedita quia molestiae in. Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
+		sed do eiusmod labore et dolore magna aliqua. Ut enim ad minim veniam,
+		tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+		quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+		consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+		cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+		proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+	&lt;/p>
+
+	&lt;div class="avoid-clicks">try selecting text through me&lt;/div>
+&lt;/div>
+</pre>
+<div class="box" style="position: relative;">
+	<p class="DemoPointerEvent">
+		This is some basic flow content. Lorem ipsum dolor sit amet, 
+		consectetur adipisicing elit. Magni eos ipsum sunt repellat nisi 
+		modi voluptatum ipsa eligendi minima cumque. Accusantium laudantium autem quae earum eaque 
+		expedita quia molestiae in. Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
+		sed do eiusmod labore et dolore magna aliqua. Ut enim ad minim veniam,
+		tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+		quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+		consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+		cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+		proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+	</p>
+
+	<div class="avoid-clicks">try selecting text through me</div>
+</div>
+<p>Here is another example using button. The button won't be clickable anymore. If you remove pointer-events, it will work normally -</p>
+<pre>
+.box2{
+	padding : 10px;
+	background-color : red;
+	pointer-events : none;
+}
+
+&lt;button class="box2" onclick='show()'>Click Me&lt;/button>
+
+function show(){
+	alert("Okay");
+}
+</pre>
+<style type="text/css">
+.box2{
+			padding : 10px;
+			background-color : red;
+			pointer-events : none;
+		}
+</style>
+<div class="box">
+	<button class="box2" onclick='show()'>Click Me</button>
+</div>
+
+
+
+<h1>tab-size</h1>
+<p>The tab-size property in CSS is used to adjust the amount of spaces that display for the tab character.</p>
+<p>The tab character (unicode U+0009) is typically converted to spaces (unicode U+0020) by the white space processing rules and then collapsed so that only one space in a row is displayed in the browser. Therefore the tab-size property is only useful when the white space processing rules do not apply, namely inside a <code>&lt;pre></code> tag and when the white-space property of an element is set to <code>pre-wrap</code>.</p>
+<p>The default value for the tab-size property is 8 space characters, and it can accept any positive integer value.</p>
+
+<style type="text/css">
+p.fourtabs {
+    tab-size:4;
+    -moz-tab-size: 4;
+    -o-tab-size:  4;
+  	white-space: pre-wrap;
+}
+
+
+pre.twelvetabs {
+    tab-size: 12;
+    -moz-tab-size: 12;
+    -o-tab-size:  12;
+}
+</style>
+<pre>
+p.fourtabs {
+    tab-size:4;
+    -moz-tab-size: 4;
+    -o-tab-size:  4;
+  	white-space: pre-wrap;
+}
+
+
+pre.twelvetabs {
+    tab-size: 12;
+    -moz-tab-size: 12;
+    -o-tab-size:  12;
+}
+</pre>
+<div class="box">
+<h3>Example 1</h3>
+<h4>&lt;pre&gt; with default tab-size of 8 space characters</h4>
+<pre>
+without tab
+	with 1 tab
+		with 2 tabs
+</pre>
+
+<h3>Example 2</h3>
+
+<h4>&lt;p&gt; with tab-size customized to 4 space characters and 'white-space: pre-wrap'</h4>
+<p class="fourtabs">without tab
+	with 1 tab
+		with 2 tabs 
+</p>
+<h4>&lt;p&gt; with tab-size customized to 4 space characters, but without 'white-space: prewrap'</h4>
+<p>without tab
+	with 1 tab
+		with 2 tabs     
+</p>
+
+<h3>Example 3</h3>
+<h4>&lt;pre&gt; with tab-size set to 12 space characters</h4>
+<pre class="twelvetabs">without tab
+	with 1 tab
+		with 2 tabs 
+</pre>
+</div>
+<p>As you can see in the examples above, the tab-size property adjusts the amount of space allotted for the tab character. In the second example, the <p> tag has to have its white-space property adjusted to pre-wrap in order for the tab characters to not be converted to regular spaces and collapsed.</p>
+<p>You will also notice in the CSS that the -moz- and -o- prefixes are required for Firefox and Opera, but Chrome accepts the non-prefixed version.</p>
+
+
+
+
+
+<h1>user-select</h1>
+<p>The user-select property in CSS controls how the text in an element is allowed to be selected. For example, it can be used to make text unselectable.</p>
+<p>It can accept one of the following three values -</p>
+<ul>
+	<li><code>none</code> Prevents the selection.</li>
+	<li><code>all</code> Select all text at once.</li>
+	<li><code>auto</code> The default value is auto, which makes selection happen normally as you expect.</li>
+</ul>
+<pre>
+.row-of-icons {
+  -webkit-user-select: none;  /* Chrome all / Safari all */
+  -moz-user-select: none;     /* Firefox all */
+  -ms-user-select: none;      /* IE 10+ */
+  user-select: none;          /* Likely future */      
+}
+</pre>
+<p>This is useful in situations where you want to provide an easier/cleaner copy-paste experience for users (not have them accidentally text-select useless things, like icons or images). However it's a bit buggy. Firefox enforces the fact that any text matching that selector cannot be copied. WebKit still allows the text to be copied if you select elements around it.</p>
+<p>You can also use this to enforce that an entire element gets selection:</p>
+<pre>
+.force-select {  
+  -webkit-user-select: all;  /* Chrome 49+ */
+  -moz-user-select: all;     /* Firefox 43+ */
+  -ms-user-select: all;      /* No support yet */
+  user-select: all;          /* Likely future */   
+}
+</pre>
+<style type="text/css">
+.no-copy p {
+  -webkit-user-select: none;  /* Chrome all / Safari all */
+  -moz-user-select: none;     /* Firefox all */
+  -ms-user-select: none;      /* IE 10+ */
+  user-select: none;          /* Likely future */ 
+  padding: 20px;
+  background: #333; 
+  color: #fff;   
+}
+.all-copy p {  
+  -webkit-user-select: all;  /* Chrome all / Safari all */
+  -moz-user-select: all;     /* Firefox all */
+  -ms-user-select: all;      /* IE 10+ */
+  user-select: all; 
+  padding: 20px;
+  background: #333; 
+  color: #fff;        
+}
+</style>
+<div class="box">
+<div class="no-copy">
+    <p>You can't copy me.</p>
+</div>
+<div class="no-copy">
+    .
+    <p>But you can accidently copy me (in WebKit/Blink, but not Gecko) by selecting the periods around me.</p>
+    .
+</div>
+<div class="all-copy">
+  <p>One click selects all this.</p>
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h1>calc()</h1>
+<p><code>calc()</code> is a native CSS way to do simple math right in CSS as a replacement for any length value (or pretty much any number value). It has four simple math operators: add (+), subtract (-), multiply (*), and divide (/). Being able to do math in code is nice and a welcome addition to a language that is fairly number heavy.</p>
+
+<p>All CSS Preprocessors do have math functions and they are pretty useful. But they aren't quite as powerful as native math. The most useful ability of <code>calc()</code> is its ability to mix units, like percentages and pixels. No Preprocessor will ever be able to do that. It is something that has to happen at render time.</p>
+<pre>
+	.thing {
+	  width: 90%; /* fallback if needed */
+	  width: calc(100% - 3em);
+	}
+</pre>
+<p style="font-weight: bold;">There must be spaces surrounding the math operator. You can nest.</p>
+<h3>Example 1 : Using <code>calc()</code> on Header</h3>
+<style type="text/css">
+.Example1{
+	height: 300px; 
+	width: 200px; 
+	background: black; 
+	padding: 20px;
+	box-sizing: border-box;
+}
+.Example1Header{
+	width: 100%; 
+	height: 50px; 
+	display: flex; 
+	justify-content: flex-start;
+	align-items: center;
+	font-weight: 500;
+	font-size: 17px;
+	background: crimson;
+	padding-left: 10px;
+	box-sizing: border-box;
+}
+.Example1Body{
+	height: 100%;
+	width: 100%;
+	background: #eee;
+}
+</style>
+<pre>
+
+	.Example1{
+		height: 300px; 
+		width: 200px; 
+		background: black; 
+		padding: 20px;
+		box-sizing: border-box;
+	}
+	.Example1Header{
+		width: 100%; 
+		height: 50px; 
+		display: flex; 
+		justify-content: flex-start;
+		align-items: center;
+		font-weight: 500;
+		font-size: 17px;
+		background: crimson;
+		padding-left: 10px;
+		box-sizing: border-box;
+	}
+	.Example1Body{
+		height: 100%;
+		width: 100%;
+		background: #eee;
+	}
+
+	&lt;div class="Example1">
+		&lt;div class="Example1Header">Header&lt;/div>
+		&lt;div class="Example1Body">
+			Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+			tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+			quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+		&lt;/div>
+	&lt;/div>
+
+</pre>
+<div class="box">
+	
+	<div class="Example1">
+		<div class="Example1Header">Header</div>
+		<div class="Example1Body">
+			Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+			tempor incididunt ut labore et dolore
+		</div>
+	</div>
+
+</div>
+<p>As you can see, the second child have the 100% height and that's why it is taking the whole height of the parent element and causing vertical overflow. To fix this we need to set the height 50px minus from the 100%. calc() method help us do that -</p>
+<pre>
+
+	.Example2{
+		height: 300px; 
+		width: 200px; 
+		background: black; 
+		padding: 20px;
+		box-sizing: border-box;
+	}
+	.Example2Header{
+		width: 100%; 
+		height: 50px; 
+		display: flex; 
+		justify-content: flex-start;
+		align-items: center;
+		font-weight: 500;
+		font-size: 17px;
+		background: crimson;
+		padding-left: 10px;
+		box-sizing: border-box;
+	}
+	.Example2Body{
+		height: calc(100% - 50px);
+		width: 100%;
+		background: #eee;
+	}
+
+	&lt;div class="Example2">
+		&lt;div class="Example2Header">Header&lt;/div>
+		&lt;div class="Example2Body">
+			Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+			tempor incididunt ut labore et dolore
+		&lt;/div>
+	&lt;/div>
+
+</pre>
+<style type="text/css">
+.Example2{
+	height: 300px; 
+	width: 200px; 
+	background: black; 
+	padding: 20px;
+	box-sizing: border-box;
+}
+.Example2Header{
+	width: 100%; 
+	height: 50px; 
+	display: flex; 
+	justify-content: flex-start;
+	align-items: center;
+	font-weight: 500;
+	font-size: 17px;
+	background: crimson;
+	padding-left: 10px;
+	box-sizing: border-box;
+}
+.Example2Body{
+	height: calc(100% - 50px);
+	width: 100%;
+	background: #eee;
+}
+</style>
+<div class="box">
+	
+	<div class="Example2">
+		<div class="Example2Header">Header</div>
+		<div class="Example2Body">
+			Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+			tempor incididunt ut labore et dolore
+		</div>
+	</div>
+
+</div>
+
+
+
+<h3>Example 2 : Positioning the Background</h3>
+<p>Let's say you want to place a dog's picture in a container.</p>
+<pre>
+
+	background-image: url(dog.png);
+	background-position: 50px 20px;
+
+</pre>
+<p>That would put the dog 50px from the left and 20px from the top of the elements box. But what if you want it 50px from the right and 20px from the bottom? Not possible with just straight length values. But <code>calc()</code> makes it possible!</p>
+<pre>
+
+	background-image: url(dog.png);
+	background-position: calc(100% - 50px) calc(100% - 20px);
+	background-repeat: no-repeat;
+
+</pre>
+<style type="text/css">
+.backgroundImage{
+	height: 300px; 
+	width: 800px; 
+	border: 1px solid black;
+	background-image: url("Assets/img/smallDog.jpg");
+	background-repeat: no-repeat;
+	background-position: calc(100% - 50px) calc(100% - 20px);
+}
+</style>
+<div class="box">
+	<div class="backgroundImage">
+		
+	</div>
+</div>
+
+<h3>Example 3 : Column Gutter</h3>
+<p>Let's say you want two columns next to each other. The first 40% wide, the second 60%, but with a fixed 1em gap between the columns. The solution is to create another div inside either one of them and have 1em padding. But this is not a straight forward solution.</p>
+<p>Using <code>calc()</code>, we can make the first column 40% wide with a right margin of 1em, then make the second column 60% wide minus that 1em.</p>
+<pre>
+
+	.area-one {
+	  width: 40%;
+	  float: left;
+	  margin-right: 1em;
+	}
+
+	.area-two {
+	  width: calc(60% - 1em);
+	  float: right;
+	}
+
+</pre>
+
+
+
+<h3>Example 4 : Grid Columns</h3>
+<p>Speaking of columns, sometimes division math gets messy. Let's say you wanted a 7-column grid, you might have classes like:</p>
+<pre>
+
+	.column-1-7 {
+	   width: 14.2857%
+	}
+	.column-2-7 {
+	   width: 28.5714%
+	}
+	.column-3-7 {
+	   width: 42.8571%
+	}
+
+</pre>
+<p>Not exactly magic numbers, but difficult to understand at a glance.</p>
+<pre>
+	.column-1-7 {
+	   width: calc(100% / 7);
+	}
+	.column-2-7 {
+	   width: calc(100% / 7 * 2);
+	}
+	.column-3-7 {
+	   width: calc(100% / 7 * 3);
+	}
+</pre>
+<p>Now it's more readable.</p>
+
+
+
+
+
+
+
+
+<h1>attr()</h1>
+<p>
+	The <code>attr()</code> function returns the value of an attribute of the selected elements.
+	Ther is not much use case of attr() method. It is only used on <code>::before</code> and <code>::after</code> pseudo elements.
+	Actually it is used with the <code>content</code> property to insert content.
+</p>
+<pre>
+
+	a:after {
+		content: " (" attr(href) ")";
+	}
+
+</pre>
+<style type="text/css">
+	.Lol::before{
+		content:attr(title);
+		color: red;
+	}
+</style>
+<p>Consider the following example - </p>
+<pre>
+
+	.Lol::before{
+		content:attr(title);
+		color: red;
+	}
+
+
+	&lt;table border="1">
+	  &lt;tr>
+	    &lt;td class="Lol" title="Name">Name&lt;/td>
+	    &lt;td class="Lol" title="Roll Number">Roll No&lt;/td>
+	  &lt;/tr>
+	  &lt;tr>
+	    &lt;td>Santanu Bera&lt;/td>
+	    &lt;td>110&lt;/td>
+	  &lt;/tr>
+	  &lt;tr>
+	    &lt;td>Anushree Panja&lt;/td>
+	    &lt;td>20&lt;/td>
+	  &lt;/tr>
+	&lt;/table>
+
+</pre>
+<div class="box">
+	<table border="1">
+    <tr>
+      <td class="Lol" title="Name">Name</td>
+      <td class="Lol" title="Roll Number">Roll No</td>
+    </tr>
+    <tr>
+      <td>Santanu Bera</td>
+      <td>110</td>
+    </tr>
+    <tr>
+      <td>Anushree Panja</td>
+      <td>20</td>
+    </tr>
+  </table>
+</div>
+
+
+
+<h1>object-fit</h1>
+<p>The <code>object-fit</code> property defines how an element responds to the height and width of its content box. It's intended for images, videos and other embeddable media formats in conjunction with the object-position property. Used by itself, <code>object-fit</code> lets us crop an inline image by giving us fine-grained control over how it squishes and stretches inside its box.</p>
+<p>object-fit can be set with one of these five values:</p>
+<ul>
+	<li><code>fill</code> This is the default value which stretches the image to fit the content box, regardless of its aspect-ratio.</li>
+	<li><code>contain</code> Increases or decreases the size of the image to fill the box whilst preserving its aspect-ratio.</li>
+	<li><code>cover</code> The image will fill the height and width of its box, once again maintaining its aspect ratio but often cropping the image in the process.</li>
+	<li><code>none</code> Image will ignore the height and width of the parent and retain its original size.</li>
+	<li><code>scale-down</code> The image will compare the difference between none and contain in order to find the smallest concrete object size.</li>
+</ul>
+<pre>
+
+	.ImageContainer{
+		background: red;
+		border: 2px solid black;
+		margin: 10px;
+		display: inline-block;
+		box-sizing: border-box;
+		font-size: 0;
+	}
+	.fill, .contain, .cover, .scale-down{
+		width: 300px;
+		height: 300px;
+	}
+	.fill{
+		object-fit: fill;
+	}
+	.contain{
+		object-fit: contain;
+	}
+	.cover{
+		object-fit: cover;
+	}
+	.scale-down{
+		object-fit: scale-down;
+	}	
+
+	&lt;div class="ImageContainer">
+		&lt;img class="fill" src="Assets/img/Santanu.jpg">
+	&lt;/div>
+
+	&lt;div class="ImageContainer">
+		&lt;img class="contain" src="Assets/img/Santanu.jpg">
+	&lt;/div>
+
+	&lt;div class="ImageContainer">
+		&lt;img class="cover" src="Assets/img/Santanu.jpg">
+	&lt;/div>
+
+	&lt;div class="ImageContainer">
+		&lt;img class="scale-down" src="Assets/img/Santanu.jpg">
+	&lt;/div>
+
+</pre>
+<style type="text/css">
+	.ImageContainer{
+		background: red;
+		border: 2px solid black;
+		margin: 10px;
+		display: inline-block;
+		box-sizing: border-box;
+		font-size: 0;
+	}
+	.fill, .contain, .cover, .scale-down{
+		width: 300px;
+		height: 300px;
+	}
+	.fill{
+		object-fit: fill;
+	}
+	.contain{
+		object-fit: contain;
+	}
+	.cover{
+		object-fit: cover;
+	}
+	.scale-down{
+		object-fit: scale-down;
+	}
+</style>
+<div class="box">
+	<div class="ImageContainer">
+		<img class="fill" src="Assets/img/Santanu.jpg">
+	</div>
+
+	<div class="ImageContainer">
+		<img class="contain" src="Assets/img/Santanu.jpg">
+	</div>
+
+	<div class="ImageContainer">
+		<img class="cover" src="Assets/img/Santanu.jpg">
+	</div>
+
+	<div class="ImageContainer">
+		<img class="scale-down" src="Assets/img/Santanu.jpg">
+	</div>
+</div>
+
+
+
+
+
+<h1>object-position</h1>
+<p>The <code>object-position</code> property is used in conjunction with object-fit property and defines how an element such as a video or image is positioned with X/Y coordinates inside its content-box. This property takes two numerical values, such as <code>0 10%</code> or <code>0 10px</code>. In those examples, the first number indicates that the image should be placed at the left of the content box (0), the second that it should be positioned 10% or 10px from the top. It is also possible to use negative values.</p>
+<p>The default value for <code>object-position</code> is <code>50% 50%</code> when using the <code>object-fit</code> property on an image, so that by default all images are positioned in the center of their content box, like so:</p>
+<pre>
+	
+	img {
+	  object-fit: none;
+	  object-position: 50% 50%; /* default value: image is centered*/
+	  object-position: 0 0; /* positioned top left of the content box */
+	}
+
+</pre>
+<p>Taking from the above example with the <code>object-fit: contain;</code> -</p>
+<pre>
+	.contain{
+		object-fit: contain;
+		object-position : 0 0;
+	}
+
+	&lt;div class="ImageContainer">
+		&lt;img class="contain" src="Assets/img/Santanu.jpg">
+	&lt;/div>
+</pre>
+<style type="text/css">
+	.contain2{
+		object-position: 0 0;
+	}
+</style>
+<div class="box">
+	<div class="ImageContainer">
+		<img class="contain contain2" src="Assets/img/Santanu.jpg">
+	</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

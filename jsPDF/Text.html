@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Working with Text</title>
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
+	<script type="text/javascript" src="../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+
+<h1>text()</h1>
+<p>This method is used to insert text.</p>
+<pre>
+text(text, x, y, options)
+</pre>
+<p>Here, <code>x</code> and <code>y</code> is the horizontal and vertical position where the text will be written. <code>text</code> is the text which will be inserted to the document. Here the text can be array of string if you want to render multiline text.</p>
+<pre>
+doc.text("Hello World", 10, 10);
+doc.text(['Santanu Bera', 'Atanu Bera', 'Sumita Bera', 'Aloke Bera'], 10, 10);
+</pre>
+
+
+
+
+
+
+
+
+<h1>setFontSize()</h1>
+<p>This method is used to set the font size of the text.</p>
+<pre>
+doc.setFontSize(20);
+</pre>
+
+
+
+
+
+
+<h1>setFontStyle()</h1>
+<p>This method is used to set the font style of the text. Possible values are -</p>
+<ul>
+	<li>normal</li>
+	<li>bold</li>
+	<li>italic</li>
+	<li>bolditalic</li>
+</ul>
+<pre>
+doc.setFontStyle("italic");
+doc.setFontStyle("bolditalic");
+</pre>
+
+
+
+
+
+
+<h1>setTextColor()</h1>
+<p>This method is used to set the font or text color.</p>
+<pre>
+doc.setTextColor(red, blue, green);
+</pre>
+<p>For example -</p>
+<pre>
+doc.setTextColor(125, 76, 76);
+</pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

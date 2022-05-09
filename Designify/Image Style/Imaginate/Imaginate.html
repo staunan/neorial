@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Imaginate</title>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.3.4/vue.js"></script>
+	<link rel="stylesheet" type="text/css" href="animate.css">
+	<link rel="stylesheet" type="text/css" href="imaginate.css">
+	<script type="text/javascript" src="imaginate.js"></script>
+</head>
+<body>
+
+
+<div>
+	<h1>Imaginate - Image Hover Styles - How To Use</h1>
+	<p>First include Vue.js, jQuery, animate.css, imaginate.css and imaginate.js.</p>
+	<p>Then copy the following code - </p>
+	<pre>
+		&lt;image-overlay image-url = "Picture.jpg" in = "zoomIn" out = "zoomOut" id = "anything">
+			&lt;div>
+				&lt;h1>Anything&lt;/h1>
+			&lt;/div>
+		&lt;/image-overlay>
+	</pre>
+	<p>In - This property takes the animation name that will happen when you mouse over the image.</p>
+	<p>Out - This property takes the animation name that will happen when you take out the mouse out of the image.</p>
+	<p>Animation names are the keyframe from animate.css. Any animation keyframe is applicable.</p>
+</div>
+
+<hr>
+
+<div id="Image" style="margin: auto; width: 95%;">
+	<div style="width: 300px; height: 200px; margin:auto;">
+		<image-overlay image-url = "Picture.jpg" in = "rollIn" out = "rollOut" id = "anything">
+			<div>
+				<h1>Anything</h1>
+			</div>
+		</image-overlay>
+	</div>
+</div>
+
+<script type="text/javascript">
+let pic = new Vue({
+	el:"#Image",
+	data:{},
+})
+</script>
+</body>
+</html>

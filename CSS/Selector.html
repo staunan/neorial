@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Selector</title>
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
+	<script type="text/javascript" src="../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<style type="text/css">
+h1{
+	margin-bottom: 0;
+}
+p{
+	margin-top: 0;
+}
+</style>
+<div class="Content Card">
+
+
+<h1>Selectors</h1>
+<h1 style="margin-bottom: 0;">.className</h1>
+<p>Selects all elements with <code>class="boxy"</code></p>
+<pre>
+
+	.boxy{
+		width: 100px;
+		height : 100px;
+		background-color : red;
+		margin : 10px;
+		display : inline-block;
+	}
+
+	&lt;div class="box">
+		&lt;div class="boxy">&lt;/div>
+		&lt;div class="boxy">&lt;/div>
+	&lt;/div>
+
+</pre>
+<style type="text/css">
+	.boxy{
+		width: 100px;
+		height : 100px;
+		background-color : red;
+		margin : 10px;
+		display : inline-block;
+	}
+</style>
+<div class="box">
+  <div class="boxy"></div>
+  <div class="boxy"></div>
+</div>
+
+
+
+
+<h1>#idName</h1>
+<p>Selects the element with <code>id="firstname"</code></p>
+<pre>
+
+	#boxy1{
+	  width: 100px;
+	  height : 100px;
+	  background-color : red;
+	  margin : 10px;
+	  display : inline-block;
+	}
+	#boxy2{
+	  width: 100px;
+	  height : 100px;
+	  background-color : red;
+	  margin : 10px;
+	  display : inline-block;
+	}
+
+	&lt;div class="box">
+		&lt;div id="boxy1">&lt;/div>
+		&lt;div id="boxy2">&lt;/div>
+	&lt;/div>
+
+</pre>
+<style type="text/css">
+#boxy1{
+  width: 100px;
+  height : 100px;
+  background-color : red;
+  margin : 10px;
+  display : inline-block;
+}
+#boxy2{
+  width: 100px;
+  height : 100px;
+  background-color : red;
+  margin : 10px;
+  display : inline-block;
+}
+</style>
+<div class="box">
+	<div id="boxy1"></div>
+	<div id="boxy2"></div>
+</div>
+
+
+
+<h1 style="margin-bottom: 0;">*</h1>
+<p style="margin-top: 0;">Selects all element in the document.</p>
+<pre>
+
+	*{
+	  font-size : 15px;
+	  box-sizing : border-box;
+	}
+
+</pre>
+
+
+
+<h1>element</h1>
+<p>Selects all matching element.</p>
+<p>In the above example it selects all <code>p</code> elements - </p>
+<pre>
+
+	p{
+		font-weight: bold;
+		font-size : 19px;
+		color : blue;
+	}
+
+</pre>
+
+
+
+<h1>element.class</h1>
+<p>You might want to apply the same CSS class to multiple element. for example, you might want to apply <code>fontStyle</code> class to p and h1 element. But you want to select only fontStyle class of h1 element.</p>
+<pre>
+
+	h1.fontStyle{
+		color : red;
+	}
+
+</pre>
+<p>Selects all elements with the class fontStyle and element is <code>h1</code></p>
+
+
+
+
+<h1>element1, element2</h1>
+<p>It applies the common CSS rules to all matching element1 and element2.</p>
+<pre>
+
+	element1, element2{
+		color : red;
+	}
+
+	// Example --
+	p, h1{
+		margin : 0;
+	}
+
+</pre>
+<p>In the above example, the CSS rule will be applied to both the <code>p</code> and <code>h1</code> element.</p>
+
+
+
+
+<h1>element1 element2</h1>
+<p>This is also called <code>Descendant Selector</code></p>
+<pre>
+
+	element1 element2{
+		line-height : 18px;
+	}
+
+	// Example -
+
+	div.hello p{
+		line-height : 18px;
+	}
+
+</pre>
+<p>In the above example, all the <code>p</code> element will be selected whose ancestor has class <code>hello</code></p>
+
+
+
+
+
+<h1>element1 > element2</h1>
+<p>This is also called <code>Child Selector</code></p>
+<p>Select all element2 whose parent element is element1. It means element2 are the child of element1.</p>
+<p>In the following example, it selects and style every <code>&lt;p></code> element where the parent is a <code>&lt;div></code> element:</p>
+<pre>
+
+	element1 > element2 { 
+		background-color: yellow;
+	}
+
+	// Example -
+
+	div > p { 
+		background-color: yellow;
+	}
+
+</pre>
+
+
+
+
+<h1>element1 + element2</h1>
+<p>This is also called <code>Adjacent Sibling Selector</code></p>
+<p>Selects all the element2 that is immediately placed after element1.</p>
+<pre>
+
+	element1 + element2{ 
+		// CSS rules
+	}
+
+	// Example --
+
+	h1 + p { 
+		background-color: yellow;
+	}
+
+</pre>
+<p>The above example will select all the first paragraph after the h1 element.</p>
+
+
+
+
+
+<h1>element1 ~ element2</h1>
+<p>This is also called <code>General Sibling Selector</code></p>
+<p>The element1~element2 selector matches occurrences of element2 that are preceded by element1.</p>
+<p>Selects all element2 that are preceed by the element1. Both elements must have the same parent, but element2 does not have to be immediately preceded by element1.</p>
+<pre>
+	element1 ~ element2{
+		background : red;
+	}
+
+	// Example 1 -
+
+	p~ul{
+		background-color : red;
+	}
+
+	&lt;div class="box">
+		&lt;div>A div element.&lt;/div>
+	&lt;ul>
+		&lt;li>Coffee&lt;/li>
+		&lt;li>Tea&lt;/li>
+		&lt;li>Milk&lt;/li>
+	&lt;/ul>
+
+	&lt;p>The first paragraph.&lt;/p>
+	&lt;ul>
+		&lt;li>Coffee&lt;/li>
+		&lt;li>Tea&lt;/li>
+		&lt;li>Milk&lt;/li>
+	&lt;/ul>
+
+	&lt;h2>Another list&lt;/h2>
+	&lt;ul>
+		&lt;li>Coffee&lt;/li>
+		&lt;li>Tea&lt;/li>
+		&lt;li>Milk&lt;/li>
+	&lt;/ul>
+	&lt;/div>
+
+</pre>
+<p>The above example will make the background color red to the second and last ul element.</p>
+
+
+
+
+
+<h1>[attribute]</h1>
+<p>The [attribute] selector is used to select elements with the specified attribute.</p>
+<pre>
+
+	[attribute]{
+		color : yellow;
+	}
+
+	// Example --
+
+	[target]{
+		color : red;
+	}
+
+</pre>
+<p>The above example selects all the element whose one of the attribute is <code>target</code></p>
+
+
+
+
+
+
+
+<h1>[attribute=value]</h1>
+<p>The <code>[attribute=value]</code> selector is used to select elements with the specified attribute and value.</p>
+<pre>
+
+	[attribute = value] {
+		css declarations;
+	}
+
+	// Example --
+
+	[type=text] {
+		color : green;
+	}
+
+</pre>
+<p>The above example selects all the element whose one of the attribute is <code>type</code> and it has the value <code>text</code></p>
+<pre>
+
+	input[type=text] {
+	    width: 100px;
+	    transition: ease-in-out, width .35s ease-in-out;
+	}
+
+	input[type=text]:focus {
+	    width: 250px;
+	}
+
+</pre>
+
+
+<h1>Combinators</h1>
+<p>A CSS selector can contain more than one simple selector. Between the simple selectors, we can include a combinator.</p>
+<p>There are four different combinators in CSS:</p>
+<ul>
+	<li>descendant selector (space)</li>
+	<li>child selector (>)</li>
+	<li>adjacent sibling selector (+)</li>
+	<li>general sibling selector (~)</li>
+</ul>
+
+
+
+
+
+<h1>Specificity</h1>
+<p>If there are two or more conflicting CSS rules that point to the same element, the browser follows some rules to determine which one is most specific and therefore wins out. Think of specificity as a score/rank that determines which style declarations are ultimately applied to an element. The universal selector (*) has low specificity, while ID selectors are highly specific! </p>
+<p><em>Specificity is a common reason why your CSS-rules don't apply to some elements, although you think they should.</em></p>
+<p>Every selector has its place in the specificity hierarchy. There are four categories which define the specificity level of a selector:</p>
+<ul>
+	<li><code>Inline styles</code> An inline style is attached directly to the element to be styled. Example: <code>&lt;h1 style="color: #ffffff;"></code>.</li>
+	<li><code>IDs</code> An ID is a unique identifier for the page elements, such as #navbar.</li>
+	<li><code>Classes, attributes and pseudo-classes</code> This category includes .classes, [attributes] and pseudo-classes such as :hover, :focus etc.</li>
+	<li><code>Elements and pseudo-elements</code> This category includes element names and pseudo-elements, such as h1, div, :before and :after.</li>
+</ul>
+<pre>
+
+	#one{
+	  background-color : pink;
+	}
+	.one{
+	  width: 300px;
+	  background-color : red;
+	  float  : left;
+	  height : 300px;
+	}
+
+	&lt;div id="one" class="one">&lt;/div>
+</pre>
+<p>The background color will be pink.</p>
+<h3>Equal Specificity</h3>
+<p>If the same rule is written twice into the external style sheet, then the lower rule in the style sheet is closer to the element to be styled, and therefore will be applied:</p>
+<pre>
+
+	h1 {background-color: yellow;}
+	h1 {background-color: red;}
+
+</pre>
+<p>The latter rule is always applied.</p>
+<pre>
+
+	div#a {background-color: green;}
+	#a {background-color: yellow;}
+	div[id=a] {background-color: blue;}
+
+</pre>
+<p>The first rule is more specific than the other two, and will be applied.</p>
+<h3>Different File</h3>
+<p>If your external style sheet contains the same selector as in your main file where you are importing the external file, then the one which is defined in the main file will be used, and the same style from the external file will be ignored.</p>
+<pre>
+
+	// From external CSS file:
+	#content h1 {background-color: red;}
+
+	// In HTML file:
+	&lt;style>
+	#content h1 {
+	    background-color: yellow;
+	}
+	&lt;/style>
+
+</pre>
+<p>The latter rule will be applied.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

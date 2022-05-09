@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Class</title>
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+	<script type="text/javascript" src="../../Assets/prism.min.js"></script>
+	<script type="text/javascript" src="../../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+<h1>Class</h1>
+<p style="font-style: italic; font-weight: 500;">In object-oriented programming, a class is an extensible program-code-template for creating objects, providing initial values for state (member variables) and implementations of behavior (member functions or methods). - Wikipedia</p>
+<p>There’s a special syntax construct and a keyword <code>class</code> in JavaScript. But before studying it, we should consider that the term “class” comes from the theory of object-oriented programming. The definition is cited above, and it’s language-independent.</p>
+<p>In JavaScript there are several well-known programming patterns to make classes even without using the <code>class</code> keyword. And here we’ll talk about them first.</p>
+
+
+
+<h1>Functional class pattern</h1>
+<p>The constructor function below can be considered a “class” according to the definition:</p>
+<pre>
+function User(name) {
+  this.sayHi = function() {
+    alert(name);
+  };
+}
+
+let user = new User("John");
+user.sayHi(); // John
+</pre>
+<p>It follows all parts of the definition:</p>
+<ul>
+	<li>It is a “program-code-template” for creating objects (callable with <code>new</code>).</li>
+	<li>It provides initial values for the state (name from parameters).</li>
+	<li>It provides methods (<code>sayHi</code>).</li>
+</ul>
+<p>This is called <span style="font-style: italic; font-weight: 500;">functional class pattern</span>.</p>
+<p>In the functional class pattern, local variables and nested functions inside <code>User</code>, that are not assigned to <code>this</code>, are visible from inside, but not accessible by the outer code.</p>
+<pre>
+function User(name, birthday) {
+  // only visible from other methods inside User
+  function calcAge() {
+    return new Date().getFullYear() - birthday.getFullYear();
+  }
+
+  this.sayHi = function() {
+    alert(`${name}, age:${calcAge()}`);
+  };
+}
+
+let user = new User("John", new Date(2000, 0, 1));
+user.sayHi(); // John, age:17
+user.calcAge(); // Error
+calcAge(); // Error
+</pre>
+<p>In this code variables <code>name</code>, <code>birthday</code> and the function <code>calcAge()</code> are internal, private to the object. They are only visible from inside of it.</p>
+<p>On the other hand, <code>sayHi</code> is the external, public method. The external code that creates <code>user</code> can access it. This way we can hide internal implementation details and helper methods from the outer code. Only what’s assigned to <code>this</code> becomes visible outside.</p>
+
+
+
+
+
+
+
+<h1>Factory class pattern</h1>
+<p>We can create a class without using <code>new</code> at all.</p>
+<pre>
+function User(name, birthday) {
+  // only visible from other methods inside User
+  function calcAge() {
+    return new Date().getFullYear() - birthday.getFullYear();
+  }
+
+  return {
+    sayHi() {
+      alert(`${name}, age:${calcAge()}`);
+    }
+  };
+}
+
+let user = User("John", new Date(2000, 0, 1));
+user.sayHi(); // John, age:17
+</pre>
+<p>As we can see, the function <code>User</code> returns an object with public properties and methods. The only benefit of this class pattern is that we can omit <code>new</code>: write <code>let user = User(...)</code> instead of let <code>user = new User(...)</code>. In other aspects it’s almost the same as the functional pattern.</p>
+
+
+
+
+
+
+
+<h1>Prototype-based classes</h1>
+<p>Prototype-based classes are the most important and generally the best. Functional and factory class patterns are rarely used in practice. Soon you’ll see why. Here’s the same class rewritten using prototypes:</p>
+<pre>
+function User(name, birthday) {
+  this._name = name;
+  this._birthday = birthday;
+}
+
+User.prototype._calcAge = function() {
+  return new Date().getFullYear() - this._birthday.getFullYear();
+};
+
+User.prototype.sayHi = function() {
+  alert(`${this._name}, age:${this._calcAge()}`);
+};
+
+let user = new User("John", new Date(2000, 0, 1));
+user.sayHi(); // John, age:17
+</pre>
+<p>The code structure:</p>
+<ul>
+	<li>The constructor <code>User</code> only initializes the current object state.</li>
+	<li>Methods are added to <code>User.prototype</code>.</li>
+</ul>
+<p>Here are the advantages over the functional pattern:</p>
+<ul>
+	<li>In the functional pattern, each object has its own copy of every method. We assign a separate copy of <code>this.sayHi = function() {...}</code> and other methods in the constructor.</li>
+	<li>In the prototypal pattern, all methods are in <code>User.prototype</code> that is shared between all <code>user</code> objects. An object itself only stores the data.</li>
+</ul>
+<p>So the prototypal pattern is more memory-efficient.</p>
+
+
+
+<h1>Prototype-based inheritance for classes</h1>
+<p>Let’s say we have two prototype-based classes.</p>
+<pre>
+function Rabbit(name) {
+  this.name = name;
+}
+
+Rabbit.prototype.jump = function() {
+  alert(`${this.name} jumps!`);
+};
+
+let rabbit = new Rabbit("My rabbit");
+</pre>
+<img src="../Assets/img/rabbit-animal-independent-1.png">
+<p>…And Animal:</p>
+<pre>
+function Animal(name) {
+  this.name = name;
+}
+
+Animal.prototype.eat = function() {
+  alert(`${this.name} eats.`);
+};
+
+let animal = new Animal("My animal");
+</pre>
+<img src="../Assets/img/rabbit-animal-independent-2.png">
+<p>Right now they are fully independent. But we’d want <code></code> to extend <code></code>. In other words, rabbits should be based on animals, have access to methods of <code>Animal</code> and extend them with its own methods.</p>
+<p>Right now methods for rabbit objects are in <code>Rabbit.prototype</code>. We’d like rabbit to use <code>Animal.prototype</code> as a “fallback”, if the method is not found in <code>Rabbit.prototype</code>.</p>
+<p>So the prototype chain should be <code>rabbit</code> → <code>Rabbit.prototype</code> → <code>Animal.prototype</code>.</p>
+<img src="../Assets/img/class-inheritance-rabbit-animal.png">
+<p>The code to implement that:</p>
+<pre>
+// Same Animal as before
+function Animal(name) {
+  this.name = name;
+}
+
+// All animals can eat, right?
+Animal.prototype.eat = function() {
+  alert(`${this.name} eats.`);
+};
+
+// Same Rabbit as before
+function Rabbit(name) {
+  this.name = name;
+}
+
+Rabbit.prototype.jump = function() {
+  alert(`${this.name} jumps!`);
+};
+
+// setup the inheritance chain
+Rabbit.prototype.__proto__ = Animal.prototype; // (*)
+
+let rabbit = new Rabbit("White Rabbit");
+rabbit.eat(); // rabbits can eat too
+rabbit.jump();
+</pre>
+<p>The line <code>(*)</code> sets up the prototype chain. So that rabbit first searches methods in <code>Rabbit.prototype</code>, then <code>Animal.prototype</code>. And then, just for completeness, let’s mention that if the method is not found in <code>Animal.prototype</code>, then the search continues in <code>Object.prototype</code>, because <code>Animal.prototype</code> is a regular plain object, so it inherits from it.</p>
+<p>So here’s the full picture:</p>
+<img src="../Assets/img/class-inheritance-rabbit-animal-2.png">
+
+
+
+
+
+
+
+
+
+<h1>Classes</h1>
+<p>The “class” construct allows to define prototype-based classes with a clean, nice-looking syntax.</p>
+<p>Here’s a prototype-based class User:</p>
+<pre>
+function User(name) {
+  this.name = name;
+}
+
+User.prototype.sayHi = function() {
+  alert(this.name);
+}
+
+let user = new User("John");
+user.sayHi();
+</pre>
+<p>…And that’s the same using class syntax:</p>
+<pre>
+class User {
+
+  constructor(name) {
+    this.name = name;
+  }
+
+  sayHi() {
+    alert(this.name);
+  }
+
+}
+
+let user = new User("John");
+user.sayHi();
+</pre>
+<p>It’s easy to see that the two examples are alike. Just please note that methods in a class do not have a comma between them. Novice developers sometimes forget it and put a comma between class methods, and things don’t work. That’s not a literal object, but a class syntax.</p>
+<p>So, what exactly does class do? We may think that it defines a new language-level entity, but that would be wrong.</p>
+<p>The <code>class User {...}</code> here actually does two things:</p>
+<ul>
+	<li>Declares a variable User that references the function named "constructor".</li>
+	<li>Puts methods listed in the definition into <code>User.prototype</code>. Here, it includes <code>sayHi</code> and the constructor.</li>
+</ul>
+<p>Here’s the code to dig into the class and see that:</p>
+<pre>
+class User {
+  constructor(name) { this.name = name; }
+  sayHi() { alert(this.name); }
+}
+
+// proof: User is the "constructor" function
+alert(User === User.prototype.constructor); // true
+
+// proof: there are two methods in its "prototype"
+alert(Object.getOwnPropertyNames(User.prototype)); // constructor, sayHi
+</pre>
+<p>Here’s the illustration of what class User creates:</p>
+<img src="../Assets/img/class-user.png">
+<p>So <code>class</code> is a special syntax to define a constructor together with its prototype methods. …But not only that. There are minor tweaks here and there:</p>
+<h3>Constructors require new</h3>
+<p>Unlike a regular function, a class constructor can’t be called without <code>new</code>:</p>
+<pre>
+class User {
+  constructor() {}
+}
+
+alert(typeof User); // function
+User(); // Error: Class constructor User cannot be invoked without 'new'
+</pre>
+<h3>Different string output</h3>
+<p>If we output it like <code>alert(User)</code>, some engines show "<code>class User...</code>", while others show "<code>function User...</code>".</p>
+<p>Please don’t be confused: the string representation may vary, but that’s still a function, there is no separate “class” entity in JavaScript language.</p>
+<h3>Class methods are non-enumerable</h3>
+<p>A class definition sets <code>enumerable</code> flag to <code>false</code> for all methods in the "prototype". That’s good, because if we <code>for..in</code> over an object, we usually don’t want its class methods.</p>
+<h3>Classes have a default <code>constructor() {}</code></h3>
+<p>If there’s no constructor in the class construct, then an empty function is generated, same as if we had written <code>constructor() {}</code>.</p>
+<h3>Classes always use strict</h3>
+<p>All code inside the class construct is automatically in strict mode.</p>
+<h3>Getters/setters</h3>
+<p>Classes may also include getters/setters. Here’s an example with <code>user.name</code> implemented using them:</p>
+<pre>
+class User {
+
+  constructor(name) {
+    // invokes the setter
+    this.name = name;
+  }
+
+  get name() {
+    return this._name;
+  }
+
+  set name(value) {
+    if (value.length < 4) {
+      alert("Name is too short.");
+      return;
+    }
+    this._name = value;
+  }
+
+}
+
+let user = new User("John");
+alert(user.name); // John
+
+user = new User(""); // Name too short.
+</pre>
+<p>Internally, getters and setters are also created on the <code>User</code> prototype, like this:</p>
+<pre>
+Object.defineProperties(User.prototype, {
+  name: {
+    get() {
+      return this._name
+    },
+    set(name) {
+      // ...
+    }
+  }
+});
+</pre>
+<h3>Only methods</h3>
+<p>Unlike object literals, no <code>property:value</code> assignments are allowed inside class. There may be only methods and getters/setters. There is some work going on in the specification to lift that limitation, but it’s not yet there.</p>
+<p>If we really need to put a non-function value into the <code>prototype</code>, then we can alter <code>prototype</code> manually, like this:</p>
+<pre>
+class User { }
+
+User.prototype.test = 5;
+
+alert( new User().test ); // 5
+</pre>
+<p>So, technically that’s possible, but we should know why we’re doing it. Such properties will be shared among all objects of the class. An “in-class” alternative is to use a getter:</p>
+<pre>
+class User {
+  get test() {
+    return 5;
+  }
+}
+
+alert( new User().test ); // 5
+</pre>
+<p>From the external code, the usage is the same. But the getter variant is a bit slower.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h1>Class Expression</h1>
+<p>Just like functions, classes can be defined inside another expression, passed around, returned etc. Here’s a class-returning function (“class factory”):</p>
+<pre>
+function makeClass(phrase) {
+  // declare a class and return it
+  return class {
+    sayHi() {
+      alert(phrase);
+    };
+  };
+}
+
+let User = makeClass("Hello");
+
+new User().sayHi(); // Hello
+</pre>
+<p>That’s quite normal if we recall that class is just a special form of a function-with-prototype definition. And, like <code>Named Function Expressions</code>, such classes also may have a name, that is visible inside that class only:</p>
+<pre>
+// "Named Class Expression" (alas, no such term, but that's what's going on)
+let User = class MyClass {
+  sayHi() {
+    alert(MyClass); // MyClass is visible only inside the class
+  }
+};
+
+new User().sayHi(); // works, shows MyClass definition
+
+alert(MyClass); // error, MyClass not visible outside of the class
+</pre>
+
+
+
+
+
+
+
+
+
+
+
+<h1>Static methods</h1>
+<p>We can also assign methods to the class function, not to its "prototype". Such methods are called static.</p>
+<pre>
+class User {
+  static staticMethod() {
+    alert(this === User);
+  }
+}
+
+User.staticMethod(); // true
+</pre>
+<p>That actually does the same as assigning it as a function property:</p>
+<pre>
+function User() { }
+
+User.staticMethod = function() {
+  alert(this === User);
+};
+</pre>
+<p>The value of <code>this</code> inside <code>User.staticMethod()</code> is the class constructor <code>User</code> itself (the “object before dot” rule). Usually, static methods are used to implement functions that belong to the class, but not to any particular object of it. For instance, we have <code>Article</code> objects and need a function to compare them. The natural choice would be <code>Article.compare</code>, like this:</p>
+<pre>
+class Article {
+  constructor(title, date) {
+    this.title = title;
+    this.date = date;
+  }
+
+  static compare(articleA, articleB) {
+    return articleA.date - articleB.date;
+  }
+}
+
+// usage
+let articles = [
+  new Article("Mind", new Date(2016, 1, 1)),
+  new Article("Body", new Date(2016, 0, 1)),
+  new Article("JavaScript", new Date(2016, 11, 1))
+];
+
+articles.sort(Article.compare);
+
+alert( articles[0].title ); // Body
+</pre>
+<p>Here <code>Article.compare</code> stands “over” the articles, as a means to compare them. It’s not a method of an article, but rather of the whole class.</p>
+<p>Here <code>Article.compare</code> stands “over” the articles, as a means to compare them. It’s not a method of an article, but rather of the whole class. Another example would be a so-called “factory” method. Imagine, we need few ways to create an article:</p>
+<ul>
+	<li>Create by given parameters (<code>title</code>, <code>date</code> etc).</li>
+	<li>Create an empty article with today’s date.</li>
+	<li>...</li>
+</ul>
+<p>The first way can be implemented by the constructor. And for the second one we can make a static method of the class.</p>
+<pre>
+class Article {
+  constructor(title, date) {
+    this.title = title;
+    this.date = date;
+  }
+
+  static createTodays() {
+    // remember, this = Article
+    return new this("Today's digest", new Date());
+  }
+}
+
+let article = Article.createTodays();
+
+alert( article.title ); // Todays digest
+</pre>
+<p>Now every time we need to create a today’s digest, we can call <code>Article.createTodays()</code>. Once again, that’s not a method of an article, but a method of the whole class.</p>
+<p>Static methods are also used in database-related classes to search/save/remove entries from the database, like this:</p>
+<pre>
+// assuming Article is a special class for managing articles
+// static method to remove the article:
+Article.remove({id: 12345});
+</pre>
+<h1>Prototype Relation</h1>
+<pre>
+class User{
+  constructor(name, age){
+    this.name = name;
+    this.age = age;
+    this.city = "";
+  }
+  getUserDetails(){return "Name = " + this.name + ", Age = " + this.age;}
+  get location(){return this.city;}
+  set location(city){this.city = city;}
+  static getOlder(person1, person2){
+    if(person1.age > person2.age){
+      return person1.name + " is Older than " + person2.name;
+    }else{
+      return person2.name + " is Older than " + person1.name;
+    }
+  }
+}
+console.log(Object.getOwnPropertyNames(User)); // [ "length", "name", "prototype", "getOlder" ]
+console.log(Object.getOwnPropertyNames(User.prototype)); // [ "constructor", "getUserDetails", "location" ]
+console.log(User.prototype.__proto__ == Object.prototype); // true
+
+let santanu = new User("Santanu Bera", 28);
+console.log(santanu.__proto__ == User.prototype); // true
+console.log(santanu.__proto__.__proto__ == Object.prototype); // true
+</pre>
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

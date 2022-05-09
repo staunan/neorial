@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Process</title>
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+	<script type="text/javascript" src="../../Assets/prism.min.js"></script>
+	<script type="text/javascript" src="../../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+
+
+<h1>Process</h1>
+<p>The <code>process</code> object is a global that provides information about, and control over, the current Node.js process. As a global, it is always available to Node.js applications without using <code>require()</code>.</p>
+
+
+<h3>process.env</h3>
+<p>The <code>process.env</code> property returns an object containing the user environment. An example of this object looks like:</p>
+<pre>
+{
+  TERM: 'xterm-256color',
+  SHELL: '/usr/local/bin/bash',
+  USER: 'maciej',
+  PATH: '~/.bin/:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin',
+  PWD: '/Users/maciej',
+  EDITOR: 'vim',
+  SHLVL: '1',
+  HOME: '/Users/maciej',
+  LOGNAME: 'maciej',
+  _: '/usr/local/bin/node'
+}
+</pre>
+<p>You can modify this <code>env</code> object.</p>
+<pre>
+process.env.foo = 'bar';
+console.log(process.env.foo); // bar
+</pre>
+<p>Assigning a property on <code>process.env</code> will implicitly convert the value to a string. <span style="font-weight: 500;">This behavior is deprecated.</span> Future versions of Node.js may throw an error when the value is not a string, number, or boolean.</p>
+<pre>
+process.env.test = null;
+console.log(process.env.test);
+// => 'null'
+process.env.test = undefined;
+console.log(process.env.test);
+// => 'undefined'
+</pre>
+<p>Use <code>delete</code> to delete a property from <code>process.env</code>.</p>
+<pre>
+process.env.TEST = 1;
+delete process.env.TEST;
+console.log(process.env.TEST);
+// => undefined
+</pre>
+<p>On Windows operating systems, environment variables are case-insensitive.</p>
+<pre>
+process.env.TEST = 1;
+console.log(process.env.test);
+// => 1
+</pre>
+
+
+
+
+<h3>process.argv</h3>
+<p>The <code>process.argv</code> property returns an array containing the command line arguments passed when the Node.js process was launched. The first element will be <code>process.execPath</code>. The second element will be the path to the JavaScript file being executed. The remaining elements will be any additional command line arguments.</p>
+<pre>
+// Create a file index.js
+console.log(process.argv);
+
+// Then run the following command -
+node ./index.js "Santanu Bera" hello there 40 true
+
+// You will see the following output -
+[ 'C:\\Program Files\\nodejs\\node.exe',
+  'D:\\Playground\\Node.js\\index.js',
+  'Santanu Bera',
+  'hello',
+  'there',
+  '40',
+  'true' ]
+</pre>
+
+
+
+
+
+<h3>process.exit()</h3>
+<p>To exit a process, use the exit function:</p>
+<pre>
+process.exit()
+</pre>
+<p>The <code>process.exit()</code> method instructs Node.js to terminate the process synchronously with an exit status of code. If code is omitted, <code>exit</code> uses either the 'success' code 0 or the value of <code>process.exitCode</code> if it has been set. Node.js will not terminate until all the 'exit' event listeners are called.</p>
+<pre>
+process.exit(1); // Exit with a failure
+process.exit(0); // Exit with a success
+process.exit(129); // This process failed with a different code
+</pre>
+<p>Calling <code>process.exit()</code> will force the process to exit as quickly as possible even if there are still asynchronous operations pending that have not yet completed fully, including I/O operations to <code>process.stdout</code> and <code>process.stderr</code>.</p>
+<p>In most situations, it is not actually necessary to call <code>process.exit()</code> explicitly. The Node.js process will exit on its own if there is no additional work pending in the event loop. The <code>process.exitCode</code> property can be set to tell the process which exit code to use when the process exits gracefully.</p>
+<p>For instance, the following example illustrates a misuse of the <code>process.exit()</code> method that could lead to data printed to stdout being truncated and lost:</p>
+<pre>
+// This is an example of what *not* to do:
+if (someConditionNotMet()) {
+  printUsageToStdout();
+  process.exit(1);
+}
+</pre>
+<p>The reason this is problematic is because writes to <code>process.stdout</code> in Node.js are sometimes asynchronous and may occur over multiple ticks of the Node.js event loop. Calling <code>process.exit()</code>, however, forces the process to exit before those additional writes to <code>stdout</code> can be performed.</p>
+<p>Rather than calling <code>process.exit()</code> directly, the code should set the <code>process.exitCode</code> and allow the process to exit naturally by avoiding scheduling any additional work for the event loop:</p>
+<pre>
+// How to properly set the exit code while letting
+// the process exit gracefully.
+if (someConditionNotMet()) {
+  printUsageToStdout();
+  process.exitCode = 1;
+}
+</pre>
+<p>If it is necessary to terminate the Node.js process due to an error condition, throwing an uncaught error and allowing the process to terminate accordingly is safer than calling <code>process.exit()</code>.</p>
+
+
+
+
+
+<h3>process.exitCode</h3>
+<p>A number which will be the process exit code, when the process either exits gracefully, or is exited via <code>process.exit()</code> without specifying a code.</p>
+<p>Specifying a code to <code>process.exit(code)</code> will override any previous setting of process.exitCode.
+</p>
+
+
+
+<h3>process.version</h3>
+<p>The <code>process.version</code> property returns the Node.js version string.</p>
+<pre>
+console.log(`Version: ${process.version}`);
+</pre>
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

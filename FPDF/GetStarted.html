@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Hello World</title>
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
+	<script type="text/javascript" src="../Assets/jquery.min.js"></script>
+	<link rel="stylesheet" href="../Assets/prism-dark.css">
+	<style type="text/css">
+		h2{
+			font-size: 18px;
+			font-weight: 700;
+		}
+		h3, h4, h2{
+			margin: 0;
+		}
+		p{
+			margin: 0;
+			margin-bottom: 10px;
+		}
+	</style>
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+<h1>Examples</h1>
+<p>Go through the following two example, and then we will get into the bottom of this -</p>
+<h2>Example 1 : Hello World</h2>
+<p>Consider the following example -</p>
+<pre>
+	&lt;?php
+	require('fpdf.php');
+
+	$pdf = new FPDF();
+	$pdf->AddPage();
+	$pdf->SetFont('Arial','B',16);
+	$pdf->Cell(40,10,'Hello World!');
+	$pdf->Output('name.pdf', 'D');
+	?>
+</pre>
+<p>Before you go any further you need to import the <code>FPDF</code> library on the top of any code.</p>
+<p>After that you need to create a FPDF object through which we will create our PDF.</p>
+<pre>
+	$pdf = new FPDF();
+</pre>
+<p>There's no page at the moment, so we have to add one with <code>AddPage()</code>. This creates only one page.</p>
+<p>Before we can print text, it's mandatory to select a font with SetFont(). We choose Arial bold 16:</p>
+<pre>
+	$pdf->SetFont('Arial','B',16);
+</pre>
+<p>We can now print a cell with <code>Cell()</code>. A cell is a rectangular area, possibly framed, which contains a line of text. It is output at the current position. After the Cell is added, the current position is moved after the Cell.</p>
+<pre>
+	$pdf->Cell(40,10,'Hello World !',1);
+</pre>
+<p>Finally we are sending output - </p>
+<pre>
+	$pdf->Output('name.pdf', 'D')
+</pre>
+
+
+
+
+
+<h2>Example 2 : Header and Footer</h2>
+<pre>
+	&lt;?php
+	require('fpdf.php');
+
+	class PDF extends FPDF
+	{
+		// Page header
+		function Header()
+		{
+			// Logo
+			$this->Image('logo.png',10,6,30);
+			// Arial bold 15
+			$this->SetFont('Arial','B',15);
+			// Move to the right
+			$this->Cell(80);
+			// Title
+			$this->Cell(30,10,'Title',1,0,'C');
+			// Line break
+			$this->Ln(20);
+		}
+
+		// Page footer
+		function Footer()
+		{
+			// Position at 1.5 cm from bottom
+			$this->SetY(-15);
+			// Arial italic 8
+			$this->SetFont('Arial','I',8);
+			// Page number
+			$this->Cell(0,10,'Page '.$this->PageNo().'/{nb}',0,0,'C');
+		}
+	}
+
+	// Instanciation of inherited class
+	$pdf = new PDF();
+	$pdf->AliasNbPages();
+	$pdf->AddPage();
+	$pdf->SetFont('Times','',12);
+	for($i=1;$i<=40;$i++)
+		$pdf->Cell(0,10,'Printing line number '.$i,0,1);
+	$pdf->Output();
+	?>
+</pre>
+<p>In the above example we have created a Class which extends FPDF class.</p>
+<p>This example makes use of the Header() and Footer() methods to process page headers and footers. They are called automatically. They already exist in the FPDF class but do nothing, therefore we have to extend the class and override them.</p>
+<p>Within the header function we have inserted a logo using <code>Image()</code>, we have set the header font using <code>SetFont()</code>, we have created a Cell to insert a title and we gave some line break using <code>Ln()</code></p>
+<p>In the footer method, we have positioned the footer from the bottom, we have set the font, and created a Cell to insert the page Number.</p>
+
+
+
+
+
+<h1>__construct()</h1>
+<pre>
+	
+	__construct([string orientation [, string unit [, mixed size]]])
+
+</pre>
+<p>This is the class constructor. It allows to set up the page size, the orientation and the unit of measure used in all methods (except for font sizes).</p>
+<h4>orientation</h4>
+<p>Default page orientation. Possible values are (case insensitive):</p>
+<ul>
+	<li>P or Portrait</li>
+	<li>L or Landscape</li>
+</ul>
+<p>Default value is P</p>
+<h4>unit</h4>
+<p>User unit. Possible values are:</p>
+<ul>
+	<li>pt: point</li>
+	<li>mm: millimeter</li>
+	<li>cm: centimeter</li>
+	<li>in: inch</li>
+</ul>
+<p>A point equals 1/72 of inch, that is to say about 0.35 mm (an inch being 2.54 cm). This is a very common unit in typography; font sizes are expressed in that unit. Default value is mm.</p>
+<h4>size</h4>
+<p>The size used for pages. It can be either one of the following values (case insensitive):</p>
+<ul>
+	<li>A3</li>
+	<li>A4</li>
+	<li>A5</li>
+	<li>Letter</li>
+	<li>Legal</li>
+</ul>
+<p>or an array containing the width and the height (expressed in the unit given by unit).</p>
+<p>Default value is A4.</p>
+<pre>
+	
+	$pdf = new FPDF('P','mm',array(100,150));
+
+</pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h1>Output()</h1>
+<pre>
+	
+	string Output([string dest [, string name]])
+
+</pre>
+<p>Send the document to a given destination: browser, file or string. In the case of a browser, the PDF viewer may be used or a download may be forced. The method first calls Close() if necessary to terminate the document.</p>
+<h4>dest</h4>
+<p>Destination where to send the document. It can be one of the following:</p>
+<ul>
+	<li>I: send the file inline to the browser. The PDF viewer is used if available. The default is I.</li>
+	<li>D: send to the browser and force a file download with the name given by name.</li>
+	<li>F: save to a local file with the name given by name (may include a path).</li>
+	<li>S: return the document as a string.</li>
+</ul>
+<h4>name</h4>
+<p>The name of the file. It is ignored in case of destination S. The default value is <code>doc.pdf</code></p>
+<p style="font-weight: bold;">In case when the PDF is sent to the browser, nothing else must be output by the script, neither before nor after (no HTML, not even a space or a carriage return). If you send something before, you will get the error message: "Some data has already been output, can't send PDF file". If you send something after, the document might not display.</p>
+
+
+
+
+<h1>Close()</h1>
+<pre>
+	
+	Close()
+
+</pre>
+<p>Terminates the PDF document. It is not necessary to call this method explicitly because Output() does it automatically. </p>
+
+
+
+
+
+<h1>Header()</h1>
+<p>This method is used to render the page header. It is automatically called by <code>AddPage()</code> and should not be called directly by the application. The implementation in FPDF is empty, so you have to subclass it and override the method if you want a specific processing.</p>
+<pre>
+
+	class PDF extends FPDF
+	{
+		function Header()
+		{
+			// Select Arial bold 15
+			$this->SetFont('Arial','B',15);
+			// Move to the right
+			$this->Cell(80);
+			// Framed title
+			$this->Cell(30,10,'Title',1,0,'C');
+			// Line break
+			$this->Ln(20);
+		}
+	}
+
+</pre>
+
+
+
+
+
+<h1>Footer()</h1>
+<p>This method is used to render the page footer. It is automatically called by AddPage() and Close() and should not be called directly by the application. The implementation in FPDF is empty, so you have to subclass it and override the method if you want a specific processing.</p>
+<pre>
+
+	class PDF extends FPDF
+	{
+		function Footer()
+		{
+			// Go to 1.5 cm from bottom
+			$this->SetY(-15);
+			// Select Arial italic 8
+			$this->SetFont('Arial','I',8);
+			// Print centered page number
+			$this->Cell(0,10,'Page '.$this->PageNo(),0,0,'C');
+		}
+	}
+
+</pre>
+
+
+</div>
+</body>
+</html>

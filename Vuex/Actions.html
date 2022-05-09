@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Actions</title>
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
+	<script type="text/javascript" src="../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+<h1>Actions</h1>
+<p>Actions are similar to mutations, the differences being that:</p>
+<ul>
+	<li>Instead of mutating the state, actions commit mutations.</li>
+	<li>Actions can contain arbitrary asynchronous operations.</li>
+</ul>
+<pre>
+const store = new Vuex.Store({
+  state: {
+    count: 0
+  },
+  mutations: {
+    increment (state) {
+      state.count++
+    }
+  },
+  actions: {
+    increment (context) {
+      context.commit('increment')
+    }
+  }
+})
+</pre>
+<p>Action handlers receive a <code>context</code> object which exposes the same set of methods/properties on the store instance, so you can call <code>context.commit</code> to commit a mutation, or access the state and getters via <code>context.state</code> and <code>context.getters</code>.</p>
+<p>Remember that, <code>store</code> object is not same as <code>context</code> object. You will know why in <code>Module</code> chapter.</p>
+
+<p>In practice, we often use ES2015 argument destructuring to simplify the code a bit (especially when we need to call commit multiple times):</p>
+<pre>
+actions: {
+  increment ({ commit }) {
+    commit('increment')
+  }
+}
+</pre>
+
+
+
+<h1>Dispatching Actions</h1>
+<p>Actions are triggered with the store.dispatch method:</p>
+<pre>
+store.dispatch('increment')
+</pre>
+<p>This may look dumb at first sight: if we want to increment the count, why don't we just call <code>store.commit('increment')</code> directly? Remember that mutations have to be synchronous? Actions don't. We can perform asynchronous operations inside an action:</p>
+<pre>
+actions: {
+  incrementAsync ({ commit }) {
+    setTimeout(() => {
+      commit('increment')
+    }, 1000)
+  }
+}
+</pre>
+<p>Actions support the same payload format and object-style dispatch:</p>
+<pre>
+// dispatch with a payload
+store.dispatch('incrementAsync', {
+  amount: 10
+})
+
+// dispatch with an object
+store.dispatch({
+  type: 'incrementAsync',
+  amount: 10
+})
+</pre>
+<p>A more practical example of real-world actions would be an action to checkout a shopping cart, which involves calling an async API and committing multiple mutations:</p>
+<pre>
+actions: {
+  checkout ({ commit, state }, products) {
+    // save the items currently in the cart
+    const savedCartItems = [...state.cart.added]
+    // send out checkout request, and optimistically
+    // clear the cart
+    commit(types.CHECKOUT_REQUEST)
+    // the shop API accepts a success callback and a failure callback
+    shop.buyProducts(
+      products,
+      // handle success
+      () => commit(types.CHECKOUT_SUCCESS),
+      // handle failure
+      () => commit(types.CHECKOUT_FAILURE, savedCartItems)
+    )
+  }
+}
+</pre>
+<p>Note we are performing a flow of asynchronous operations, and recording the side effects (state mutations) of the action by committing them.</p>
+
+
+
+
+<h1>Dispatching Actions in Components</h1>
+<p>You can dispatch actions in components with this.$store.dispatch('xxx'), or use the mapActions helper which maps component methods to store.dispatch calls (requires root store injection):</p>
+<pre>
+import { mapActions } from 'vuex'
+
+export default {
+  // ...
+  methods: {
+    ...mapActions([
+      'increment', // map `this.increment()` to `this.$store.dispatch('increment')`
+
+      // `mapActions` also supports payloads:
+      'incrementBy' // map `this.incrementBy(amount)` to `this.$store.dispatch('incrementBy', amount)`
+    ]),
+    ...mapActions({
+      add: 'increment' // map `this.add()` to `this.$store.dispatch('increment')`
+    })
+  }
+}
+</pre>
+
+
+
+
+
+<h1>Composing Actions</h1>
+<p>Actions are often asynchronous, so how do we know when an action is done? And more importantly, how can we compose multiple actions together to handle more complex async flows?</p>
+<p>The first thing to know is that store.dispatch can handle Promise returned by the triggered action handler and it also returns Promise:</p>
+<pre>
+actions: {
+  actionA ({ commit }) {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        commit('someMutation')
+        resolve()
+      }, 1000)
+    })
+  }
+}
+</pre>
+<p>Now you can do:</p>
+<pre>
+store.dispatch('actionA').then(() => {
+  // ...
+})
+</pre>
+<p>And also in another action:</p>
+<pre>
+actions: {
+  // ...
+  actionB ({ dispatch, commit }) {
+    return dispatch('actionA').then(() => {
+      commit('someOtherMutation')
+    })
+  }
+}
+</pre>
+<p>Finally, if we make use of async / await, we can compose our actions like this:</p>
+<pre>
+// assuming `getData()` and `getOtherData()` return Promises
+
+actions: {
+  async actionA ({ commit }) {
+    commit('gotData', await getData())
+  },
+  async actionB ({ dispatch, commit }) {
+    await dispatch('actionA') // wait for `actionA` to finish
+    commit('gotOtherData', await getOtherData())
+  }
+}
+</pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

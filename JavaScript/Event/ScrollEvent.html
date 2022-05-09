@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Scroll Event</title>
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
+	<script type="text/javascript" src="../../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+
+
+
+<h1>Scroll Event</h1>
+<p>There's a <code>scroll</code> event you can use. When you scroll the page or an element, this event occurs repeatedly while scrolling.</p>
+<p><code>scroll</code> event occurs on both <code>window</code> and elements.</p>
+<p>Here is an example -</p>
+<pre>
+&lt;script type="text/javascript">
+window.addEventListener("scroll", function(event){
+	console.log(window.pageYOffset + "px");
+});
+&lt;/script>
+</pre>
+<script type="text/javascript">
+window.addEventListener("scroll", function(event){
+	console.log(window.pageYOffset + "px");
+});
+</script>
+<p>Here is an example on an element -</p>
+<pre>
+&lt;div id="demo1" style="border: 1px solid #333; height: 100px; width: 400px; overflow-y: auto;">
+	&lt;ul>
+		&lt;li>Hello&lt;/li>
+		&lt;li>Hello&lt;/li>
+		&lt;li>Hello&lt;/li>
+		...
+	&lt;/ul>
+&lt;/div>
+&lt;script type="text/javascript">
+	demo1.onscroll=function(event){
+		console.log(event.target.scrollTop);
+	};
+&lt;/script>
+</pre>
+<div class="box">
+	<div id="demo1" style="border: 1px solid #333; height: 100px; width: 400px; overflow-y: auto;">
+		<ul>
+			<li>Hello</li>
+			<li>Hello</li>
+			<li>Hello</li>
+			<li>Hello</li>
+			<li>Hello</li>
+			<li>Hello</li>
+			<li>Hello</li>
+			<li>Hello</li>
+			<li>Hello</li>
+			<li>Hello</li>
+			<li>Hello</li>
+			<li>Hello</li>
+			<li>Hello</li>
+			<li>Hello</li>
+			<li>Hello</li>
+			<li>Hello</li>
+			<li>Hello</li>
+			<li>Hello</li>
+			<li>Hello</li>
+			<li>Hello</li>
+			<li>Hello</li>
+			<li>Hello</li>
+			<li>Hello</li>
+			<li>Hello</li>
+			<li>Hello</li>
+			<li>Hello</li>
+			<li>Hello</li>
+			<li>Hello</li>
+			<li>Hello</li>
+			<li>Hello</li>
+			<li>Hello</li>
+			<li>Hello</li>
+			<li>Hello</li>
+			<li>Hello</li>
+			<li>Hello</li>
+			<li>Hello</li>
+			<li>Hello</li>
+			<li>Hello</li>
+			<li>Hello</li>
+			<li>Hello</li>
+			<li>Hello</li>
+			<li>Hello</li>
+			<li>Hello</li>
+			<li>Hello</li>
+			<li>Hello</li>
+			<li>Hello</li>
+			<li>Hello</li>
+			<li>Hello</li>
+			<li>Hello</li>
+			<li>Hello</li>
+			<li>Hello</li>
+			<li>Hello</li>
+			<li>Hello</li>
+			<li>Hello</li>
+			<li>Hello</li>
+			<li>Hello</li>
+			<li>Hello</li>
+			<li>Hello</li>
+			<li>Hello</li>
+			<li>Hello</li>
+			<li>Hello</li>
+			<li>Hello</li>
+			<li>Hello</li>
+			<li>Hello</li>
+			<li>Hello</li>
+			<li>Hello</li>
+			<li>Hello</li>
+			<li>Hello</li>
+			<li>Hello</li>
+			<li>Hello</li>
+			<li>Hello</li>
+			<li>Hello</li>
+		</ul>
+	</div>
+	<script type="text/javascript">
+		demo1.onscroll=function(event){
+			console.log(event.target.scrollTop);
+		};
+	</script>
+</div>
+
+
+<p>There are some pretty good application you can do with the scroll event -</p>
+<ul>
+	<li>display Scroll to Top button when the user scrolls down some amount.</li>
+	<li>Load image when they are only in the viewport, otherwise use default image as a placeholder. This saves lots of traffic.</li>
+	<li>Push the content at the bottom when the user reaches at the bottom. Useful for pushing search result.</li>
+	<li>And many more.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

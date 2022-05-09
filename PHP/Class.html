@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Classes</title>
+  <link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+  <link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
+  <script type="text/javascript" src="../Assets/jquery.min.js"></script>
+    <link rel="stylesheet" href="../Assets/prism-dark.css">
+</head>
+<body class="Body">
+  <div class="Content Card">
+        <h1>Define Class</h1>
+        <p>
+            Basic class definitions begin with the keyword class, followed by a class name, followed by a pair of curly braces which enclose the definitions of the properties and methods belonging to the class.            
+        </p>
+        <pre>
+            class Car {
+                // The code
+              }
+        </pre>
+        <p>
+            We call properties to the variables inside a class. Properties can accept values like strings, integers, and booleans (true/false values), like any other variable. Let's add some properties to the Car class.
+        </p>
+        <pre>
+            class Car {
+                public $comp;
+                public $color = 'beige';
+                public $hasSunRoof = true;
+              }
+        </pre>
+        <p>
+            Here, <code>public</code> keyword is must. Without it, PHP will throw error message. Last two property have a default value where's $comp doesn't have any default value. Besides, properties we can have methods, which we will cover bit latter. Now our class is all set. It's time we should work with these classes. If you want to access any of these properties outside of the class, you must create object of that class. You can create any number of object you want and this is how it's done -
+        </p>
+        <h1>Creating Object</h1>
+        <pre>
+            $bmw = new Car ();            
+        </pre>
+        <p>
+            The process of creating an object is also known as <code>instantiation</code>. We created the object $bmw from the class Car with the <code>new</code> keyword.            
+        </p>
+        <p>You can create multiple object of that class -</p>
+        <pre>
+            $bmw = new Car ();
+            $mercedes = new Car ();
+        </pre>
+        <h1>Accessing Properties</h1>
+        <p>
+            Once we create an object, we can get its properties. For example:            
+        </p>
+        <pre>
+            echo $bmw -> color;
+            echo $mercedes -> color;
+        </pre>
+        <p>
+            In order to get a property, we write the object name, and then dash greater than (->), and then the property name. Note that the property name does not start with the $ sign; only the object name starts with a $. The above will give the following output -
+        </p>
+        <pre>
+            beige
+            beige
+        </pre>
+        <p>In order to set an object property, we use a similar approach. For example, in order to set the color to 'blue' in the bmw object:</p>
+        <pre>
+            $bmw -> color = 'blue';
+            $mercedes -> comp = "Mercedes Benz";            
+        </pre>
+        <h1>Adding Methods to the Class</h1>
+        <p>The classes most often contain functions. A function inside a class is called a method. Here we add the method hello() to the class with the prefix public.</p>
+        <pre>
+            class Car {
+                
+                 public $comp;
+                 public $color = 'beige';
+                 public $hasSunRoof = true;
+                
+                 public function hello() 
+                 {
+                   return "beep";
+                 }
+               }               
+        </pre>
+        <p>We put the <code>public</code> keyword in front of a method.</p>
+        <h1>Accessing Methods</h1>
+        <p>We take similar approach to the properties to access methods - </p>
+        <pre>
+            $mercedes = new Car ();
+            echo $mercedes -> hello();
+        </pre>
+        <p>The function above will return <code>beep</code></p>.
+        <pre>
+            // Declare the class
+            class Car {
+             
+              // properties
+              public $comp; 
+              public $color = 'beige';
+              public $hasSunRoof = true;
+             
+               // method that says hello
+              public function hello()
+              {
+                return "beep";
+              }
+            }
+             
+            // Create an instance
+            $bmw = new Car ();
+            $mercedes = new Car ();
+             
+            // Get the values
+            echo $bmw -> color; // beige
+            echo "&lt;br />";
+            echo $mercedes -> color; // beige
+            echo "&lt;hr />";
+             
+            // Set the values
+            $bmw -> color = 'blue';
+            $bmw -> comp = "BMW";
+            $mercedes -> comp = "Mercedes Benz";
+             
+            // Get the values again
+            echo $bmw -> color; // blue
+            echo "&lt;br />";
+            echo $mercedes -> color; // beige
+            echo "&lt;br />";
+            echo $bmw -> comp; // BMW
+            echo "&lt;br />";
+            echo $mercedes -> comp; // Mercedes Benz
+            echo "&lt;hr />";
+             
+            // Use the methods to get a beep
+            echo $bmw -> hello(); // beep
+            echo "&lt;br />";
+            echo $mercedes -> hello(); // beep
+        </pre>
+        <h1>Accessing properties from the method.</h1>
+        <p>We use <code>this</code> keyword to access properties from the method inside the class.</p>
+        <pre>
+            class Car {                
+                 public $comp;
+                 public $color = 'beige';
+                 public $hasSunRoof = true;
+                
+                 public function setColor($color) 
+                 {
+                   $this->color = $color;
+                 }
+                 public function getColor(){
+                    return $this->color;
+                 }
+               }
+            
+            $bmw = new Car();
+            $bmw->setColor("Red");
+            echo $bmw->getColor();
+        </pre>
+        <p>
+            We are accessing color using <code>$this->color</code>. The above code will output "Red";
+        </p>
+        <p>
+            So, this is very basic of Class in PHP, in the follow up chapter we will cover Method Overloading, Method Overriding, Inheritance, Access Modifier etc that is related to the Class.
+        </p>
+  </div>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+

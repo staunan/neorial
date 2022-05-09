@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Buffer</title>
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+	<script type="text/javascript" src="../../Assets/prism.min.js"></script>
+	<script type="text/javascript" src="../../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+
+
+<h1>Buffer</h1>
+<p>The buffers module provides a way of handling streams of binary data. The Buffer object is a global object in Node.js, and it is not necessary to import it using the <code>require</code> keyword. Before we go to the buffer we need to know what is binary data and stream.</p>
+<h3>Binary Data</h3>
+<p>Computer can understand only combination of 1 and 0 and nothing else. So everything is converted to that form so that a computer can understand. Everything means everything, like numbers, string, images, videos etc. All these data is loaded in the memory in Binary format. The data in Binray format is called Binary Data.</p>
+<h3>Stream of Binary Data</h3>
+<p>Stream in Node.js simply means a sequence of data being moved from one point to the other over time. The whole concept is, you have a huge amount of data to process, but you don’t need to wait for all the data to be available before you start processing it. Basically, this big data is broken down and sent in chunks. The movement of binary data from one location to another is called Stream of Binary data. For example, data movement from disk to file.</p>
+<h3>Buffer</h3>
+<p>We’ve seen that a stream of data is the movement of data from one point to the other, but how exactly are they moved?</p>
+<p>Typically, the movement of data is usually with the intention to process it, or read it, and make decisions based on it. But there is a minimum and a maximum amount of data a process could take over time. The whole data is not processed at once, instead the first chunk of the processed first, after the processing is finished the next chunk of data is being processed. And this way it contines until all the data is being processed. So there are basically two process:</p>
+<ul>
+	<li>First, the data is loaded in the memory for processing.</li>
+	<li>Second, the data is then being processed.</li>
+</ul>
+<p>But, if the loading time is less than processing time, then the next chunk of data needs to wait somewhere for the previous chunk to be finished processing.</p>
+<p>On the other hand, if the process is consuming the data faster than it arrives, the few data that arrive earlier need to wait for a certain amount of data to arrive before being sent out for processing.</p>
+<p>That “waiting area” is the buffer! It is a small physical location in your computer, usually in the RAM, where data are temporally gathered, wait, and are eventually sent out for processing during streaming.</p>
+<p>In Node.js you can use buffer (a physical location in RAM), to store binary data so that you can send these data for processing in later time.</p>
+<p>A typical example where you could see buffer in action is when you’re streaming a video online. If your internet connection is fast enough, the speed of the stream will be fast enough to instantly fill up the buffer and send it out for processing, then fill another one, and send it out, then another, and yet another… till the stream is finished.</p>
+<p>But if your connection is slow, after processing the first set of data that arrived, the video player will display a loading icon, or display the text “buffering”, which means gathering more data, or waiting for more data to arrive. And when the buffer is filled up and processed, the player shows the data, the video. While playing that, more data will continue to arrive and wait in the buffer.</p>
+<p>If the player is done processing or playing the previous data, and the buffer is not yet filled up, the text “buffering” will be displayed again, waiting to gather more data to process.</p>
+<p>With the help of Node.js we can manipulate or interact with the binary data being processed. So let's see what we can do with the buffer in Node.js.</p>
+
+
+
+
+
+<h1>Creating Buffer</h1>
+<p>It is possible to create your own buffer. It doesn't mean that you can create a physical location. It means it reserves a block in the memory that can be used as a buffer. Depending on what you want to achieve, there are different ways to create a buffer.</p>
+<p>There are three ways you can create buffer:</p>
+<ul>
+	<li>Buffer.alloc()</li>
+	<li>Buffer.allocUnsafe()</li>
+	<li>Buffer.from()</li>
+</ul>
+<h3>Buffer.alloc()</h3>
+<p>This method takes an integer value as an argument which specifies the number of bytes to be alocated in the memory.</p>
+<pre>
+let buffer = Buffer.alloc(10); // Reserves 10 bytes in Memory as the Buffer
+console.log(buffer);
+// &lt;Buffer 00 00 00 00 00 00 00 00 00 00>
+</pre>
+<p>This method clears out everything within the reserved space. It means it first allocates the memory and then deletes the data. So initially the buffer contains all 0s. Now you can assign a value to that buffer. Let's assign a string.</p>
+<p>To assign some value to the buffer you can use one of the following:</p>
+<ul>
+	<li>Buffer.write()</li>
+	<li>Buffer.fill()</li>
+</ul>
+<p>We will get into details of these methods later. But you can get the basic idea what it does. These method writes the data into the buffer.</p>
+<pre>
+let buffer = Buffer.alloc(10);
+buffer.write("Santanu");
+console.log(buffer);
+// &lt;Buffer 53 61 6e 74 61 6e 75 00 00 00>
+</pre>
+<p>Notice the output, the last three bytes are still 0. So the data is written from the first index. The first byte shows <code>53</code>. Actually in memory it is stored in binary equivalent. But why 53? By default Node.js uses <code>UTF-8</code> encoding system. The UTF-8 representation of the string is converted into binary form and then it is stored in the memory. The method <code>console.log</code> automatically converts that binary form into hexadecimal representation. So the letter <code>S</code> represents <code>53</code>, <code>a</code> represents <code>61</code> and so on. This way in memory the Binary form of UTF-8 encoding representation is stored. But <code>console.log</code> is converting that binary form to hexadecimal representation. But still, the hexadecimal representation is not human readable. To make it human readable format you can use <code>toString()</code> method.</p>
+<pre>
+let str = buffer.toString();
+console.log(str); // Santanu
+</pre>
+<p>Let's furthur assign some value:</p>
+<pre>
+let buffer = Buffer.alloc(10);
+buffer.write("Santanu");
+buffer.write("Bera");
+console.log(buffer);
+// <&lt;uffer 42 65 72 61 61 6e 75 00 00 00>
+console.log(buffer.toString());
+// Beraanu
+</pre>
+<p>Notice the output, if you assign value again using <code>write()</code>, it will again write it from the start of the buffer over the pre-existing data. So first we had <code>Santanu</code>, and then <code>Bera</code>. As already there was data before writing <code>Bera</code>, it wasn't cleared out. So you can still see the remaining byte what it contains.</p>
+<p>Now you have the idea what <code>Buffer.alloc()</code> method does. Let's look at the full syntax:</p>
+<pre>
+Buffer.alloc(size[, fill[, encoding]])
+</pre>
+<p>Here <code>fill</code> is the data which will be writted to the buffer. If it is not specified the buffer will not contain anything. The default is <code>0</code>, it means by default the buffer will be filled with all 0s.</p>
+<p>The last optional argument is <code>encoding</code> system in which the binary conversion will take place, which we have talked earlier. Node.js supports various encoding system. By default it is <code>utf8</code>. We will talk about Encoding system in later chapter.</p>
+<p>Here is an example:</p>
+<pre>
+const buf = Buffer.alloc(5, 'a');
+console.log(buf);
+// Prints: &lt;Buffer 61 61 61 61 61>
+</pre>
+
+<h3>Buffer.allocUnsafe()</h3>
+<p>This method is same as <code>alloc()</code>, but the reserved space is not cleared out. The allocated space might contain some data which can be sensitive. Just like alloc() it takes a integer value to specify the number of bytes to reserve.</p>
+<pre>
+let buffer = Buffer.allocUnsafe(10);
+console.log(buffer);
+// &lt;Buffer 00 ff ff ff 00 00 00 00 00 00>
+</pre>
+<p>Note that in the above example, we haven't write anything to the buffer but the second, third, and fourth byte contains some data. Actually Node.js looks for some unused memory in the RAM. But that unused space might contain some data which was being used by another application, and that applciation didn't clear the space before terminating. So that data is left out in the RAM which are not referenced by any pointer. These data might be very sensitive. So there is security risk of using <code>Buffer.allocUnsafe()</code> method.</p>
+<p>Another difference is that <code>allocUnsafe</code> is faster than <code>alloc</code> method. So <code>alloc</code> is <code>slow-safe</code> way of using buffer, and <code>allcUnsafe</code> is <code>fast-unsafe</code> way of using Buffer.</p>
+<p>If you want to use <code>allocUnsafe()</code>, you should explicitily reset the allocated space, in other words delete all the data, or cleared out the data. You can do that using <code>fill()</code> method.</p>
+<pre>
+buffer.fill(0);
+console.log(buffer);
+// &lt;Buffer 00 00 00 00 00 00 00 00 00 00>
+</pre>
+<p>The full syntax is:</p>
+<pre>
+Buffer.allocUnsafe(size)
+</pre>
+<p>We will go deeper over why we should use <code>Buffer.allocUnsafe()</code> instead of <code>Buffer.alloc()</code> method after the concept of <code>pullSize</code>.</p>
+
+
+
+<h1>Buffer.from()</h1>
+<p>Another way of creating a Buffer is to use the syntax Buffer.from(). But based on the datatype you can pass different argument.</p>
+<h3>Buffer.from(Array)</h3>
+<p>You can create buffer from a provided array. The method <code>Buffer.from()</code> Allocates a new Buffer using an array of octets.</p>
+<pre>
+const buf = Buffer.from([0x62, 0x75, 0x66, 0x66, 0x65, 0x72]);
+</pre>
+<p>The above method creates a buffer using provided array of octal values.</p>
+<pre>
+let buffer = Buffer.from([1, 2, 3]);
+console.log(buffer); // &lt;Buffer 01 02 03>
+</pre>
+
+
+<h3>Buffer.from(Buffer)</h3>
+<p>You can also create buffer from another buffer. After calling that method, the resulting buffer will be identical as the provided buffer as the argument. But they are seperated, it means any changes made to the copied buffer won't affect anything to the buffer from which the new buffer is created.</p>
+<pre>
+const buffer1 = Buffer.from('buffer');
+const buffer2 = Buffer.from(buffer1);
+
+buffer1[0] = 0x61;
+
+console.log(buffer1.toString());
+// Prints: auffer
+console.log(buffer2.toString());
+// Prints: buffer
+</pre>
+
+
+<h3>Buffer.from(string[, encoding])</h3>
+<p>Creates a new Buffer containing string. The <code>encoding</code> parameter identifies the character encoding of string.</p>
+<pre>
+const buffer1 = Buffer.from('this is a tést');
+const buffer2 = Buffer.from('7468697320697320612074c3a97374', 'hex');
+
+console.log(buffer1.toString());
+// Prints: this is a tést
+console.log(buffer2.toString());
+// Prints: this is a tést
+console.log(buffer1.toString('ascii'));
+// Prints: this is a tC)st
+</pre>
+
+
+<h3>Others</h3>
+<p>There are other two variation of creating Buffer:</p>
+<ul>
+	<li>Buffer.from(arrayBuffer[, byteOffset[, length]])</li>
+	<li>Buffer.from(object[, offsetOrEncoding[, length]])</li>
+</ul>
+<p>Which we will cover later in this section.</p>
+
+
+
+
+<h1>Buffer.isBuffer()</h1>
+<p>To check if a Buffer is a Buffer of not, use the method <code>isBuffer()</code>:</p>
+<pre>
+let buffer1 = Buffer.from("Santanu", 'utf8');
+let notBuffer = {};
+console.log(Buffer.isBuffer(buffer1)); // true
+console.log(Buffer.isBuffer(notBuffer)); // false
+</pre>
+
+
+
+<h1>buffer.fill()</h1>
+<p>This method is used to fill the Buffer. The syntax is :</p>
+<pre>
+buffer.fill(value[, offset[, end]][, encoding])
+</pre>
+<ul>
+	<li><code>value</code>: The value to fill buffer with. The value can be String, Number or Buffer.</li>
+	<li><code>offset</code>: Number of bytes to skip before starting to fill buffer. Default: 0</li>
+	<li><code>end</code>: Where to stop filling buffer (not inclusive).</li>
+	<li><code>encoding</code>: If <code>value</code> is a string, this is its encoding. Default: 'utf8'</li>
+</ul>
+<p>This method returns the buffer object on which it was called.</p>
+<pre>
+const b = Buffer.allocUnsafe(50).fill('h');
+console.log(b.toString());
+// Prints: hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh
+</pre>
+<p>One thing to remember is that, <code>value</code> is coerced to a <code>uint32</code> value if it is not a <code>String</code> or <code>Integer</code>. If the final write of a <code>fill()</code> operation falls on a multi-byte character, then only the first bytes of that character that fit into buffer are written.</p>
+<pre>
+// Fill a `Buffer` with a two-byte character.
+
+console.log(Buffer.allocUnsafe(3).fill('\u0222'));
+// Prints: &lt;Buffer c8 a2 c8>
+</pre>
+<p>If <code>value</code> contains invalid characters, it is truncated.</p>
+
+
+
+
+<h1>buffer.length</h1>
+<p>Returns the amount of memory allocated for <code>buffer</code> in bytes. Note that this does not necessarily reflect the amount of "usable" data within <code>buffer</code>.</p>
+<pre>
+// Create a `Buffer` and write a shorter ASCII string to it.
+
+const buffer = Buffer.alloc(1234);
+
+console.log(buffer.length);
+// Prints: 1234
+
+buffer.write('some string', 0, 'ascii');
+
+console.log(buffer.length);
+// Prints: 1234
+</pre>
+<p>Note, the <code>length</code> property is mutable. It means you can change it. But doing it can cause unexpected result.</p>
+
+
+
+
+<h1>buffer.toString([encoding[, start[, end]]])</h1>
+<ul>
+	<li><code>encoding</code>: The character encoding to decode to. Default: 'utf8'.</li>
+	<li><code>start</code>: The byte offset to start decoding at. Default: 0</li>
+	<li><code>end</code>: The byte offset to stop decoding at (not inclusive). Default: buffer.length.</li>
+</ul>
+<p>This method returns the string representation of the buffer. This method decodes buffer to a string according to the specified character encoding in encoding. start and end may be passed to decode only a subset of buffer.</p>
+<pre>
+const buffer1 = Buffer.allocUnsafe(26);
+
+for (let i = 0; i < 26; i++) {
+  // 97 is the decimal ASCII value for 'a'
+  buffer1[i] = i + 97;
+}
+
+console.log(buffer1.toString('ascii'));
+// Prints: abcdefghijklmnopqrstuvwxyz
+console.log(buffer1.toString('ascii', 0, 5));
+// Prints: abcde
+
+const buffer2 = Buffer.from('tést');
+
+console.log(buffer2.toString('hex'));
+// Prints: 74c3a97374
+console.log(buffer2.toString('utf8', 0, 3));
+// Prints: té
+console.log(buffer2.toString(undefined, 0, 3));
+// Prints: té
+</pre>
+
+
+
+
+
+<h1>buffer.write()</h1>
+<pre>
+buffer.write(string[, offset[, length]][, encoding])
+</pre>
+<ul>
+	<li><code>string</code>: String to be written to buf.</li>
+	<li><code>offset</code>: Number of bytes to skip before starting to write string. Default: 0</li>
+	<li><code>length</code>: Number of bytes to write. Default: buf.length - offset</li>
+	<li><code>encoding</code>: The character encoding of string. Default: 'utf8'</li>
+</ul>
+<p>It returns the number of bytes written to the buffer.</p>
+<p>The length parameter is the number of bytes to write. If buf did not contain enough space to fit the entire string, only a partial amount of string will be written.</p>
+<pre>
+const buf = Buffer.allocUnsafe(256);
+
+const len = buf.write('\u00bd + \u00bc = \u00be', 0);
+
+console.log(`${len} bytes: ${buf.toString('utf8', 0, len)}`);
+// Prints: 12 bytes: ½ + ¼ = ¾
+</pre>
+<p>Here, it takes 12 bytes in total. 9 bytes for each character and among them three character takes 2 byte space. So <code>9 + 3 = 12</code> bytes.</p>
+<p>So there is a differece between <code>fill()</code> and <code>write()</code> method. <code>fill()</code> method only accepts one byte character, if two byte character is provided, then only the first byte is used to fill the buffer. On the other hand, the <code>write()</code> methods can write two bytes character if there's enough space to write to the buffer.</p>
+
+
+
+
+
+
+<h1>Buffers and iteration</h1>
+<p>Buffer instances can be iterated over using <code>for..of</code> syntax:</p>
+<pre>
+const buf = Buffer.from([1, 2, 3]);
+
+// Prints:
+//   1
+//   2
+//   3
+for (const b of buf) {
+  console.log(b);
+}
+</pre>
+<p>Here is another example:</p>
+<pre>
+let buffer = Buffer.alloc(10);
+buffer.write("Santanu");
+for(let byte of buffer){
+	console.log(byte);
+}
+console.log(buffer);
+</pre>
+<p>And here is the output you will get:</p>
+<pre>
+83
+97
+110
+116
+97
+110
+117
+0
+0
+0
+// &lt;Buffer 53 61 6e 74 61 6e 75 00 00 00>
+</pre>
+<p>Note that in the above example, two outputs are different. Let me explain: If you <code></code> <code>buffer</code> directly you will get Buffer object with the values which is in hexadecimal format. So the last line is in hexadecimal representation of "Santanu". And if you iterate a buffer using <code>for..of</code> loop, and <code>console.log</code> each byte. You will get <code>utf8</code> encoded representation of the byte. So to makes the output similar we can convert each byte to it's equivalent hexadecimal representation.</p>
+<pre>
+console.log(parseInt(byte).toString(16));
+</pre>
+<p>Now both values are in hexadecimal format. Another thing to note that, the data type of <code>byte</code> is number. It contains, the utf8 equivalent number of the string. You can check it:</p>
+<pre>
+let buffer = Buffer.alloc(10);
+buffer.write("Santanu");
+for(let byte of buffer){
+	if (byte == 83) {
+		console.log("Okay");
+	}
+}
+console.log(buffer);
+
+// Okay
+// &lt;Buffer 53 61 6e 74 61 6e 75 00 00 00>
+</pre>
+<p>So if you <code>console.log</code> buffer directly, you will get readable string representation of the Buffer. Where each byte contains the hexadecimal format of the string. But internally, it is stored in <code>utf8</code> format.</p>
+<pre>
+let buffer = Buffer.from("Santanu");
+console.log(buffer[i]); // 83, Not 53
+</pre>
+
+
+
+
+
+
+<h1>buffer[index]</h1>
+<p>The <code>index</code> operator <code>[index]</code> can be used to get and set the octet at position <code>index</code> in buffer. The values refer to individual bytes, so the legal value range is between <code>0x00</code> and <code>0xFF</code> (hex) or <code>0</code> and <code>255</code> (decimal).</p>
+<pre>
+// Copy an ASCII string into a `Buffer` one byte at a time.
+
+const str = 'Node.js';
+const buffer = Buffer.allocUnsafe(str.length);
+
+for (let i = 0; i < str.length; i++) {
+  buffer[i] = str.charCodeAt(i);
+}
+
+console.log(buffer.toString('ascii'));
+// Prints: Node.js
+</pre>
+
+
+
+
+
+
+<h1>buffer.keys()</h1>
+<p>Creates and returns an iterator of buf keys (indices).</p>
+<pre>
+const buf = Buffer.from('buffer');
+
+for (const key of buf.keys()) {
+  console.log(key);
+}
+// Prints:
+//   0
+//   1
+//   2
+//   3
+//   4
+//   5
+</pre>
+<p>Note that, a buffer is not an object, so you will never except anything but number as the key. So it always returns an iterator of indices. Each index represents the specified byte into the buffer.</p>
+<p>Note that, this method doesn't return array. It returns iterator but not an array. So most array method won't work on this type. So the following won't work:</p>
+<pre>
+let buffer = Buffer.alloc(10);
+buffer.write("Santanu");
+let keys = buffer.keys();
+console.log(Array.isArray(keys)); // false
+
+console.log(keys[2]); // Won't work, returns undefined.
+</pre>
+<p>You can use this iterator to iterate over the buffer and access it's content:</p>
+<pre>
+for (const key of buffer.keys()) {
+  console.log(buffer[key]);
+}
+</pre>
+<p>There is another thing to remember that, this method returns the indices of whole buffer, regardless of how many bytes has been written into it. For example:</p>
+<pre>
+let buffer = Buffer.alloc(10);
+buffer.write("Santanu"); // 7 bytes long
+
+for(let key of buffer.keys()){
+	console.log(key);
+}
+
+
+// Prints:
+// 0
+// 1
+// 2
+// 3
+// 4
+// 5
+// 6
+// 7
+// 8
+// 9
+</pre>
+<p>This method can be used as a shortcut way to iterate over a buffer:</p>
+<pre>
+for (const key of buffer.keys()) {
+  console.log(buffer[key]);
+}
+
+// Same as 
+
+let i = 0;
+while(i &lt; buffer.length){
+	console.log(buffer[i++]);
+}
+
+</pre>
+
+
+
+<h1>buffer.values()</h1>
+<p>Creates and returns an iterator for buffer values (bytes). This function is called automatically when a Buffer is used in a <code>for..of</code> statement.</p>
+<pre>
+const buffer = Buffer.from('buffer');
+
+for (const value of buffer.values()) {
+  console.log(value);
+}
+// Prints:
+//   98
+//   117
+//   102
+//   102
+//   101
+//   114
+
+// In the following example, the buffer.values() is called automatically:
+for (const value of buffer) {
+  console.log(value);
+}
+// Prints:
+//   98
+//   117
+//   102
+//   102
+//   101
+//   114
+</pre>
+<p>Like <code>buffer.keys()</code>, this method returns the values of whole buffer, regardless of how many bytes has been written into it.</p>
+<p>Like <code>buffer.keys()</code>, this method returns an iterator, not an array. So the following won't work:</p>
+<pre>
+let buffer = Buffer.alloc(10);
+buffer.write("Santanu");
+
+let values = buffer.values();
+console.log(values[3]); // undefined
+</pre>
+
+
+
+
+
+
+
+<h1>buffer.entries()</h1>
+<p>Creates and returns an iterator of <code>[index, byte]</code> pairs from the contents of buffer.</p>
+<pre>
+// Log the entire contents of a `Buffer`.
+
+const buf = Buffer.from('buffer');
+
+for (const pair of buf.entries()) {
+  console.log(pair);
+}
+// Prints:
+//   [0, 98]
+//   [1, 117]
+//   [2, 102]
+//   [3, 102]
+//   [4, 101]
+//   [5, 114]
+</pre>
+
+<p>Similar to the <code>buffer.keys()</code> and <code>buffer.values()</code>, this method contains the whole pair of the buffer, regardless of how many bytes has been written to it.</p>
+<pre>
+let buffer = Buffer.allocUnsafe(10);
+buffer.fill(0);
+buffer.write("Santanu");
+let entries = buffer.entries();
+for (const pair of buffer.entries()) {
+  console.log(pair[1]);
+}
+
+// Prints
+// [ 0, 83 ]
+// [ 1, 97 ]
+// [ 2, 110 ]
+// [ 3, 116 ]
+// [ 4, 97 ]
+// [ 5, 110 ]
+// [ 6, 117 ]
+// [ 7, 0 ]
+// [ 8, 0 ]
+// [ 9, 0 ]
+</pre>
+
+
+
+
+
+
+<h1>buffer.concat()</h1>
+<pre>
+Buffer.concat(list[, totalLength])
+</pre>
+<ul>
+	<li><code>list</code>: List of Buffer or Uint8Array instances to concat.</li>
+	<li><code>totalLength</code>: Total length of the Buffer instances in list when concatenated.</li>
+</ul>
+<p>Returns a new <code>Buffer</code> which is the result of concatenating all the Buffer instances in the list together. If the list has no items, or if the <code>totalLength</code> is 0, then a new zero-length Buffer is returned.</p>
+<p>If <code>totalLength</code> is not provided, it is calculated from the Buffer instances in list. This however causes an additional loop to be executed in order to calculate the <code>totalLength</code>, so it is faster to provide the length explicitly if it is already known.</p>
+<p>If <code>totalLength</code> is provided, it is coerced to an unsigned integer. If the combined length of the Buffers in list exceeds <code>totalLength</code>, the result is truncated to <code>totalLength</code>.</p>
+<pre>
+// Create a single `Buffer` from a list of three `Buffer` instances.
+
+const buffer1 = Buffer.alloc(10);
+const buffer2 = Buffer.alloc(14);
+const buffer3 = Buffer.alloc(18);
+const totalLength = buffer1.length + buffer2.length + buffer3.length;
+
+console.log(totalLength);
+// Prints: 42
+
+const bufA = Buffer.concat([buffer1, buffer2, buffer3], totalLength);
+
+console.log(bufA);
+// Prints: &lt;Buffer 00 00 00 00 ...>
+console.log(bufA.length);
+// Prints: 42
+</pre>
+
+
+
+
+
+
+
+
+<h1>Buffer.compare()</h1>
+<p>Compares <code>buffer1</code> to <code>buffer2</code> typically for the purpose of sorting arrays of Buffer instances. This is equivalent to calling <code>buffer1.compare(buffer2)</code>.</p>
+<pre>
+const buf1 = Buffer.from('1234');
+const buf2 = Buffer.from('0123');
+const arr = [buf1, buf2];
+
+console.log(arr.sort(Buffer.compare));
+// Prints: [ &lt;Buffer 30 31 32 33>, &lt;Buffer 31 32 33 34> ]
+// (This result is equal to: [buf2, buf1])
+</pre>
+<p>The conversion happens byte by byte. If both values are same, then it returns <code>0</code>. Internally each bytes are represented as <code>utf8</code> representation code of the string. Which is a number. For example, for the letter "S", the binary form of the <code>utf8</code> equivalent which is <code>83</code> is stored in the memorey. This numeric number is being compared with the another buffer's numeric representation. And according to it, the result is then calculated.</p>
+<pre>
+let buffer1 = Buffer.from("Santanu");
+let buffer2 = Buffer.from("Santanu");
+console.log(Buffer.compare(buffer1, buffer2)); // 0
+</pre>
+<p>If the byte of the first buffer is greater than the byte of second buffer, then it returns <code>1</code>. If the byte of the first buffer is less then the byte of second buffer, it returns <code>-1</code>.</p>
+<pre>
+let buffer1 = Buffer.from("SAntanu");
+let buffer2 = Buffer.from("Santanu");
+console.log(Buffer.compare(buffer1, buffer2)); // -1
+console.log(Buffer.compare(buffer2, buffer1)); // 1
+</pre>
+<p>In the above example, the utf8 code of <code>a</code> is <code>97</code>, and <code>A</code> is 65. So small letter is bigger than the capital letter. And that's why <code>buffer2</code> is considered as bigger.</p>
+<p>Note that, if both buffer contains same value, and if a buffer contains unused bytes, it is considered as bigger. Here is the example:</p>
+<pre>
+let buffer1 = Buffer.alloc(10);
+buffer1.write("Santanu");
+
+let buffer2 = Buffer.from("Santanu");
+
+console.log(Buffer.compare(buffer1, buffer2)); // 1
+</pre>
+<p>In the above example, both buffer contains the string <code>Santanu</code>, but the first buffer contains more unused extra bytes. So it is considered as bigger than the second one.</p>
+
+
+
+
+
+
+<h1>buffer.compare()</h1>
+<pre>
+buf.compare(target[, targetStart[, targetEnd[, sourceStart[, sourceEnd]]]])
+</pre>
+<p>The mechanisam is same as the static <code>Buffer.compare()</code> method. But this one comes with extra option to limit the position in which the comparision will take place.</p>
+<ul>
+	<li><code>target</code>: A Buffer or Uint8Array to compare to.</li>
+	<li><code>targetStart</code>: The offset within target at which to begin comparison. Default: 0</li>
+	<li><code>targetEnd</code>: The offset with target at which to end comparison (not inclusive). Default: <code>target.length</code>.</li>
+	<li><code>sourceStart</code>: The offset within buf at which to begin comparison. Default: 0.</li>
+	<li><code>sourceEnd</code>: The offset within buf at which to end comparison (not inclusive). Default: <code>buffer.length</code></li>
+</ul>
+<pre>
+const buf1 = Buffer.from([1, 2, 3, 4, 5, 6, 7, 8, 9]);
+const buf2 = Buffer.from([5, 6, 7, 8, 9, 1, 2, 3, 4]);
+
+console.log(buf1.compare(buf2, 5, 9, 0, 4));
+// Prints: 0
+console.log(buf1.compare(buf2, 0, 6, 4));
+// Prints: -1
+console.log(buf1.compare(buf2, 5, 6, 5));
+// Prints: 1
+</pre>
+
+
+
+
+
+
+
+<h1>buffer.copy()</h1>
+<p>This method copies the content of first buffer to second buffer.</p>
+<pre>
+buf.copy(target[, targetStart[, sourceStart[, sourceEnd]]])
+</pre>
+<ul>
+	<li><code>target</code>: A Buffer or Uint8Array to copy into.</li>
+	<li><code>targetStart</code>: The offset within target at which to begin copying to. Default: 0.</li>
+	<li><code>sourceTarget</code>: The offset within buffer at which to begin copying from. Default: 0.</li>
+	<li><code>sourceEnd</code>: The offset within buf at which to stop copying (not inclusive). Default: <code>buffer.length</code></li>
+</ul>
+<p>It returns the number of bytes it copied.</p>
+<pre>
+// Create two `Buffer` instances.
+const buf1 = Buffer.allocUnsafe(26);
+const buf2 = Buffer.allocUnsafe(26).fill('!');
+
+for (let i = 0; i < 26; i++) {
+  // 97 is the decimal ASCII value for 'a'
+  buf1[i] = i + 97;
+}
+
+// Copy `buf1` bytes 16 through 19 into `buf2` starting at byte 8 of `buf2`
+buf1.copy(buf2, 8, 16, 20);
+
+console.log(buf2.toString('ascii', 0, 25));
+// Prints: !!!!!!!!qrst!!!!!!!!!!!!!
+</pre>
+
+
+
+
+
+
+
+
+
+<h1>buffer.equals()</h1>
+<pre>
+buffer.equals(otherBuffer)
+</pre>
+<p>This method returns <code>true</code> if the buffer is same as otherBuffer. Otherwise it returns <code>false</code>. The two buffers are same in the sense, that they must have exactly same data into their bytes and they must have same length.</p>
+<pre>
+const buf1 = Buffer.from('ABC');
+const buf2 = Buffer.from('414243', 'hex');
+const buf3 = Buffer.from('ABCD');
+
+console.log(buf1.equals(buf2));
+// Prints: true
+console.log(buf1.equals(buf3));
+// Prints: false
+</pre>
+
+
+
+
+
+
+
+
+
+
+<h1>buffer.includes()</h1>
+<p>This method is used to search a piece of data into the buffer. If found it returns <code>true</code>, otherwise it returns <code>false</code>.</p>
+<pre>
+buffer.includes(value[, byteOffset][, encoding])
+</pre>
+<p><code>byteOffset</code> is starting index of the buffer from which the search operation will take place. The <code>encoding</code> parameter specifies the format of the provided <code>value</code>, if the <code>value</code> is string.</p>
+<pre>
+const buffer = Buffer.from('this is a buffer');
+
+console.log(buffer.includes('this'));
+// Prints: true
+console.log(buffer.includes('is'));
+// Prints: true
+console.log(buffer.includes(Buffer.from('a buffer')));
+// Prints: true
+console.log(buffer.includes(97));
+// Prints: true (97 is the decimal ASCII value for 'a')
+console.log(buffer.includes(Buffer.from('a buffer example')));
+// Prints: false
+console.log(buffer.includes(Buffer.from('a buffer example').slice(0, 8)));
+// Prints: true
+console.log(buffer.includes('this', 4));
+// Prints: false
+</pre>
+
+
+
+
+
+<h1>buffer.indexOf()</h1>
+<p>This method is same as <code>buffer.includes()</code> method. It takes same arguments as <code>buffer.includes()</code>. But this method returns the position of the first occurance of the <code>value</code>. If the <code>value</code> is not found in <code>buffer</code>, then it returns <code>-1</code>.</p>
+<pre>
+buf.indexOf(value[, byteOffset][, encoding])
+</pre>
+<p>If the value is:</p>
+<ul>
+	<li>a string, <code>value</code> is interpreted according to the character encoding in encoding.</li>
+	<li>a <code>Buffer</code> or <code>Uint8Array</code>, value will be used in its entirety. To compare a partial Buffer, use <code>buf.slice()</code>.</li>
+	<li>a <code>number</code>, value will be interpreted as an unsigned 8-bit integer value between <code>0</code> and <code>255</code>.</li>
+</ul>
+<pre>
+const buf = Buffer.from('this is a buffer');
+
+console.log(buf.indexOf('this'));
+// Prints: 0
+console.log(buf.indexOf('is'));
+// Prints: 2
+console.log(buf.indexOf(Buffer.from('a buffer')));
+// Prints: 8
+console.log(buf.indexOf(97));
+// Prints: 8 (97 is the decimal ASCII value for 'a')
+console.log(buf.indexOf(Buffer.from('a buffer example')));
+// Prints: -1
+console.log(buf.indexOf(Buffer.from('a buffer example').slice(0, 8)));
+// Prints: 8
+</pre>
+
+
+
+
+
+
+
+
+<h1>buffer.lastIndexOf()</h1>
+<pre>
+buf.lastIndexOf(value[, byteOffset][, encoding])
+</pre>
+<p>Identical to buf.indexOf(), except buf is searched from back to front instead of front to back.</p>
+<pre>
+const buf = Buffer.from('this buffer is a buffer');
+
+console.log(buf.lastIndexOf('this'));
+// Prints: 0
+console.log(buf.lastIndexOf('buffer'));
+// Prints: 17
+console.log(buf.lastIndexOf(Buffer.from('buffer')));
+// Prints: 17
+console.log(buf.lastIndexOf(97));
+// Prints: 15 (97 is the decimal ASCII value for 'a')
+console.log(buf.lastIndexOf(Buffer.from('yolo')));
+// Prints: -1
+console.log(buf.lastIndexOf('buffer', 5));
+// Prints: 5
+console.log(buf.lastIndexOf('buffer', 4));
+// Prints: -1
+</pre>
+
+
+
+
+
+
+
+
+<h1>buffer.slice()</h1>
+<pre>
+buf.slice([start[, end]])
+</pre>
+<ul>
+	<li><code>start</code>: Where the new Buffer will start. Default: 0</li>
+	<li><code>end</code>: Where the new Buffer will end (not inclusive). Default: <code>buf.length</code></li>
+</ul>
+<p>This method returns a new buffer.</p>
+<p>Returns a new Buffer that references the same memory as the original, but offset and cropped by the <code>start</code> and <code>end</code> indices. Specifying <code>end</code> greater than <code>buf.length</code> will return the same result as that of end equal to <code>buf.length</code>. Modifying the new Buffer slice will modify the memory in the original Buffer because the allocated memory of the two objects overlap.</p>
+<pre>
+const buf1 = Buffer.allocUnsafe(26);
+
+for (let i = 0; i < 26; i++) {
+  // 97 is the decimal ASCII value for 'a'
+  buf1[i] = i + 97;
+}
+
+const buf2 = buf1.slice(0, 3);
+
+console.log(buf2.toString('ascii', 0, buf2.length));
+// Prints: abc
+
+buf1[0] = 33;
+
+console.log(buf2.toString('ascii', 0, buf2.length));
+// Prints: !bc
+</pre>
+<p>Specifying negative indexes causes the slice to be generated relative to the end of buf rather than the beginning.</p>
+<pre>
+const buf = Buffer.from('buffer');
+
+console.log(buf.slice(-6, -1).toString());
+// Prints: buffe
+// (Equivalent to buf.slice(0, 5))
+
+console.log(buf.slice(-6, -2).toString());
+// Prints: buff
+// (Equivalent to buf.slice(0, 4))
+
+console.log(buf.slice(-5, -2).toString());
+// Prints: uff
+// (Equivalent to buf.slice(1, 4))
+</pre>
+
+
+
+
+
+
+
+
+
+<h1>buffer.toJSON()</h1>
+<p>This method returns a JSON representation of the buffer. The method <code>JSON.stringify()</code> implicitily calls this method.</p>
+<pre>
+const buf = Buffer.from([0x1, 0x2, 0x3, 0x4, 0x5]);
+const json = JSON.stringify(buf);
+
+console.log(json);
+// Prints: {"type":"Buffer","data":[1,2,3,4,5]}
+
+const copy = JSON.parse(json, (key, value) => {
+  return value && value.type === 'Buffer' ?
+    Buffer.from(value.data) :
+    value;
+});
+
+console.log(copy);
+// Prints: &lt;Buffer 01 02 03 04 05>
+</pre>
+
+
+
+
+
+
+<h1>buffer.kMaxLength</h1>
+<p>The largest size allowed for a single Buffer instance. Note that this is a property on the buffer module returned by require('buffer'), not on the Buffer global or a Buffer instance.</p>
+<pre>
+let buffer = require("buffer");
+console.log(buffer.kMaxLength); // 2147483647
+</pre>
+<p>This property is an alias for <code>buffer.constants.MAX_LENGTH</code>.</p>
+
+
+<h1>Buffer Constants</h1>
+<p>Note that <code>buffer.constants</code> is a property on the buffer module returned by <code>require('buffer')</code>, not on the Buffer global or a Buffer instance.</p>
+<h3>buffer.constants.MAX_LENGTH</h3>
+<p>The largest size allowed for a single Buffer instance.</p>
+<pre>
+let buffer = require("buffer");
+console.log(buffer.kMaxLength); // 2147483647
+</pre>
+<h3>buffer.constants.MAX_STRING_LENGTH</h3>
+<p>The largest length allowed for a single string instance. Represents the largest length that a string primitive can have, counted in UTF-16 code units. This value may depend on the JS engine that is being used</p>
+<pre>
+let buffer = require("buffer");
+console.log(buffer.constants.MAX_STRING_LENGTH); // 1073741799
+</pre>
+
+
+
+<h1>Summary</h1>
+<p>So this is the very basic of Buffer. This tutorial is enough to get started with advance level and application of Node.js buffer. In the next lesson we will go deeper into that module and see what great things we can achieve using this module.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

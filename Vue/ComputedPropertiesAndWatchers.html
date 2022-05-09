@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Computed Properties and Watchers</title>
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+	<script src="../Assets/prism.min.js"></script>
+	<script type="text/javascript" src="../Assets/jquery.min.js"></script>
+    <link rel="stylesheet" href="../Assets/prism-dark.css">
+    <script src="../Assets/vue.js"></script>
+</head>
+<body class="Body">
+	<div class="Content Card">
+		<h1>Computed Properties and Watchers</h1>
+		<p>
+			Okay, now you know about <code>data</code>, and <code>methods</code> that a Vue instance can contain. But a Vue instance can contain many other stuff and one of them is Computed properties and Watchers. Let's start digging that.
+		</p>
+
+		<h1>Computed Properties</h1>
+		<p>
+			In-template expressions are very convenient, but they are meant for simple operations. Putting too much logic in your templates can make them bloated and hard to maintain. For example:
+		</p>
+		<pre>
+			&lt;div id="example">
+			  { { message.split('').reverse().join('') }}
+			&lt;/div>
+		</pre>
+		<p>
+			At this point, the template is no longer simple and declarative. You have to look at it for a second before realizing that it displays message in reverse. The problem is made worse when you want to include the reversed message in your template more than once. If you want to use that in multiple places you have to write that whole inline statement all over again. Which is not convenient.
+		</p>
+		<p>
+			That’s why for any complex logic, you should use a computed property.
+		</p>
+		<pre>
+			&lt;div id="example">
+			  &lt;p>Original message: "{{ message }}"&lt;/p>
+			  &lt;p>Computed reversed message: "{{ reversedMessage }}"&lt;/p>
+			&lt;/div>
+
+			var vm = new Vue({
+			  el: '#example',
+			  data: {
+			    message: 'Hello'
+			  },
+			  computed: {
+			    // a computed getter
+			    reversedMessage: function () {
+			      // `this` points to the vm instance
+			      return this.message.split('').reverse().join('')
+			    }
+			  }
+			});
+		</pre>
+		<div class="box">
+			<p>Original message: "{{ message }}"</p>
+  			<p>Computed reversed message: "{{ reversedMessage }}"</p>
+		</div>
+		<p>
+			We have a computed property <code>reversedMessage</code>. Each computed property must be within the <code>computed</code> object. Multiple computed properties must be seperated by a comma. A computed property always retuns a value which will be the value of that computed property. Following is the syntax -
+		</p>
+		<pre>
+			computed : {
+				computedPropertyName : function(){
+					// Body 
+
+					return Something;
+				}
+			}
+		</pre>
+		<p>
+			Here we have declared a computed property <code>reversedMessage</code>. The function we provided will be used as the getter function for the property <code>vm.reversedMessage</code>.
+		</p>
+		<pre>
+			console.log(vm.reversedMessage) // => 'olleH'
+			vm.message = 'Goodbye'
+			console.log(vm.reversedMessage) // => 'eybdooG'
+		</pre>
+		<p>
+			You can open the console and play with the example vm yourself. The value of vm.reversedMessage is always dependent on the value of vm.message.
+		</p>
+		<p>
+			Vue is aware that vm.reversedMessage depends on vm.message, so it will update any bindings that depend on vm.reversedMessage when vm.message changes.
+		</p>
+		<p>
+			So the computed property always returns a value which is the final value of that computed property. This returned value is dependent on one or more property that you define in the <code>data</code> object. Whenever those property changes the computed property is automatically updated based on the data properties.
+		</p>
+
+
+		<h1>Setters And Getters</h1>
+		<p>
+			Generally, computed properties are Getters, it always returns a value. Computed properties depends on the instance property. It's kind of one way data changing. The computed properties are updated only when the instance properties are changed. It's kind of one way data changing. Can it be vice versa? Well it can. You can call computed properties manually to update the data. Consider the following example -
+		</p>
+		<pre>
+		data:{
+			firstName : "",
+			lastName : "",	
+		},
+		computed: {
+		  fullName: {
+
+		    get: function () {
+		      return this.firstName + ' ' + this.lastName
+		    },
+
+		    set: function (newValue) {
+		      var names = newValue.split(' ')
+		      this.firstName = names[0]
+		      this.lastName = names[names.length - 1]
+		    }
+
+		  }
+		}
+		</pre>
+		<p>
+			You can declare getter using the <code>get</code> key and setter using the <code>set</code> key. Pretty neat. Their value is function. The getter must return a value where's setter doesn't. In the above example, when you run <code>vm.fullName = 'John Doe'</code>, the firstName and lastName will be updated accordingly. The setter function will contain the logic how the instance properties will be updated. The above is an perfect example. However, in most cases, setter are not that effective. But sometimes you might comes into a situation where you need two way data updation.
+		</p>
+		
+		<h1>Watchers</h1>
+		<p>
+			Sometimes you need to watch for data changes and react to them accordingly. Well you can do that using computed properties too as computed properties watches for data properties for changes. But sometimes watchers are more appropriate than computed properties and vice versa. Watchers never returns any value. They are meant for executing a block of code whenever the data changes.
+		</p>
+		<p>
+			Computed properties are kind of properties that depends on other properties but watchers are not related to properties. You can think of it as a method that gets invoked whenever the data changes. 
+		</p>
+		<pre>
+			data:{a : 24, b : 25},
+			watch:{
+				a : function(newValue, oldValue){
+					console.log(this.a);
+					this.b = this.a + 1;
+					console.log("Old Value : " + oldValue);
+					console.log("New Value : " + newValue);
+				}
+			}
+		</pre>
+		<p>
+			Here, <code>watch</code> is a keyword which is collection of watchers. Here, we have defined a watcher for the property a. So in the declaration the data property would be the key and value would be the anonymous function which contains the block of code that gets executed whenever the property <code>a</code> is changed. Multiple watchers are seperated by a comma. Watchers function recieves the new value as the first argument and old value as the second argument.
+		</p>
+		<p>
+			Watchers are more appropriate than computed property when you want to execute a lots of code which is complex and expensive.
+		</p>
+
+
+		<h1>vm.$watch</h1>
+		<p>
+			You can also define watchers using the following syntax -
+		</p>
+		<p><code>vm.$watch( expOrFn, callback, [options] )</code></p>
+		<p>
+			Here, <code>expOrFn</code> is stands for expression or function. The first argument can be a string that contains the Vue instance data property, or a computed method. The second method is the handler that gets called whenever the value of the first argument changes. Finally the remaining argument is option which you can provide for different situation.
+		</p>
+
+		<h3>Watching for a single Vue Instance Property</h3>
+		<pre>			
+			&lt;input type="text" v-model="message">
+
+			data: {
+			    message: 'Hello'
+			},
+			mounted:function(){
+			  	this.$watch('message', function(newValue, oldValue){
+			  		console.log("New Value : " + newValue);
+			  		console.log("Old Value : " + oldValue);
+			  	});
+			},
+		</pre>
+		<div class="box">
+			<input type="text" v-model="message">
+		</div>
+		<p>
+			In the above method, we are watching for <code>message</code>. Whenever it changes, the second argument, the hander get executed.
+		</p>
+
+		<h3>Watching for an Object Key</h3>
+		<p>
+			You can also use a key of an object where the object is a Vue instance properties. Consider the following -
+		</p>
+		<pre>
+		&lt;input type="text" name="" v-model="a.b.c.d">
+		data: {
+		    a : {
+		    	b : {
+		    		c : {
+		    			d : 23
+		    		}
+		    	}
+		    }
+		},
+
+		mounted:function(){
+		  	this.$watch('a.b.c.d', function(newValue, oldValue){
+		  		console.log("New Value : " + newValue);
+		  		console.log("Old Value : " + oldValue);
+		  	});
+		},
+		</pre>
+		<div class="box">
+			<input type="text" v-model="a.b.c.d">
+		</div>
+
+
+		<h3>Watching for Whole Object</h3>
+		<p>The above example shows how you can watch for a particular key exists in an object. In real life development, having same watchers for multiple key would be a hassle and repetitive. What if you could watch for the whole object instead? Not for some particular key.</p>
+		<p>Consider the above example, if we wrote the example like the following the watcher is never called even when the data is changed -</p>
+		<pre>
+			this.$watch('a', function(newValue, oldValue){
+		  		console.log("New Value : " + newValue);
+		  		console.log("Old Value : " + oldValue);
+		  	});
+		</pre>
+		<p>
+			In the above example, the first argument is the object itself, not some key. The watcher is never called. To achieve this problem Vue provides an option called <code>deep</code> to gives Vue a hint to watch for the whole object. The above example can be replaced with the following -
+		</p>
+		<pre>
+		this.$watch('a', function(newValue, oldValue){
+	  		console.log("New Value : " + newValue.b.c.d);
+	  		console.log("Old Value : " + oldValue.b.c.d);
+	  	}, {deep : true});
+		</pre>
+		<div class="box">
+			<input type="text" v-model="s.b.c.d">
+		</div>
+		<p class="tip">
+			Notice we are logging the old value and new value. If you look in the console while changing the value in the above demo, the old value and the new value is same. Because Array and Object are stored by reference. Vue documentation clearly stated that "When mutating (rather than replacing) an Object or an Array, the old value will be the same as new value because they reference the same Object/Array." - So you will only get the new value.
+		</p>
+
+
+		<h3>Watching for Function | Computed Properties</h3>
+		<p>
+			You can pass computed properties just like you do for normal Vue instance properties(vm.property). This is straight forward. But the first argument can be a function that serves as a computed property. Like this -
+		</p>
+		<pre>
+			A = &lt;input type="text" v-model.number="first">
+			B = &lt;input type="text" v-model.number="second">
+
+
+			data : {
+				first : 10,
+				second : 20
+			}
+
+
+			vm.$watch(
+			  function () {
+			    return this.a + this.b
+			  },
+			  function (newVal, oldVal) {
+			    console.log("New Value : " + newValue);
+	  			console.log("Old Value : " + oldValue);
+			  }
+			);
+		</pre>
+		<p>
+			In the above example, Vue will watch for the result of an expression <code>this.a + this.b</code> and call handler whenever the result of this expression changes. It means if either <code>a</code> or <code>b</code> changes, the handler will be invoked. The newValue and oldValue will be result of the expression.
+		</p>
+		<div class="box">
+			<input type="text" v-model.number="first"> <input type="text" v-model.number="second">
+		</div>
+
+
+		<h3>Immediate</h3>
+		<p>
+			Generally, the handler is never called when the Vue instance is mounted. Sometimes you want to execute the handler when the Vue instance is mounted in the DOM. This is useful for component too. Vue provides an option <code>immediate</code> for watchers. When it is true, the hander will be invoked during the mounting of the component or instance. The following is the demo. To notice it's working keep the console open and reload the page, you will notice it logs the output. Considering the above example -
+		</p>
+		<pre>
+		this.$watch(function(){ return (this.first + this.second); },function(newValue, oldValue){
+	  		console.log("New Value : " + newValue);
+  			console.log("Old Value : " + oldValue);
+  			console.log("With the option - { immediate : true }");
+	  	}, { immediate : true });
+		</pre>
+		<p class="tip">In this case the <code>oldValue</code> is always undefined.</p>
+
+
+		<h1>Watchers as Object</h1>
+		<p>
+			Instead of declaring watchers like a method, you can go with the object way -
+		</p>
+		<pre>
+		watch: {
+			message : {
+				handler: function (after, before) {
+					// Code to execute
+				},
+				deep: true,
+				immediate : true
+			}
+		}
+		</pre>
+
+		<h1>Unwatch</h1>
+		<p>
+			The <code>vm.$watch()</code> method always returns <code>unwatch</code> function. You can call that function to not to watch for the property anymore.
+		</p>
+		<pre>
+			data:{
+				age : 27,
+				ageUnwatch : ""
+			}
+
+			mounted:function(){
+				this.ageUnwatch = this.$watch('age',function(newValue, oldValue){
+			  		console.log("New Age = " + newValue);
+			  		console.log("Old Age = " + oldValue);
+			  	});
+			}
+
+			methods:{
+			  	doAgeUnwatch:function(){
+			  		this.ageUnwatch();
+			  		console.log("Now watching for Age");
+			  	}
+			},
+			
+			&lt;input type="text" v-model="age">
+			&lt;button type="button" @click="doAgeUnwatch">Unwatch&lt;/button>
+		</pre>
+		<div class="box">
+			<input type="text" v-model="age"> <button type="button" @click="doAgeUnwatch">Unwatch</button>
+		</div>
+		<p>
+			In the above example, we are strong the returned unwatch function to a property so that we can access it from a method. In the method, when the button is clicked, we are calling it by appeinding <code>()</code> to the property, as this is a function. This call will remove the handler and other internal cleanup so that Vue won't watch for that anymore. If you type anything after you click on the button, you won't see any message in the console even after you change the value of age.
+		</p>
+	</div>
+	<script>
+		var vm = new Vue({
+		  el: '.Content',
+		  data: {
+		    message: 'Hello',
+		    a : {
+		    	b : {
+		    		c : {
+		    			d : 23,
+		    		}
+		    	}
+		    },
+		    s : {
+		    	b : {
+		    		c : {
+		    			d : 23,
+		    		}
+		    	}
+		    },
+		    first : 10,
+		    second : 20,
+		    age : 27,
+		    ageUnwatch : ""
+		  },
+		  methods:{
+		  	doAgeUnwatch:function(){
+		  		this.ageUnwatch();
+		  		console.log("Now watching for Age");
+		  	}
+		  },
+		  mounted:function(){
+		  	this.ageUnwatch = this.$watch('age',function(newValue, oldValue){
+		  		console.log("New Age = " + newValue);
+		  		console.log("Old Age = " + oldValue);
+		  	});
+		  	this.$watch('message', function(newValue, oldValue){
+		  		console.log("New Value : " + newValue);
+		  		console.log("Old Value : " + oldValue);
+		  	});
+		  	this.$watch('a.b.c.d', function(newValue, oldValue){
+		  		console.log("New Value : " + newValue);
+		  		console.log("Old Value : " + oldValue);
+		  	});
+		  	this.$watch('s', function(newValue, oldValue){
+		  		console.log("New Value : " + newValue.b.c.d);
+		  		console.log("Old Value : " + oldValue.b.c.d);
+		  	}, {deep : true});
+		  	this.$watch(function(){ return (this.first + this.second); },function(newValue, oldValue){
+		  		console.log("New Value : " + newValue);
+	  			console.log("Old Value : " + oldValue);
+	  			console.log("With the option - { immediate : true }");
+		  	}, { immediate : true });
+		  },
+		  computed: {
+		    reversedMessage: function () {
+		      return this.message.split('').reverse().join('')
+		    }
+		  }
+		});
+	</script>
+</body>
+</html> 

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Colors in Flutter</title>
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+	<script type="text/javascript" src="../../Assets/prism.min.js"></script>
+	<script type="text/javascript" src="../../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+<h1>Colors</h1>
+<p>There are many ways to specify the color value. One of the commom way is to use the **Colors** class. This class has defined a lot of constants which you can use to specify a particular color. For example,</p>
+<pre>
+Colors.red, Colors.green, Colors.black, etc
+</pre>
+<p>You can use some specific index to specify the opacity.</p>
+<pre>
+Colors.red[100], Colors.blue[400]
+</pre>
+<p>You can use only following indices -</p>
+<pre>
+50, 100, 200, 300, 400, 500, 600, 700, 800, 900
+</pre>
+<p>The smaller the index, the pale the color become and the greater the index the deeper the color become.</p>
+<p>Note that, few colors have only following indices -</p>
+<pre>
+100, 200, 400 and 700
+</pre>
+<p>For example red, pink color doesn't have 600 index. These color have only above specified indices.</p>
+
+
+<h2>Colors.transparent</h2>
+<p>The word <code>transparent</code> can be used to specify transparent color which is fully invisible.</p>
+
+
+<h2>Black and White</h2>
+<p>In the case of black and white color the variation is different. Here are some example,</p>
+<pre>
+Colors.black12, Colors.black26, Colors.black38, Colors.black45, Colors.black54, 
+Colors.black87, Colors.white10, Colors.white12, Colors.white24, Colors.white30, 
+Colors.white38, Colors.white54, Colors.white60, Colors.white70
+</pre>
+<p><code>Colors.black12</code> means black color with <code>12%</code> opacity. <code>Colors.white60</code> means white color with <code>60%</code> opacity.</p>
+<p>If you use just <code>black</code> or <code>white</code>, it means they are fully opaque.</p>
+
+
+<h1>Color.RGBO()</h1>
+<p>The word <code>RGBO</code> stands for red, green, blue and Opacity.</p>
+<pre>
+Color.fromRGBO(239, 240, 241, 1),
+</pre>
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

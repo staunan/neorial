@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Colors in Flutter</title>
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+	<script type="text/javascript" src="../../Assets/prism.min.js"></script>
+	<script type="text/javascript" src="../../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+<h1>RichText Widget</h1>
+<p>The <code>RichText</code> widget is used to display text in different styles. The text to display is described using a tree of **TextSpan** widgets, each of <code>TextSpan</code> widget is associated with its own style.</p>
+<pre>
+RichText(
+	text : TextSpan(
+		text : "Hello, ",
+		style : TextStyle(color.Colors.red),
+		children : &lt;TextSpan>[
+			TextSpan(text : "How are ", style : TextStyle(color: Colors.green)),
+			TextSpan(text : "you?", style : TextStyle(color: Colors.blue)),
+		],
+	),
+),
+</pre>
+<p>You can use <code>maxLines</code>, <code>overflow</code>, <code>textAlign</code> arguments just like <code>Text</code> widget.</p>
+
+
+
+
+
+
+</div>
+</body>
+</html>

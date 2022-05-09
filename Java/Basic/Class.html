@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" type="text/css" href="bulma.css">
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<title>Java - Class</title>
+</head>
+<body>
+	<div style="margin: auto; margin-top: 50px; margin-bottom: 50px; width: 80%;">
+		<h1>Class</h1>
+		<p>A class is declared using <code>class</code> keyword. A class contain both data and code that operate on that data. The data or variables defined within a class are called ><code>instance variables</code> and the code that operates on this data is known as <code>methods</code>. Thus, the instance variables and methods are known as <code>class members</code>. class is also known as a user defined datatype.</p>
+		<p>Rules of class -</p>
+		<ul>
+			<li>A class can have only public or default(no modifier) access specifier.</li>
+			<li>It can be either abstract, final or concrete (normal class).</li>
+			<li>It must have the class keyword, and class must be followed by a legal identifier.</li>
+			<li>It may optionally extend one parent class. By default, it will extend java.lang.Object.</li>
+			<li>It may optionally implement any number of comma-separated interfaces.</li>
+			<li>The class's variables and methods are declared within a set of curly braces {}.</li>
+			<li>Each .java source file may contain only one public class. A source file may contain any number of default visible classes.</li>
+			<li>Finally, the source file name must match the public class name and it must have a .java suffix.</li>
+		</ul>
+		<h2>Creating Class</h2>
+		<p>The Syntax is -</p>
+		<pre>
+			public class className {
+				//instance variables
+				//methods
+			}
+		</pre>
+		<p>Here, both the instance variables and methods are optional. There can be any number of instance variables and methods inside a class.</p>
+		<p>Let's take a look at the following simple class -</p>
+		<pre>
+			public class Dog {
+			   String breed;
+			   int age;
+			   String color;
+
+			   void barking() {
+			   }
+
+			   void hungry() {
+			   }
+
+			   void sleeping() {
+			   }
+			}
+		</pre>
+		<p>Okay. Now let's look at a real example - </p>
+		<pre>
+			class Student{
+				int age;
+				String name;
+			}
+		</pre>
+		<p>Now you can create object of that class - </p>
+		<pre>
+			public class Hello{
+				public static void main(String[] args){
+					Student s1 = new Student();
+					Student s2 = new Student();
+				}
+			}
+		</pre>
+		<p>So, we have created two object of that class. s1 will contain the property age and name and so the s2. But how do you access those property? Using object name and dot <code>.</code> operator we can directly access the property of that object.</p>
+		<pre>
+			// The following program will output 30.
+			public class Hello{
+				public static void main(String[] args){
+					Student s1 = new Student();
+					s1.age = 30;
+					System.out.println(s1.age);
+				}
+			}
+			class Student{
+				int age;
+				String name;
+			}
+		</pre>
+		<p>Now let's see how the method can be operated on a class. We will create a method and pass some arguments to assign the values - </p>
+		<pre>
+			public class Hello{
+				public static void main(String[] args){
+					Student s1 = new Student();
+					s1.setValues(30,"Santanu Bera");
+					System.out.println(s1.age);
+					System.out.println(s1.name);
+				}
+			}
+			class Student{
+				int age;
+				String name;
+				public void setValues(int age, String s){
+					this.age = age;
+					this.name = s;
+				}
+			}
+		</pre>
+		<p>We are calling the method of an object using the same way we are accessing object properties. <code>obj.method(arguments)</code></p>
+		<p>Note that, inside the method we should access the instance variable using <code>this</code> keyword. Here <code>this</code> is an object that refers the object that called the method, and in our case it is <code>s1</code>. Because without the <code>this</code> keyword, it will refer to the local variable which is local to the method which is not defined. So using <code>this</code> keyword is must to access object property from an object method.</p>
+		<p>In our above example, our methods accepts two parameters and it's job to assign the value to the object properties.</p>
+		<p>Methods can also return some values -- We will create another method that returns the value - </p>
+		<pre>
+			public class Hello{
+				public static void main(String[] args){
+					Student s1 = new Student();
+					s1.setValues(30,"Santanu Bera");
+					System.out.println(s1.getName());
+				}
+			}
+			class Student{
+				int age;
+				String name;
+				public void setValues(int age, String s){
+					this.age = age;
+					this.name = s;
+				}
+				public String getName(){
+					return this.name;
+				}
+			}
+		</pre>
+		<p>Here, we have created a method getName() which returns string.</p>
+		<p>This is how methods works. It does something. And it may or may not return value.</p>
+		<h1>Constructor</h1>
+		<p>When discussing about classes, one of the most important sub topic would be constructors. Every class has a constructor. If we do not explicitly write a constructor for a class, the Java compiler builds a default constructor for that class.</p>
+		<p>Each time a new object is created, at least one constructor will be invoked. The main rule of constructors is that they should have the same name as the class. A class can have more than one constructor.</p>
+		<pre>
+			public class Hello{
+				public static void main(String[] args){
+					Student s1 = new Student("");
+				}
+			}
+			class Student{
+				int age;
+				String name;
+				//Constructor ---------
+				//Student(){
+				//}
+				public String getName(){
+					return this.name;
+				}
+			}
+		</pre>
+		<p>What happens when you run the program, Java automatically adds an empty constructor to your class only when you don't have any constructor defined in your class. In the above program the comment part is the constructor which gets added by Java automatically. This allows us to create an object of that class with empty parameter.</p>
+		<p>Rules for constructor -</p>
+		<ul>
+			<li>Constructor doesn't return any value. It should not have any return statement and return type in the declaration.</li>
+			<li>It should not prefixed with any Access Modifier like public, private etc.</li>
+			<li>It has the same name of the class.</li>
+		</ul>
+		<h1>Constructor Overloading</h1>
+		<p>Like methods you can have constructor overloading. It means multiple constructor with the same name but different parameters.</p>
+		<pre>
+			public class Hello{
+				public static void main(String[] args){
+					Student s1 = new Student();
+					Student s2 = new Student(30);
+					Student s3 = new Student("Santanu Bera");
+					Student s4 = new Student(30, "Santanu Bera");
+				}
+			}
+			class Student{
+				int age;
+				String name;
+				Student(){
+				}
+				Student(int age){
+					this.age = age;
+				}
+				Student(String name){
+					this.name = name;
+				}
+				Student(int age, String name){
+					this.age = age;
+					this.name = name;
+				}
+				public String getName(){
+					return this.name;
+				}
+			}
+		</pre>
+		<p>Here, we have four constructor with different parameters. When you creates an object with passing the argument, Java matches one of the constructor that matches the parameter with the arguments. And then creates the object. If no matching constructor is found than it throws an error.</p>
+		<p>We generally use constructor to initialize the object property. Like above, the first constructor does nothing, while others are initializing some proerty.</p>
+		<p>You can alos initialize the property using some default value if the constructor miss any parameter, like this -</p>
+		<pre>
+			public class Hello{
+				public static void main(String[] args){
+					Student s1 = new Student();
+					Student s2 = new Student(30);
+					Student s3 = new Student("Santanu Bera");
+					Student s4 = new Student(30, "Santanu Bera");
+				}
+			}
+			class Student{
+				int age;
+				String name;
+				Student(){
+					this.age = 25;
+					this.age = "John Doe";
+				}
+				Student(int age){
+					this.age = age;
+					this.name = "Unknown";
+				}
+				Student(String name){
+					this.name = name;
+				}
+				Student(int age, String name){
+					this.age = age;
+					this.name = name;
+				}
+				public String getName(){
+					return this.name;
+				}
+			}
+		</pre>
+		<p>Here, in the default constructor we are initilizing the property with some default value. And in the second constructor as the name parameter is missing, we are initilizing the name with the default value <code>Unknown</code></p>
+		<h1>this() in the Constructor</h1>
+		<p>We can use <code>this()</code> within another constructor. The mechanism is, from the actual constructor we are calling the default constructor using <code>this()</code> statement. So the default constructor executes first and then the actual constructor is being executed.
+		</p>
+		<pre>
+			public class Hello{
+				public static void main(String[] args){
+					Student s2 = new Student(30);
+					System.out.println(s2.getName());
+				}
+			}
+			class Student{
+				int age;
+				String name;
+				Student(){
+					this.age = 25;
+					this.name = "John Doe";
+				}
+				Student(int age){
+					this();
+					this.age = age;
+				}
+				public String getName(){
+					return this.name;
+				}
+			}
+		</pre>
+		<p>Here, we have a default constructor, which initializes the instance variable with some default values. Now another constructor accepts only age as parameters. So by calling <code>this()</code> from that constructor, it's a way of saying, "Hey, let's first initialize the property with the default values. And then i'm going to take my part."</p>
+		<div class="box">
+			Here, the statement <code>this()</code> must appear before any other statement in the constructor. Try it other way around you will get and error.			
+		</div>
+		<h1>Method Overloading</h1>
+		<h1>Method Overriding</h1>
+		<h1>Method Overloading Vs Overriding</h1>
+		<h1>Static Keyword</h1>
+	</div>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

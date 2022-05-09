@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Classes</title>
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
+	<script type="text/javascript" src="../../Assets/jquery.min.js"></script>
+    <link rel="stylesheet" href="../../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div id="PageContent" class="Content Card">
+
+
+
+<h1>Style and Classes</h1>
+<p>In this lesson we will learn how to add CSS classes to the DOM element, and remove it etc.</p>
+<p>Before we start there is an important rules to remember. In JS, there are two way to manipulate style -</p>
+<ul>
+	<li>Create a class in CSS and add it: <code>&lt;div class="..."></code></li>
+	<li>Write properties directly into style: <code>&lt;div style="..."></code></li>
+</ul>
+<p>The first way is always preferred way to manipulate <code>style</code>. We should only manipulate the style property if classes “can’t handle it”. For instance, <code>style</code> is acceptable if we calculate coordinates of an element dynamically and want to set them from JavaScript, like this:</p>
+<pre>
+let top = /* complex calculations */;
+let left = /* complex calculations */;
+elem.style.left = left; // e.g '123px'
+elem.style.top = top; // e.g '456px'
+</pre>
+<p>For other cases, like making the text red, adding a background icon – describe that in CSS and then apply the class. That’s more flexible and easier to support.</p>
+
+
+
+
+
+
+<h1>className</h1>
+<p>Each HTML element has a property <code>className</code> which contains the class names.</p>
+<pre>
+	&lt;div id="PageContent" class="Content Card">
+		
+	&lt;/div>
+	&lt;script type="text/javascript">
+		let element = document.getElementById("PageContent");
+		console.log(element.className);
+	&lt;/script>
+</pre>
+<p>The above example will print "Content Card" in the console. So to add class to the element you can do it like this -</p>
+<pre>
+	let element = document.getElementById("PageContent");
+	element.className = "Hello";
+</pre>
+<p>The above line will replace the previous class names with the class "Hello". To add multiple classes just seperate the class names with the space - </p>
+<pre>
+	element.className = "ClassOne ClassTwo ClassThree";
+</pre>
+
+
+
+
+
+
+
+<h1>classList</h1>
+<p>The above approach is not efficient as it replace the entire classes with the new one. Using classList you can also add classes to the previous class list and remove a class from the list as well.</p>
+<pre>
+	let element = document.getElementById("PageContent");
+	console.log(element.classList);
+</pre>
+<p>The property classList returns a collection which contains the classes. This is a read only property. You cannot modify it. But it provides method like <code>add</code> and <code>remove</code> which allows us to add class and remove class from the element. Here are few important methods that you can use to manipulate classes -</p>
+<ul>
+	<li>contain()</li>
+	<li>add()</li>
+	<li>remove()</li>
+	<li>toggle()</li>
+</ul>
+
+
+
+
+
+
+<h2>classList.contains(className)</h2>
+<p>This method is not useful in reallife, but handy. It checks if the class exist. If it does, it returns <code>true</code> otherwise it returns <code>false</code>.</p>
+<pre>
+	element.classList.contains("className");
+</pre>
+
+
+
+
+<h2>classList.add()</h2>
+<pre>
+	let element = document.getElementById("PageContent");
+	element.classList.add("ClassName");
+</pre>
+<p>But you cannot add multiple classes using this method. You can add only one class. To add multiple class you need to have multiple statement.</p>
+<pre>
+	element.classList.add("ClassName1");
+	element.classList.add("ClassName2");
+	element.classList.add("ClassName3");
+</pre>
+
+
+
+
+
+
+<h2>classList.remove()</h2>
+<p>You can easily remove all the class using this approach -</p>
+<pre>
+	element.className = "";
+</pre>
+<p>But this is not efficient way if you want to remove a particular class from the class list.</p>
+<p>classList provides a method <code>remove()</code> which does this job more efficiently. Removing class which doesn't exist doen't throw any error.</p>
+<pre>
+	&lt;div class="One Two Three">
+		
+	&lt;/div>
+
+	let element = document.getElementById("PageContent");
+	console.log(element.classList); //One Two Three
+	element.classList.remove("Two");
+	console.log(element.classList); //One Three
+</pre>
+
+
+
+
+
+
+
+
+
+<h2>classList.toggle()</h2>
+<p>This method is used to toggle a class. It means if the specified class already exists, then this method removes that class and return <code>false</code>. If the class doesn't exist, then it adds it to the element and returns <code>true</code>.</p>
+<p>This methods optionally takes one more argument which is Boolean. If it is true, we are forcing it to add the class event if it already exists. Technically it replace it. If the value is <code>false</code>, then we are forcing the class to be removed from the classList.</p>
+<pre>
+	element.classList.toggle("ClassOne"); //Adds class ClassOne if not exists or remove this class from the element if exist.
+	element.classList.toggle("ClassOne", true); //It adds the class.
+	element.classList.toggle("ClassTwo", false); //Removes the class.
+</pre>
+
+
+
+
+
+
+
+<h1>Element Style</h1>
+<p>Okay, we have learnt how to work with classes. Now let's learn how to use style property. In this lesson we will learn different way to modify style property -</p>
+<ul>
+	<li>Adding a Style</li>
+	<li>Removing a Style</li>
+	<li>Rewrite Style using style.cssText</li>
+</ul>
+
+
+
+
+
+
+
+<h2>Adding a Style</h2>
+<p>The property <code>elem.style</code> is an object that corresponds to what’s written in the "style" attribute. Setting <code>elem.style.width="100px"</code> works as if we had in the attribute <code>style="width:100px"</code>.</p>
+<p>For multi-word property the camelCase is used:</p>
+<pre>
+background-color  => elem.style.backgroundColor
+z-index           => elem.style.zIndex
+border-left-width => elem.style.borderLeftWidth
+</pre>
+<p>For example -</p>
+<pre>
+document.body.style.backgroundColor = prompt('background color?', 'green');
+</pre>
+<h4>Browser Prefix</h4>
+<p>Browser-prefixed properties <code>like -moz-border-radius</code>, <code>-webkit-border-radius</code> also follow the same rule, for instance:</p>
+<pre>
+button.style.MozBorderRadius = '5px';
+button.style.WebkitBorderRadius = '5px';
+</pre>
+<p>That is: a dash "-" becomes an uppercase.</p>
+
+	
+	
+	
+	
+<h2>Removing a Style</h2>
+<p>If we want to remove a style property we can use either <code>delete</code> operator on object or we can assign empty string to the property. For example -</p>
+<pre>
+// Using delete operator
+delete elem.style.display
+
+// Using assignment
+elem.style.display = "";
+</pre>
+<p>Deleting style property using assignment way is the prefered way.</p>
+<p>If we set display to an empty string, then the browser applies CSS classes and its built-in styles normally, as if there were no such style property at all.</p>
+
+
+
+
+
+<h2>Rewrite Style using style.cssText</h2>
+<p>Normally, we use <code>style.*</code> to assign individual style properties. We can’t set the full style like <code>div.style="color: red; width: 100px"</code>, because <code>div.style</code> is an object, and it’s read-only.</p>
+<p>To set the full style as a string, there’s a special property <code>style.cssText</code>:</p>
+<pre>
+&lt;div id="div">Button&lt;/div>
+
+&lt;script>
+  // we can set special style flags like "important" here
+  div.style.cssText=`color: red !important;
+    background-color: yellow;
+    width: 100px;
+    text-align: center;
+  `;
+
+  alert(div.style.cssText);
+&lt;/script>
+</pre>
+<p>We rarely use it, because such assignment removes all existing styles: it does not add, but replaces them. May occasionally delete something needed. But still can be done for new elements when we know we don’t delete something important.</p>
+<p>The same can be accomplished by setting an attribute: <code>div.setAttribute('style', 'color: red...')</code>.</p>
+
+
+
+
+
+<h1>Units for Style Property</h1>
+<p>CSS units must be provided in style values.</p>
+<p>For instance, we should not set <code>elem.style.top</code> to <code>10</code>, but rather to <code>10px</code>. Otherwise it wouldn’t work:</p>
+<pre>
+&lt;body>
+  &lt;script>
+    // doesn't work!
+    document.body.style.margin = 20;
+    alert(document.body.style.margin); // '' (empty string, the assignment is ignored)
+
+    // now add the CSS unit (px) - and it works
+    document.body.style.margin = '20px';
+    alert(document.body.style.margin); // 20px
+
+    alert(document.body.style.marginTop); // 20px
+    alert(document.body.style.marginLeft); // 20px
+  &lt;/script>
+&lt;/body>
+</pre>
+<p>As you can see, if you forgot the unit, the assignment is ignored by JS.</p>
+<p>Please note how the browser “unpacks” the property <code>style.margin</code> in the last lines and infers <code>style.marginLeft</code> and <code>style.marginTop</code> (and other partial margins) from it.</p>
+
+	
+
+
+
+<h1>getComputedStyle()</h1>
+<p style="font-style: italic; font-weight: bold;">The style property operates only on the value of the "style" attribute, without any CSS cascade.</p>
+<p>So we can’t read anything that comes from CSS classes using elem.style.</p>
+<p>For instance, here style doesn’t see the margin:</p>
+<pre>
+&lt;head>
+  &lt;style> body { color: red; margin: 5px } &lt;/style>
+&lt;/head>
+&lt;body>
+
+  The red text
+  &lt;script>
+    alert(document.body.style.color); // empty
+    alert(document.body.style.marginTop); // empty
+  &lt;/script>
+&lt;/body>
+</pre>
+<p>…But what if we need, say, to increase the margin by 20px? We want the current value for the start. There’s another method for that: <code>getComputedStyle</code>. Here is the syntax -</p>
+<pre>
+getComputedStyle(element[, pseudo])
+</pre>
+<p>Here, the <code>element</code> is the element for which we want to get the style property. The second argument is <code>pseudo</code> which is optional. For example - <code>::before</code>, <code>::after</code>, <code>:hover</code> etc.</p>
+<p>This method returns an object containing all the style properties. Here is an example -</p>
+<pre>
+&lt;head>
+  &lt;style> body { color: red; margin: 5px } &lt;/style>
+&lt;/head>
+&lt;body>
+
+  &lt;script>
+    let computedStyle = getComputedStyle(document.body);
+
+    // now we can read the margin and the color from it
+
+    alert( computedStyle.marginTop ); // 5px
+    alert( computedStyle.color ); // rgb(255, 0, 0)
+  &lt;/script>
+
+&lt;/body>
+</pre>
+<h3>Computed Values Vs. Resolved Values</h3>
+<p>There are two concepts in CSS:</p>
+<ul>
+	<li>A computed style value is the value after all CSS rules and CSS inheritance is applied, as the result of the CSS cascade. It can look like <code>height:1em</code> or <code>font-size:125%</code>.</li>
+	<li>A resolved style value is the one finally applied to the element. Values like <code>1em</code> or <code>125%</code> are relative. The browser takes the computed value and makes all units fixed and absolute, for instance: <code>height:20px</code> or <code>font-size:16px</code>. For geometry properties resolved values may have a floating point, like <code>width:50.5px</code>.</li>
+</ul>
+<p>A long time ago getComputedStyle was created to get computed values, but it turned out that resolved values are much more convenient, and the standard changed.</p>
+<p>So nowadays getComputedStyle actually returns the resolved value of the property.</p>
+
+<h3>getComputedStyle requires the full property name</h3>
+<p>We should always ask for the exact property that we want, like <code>paddingLeft</code> or <code>marginTop</code> or <code>borderTopWidth</code>. Otherwise the correct result is not guaranteed.</p>
+<p>For instance, if there are properties <code>paddingLeft</code>/<code>paddingTop</code>, then what should we get for <code>getComputedStyle(elem).padding</code>? Nothing, or maybe a “generated” value from known paddings? There’s no standard rule here.</p>
+<pre>
+&lt;style>
+  body {
+    margin: 10px;
+  }
+&lt;/style>
+&lt;script>
+  let style = getComputedStyle(document.body);
+  alert(style.margin); // empty string in Firefox
+&lt;/script
+</pre>
+<h3>“Visited” links styles are hidden!</h3>
+<p>Visited links may be colored using :visited CSS pseudoclass.</p>
+<p>But <code>getComputedStyle</code> does not give access to that color, because otherwise an arbitrary page could find out whether the user visited a link by creating it on the page and checking the styles.</p>
+<p>In JavaScript we may not see the styles applied by :visited. And also, there’s a limitation in CSS that forbids to apply geometry-changing styles in :visited. That’s to guarantee that there’s no sideway for an evil page to test if a link was visited and hence to break the privacy.</p>
+
+
+
+
+
+
+
+
+	
+	
+	
+	
+
+</div>
+</body>
+</html>

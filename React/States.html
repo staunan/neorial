@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>States and Lifecycle</title>
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
+	<script type="text/javascript" src="../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+<script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+<div class="Content Card">
+
+
+<h1>States and Lifecycle</h1>
+<p>Consider the ticking clock example from one of the previous sections. In Rendering Elements, we have only learned one way to update the UI. We call <code>ReactDOM.render()</code> to change the rendered output:</p>
+<pre>
+function tick() {
+  const element = (
+    &lt;div>
+      &lt;h1>Hello, world!&lt;/h1>
+      &lt;h2>It is {new Date().toLocaleTimeString()}.&lt;/h2>
+    &lt;/div>
+  );
+  ReactDOM.render(
+    element,
+    document.getElementById('root')
+  );
+}
+
+setInterval(tick, 1000);
+</pre>
+<p>In this section, we will learn how to make the <code>Clock</code> component truly reusable and encapsulated. It will set up its own timer and update itself every second. We can start by encapsulating how the clock looks:</p>
+<pre>
+function Clock(props) {
+  return (
+    &lt;div>
+      &lt;h1>Hello, world!&lt;/h1>
+      &lt;h2>It is {props.date.toLocaleTimeString()}.&lt;/h2>
+    &lt;/div>
+  );
+}
+
+function tick() {
+  ReactDOM.render(
+    &lt;Clock date={new Date()} />,
+    document.getElementById('root')
+  );
+}
+
+setInterval(tick, 1000);
+</pre>
+<p>However, it misses a crucial requirement: the fact that the <code>Clock</code> sets up a timer and updates the UI every second should be an implementation detail of the Clock. Ideally we want to write this once and have the Clock update itself:</p>
+<pre>
+ReactDOM.render(
+  &lt;Clock />,
+  document.getElementById('root')
+);
+</pre>
+<p>To implement this, we need to add “state” to the Clock component. State is similar to props, but it is private and fully controlled by the component.</p>
+<p>We mentioned before that components defined as classes have some additional features. Local state is exactly that: a feature available only to classes.</p>
+
+
+
+
+<h1>Converting a Function to a Class</h1>
+<pre>
+class Clock extends React.Component {
+  render() {
+    return (
+      &lt;div>
+        &lt;h1>Hello, world!&lt;/h1>
+        &lt;h2>It is {this.props.date.toLocaleTimeString()}.&lt;/h2>
+      &lt;/div>
+    );
+  }
+}
+</pre>
+<p>Above within the Class, we have a method call <code>render()</code>. This method contains the definition of UI and it must return that UI. And all the props should be accessed using <code>this</code> instance. The class must extend <code>React.Component</code></p>
+<p><code>Clock</code> is now defined as a class rather than a function.</p>
+<p>The render method will be called each time an update happens, but as long as we render <code>&lt;Clock /></code> into the <span style="font-style: italic; font-weight: 500;">same DOM node</span>, only a single instance of the Clock class will be used. This lets us use additional features such as local state and lifecycle hooks.</p>
+<p>The above example has little goof, let's realize in the next example.</p>
+
+
+<h1>Adding Local State to a Class</h1>
+<pre>
+class Clock extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {date: new Date()};
+  }
+
+  render() {
+    return (
+      &lt;div>
+        &lt;h1>Hello, world!&lt;/h1>
+        &lt;h2>It is {this.state.date.toLocaleTimeString()}.&lt;/h2>
+      &lt;/div>
+    );
+  }
+}
+
+ReactDOM.render(
+  &lt;Clock />,
+  document.getElementById('root')
+);
+</pre>
+<p><span style="font-style: italic; font-weight: 500;">States are added via <code>Constructor</code> methods. The constructor must accept <code>props</code> as the arguments.</span> In the above example, <code>props</code> is empty or undefined.</p>
+<p>Next, <span style="font-weight: 500; font-style: italic;">the constructor must call base class's constructor with <code>props</code> as the arguments.</span></p>
+<p>The above example only display the current time but it won't update the time every second. We will make the <code>Clock</code> livable by adding lifecycle hooks.</p>
+
+
+
+<h1>Adding Lifecycle Methods to a Class</h1>
+<p>In applications with many components, it’s very important to free up resources taken by the components when they are destroyed.</p>
+<p>We want to set up a timer whenever the Clock is rendered to the DOM for the first time. This is called <code>mounting</code> in React.</p>
+<p>We also want to clear that timer whenever the DOM produced by the Clock is removed. This is called <code>unmounting</code> in React.</p>
+<p>We can declare special methods on the component class to run some code when a component mounts and unmounts:</p>
+<pre>
+class Clock extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {date: new Date()};
+  }
+
+  componentDidMount() {
+
+  }
+
+  componentWillUnmount() {
+
+  }
+
+  render() {
+    return (
+      &lt;div>
+        &lt;h1>Hello, world!&lt;/h1>
+        &lt;h2>It is {this.state.date.toLocaleTimeString()}.&lt;/h2>
+      &lt;/div>
+    );
+  }
+}
+</pre>
+<p>These methods(<code>componentDidMount()</code> and <code>componentWillUnmount()</code>) are called <code>lifecycle hooks</code>.</p>
+<p>The <code>componentDidMount</code> hook runs after the component output has been rendered to the DOM. This is a good place to set up a timer:</p>
+<pre>
+componentDidMount() {
+    this.timerID = setInterval(
+      () => this.tick(),
+      1000
+    );
+}
+</pre>
+<p>Note how we are stoing the timer id. We are directly using <code>this.timerId</code> without declaring timerId in the constructor. This is one of the React's advantage. You can add as many state anywhere as you want.</p>
+<p>We will tear down the timer in the <code>componentWillUnmount</code> lifecycle hook:</p>
+<pre>
+componentWillUnmount() {
+  clearInterval(this.timerID);
+}
+</pre>
+<p>Finally, we will implement a method called <code>tick()</code> that the Clock component will run every second. It will use <code>this.setState()</code> to schedule updates to the component local state:</p>
+<pre>
+class Clock extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {date: new Date()};
+  }
+
+  componentDidMount() {
+    this.timerID = setInterval(
+      () => this.tick(),
+      1000
+    );
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.timerID);
+  }
+
+  tick() {
+    this.setState({
+      date: new Date()
+    });
+  }
+
+  render() {
+    return (
+      &lt;div>
+        &lt;h1>Hello, world!&lt;/h1>
+        &lt;h2>It is {this.state.date.toLocaleTimeString()}.&lt;/h2>
+      &lt;/div>
+    );
+  }
+}
+
+ReactDOM.render(
+  &lt;Clock />,
+  document.getElementById('root')
+);
+</pre>
+<p>We have defined a method called <code>tick()</code> which uses <code>this.setState()</code> to update the state value. Note that the method <code>setState</code> is the method of the base class. <span style="font-weight: 500; font-style: italic;">The only way to update the state of a component is by using <code>setState()</code> method.</span></p>
+<p>In the above example, when the component is mounted, we set a timer that runs every second and calls <code>tick</code> method. This method uses <code>setState</code> method to update the <code>date</code> state. Now whenever the <code>date</code> changes, React update the necessary part of the DOM automatically.</p>
+
+
+
+<h1>Use State Correctly</h1>
+<p>There are three things you should know about setState().</p>
+<h4>Do Not Modify State Directly</h4>
+<p>For example, this will not re-render a component:</p>
+<pre>
+// Wrong
+this.state.comment = 'Hello';
+</pre>
+<p>Instead, use setState():</p>
+<pre>
+// Correct
+this.setState({comment: 'Hello'});
+</pre>
+<p style="font-style: italic; font-weight: 500;">The only place where you can assign this.state is the constructor.</p>
+<p>Even the above way is not proper way to use setState method. The reason is below -</p>
+<h4>State Updates May Be Asynchronous</h4>
+<p>React may batch multiple setState() calls into a single update for performance. Because <code>this.props</code> and <code>this.state</code> may be updated asynchronously, you should not rely on their values for calculating the next state.</p>
+<p>The first thing to be aware of is the fact that the setState function in React works in an asynchronous fashion. That might trip some developers up, as the state values are not immediately available after the update. There are two variations of using setState: the object-based approach and the functional approach. We have already discussed about object based approach which is not proper way to update state as state updates are asynchronous. So we must rely on the function approach. The problem of using object approach is discussed below. Consider the following -</p>
+<pre>
+class App extends React.Component {
+   constructor() {
+     super();
+     this.state = {
+       value: 0,
+       message: 'default click state'
+     }
+   }
+  
+   onClick = () => {
+     this.setState({
+       value: this.state.value + 1
+     });
+     
+     this.setState({
+       message: `click-state ${this.state.value}`
+     });
+   }
+   
+   
+   render(){
+     return( 
+       &lt;div>
+         &lt;div>render->state={this.state.value} - 
+             {this.state.message}
+         &lt;/div>
+         &lt;button onClick={this.onClick}>Click-setState&lt;/button>
+        
+       &lt;/div>
+     );
+   }
+}
+
+ReactDOM.render(
+  &lt;App />, 
+  document.getElementById("root")
+);
+</pre>
+<div class="box">
+<div id="root"></div>
+</div>
+<p>If you consider the above example the output is not what we expected. The above code, when executed, renders the value and message from the state object and also renders a button. If you take a look at the click handler, we have two consecutive <code>setState</code> functions that access the <code>this.state</code> value. The behavior we are expecting is that when the button is clicked, the correct state value should be rendered in the below div (extracted for reference):</p>
+<pre>
+&lt;div>render->state={this.state.value} - 
+     {this.state.message}
+&lt;/div>
+</pre>
+<p>The <code>this.state.message</code> contains values from <code>this.state.value</code>. We are expecting that both state values should be the same when the button is clicked. After the first click we expect the below output -</p>
+<pre>
+render->state=1 -click-state 1
+</pre>
+<p>But, instead we get the following -</p>
+<pre>
+render->state=1 -click-state 0
+</pre>
+<p>On the second click, the output still mismatches as shown below.</p>
+<pre>
+render->state=2 -click-state 1
+</pre>
+<p>Since the <code>setState</code> call is asynchronous before the first <code>setState</code> execution may be completed, the reference to the second <code>setState</code> may point to the previous value and not the first current updated one.</p>
+<p>We’ll fix this by using the functional aspect of setState. To demonstrate the fix, let’s create one more button:</p>
+<pre>
+&lt;button onClick={this.onClickfn}>Click-setState fn&lt;/button>
+
+onClickfn = ()=> {
+  this.setState((prevState, props) => ({
+    value : prevState + 1
+  }));
+  this.setState((prevState, props) => ({
+    message : `click-state ${prevState.value}`
+  }));
+}
+</pre>
+<p>This function takes two parameters as arguments: the first is the prevState, and the second is the props (in case you need props as well, which is passed from the parent component). Here we are only looking into the prevState. The <code>prevState</code> above relates to the setState function as it is the last updated state. This will always point to the correct value.</p>
+<p>Let’s see the output after couple of clicks. You will find that the values are always in sync when you click the second button. In the above example, you can see that using the functional setState parameter correctly batches the previous state, and you get predictable state values.</p>
+<p>One more caveat we need to be aware of: <code>setState()</code> takes one more callback function, which is executed once the state values are successfully updated. This is very handy in a situation where you have to do some operation once setState successfully updates.</p>
+<p>Let’s see a final example.</p>
+<p>Assume we want to log the state value after the update, and we write the code as below. I will use the <code>onClickfn()</code> handler for this.</p>
+<pre>
+&lt;button onClick={this.onClickfn}>Click-setState fn&lt;/button>
+
+onClickfn = ()=> {
+  this.setState((prevState, props) => ({
+    value : prevState + 1
+  }));
+  this.setState((prevState, props) => ({
+    message : `click-state ${prevState.value}`
+  }));
+
+  console.log(`After Update : ${this.state.value}`);
+}
+</pre>
+<p>But lets see the console.log and verify whether the value is correct or not. After three clicks, you get this status:</p>
+<img src="Assets/img/ex1.png">
+<p>You will observe that the logged value is not the last updated value. Let’s fix this and see the output.</p>
+<pre>
+&lt;button onClick={this.onClickfn}>Click-setState fn&lt;/button>
+
+onClickfn = ()=> {
+  this.setState((prevState, props) => ({
+    value : prevState + 1
+  }));
+  this.setState((prevState, props) => ({
+    message : `click-state ${prevState.value}`
+  }), () => {
+    console.log(`After Update : ${this.state.value}`);
+  });
+}
+</pre>
+<p>In the above example, we are using the <code>setState()</code> second callback parameter. This callback will be executed once the <code>setState()</code> has completed its operation. Let’s see the final output with the above modified code.</p>
+<img src="Assets/img/ex2.png">
+
+
+
+
+
+<h4>State Updates are Merged</h4>
+<p>When you call <code>setState()</code>, React merges the object you provide into the current state.</p>
+<p>For example, your state may contain several independent variables:</p>
+<pre>
+constructor(props) {
+  super(props);
+  this.state = {
+    posts: [],
+    comments: []
+  };
+}
+</pre>
+<p>Then you can update them independently with separate <code>setState()</code> calls:</p>
+<pre>
+  componentDidMount() {
+    fetchPosts().then(response => {
+      this.setState({
+        posts: response.posts
+      });
+    });
+
+    fetchComments().then(response => {
+      this.setState({
+        comments: response.comments
+      });
+    });
+  }
+</pre>
+<p>The merging is shallow, so <code>this.setState({comments})</code> leaves <code>this.state.posts</code> intact, but completely replaces <code>this.state.comments</code>.</p>
+
+
+
+
+
+<h1>The data flows down</h1>
+<p>Neither parent nor child components can know if a certain component is stateful or stateless, and they shouldn’t care whether it is defined as a function or a class. This is why state is often called local or encapsulated. It is not accessible to any component other than the one that owns and sets it.</p>
+<p>A component may choose to pass its state down as props to its child components:</p>
+<pre>
+&lt;h2>It is {this.state.date.toLocaleTimeString()}.&lt;/h2>
+</pre>
+<p>This also works for user-defined components:</p>
+<pre>
+&lt;FormattedDate date={this.state.date} />
+</pre>
+<p>The FormattedDate component would receive the date in its props and wouldn’t know whether it came from the Clock’s state, from the Clock’s props, or was typed by hand:</p>
+<pre>
+function FormattedDate(props) {
+  return &lt;h2>It is {props.date.toLocaleTimeString()}.&lt;/h2>;
+}
+</pre>
+<p>In React apps, whether a component is stateful or stateless is considered an implementation detail of the component that may change over time. You can use stateless components inside stateful components, and vice versa.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/babel">
+class App extends React.Component {
+   constructor() {
+     super();
+     this.state = {
+       value: 0,
+       message: 'default click state'
+     }
+   }
+  
+   onClick = () => {
+     this.setState({
+       value: this.state.value + 1
+     });
+     
+     this.setState({
+       message: `click-state ${this.state.value}`
+     });
+   }
+   
+   
+   render(){
+     return( 
+       <div>
+         <div>render->state={this.state.value} - 
+             {this.state.message}
+         </div>
+         <button onClick={this.onClick}>Click-setState</button>
+        
+       </div>
+     );
+   }
+}
+
+ReactDOM.render(
+  <App />, 
+  document.getElementById("root")
+);
+</script>
+
+</div>
+</body>
+</html>

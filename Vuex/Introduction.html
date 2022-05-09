@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Vuex - Introduction</title>
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+	<script src="../Assets/prism.min.js"></script>
+	<script type="text/javascript" src="../Assets/jquery.min.js"></script>
+	<link rel="stylesheet" href="../Assets/prism-dark.css">
+	<script type="text/javascript" src="../Assets/vue.js"></script>
+	<script type="text/javascript" src="Assets/vuex.js"></script>
+</head>
+<body class="Body">
+	<div class="Content Card">
+		<h1>About</h1>
+		<p>
+			Vuex is a state management pattern + library for Vue.js applications. It serves as a centralized store for all the components in an application, with rules ensuring that the state can only be mutated in a predictable fashion.
+		</p>
+		<p>
+			Every component has it's own scope of it's property. Other component cannot access another component's property. Not even it's parent component's property. There might be a situation where you need some common property that is kind of shared by all the component. This can be achieved by a Event Bus component but it's not very efficient to do and looses the readibility and difficult to manage as your number of property grows. Event Bus component also very difficult for deeply nested component. Vue state management pattern makes this easy to maintain with ease. It's very useful if you are dealing with large scale application where multiple component depends on some common data or state. 
+		</p>
+		<h1>Store</h1>
+		<p>
+			Store is the center of the Vuex application. A "store" is basically a container that holds your application state. There are two things that make a Vuex store different from a plain global object:
+		</p>
+		<ul>
+			<li>
+				Vuex stores are reactive. When Vue components retrieve state from it, they will reactively and efficiently update if the store's state changes.
+			</li>
+			<li>
+				You cannot directly mutate the store's state. The only way to change a store's state is by explicitly committing mutations. This ensures every state change leaves a track-able record, and enables tooling that helps us better understand our applications.
+			</li>
+		</ul>
+		<pre>
+		const store = new Vuex.Store({
+			state: {
+			count: 0,
+			name : "Santanu Bera"
+			},
+			mutations: {
+			increment (state) {
+				state.count++
+			}
+			}
+		});
+		new Vue({
+			el : ".Content",
+			data : {
+
+			}
+		})
+		</pre>
+		<p>
+			This is the simplest structure of Vuex. We create a store using <code>Vuex.Store()</code> constructor. This constructor accepts an object. Within this object we can have many options. One of them is <code>state</code> which contains the states(data) and second object is the <code>mutations</code>, collection of methods, through which we will be able to change the value of these states.
+		</p>
+
+		<pre>
+			Vue.component('demo',{
+				template : "&lt;div>{ { name } }&lt;/div>",
+				data:function(){
+					return {
+						name : store.state.name
+					}
+				}
+			});
+		</pre>
+		<p>
+			The above component will be able to display the name "Santanu Bera". The state <code>store</code> is accessible to every component. If one component change the <code>store</code> then this changes will be automatically be updated in another component. Cool. No more <code>watching</code> for property for changing. So, let's learn how to change the state from a component. Notice, in the mutations there's a method called <code>increment</code> that is responsible for incrementing the value by one. Let's do it.
+		</p>
+		<pre>
+			Vue.component('demo',{
+				template : `
+					&lt;div>
+						&lt;div>Count : { { count } }&lt;/div>
+						&lt;br>
+						&lt;button v-on:click="incre">Raise&lt;/button>
+					&lt;/div>
+				`,
+				data:function(){
+					return {
+						count : store.state.count
+					};
+				},
+				methods:{
+					incre:function(){
+						store.commit('increment');
+					}
+				}
+			});
+		</pre>
+		<p>
+			The above component will output the following -
+		</p>
+		<demo></demo>
+		<p>
+			So, to change a state you need to call the commit method of the <code>store</code> object. And pass the mutation method name as the string. Letter we will learn how to pass data to the mutation method. <em>But wait, the above demo is not working - </em>
+		</p>
+		<p>
+			This is because the states are reactive. It means whenever a state changes it is automatically updated to every component. But as we have assigned it directly within the component, the component doesn't react to state's changes. So we need to access it from a computed propety so that the component can reevaluate the value whenever state changes. Now you know what to do.
+		</p>
+		<pre>
+			Vue.component('demo1', {
+				template : `
+					&lt;div>
+						&lt;div>Count : { { count }}&lt;/div>
+						&lt;br>
+						&lt;button v-on:click="incre">Raise&lt;/button>
+					&lt;/div>
+				`,
+				computed:{
+					count:function(){
+						return store.state.count;
+					}
+				},
+				methods:{
+					incre:function(){
+						store.commit('increment');
+					}
+				}
+			});
+		</pre>
+		<p>
+			Now it's okay. 
+		</p>
+		<demo1></demo1>
+
+
+
+
+
+	</div>
+	<script type="text/javascript">
+		Vue.component('demo2', {
+			template : `
+				<div>
+					<div>Count : {{ store.state.count }}</div>
+					<br>
+					<button v-on:click="incre">Raise</button>
+				</div>
+			`,
+			methods:{
+				incre:function(){
+					store.commit('increment');
+				}
+			},
+
+		});
+		Vue.component('demo1', {
+			template : `
+				<div>
+					<div>Count : {{ count }}</div>
+					<br>
+					<button v-on:click="incre">Raise</button>
+				</div>
+			`,
+			computed:{
+				count:function(){
+					return store.state.count;
+				}
+			},
+			methods:{
+				incre:function(){
+					store.commit('increment');
+				}
+			}
+		});
+		Vue.component('demo', {
+			template : `
+				<div>
+					<div>Count : {{ count }}</div>
+					<br>
+					<button v-on:click="incre">Raise</button>
+				</div>
+			`,
+			data:function(){
+				return {
+					count : store.state.count
+				};
+			},
+			methods:{
+				incre:function(){
+					store.commit('increment');
+				}
+			}
+		});
+		const store = new Vuex.Store({
+			state: {
+				count: 0,
+				name : "Santanu Bera"
+			},
+			mutations: {
+				increment (state) {
+					state.count++;
+				}
+			}
+		});
+		new Vue({
+			el : ".Content",
+			store,
+			data : {
+			},
+		});
+	</script>
+</body>
+</html>

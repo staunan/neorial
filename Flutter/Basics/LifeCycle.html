@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Lifecycle of Widgets</title>
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+	<script type="text/javascript" src="../../Assets/prism.min.js"></script>
+	<script type="text/javascript" src="../../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+<h1>Lifecycle of Widgets</h1>
+<p>One of the most confusing ideas transitioning from Android and/or iOS is to understand how Flutter handles its lifecycle.</p>
+<p>Where’s my <code>onCreate()</code>? <code>viewDidLoad()</code>? How do I know where to put my business logic? Why I only have a build method? Why is the sky blue?</p>
+<p>The lifecycle of this one is the following:</p>
+<ul>
+	<li>createState</li>
+	<li>initState</li>
+	<li>didChangeDependencies</li>
+	<li>build</li>
+	<li>didUpdateWidget</li>
+	<li>deactivate</li>
+	<li>dispose</li>
+</ul>
+
+
+
+
+<h2>createState()</h2>
+<p>When we build a new StatefulWidget, this one calls <code>createState()</code> right away and this override method MUST exist:</p>
+<pre>
+class MyScreen extends StatefulWidget {
+  @override
+  _MyScreenState createState() => _MyScreenState();
+}
+</pre>
+<p>This method is responsible for creating state object.</p>
+
+
+<h3>mounted(true/false)</h3>
+<p>Once we create a State object, the framework mounted the State object by associating it with a BuildContext before calling <code>initState()</code> method. All widgets have a bool <code>mounted</code> property. It is turned <code>true</code> when the <code>buildContext</code> is assigned.</p>
+
+
+
+<h2>initState()</h2>
+<p>This is the first method called when a stateful widget is created after the class constructor. The <code>initState()</code> is called only once. It must called <code>super.initState()</code>. Here, you can initialize data, properties and subscribe to Streams or any other object that could change the data on this widget.</p>
+<p>You’ll need to write this one and will also notice how useful it is. This is the first method called after the Widget is created.</p>
+<pre>
+@override
+initState() {
+  super.initState();
+  // Add listeners to this class
+  cartItemStream.listen((data) {
+    _updateWidget(data);
+  });
+}
+</pre>
+
+
+
+<h2>didChangeDependencies()</h2>
+<p>This method is called immediately after initState() method on the first time the widget is built</p>
+<p>It will also be called whenever an object that this widget depends on data from is called. For example, if it relies on an InheritedWidget, which updates. The <code>build()</code> method is always called after didChangeDependencies is called, so this is rarely needed.</p>
+
+
+
+<h2>build()</h2>
+<p>It shows the part of the user interface represented by the widget.  The framework calls this method in several different situations</p>
+<ul>
+	<li>After calling <code>initState()</code> method.</li>
+	<li>The framework always calls <code>build()</code> method after calling <code>didUpdateWidget</code></li>
+	<li>After receiving a call for <code>setState()</code> to update the screen.</li>
+	<li>It is called right after <code>didChangeDependencies()</code>.</li>
+</ul>
+<p>All the GUI is rendered here and will be called every single time the UI needs to be render because drawing again is a cheap operation.</p>
+
+
+
+<h2>didUpdateWidget()</h2>
+<p>Maybe this is not a Lifecycle you’ll came across very often but, like the name saids, it’ll be called once the parent Widget did a change and needs to redraw the UI. You’ll get the oldWidget parameter and you can compare it with the current widget to do some extra logic right there.</p>
+<p>This method is basically the replacement for 'initState()' if it is expected the Widget associated with the widgets's state needs to to be rebuilt!</p>
+<p>Flutter always called build() after this, so any subsequent further calls to <code>setState</code> is redundant</p>
+<pre>
+@override
+void didUpdateWidget(Widget oldWidget) {
+  if (oldWidget.importantProperty != widget.importantProperty) {
+    _init();
+  }
+}
+</pre>
+
+
+
+
+<h2>setState()</h2>
+<p>The 'setState()' method is called often from the Flutter framework itself and from the developer. It is used to notify the framework that "data has changed", and the widget at this build context should be rebuilt.</p>
+<p><code>setState()</code> takes a callback which cannot be <code>async</code>. It is for this reason it can be called often as required, because repainting is cheap :-)</p>
+<pre>
+void updateProfile(String name) {
+ setState(() => this.name = name);
+}
+</pre>
+
+
+
+<h2>deactivate()</h2>
+<p>This is called when State is removed from the widgets tree, but it might be reinserted before the current frame change is finished. This method exists because State objects can be moved from one point in a tree to another.</p>
+
+
+<h2>dispose()</h2>
+<p>'dispose()' is called when the State object is removed, which is permanent. Here you can unsubscribe and cancel all animations, streams, etc.</p>
+<pre>
+@protected
+@mustCallSuper
+void dispose() {
+  assert(_debugLifecycleState == _StateLifecycle.ready);
+  assert(() { _debugLifecycleState = _StateLifecycle.defunct; return true; }());
+}
+</pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>
+

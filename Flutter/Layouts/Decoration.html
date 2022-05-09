@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Decoration in Flutter</title>
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+	<script type="text/javascript" src="../../Assets/prism.min.js"></script>
+	<script type="text/javascript" src="../../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+<h1>BoxDecoration</h1>
+<p>The BoxDecoration class is used to specify the styles applied on a box. For example, your box may have a background color, or a background gradient, or a background image. You can also apply border style, and controlling the roundness of the border.</p>
+<p>The body of the box is painted in layers. The bottom-most layer is the color, which fills the box. Above that is the gradient, which also fills the box. Finally there is the image, the precise alignment of which is controlled by the <code>DecorationImage</code> class.</p>
+<p>Here is an example of BoxDecoration is applied to Container widget -</p>
+<pre>
+Container(
+  decoration: BoxDecoration(
+    color: const Color(0xff7c94b6),
+    image: const DecorationImage(
+      image: NetworkImage('https:///flutter.github.io/assets-for-api-docs/assets/widgets/owl-2.jpg'),
+      fit: BoxFit.cover,
+    ),
+    border: Border.all(
+      color: Colors.black,
+      width: 8,
+    ),
+    borderRadius: BorderRadius.circular(12),
+  ),
+)
+</pre>
+<p>Below are the arguments discussed in details.</p>
+
+<h2>Border</h2>
+<p>Let's learn how to create border in flutter. The border of a box is represented by <code>Border</code> class. The <code>Border</code> class consist of four object which is known as <code>BorderSide</code>. That means each of the four side of the border is represented by <code>BorderSide</code> class.</p>
+<p>The <code>BorderSide</code> constructor takes the following arguments -</p>
+<ul>
+	<li><code>color</code>: This argument represents the color of the border.</li>
+	<li><code>width</code>: This argument represents the width of the border. By setting width to <code>0.0</code> won't make your border invisible. Instead, it will render with one pixel thick border which is like a hairline.</li>
+	<li><code>style</code>: This argument represents the style of the border. The value is represented by <code>BorderStyle</code> enum. Currently there is only two values which are <code>none</code> and <code>solid</code>. The value <code>none</code> means the border will not be rendered. And the value <code>solid</code> means the border will be rendered with a solid line. The default value is <code>solid</code>.</li>
+</ul>
+<p>Here are some example -</p>
+<pre>
+BorderSide(width: 16.0, color: Colors.lightBlue.shade50)
+BorderSide(width: 10.0, color: Colors.lightBlue.shade900)
+
+// No border --
+BorderSide(style: BorderStyle.none)
+</pre>
+<p>The <code>Border</code> constructor takes the following argument to constrol the border in all four sides -</p>
+<ul>
+	<li><code>bottom</code>: The bottom side of this border.</li>
+	<li><code>left</code>: The left side of the border.</li>
+	<li><code>right</code>: The right side of the border.</li>
+	<li><code>top</code>: The top side of the border.</li>
+</ul>
+<p>All of the above four arguments takes <code>BorderSide</code> object to represent the border style. For example -</p>
+<pre>
+border: Border(
+	top: BorderSide(width: 1.0, color: Color(0xFFFFDFDFDF)),
+	left: BorderSide(width: 1.0, color: Color(0xFFFFDFDFDF)),
+	right: BorderSide(width: 1.0, color: Color(0xFFFF7F7F7F)),
+	bottom: BorderSide(width: 1.0, color: Color(0xFFFF7F7F7F)),
+),
+</pre>
+<h3>Border.all</h3>
+<p>The named constructor <code>Border.all</code> applies the style to all four sides -</p>
+<pre>
+Border.all(width: 2.0, color: const Color(0xFFFFFFFF))
+</pre>
+<h3>Border.symmetric</h3>
+<p>The named constructor <code>symmetric</code> applies the style in horizontal and verital way.</p>
+<pre>
+Border.symmetric(horizontal: BorderSide(width: 2.0, color: const Color(0xFFFFFFFF)))
+Border.symmetric(vertical: BorderSide(width: 2.0, color: const Color(0xFFFFFFFF)))
+Border.symmetric(
+	vertical: BorderSide(width: 2.0, color: const Color(0xFFFFFFFF)), 
+	horizontal : BorderSide(width: 1.0, color : Colors.red[400]),
+)
+</pre>
+<h3>BorderSide.none</h3>
+<p>You can use constant <code>none</code> which is defined in <code>BorderSide</code> class to remove the border.</p>
+<pre>
+border: Border(
+	top: BorderSide(width: 1.0, color: Color(0xFFFFDFDFDF)),
+	left: BorderSide.none,
+	right: BorderSide(width: 1.0, color: Color(0xFFFF7F7F7F)),
+	bottom: BorderSide.none
+),
+</pre>
+
+
+<h2>borderRadius</h2>
+<p>The borderRadius argument controls the roundness of the border. It is represented by <code>BorderRadius</code> class. But first lets learn how a radius is represented in flutter. The radius is represented by the class <code>Radius</code>.</p>
+<h3>Radius</h3>
+<p>A radius can either be circular or elliptical. The constructor <code>Radius.circular</code> is used to for circular shapes and <code>Radius.elliptical</code> constructor is used for elliptical shapes. Here are the syntax -</p>
+<pre>
+Radius.circular(10.0)
+Radius.elliptical(10.0, 15.5)
+</pre>
+<p>In Circular shapes the valule is same for <code>x</code> and <code>y</code> axis and in Elliptical shapes the first value is for <code>x</code> axis and second value is for <code>y</code> axis.</p>
+<p>The Radius class defines a constant <code>zero</code>. This constant removes the radius. Here is an example -</p>
+<pre>
+Radius.zero
+
+// Same as
+
+Radius.circular(0.0)
+Radius.elliptical(0.0, 0.0)
+</pre>
+<p>Now return to the BorderRadius class, the <code>BorderRadius</code> class consist of four Radius object represents the roundness of a rectangle.</p>
+
+<h3>BorderRadius.all</h3>
+<p>The named constructor <code>all</code> allows you to create border radius which takes a <code>Radius</code> object and is applied to all four corners.</p>
+<pre>
+BorderRadius.all(Radius.circular(30.0))
+</pre>
+
+<h3>BorderRadius.circular</h3>
+<p>The named constructor <code>circular</code> allows you to create a circular radius. It takes a double value.</p>
+<pre>
+BorderRadius.circular(30.0)
+
+// Same as
+
+BorderRadius.all(Radius.circular(30.0))
+</pre>
+
+<h3>BorderRadius.only</h3>
+<p>The named constructor <code>only</code> allows you to specify the radius for each corner seperately.</p>
+<pre>
+BorderRadius.only(
+	topLeft : Radius.circular(10),
+	topRight : Radius.zero,
+	bottomLeft : Radius.zero,
+	bottomRight : Radius.elliptical(10.0, 15.0)
+)
+</pre>
+
+
+<h2>shape</h2>
+<p>The shape to fill the background color, gradient, and image into and to cast as the <code>boxShadow</code>. That means the <code>shape</code> argument helps flutter to draw color, gradient or image properly according to the shape and it also helps to paint box shadow. It is recomend to use whenever possible. The value is defined in <code>BoxShape</code> class. This class defines two constant.</p>
+<ul>
+	<li><code>circle</code>: Use this constant if you are creating a circle.</li>
+	<li><code>rectangle</code>: Use this constant if you are using just rounded corners. This is the default value.</li>
+</ul>
+<pre>
+shape : BoxShape.circle,
+</pre>
+<p>If this is <code>BoxShape.circle</code> then <code>borderRadius</code> is ignored.</p>
+
+
+<h2>color</h2>
+<p>The argument <code>color</code> represents the background solid color to paint.</p>
+
+<h2>gradient</h2>
+<p>This argument is used to specify the gradient for the box. The details are discussed in <a href="Gradient.html">Gradient</a> chapter.</p>
+
+<h2>boxShadow</h2>
+<p>The argument <code>boxShadow</code> allows you to draw a shadow behind the box. This argument takes a list of shadows. Here is an example :</p>
+<pre>
+new Container(
+    height: 200.0,
+    decoration: new BoxDecoration(
+        boxShadow: [
+          BoxShadow(
+            color: Colors.red,
+            blurRadius: 25.0, // soften the shadow
+            spreadRadius: 5.0, //extend the shadow
+            offset: Offset(
+              15.0, // Move to right 10  horizontally
+              15.0, // Move to bottom 10 Vertically
+            ),
+          )
+        ],
+    );
+    child: new Text("Hello world"),
+);
+</pre>
+<p>In the above example, we have only one shadow applied on the <code>Container</code> widget. But you can use multiple shadows seperated by comma.</p>
+<p>The class <code>BoxShadow</code> is used to define a shadow. Let's look at the constructor and its different argument.</p>
+<p>The <code>color</code> arguments specifies the color of the shadow.</p>
+<p>The <code>offset</code> argument specifies the offset of the shadow. The offset is the distance from the center. By default the shadow appears just right behind box so it is invisible by default. You move the shadow from little bit from its center to make part of it visible. In the above example, the shadow will move <code>15</code> pixel to the right in the <code>x</code> axis and <code>15</code> pixel at the bottom in the <code>y</code> axis.</p>
+<pre>
+offset: Offset(15.0, 15.0),
+</pre>
+<p>The argument <code>blurRadius</code> specifies how far the shadow will be blurred. Without blur you will notice a sharpe edge of the shadow, the blurRadius helps you to bring the smoothness of the edges.</p>
+<p>The argument <code>spreadRadius</code> allows you to control how far the shadow will be spread to.</p>
+
+
+<h2>image</h2>
+<p>The argument <code>image</code> allows you to draw a background image in the box. It is paint above the <code>color</code> and <code>gradient</code>. Use <code>DecorationImage</code> to provide the image.</p>
+<pre>
+decoration: new BoxDecoration(
+    image: DecorationImage(
+      image: new AssetImage('assets/alucard.jpg'),
+      fit: BoxFit.fill,
+    ),
+    borderRadius: BorderRadius.circular(80.0),
+),
+</pre>
+<p>Lets look at different <code>DecorationImage</code> argument you can use to control the image:</p>
+<p>The argument <code>alignment</code> controls the alignment of the image. or example, an Alignment alignment of (-1.0, -1.0) aligns the image to the top-left corner of its layout bounds, while a Alignment alignment of (1.0, 1.0) aligns the bottom right of the image with the bottom right corner of its layout bounds. Similarly, an alignment of (0.0, 1.0) aligns the bottom middle of the image with the middle of the bottom edge of its layout bounds. Defaults to <code>Alignment.center</code>.</p>
+<p>The argument <code>image</code> allows you to specify the path of the image. If you are using a local image you can use <code>AssetImage</code> class to provide the image.</p>
+<p>The argument <code>fit</code> is used to specify how the image should be inscribed into the box. Use <a href="BoxFit.html">BoxFit</a> class to provide the values.</p>
+
+
+
+
+<h1>DecoratedBox</h1>
+<p>DecorationBox allows you to set decoration on the Box. In all the above example we are using <code>Container</code> widget to set the decoration. But Container widget is combination of multiple widget. When you are using the argument <code>decoration</code> on Container widget, the widget internally uses <code>DecoratedBox</code> and passes the value of the <code>decoration</code> argument to the <code>DecorationBox</code> widget.</p>
+
+<p>A widget that paints a Decoration either before or after its child paints. <code>Container</code> insets its child by the widths of the borders; this widget does not.</p>
+<pre>
+DecoratedBox(
+  decoration: BoxDecoration(
+    gradient: RadialGradient(
+      center: const Alignment(-0.5, -0.6),
+      radius: 0.15,
+      colors: &lt;Color>[
+        const Color(0xFFEEEEEE),
+        const Color(0xFF111133),
+      ],
+      stops: &lt;double>[0.9, 1.0],
+    ),
+  ),
+)
+</pre>
+
+<h2>DecorationPosition</h2>
+<p>This widget takes a <code>position</code> argument which is optional. It specifies whether to paint the box decoration behind or in front of the child. Use <code>DecorationPosition</code> enum to provide the value. It defines following two constants:</p>
+<ul>
+  <li><code>foreground</code>: Paint the box decoration in front of the children.</li>
+  <li><code>background</code>: Paint the box decoration behind the children. This is the default value.</li>
+</ul>
+<pre>
+DecoratedBox(
+  decoration: BoxDecoration(
+    position: DecorationPosition.foreground,
+    gradient: RadialGradient(
+      center: const Alignment(-0.5, -0.6),
+      radius: 0.15,
+      colors: &lt;Color>[
+        const Color(0xFFEEEEEE),
+        const Color(0xFF111133),
+      ],
+      stops: &lt;double>[0.9, 1.0],
+    ),
+  ),
+)
+</pre>
+
+
+
+</div>
+</body>
+</html>

@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Event</title>
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+	<script type="text/javascript" src="../../Assets/prism.min.js"></script>
+	<script type="text/javascript" src="../../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+<h1>Events</h1>
+<p>Node.js is perfect for event-driven applications. Every action on a computer is an event. Like when a connection is made or a file is opened. Objects in Node.js can fire events, like the <code>readStream</code> object fires events when opening and closing a file:</p>
+<pre>
+var fs = require('fs');
+var rs = fs.createReadStream('./demofile.txt'); // (*)
+rs.on('open', function () {
+  console.log('The file is open');
+});
+</pre>
+<p>Note that the event <code>open</code> is predefined for <code>fs</code> object. Whenever the line (*) runs, it emits an event called <code>open</code>. As we have defined a listener for that event, it runs whenever <code>open</code> events occur.</p>
+<p>All objects that emit events are instances of the <code>EventEmitter</code> class. These objects expose an <code>eventEmitter.on()</code> function that allows one or more functions to be attached to named events emitted by the object. Typically, event names are camel-cased strings but any valid JavaScript property key can be used.</p>
+<p>When the <code>EventEmitter</code> object emits an event, all of the functions attached to that specific event are called synchronously. Any values returned by the called listeners are ignored and will be discarded.</p>
+<p>The following example shows a simple <code>EventEmitter</code> instance with a single listener. The <code>eventEmitter.on()</code> method is used to register listeners, while the <code>eventEmitter.emit()</code> method is used to trigger the event.</p>
+<pre>
+const EventEmitter = require('events');
+
+class MyEmitter extends EventEmitter {}
+
+const myEmitter = new MyEmitter();
+myEmitter.on('event', () => {
+  console.log('an event occurred!');
+});
+myEmitter.emit('event');
+</pre>
+
+
+
+
+
+
+<h1>Custom Event</h1>
+<p>You can create your own custom event using the class <code>EventEmitter</code>. To use <code>EventEmitter</code>, you need to require core module <code>events</code> -</p>
+<pre>
+const EventEmitter = require('events')
+</pre>
+<p>Event emitters is a core module for Node developers to implement the observer pattern. The observer pattern has the following: an observer, an event and an event emitter.</p>
+<p>The flow goes like this:</p>
+<ul>
+  <li>A class is created with <code>class</code></li>
+  <li>A class inherits from the EventEmitter class using <code>extends</code></li>
+  <li>An instance of an object is created from the class with <code>new</code></li>
+  <li>An observer (a.k.a. event listener) is created with <code>.on(eventName, eventHandler)</code></li>
+  <li>An event is emitted with <code>emit()</code> and the event handler in the observer is executed.</li>
+</ul>
+<p>Consider this simple observer pattern code which creates a Job class and then instantiates it. Later on, the object created from the class has an observer/event listener attached (job.on('done'...)) and an event is emitted/triggered.</p>
+<p>Consider the following example -</p>
+<pre>
+const EventEmitter = require('events')
+
+class Job extends EventEmitter {}
+job = new Job()
+
+job.on('done', function(timeDone){
+  console.log('Job was pronounced done at', timeDone)
+})
+
+job.emit('done', new Date())
+job.removeAllListeners()  // remove  all observers
+
+// Output --
+Job was pronounced done at &lt;time>
+</pre>
+<p>Note that, the <code>emit</code> method, it takes event name as the first argument. And rest of the arguments are passed to the handler function of the <code>on</code> method.</p>
+<pre>
+let EventEmitter = require('events');
+class Scream extends EventEmitter{};
+scream = new Scream();
+scream.on('screaming', function(name, time){
+  console.log(`${name} is sreaming on ${time}`);
+});
+scream.emit('screaming', "Santanu Bera", new Date());
+</pre>
+<p>Here, the first argument <code>"screaming"</code> is used for the name of the event. And remaining two arguments are passed to the handler function as <code>name</code> and <code>time</code> respectively.</p>
+
+
+
+
+
+
+
+
+<h1>Value of this</h1>
+<p>The value of <code>this</code> refers to the object on which the listener is attached to.</p>
+<pre>
+let EventEmmiter = require("events");
+class Student extends EventEmmiter{}
+let student = new Student();
+student.on("admission", function(name){
+  console.log("A New Student " + name + " has been enrolled !");
+  console.log(this);
+})
+student.emit("admission", "Santanu Bera");
+
+// Output : 
+A New Student Santanu Bera has been enrolled !
+Student {
+  domain: null,
+  _events: { admission: [Function] },
+  _eventsCount: 1,
+  _maxListeners: undefined }
+</pre>
+<p>But note that, if you use arrow function instead, <code>this</code> won't refer to the <code>Student</code> object anymore. Instead <code>this</code> will refer to the object in the outer scope.</p>
+<pre>
+student.on("admission", (name) => {
+  console.log("A New Student " + name + " has been enrolled !");
+  console.log(this);
+})
+
+// Output:
+A New Student Santanu Bera has been enrolled !
+{}
+</pre>
+
+
+
+
+
+
+
+
+
+
+
+<h1>Executing Observer Code Only once</h1>
+<p>Events can be triggered/emitted multiple times. For example, in knock-knock.js the knock event is emitted multiple times.</p>
+<pre>
+// knock-knock.js
+const EventEmitter = require('events')
+
+class Emitter extends EventEmitter {}
+emitter = new Emitter()
+
+emitter.on('knock', function() {
+  console.log('Who\'s there?')
+})
+
+emitter.on('knock', function() {
+  console.log('Go away!')
+})
+
+emitter.emit('knock')
+emitter.emit('knock')
+
+
+// Output --
+Who's there?
+Go away!
+Who's there?
+Go away!
+</pre>
+<p><code>emitter.once(eventName, eventHandler)</code> will execute observer code just once, no matter how many time this particular event was triggered.</p>
+<pre>
+// knock-knock-once.js
+const EventEmitter = require('events')
+
+class Emitter extends EventEmitter {}
+emitter = new Emitter()
+
+emitter.once('knock', function() {
+  console.log('Who\'s there?')
+})
+
+
+emitter.emit('knock')
+emitter.emit('knock')
+
+// Output --
+Who's there?
+</pre>
+
+
+
+
+
+
+
+
+<h1>event.removeAllListeners()</h1>
+<p>The <code>removeAllListeners()</code> is used to remove all the listeners that has been assigned to the object.</p>
+<pre>
+let EventEmitter = require('events');
+class Scream extends EventEmitter{};
+scream = new Scream();
+scream.on('screaming', function(name, time){
+	console.log(`${name} is sreaming on ${time}`);
+});
+scream.emit('screaming', "Santanu Bera", new Date());
+scream.removeAllListeners();
+scream.emit('screaming', "Priyanka Bera", new Date());
+
+// Output --
+Santanu Bera is sreaming on Fri Feb 01 2019 17:02:19 GMT+0530 (India Standard Time)
+</pre>
+<p>As we have remove all the listener attached to the <code>scream</code> object, the last line won't print anything.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h1>Modular Events</h1>
+<p>The observer pattern is often used to modularize code. A typical usage is to separate the event emitter class definition and the event emission into its own module but allow the observers to be defined in the main program. This allows us to customize the module behavior without changing the module code itself.</p>
+<pre>
+// Job.js
+const EventEmitter = require('events')
+class Job extends EventEmitter {
+  constructor(ops) {
+    super(ops)
+    this.on('start', ()=>{
+      this.process()
+    })
+  }
+  process() {
+     setTimeout(()=>{
+      // Emulate the delay of the job - async!
+      this.emit('done', { completedOn: new Date() })
+    }, 700)
+  }
+}
+module.exports = Job
+</pre>
+<pre>
+// Weekly.js
+var Job = require('./job.js')
+var job = new Job()
+
+job.on('done', function(details){
+  console.log('Weekly email job was completed at',
+    details.completedOn)
+})
+
+job.emit('start')
+</pre>
+<p>When you run <code>weekly.js</code>, the custom logic pertaining to the <code>done</code> event will be executed from <code>weekly.js</code>. This way the creators of the <code>job.js</code> module can keep the module flexible. They don't have to hard code any logic for the <code>done</code> event in the module. Consumers of the module <code>job.js</code>, people who write <code>weekly.js</code>, have the power to customize the behavior for the <code>done</code> event, and not only for that event. Event emitters can have multiple events: in the middle, at the start, in the end, etc. They can be called (emitted or triggered) multiple times and with data (passed as the second argument to <code>emit()</code> as can be seen in <code>job.js</code>). Furthermore, there are methods to list or remove event listeners (observers) or to specify the execution of an event listener (observer) just once (<code>.once()</code> method).</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h1>Error Events</h1>
+<p>When an error occurs within an <code>EventEmmiter</code> object, the <code>error</code> event is emitted. These are treated as special cases within Node.js.</p>
+<p>If an EventEmitter does not have at least one listener registered for the 'error' event, and an 'error' event is emitted, the error is thrown, a stack trace is printed, and the Node.js process exits.</p>
+<pre>
+const myEmitter = new MyEmitter();
+myEmitter.emit('error', new Error('whoops!'));
+// Throws and crashes Node.js
+</pre>
+<p>So at least one listener for <code>error</code> event should be attached to the <code>EventEmmiter</code> object.</p>
+<pre>
+const myEmitter = new MyEmitter();
+myEmitter.on('error', (err) => {
+  console.error('whoops! there was an error');
+});
+myEmitter.emit('error', new Error('whoops!'));
+// Prints: whoops! there was an error
+</pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

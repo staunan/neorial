@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Constructor</title>
+    <link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+    <link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
+    <script type="text/javascript" src="../Assets/jquery.min.js"></script>
+    <link rel="stylesheet" href="../Assets/prism-dark.css">
+</head>
+<body class="Body">
+    <div class="Content Card">
+        <h1>Constructor</h1>
+        <p>
+            In the examples so far, we are using default values for the properties. But the problem is when you create a new object, it always takes the default value during the object creation. So for every object it will take the default value. You can create a method and set those values seperately but that would be extra effort. PHP provides Constructor that runs when you create an object and it is invoked automatically during instantiation.
+
+            To add a constructor to a class, you simply add a special method with the name __construct(). Whenever you create a new object, PHP searches for this method and calls it automatically.            
+        </p>
+        <pre>
+            class BankAccount{
+                private $accountNumber;
+                private $totalBalance;
+                public function __construct($accountNo, $initialAmount){
+                    $this->accountNumber = $accountNo;
+                    $this->totalBalance = $initialAmount;
+                }
+            }
+        </pre>
+        <p>Now you can create a new bank account object with an account number and initial amount as follows:</p>
+        <pre>
+            $account = new BankAccount('1243845355',2000);
+        </pre>
+        <p>
+            Whenever we create a new object the constructor is called and the arguments are automatically passed to the constructor. Here, we are passing two arguments.
+        </p>
+        <h1>Default Constructor</h1>
+        <p>
+                This is fine as long as we are passing two arguments, if you provide more arguments or less arguments PHP will fail to searh the particular constructor and give you and error message.
+        </p>
+        <pre>
+                $account = new BankAccount();
+        </pre>
+        <p>
+            The above will fail to create object and throw error because there's no constructor defined with 0 arguments. But we have already used it and ran successfully when we didn't define any constructor. This is because when we don't define any constructor, PHP will automatically add a default constructor like the following. It takes no arguments and does nothing.
+        </p>
+        <pre>
+            public function __construct(){
+                
+            }
+        </pre>
+        <p>
+            If we write any constructor inside the class we are actually overriding the constructor. So this is why we must provide all the arguments that the constructor needs.
+        </p>
+        <p class="tip">
+            The Concept <code>Constructor Overloading</code> is not supported. You can have only one constructor per Class.
+        </p>
+    </div>
+</body>
+</html>

@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Routing</title>
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+	<script type="text/javascript" src="../../Assets/prism.min.js"></script>
+	<script type="text/javascript" src="../../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+<h1>Routing</h1>
+<p>Most apps contain several screens for displaying different types of information. For example, an app might have a screen that displays products. When the user taps the image of a product, a new screen displays details about the product. In Flutter, a route is just a widget.</p>
+
+
+<h1>Navigate using Navigator Object</h1>
+<p>This process involves the following steps:</p>
+<ul>
+	<li>Create two routes</li>
+	<li>Navigate to the second route using <code>Navigator.push()</code></li>
+	<li>Return to the first route using <code>Navigator.pop()</code></li>
+</ul>
+<pre>
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(MaterialApp(
+    title: 'Navigation Basics',
+    home: FirstRoute(),
+  ));
+}
+
+class FirstRoute extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('First Route'),
+      ),
+      body: Center(
+        child: RaisedButton(
+          child: Text('Open route'),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => SecondRoute()),
+            );
+          },
+        ),
+      ),
+    );
+  }
+}
+
+class SecondRoute extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Second Route"),
+      ),
+      body: Center(
+        child: RaisedButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          child: Text('Go back!'),
+        ),
+      ),
+    );
+  }
+}
+</pre>
+<p>In the above example, we have two routes. One that shows "Open Route" button and the other that shows "Go Back" route. Tapping the button on the first route navigates to the second route. Tapping the button on the second route returns to the first route.</p>
+<p>To switch to a new route, use the <code>Navigator.push()</code> method. The <code>push()</code> method adds a Route to the stack of routes managed by the Navigator.</p>
+<p>To close the second route and return to the first use <code>Navigator.pop()</code> method. The <code>pop()</code> method removes the current Route from the stack of routes managed by the navigator.</p>
+
+
+
+
+
+
+
+
+<h1>Navigate with named routes</h1>
+<p>In the previous lesson, you learned how to navigate to a new screen by creating a new route and pushing it to the Navigator. However, if you need to navigate to the same screen in many parts of your app, this approach can result in code duplication. The solution is to define a named route, and use the named route for navigation.</p>
+<p>This process involves the following steps</p>
+<ul>
+	<li>Create two screens.</li>
+	<li>Define the routes.</li>
+	<li>Navigate to the second screen using <code>Navigator.pushNamed()</code></li>
+	<li>Return to the first screen using <code>Navigator.pop()</code></li>
+</ul>
+<pre>
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(MaterialApp(
+    title: 'Named Routes Demo',
+    // Start the app with the "/" named route. In this case, the app starts
+    // on the FirstScreen widget.
+    initialRoute: '/',
+    routes: {
+      // When navigating to the "/" route, build the FirstScreen widget.
+      '/': (context) => FirstScreen(),
+      // When navigating to the "/second" route, build the SecondScreen widget.
+      '/second': (context) => SecondScreen(),
+    },
+  ));
+}
+
+class FirstScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('First Screen'),
+      ),
+      body: Center(
+        child: RaisedButton(
+          child: Text('Launch screen'),
+          onPressed: () {
+            // Navigate to the second screen using a named route.
+            Navigator.pushNamed(context, '/second');
+          },
+        ),
+      ),
+    );
+  }
+}
+
+class SecondScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Second Screen"),
+      ),
+      body: Center(
+        child: RaisedButton(
+          onPressed: () {
+            // Navigate back to the first screen by popping the current route
+            // off the stack.
+            Navigator.pop(context);
+          },
+          child: Text('Go back!'),
+        ),
+      ),
+    );
+  }
+}
+</pre>
+<p>The <code>MaterialApp</code> widget accepts <code>routes</code> parameter which allows us to define application routes. In our example, we have defined only two named routes.</p>
+<pre>
+routes: {
+      '/': (context) => FirstScreen(),
+      '/second': (context) => SecondScreen(),
+},
+</pre>
+<p>Notice in the above example we have <code>initialRoute</code> property. This property is used to specify the default route that the application will start with.</p>
+<p style="font-weight: 500;">When using <code>initialRoute</code>, don’t define a <code>home</code> property.</p>
+<p>Now we are done with the routes definition. Next we will navigate to the specified route using <code>Navigator.pushNamed()</code>. The following code takes us to the specified route:</p>
+<pre>
+onPressed: () {
+  Navigator.pushNamed(context, '/second');
+}
+</pre>
+<p>So tapping on the "Launch screen" button of first route takes us to the route screen <code>/second</code>.</p>
+<p>To navigate back to the first screen, use the <code>Navigator.pop()</code> function.</p>
+<pre>
+onPressed: () {
+  Navigator.pop(context);
+}
+</pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Syntax</title>
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
+	<script type="text/javascript" src="../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../Assets/prism-dark.css">
+</head>
+<body class="Body">
+	<div class="Content Card">
+		<h1>Syntax</h1>
+		<div style="display: flex; justify-content: center;">
+			<img src="Assets/img/selector.gif" style="height: 100px; width: 500px;">
+		</div>
+		<p>
+			The selector points to the HTML element you want to style.
+			The declaration block contains one or more declarations separated by semicolons.
+			Each declaration includes a CSS property name and a value, separated by a colon.
+			A CSS declaration always ends with a semicolon, and declaration blocks are surrounded by curly braces.
+		</p>
+		<pre><code class="language-html">
+			&lt;!DOCTYPE html>
+			&lt;html>
+			&lt;head>
+				&lt;title>Demo&lt;/title>
+				&lt;style type="text/css">
+					p{
+						color: blue;
+						text-align: justify;
+					}
+				&lt;/style>
+			&lt;/head>
+			&lt;body>
+				&lt;div>
+					&lt;p>Hello World&lt;/p>
+				&lt;/div>
+			&lt;/body>
+			&lt;/html>
+		</code></pre>
+		<p>
+			In the internal style sheet, we are using <code>p</code> as the selector, it means we are selecting all the paragraph element in the document. We have defined two style here, one is color and another is text-align. The color of the all paragraph will be bule and the text will be justify aligned. There are various type of selector available in CSS to pick up the actual element to style. There are different rules we will discuss them in another chapter.
+		</p>
+		<p>
+			So this is the basic syntax and this is all. Yes, This is everything. Now all you have to know the various kind of property and their possible values.
+		</p>
+		<h1>Comment</h1>
+		<p>
+			CSS only supports only one type of comment. it starts with <code>/*</code> and ends with <code>*/</code>. It is a multiline comment.
+		</p>
+		<pre><code class="language-css">
+			p {
+			    color: red;
+			    /* This is a single-line comment */
+			    text-align: center;
+			}
+			/* This is
+			a multi-line
+			comment */
+		</code></pre>
+	</div>
+</body>
+</html>

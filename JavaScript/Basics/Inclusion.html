@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Hello World</title>
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
+	<script type="text/javascript" src="../../Assets/jquery.min.js"></script>
+    <link rel="stylesheet" href="../../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+
+<h1>The <code>Script</code> Tag </h1>
+<pre>
+&lt;!DOCTYPE HTML>
+&lt;html>
+
+&lt;body>
+
+&lt;p>Before the script...&lt;/p>
+
+&lt;script>
+alert( 'Hello, world!' );
+&lt;/script>
+
+&lt;p>...After the script.&lt;/p>
+
+&lt;/body>
+
+&lt;/html>
+</pre>
+<p>You write your JS code inside the &lt;script> tag in the HTML document. You can place this script tag anywhere in your HTML code but good practice is to put them just before the closing tag of the body. The &lt;script> tag contains JavaScript code which is automatically executed when the browser meets the tag.</p>
+<p>The &lt;script> tag has a few attributes that are rarely used nowadays -</p>
+<ul>
+	<li><code>type</code> - The type attribute specifies the content type of the tag. For javascript it is "text/javascript". The modern HTML standard assumes this type by default. No attribute is required.</li>
+	<li><code>language</code> - This attribute was meant to show the language of the script. As of now, this attribute makes no sense, the language is JavaScript by default. No need to use it.</li>
+</ul>
+
+
+
+
+
+
+<h2>External Script File</h2>
+<p>If we have a lot of JavaScript code, we can put it into a separate file. The script file is attached to HTML with the src attribute:</p>
+<pre>
+&lt;script src="/path/to/script.js">&lt;/script>
+</pre>
+<p>Here, the path is the relative to the HTML file.</p>
+<p>We can give a full URL as well, for instance:</p>
+<pre>
+&lt;script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.2.0/lodash.js">&lt;/script>
+</pre>
+<p>To attach several scripts, use multiple tags:</p>
+<pre>
+&lt;script src="/js/script1.js">&lt;/script>
+&lt;script src="/js/script2.js">&lt;/script>
+…
+</pre>
+<p class="tip">A single &lt;script> tag can’t have both the src attribute and the code inside. If <code>src</code> is set, the script content is ignored.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

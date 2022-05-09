@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>SQFLite</title>
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+	<script type="text/javascript" src="../../Assets/prism.min.js"></script>
+	<script type="text/javascript" src="../../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+<h1>SQFLite</h1>
+<p><code>SQFLite</code> is a plugin that allows you to work with SQLite.</p>
+
+<h2>Installing</h2>
+<p>To work with SQLite, we need to install <code>SQFLite</code> plugin for flutter. In your flutter project add the dependency:</p>
+<pre>
+dependencies:
+  ...
+  sqflite: ^1.3.0
+</pre>
+
+
+<h2>Importaing the Package</h2>
+<p>After installation, you need to import the package:</p>
+<pre>
+import 'package:sqflite/sqflite.dart';
+</pre>
+<p>In order to be able to work with <code>sqflite</code> we also need to import another package called <code>path</code>.</p>
+<pre>
+import 'package:path/path.dart';
+</pre>
+<p>In top of these two we need to add <code>async</code> libraries as most <code>SQL</code> methods are asynchronous in nature.</p>
+<pre>
+import 'dart:async';
+</pre>
+<p>So in summary, include the following in your dart page:</p>
+<pre>
+import 'dart:async';
+
+import 'package:path/path.dart';
+import 'package:sqflite/sqflite.dart';
+</pre>
+
+
+
+<h2>Opening the Database</h2>
+<p>After importing the packages, the first thing you would do is opening a database. To open a databse we need to use <code>openDatabase</code> of <code>sqflite</code> package:</p>
+<pre>
+final Future&lt;Database> database = openDatabase(
+  // Set the path to the database.
+  join(await getDatabasesPath(), 'doggie_database.db'),
+  // When the database is first created, create a table to store dogs.
+  onCreate: (db, version) {
+    // Run the CREATE TABLE statement on the database.
+    return db.execute(
+      "CREATE TABLE dogs(id INTEGER PRIMARY KEY, name TEXT, age INTEGER)",
+    );
+  },
+  // Set the version. This executes the onCreate function and provides a
+  // path to perform database upgrades and downgrades.
+  version: 1,
+);
+</pre>
+<p>The first argument of the method <code>openDatabase</code> is a positional argument which is the path of the database. The method <code>getDatabasePath()</code> from <code>sqflite</code> package returns the path of the directory where the database is stored. The method <code>join()</code> from the package <code>path</code> joins two string and creates a path to the database file and returns it. In the above case we are joining the database directory with the name <code>doggie_database.db</code>. But where did <code>doggie_database.db</code> come from? We haven't created the database yet. In this case, the method <code>openDatabase()</code> will create the database <code>doggie_database.db</code> as it is not found in the directory and then it will open it. Next time when you start the app, it will not create the database as it will exists there.</p>
+
+<p>The named argument <code>onCreate</code> takes a callback which is run when the database is created for the first time. In this callback you would normally create the tables required for your project. This callback receives the newly created database (<code>db</code>) as the first argument and the <code>version</code> as the second argument. The callback <code>onCreate</code> is called when you run the application for the first time and it creates tables. After that it is not called anymore until you change the <code>version</code> dynamically.</p>
+
+<p>The named argument <code>version</code> specifies the version of your table schema. You can set any value you want. In our case we have set it to <code>1</code>.</p>
+
+<p>The above code will successfully open the database and make the database ready for you. The above method will return the database and using the database you can now perform various operation like inserting data or updating data or deleting data from the table, joing, query you data etc.</p>
+
+
+
+
+<h1>Inserting Row</h1>
+<p>Now that you have a database with a table suitable for storing information about various dogs, it’s time to read and write data. We will first create a model to insert a dog into the table. Every table should have a corresponding model associated to perform insertion. Below is the model for the table <code>dogs</code>:</p>
+<pre>
+class Dog {
+  final int id;
+  final String name;
+  final int age;
+
+  Dog({this.id, this.name, this.age});
+}
+</pre>
+<p>Now we will add a method called <code>toMap</code> which will convert the above dog data to the map object.</p>
+<pre>
+// Update the Dog class to include a `toMap` method.
+class Dog {
+  final int id;
+  final String name;
+  final int age;
+
+  Dog({this.id, this.name, this.age});
+
+  // Convert a Dog into a Map. The keys must correspond to the names of the
+  // columns in the database.
+  Map&lt;String, dynamic> toMap() {
+    return {
+      'id': id,
+      'name': name,
+      'age': age,
+    };
+  }
+}
+</pre>
+<p>Now lets create a function <code>insertDog</code> which will insert a dog into the table.</p>
+<pre>
+// Define a function that inserts dogs into the database
+Future&lt;void> insertDog(Dog dog) async {
+  // Get a reference to the database.
+  final Database db = await database;
+
+  // Insert the Dog into the correct table. You might also specify the
+  // `conflictAlgorithm` to use in case the same dog is inserted twice.
+  //
+  // In this case, replace any previous data.
+  await db.insert(
+    'dogs',
+    dog.toMap(),
+    conflictAlgorithm: ConflictAlgorithm.replace,
+  );
+}
+</pre>
+<p>In the above function the statement:</p>
+<pre>
+final Database db = await database;
+</pre>
+<p>is necessary. This statement creates a database object which is in our case <code>db</code>. The variable <code>database</code> is not a database object. It is a future object of type <code>Database</code>. Because the function <code>openDatabase</code> is asynchronous function and when then application starts we usually call this method. But we don't want our application to wait for database to be opened. Instead we let it run asynchronously while performing other stuff. So if you want to perform any operation with the database you need to wait for the database to be opened. The expression <code>await database</code> waits for database to be opened, when it does it returns the reference to the database. If the database is already opened it returns the reference immediately. Now using the <code>db</code> object you can perform various operation.</p>
+
+<p>The <code>insert</code> method of <code>db</code> object inserts data to the table. The first argument is the name of the table and the second argument is the map object that we want to insert. So lets insert a dog:</p>
+<pre>
+// Create a Dog and add it to the dogs table.
+final fido = Dog(
+  id: 0,
+  name: 'Fido',
+  age: 35,
+);
+
+await insertDog(fido);
+</pre>
+
+
+
+
+
+<h1>Updating Row</h1>
+<p>The method <code>rawUpdate</code> updates a row. The first argument is the query and the second argument is a list of parameters that will be provided to the query.</p>
+<pre>
+// Update some record
+int count = await db.rawUpdate(
+    'UPDATE dogs SET name = ?, age = ? WHERE id = ?',
+    ['New name', 23, 1]);
+print('updated: $count');
+</pre>
+<p>You can also update a record using <code>update</code> method. The first argument is the name of the table. The second argument is the map data and third argument is condition to match id and fourth argument is a list of parameters that will be passed to the condition in order to prevent SQL injection. The following function perform the update:</p>
+<pre>
+Future&lt;void> updateDog(Dog dog) async {
+  // Get a reference to the database.
+  final db = await database;
+
+  // Update the given Dog.
+  await db.update(
+    'dogs',
+    dog.toMap(),
+    // Ensure that the Dog has a matching id.
+    where: "id = ?",
+    // Pass the Dog's id as a whereArg to prevent SQL injection.
+    whereArgs: [dog.id],
+  );
+}
+</pre>
+<p>Here is how you can call the method to update the dog:</p>
+<pre>
+// Update Fido's age.
+await updateDog(Dog(
+  id: 0,
+  name: 'Fido',
+  age: 42,
+));
+</pre>
+
+
+
+<h1>Retrive Data</h1>
+<p>Use <code>rawQuery</code> method to retrive the data from the table:</p>
+<pre>
+List&lt;Map> list = await database.rawQuery('SELECT * FROM Test');
+</pre>
+<p>The output will be like this:</p>
+<pre>
+[
+  {'id': 0, 'name': 'Fido', 'age': 42},
+]
+</pre>
+
+
+
+
+<h1>Delete a Record</h1>
+<p>You can delete a record using <code>rawDelete</code> or <code>delete</code> method on <code>db</code> object. Here are example:</p>
+<pre>
+count = await database.rawDelete('DELETE FROM dogs WHERE name = ?', ['Fido']);
+</pre>
+<p>Here is an example using Dog model method:</p>
+<pre>
+Future&lt;void> deleteDog(int id) async {
+  // Get a reference to the database.
+  final db = await database;
+
+  // Remove the Dog from the Database.
+  await db.delete(
+    'dogs',
+    // Use a `where` clause to delete a specific dog.
+    where: "id = ?",
+    // Pass the Dog's id as a whereArg to prevent SQL injection.
+    whereArgs: [id],
+  );
+}
+</pre>
+
+
+
+<h1>Full Example</h1>
+<pre>
+import 'dart:async';
+
+import 'package:flutter/widgets.dart';
+
+import 'package:path/path.dart';
+import 'package:sqflite/sqflite.dart';
+
+void main() async {
+  // Avoid errors caused by flutter upgrade.
+  // Importing 'package:flutter/widgets.dart' is required.
+  WidgetsFlutterBinding.ensureInitialized();
+  final database = openDatabase(
+    // Set the path to the database. Note: Using the `join` function from the
+    // `path` package is best practice to ensure the path is correctly
+    // constructed for each platform.
+    join(await getDatabasesPath(), 'doggie_database.db'),
+    // When the database is first created, create a table to store dogs.
+    onCreate: (db, version) {
+      return db.execute(
+        "CREATE TABLE dogs(id INTEGER PRIMARY KEY, name TEXT, age INTEGER)",
+      );
+    },
+    // Set the version. This executes the onCreate function and provides a
+    // path to perform database upgrades and downgrades.
+    version: 1,
+  );
+
+  Future&lt;void> insertDog(Dog dog) async {
+    // Get a reference to the database.
+    final Database db = await database;
+
+    // Insert the Dog into the correct table. Also specify the
+    // `conflictAlgorithm`. In this case, if the same dog is inserted
+    // multiple times, it replaces the previous data.
+    await db.insert(
+      'dogs',
+      dog.toMap(),
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
+  }
+
+  Future&lt;List&lt;Dog>> dogs() async {
+    // Get a reference to the database.
+    final Database db = await database;
+
+    // Query the table for all The Dogs.
+    final List&lt;Map&lt;String, dynamic>> maps = await db.query('dogs');
+
+    // Convert the List&lt;Map&lt;String, dynamic> into a List<Dog>.
+    return List.generate(maps.length, (i) {
+      return Dog(
+        id: maps[i]['id'],
+        name: maps[i]['name'],
+        age: maps[i]['age'],
+      );
+    });
+  }
+
+  Future&lt;void> updateDog(Dog dog) async {
+    // Get a reference to the database.
+    final db = await database;
+
+    // Update the given Dog.
+    await db.update(
+      'dogs',
+      dog.toMap(),
+      // Ensure that the Dog has a matching id.
+      where: "id = ?",
+      // Pass the Dog's id as a whereArg to prevent SQL injection.
+      whereArgs: [dog.id],
+    );
+  }
+
+  Future&lt;void> deleteDog(int id) async {
+    // Get a reference to the database.
+    final db = await database;
+
+    // Remove the Dog from the database.
+    await db.delete(
+      'dogs',
+      // Use a `where` clause to delete a specific dog.
+      where: "id = ?",
+      // Pass the Dog's id as a whereArg to prevent SQL injection.
+      whereArgs: [id],
+    );
+  }
+
+  var fido = Dog(
+    id: 0,
+    name: 'Fido',
+    age: 35,
+  );
+
+  // Insert a dog into the database.
+  await insertDog(fido);
+
+  // Print the list of dogs (only Fido for now).
+  print(await dogs());
+
+  // Update Fido's age and save it to the database.
+  fido = Dog(
+    id: fido.id,
+    name: fido.name,
+    age: fido.age + 7,
+  );
+  await updateDog(fido);
+
+  // Print Fido's updated information.
+  print(await dogs());
+
+  // Delete Fido from the database.
+  await deleteDog(fido.id);
+
+  // Print the list of dogs (empty).
+  print(await dogs());
+}
+
+class Dog {
+  final int id;
+  final String name;
+  final int age;
+
+  Dog({this.id, this.name, this.age});
+
+  Map&lt;String, dynamic> toMap() {
+    return {
+      'id': id,
+      'name': name,
+      'age': age,
+    };
+  }
+
+  // Implement toString to make it easier to see information about
+  // each dog when using the print statement.
+  @override
+  String toString() {
+    return 'Dog{id: $id, name: $name, age: $age}';
+  }
+}
+
+</pre>
+
+
+
+
+<h1>Retrived Data are read only</h1>
+<p>The data you are fetching from the query are read only. So if you assign any value to the query result it will cause an error. For example:</p>
+<pre>
+List&lt;Map&lt;String, dynamic>> records = await db.query('my_table');
+</pre>
+<p>Resulting map items are read-only</p>
+<pre>
+// get the first record
+Map&lt;String, dynamic> mapRead = records.first;
+// Update it in memory...this will throw an exception
+mapRead['my_column'] = 1;
+// Crash... `mapRead` is read-only
+</pre>
+<p>You need to create a new map if you want to modify it in memory:</p>
+<pre>
+// get the first record
+Map&lt;String, dynamic> map = Map&lt;String, dynamic>.from(mapRead);
+// Update it in memory now
+map['my_column'] = 1;
+</pre>
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

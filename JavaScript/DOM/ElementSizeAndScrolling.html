@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Element Size and Scrolling</title>
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
+	<script type="text/javascript" src="../../Assets/jquery.min.js"></script>
+	<link rel="stylesheet" href="../../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+<style type="text/css">
+.Demo{
+	height: 200px;
+	width: 300px;
+	overflow-y: auto;
+	border: 30px solid red;
+	padding: 20px;
+	text-align: justify;
+}
+</style>
+
+
+
+
+<h1>Element size and scrolling</h1>
+<p>There are many JavaScript properties that allow us to read information about element width, height and other geometry features. We often need them when moving or positioning elements in JavaScript, to correctly calculate coordinates. Consider the following Example -</p>
+<pre>
+// CSS --
+.Demo{
+	height: 200px;
+	width: 300px;
+	overflow-y: auto;
+	border: 30px solid red;
+	padding: 20px;
+	text-align: justify;
+}
+
+// HTML ---
+&lt;div class="Demo" id="Demo">
+	Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+	tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+	quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+	consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+	cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+	proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+&lt;/div>
+</pre>
+<div class="box">
+	<div class="Demo" id="Demo">
+		Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+		tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+		quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+		consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+		cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+		proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+	</div>
+</div>
+
+
+
+
+
+<h1>offsetWidth/offsetHeight</h1>
+<p>“outer” width/height of an element including borders. Or, in other words, its full size including borders.</p>
+<p>In the example above the <code>offsetHeight</code> is <code>300</code></p>
+<pre>
+offsetHeight = height + Padding Top + Border Top + Padding Bottom + Border Bottom
+offsetHeight = 200 + 20 + 30 + 20 + 30
+</pre>
+<p>In the example above the <code>offsetWidth</code> is <code>400</code></p>
+<pre>
+offsetWidth = width + Padding Left + Border Left + Padding Right + Border Right
+offsetWidth = 300 + 20 + 30 + 20 + 30
+</pre>
+<p>The <code>offsetWidth</code> and <code>offsetHeight</code> property returns null for hidden elements. </p>
+
+
+
+<h1>scrollWidth/scrollHeight</h1>
+<p><code>scrollHeight</code> represents the full inner height of the content area including the invisible part.</p>
+<p><code>scrollWidth</code> represents the full inner width of the content area including the invisible part.</p>
+<p>The <code>scrollHeight</code> value is equal to the minimum height the element would require in order to fit all the content in the viewport without using a vertical scrollbar. The height is measured in the same way as <code>clientHeight</code>: it includes the element's padding, but not its border, margin or horizontal scrollbar (if present). It can also include the height of pseudo-elements such as <code>::before</code> or <code>::after</code>. If the element's content can fit without a need for vertical scrollbar, its <code>scrollHeight</code> is equal to <code>clientHeight</code></p>
+<p>The <code>scrollWidth</code> value is equal to the minimum width the element would require in order to fit all the content in the viewport without using a horizontal scrollbar. The width is measured in the same way as <code>clientWidth</code>: it includes the element's padding, but not its border, margin or vertical scrollbar (if present). It can also include the width of pseudo-elements such as <code>::before</code> or <code>::after</code>. If the element's content can fit without a need for horizontal scrollbar, its <code>scrollWidth</code> is equal to <code>clientWidth</code></p>
+<p>In the example above scrollHeight and scrollWidth are as follow -</p>
+<pre>
+// scrollHeight
+scrollHeight = ((Total Height + Padding Top + Padding Bottom) - (Horizontal Scrollbar Height)) + (Extra Space Required To Fit the Content)
+scrollHeight = ((200 + 20 + 20) - 0) + 112
+scrollHeight = 352
+
+// scrollWidth
+scrollWidth = (Total Width + Padding Left + Padding Right) - (Vertical Scrollbar Width)
+scrollWidth = (300 + 20 + 20) - 17 = 323
+scrollWidth = 323
+</pre>
+<p>Here, <code>Extra Space Required To Fit the Content</code> is equals to the <code>Maximum scrollTop value</code></p>
+
+
+
+
+
+
+
+
+<h1>clientWidth/clientHeight</h1>
+<p>The <code>Element.clientWidth</code> property is zero for elements with no CSS or inline layout boxes, otherwise it's the inner width of an element in pixels. It includes padding but not the vertical scrollbar (if present, if rendered), border or margin.</p>
+<p>The <code>Element.clientHeight</code> read-only property is zero for elements with no CSS or inline layout boxes, otherwise it's the inner height of an element in pixels, including padding but not the horizontal scrollbar height, border, or margin.</p>
+<pre>
+// clientHeight
+clientHeight = (Height + Padding Bottom + Padding Top) - (Horizontal Scrollbar Height)
+clientHeight = (200 + 20 + 20) - 0
+clientHeight = 240
+
+// clientWidth
+clientWidth = (Width + Padding Left + Padding Right) - (Vertical Scrollbar Width)
+clientWidth = (300 + 20 + 20) - 17
+clientWidth = 323
+</pre>
+
+
+
+
+
+
+<h1>clientTop/clientLeft</h1>
+<p><code>clientTop</code> represents the top border width. And <code>clientLeft</code> represents the left border width.</p>
+<pre>
+// clientTop
+clientTop = (Top Border Width)
+clientTop = 30
+
+// clientLeft
+clientLeft  = (Left Border Width)
+clientLeft = 30
+</pre>
+
+
+
+
+
+
+
+
+
+<h1>scrollLeft/scrollTop</h1>
+<p>The <code>Element.scrollLeft</code> property gets or sets the number of pixels that an element's content is scrolled to the left. If you set the scrollLeft to negative value, it is set to 0 automatically as negative value is invalid.</p>
+<p>The <code>Element.scrollTop</code> property gets or sets the number of pixels that an element's content is scrolled vertically. In other words, <code>scrollTop</code> is “how much is scrolled up”. If you set the <code>scrollTop</code> to negative value, it is set to 0 automatically as negative value is invalid.</p>
+<p>If you set the <code>scrollTop</code> to <code>0</code>, you will scroll to the top of the element. If you set the <code>scrollTop</code> to <code>Infinity</code>, you will scroll to the bottom of the element.</p>
+<pre>
+element.scrollTop = 0; // Go to the top
+element.scrollTop = Infinity; // Go to the bottom
+</pre>
+
+
+
+
+
+
+
+<h1>offsetParent</h1>
+<p>The <code>HTMLElement.offsetParent</code> read-only property returns a reference to the object which is the closest (nearest in the containment hierarchy) positioned containing element. If the element is non-positioned, the nearest table, table cell or root element (html in standards compliant mode; body in quirks rendering mode) is returned by offsetParent.</p>
+<p>Returns <code>null</code> when the element has <code>style.display</code> set to <code>none</code> or positioned <code>fixed</code>. The <code>offsetParent</code> is useful because <code>offsetTop</code> and <code>offsetLeft</code> are relative to its padding edge.</p>
+<p>Let's learn this in details -</p>
+<p>There are two situation -</p>
+<ul>
+	<li>Getting offsetParent element of non-positioned elements.</li>
+	<li>Getting offsetParent of positioned elements.</li>
+</ul>
+<h2>Non-Positioned Elements</h2>
+<p>If the element is non-positioned, then the returned object is nearest table element, or table cell element or root element(html in standards compliant mode; body in quirks rendering mode), or nearest positioned element.</p>
+<h2>Positioned Elements</h2>
+<p>If the element is positioned, then the returned object is either the nearet positioned element or root element (html in standards compliant mode; body in quirks rendering mode).</p>
+<p>Here is an example -</p>
+<pre>
+&lt;div class="box">
+	&lt;table border="4">
+		&lt;tr>
+			&lt;th>Name&lt;/th>
+			&lt;th>City&lt;/th>
+		&lt;/tr>
+		&lt;tr>
+			&lt;td>Santanu Bera&lt;/td>
+			&lt;td>Kolkata&lt;/td>
+		&lt;/tr>
+		&lt;tr>
+			&lt;td id="staticName">Sumit&lt;/td>
+			&lt;td>
+				&lt;div id="staticLocation" style="position: static;">Static Location&lt;/div>
+			&lt;/td>
+		&lt;/tr>
+		&lt;tr>
+			&lt;td id="staticName">Sumit&lt;/td>
+			&lt;td>
+				&lt;div id="relativeLocation" style="position: relative;">Relative Location&lt;/div>
+			&lt;/td>
+		&lt;/tr>
+		&lt;tr>
+			&lt;td id="staticName">Sumit&lt;/td>
+			&lt;td>
+				&lt;div id="absoluteLocation" style="position: absolute;">Absolute Location&lt;/div>
+			&lt;/td>
+		&lt;/tr>
+	&lt;/table>
+	&lt;div id="outSideElementStatic">Outside Element&lt;/div>
+	&lt;div id="outSideElementRelative" style="position:relative; width: 100px; height: 100px; background:pink;">
+		&lt;div id="relativeChild" style="position: relative;">Relative Child&lt;/div>
+		&lt;div id="absoluteChild" style="position: absolute;">Absolute Child&lt;/div>
+		&lt;div id="fixedChild" style="position: fixed;">Fixed Child&lt;/div>
+	&lt;/div>
+	&lt;div id="outSideElementAbsolute" style="position: absolute;">Outside Element Absolute&lt;/div>
+	&lt;div id="outSideElementFixed" style="position: fixed;">Outside Element Absolute&lt;/div>
+&lt;/div>
+</pre>
+<div class="box">
+	<table border="4">
+		<tr>
+			<th>Name</th>
+			<th>City</th>
+		</tr>
+		<tr>
+			<td>Santanu Bera</td>
+			<td>Kolkata</td>
+		</tr>
+		<tr>
+			<td id="staticName">Sumit</td>
+			<td>
+				<div id="staticLocation" style="position: static;">Static Location</div>
+			</td>
+		</tr>
+		<tr>
+			<td id="staticName">Sumit</td>
+			<td>
+				<div id="relativeLocation" style="position: relative;">Relative Location</div>
+			</td>
+		</tr>
+		<tr>
+			<td id="staticName">Sumit</td>
+			<td>
+				<div id="absoluteLocation" style="position: absolute;">Absolute Location</div>
+			</td>
+		</tr>
+	</table>
+	<div id="outSideElementStatic">Outside Element</div>
+	<div id="outSideElementRelative" style="position:relative; width: 100px; height: 100px; background:pink;">
+		<div id="relativeChild" style="position: relative;">Relative Child</div>
+		<div id="absoluteChild" style="position: absolute;">Absolute Child</div>
+		<div id="fixedChild" style="position: fixed;">Fixed Child</div>
+	</div>
+	<div id="outSideElementAbsolute" style="position: absolute;">Outside Element Absolute</div>
+	<div id="outSideElementFixed" style="position: fixed;">Outside Element Absolute</div>
+</div>
+<pre>
+// For fixed positioned element, offsetParent is always null, no matter where the are -
+outSideElementFixed.offsetParent; // null
+fixedChild.offsetParent; // null
+
+
+// For static, relative, or absolute positioned element, offsetParent is the nearest positioned element or root element.
+absoluteChild.offsetParent; // outSideElementRelative
+relativeChild.offsetParent; // outSideElementRelative
+outSideElementAbsolute.offsetParent; // Body
+outSideElementRelative.offsetParent; // Body
+outSideElementStatic.offsetParent; // Body
+
+
+// If the element's position is static and nearest parent is table, then offsetParent returns nearest Table element or TD element -
+staticLocation.offsetParent; // Parent td element.
+relativeLocation.offsetParent; // Body.
+absoluteLocation.offsetParent; // Body.
+staticName.offsetParent; // Table Element.
+</pre>
+<p><code>offsetParent</code> can be null sometimes for the following reasons -</p>
+<ul>
+	<li>For not shown elements (display:none or not in the document).</li>
+	<li>For <code>&lt;body></code> and <code>&lt;html></code>.</li>
+	<li>For elements with <code>position:fixed</code>.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+<h1>offsetTop/offsetLeft</h1>
+<p>The <code>HTMLElement.offsetTop</code> read-only property returns the distance of the current element relative to the top of the <code>offsetParent</code> node (closest relatively positioned parent node).</p>
+<p>The <code>HTMLElement.offsetLeft</code> read-only property returns the number of pixels that the upper left corner of the current element is offset to the left within the <code>HTMLElement.offsetParent</code> node.</p>
+<p>Below is a picture desicribes the <code>offsetTop</code> and <code>offsetLeft</code> - </p>
+<img src="../Assets/img/metric-offset-parent.png">
+<p>You cannot get <code>offsetTop</code> and <code>offsetLeft</code> for the element whose <code>offsetParent</code> is <code>null</code>.</p>
+
+
+
+
+
+
+
+
+
+
+
+<h1>Avoid CSS width and height</h1>
+<p>We know that <code>getComputedStyle(elem).width</code> and <code>getComputedHeight(elem).height</code> returns width and height respectively. But they are not precise. Here are few reason you should avoid <code>getComputedStyle(elem)</code> when you are calculating width and height in JS -</p>
+<ul>
+	<li> CSS width/height depend on another property: <code>box-sizing</code> that defines “what is” CSS width and height. A change in box-sizing for CSS purposes may return different width and height than what you would expect.</li>
+	<li>CSS width/height may be auto, for instance for an inline element:
+		<pre>
+&lt;span id="elem">Hello!&lt;/span>
+
+&lt;script>
+  alert( getComputedStyle(elem).width ); // auto
+&lt;/script>
+		</pre>
+		From the CSS standpoint, width:auto is perfectly normal, but in JavaScript we need an exact size in px that we can use in calculations. So here CSS width is useless at all.
+	</li>
+	<li>Some browser returns width and height including scrollbar. While some browsers do not. Such cross browser differnce is one of the reason not to rely on that function.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>DOM</title>
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+	<script type="text/javascript" src="../Assets/prism.min.js"></script>
+	<script type="text/javascript" src="../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+
+<h1>Access DOM Element</h1>
+<h3>Using CSS Query Selector Selector</h3>
+<p>The <code>querySelector("query")</code> function takes one parameter which specifies the CSS query selector to match the element. It returns the first matched element. For example:</p>
+<pre>
+// To search an element with the provided Id.
+// It will search the whole document.
+var element = querySelector("#idName");
+</pre>
+<p>To search all matched element use <code>querySelectorAll("query")</code>. It returns a List of Element object.</p>
+
+
+
+
+
+<h1>Setting the text of an Element</h1>
+<p>In Dart, you can simply use the Element text property, which has a getter that walks the subtree of nodes for you and extracts their text.</p>
+<pre>
+// HTML
+&lt;p id="RipVanWinkle">&lt;/p>
+
+// Dart
+querySelector('#RipVanWinkle').text = 'Wake up, sleepy head!';
+</pre>
+<p>Remember, if you assign a text to the element via <code>text</code> property, you are going to loose any subtree and their information. And the element will be updated with a single text node with provided text.</p>
+
+
+
+
+<h1>Access Parent Element</h1>
+<p>Use <code>parent</code> property of <code>Element</code> object:</p>
+<pre>
+element.parent
+</pre>
+
+
+<h1>Access Children</h1>
+<p>Use <code>children</code> property to get all the children of the element. It returns a List of element (<code>List&lt;Element></code>).</p>
+<pre>
+element.children
+</pre>
+<p>To access a particular child, use index:</p>
+<pre>
+element.children[0]
+</pre>
+<p>To get the total number of child nodes, use <code>length</code> property of <code>children</code> list:</p>
+<pre>
+var totalChild = element.children.length;
+</pre>
+
+
+
+<h1>Adding a Child node</h1>
+<p>To add a new child node, use <code>add()</code> method of <code>children</code> property of the element object. This method takes only one argument which specifies the element that will be inserted at the end.</p>
+<pre>
+element.children.add(newChild);
+</pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

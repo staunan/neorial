@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Syntax</title>
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
+	<script type="text/javascript" src="../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+<h1>Padding</h1>
+<p>The padding property in CSS defines the innermost portion of the box model, creating space around an element's content, inside of any defined margins and/or borders.Padding values are set using lengths or percentages, and cannot accept negative values. The initial, or default, value for all padding properties is 0.</p>
+<p>The property padding can take different values. </p>
+<pre>
+	.box {
+	  padding: &lt;padding-top> || &lt;padding-right> || &lt;padding-bottom> || &lt;padding-left>
+	}
+
+	.box {
+	  padding: 0 1.5em 0 1.5em; // Sets 0 on top side, 1.5em on right side, 0 on bottom side and 1.5em on left side.
+	}
+
+	.box{
+		padding: 20px; // Sets padding to all four sides.
+	}
+
+	.box{
+		padding: 20px 25px; // 20px for Top and Bottom side padding and 25px for Left and Right side padding
+	}
+
+	.box{
+		padding: 10px 20px 30px; // 10px for top side, right and left side 20px and 30px for bottom side.
+	}
+</pre>
+<p>
+	Any of the individual padding properties can be declared using longhand, in which case you would define only one value per property. So the previous example could be rewritten as follows:
+</p>
+<pre>
+	.box {
+	  padding-top: 20px;
+	  padding-right: 20px;
+	  padding-bottom: 20px;
+	  padding-left: 20px;
+	}
+</pre>
+</div>
+</body>
+</html>

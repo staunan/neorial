@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Icons in Flutter</title>
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+	<script type="text/javascript" src="../../Assets/prism.min.js"></script>
+	<script type="text/javascript" src="../../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+<h1>Icons</h1>
+<p>In Flutter <code>Icons</code> class is an identifier for supported material design icons.</p>
+<p>Use with the <code>Icon</code> widget to show specific icons.</p>
+<p>To use this class, make sure you set <code>uses-material-design: true</code> in your project's <code>pubspec.yaml</code> file in the flutter section. This ensures that the <code>MaterialIcons</code> font is included in your application. This font is used to display the icons. For example:</p>
+<pre>
+name: my_awesome_application
+flutter:
+  uses-material-design: true
+</pre>
+<p>Here is an example:</p>
+<pre>
+Row(
+  mainAxisAlignment: MainAxisAlignment.spaceAround,
+  children: const &lt;Widget>[
+    Icon(
+      Icons.favorite,
+      color: Colors.pink,
+      size: 24.0,
+      semanticLabel: 'Text to announce in accessibility modes',
+    ),
+    Icon(
+      Icons.audiotrack,
+      color: Colors.green,
+      size: 30.0,
+    ),
+    Icon(
+      Icons.beach_access,
+      color: Colors.blue,
+      size: 36.0,
+    ),
+  ],
+)
+</pre>
+<p>The above code will produce the following output:</p>
+<img src="../../Assets/flutter/icon.png">
+<p>To know what all the icons are available go to Flutter documentation. Below is the link:</p>
+<a target="_blank" href="https://api.flutter.dev/flutter/material/Icons-class.html">https://api.flutter.dev/flutter/material/Icons-class.html</a>
+
+
+
+
+
+
+<h1>Icon Widget</h1>
+<p>The <code>Icon</code> widget displays an icon. <code>Icon</code> widget is not interactive. For an interactive icon, consider material's <code>IconButton</code></p>
+<p>Here are some arguments:</p>
+<ul>
+  <li><code>size</code>: The size of the icon in logical pixels. Icons occupy a square with width and height equal to size. It defaults to <code>24.0</code>.</li>
+  <li><code>color</code>: Specifies the color of the icon.</li>
+  <li><code>icon</code>: The name of the icon that will be rendered.</li>
+</ul>
+<pre>
+Icon(
+  icon : Icons.audiotrack,
+  color: Colors.green,
+  size: 30.0,
+)
+
+or,
+
+Icon(
+  Icons.audiotrack,
+  color: Colors.green,
+  size: 30.0,
+)
+</pre>
+
+
+
+
+
+<h1>IconButton</h1>
+<p>A material design icon button. An icon button is a picture printed on a Material widget that reacts to touches by filling with color (ink). If the <code>onPressed</code> callback is null, then the button will be disabled and will not react to touch.</p>
+<p>Requires one of its ancestors to be a Material widget.</p>
+<pre>
+Widget build(BuildContext context) {
+  return Column(
+    mainAxisSize: MainAxisSize.min,
+    children: &lt;Widget>[
+      IconButton(
+        icon: Icon(Icons.volume_up),
+        tooltip: 'Increase volume by 10',
+        onPressed: () {
+          setState(() {
+            _volume += 10;
+          });
+        },
+      ),
+      Text('Volume : $_volume')
+    ],
+  );
+}
+</pre>
+<img src="../../Assets/flutter/icon_button.png" style="border: 1px dotted grey;">
+
+<h3>Adding a filled background</h3>
+<p>Icon buttons don't support specifying a background color or other background decoration because typically the icon is just displayed on top of the parent widget's background.</p>
+<p>It's easy enough to create an icon button with a filled background using the <code>Ink</code> widget. The <code>Ink</code> widget renders a decoration on the underlying Material along with the splash and highlight <code>InkResponse</code> contributed by descendant widgets.</p>
+<pre>
+Widget build(BuildContext context) {
+  return Material(
+    color: Colors.white,
+    child: Center(
+      child: Ink(
+        decoration: const ShapeDecoration(
+          color: Colors.lightBlue,
+          shape: CircleBorder(),
+        ),
+        child: IconButton(
+          icon: Icon(Icons.android),
+          color: Colors.white,
+          onPressed: () {},
+        ),
+      ),
+    ),
+  );
+}
+</pre>
+<img src="../../Assets/flutter/icon_button_background.png" style="border: 1px dotted grey;">
+<p>Here are some argument you can use:</p>
+<ul>
+  <li><code>alignment</code>: Defines how the icon is positioned within the IconButton.</li>
+  <li><code>color</code>: The color to use for the icon inside the button, if the icon is enabled. Defaults to leaving this up to the icon widget.</li>
+  <li><code>constraints</code>: Optional size constraints for the button.</li>
+  <li><code>highlightColor</code>: The secondary color of the button when the button is in the down (pressed) state. The highlight color is represented as a solid color that is overlaid over the button color (if any). If the highlight color has transparency, the button color will show through. The highlight fades in quickly as the button is held down. </li>
+  <li><code>hoverColor</code>: The color for the button's icon when a pointer is hovering over it.</li>
+  <li><code>disabledColor</code>: The color to use for the icon inside the button, if the icon is disabled. Defaults to the <code>ThemeData.disabledColor</code> of the current Theme.</li>
+  <li><code>icon</code>: The icon to display inside the button. This argument takes an <code>Icon</code> widget.</li>
+  <li><code>iconSize</code>: The size of the icon inside the button.</li>
+  <li><code>onPressed</code>: The callback that is called when the button is tapped or otherwise activated.</li>
+  <li><code>padding</code>: The padding around the button's icon. The entire padded icon will react to input gestures.</li>
+  <li><code>splashColor</code>: The primary color of the button when the button is in the down (pressed) state. The splash is represented as a circular overlay that appears above the highlightColor overlay. The splash overlay has a center point that matches the hit point of the user touch event. The splash overlay will expand to fill the button area if the touch is held for long enough time. If the splash color has transparency then the highlight and button color will show through.</li>
+  <li><code>padding</code>: The padding around the button's icon. The entire padded icon will react to input gestures.</li>
+  <li><code>tooltip</code>: Text that describes the action that will occur when the button is pressed.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

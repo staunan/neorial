@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Keyboard Event</title>
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
+	<script type="text/javascript" src="../../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+
+<h1>Keyboard Event</h1>
+<p>Before we get to keyboard, please note that on modern devices there are other ways to “input something”. For instance, people use speech recognition (especially on mobile devices) or copy/paste with the mouse. So if we want to track any input into an <code>&lt;input></code> field, then keyboard events are not enough. There’s another event named input to handle changes of an <code>&lt;input></code> field, by any means. And it may be a better choice for such task. We’ll cover it later in the chapter Events: change, input, cut, copy, paste.</p>
+<p>Keyboard events should be used when we want to handle keyboard actions (virtual keyboard also counts).</p>
+
+
+
+
+
+
+<h1>keydown and keyup</h1>
+<p>The <code>keydown</code> events happens when a key is pressed down, and then <code>keyup</code> – when it’s released.</p>
+<h3>event.key and event.code</h3>
+<p>The <code>key</code> property of the event object allows to get the character, while the <code>code</code> property of the event object allows to get the “physical key code”.</p>
+<p>For instance, the same key Z can be pressed with or without Shift. That gives us two different characters: lowercase z and uppercase Z. The <code>event.key</code> is exactly the character, and it will be different. But event.code is the same:</p>
+<p>If you press <code>z</code>, the value of <code>event.key</code> will be <code>z</code> and the value of <code>event.code</code> will be <code>KeyZ</code></p>
+<p>If you press <code>SHIFT + z</code>, the value of <code>event.key</code> will be <code>Z</code> and the value of <code>event.code</code> will be <code>KeyZ</code></p>
+<p>Here is a demo. Type any key and see the console -</p>
+<pre>
+&lt;input id="demo1">&lt;/input>
+&lt;script type="text/javascript">
+demo1.onkeydown=function(event){
+	console.log("Key = "+event.key + ", Code = "+event.code);
+}
+&lt;/script>
+</pre>
+<div class="box">
+<input id="demo1"></input>
+<script type="text/javascript">
+demo1.onkeydown=function(event){
+	console.log("Key = "+event.key + ", Code = "+event.code);
+}
+</script>
+</div>
+<p>Every key has the code that depends on its location on the keyboard. For instance: -</p>
+<ul>
+	<li>Letter keys have codes "<code>Key&lt;letter></code>": "<code>KeyA</code>", "<code>KeyB</code>" etc.</li>
+	<li>Digit keys have codes: "<code>Digit&lt;number></code>": "<code>Digit0</code>", "<code>Digit1</code>" etc.</li>
+	<li>Special keys are coded by their names: "<code>Enter</code>", "<code>Backspace</code>", "<code>Tab</code>" etc.</li>
+</ul>
+<p>What if a key does not give any character? For instance, <code>Shift</code> or <code>F1</code> or others. For those keys <code>event.key</code> is approximately the same as <code>event.code</code></p>
+<table class="table is-narrow is-bordered is-striped is-hovered">
+	<tr>
+		<th>Key</th>
+		<th>event.key</th>
+		<th>event.code</th>
+	</tr>
+	<tr>
+		<td>F1</td>
+		<td>F1</td>
+		<td>F1</td>
+	</tr>
+	<tr>
+		<td>Backspace</td>
+		<td>Backspace</td>
+		<td>Backspace</td>
+	</tr>
+	<tr>
+		<td>Shift</td>
+		<td>Shift</td>
+		<td>ShiftLeft or ShiftRight</td>
+	</tr>
+</table>
+
+
+
+
+
+
+
+
+<h1>Auto-Repeat</h1>
+<p>If a key is being pressed for a long enough time, it starts to repeat: the <code>keydown</code> triggers again and again, and then when it’s released we finally get <code>keyup</code>. So it’s kind of normal to have many <code>keydown</code> and a single <code>keyup</code>. For all repeating keys the event object has <code>event.repeat</code> property set to <code>true</code>.</p>
+<p>Here is an example -</p>
+<div class="box">
+<input id="demo2"></input>
+<script type="text/javascript">
+demo2.onkeydown=function(event){
+	console.log(event.repeat);
+};
+</script>
+</div>	
+<p>So when you press the key the <code>repeat</code> property of the first occurance of the event is <code>false</code>. But afterwards occurance of the <code>keydown</code> event contains <code>repeat = true</code>.</p>
+
+
+
+
+
+
+
+
+
+
+
+<h1>Default Action</h1>
+<p>Default actions vary, as there are many possible things that may be initiated by the keyboard. For instance:</p>
+<ul>
+	<li>A character appears on the screen (the most obvious outcome).</li>
+	<li>A character is deleted (Delete key).</li>
+	<li>The page is scrolled (PageDown key).</li>
+	<li>The browser opens the “Save Page” dialog (Ctrl+S)</li>
+	<li>... and so on.</li>
+</ul>
+<p>Preventing the default action on keydown can cancel most of them, with the exception of OS-based special keys. For instance, on Windows <code>Alt+F4</code> closes the current browser window. And there’s no way to stop it by preventing the default action in JavaScript.</p>
+<p>For instance, the <code>&lt;input></code> below expects a phone number, so it does not accept keys except digits, +, () or -:</p>
+<pre>
+&lt;script>
+function checkPhoneKey(key) {
+  return (key >= '0' && key &lt;= '9') || key == '+' || key == '(' || key == ')' || key == '-';
+}
+&lt;/script>
+&lt;input onkeydown="return checkPhoneKey(event.key)" placeholder="Phone, please" type="tel">
+</pre>
+
+
+
+
+<h1>Legacy</h1>
+<p>In the past, there was a <code>keypress</code> event, and also <code>keyCode</code>, <code>charCode</code>, <code>which</code> properties of the event object.</p>
+<p>Please do not use that event as this event is deprecated in most of the browser. So it is no more in use.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

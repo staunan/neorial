@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Interface</title>
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">	
+	<script type="text/javascript" src="Assets/main.js"></script>
+	<script type="text/javascript">
+
+	</script>
+</head>
+<body class="Body">
+	<div class="Content Card">
+		<h1>Interface</h1>
+		<p>
+			One of TypeScript’s core principles is that type-checking focuses on the shape that values have. This is sometimes called “duck typing” or “structural subtyping”. In TypeScript, interfaces fill the role of naming these types, and are a powerful way of defining contracts within your code as well as contracts with code outside of your project.
+		</p>
+		<pre>
+			function printLabel(labelledObj: { label: string }) {
+			    console.log(labelledObj.label);
+			}
+
+			let myObj = {size: 10, label: "Size 10 Object"};
+			printLabel(myObj);
+		</pre>
+		<p>
+			The above example has a function printLabel and it takes an argument of object type. Trying to pass any value other than object will give you an error. Thats the basic that we have already covered. But we filtered more. specifying the key and type makes it more strong in type checking. <code style="white-space: nowrap;">labelledObj:{ label : string}</code> means that labelledObj will take an object in which there's a key called label and it's type must be string type. Now we can call this function with any object we want which has at least one label key of type string.
+		</p>
+		<p>
+			The above example can be implemented with the interface like this -
+		</p>
+		<pre>
+			interface labelledValue{
+				label : string
+			}
+			function printLabel(labelledObj:labelledValue){
+				console.log(labelledObj.label);
+			}
+			let myObj = {size: 10, label: "Size 10 Object"};
+			printLabel(myObj);
+		</pre>
+		<p>
+			Notice we didn’t have to explicitly say that the object we pass to printLabel implements this interface like we might have to in other languages. Here, it’s only the shape that matters. If the object we pass to the function meets the requirements listed, then it’s allowed.
+		</p>
+		<p class="tip">
+			Note that all the type checking is done at compile time. If any mismatch occurs during the compilation, TypeScript will surely give you error in the console during the compilation. But it won't stop generating the js file. Because TypeScript knows that JS doesn't support type checking and all of the code might work properly if the right data is given. So as there's no run time impact, Interface is just kind of coding standards right now. During the compilation interface is totally ignored. Surprised?
+		</p>
+		<h1>Optional Properties</h1>
+		<p>
+			You can have optional properties in your interface.
+		</p>
+		<pre>
+			interface SquareConfig {
+			    color?: string;
+			    width?: number;
+			}
+
+			function createSquare(config: SquareConfig): {color: string; area: number} {
+			    let newSquare = {color: "white", area: 100};
+			    if (config.color) {
+			        newSquare.color = config.color;
+			    }
+			    if (config.width) {
+			        newSquare.area = config.width * config.width;
+			    }
+			    return newSquare;
+			}
+
+			let mySquare = createSquare({color: "black"});
+		</pre>
+		<p>
+			In the above example color and width both are decleared as optional. We make it optional by putting a question mark between the colon and the property name. Fair enough. No in the function declaration the function will take an object in which color and width might be present. And the function will return an object whose return type is an object in which there's a color property of string type and area property of number type.
+		</p>
+		<p>
+			Now you can call the function with any object shape you like as all the properties are optional. If the function finds a matched property that is declared in your interface, it will take the value from the passed object and return accordingly.
+		</p>
+		<p>
+			The advantage of optional properties is that you can describe these possibly available properties while still also preventing use of properties that are not part of the interface. For example,
+		</p>
+		<pre>
+			interface SquareConfig {
+			    color?: string;
+			    width?: number;
+			}
+
+			function createSquare(config: SquareConfig): {color: string; area: number} {
+			    let newSquare = {color: "white", area: 100};
+			    if (config.color) {
+			        newSquare.color = config.colour;
+			    }
+			    if (config.width) {
+			        newSquare.area = config.width * config.width;
+			    }
+			    return newSquare;
+			}
+
+			let mySquare = createSquare({color: "black", colour: "red"});
+		</pre>
+		<p>
+			Here, we are trying to access a property <code>colour</code> that is available in the passed argument. But if you access this from the function you will get an error as the config has the shape of the interface SquareConfig and SquareConfig doesn't have <code>colour</code> declared as property. So if your function argument has an interface shape, the function allow you to access only those property which are declared in your interface. Clear enough.
+		</p>
+		<h1>Read Only Property</h1>
+		<p>
+			You can have read only property. It means you cannot change those properties value anyway.
+		</p>
+		<pre>
+			interface Point {
+			    readonly x: number;
+			    readonly y: number;
+			}
+		</pre>
+		<p>
+			Put the keyword <code>readonly</code> before the property name with a space in their middle.
+		</p>
+		<pre>
+			let p:Point = {x:10, y:20}; //Correct
+			p.x = 20; //Error
+		</pre>
+		<p>
+			Here, p is defined as the type of Point. It means p will take an object in which only x and y property must be there.
+		</p>
+		<pre>
+			let p1:Point = {x:10,y20,z:30}; //Error, as z doesn't exist in Point.
+			let p2:Point = {x:30}; //Error, property y is missing
+		</pre>
+		<p>You can make an array readonly. This is how it's done -</p>
+		<pre>
+			let a: number[] = [1, 2, 3, 4];
+			let ro: ReadonlyArray&lt;number> = a;
+			ro[0] = 12; // error! Only permits reading.
+			ro.push(5); // error!
+			ro.length = 100; // error!
+			a = ro; // error!
+		</pre>
+		<p>
+			Here, <code>ReadonlyArray</code> is a keyword. It makes the array read only. It removes all the mutating methods of the array to make sure the array does't change. You cannot also assign the whose read only array to another normal array. TypeScript won't allow this as it removes all mutating methods that is available on the array. Well you can do this by type assertion. Like this -
+		</p>
+		<pre>
+			a = ro as number[];
+		</pre>
+		<p class="tip">
+			The easiest way to remember whether to use readonly or const is to ask whether you’re using it on a variable or a property. Variables use const whereas properties use readonly.
+		</p>
+		<h1>Excess Property Check</h1>
+		<p>
+			Excess Property Check means checks extra properties other than those are defined in the interface. If you pass object that have more properties than actually decleared in the interface. TypeScript will give you an error. This extra object property checking is done only on Object literal. 
+		</p>
+		<p>
+			Object literals get special treatment and undergo excess property checking when assigning them to other variables, or passing them as arguments. If an object literal has any properties that the “target type” doesn’t have, you’ll get an error.
+		</p>
+		<pre>
+			interface SquareConfig {
+			    color?: string;
+			    width?: number;
+			}
+
+			function createSquare(config: SquareConfig): { color: string; area: number } {
+			    // ...
+			}
+
+			// error: 'colour' not expected in type 'SquareConfig'
+			let mySquare = createSquare({ colour: "red", width: 100 });
+		</pre>
+		<p>
+			So how can you get around with these checking? Well there are three ways -
+		</p>
+		<h2>Type Assertion</h2>
+		<p>
+			Before passing the object you can convert the object to the target type.
+		</p>
+		<pre>
+			let mySquare = createSquare({ width: 100, opacity: 0.5 } as SquareConfig);
+		</pre>
+		<p>
+			Here is the full example -
+		</p>
+		<pre>
+			interface SquareConfig {
+			    color?: string;
+			    width?: number;
+			}
+
+			function createSquare(config: SquareConfig){
+			    console.log(config);
+			}
+
+			let mySquare = createSquare({colour: "black", width: 300} as SquareConfig);
+		</pre>
+		<h2>Index Signature</h2>
+		<p>
+			If you are sure that your object literal can have some extra properties than the required one you can define a <code>String Index Signature</code> in your interface. Like this -
+		</p>
+		<pre>
+			interface SquareConfig {
+			    color?: string;
+			    width?: number;
+			    [propName: string]: any; // Index Signature
+			}
+		</pre>
+		<p>
+			By specifing the above Index Signature, it means that SquareConfig interface can have color or width or both property and as well as any other property. If the color property exists it's type must be string. And if the width proeprty exists it's type must be number. 
+		</p>
+		<h2>Passing variable instead of object literal</h2>
+		<p>
+			One final way to get around these checks, which might be a bit surprising, is to assign the object to another variable: Since squareOptions won’t undergo excess property checks, the compiler won’t give you an error.
+		</p>
+		<pre>
+			let squareOptions = { colour: "red", width: 100 };
+			let mySquare = createSquare(squareOptions);
+		</pre>
+		<h1>Function Types</h1>
+		<p>
+			An interface can have function as well. Well we don't define function in the interface. We only have parameter signature and the return type in the declaration. Look below code -
+		</p>
+		<pre>
+			interface SearchFunc {
+			    (source: string, subString: string): boolean;
+			}
+		</pre>
+		<p>
+			In the above example, the function can take only two arguments. One is source that is string type and subString that is string type. This function has a return type of boolean. Now we can use the above function type interface to define a variable.
+		</p>
+		<pre>
+			let mySearch: SearchFunc;
+			mySearch = function(source: string, subString: string) {
+			    let result = source.search(subString);
+			    return result > -1;
+			}
+		</pre>
+		<p>
+			For function types to correctly type-check, the names of the parameters do not need to match. We could have, for example, written the above example like this:
+		</p>
+		<pre>
+			let mySearch: SearchFunc;
+			mySearch = function(src: string, sub: string): boolean {
+			    let result = src.search(sub);
+			    return result > -1;
+			}
+		</pre>
+		<p>
+			You can also define the function in the following way in which we don't have to specify the parameter type and the return type of the function. When you call the above function we pass the arguments by value. And that's when the type checking will take place. During the function calling, the order of the paramters type must match. And the function must return boolean. 
+		</p>
+		<pre>
+			let mySearch: SearchFunc;
+			mySearch = function(src, sub) {
+			    let result = src.search(sub);
+			    return result > -1;
+			}
+		</pre>
+		<pre>
+			interface calSum{
+				(x:number, y:string):{name:string, roll:number};
+			}
+			let a:calSum;
+			a = function(x,y){
+				return {name:y, roll:x};
+			};
+			console.log(a(30,"Santanu")); // returns {name:"Santanu", roll:30}
+			console.log(a("Santanu",30)); // Error, paramter type mismatch
+		</pre>
+	</div>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+

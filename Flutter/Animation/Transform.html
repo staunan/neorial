@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Transform of Widgets</title>
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+	<script type="text/javascript" src="../../Assets/prism.min.js"></script>
+	<script type="text/javascript" src="../../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+<h1>Transform Widget</h1>
+<p>A Transform widget “transforms” (i.e. changes the shape, size, position and orientation) its child widget before painting it. This is extremely useful for custom shapes and many different kinds of animations in Flutter. This can be used to transform any widget and distort it to any shape we like or move it around as well.</p>
+<p>The Transform widget gives us a few constructors to help simplify the creation of transformations. Common operations such as scaling, rotation or translation are all provided via constructors.</p>
+<p>The types of Transforms are:</p>
+<ul>
+	<li>Transform (default constructor)</li>
+	<li>Transform.rotate</li>
+	<li>Transform.scale</li>
+	<li>Transform.translate</li>
+</ul>
+<p>We will look at the single-operation constructors first.</p>
+
+
+<h2>Transform.rotate</h2>
+<p>As the name suggests, Transform.rotate simply rotates the child by an angle. Here the child is a square container.</p>
+<pre>
+Transform.rotate(
+  angle: 1.0,
+  child: Container(
+    height: 200.0,
+    width: 200.0,
+    color: Colors.pink,
+  ),
+),
+</pre>
+<img src="../../Assets/flutter/transform/1_sX96az-09qMu6t9iCDNG6g.png" style="width: 300px; height: 300px;">
+<p>The <code>angle</code> parameter lets us set an angle (in radians) the child will be rotated by.</p>
+<p>The widget also allows us specify an origin for the rotation of our widget. We specify the origin using the <code>origin</code> parameter. This takes an Offset. The Offset notes the distance of the origin in relation to the center of the child itself. When we don’t need explicitly set the offset however, the child rotates around its own center.</p>
+<img src="../../Assets/flutter/transform/1_OW8JoW05s0lVPfBpPtl2Wg.gif" style="width: 400px; height: 300px;">
+<p>If the child is rotated from the lower right point of the square, it would look like this.</p>
+<img src="../../Assets/flutter/transform/1_WgHd4oY86mmNiciI9MSVqg.gif" style="width: 300px; height: 300px;">
+<p>The code for the above rotation is:</p>
+<pre>
+Transform.rotate(
+  angle: 1.0,
+  origin: Offset(50.0, 50.0),
+  child: Container(
+    height: 100.0,
+    width: 100.0,
+    color: Colors.blue,
+  ),
+),
+</pre>
+<p>The square has sides of 100.0. This code rotates the container about the lower right vertex of the square. Since the offset is 50.0 to the right and 50.0 below, the center of the child is defined by the offset (50.0,50.0)</p>
+
+
+
+
+
+
+<h2>Transform.scale</h2>
+<p>The scale constructor scales the child by the given <code>scale</code> parameter.</p>
+
+<img src="../../Assets/flutter/transform/1_2G8FZxD6VptodemUDjIkIQ.png" style="width: 300px; height: 100px;">
+<pre>
+Transform.scale(
+  scale: 0.5,
+  child: Container(
+    height: 200.0,
+    width: 200.0,
+    color: Colors.yellow,
+  ),
+),
+</pre>
+<p>Here we set the scale to 0.5 to reduce the size of the container by half. Similar to the rotation transform, we can also set an origin in scaling.</p>
+<p>When the  is left blank, the center of the widget is taken. When scaling, the changes on each side are exactly the on each.</p>
+<p>When the <code>origin</code> is left blank, the center of the widget is taken. When scaling, the changes on each side are exactly the same.</p>
+<img src="../../Assets/flutter/transform/1_rsZ0alLPVo0FaPLlviaNag.gif" style="width: 300px; height: 300px;">
+<p>Like the last example, let’s now set the origin to the lower right corner. If we now reload our app, the widget will scale differently compared to the default (the center).</p>
+<img src="../../Assets/flutter/transform/1_qN_v9fY74sPMiz4aLtJm4g.gif" style="width: 300px; height: 300px;">
+<p>This is achieved by providing the origin (50.0,50.0). This offset corresponds to the lower right corner.</p>
+<pre>
+Transform.scale(
+  scale: 0.5,
+  origin: Offset(50.0, 50.0),
+  child: Container(
+    height: 100.0,
+    width: 100.0,
+    color: Colors.blue,
+  ),
+),
+</pre>
+
+
+
+
+<h2>Transform.translate</h2>
+<p>Transform.translate translates the child of the transform widget by a specified amount in the X and Y direction. We supply an Offset which has the amount by which we want to move the child by in the X and Y directions.</p>
+<img src="../../Assets/flutter/transform/1_JYenlaQLC7F5Bl7dSlSreg.png" style="width: 300px; height: 200px;">
+<p>Here we supply an Offset which moves the container 100.0 in the X direction. Any change in the second parameter would move it in the Y direction. You can also provide negative value to move the widget to the left in the <code>x</code> axis and to the bottom in the <code>y</code> axis.</p>
+<p>We cannot set an origin in translation since translation is not affected by origin. Since we give an offset and not coordinates, the origin doesn’t make a difference.</p>
+
+
+
+
+
+<h2>Transform (Default constructor)</h2>
+<p>Unlike the other constructors in the list, the default constructor allows us to do multiple operations at once. It is the most powerful constructor from the list.</p>
+<p>Transform widgets allow us to fundamentally alter how widgets look and behave, allowing us to create new, complex types of animations. Underneath the Transform widget, a 4D matrix powers the actual transformation — defined by the Matrix4 class. While Flutter provides easy ways to do transformations such as translation, scaling, and rotation, we can use the Matrix4 to create even more awesome things such as 3D perspective transformation.</p>
+<p>We will learn more about <code>Matrix4</code> and <code>Transform</code> constructor later.</p>
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>
+

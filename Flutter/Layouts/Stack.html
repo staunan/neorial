@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Stack Widget in Flutter</title>
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+	<script type="text/javascript" src="../../Assets/prism.min.js"></script>
+	<script type="text/javascript" src="../../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+<h1>Stack Widget</h1>
+<p>A widget that positions its children relative to the edges of its box. A Stack widget allows us to make multiple widgets overlay each other. This not only allows brilliant custom designs but also some really cool animations.</p>
+<p>There are two main types of Stacks:</p>
+<ul>
+	<li>Stack</li>
+	<li>IndexedStack</li>
+</ul>
+<p>First we will explore the <code>Stack</code> widget.</p>
+<p>Each child of a Stack widget is either <b>positioned</b> or <b>non-positioned</b>. Positioned children are those wrapped in a <code>Positioned</code> widget that has at least one non-null property.</p>
+<p>The stack sizes itself to contain all the non-positioned children, which are positioned according to alignment (which defaults to the top-left corner in left-to-right environments and the top-right corner in right-to-left environments). The positioned children are then placed relative to the stack according to their top, right, bottom, and left properties.</p>
+<p>The stack paints its children in order with the first child being at the bottom. If you want to change the order in which the children paint, you can rebuild the stack with the children in the new order. If you reorder the children in this way, consider giving the children non-null keys. These keys will cause the framework to move the underlying objects for the children to their new locations rather than recreate them at their new location</p>
+<pre>
+Stack(
+  children: &lt;Widget>[
+    Container(
+      width: 100,
+      height: 100,
+      color: Colors.red,
+    ),
+    Container(
+      width: 90,
+      height: 90,
+      color: Colors.green,
+    ),
+    Container(
+      width: 80,
+      height: 80,
+      color: Colors.blue,
+    ),
+  ],
+)
+</pre>
+<p>Here is the output would look like:</p>
+<img src="../../Assets/flutter/stack/stack.png">
+<p>Here is one more example:</p>
+<pre>
+SizedBox(
+  width: 250,
+  height: 250,
+  child: Stack(
+    children: &lt;Widget>[
+      Container(
+        width: 250,
+        height: 250,
+        color: Colors.white,
+      ),
+      Container(
+        padding: EdgeInsets.all(5.0),
+        alignment: Alignment.bottomCenter,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: &lt;Color>[
+              Colors.black.withAlpha(0),
+              Colors.black12,
+              Colors.black45
+            ],
+          ),
+        ),
+        child: Text(
+          "Foreground Text",
+          style: TextStyle(color: Colors.white, fontSize: 20.0),
+        ),
+      ),
+    ],
+  ),
+)
+</pre>
+<p>Here is the output:</p>
+<img src="../../Assets/flutter/stack/stack_with_gradient.png" style="border: 2px solid black;">
+<p>In the above example both are non positioned widget. Taking the whole area of the stack. Leter we will see how we can use positioned widget. First lets look at few arguments the Stack widget provides:</p>
+<h3>alignment</h3>
+<p>This specifies the alignment of the non positioned children. For example, if the value is <code>Alignment.center</code> then the children will be positioned in the center.</p>
+<h3>fit</h3>
+<p>How to size the non-positioned children in the stack. The class <code>StackFit</code> is used to provide the values. It defines two constant:</p>
+<ul>
+	<li><code>expand</code>: The constraints passed to the stack from its parent are tightened to the biggest size allowed. For example, if the stack has loose constraints with a width in the range 10 to 100 and a height in the range 0 to 600, then the non-positioned children of the stack would all be sized as 100 pixels wide and 600 high.</li>
+	<li><code>loose</code>: The constraints passed to the stack from its parent are loosened. For example, if the stack has constraints that force it to 350x600, then this would allow the non-positioned children of the stack to have any width from zero to 350 and any height from zero to 600.</li>
+	<li><code>passthrough</code>: The constraints passed to the stack from its parent are passed unmodified to the non-positioned children. For example, if a Stack is an <code>Expanded</code> child of a <code>Row</code>, the horizontal constraints will be tight and the vertical constraints will be loose.</li>
+</ul>
+<h3>overflow</h3>
+<p>Whether overflowing children should be clipped. Some children in a stack might overflow its box. When this flag is set to <code>Overflow.clip</code>, children cannot paint outside of the stack's box. You can use <code>Overflow.visible</code> to make the overflowed part visible.</p>
+
+
+<h1>Positioned Widget</h1>
+<p>A widget that controls where a child of a Stack is positioned.</p>
+<p>If a widget is wrapped in a <code>Positioned</code>, then it is a positioned widget in its Stack. If the top property is non-null, the top edge of this child will be positioned top layout units from the top of the stack widget. The right, bottom, and left properties work analogously.</p>
+<p>If both the top and bottom properties are non-null, then the child will be forced to have exactly the height required to satisfy both constraints. Similarly, setting the right and left properties to non-null values will force the child to have a particular width. </p>
+<p>Here are the arguments:</p>
+<ul>
+	<li><code>top</code>: The distance that the child's top edge is inset from the top of the stack.</li>
+	<li><code>bottom</code>: The distance that the child's bottom edge is inset from the bottom of the stack.</li>
+	<li><code>left</code>: The distance that the child's left edge is inset from the left of the stack.</li>
+	<li><code>right</code>: The distance that the child's right edge is inset from the right of the stack.</li>
+	<li><code>height</code>: The child's height.</li>
+	<li><code>width</code>: The child's width.</li>
+</ul>
+<pre>
+Positioned(
+  right: 40.0,
+  top: 40.0,
+  child: Container(
+    color: Colors.pink,
+    height: 150.0,
+    width: 150.0,
+  ),
+)
+</pre>
+
+
+
+
+<h1>IndexedStack Widget</h1>
+<p>An IndexedStack is a stack where only one child is displayed at one time by its index.</p>
+<pre>
+IndexedStack(
+  index: 1,
+  children: &lt;Widget>[
+    BottomWidget(),
+    MidWidget(),
+    TopWidget(),
+  ],
+)
+</pre>
+<p>In the above example, the widget <code>MidWidget</code> will be shown. And other two widget will be hidden.</p>
+<p>It takes children like a usual Stack but in contrast to it, only displays one child at one time. In a way, it’s not a stack and more of a way to easily switch between children when you need to.</p>
+<pre>
+IndexedStack(
+  index: 0,
+  children: &lt;Widget>[
+    Container(
+      color: Colors.green,
+    ),
+    Container(
+      alignment: Alignment.bottomLeft,
+      color: Colors.blue,
+      height: 300.0,
+      width: 300.0,
+    ),
+    Container(
+      color: Colors.pink,
+      height: 150.0,
+      width: 150.0,
+    )
+  ],
+),
+</pre>
+<p>In the above example, the first widget with green color will be shown as the index is <code>0</code>.</p>
+<p><b>The size is still the size of the largest child.</b></p>
+<p>You can also use <code>alignment</code>, <code>fit</code> and <code>overflow</code> argument with the same concept of <code>Stack</code> widget.</p>
+
+
+
+
+
+
+
+<h1>Gesture on Stack</h1>
+<p>Using the <code>Positioned</code> widget you can make a widget float on the Stack. You can use <code>overflow</code> property to make the overflowed content visible. But there is a major drawback. </p>
+
+<p>The overflowed area of a Stack doesn't respond to the gesture. If you have a Positioned element where part of it is inside the Stack's bound and other part of the element is outside the Stack's bound. If you click on the part that is inside the Stack's bound, it will respond, but when you click on the part that is outside of the Stack's bound, it will not respond to any gesture. So overflowing content can be useful only when you don't need gesture for the overflowed content. </p>
+
+<p>This is not a bug though, it is intentional by the Flutter developers.</p>
+
+<p>The thing is overflowing is never welcomed in Stack layout or any layout in Flutter. It is always good practice to make you layout in a way that it fits inside its parent's bound.</p>
+
+<p>To know more about this problem see this <a href="https://github.com/flutter/flutter/issues/19445">issue</a> on Github.</p>
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

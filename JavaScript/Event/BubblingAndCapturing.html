@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Bubbling and Capturing</title>
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
+	<script type="text/javascript" src="../../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+<h1>Bubbling and Capturing</h1>
+<p>Let’s start with an example. This handler is assigned to &lt;div>, but also runs if you click any nested tag like &lt;em> or &lt;code>:</p>
+<pre>
+&lt;div onclick="alert(event.target.tagName)">
+  &lt;em>If you click on &lt;code>EM&lt;/code>, the handler on &lt;code>DIV&lt;/code> runs.&lt;/em>
+&lt;/div>
+</pre>
+<div class="box">
+<div onclick="alert(event.target.tagName)">
+  <em>If you click on <code>EM</code>, the handler on <code>DIV</code> runs.</em>
+</div>
+</div>
+<p>Isn’t it a bit strange? Why the handler on &lt;div> runs if the actual click was on &lt;em>?</p>
+
+
+
+
+
+
+
+
+
+<h1>Bubbling</h1>
+<p style="font-style: italic; font-weight: bold;">When an event happens on an element, it first runs the handlers on it, then on its parent, then all the way up on other ancestors.</p>
+<p>Let’s say, we have 3 nested elements FORM > DIV > P with a handler on each of them:</p>
+<pre>
+&lt;style>
+  body * {
+    margin: 10px;
+    border: 1px solid blue;
+  }
+&lt;/style>
+
+&lt;form onclick="alert('form')">FORM
+  &lt;div onclick="alert('div')">DIV
+    &lt;p onclick="alert('p')">P&lt;/p>
+  &lt;/div>
+&lt;/form>
+</pre>
+<div class="box">
+<style>
+  .demo1, .demo1 *{
+    margin: 10px;
+    border: 1px solid blue;
+  }
+</style>
+
+<form class="demo1" onclick="alert('form')">FORM
+  <div onclick="alert('div')">DIV
+    <p onclick="alert('p')">P</p>
+  </div>
+</form>
+</div>
+<p>A click on the inner <code>&lt;p></code> first runs onclick:</p>
+<ul>
+	<li>On that <code>&lt;p></code>.</li>
+	<li>Then on the outer <code>&lt;div></code>.</li>
+	<li>Then on the outer <code>&lt;form></code>.</li>
+	<li>And so on upwards till the <code>document</code> object.</li>
+</ul>
+<img src="../Assets/img/event-order-bubbling.png">
+<p>The process is called “bubbling”, because events “bubble” from the inner element up through parents like a bubble in the water.</p>
+<h3>Almost all event bubbles</h3>
+<p>For instance, a <code>focus</code> event does not bubble. There are other examples too, we’ll meet them. But still it’s an exception, rather than a rule, most events do bubble.</p>
+<h3>event.target</h3>
+<p>A handler on a parent element can always get the details about where the event actually happened.</p>
+<p>The most deeply nested element that caused the event is called a target element, accessible as <code>event.target</code>. Here is the difference between <code>this</code> and <code>event.target</code> - </p>
+<ul>
+	<li><code>event.target</code> – is the “target” element that initiated the event, it doesn’t change through the bubbling process</li>
+	<li><code>this</code> – is the “current” element, the one that has a currently running handler on it.</li>
+</ul>
+<h2>event.currentTarget</h2>
+<p>Using <code>this</code> you can always get the element on which the handler runs. There is an alternative way to access it - <code>event.currentTarget</code></p>
+<pre>
+	this = event.currentTarget;
+</pre>
+<p>Please note that it's possible that sometimes <code>event.target</code> is equals to <code>event.currentTarget</code>, if the clicked element is the one on which the handler is assigned to.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h1>Stopping Bubbling : stopPropagation()</h1>
+<p>A bubbling event goes from the target element straight up. Normally it goes upwards till <code>&lt;html></code>, and then to <code>document</code> object, and some events even reach <code>window</code>, calling all handlers on the path.</p>
+<p>But any handler may decide that the event has been fully processed and stop the bubbling. The method for it is <code>event.stopPropagation()</code>. Here is an example -</p>
+<pre>
+&lt;p id="parent" onclick="parentHandler(event)">
+	&lt;code onclick="childHandler(event)">Lorem ipsum dolor sit amet, consectetur adipisicing elit&lt;/code>, sed do eiusmod
+	tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+	quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+	consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+	cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+	proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+&lt;/p>
+&lt;script type="text/javascript">
+function parentHandler(event){
+	alert("I am a Parent");
+}
+function childHandler(event){
+	alert("I am a Child");
+	event.stopPropagation();
+}
+&lt;/script>
+</pre>
+<div class="box">
+<p id="parent" onclick="parentHandler(event)">
+	<code onclick="childHandler(event)">Lorem ipsum dolor sit amet, consectetur adipisicing elit</code>, sed do eiusmod
+	tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+	quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+	consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+	cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+	proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+</p>
+<script type="text/javascript">
+function parentHandler(event){
+	alert("I am a Parent");
+}
+function childHandler(event){
+	alert("I am a Child");
+	event.stopPropagation();
+}
+</script>
+</div>
+
+
+
+
+
+
+
+
+<h1>event.stopImmediatePropagation()</h1>
+<p>Consider the following example -</p>
+<pre>
+&lt;p id="parent1">
+	&lt;code id="child1">Lorem ipsum dolor sit amet, consectetur adipisicing elit&lt;/code>, sed do eiusmod
+	tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+	quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+	consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+	cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+	proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+&lt;/p>
+&lt;script type="text/javascript">
+parent1.addEventListener("click", function(event){
+	alert("I am in Parent !");
+});
+child1.addEventListener('click', function(event){
+	alert("I am in Child !");
+	event.stopPropagation();
+});
+child1.addEventListener("click", function(event){
+	alert("Thank you for Clicking Me !");
+});
+&lt;/script>
+</pre>
+<div class="box">
+<p id="parent1">
+	<code id="child1">Lorem ipsum dolor sit amet, consectetur adipisicing elit</code>, sed do eiusmod
+	tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+	quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+	consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+	cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+	proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+</p>
+<script type="text/javascript">
+parent1.addEventListener("click", function(event){
+	alert("I am in Parent !");
+});
+child1.addEventListener('click', function(event){
+	alert("I am in Child !");
+	event.stopPropagation();
+});
+child1.addEventListener("click", function(event){
+	alert("Thank you for Clicking Me !");
+});
+</script>
+</div>
+<p>In the above example, we have two handlers for <code>click</code> events. One of them stop bubbling. It means any handler on the parent element won't run. But if you notice, it doesn't stop the execution of other handlers on the same element. That's why you will get two alert. What if you want to stop the bubbling as well as other event handlers from being executed? The method <code>stopImmediatePropagation()</code> does exactly that.</p>
+<p>Here is the same example with <code>stopImmediatePropagation()</code> - </p>
+<pre>
+&lt;p id="parent2">
+	&lt;code id="child2">Lorem ipsum dolor sit amet, consectetur adipisicing elit&lt;/code>, sed do eiusmod
+	tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+	quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+	consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+	cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+	proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+&lt;/p>
+&lt;script type="text/javascript">
+parent2.addEventListener("click", function(event){
+	alert("I am in Parent !");
+});
+child2.addEventListener('click', function(event){
+	alert("I am in Child !");
+	event.stopImmediatePropagation();
+});
+child2.addEventListener("click", function(event){
+	alert("Thank you for Clicking Me !");
+});
+&lt;/script>
+</pre>
+<div class="box">
+<p id="parent2">
+	<code id="child2">Lorem ipsum dolor sit amet, consectetur adipisicing elit</code>, sed do eiusmod
+	tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+	quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+	consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+	cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+	proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+</p>
+<script type="text/javascript">
+parent2.addEventListener("click", function(event){
+	alert("I am in Parent !");
+});
+child2.addEventListener('click', function(event){
+	alert("I am in Child !");
+	event.stopImmediatePropagation();
+});
+child2.addEventListener("click", function(event){
+	alert("Thank you for Clicking Me !");
+});
+</script>
+</div>
+<h3>Orders of the event handlers matter</h3>
+<p>The following example won't work. It will stop the bubbling but it won't stop the previously assigned event handlers from being executed. But it will stop any afterwards assigned event handlers. So oders in which the event handlers are assinged matters in case of <code>stopImmediatePropagation()</code> method.</p>
+<pre>
+&lt;p id="parent3">
+	&lt;code id="child3">Lorem ipsum dolor sit amet, consectetur adipisicing elit&lt;/code>, sed do eiusmod
+	tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+	quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+	consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+	cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+	proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+&lt;/p>
+&lt;script type="text/javascript">
+parent3.addEventListener("click", function(event){
+	alert("I am in Parent !");
+});
+child3.addEventListener('click', function(event){
+	alert("I am in Child !");
+});
+child3.addEventListener("click", function(event){
+	alert("Thank you for Clicking Me !");
+	event.stopImmediatePropagation();
+});
+child3.addEventListener("click", function(){
+	alert("After stopImmediatePropagation");
+})
+&lt;/script>
+</pre>
+<div class="box">
+<p id="parent3">
+	<code id="child3">Lorem ipsum dolor sit amet, consectetur adipisicing elit</code>, sed do eiusmod
+	tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+	quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+	consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+	cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+	proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+</p>
+<script type="text/javascript">
+parent3.addEventListener("click", function(event){
+	alert("I am in Parent !");
+});
+child3.addEventListener('click', function(event){
+	alert("I am in Child !");
+});
+child3.addEventListener("click", function(event){
+	alert("Thank you for Clicking Me !");
+	event.stopImmediatePropagation();
+});
+child3.addEventListener("click", function(){
+	alert("After stopImmediatePropagation");
+})
+</script>
+</div>
+<p>In the above example, you won't see the the third alert, but you will see the first and second alert.</p>
+
+
+
+
+
+
+
+<h1>Don’t stop bubbling without a need!</h1>
+<p>Bubbling is convenient. Don’t stop it without a real need: obvious and architecturally well-thought. Sometimes <code>event.stopPropagation()</code> creates hidden pitfalls that later may become problems. For instance:</p>
+<ul>
+	<li>We create a nested menu. Each submenu handles clicks on its elements and calls stopPropagation so that outer menu don’t trigger.</li>
+	<li>Later we decide to catch clicks on the whole window, to track users’ behavior (where people click). Some analytic systems do that. Usually the code uses document.addEventListener('click'…) to catch all clicks.</li>
+	<li>Our analytic won’t work over the area where clicks are stopped by stopPropagation. We’ve got a “dead zone”.</li>
+</ul>
+<p>There’s usually no real need to prevent the bubbling. A task that seemingly requires that may be solved by other means. One of them is to use custom events, we’ll cover them later. Also we can write our data into the event object in one handler and read it in another one, so we can pass to handlers on parents information about the processing below.</p>
+
+
+
+
+
+
+
+
+
+<h1>Capturing</h1>
+<p>There’s another phase of event processing called “capturing”. It is rarely used in real code, but sometimes can be useful. Here’s the picture of a click on <td> inside a table, taken from the specification:</p>
+<img src="../Assets/img/eventflow.png">
+<p>That is: for a click on <td> the event first goes through the ancestors chain down to the element (capturing), then it reaches the target, and then it goes up (bubbles), calling handlers on its way.</p>
+<p style="font-style: italic; font-weight: bold;">Before we only talked about bubbling, because the capturing phase is rarely used. Normally it is invisible to us.</p>
+<p>Handlers added using <code>on&lt;event></code>-property or using HTML attributes or using <code>addEventListener(event, handler)</code> don’t know anything about capturing, they only work on the bubbling phase by default.</p>
+<p>To catch an event on the capturing phase, we need to set the 3rd argument of <code>addEventListener</code> to <code>true</code>.</p>
+<p>There are two possible values for that optional last argument:</p>
+<ul>
+	<li>If it’s false (default), then the handler is set on the bubbling phase.</li>
+	<li>If it’s true, then the handler is set on the capturing phase.</li>
+</ul>
+<p>Let’s see it in action:</p>
+<pre>
+&lt;form class="demo1" id="demo10">FORM
+  &lt;div id="demo10Div">DIV
+    &lt;p id="demo10P">P&lt;/p>
+  &lt;/div>
+&lt;/form>
+
+&lt;script>
+var handler = function(event){
+	alert("Capturing = " + event.currentTarget.tagName);
+}
+demo10.addEventListener('click', handler, true);
+demo10Div.addEventListener('click', handler, true);
+demo10P.addEventListener('click', handler, true);
+&lt;/script>
+</pre>
+<div class="box">
+<form class="demo1" id="demo10">FORM
+  <div id="demo10Div">DIV
+    <p id="demo10P">P</p>
+  </div>
+</form>
+
+<script>
+var handler = function(event){
+	alert("Capturing = " + event.currentTarget.tagName);
+}
+demo10.addEventListener('click', handler, true);
+demo10Div.addEventListener('click', handler, true);
+demo10P.addEventListener('click', handler, true);
+</script>
+</div>
+<p style="font-weight: bold;">As you can see, in capturing phase, the event first occurs on the root element and goes down to it's child element, and ends on the target element.</p>
+
+
+
+
+
+
+<h1>Phase Precedence</h1>
+<p>When an event occurs, the both phase runs. First the capture phase runs and after that the bubbling phase. It means when an event occurs it first occurs on the topmost ancestor element and goes all the way down to the target element, then then it goes all the way up to the topmost ancestor element and ends there. The event journey from topmost ancestor to the target element is called capture phase and the journey from the target element to the topmost element is called bubbling phase. Here is a demo -</p>
+<pre>
+&lt;form class="demo1" id="demo10">FORM
+  &lt;div id="demo10Div">DIV
+    &lt;p id="demo10P">P&lt;/p>
+  &lt;/div>
+&lt;/form>
+
+&lt;script>
+var handler = function(event){
+	alert("Capturing = " + event.currentTarget.tagName);
+}
+demo10.addEventListener('click', handler, true);
+demo10Div.addEventListener('click', handler);
+demo10P.addEventListener('click', handler);
+&lt;/script>
+</pre>
+<div class="box">
+<form class="demo1" id="demo11">FORM
+  <div id="demo11Div">DIV
+    <p id="demo11P">P</p>
+  </div>
+</form>
+
+<script>
+var handler = function(event){
+	alert("Capturing = " + event.currentTarget.tagName);
+}
+demo11.addEventListener('click', function(event){
+	alert("Capturing = Form");
+}, true);
+demo11Div.addEventListener('click', function(){
+	alert("Bubbling = Div")
+});
+demo11P.addEventListener('click', function(){
+	alert("Bubbling = P");
+});
+</script>
+</div>
+
+
+
+
+
+
+
+
+
+
+<h1>Event Delegation</h1>
+<p>Capturing and bubbling allow us to implement one of most powerful event handling patterns called <em>event delegation</em>. The idea is that if we have a lot of elements handled in a similar way, then instead of assigning a handler to each of them – we put a single handler on their common ancestor. In the handler we get <code>event.target</code>, see where the event actually happened and handle it.</p>
+<p>Here are some few practicle example given below -</p>
+<h3>Highlighting a Table Cell</h3>
+<pre>
+&lt;style type="text/css">
+.highlight{
+	background: crimson;
+	color: white !important;
+}
+&lt;/style>
+
+
+&lt;table id="demoTable" class="table is-bordered is-striped is-hovered">
+	&lt;tr>
+		&lt;th>Name&lt;/th>
+		&lt;th>City&lt;/th>
+		&lt;th>Gender&lt;/th>
+	&lt;/tr>
+	&lt;tr>
+		&lt;td>Santanu Bera&lt;/td>
+		&lt;td>Kolkata&lt;/td>
+		&lt;td>Male&lt;/td>
+	&lt;/tr>
+	&lt;tr>
+		&lt;td>Sanchita Das&lt;/td>
+		&lt;td>Delhi&lt;/td>
+		&lt;td>Female&lt;/td>
+	&lt;/tr>
+	&lt;tr>
+		&lt;td>Anindita Karmakar&lt;/td>
+		&lt;td>Mumbai&lt;/td>
+		&lt;td>Female&lt;/td>
+	&lt;/tr>
+&lt;/table>
+
+
+
+&lt;script type="text/javascript">
+let selectedTd;
+
+demoTable.onclick = function(event) {
+  let target = event.target; // where was the click?
+
+  if (!target.closest('td')) return; // not on TD? Then we're not interested
+
+  highlight(target); // highlight it
+};
+
+function highlight(td) {
+	if (td.tagName != "TD") {
+		td = td.closest('td');
+	}
+  if (selectedTd) { // remove the existing highlight if any
+    selectedTd.classList.remove('highlight');
+  }
+  selectedTd = td;
+  selectedTd.classList.add('highlight'); // highlight the new td
+}
+&lt;/script>
+</pre>
+<div class="box">
+<style type="text/css">
+.highlight{
+	background: crimson;
+	color: white !important;
+}
+</style>
+<table id="demoTable" class="table is-bordered is-striped is-hovered">
+	<tr>
+		<th>Name</th>
+		<th>City</th>
+		<th>Gender</th>
+	</tr>
+	<tr>
+		<td><strong>Santanu Bera</strong></td>
+		<td>Kolkata</td>
+		<td>Male</td>
+	</tr>
+	<tr>
+		<td>Sanchita Das</td>
+		<td>Delhi</td>
+		<td>Female</td>
+	</tr>
+	<tr>
+		<td>Anindita Karmakar</td>
+		<td>Mumbai</td>
+		<td>Female</td>
+	</tr>
+</table>
+<script type="text/javascript">
+let selectedTd;
+
+demoTable.onclick = function(event) {
+  let target = event.target; // where was the click?
+
+  if (!target.closest('td')) return; // not on TD? Then we're not interested
+
+  highlight(target); // highlight it
+};
+
+function highlight(td) {
+	if (td.tagName != "TD") {
+		td = td.closest('td');
+	}
+  if (selectedTd) { // remove the existing highlight if any
+    selectedTd.classList.remove('highlight');
+  }
+  selectedTd = td;
+  selectedTd.classList.add('highlight'); // highlight the new td
+}
+</script>
+</div>
+<p>In the example above, we have assigned only one event handler on the table element. So any click on the td or it's nested element would be caught by that handler. In the handler we are checking if the click happened inside the td element using <code>event.target</code>. If it does, we are calling highlight() function to highlight the cell. If the element is not td, we are doing nothing.</p>
+<p>In the highlight() function, we are storing the td in the variable <code>selectedTd</code>, so that on the next click we can remove the highlight class from it and assign the highlight class on the new clicked td element.</p>
+<p>The above example doesn't depends on how many td the table has.</p>
+
+
+<h3>Actions in markup</h3>
+<p>Let's see another example in which we have three buttons. The same handler gets called when clicking on them. The single handler on the parent element acts like an entry point. Here is the example -</p>
+<pre>
+&lt;div id="demomenu">
+  &lt;button data-action="save">Save&lt;/button>
+  &lt;button data-action="load">Load&lt;/button>
+  &lt;button data-action="search">Search&lt;/button>
+&lt;/div>
+
+&lt;script>
+  class Menu {
+    constructor(elem) {
+      this._elem = elem;
+      elem.onclick = this.onClick.bind(this); // (*)
+    }
+
+    save() {
+      alert('saving');
+    }
+
+    load() {
+      alert('loading');
+    }
+
+    search() {
+      alert('searching');
+    }
+
+    onClick(event) {
+      let action = event.target.dataset.action;
+      if (action) {
+        this[action]();
+      }
+    };
+  }
+
+  new Menu(demomenu);
+&lt;/script>
+</pre>
+<div class="box">
+<div id="demomenu">
+  <button data-action="save">Save</button>
+  <button data-action="load">Load</button>
+  <button data-action="search">Search</button>
+</div>
+
+<script>
+  class Menu {
+    constructor(elem) {
+      this._elem = elem;
+      elem.onclick = this.onClick.bind(this); // (*)
+    }
+
+    save() {
+      alert('saving');
+    }
+
+    load() {
+      alert('loading');
+    }
+
+    search() {
+      alert('searching');
+    }
+
+    onClick(event) {
+      let action = event.target.dataset.action;
+      if (action) {
+        this[action]();
+      }
+    };
+  }
+
+  new Menu(demomenu);
+</script>
+</div>
+<p>Please note that <code>this.onClick</code> is bound to <code>this</code> in (*). That’s important, because otherwise <code>this</code> inside it would reference the DOM element (elem), not the menu object, and <code>this[action]</code> would not be what we need.</p>
+<p>In this approach, with the help of <code>data-*</code> attribute, we can have only one handler for many buttons. Now if you want to add an extra button, you just have to do the following -</p>
+<pre>
+// Add a button --
+&lt;button data-action="exit">Exit&lt;/button>
+
+
+// Add a method 'exit' to the Menu class -
+exit(){
+	alert("Exiting");
+}
+</pre>
+<p>This way without adding event listener to the button you can easily make a button functional.</p>
+
+
+
+
+
+<h3>The “behavior” pattern</h3>
+<p>We can also use event delegation to add “behaviors” to elements declaratively, with special attributes and classes.</p>
+<p>The pattern has two parts:</p>
+<ul>
+	<li>We add a special attribute to an element.</li>
+	<li>A document-wide handler tracks events, and if an event happens on an attributed element – performs the action.</li>
+</ul>
+<p>For instance, here the attribute <code>data-counter</code> adds a behavior: “increase on click” to buttons:</p>
+<pre>
+Counter: &lt;input type="button" value="1" data-counter>
+One more counter: &lt;input type="button" value="2" data-counter>
+
+&lt;script>
+  document.addEventListener('click', function(event) {
+
+    if (event.target.dataset.counter != undefined) { // if the attribute exists...
+      event.target.value++;
+    }
+
+  });
+&lt;/script>
+</pre>
+<div class="box">
+Counter: <input type="button" value="1" data-counter>
+One more counter: <input type="button" value="2" data-counter>
+
+<script>
+  document.addEventListener('click', function(event) {
+
+    if (event.target.dataset.counter != undefined) { // if the attribute exists...
+      event.target.value++;
+    }
+
+  });
+</script>
+</div>
+<p>There can be as many attributes with data-counter as we want. We can add new ones to HTML at any moment. Using the event delegation we “extended” HTML, added an attribute that describes a new behavior.</p>
+
+
+
+<h3>Toggler</h3>
+<p>One more example. A click on an element with the attribute data-toggle-id will show/hide the element with the given id. This kind of approach can be seen a lot in the Bootstrap framework.</p>
+<pre>
+&lt;button data-toggle-id="subscribe-mail">
+  Show the subscription form
+&lt;/button>
+
+&lt;form id="subscribe-mail" hidden>
+  Your mail: &lt;input type="email">
+&lt;/form>
+
+&lt;script>
+  document.addEventListener('click', function(event) {
+    let id = event.target.dataset.toggleId;
+    if (!id) return;
+
+    let elem = document.getElementById(id);
+
+    elem.hidden = !elem.hidden;
+  });
+&lt;/script>
+</pre>
+<div class="box">
+<button data-toggle-id="subscribe-mail">
+  Show the subscription form
+</button>
+
+<form id="subscribe-mail" hidden>
+  Your mail: <input type="email">
+</form>
+
+<script>
+  document.addEventListener('click', function(event) {
+    let id = event.target.dataset.toggleId;
+    if (!id) return;
+
+    let elem = document.getElementById(id);
+
+    elem.hidden = !elem.hidden;
+  });
+</script>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

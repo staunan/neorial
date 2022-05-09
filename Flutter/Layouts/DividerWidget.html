@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Divider in Flutter</title>
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+	<script type="text/javascript" src="../../Assets/prism.min.js"></script>
+	<script type="text/javascript" src="../../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+<h1>Divider Widget</h1>
+<p>A thin horizontal line, with padding on top and bottom side. In the material design language, this represents a divider. Dividers can be used in lists, Drawers, and elsewhere to separate content.</p>
+<p>The box's total height is controlled by <code>height</code> argument. The appropriate padding is automatically computed from the height.</p>
+<p>The following sample shows how to display a Divider between an orange and blue box inside a column. The Divider is 20 logical pixels in height and contains a vertically centered black line that is 5 logical pixels thick. The black line is indented by 20 logical pixels.</p>
+<img src="../../Assets/flutter/divider.png">
+<pre>
+class MyApp extends StatelessWidget {
+  static const String _title = 'Flutter Code Sample';
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: _title,
+      home: Scaffold(
+        appBar: AppBar(title: const Text(_title)),
+        body: MyStatelessWidget(),
+      ),
+    );
+  }
+}
+
+/// This is the stateless widget that the main application instantiates.
+class MyStatelessWidget extends StatelessWidget {
+  MyStatelessWidget({Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        children: &lt;Widget>[
+          Expanded(
+            child: Container(
+              color: Colors.amber,
+              child: const Center(
+                child: Text('Above'),
+              ),
+            ),
+          ),
+          const Divider(
+            color: Colors.black,
+            height: 20,
+            thickness: 5,
+            indent: 20,
+            endIndent: 0,
+          ),
+          Expanded(
+            child: Container(
+              color: Colors.blue,
+              child: const Center(
+                child: Text('Below'),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+</pre>
+<p>Are are some argument you can use to modify the divider:</p>
+<ul>
+	<li><code>color</code>: The color to use when painting the line.</li>
+	<li><code>height</code>: The divider's height extent.</li>
+	<li><code>endIndent</code>: The amount of empty space to the trailing edge of the divider.</li>
+	<li><code>indent</code>: The amount of empty space to the leading edge of the divider.</li>
+	<li><code>thickness</code>: The thickness of the line drawn within the divider.</li>
+</ul>
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

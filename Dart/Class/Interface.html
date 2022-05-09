@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Interface</title>
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+<h1>Interface</h1>
+<p>An Interface is like a signature or blueprint of the class. If a class implements an interface the class must override every class member that the interface has. In dart every class has an implicit interface. That means you can use any class as an interface.</p>
+<p>Every class implicitly defines an interface containing all the instance members of the class and of any interfaces it implements.</p>
+<p>Use <code>implements</code> keyword to implement an interface. Here is an example:</p>
+<pre>
+class Person {  
+  void walk() {
+    print("Person can walk");
+  }
+
+  void talk() {
+    print("Person can talk");
+  }
+}
+
+
+class Jay implements Person {
+  @override
+  void walk() {
+    print("Jay can walk");
+  }
+
+  @override
+  void talk() {
+    print("Jay can talk");
+  }
+}
+
+main() {
+  Person person = new Person();
+  Jay jay = new Jay();
+
+  person.walk();
+  person.talk();
+
+  jay.walk();
+  jay.talk();
+}
+
+// Output
+Person can walk
+Person can talk
+Jay can walk
+Jay can talk
+</pre>
+<p>To implement multiple interfaces, seperate them with a comma:</p>
+<pre>
+class class_name implements interface_name1, interface2, interface3
+</pre>
+<p>Here is an example of impementation of multiple interfaces:</p>
+<pre>
+class Person {
+  String name;
+
+  void ShowName() {
+    print("My name is $name");
+  }
+
+  void walk() {
+    print("Person can walk");
+  }
+
+  void talk() {
+    print("Person can talk");
+  }
+}
+
+class Viveki {
+  String profession;
+
+  void ShowProfession() {
+    print("from class Viveki my profession is $profession");
+  }
+}
+
+class Jay implements Person, Viveki {
+  @override
+  String profession;
+
+  @override
+  void ShowProfession() {
+    print("from class Jay my Profession is $profession");
+  }
+  @override 
+  String name; 
+ 
+  @override 
+  void ShowName() { 
+    print("From class Jay my name is $name"); 
+  } 
+ 
+  @override 
+  void walk() { 
+    print("Jay can walk"); 
+  } 
+ 
+  @override 
+  void talk() { 
+    print("Jay can talk"); 
+  } 
+} 
+ 
+main() { 
+  Person person = new Person(); 
+  Jay jay = new Jay(); 
+  Viveki viveki = new Viveki(); 
+ 
+  person.walk(); 
+  person.talk(); 
+  person.name = "Person"; 
+  person.ShowName(); 
+ 
+  print(""); 
+ 
+  jay.walk(); 
+  jay.talk(); 
+  jay.name = "JAY"; 
+  jay.profession = "Software Development"; 
+  jay.ShowProfession(); 
+  jay.ShowName(); 
+ 
+  print(""); 
+ 
+  viveki.profession = "Chemical Engineer"; 
+  viveki.ShowProfession(); 
+}
+Output
+Person can walk
+Person can talk
+My name is Person
+
+Jay can walk
+Jay can talk
+from class Jay my Profession is Software Development
+From class Jay my name is JAY
+
+from class Viveki my profession is Chemical Engineer
+</pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

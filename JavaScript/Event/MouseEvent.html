@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Mouse Event</title>
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
+	<script type="text/javascript" src="../../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+
+<h1>Mouse Event Type</h1>
+<p>We can split mouse events into two categories: “simple” and “complex”</p>
+<h3>Simple</h3>
+<ul>
+	<li>mousedown/mouseup</li>
+	<li>mouseover/mouseout</li>
+	<li>mousemove</li>
+</ul>
+<h3>Complex</h3>
+<ul>
+	<li>click</li>
+	<li>contextmenu</li>
+	<li>dblclick</li>
+</ul>
+<p>Complex events are made of simple ones, so in theory we could live without them. But they exist, and that’s good, because they are convenient.</p>
+
+
+
+
+
+
+
+
+<h1>Events Order</h1>
+<p>An action may trigger multiple events. For instance, a <code>click</code> first triggers <code>mousedown</code>, when the button is pressed, then <code>mouseup</code> and click when it’s released. In cases when a single action initiates multiple events, their order is fixed. That is, the handlers are called in the order <code>mousedown → mouseup → click</code>. Events are handled in the same sequence. Here is an example -</p>
+<pre>
+&lt;button id="demo1">Click Me and See In The Console&lt;/button>
+&lt;script type="text/javascript">
+demo1.onmouseup=function(){
+	console.log("Mouse UP Handler");
+}
+demo1.onclick=function(){
+	console.log("Click Handler");
+}
+demo1.onmousedown=function(){
+	console.log("Mouse Down Handler");
+}
+&lt;/script>
+</pre>
+<div class="box">
+<button id="demo1">Click Me and See In The Console</button>
+<script type="text/javascript">
+demo1.onmouseup=function(){
+	console.log("Mouse UP Handler");
+}
+demo1.onclick=function(){
+	console.log("Click Handler");
+}
+demo1.onmousedown=function(){
+	console.log("Mouse Down Handler");
+}
+</script>
+</div>
+
+
+
+
+
+
+
+<h1>Getting the button : which</h1>
+<p>Click-related events always have the which property, which allows to get the exact mouse button.</p>
+<p>It is not used for <code>click</code> and <code>contextmenu</code> events, because the former happens only on left-click, and the latter – only on right-click.</p>
+<p>But if we track mousedown and mouseup, then we need it, because these events trigger on any button, so <code>which</code> allows to distinguish between “right-mousedown” and “left-mousedown”.</p>
+<p>There are the three possible values:</p>
+<ul>
+	<li><code>event.which == 1</code> – the left button</li>
+	<li><code>event.which == 2</code> – the middle button</li>
+	<li><code>event.which == 3</code> – the right button</li>
+</ul>
+<p>The middle button is somewhat exotic right now and is very rarely used.</p>
+
+
+
+
+
+
+
+
+<h1>Modifiers: shift, alt, ctrl and meta</h1>
+<p>All mouse events include the information about pressed modifier keys.</p>
+<p>The properties are:</p>
+<ul>
+	<li>shiftKey</li>
+	<li>altKey</li>
+	<li>ctrlKey</li>
+	<li>metaKey (Cmd for Mac)</li>
+</ul>
+<p>For instance, the button below only works on <code>Shift+CTRL+click</code>.</p>
+<pre>
+&lt;button id="demo2">Find Me&lt;/button>
+&lt;script type="text/javascript">
+demo2.onclick=function(event){
+	if (event.shiftKey && event.ctrlKey) {
+		alert("Hey, You made it !");
+	}
+}
+&lt;/script>
+</pre>
+<div class="box">
+<button id="demo2">Find Me</button>
+<script type="text/javascript">
+demo2.onclick=function(event){
+	if (event.shiftKey && event.ctrlKey) {
+		alert("Hey, You made it !");
+	}
+}
+</script>
+</div>
+
+
+
+
+
+
+
+
+<h1>Coordinates: clientX/Y, pageX/Y</h1>
+<p>All mouse events have coordinates in two flavours : </p>
+<ul>
+	<li>Window-relative: <code>clientX</code> and <code>clientY</code>.</li>
+	<li>Document-relative: <code>pageX</code> and <code>pageY</code>.</li>
+</ul>
+<p>For instance, if we have a window of the size 500x500, and the mouse is in the left-upper corner, then <code>clientX</code> and <code>clientY</code> are 0. And if the mouse is in the center, then <code>clientX</code> and <code>clientY</code> are 250, no matter what place in the document it is. They are similar to <code>position:fixed</code>.</p>
+<p>Document-relat-ive coordinates are counted from the left-upper corner of the document, not the window. Coordinates <code>pageX</code>, <code>pageY</code> are similar to <code>position:absolute</code> on the document level.</p>
+<p>Here is an example -</p>
+<pre>
+&lt;textarea id="demo3">&lt;/textarea>
+&lt;textarea id="demo4">&lt;/textarea>
+&lt;script type="text/javascript">
+demo3.onmousemove=function(event){
+	demo3.value = "clientX = " + event.clientX + ", clientY = " + event.clientY;
+};
+demo4.onmousemove=function(event){
+	demo4.value = "pageX = " + event.pageX + ", pageY = " + event.pageY;
+}
+&lt;/script>
+</pre>
+<div class="box">
+<textarea id="demo3"></textarea>
+<textarea id="demo4"></textarea>
+<script type="text/javascript">
+demo3.onmousemove=function(event){
+	demo3.value = "clientX = " + event.clientX + ", clientY = " + event.clientY;
+};
+demo4.onmousemove=function(event){
+	demo4.value = "pageX = " + event.pageX + ", pageY = " + event.pageY;
+}
+</script>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+<h1>Dealing With Selection Problem</h1>
+<p>Mouse clicks have a side-effect that may be disturbing. A double click selects the text. If we want to handle click events ourselves, then the “extra” selection doesn’t look good. For instance, a double-click on the text below selects it in addition to our handler:</p>
+<pre>
+&lt;b ondblclick="alert('dblclick')">Double-click me&lt;/b>
+</pre>
+<div class="box">
+<b ondblclick="alert('dblclick')">Double-click me</b>
+</div>
+<p>There’s a CSS way to stop the selection: the <code>user-select</code> property - </p>
+<div class="box">
+<style>
+  .selectDemo{
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+</style>
+
+Before...
+<b class="selectDemo" ondblclick="alert('Test')">
+  Unselectable
+</b>
+...After
+</div>
+<p>Now if you double-click on “Unselectable”, it doesn’t get selected. Seems to work.</p>
+<p>…But there is a potential problem! The text became truly unselectable. Even if a user starts the selection from “Before” and ends with “After”, the selection skips “Unselectable” part. Do we really want to make our text unselectable?</p>
+<p>Most of time, we don’t. A user may have valid reasons to select the text, for copying or other needs. That may be inconvenient if we don’t allow them to do it. So this solution is not that good.</p>
+<p>What we want is to prevent the selection on double-click, that’s it.</p>
+<p>A text selection is the default browser action on <code>mousedown</code> event. So the alternative solution would be to handle <code>mousedown</code> and prevent it, like this:</p>
+<pre>
+Before...
+&lt;b ondblclick="alert('Click!')" onmousedown="return false">
+  Double-click me
+&lt;/b>
+...After
+</pre>
+<div class="box">
+Before...
+<b ondblclick="alert('Click!')" onmousedown="return false">
+  Double-click me
+</b>
+...After
+</div>
+<p>Now the bold element is not selected on double clicks. The text inside it is still selectable. However, the selection should start not on the text itself, but before or after it. Usually that’s fine though.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h1>Preventing Copy : oncopy</h1>
+<p>If we want to disable selection to protect our content from copy-pasting, then we can use another event: <code>oncopy</code>.</p>
+<pre>
+&lt;div oncopy="alert('Copying forbidden!');return false">
+  Dear user,
+  The copying is forbidden for you.
+  If you know JS or HTML, then you can get everything from the page source though.
+&lt;/div>
+</pre>
+<div class="box">
+<div oncopy="alert('Copying forbidden!');return false">
+  Dear user,
+  The copying is forbidden for you.
+  If you know JS or HTML, then you can get everything from the page source though.
+</div>
+</div>
+<p>If you try to copy a piece of text in the <code>&lt;div></code>, that won’t work, because the default action <code>oncopy</code> is prevented. Surely that can’t stop the user from opening HTML-source, but not everyone knows how to do it.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h1>mouseover/mouseout</h1>
+<p>The <code>mouseover</code> event occurs when a mouse pointer comes over an element, and <code>mouseout</code> – when it leaves.</p>
+<p>These events are special, because they have a relatedTarget.</p>
+<p>For <code>mouseover</code></p>
+<ul>
+	<li><code>event.target</code> – is the element where the mouse came over.</li>
+	<li><code>event.relatedTarget</code> – is the element from which the mouse came.</li>
+</ul>
+<p>For <code>mouseout</code> - </p>
+<ul>
+	<li><code>event.target</code> – is the element that mouse left</li>
+	<li><code>event.relatedTarget</code> – is the new under-the-pointer element (that mouse left for).</li>
+</ul>
+<p>Here is an Example -</p>
+<pre>
+&lt;style type="text/css">
+.RectengleContainer1{
+	display: flex;
+	width: 300px;
+	flex-wrap: wrap;
+}
+.RectengleContainer1>div{
+	flex-basis: 90px;
+	flex-grow: 1;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border: 2px solid black;
+	height: 70px;
+}
+&lt;/style>
+&lt;p>mouseover - &lt;/p>
+&lt;div class="RectengleContainer1">
+	&lt;div class="RectChild">Rect - 1&lt;/div>
+	&lt;div class="RectChild">Rect - 2&lt;/div>
+	&lt;div class="RectChild">Rect - 3&lt;/div>
+	&lt;div class="RectChild">Rect - 4&lt;/div>
+	&lt;div class="RectChild" id="middleRect" style="background: violet; color: #fff;">Rect - 5&lt;/div>
+	&lt;div class="RectChild">Rect - 6&lt;/div>
+	&lt;div class="RectChild">Rect - 7&lt;/div>
+	&lt;div class="RectChild">Rect - 8&lt;/div>
+	&lt;div class="RectChild">Rect - 9&lt;/div>
+&lt;/div>
+&lt;p>mouseout - &lt;/p>
+&lt;div class="RectengleContainer1">
+	&lt;div class="RectChild">Rect - 1&lt;/div>
+	&lt;div class="RectChild">Rect - 2&lt;/div>
+	&lt;div class="RectChild">Rect - 3&lt;/div>
+	&lt;div class="RectChild">Rect - 4&lt;/div>
+	&lt;div class="RectChild" id="middleRect1" style="background: violet; color: #fff;">Rect - 5&lt;/div>
+	&lt;div class="RectChild">Rect - 6&lt;/div>
+	&lt;div class="RectChild">Rect - 7&lt;/div>
+	&lt;div class="RectChild">Rect - 8&lt;/div>
+	&lt;div class="RectChild">Rect - 9&lt;/div>
+&lt;/div>
+&lt;script type="text/javascript">
+middleRect.onmouseover = function(event){
+	console.log("Target = "+event.target.textContent);
+	console.log("relatedTarget = "+event.relatedTarget.textContent);
+}
+middleRect1.onmouseout = function(event){
+	console.log("Target = "+event.target.textContent);
+	console.log("relatedTarget = "+event.relatedTarget.textContent);
+}
+&lt;/script>
+</pre>
+<div class="box">
+<style type="text/css">
+.RectengleContainer1{
+	display: flex;
+	width: 300px;
+	flex-wrap: wrap;
+}
+.RectengleContainer1>div{
+	flex-basis: 90px;
+	flex-grow: 1;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border: 2px solid black;
+	height: 70px;
+}
+</style>
+<p>mouseover - </p>
+<div class="RectengleContainer1">
+	<div class="RectChild">Rect - 1</div>
+	<div class="RectChild">Rect - 2</div>
+	<div class="RectChild">Rect - 3</div>
+	<div class="RectChild">Rect - 4</div>
+	<div class="RectChild" id="middleRect" style="background: violet; color: #fff;">Rect - 5</div>
+	<div class="RectChild">Rect - 6</div>
+	<div class="RectChild">Rect - 7</div>
+	<div class="RectChild">Rect - 8</div>
+	<div class="RectChild">Rect - 9</div>
+</div>
+<p>mouseout - </p>
+<div class="RectengleContainer1">
+	<div class="RectChild">Rect - 1</div>
+	<div class="RectChild">Rect - 2</div>
+	<div class="RectChild">Rect - 3</div>
+	<div class="RectChild">Rect - 4</div>
+	<div class="RectChild" id="middleRect1" style="background: violet; color: #fff;">Rect - 5</div>
+	<div class="RectChild">Rect - 6</div>
+	<div class="RectChild">Rect - 7</div>
+	<div class="RectChild">Rect - 8</div>
+	<div class="RectChild">Rect - 9</div>
+</div>
+<script type="text/javascript">
+middleRect.onmouseover = function(event){
+	console.log("Target = "+event.target.textContent);
+	console.log("relatedTarget = "+event.relatedTarget.textContent);
+}
+middleRect1.onmouseout = function(event){
+	console.log("Target = "+event.target.textContent);
+	console.log("relatedTarget = "+event.relatedTarget.textContent);
+}
+</script>
+</div>
+<h3>relatedTarget can be null</h3>
+<p>The <code>relatedTarget</code> property can be <code>null</code>. That’s normal and just means that the mouse came not from another element, but from out of the window. Or that it left the window. We should keep that possibility in mind when using <code>event.relatedTarget</code> in our code. If we access <code>event.relatedTarget.tagName</code>, then there will be an error.</p>
+
+
+
+
+
+
+
+
+<h1>Events Frequency</h1>
+<p>The mousemove event triggers when the mouse moves. But that doesn’t mean that every pixel leads to an event. The browser checks the mouse position from time to time. And if it notices changes then triggers the events. That means that if the visitor is moving the mouse very fast then DOM-elements may be skipped:</p>
+<img src="../Assets/img/mouseover-mouseout-over-elems.png">
+<p>If the mouse moves very fast from <code>#FROM</code> to <code>#TO</code> elements as painted above, then intermediate <code>&lt;div></code> (or some of them) may be skipped. The <code>mouseout</code> event may trigger on <code>#FROM</code> and then immediately mouseover on <code>#TO</code>.</p>
+<p>In practice that’s helpful, because if there may be many intermediate elements. We don’t really want to process in and out of each one. From the other side, we should keep in mind that we can’t assume that the mouse slowly moves from one event to another. No, it can “jump”. In particular it’s possible that the cursor jumps right inside the middle of the page from out of the window. And <code>relatedTarget=null</code>, because it came from “nowhere”:</p>
+
+
+
+
+
+
+
+
+<h1>mouseover/mouseout on Child Element</h1>
+<p>Imagine – a mouse pointer entered an element. The <code>mouseover</code> triggered. Then the cursor goes into a child element. The interesting fact is that <code>mouseout</code> triggers in that case. The cursor is still in the element, but we have a <code>mouseout</code> from it!</p>
+<img src="../Assets/img/mouseover-to-child.png">
+<p>That seems strange, but can be easily explained.</p>
+<p style="font-weight: 500;">According to the browser logic, the mouse cursor may be only over a single element at any time – the most nested one (and top by z-index).</p>
+<p>So if it goes to another element (even a descendant), then it leaves the previous one. That simple. There’s a funny consequence that we can see on the example below.</p>
+<div class="box">
+<pre>
+&lt;style type="text/css">
+.ParentBlue{
+	height : 150px;
+	width: 150px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background: blue;
+}
+.ChildRed{
+	background: red;
+	height: 100px;
+	width: 100px;
+}
+&lt;/style>
+&lt;div id="ParentBlue" class="ParentBlue">
+	&lt;div class="ChildRed" id="ChildRed">&lt;/div>
+&lt;/div>
+&lt;script type="text/javascript">
+ParentBlue.onmouseover = function(event){
+	console.log("Over : " + event.target.id);
+}
+ParentBlue.onmouseout=function(event){
+	console.log("Out : " + event.target.id);
+}
+&lt;/script>
+</pre>
+<style type="text/css">
+.ParentBlue{
+	height : 150px;
+	width: 150px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background: blue;
+}
+.ChildRed{
+	background: red;
+	height: 100px;
+	width: 100px;
+}
+</style>
+<div id="ParentBlue" class="ParentBlue">
+	<div class="ChildRed" id="ChildRed"></div>
+</div>
+<script type="text/javascript">
+ParentBlue.onmouseover = function(event){
+	console.log("Over : " + event.target.id);
+}
+ParentBlue.onmouseout=function(event){
+	console.log("Out : " + event.target.id);
+}
+</script>
+</div>
+<p>In the above example, when the mouse pointer is over the blue area, <code>mouseover</code> occurs. And when the mouse pointer is over the red area, <code>mouseout</code> occurs for blue div and <code>mouseover</code> occurs for the red div. Now again when you move the mouse pointer from the red div to the blue div, the <code>mouseout</code> event occurs for the red div and <code>mouseover</code> event occurs for the blue div. Because of the event bubbling the handler on the parent element runs multiple time for multiple occurance of the events. This is a huge problem when you want to have a handler that handles <code>mouseover</code> or <code>mouseout</code> event, and has child element. Because you will end up catching too many event occurance even though the mouse is actually over the element.</p>
+<p>This problem can be solve by another mouse event called <code>mouseenter</code> and <code>mouseleave</code></p>
+
+
+
+
+
+
+
+
+
+<h1>mouseenter/mouseleave</h1>
+<p>Events <code>mouseenter/mouseleave</code> are like <code>mouseover/mouseout</code>. They also trigger when the mouse pointer enters/leaves the element</p>
+<p>But there are two differences:</p>
+<ul>
+	<li>Transitions inside the element are not counted.</li>
+	<li>Events mouseenter/mouseleave do not bubble.</li>
+</ul>
+<p>These events are intuitively very clear.</p>
+<p>When the pointer enters an element – the <code>mouseenter</code> triggers, and then doesn’t matter where it goes while inside the element. The <code>mouseleave</code> event only triggers when the cursor leaves it.</p>
+<p>Consider the same example above, instead we are using <code>mouseenter</code> and <code>mouseleave</code> event instead of <code>mouseover</code> and <code>mouseout</code> event -</p>
+<div class="box">
+<style type="text/css">
+.ParentBlue{
+	height : 150px;
+	width: 150px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background: blue;
+}
+.ChildRed{
+	background: red;
+	height: 100px;
+	width: 100px;
+}
+</style>
+<div id="ParentBlue1" class="ParentBlue">
+	<div class="ChildRed" id="ChildRed1"></div>
+</div>
+<script type="text/javascript">
+ParentBlue1.onmouseenter = function(event){
+	console.log("Enter : " + event.target.id);
+}
+ParentBlue1.onmouseleave=function(event){
+	console.log("Leave : " + event.target.id);
+}
+</script>
+</div>
+
+
+
+
+
+
+
+<h1>Example : Table Cell Highlighting</h1>
+<p>One of the real application usage is highlighting table cell on mouse hover. You can definately do it with CSS and with CSS you can handle better. But what if you want to do it with JS?</p>
+<p>Events <code>mouseenter</code>/<code>mouseleave</code> are very simple and easy to use. But they do not bubble. So we can’t use event delegation with them.</p>
+<p>Imagine we want to handle <code>mouseenter</code>/<code>mouseleave</code> for table cells. And there are hundreds of cells.</p>
+<p>The natural solution would be – to set the handler on <code>&lt;table></code> and process events there. But <code>mouseenter</code>/<code>mouseleave</code> don’t bubble. So if such event happens on <code>&lt;td></code>, then only a handler on that <code>&lt;td></code> can catch it. Handlers for <code>mouseenter</code>/<code>mouseleave</code> on <code>&lt;table></code> only trigger on entering/leaving the whole table. It’s impossible to get any information about transitions inside it.</p>
+<p>Not a problem – let’s use <code>mouseover</code>/<code>mouseout</code>.</p>
+<pre>
+&lt;style type="text/css">
+#myTable td, #myTable th{
+	padding: 20px;
+	border: 1px solid #333;
+}
+#myTable{
+	border: 1px solid #333;
+}
+&lt;/style>
+&lt;table id="myTable">
+	&lt;tr>
+		&lt;th>Name&lt;/th>
+		&lt;th>Address&lt;/th>
+	&lt;/tr>
+	&lt;tr>
+		&lt;td>Santanu Bera&lt;/td>
+		&lt;td>&lt;a href="#">Kodalia, Bhogpur, Purba Medinipur&lt;/a>&lt;/td>
+	&lt;/tr>
+	&lt;tr>
+		&lt;td>Atanu Bera&lt;/td>
+		&lt;td>&lt;a href="#">Kodalia, Bhogpur, Purba Medinipur&lt;/a>&lt;/td>
+	&lt;/tr>
+&lt;/table>
+&lt;script type="text/javascript">
+myTable.onmouseover=function(event){
+	event.relatedTarget.style.backgroundColor = "";
+	event.target.style.backgroundColor = "#eee";
+}
+&lt;/script>
+</pre>
+<div class="box">
+<style type="text/css">
+#myTable td, #myTable th{
+	padding: 20px;
+	border: 1px solid #333;
+}
+#myTable{
+	border: 1px solid #333;
+}
+</style>
+<table id="myTable">
+	<tr>
+		<th>Name</th>
+		<th>Address</th>
+	</tr>
+	<tr>
+		<td>Santanu Bera</td>
+		<td><a href="#">Kodalia, Bhogpur, Purba Medinipur</a></td>
+	</tr>
+	<tr>
+		<td>Atanu Bera</td>
+		<td><a href="#">Kodalia, Bhogpur, Purba Medinipur</a></td>
+	</tr>
+</table>
+<script type="text/javascript">
+myTable.onmouseover=function(event){
+	event.relatedTarget.style.backgroundColor = "";
+	event.target.style.backgroundColor = "#eee";
+}
+</script>
+</div>
+<p>This example is working fine, but if you hover over the address text inside the cell, then only the text is being highlighted. This is normal but unexpected. We want to highlight the entire cell. So we need to extend our code -</p>
+<pre>
+&lt;script type="text/javascript">
+var highlightedCell = null;
+myTable1.onmouseover=function(event){
+	if (highlightedCell != null) {
+		highlightedCell.style.backgroundColor = "";
+	}
+	if (event.target.closest('td') != null) {
+		highlightedCell = event.target.closest('td');
+		highlightedCell.style.backgroundColor = "#eee";
+	}	
+}
+&lt;/script>
+</pre>
+<div class="box">
+<style type="text/css">
+#myTable1 td, #myTable1 th{
+	padding: 20px;
+	border: 1px solid #333;
+}
+#myTable1{
+	border: 1px solid #333;
+}
+</style>
+<table id="myTable1">
+	<tr>
+		<th>Name</th>
+		<th>Address</th>
+	</tr>
+	<tr>
+		<td>Santanu Bera</td>
+		<td><a href="#">Kodalia, Bhogpur, Purba Medinipur</a></td>
+	</tr>
+	<tr>
+		<td>Atanu Bera</td>
+		<td><a href="#">Kodalia, Bhogpur, Purba Medinipur</a></td>
+	</tr>
+</table>
+<script type="text/javascript">
+var highlightedCell = null;
+myTable1.onmouseover=function(event){
+	if (highlightedCell != null) {
+		highlightedCell.style.backgroundColor = "";
+	}
+	if (event.target.closest('td') != null) {
+		highlightedCell = event.target.closest('td');
+		highlightedCell.style.backgroundColor = "#eee";
+	}	
+}
+</script>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

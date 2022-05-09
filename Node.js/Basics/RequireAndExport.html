@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Require and Export</title>
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+	<script type="text/javascript" src="../../Assets/prism.min.js"></script>
+	<script type="text/javascript" src="../../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+
+
+
+<h1>Require and module.export</h1>
+<p>Node.js provides a building mechanism for modules. The way they are implemented, there is the <code>require</code> method which will allow you to import functionality from other modules or files, and there is also <code>module.exports</code>, which allows you to create modules by exporting functionality to other programs or other files.</p>
+<p>Let's say we have two files account-service.js and utility.js.</p>
+<p>The <code>utility.js</code> has some generic methods and objects which we use in many projects and applications. In this example, we will import those generic methods into <code>account-service.js</code>.</p>
+<p>Here's the code of <code>utility.js</code> in which we expose code to <code>account-service.js</code> (or any other program) by assigning it to a special global <code>module.exports</code>:</p>
+<pre>
+module.exports = function(numbersToSum) {
+  let sum = 0, 
+    i = 0, 
+    l = numbersToSum.length;
+    while (i < l) {
+        sum += numbersToSum[i++]
+    }
+    return sum
+}
+</pre>
+<p>The main program (<code>account-service.js</code>) imports the utility module and executes it to find out the total balance:</p>
+<pre>
+const sum = require('./utility.js')
+
+let checkingAccountBalance = 200
+let savingsAccountBalance = 1000
+let retirementAccountBalance = 20000
+
+let totalBalance=sum([checkingAccountBalance, savingsAccountBalance, retirementAccountBalance] )
+console.log(totalBalance)
+</pre>
+<p>The <code>account-service.js</code> can be run from the same folder where the file is located with node <code>account-service.js</code>. The code will import the <code>utility.js</code> and invoke <code>sum()</code>. Thus, the result will be output of the total balance.</p>
+<p>You can have other codes in your file, but it is not important to export everything of the file. You can decide what to export, what functionality you want to give to the other files. The <code>module.exports</code> exports only those what is assigned to it. You can export a function, a Javascript Object, an array, or anything. Whatever you want to export is upto you.</p>
+<p>So, the main thing to remember from this lesson whatever you are exporting is exactly the same thing that you will be importing. When you are importing something you should assign it to a variable so that you can use that variable later.</p>
+<h3>require()</h3>
+<p><code>require()</code> can be used to import many different types of modules, not just for local node.js files. You can use <code>require()</code> to do the following:</p>
+<ul>
+	<li>Import core modules/packages, e.g., const filesystem = require('fs')</li>
+	<li>Import npm modules/packages, e.g., const express = require('express')</li>
+	<li>Import single file in a project, e.g., const server = require('./boot/server.js')</li>
+	<li>Import single JSON files, e.g., const databaseConfigs = require('./configs/database.json')</li>
+	<li>Import folders in a project (an alias for importing an index.js in that folder), e.g.,const routes = require('./routes')</li>
+</ul>
+<pre>
+const filesystem = require('fs') // core module
+const express = require('express') // npm module
+const server = require('./boot/server.js') // server.js file with a relative path down the tree
+const server = require('../boot/server.js') // server.js file with a relative path up the tree
+const server = require('/var/www/app/boot/server.js') // server.js file with an absolute path 
+const server = require('./boot/server') // file if there's the server.js file
+const routes = require('../routes') // index.js inside routes folder if there's no routes.js file
+const databaseConfigs = require('./configs/database.json') // JSON file
+</pre>
+<h3>require() with Local Files</h3>
+<p>To use <code>require()</code> with local files, specify the name string (the argument to require()) of the file you are trying to import. In general, start the name string with a <code>.</code> to specify that the file path is relative to the current folder of the node.js file or a <code>..</code> to specify that the file path is relative to the parent directory of the current folder. For example, <code>const server = require('./boot/server.js')</code> imports a file named server.js which is in a folder named boot that is in the current folder relative to the code file in which we write <code>require()</code>.</p>
+<h3>require() with npm or core modules/packages</h3>
+<p>To use <code>require()</code> with an npm or core module/package, enter the module/package name as the name string. There should not be <code>.</code> or <code>..</code> in the name string. For example, <code>const express = require('express')</code> imports a package named express. The package is in the <code>node_modules</code> folder in the root of the project if it's an installed npm package, and in the system folder if it's a core Node module (exact location depends on your OS and how you installed Node).</p>
+
+
+
+
+
+
+
+
+
+<h1>require() Caching</h1>
+<p><code>require()</code> caches the results based on the filename and path. Any code outside of the <code>module.exports</code> assignment will be run just once during the process execution. For example, the following code is a module named <code>utility.js</code> and it has some code outside of <code>module.exports</code>:</p>
+<pre>
+// utility.js
+console.log('This will be printed just once')
+
+module.exports = function(numbersToSum) {
+  let sum = 0, 
+    i = 0, 
+    l = numbersToSum.length;
+    while (i < l) {
+        sum += numbersToSum[i++]
+    }
+    return sum
+}
+</pre>
+<p>The <code>account-service.js</code> file uses our <code>utility.js</code> module:</p>
+<pre>
+// account-service.js
+const sum = require('./utility.js')
+
+let checkingAccountBalance = 200
+let savingsAccountBalance = 1000
+let retirementAccountBalance = 20000
+
+let totalBalance=sum([checkingAccountBalance, savingsAccountBalance, retirementAccountBalance] )
+console.log(totalBalance)
+</pre>
+<p>This is <code>app.js</code> which imports two files. You can also use <code>require()</code> to run code without assigning the result to anything.</p>
+<pre>
+const sum = require('./utility.js')
+require('./account-service.js')
+
+let checkingAccountBalance = 200
+let savingsAccountBalance = 1000
+let retirementAccountBalance = 20000
+
+retirementAccountBalance = 40000
+
+let totalBalance=sum([checkingAccountBalance, savingsAccountBalance, retirementAccountBalance] )
+console.log(totalBalance)
+</pre>
+<p>In <code>app.js</code> when you import the module <code>utility.js</code> two or more times (directly and indirectly via account-service.js), the code in <code>utility.js</code> which prints "This will be printed just once" (it's outside the module.exports) will be run just once despite the fact that the function <code>module.exports</code> (which we exported) is invoked twice: once in <code>account-service.js</code> and the second time in <code>app.js</code>.</p>
+<p>Therefore, running <code>app.js</code> will result in its balance being printed twice, one time in account-service and another time in <code>app.js</code>, but the "This will be printed just once " console log only appears once:</p>
+<pre>
+This will be printed just once
+21200
+41200
+</pre>
+<p>Why did the code outside module.exports run just once even though we imported the <code>utility.js</code> module twice (once directly and one indirectly via account-service.js)?</p>
+<p style="font-weight: 500;">The reason is because Node.js will cache imports. The second time you <code>require()</code> the same file or a module, it will not run the code. The results of the module are already there for you to use.</p>
+<p>Just keep this behavior in mind and as a general rule, have all the logic exported in module.exports to avoid any unwanted behavior or conflicts.</p>
+
+
+
+
+
+
+
+<h1>module.exports</h1>
+<p>There are several patterns which developers can use to export functionality from a module:</p>
+<ul>
+	<li>Export a function: <code>module.exports = function(ops) {...}</code></li>
+	<li>Export an object: <code>module.exports = {...}</code></li>
+	<li>Export multiple functions: <code>module.exports.methodA = function(ops) {...}</code> which is the same as <code>exports.methodA = function(ops) {...}</code></li>
+	<li>Export multiple objects: <code>module.exports.objA = {...}</code> which is the same as <code>exports.objA = {...}</code></li>
+</ul>
+<p><code>module.exports.name = ...</code> or <code>exports.name =...</code> are used for multiple export points in a single file. They are equivalent to using <code>module.exports = {name: ...}</code>.</p>
+<p>Be careful! <code>exports = ...</code> (without module) is not a valid module/export statement.</p>
+<p>Here is an example -</p>
+<pre>
+// Common.js
+exports.getKolkataPlayers = function(){
+	console.log("Kolkata Players");
+}
+module.exports.getDelhiPlayers = function(){
+	console.log("Delhi Players");
+}
+exports.getBangalorePlayers = function(){
+	console.log("Bangalore Players");
+}
+
+// Index.js
+let common = require("./common.js");
+console.log(common);
+
+// Output of Index.js
+{ getKolkataPlayers: [Function],
+  getDelhiPlayers: [Function],
+  getBangalorePlayers: [Function]
+}
+</pre>
+<p>As you can see, when you export multiple things from the file, they all are encapsulated within a single object. The name of the each variable is used as the key property. So the above example is equivalent to the following one -</p>
+<pre>
+module.exports = {
+	getKolkataPlayers:function(){
+		console.log("Kolkata Players");
+	},
+	getDelhiPlayers:function(){
+		console.log("Delhi Players");
+	},
+	getBangalorePlayers:function(){
+		console.log("Bangalore Players");
+	}
+}
+</pre>
+<p>So, regardless of the export pattern you use, module.exports will end up being an object with three greeting methods.</p>
+
+
+
+
+
+
+
+
+<h1>Core Modules</h1>
+<p>Node.js comes with batteries included. It means they are core modules that you can use and you don't have to install them with npm. They're already part of Node.js, you don't need to put them in your project folder, they are not in <code>node_modules</code>, they're just somewhere where your platform has been installed.</p>
+<p>Core modules come with Node.js and don't need to be installed. Core modules provide low-level functionality and helper methods. They allow Node.js to work with the filesystem, networking, binary data, streams, spawn external processes, parse query strings, file paths and URLs, and perform other helpful tasks such as creating HTTP(S) agents/clients and servers.</p>
+<p>Here's the list of main core modules:</p>
+<ul>
+	<li><code>fs</code>: It stands for File System. This module is used to work with the file system, files and folders.</li>
+	<li><code>path</code>: module to parse file system paths across platforms</li>
+	<li><code>querystring</code>: module to parse query string data</li>
+	<li><code>net</code>: module to work with networking for various protocols</li>
+	<li><code>stream</code>: module to work with data streams</li>
+	<li><code>events</code>: module to implement event emitters (Node observer pattern)</li>
+	<li><code>child_process</code>: module to spawn external processes</li>
+	<li><code>os</code>: module to access OS-level information including platform, number of CPUs, memory, uptime, etc.</li>
+	<li><code>url</code>: module to parse URLs</li>
+	<li><code>http</code>: module to make requests (client) and accept requests (server)</li>
+	<li><code>https</code>: module to do the same as http only for HTTPS</li>
+	<li><code>util</code>: various utilities including promosify which turns any standard Node core method into a promise-base API</li>
+	<li><code>assert</code>: module to perform assertion based testing</li>
+	<li><code>crypto</code>: module to encrypt and hash information</li>
+</ul>
+<p>There is no need to install or download core modules. To include them in your application, all you need is to use the following syntax:</p>
+<pre>
+const http = require('http') //replace `http` with the core module you want to use
+</pre>
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

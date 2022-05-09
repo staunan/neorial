@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Modify</title>
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
+	<script type="text/javascript" src="../../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+<h1>Modifying the Document</h1>
+<p>In this lesson we will learn, how to create Element dynamically using javascript. And how to insert them into the DOM. We will also see how to clone an Element and how to remove an element from the DOM. So let's focus.</p>
+
+
+<h1>Creating Element</h1>
+<p>In Javascript there are two ways to create an Element -</p>
+<ul>
+	<li>document.createElement()</li>
+	<li>document.createTextNode()</li>
+</ul>
+
+<h3>document.createElement(tagName)</h3>
+<p>In an HTML document, the <code>document.createElement()</code> method creates the HTML element specified by tagName, or an <code>HTMLUnknownElement</code> if tagName isn't recognized. The argument <code>tagName</code> represents the name of the element(<code>tagName</code>) and is case-insensitive. Before creating element, JS converts tagName into lower-case string.</p>
+
+<h3>document.createTextNode(text)</h3>
+<p>This method is used to create a text node (node type is 3). The argument is a string containing the text.</p>
+<pre>
+var newtext = document.createTextNode("Hello World"),
+p1 = document.getElementById("p1");
+
+p1.appendChild(newtext);
+</pre>
+
+<h1>Inserting Element</h1>
+<p>There are lots of ways to insert a node to the DOM. Some of them are -</p>
+<ul>
+	<li>appendChild()</li>
+	<li>insertBefore()</li>
+	<li>replaceChild()</li>
+	<li>removeChild()</li>
+	<li>prepend()</li>
+	<li>append()</li>
+	<li>before()</li>
+	<li>after()</li>
+  <li>insertAdjacentHTML()</li>
+  <li>insertAdjacentText()</li>
+  <li>insertAdjacentElement()</li>
+</ul>
+
+
+<h2>appendChild()</h2>
+<p>Appends node as the last child of the specified parent. The <code>Node.appendChild()</code> method adds a node to the end of the list of children of a specified parent node. If the given child is a reference to an existing node in the document, appendChild() moves it from its current position to the new position. (there is no requirement to remove the node from its parent node before appending it to some other node).</p>
+<p>This means that a node can't be in two points of the document simultaneously. So if the node already has a parent, the node is first removed, then appended at the new position. The Node.cloneNode() can be used to make a copy of the node before appending it under the new parent. Note that the copies made with cloneNode will not be automatically kept in sync.</p>
+<pre>
+element.appendChild(element);
+</pre>
+<pre>
+// Create a new paragraph element, and append it to the end of the document body
+var p = document.createElement("p");
+document.body.appendChild(p);
+</pre>
+<p>The following example adds a new &lt;li> to the end of &lt;ol>:</p>
+<pre>
+&lt;ol id="list">
+  &lt;li>0&lt;/li>
+  &lt;li>1&lt;/li>
+  &lt;li>2&lt;/li>
+&lt;/ol>
+
+&lt;script>
+  let newLi = document.createElement('li');
+  newLi.innerHTML = 'Hello, world!';
+
+  list.appendChild(newLi);
+&lt;/script>
+</pre>
+
+
+
+
+
+<h2>insertBefore()</h2>
+<p>The <code>Node.insertBefore()</code> method inserts a node before the reference node as a child of a specified parent node. If the given child is a reference to an existing node in the document, <code>insertBefore()</code> moves it from its current position to the new position (there is no requirement to remove the node from its parent node before appending it to some other node).</p>
+<p>If the reference node is <code>null</code>, the specified node is added to the end of the list of children of the specified parent node. Here is the following syntax -</p>
+<pre>
+var insertedNode = parentNode.insertBefore(newNode, nextSibling);
+</pre>
+<p>The returned value is the added child except when newNode is a <code>DocumentFragment</code>, in which case the empty <code>DocumentFragment</code> is returned.</p>
+<p>The following code inserts a new list item before the second &lt;li>:</p>
+<pre>
+&lt;ol id="list">
+  &lt;li>0&lt;/li>
+  &lt;li>1&lt;/li>
+  &lt;li>2&lt;/li>
+&lt;/ol>
+&lt;script>
+  let newLi = document.createElement('li');
+  newLi.innerHTML = 'Hello, world!';
+
+  list.insertBefore(newLi, list.children[1]);
+&lt;/script>
+</pre>
+<p style="font-style: italic; font-weight: bold;">To insert newLi as the first element, we can do it like this:</p>
+<pre>
+list.insertBefore(newLi, list.firstChild);
+</pre>
+<p style="font-style: italic; font-weight: bold;">To insert newLi as the last element, we can do it like this:</p>
+<pre>
+list.insertBefore(newLi, null);
+</pre>
+<p style="font-style: italic; font-weight: bold;">There is no <code>insertAfter</code> method. To insert a node after a specified reference element, you can do it like this:</p>
+<pre>
+list.insertBefore(newLi, list.firstChild.nextSibling);
+</pre>
+<p>The above example inserts a new node <code>newLi</code> after the <code>list.firstChild</code> element.</p>
+
+
+
+
+
+
+<h2>replaceChild()</h2>
+<p>The <code>Node.replaceChild()</code> method replaces one child node of the specified node with another. Here is the following syntax -</p>
+<pre>
+replacedNode = parentNode.replaceChild(newChild, oldChild);
+</pre>
+<p>This method returns the <code>oldChild</code>.</p>
+
+
+
+
+
+
+
+<h2>removeChild()</h2>
+<p>The <code>Node.removeChild()</code> method removes a child node from the DOM. Returns removed node.</p>
+<pre>
+var oldChild = parentNode.removeChild(child);
+OR
+node.removeChild(child);
+</pre>
+<p>Here, <code>oldChild</code> holds a reference to the removed child node. <code>oldChild === child</code></p>
+<p>The removed child node still exists in memory, but is no longer part of the DOM. You may reuse the removed node later in your code, via the <code>oldChild</code> object reference.</p>
+
+
+
+
+
+
+
+<h2>prepend()</h2>
+<p>The <code>ParentNode.prepend()</code> method inserts a set of <code>Node</code> objects or <code>DOMString</code> objects before the first child of the ParentNode. <code>DOMString</code> objects are inserted as equivalent <code>Text</code> nodes.</p>
+<pre>
+ParentNode.prepend(nodesToPrepend);
+</pre>
+<p>Here, <code>nodesToPrepend</code> is One or more nodes to insert before the first child node currently in the ParentNode. Each node can be specified as either a Node object or as a string; strings are inserted as new <code>Text</code> nodes.</p>
+<p>This method returns <code>undefined</code>.</p>
+<pre>
+var parent = document.createElement("div");
+var p = document.createElement("p");
+var span = document.createElement("span");
+parent.append(p);
+parent.prepend(span);
+
+console.log(parent.childNodes); // NodeList [ &lt;span>, &lt;p> ]
+</pre>
+<p>Prepending text:</p>
+<pre>
+var parent = document.createElement("div");
+parent.append("Some text");
+parent.prepend("Headline: ");
+
+console.log(parent.textContent); // "Headline: Some text"
+</pre>
+<p>Appending Multiple elements:</p>
+<pre>
+var parent = document.createElement("div");
+var p = document.createElement("p");
+parent.prepend("Some text", p);
+
+console.log(parent.childNodes); // NodeList [ #text "Some text", &lt;p> ]
+</pre>
+
+
+
+
+
+
+<h2>append()</h2>
+<p>The <code>ParentNode.append</code> method inserts a set of <code>Node</code> objects or <code>DOMString</code> objects after the last child of the <code>ParentNode</code>. <code>DOMString</code> objects are inserted as equivalent <code>Text</code> nodes. Here is the following syntax -</p>
+<pre>
+void ParentNode.append((Node or DOMString)... nodes)
+</pre>
+<p>Here are some examples -</p>
+<pre>
+var parent = document.createElement("div");
+var p = document.createElement("p");
+parent.append(p);
+
+console.log(parent.childNodes); // NodeList [ &lt;p> ]
+</pre>
+<p>Appending text -</p>
+<pre>
+var parent = document.createElement("div");
+parent.append("Some text");
+
+console.log(parent.textContent); // "Some text"
+</pre>
+<p>Appending multiple elements -</p>
+<pre>
+var parent = document.createElement("div");
+var p = document.createElement("p");
+parent.append("Some text", p);
+
+console.log(parent.childNodes); // NodeList [ #text "Some text", &lt;p> ]
+</pre>
+<p>There are some difference between <code>appendChild</code> and <code>append</code> methods -</p>
+<ul>
+	<li><code>ParentNode.append()</code> allows you to also append <code>DOMString</code> object, whereas <code>Node.appendChild()</code> only accepts <code>Node</code> objects.</li>
+	<li><code>ParentNode.append()</code> has no return value, whereas <code>Node.appendChild()</code> returns the appended <code>Node</code> object.</li>
+	<li><code>ParentNode.append()</code> can append several nodes and strings, whereas <code>Node.appendChild()</code> can only append one node.</li>
+</ul>
+
+
+
+
+
+
+
+
+<h2>before()</h2>
+<p>The <code>ChildNode.before</code> method inserts a set of Node or <code>DOMString</code> objects in the children list of this ChildNode's parent, just before this <code>ChildNode</code>. <code>DOMString</code> objects are inserted as equivalent <code>Text</code> nodes.</p>
+<pre>
+void ChildNode.before((Node or DOMString)... nodes);
+</pre>
+<p>Here are some examples -</p>
+<pre>
+var parent = document.createElement("div");
+var child = document.createElement("p");
+parent.appendChild(child);
+var span = document.createElement("span");
+
+child.before(span);
+
+console.log(parent.outerHTML);
+// "&lt;div>&lt;span>&lt;/span>&lt;p>&lt;/p>&lt;/div>"
+</pre>
+<p>Inserting text -</p>
+<pre>
+var parent = document.createElement("div");
+var child = document.createElement("p"); 
+parent.appendChild(child);
+
+child.before("Text"); 
+
+console.log(parent.outerHTML);
+// "&lt;div>Text&lt;p>&lt;/p>&lt;/div>"
+</pre>
+<p>Inserting multiple elements -</p>
+<pre>
+var parent = document.createElement("div");
+var child = document.createElement("p"); 
+parent.appendChild(child); 
+var span = document.createElement("span");
+
+child.before(span, "Text"); 
+
+console.log(parent.outerHTML);
+// "&lt;div>&lt;span>&lt;/span>Text&lt;p>&lt;/p>&lt;/div>"
+</pre>
+
+
+
+
+
+
+
+<h2>after()</h2>
+<p>The <code>ChildNode.after()</code> method inserts a set of <code>Node</code> or <code>DOMString</code> objects in the children list of this ChildNode's parent, just after this <code>ChildNode</code>. <code>DOMString</code> objects are inserted as equivalent <code>Text</code> nodes. Here is the syntax -</p>
+<pre>
+void ChildNode.after((Node or DOMString)... nodes);
+</pre>
+<p>Here are few examples -</p>
+<pre>
+var parent = document.createElement("div");
+var child = document.createElement("p");
+parent.appendChild(child);
+var span = document.createElement("span");
+
+child.after(span);
+
+console.log(parent.outerHTML);
+// "&lt;div>&lt;p>&lt;/p>&lt;span>&lt;/span>&lt;/div>"
+</pre>
+<p>Inserting text -</p>
+<pre>
+var parent = document.createElement("div");
+var child = document.createElement("p"); 
+parent.appendChild(child);
+
+child.after("Text"); 
+
+console.log(parent.outerHTML);
+// "&lt;div>&lt;p>&lt;/p>Text&lt;/div>"
+</pre>
+<p>Inserting multiple elements -</p>
+<pre>
+var parent = document.createElement("div");
+var child = document.createElement("p"); 
+parent.appendChild(child); 
+var span = document.createElement("span");
+
+child.after(span, "Text"); 
+
+console.log(parent.outerHTML);
+// "&lt;div>&lt;p>&lt;/p>&lt;span>&lt;/span>Text&lt;/div>"
+</pre>
+
+
+
+
+
+
+
+
+<h2>insertAdjacentHTML()</h2>
+<p><code>insertAdjacentHTML()</code> parses the specified text as HTML or XML and inserts the resulting nodes into the DOM tree at a specified position. It does not reparse the element it is being used on and thus it does not corrupt the existing elements inside that element. This avoids the extra step of serialization, making it much faster than direct <code>innerHTML</code> manipulation.</p>
+<pre>
+element.insertAdjacentHTML(position, text);
+</pre>
+<p>Here the first argument <code>position</code> is a <code>DOMString</code>. It represents the position relative to the element and must be one of the following -</p>
+<ul>
+  <li><code>beforebegin</code> : Before the element itself.</li>
+  <li><code>afterbegin</code> : Inside the element, before the <code>firstChild</code>.</li>
+  <li><code>beforeend</code> : Inside the element, after the <code>lastChild</code>.</li>
+  <li><code>afterend</code> : After the element itself.</li>
+</ul>
+<p>The second argument is the text which is the string to be parsed as HTML or XML and inserted into the tree.
+</p>
+<pre>
+&lt;!-- beforebegin -->
+&lt;p>
+  &lt;!-- afterbegin -->
+  foo
+  &lt;!-- beforeend -->
+&lt;/p>
+&lt;!-- afterend -->
+</pre>
+<p>The <code>beforebegin</code> and <code>afterend</code> positions work only if the node is in the DOM tree and has a parent element.</p>
+<pre>
+// &lt;div id="one">one&lt;/div>
+var d1 = document.getElementById('one');
+d1.insertAdjacentHTML('afterend', '&lt;div id="two">two&lt;/div>');
+
+// At this point, the new structure is:
+// &lt;div id="one">one&lt;/div>&lt;div id="two">two&lt;/div>
+</pre>
+<p>It is not recommended you use <code>insertAdjacentHTML</code> when inserting plain text; instead, use the <code>Node.textContent</code> property or <code>Element.insertAdjacentText()</code> method. This doesn't interpret the passed content as HTML, but instead inserts it as raw text.</p>
+
+
+
+
+
+
+
+
+
+
+<h2>insertAdjacentText()</h2>
+<p>The insertAdjacentText() method inserts a given text node at a given position relative to the element it is invoked upon.</p>
+<pre>
+element.insertAdjacentText(position, text);
+</pre>
+<p>The first argument <code>position</code> is a DOMString and can be one of the following -</p>
+<ul>
+  <li>beforebegin</li>
+  <li>afterbegin</li>
+  <li>beforeend</li>
+  <li>afterend</li>
+</ul>
+<p>The second argument is the <code>text</code> which represents the text to be inserted as raw text.</p>
+<p>Here is an example -</p>
+<pre>
+beforeBtn.addEventListener('click', function() {
+  para.insertAdjacentText('afterbegin',textInput.value);
+});
+
+afterBtn.addEventListener('click', function() {
+  para.insertAdjacentText('beforeend',textInput.value);
+});
+</pre>
+
+
+
+
+
+
+
+
+<h2>insertAdjacentElement()</h2>
+<p>The insertAdjacentElement() method inserts a given element node at a given position relative to the element it is invoked upon.</p>
+<pre>
+targetElement.insertAdjacentElement(position, element);
+</pre>
+<p>The first argument <code>position</code> is a <code>DOMString</code> and can be one of the following -</p>
+<ul>
+  <li>beforebegin</li>
+  <li>afterbegin</li>
+  <li>beforeend</li>
+  <li>afterend</li>
+</ul>
+<p>The element to be inserted into the tree.</p>
+<p>This method returns the element that has been inserted. Or it returns <code>null</code> if the method fails to insert.</p>
+<p>Here is an example -</p>
+<pre>
+beforeBtn.addEventListener('click', function() {
+  var tempDiv = document.createElement('div');
+  tempDiv.style.backgroundColor = randomColor();
+  if (activeElem) {
+    activeElem.insertAdjacentElement('beforebegin',tempDiv);
+  }
+  setListener(tempDiv);
+});
+
+afterBtn.addEventListener('click', function() {
+  var tempDiv = document.createElement('div');
+  tempDiv.style.backgroundColor = randomColor();
+  if (activeElem) {
+    activeElem.insertAdjacentElement('afterend',tempDiv);
+  }
+  setListener(tempDiv);
+});
+</pre>
+
+
+
+
+
+
+
+<h1>Cloning Node</h1>
+<p>So far we have seen how to create Element and how to insert them into the DOM. Let's clone a node.</p>
+<p>Sometimes there may be a situation when we need to clone a DOM and modify little bit and insert it into the DOM. For example, you want to show multiple Toast Message. You can do this by moving the necessary code within a function and call them as many times you want. But this approach has a problem. If the content gets heavy it will take significant amount of time to create all the DOM node from the scratch and you will see some performance issue. This can be solved by cloning the node and change where it is needed and then insert the cloned node to the DOM.</p>
+<p>The <code>Node.cloneNode()</code> method returns a duplicate of the node on which this method was called.</p>
+<pre>
+var dupNode = node.cloneNode([deep]);
+</pre>
+<p>Here, the node is the node to be cloned.</p>
+<p><code>deep</code> is the Boolean value which is optional. Default is <code>true</code>. The value <code>true</code> means the cloning will be deep. It means all the children, and their children(whole subtree) will be copied. Every piece of the Node will be cloned. The value <code>false</code> means only the element itself will be cloned excluding it's childs.</p>
+<pre>
+var p = document.getElementById("para1");
+var p_prime = p.cloneNode(true);
+</pre>
+<p>Cloning a node copies all of its attributes and their values, including intrinsic (in–line) listeners. It does not copy event listeners added using <code>addEventListener()</code> or those assigned to element properties (e.g. node.onclick = fn). Moreover, for a <code>&lt;canvas></code> element, the painted image is not copied.</p>
+<p>If the original node has an ID and the clone is to be placed in the same document, the ID of the clone should be modified to be unique. Name attributes may need to be modified also, depending on whether duplicate names are expected.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h1>Removing Element</h1>
+<p>To remove a node you can use one of the following methods -</p>
+<ul>
+  <li>parentElem.removeChild(node)</li>
+  <li>node.remove()</li>
+</ul>
+
+
+
+
+<h2>parentElem.removeChild(node)</h2>
+<p>The <code>Node.removeChild()</code> method removes a child node from the DOM. Returns removed node.</p>
+<pre>
+var oldChild = parentNode.removeChild(child);
+OR
+node.removeChild(child);
+</pre>
+<p><code>child</code> is the child node to be removed form the <code>parentNode</code>. oldChild holds a reference to the removed child node. <code>oldChild === child</code>. Here is an example -</p>
+<pre>
+// Removing a specified element when knowing its parent node
+var d = document.getElementById("top");
+var d_nested = document.getElementById("nested");
+var throwawayNode = d.removeChild(d_nested);
+</pre>
+
+
+
+
+
+
+
+<h2>remove()</h2>
+<p>The <code>ChildNode.remove()</code> method removes the object from the tree it belongs to. Here is the sayntax -</p>
+<pre>
+node.remove();
+</pre>
+<p>Here is an example -</p>
+<pre>
+&lt;div id="div-01">Here is div-01&lt;/div>
+&lt;div id="div-02">Here is div-02&lt;/div>
+&lt;div id="div-03">Here is div-03&lt;/div>
+
+var el = document.getElementById('div-02');
+el.remove(); // Removes the div with the 'div-02' id
+</pre>
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

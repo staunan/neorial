@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>InputDecoration in Flutter</title>
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+	<script type="text/javascript" src="../../Assets/prism.min.js"></script>
+	<script type="text/javascript" src="../../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+<h1>InputDecoration</h1>
+<p>The widget <code>TextField</code> is not a native flutter widget. But rather a Material Widget that implements <code>EditableText</code> widget. The <code>TextField</code> Widget gives you material look and feel. You can customize the widget in various way. To customize the TextField widget you need to use <code>InputDecoration</code> class. In this secton we will explore various way to customize the TextField widget.</p>
+
+
+<h2>Customizing Border</h2>
+<p>You can customize the border in various way. Different border can be set for different state of the TextField. For example, when there is an error you can specify a differnt border style, or when there is a focus on the TextField you can also set different styled border. Here are the properties you can use for customizing the border.</p>
+
+<h3>border</h3>
+<p>The shape of the border to draw around the decoration's container.</p>
+
+<h3>disabledBorder</h3>
+<p>The border to display when the <code>InputDecorator</code> is disabled and is not showing an error.</p>
+
+<h3>enabledBorder</h3>
+<p>The border to display when the <code>InputDecorator</code> is enabled and is not showing an error.</p>
+
+<h3>errorBorder</h3>
+<p>The border to display when the <code>InputDecorator</code> does not have the focus and is showing an error. </p>
+
+<h3>focusedBorder</h3>
+<p>The border to display when the <code>InputDecorator</code> has the focus and is not showing an error.</p>
+
+<h3>focusedErrorBorder</h3>
+<p>The border to display when the <code>InputDecorator</code> has the focus and is showing an error.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h2>Customizing Label</h2>
+<p>Label is shown at the middle of the TextField vertically and on the left side horizontally. A label also overlaps <code>suffix</code>, <code>suffixIcon</code> and <code>suffixText</code>(suffix area). When you tap on the TextField the label shrinks in size and floats  above the editable area and makes the suffix area visible. You can made the label always float so that the suffix area can be visible by default. Here are the options through which you can customize the label.</p>
+
+<h3>labelText</h3>
+<p>Text that describes the input field. The label can be made to float when user taps on the TextField. Unlike hint the label doesn't dissapear. </p>
+
+<h3>labelStyle</h3>
+<p>To style the label use <code>labelStyle</code> property. Use <code>TextStyle</code> to provide the style.</p>
+
+<h3>floatingLabelBehavior</h3>
+<p>Defines how the floating label should be displayed.</p>
+<p>When <code>FloatingLabelBehavior.auto</code> the label will float to the top only when the field is focused or has some text content, otherwise it will appear in the field in place of the content. This is default.</p>
+<p>When <code>FloatingLabelBehavior.always</code> the label will always float at the top of the field above the content.</p>
+<p>When <code>FloatingLabelBehavior.never</code> the label will always appear in an empty field in place of the content.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h2>Customizing Hint Text</h2>
+<p>Hint text appears right on the editable text area. When you tap on the TextField the label floats above and it makes the hint text Visible. Hint text appears after the suffix area. The HintText is visible only when there is no text in the TextField. When you start typing the hint text dissapears. It works like a placeholder in HTML input. To customize the hint text you can use following properties:</p>
+
+<h3>hintStyle</h3>
+<p>The style to use for the <code>hintText</code>.</p>
+
+<h3>hintText</h3>
+<p>Text that suggests what sort of input the field accepts.</p>
+
+<H3>hintMaxLines</H3>
+<P>The maximum number of lines the <code>hintText</code> can occupy.</P>
+
+
+
+
+
+
+
+
+<h2>Customizing Error Text</h2>
+<p>Error text appears below the text input. You can use this field to show some validation error and any kind of other information. To customize the error text use the following propertes:</p>
+
+<h3>errorText</h3>
+<p>Text that appears below the input child and the border.</p>
+
+<h3>errorStyle</h3>
+<p>The style to use for the <code>errorText</code>.</p>
+
+<h3>errorMaxLines</h3>
+<p>The maximum number of lines the <code>errorText</code> can occupy.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h2>Customizing Helper Text</h2>
+<p>Helper text appears below the TextField, where the error text is shown. You can set helper text to provide additional information about the input. You can use following properties to customize the helper text:</p>
+
+<h3>helperText</h3>
+<p>Text that provides context about the input child's value, such as how the value will be used. If non-null, the text is displayed below the input child, in the same location as <code>errorText</code>. If a non-null <code>errorText</code> value is specified then the helper text is not shown.</p>
+
+<h3>helperStyle</h3>
+<p>The style to use for the <code>helperText</code>.</p>
+
+<h3>helperMaxLines</h3>
+<p>The maximum number of lines the <code>helperText</code> can occupy.</p>
+
+
+
+
+
+
+
+
+
+<h2>Configuring Padding</h2>
+<p>To set padding use <code>contentPadding</code> property.</p>
+
+<h3>contentPadding</h3>
+<p>The padding for the input decoration's container.</p>
+<pre>
+contentPadding: EdgeInsets.fromLTRB(12, 12, 12, 12),
+</pre>
+
+
+
+
+
+
+
+
+<h2>Setting Icon</h2>
+<p>To set an icon for the input field, use <code>icon</code> property.</p>
+<h3>icon</h3>
+<p>An icon to show before the input field and outside of the decoration's container. A collapsed decoration cannot have <code>labelText</code>, <code>errorText</code>, an <code>icon</code>.</p>
+
+
+
+
+<h2>Customizing Background Color</h2>
+<p>If you want to have a background color, you must set <code>filled</code> property to <code>true</code>, and then set the color using <code>fillColor</code> property.</p>
+
+
+<h3>fillColor</h3>
+<p>The base fill color of the decoration's container color. That means the background color of the TextField.</p>
+
+<h3>filled</h3>
+<p>If <code>true</code> the decoration's container is filled with <code>fillColor</code>.</p>
+
+
+
+
+
+
+
+
+
+
+<h2>Customizing Preffix</h2>
+<p>You can provide a preffix icon that appears at the very first place of the input line. After the preffix icon, you can place a custom widget known as preffix widget and then you can insert a preffix text. Use the following properties to customize preffix.</p>
+
+<h3>prefixIcon</h3>
+<p>An icon that appears before the <code>prefix</code> or <code>prefixText</code> and before the editable part of the text field, within the decoration's container.</p>
+
+<h3>prefixIconConstraints</h3>
+<p>The constraints for the prefix icon. You can provide a BoxConstraints for the <code>prefixIcon</code> through this property.</p>
+
+<h3>prefix</h3>
+<p>Optional widget to place on the line before the input.</p>
+
+<h3>prefixText</h3>
+<p>Optional text prefix to place on the line before the input.</p>
+
+<h3>prefixStyle</h3>
+<p>The style to use for the <code>prefixText</code>.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+<h2>Customizing Suffix</h2>
+<p>In suffix area, the custom widget comes first, then the suffix text is placed and then at the end the suffix icon is placed. Use the following properties to cusstomize the suffix.</p>
+
+<h3>suffix</h3>
+<p>Optional widget to place on the line after the input.</p>
+
+<h3>suffixText</h3>
+<p>Optional text suffix to place on the line after the input.</p>
+
+<h3>suffixStyle</h3>
+<p>The style to use for the suffixText.</p>
+
+<h3>suffixIcon</h3>
+<p>An icon that appears after the editable part of the text field and after the <code>suffix</code> or <code>suffixText</code>, within the decoration's container. </p>
+
+<h3>suffixIconConstraints</h3>
+<p>The constraints for the suffix icon. You can provide a BoxConstraints for the <code>suffixIcon</code> through this property.</p>
+
+
+
+
+
+
+
+
+<h2>Customizing Counter Text</h2>
+<p>Counter text appears below the text field and on the right side. To customize counter use the following properties:</p>
+<h3>counter</h3>
+<p>Optional custom counter widget to go in the place otherwise occupied by <code>counterText</code>. If this property is non null, then <code>counterText</code> is ignored.</p>
+
+<h3>counterText</h3>
+<p>Optional text to place below the line as a character count.</p>
+
+<h3>counterStyle</h3>
+<p>The style to use for the <code>counterText</code>.</p>
+
+
+
+
+<h2>Disable the TextField</h2>
+<p>When the TextField is disabled, you should also set <code>enabled</code> property of <code>InputDecoration</code> to <code>false</code> to maintain the visual display. When the <code>enabled</code> property is set to <code>false</code>, the <code>helperText</code>, <code>errorText</code> and <code>counterText</code> are not displayed.</p>
+<h3>enabled</h3>
+<p>If <code>false</code>, <code>helperText</code>, <code>errorText</code>, and <code>counterText</code> are not displayed, and the opacity of the remaining visual elements is reduced.</p>
+
+
+<h2>Examples</h2>
+<h3>Example 1</h3>
+<pre>
+Widget build(BuildContext context) {
+  return TextField(
+    decoration: InputDecoration(
+      icon: Icon(Icons.send),
+      hintText: 'Hint Text',
+      helperText: 'Helper Text',
+      counterText: '0 characters',
+      border: const OutlineInputBorder(),
+    ),
+  );
+}
+</pre>
+<p>The above code will produce the following output:</p>
+<img src="../../Assets/flutter/input_decoration.png">
+<h3>Example 2</h3>
+<pre>
+Widget build(BuildContext context) {
+  return TextFormField(
+    initialValue: 'abc',
+    decoration: const InputDecoration(
+      prefix: Text('Prefix'),
+      suffix: Text('Suffix'),
+      border: OutlineInputBorder(),
+    ),
+  );
+}
+</pre>
+<img src="../../Assets/flutter/input_decoration_prefix_suffix.png">
+<h3>Example 3</h3>
+<pre>
+Widget build(BuildContext context) {
+  return TextField(
+    decoration: InputDecoration(
+      hintText: 'Hint Text',
+      errorText: 'Error Text',
+      border: OutlineInputBorder(),
+    ),
+  );
+}
+</pre>
+<img src="../../Assets/flutter/input_decoration_error.png">
+
+
+
+
+</div>
+</body>
+</html>

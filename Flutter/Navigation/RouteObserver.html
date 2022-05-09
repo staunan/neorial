@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>RouteObserver</title>
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+	<script type="text/javascript" src="../../Assets/prism.min.js"></script>
+	<script type="text/javascript" src="../../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+<h1>RouteObserver</h1>
+<p><code>RouteObserver</code> is useful when you want to do a specific task when a route is opened, or closed, when another router is opened over the current route, or when the top route is popped and the route is now visible. RouteObserver notifies its subscribers when a new route is pushed into the Navigator.</p>
+<p>The following code creates a <code>RouteObserver</code> object.</p>
+<pre>
+final RouteObserver&lt;PageRoute> pageRouteObserver = RouteObserver&lt;PageRoute>();
+</pre>
+<p>The type on the <code>RouteObserver</code> class specifies the type of the route that we are going to use for. Here we are using <code>PageRoute</code>, which is used by <code>Navigator</code> when we push a widget as the page. In Flutter, a page or route is nothing but a simple widget. Consider the following statement:</p>
+<pre>
+Navigator.push(context, MaterialPageRoute(builder: (context) => NewPage()));
+</pre>
+<p>The above statement takes you to the new page <code>NewPage</code>. <code>NewPage</code> is nothing but a simple widget. The method <code>Navigator.push</code> accepts a <code>Route</code> object as the second parameter. Hence, we have wrapped our normal widget within <code>MaterialPageRoute</code> to create a <code>Route</code> object. The class <code>MaterialPageRoute</code> is derived from <code>PageRoute</code> class. The <code>PageRoute</code> class is indirectly derived from the base class <code>Route</code>. The <code>Route</code> class is an abstruct class and the base class of all kind of routes available in Flutter. As our pages or routes are indirectly derived from <code>PageRoute</code>, we can use that to work with <code>RouteObserver</code>.</p>
+
+<p>Next, you need to specify that observer in the <code>MaterialApp</code> widget.</p>
+<pre>
+MaterialApp(
+  navigatorObservers: [pageRouteObserver],
+  title: 'Flutter Demo',
+  ...
+)
+</pre>
+
+
+<h1>RouteAware</h1>
+<p>You have now registered the observer in your application. Next you should implement <code>RouteAware</code> class for those pages that are going to listen for route changes. For example, consider we have a page called <code>NewPage</code>, the state class of the <code>NewPage</code> should implement <code>RouteAware</code> interface to work with observer. Following code demonstrate the code implementation:</p>
+<pre>
+class NewPage extends StatefulWidget {
+  @override
+  NewPageState createState() => NewPageState();
+}
+
+// Implement RouteAware in a widget's state and subscribe it to the RouteObserver.
+class NewPageState extends State&lt;NewPage> with RouteAware {
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    // Subscribing to the observer --
+    pageRouteObserver.subscribe(this, ModalRoute.of(context));
+  }
+
+  @override
+  void dispose() {
+    // Unsunscribing the observer --
+    pageRouteObserver.unsubscribe(this);
+    super.dispose();
+  }
+
+  @override
+  void didPush() {
+    // Route was pushed onto navigator and is now topmost route.
+  }
+
+  @override
+  void didPopNext() {
+    // Covering route was popped off the navigator.
+  }
+
+  @override
+  Widget build(BuildContext context) => Container();
+
+}
+</pre>
+<p>The RouteAware interface has the following four methods that you can override:</p>
+<h3>didPush()</h3>
+<p>When you go to the current page <code>NewPage</code>, this method is called.</p>
+
+<h3>didPushNext()</h3>
+<p>When you go to another page from the current page <code>NewPage</code>, this method is called.</p>
+
+<h3>didPopNext()</h3>
+<p>When you come back to the current page <code>NewPage</code> from another page, this method is called.</p>
+
+<h3>didPop()</h3>
+<p>When you go to previous page from the current page <code>NewPage</code>, in other words, when you close the current page, this method is called.</p>
+
+
+<h1>RouteObserver Methods</h1>
+<h3>subscribe()</h3>
+<p>This method is used to subscribe a <code>RouteAware</code> object. It takes the <code>RouteAware</code> instance as the first argument, and the bounded <code>Route</code> object as the second argument.</p>
+<pre>
+pageRouteObserver.subscribe(this, ModalRoute.of(context));
+</pre>
+<p>As we have implemented the interface <code>RouteAware</code>, we can use <code>this</code> as the <code>RouteAware</code> object. That's why the first argument is <code>this</code>.</p>
+<p>The statement,</p>
+<pre>
+ModalRoute.of(context)
+</pre>
+<p>retuns the closest <code>ModalRoute</code> object associated with the given <code>context</code>. The class <code>PageRoute</code> is a subclass of <code>ModalRoute</code>. As every page that uses <code>MaterialPageRoute</code> has the base class <code>ModalRoute</code>. And <code>ModalRoute</code> is indirectly derived from <code>Route</code> object, hence we can use that as the <code>Route</code> object as the second parameter.</p>
+
+
+<h3>unsubscribe()</h3>
+<p>The method <code>unsubscribe</code> unsubscribes the given <code>RouteAware</code> object from the observer.</p>
+<pre>
+pageRouteObserver.unsubscribe(this);
+</pre>
+
+
+<h1>RouteObserver with InheritedWidget</h1>
+<p>In real life application, your pages will be in a seperate file, you need to access the observer instance to subscribe the <code>RouteAware</code> instance. You can use an <code>InheritedWidget</code> for that. Here is an example:</p>
+<pre>
+// InheritedWidget --
+// final_app_data.dart;
+
+import 'package:flutter/material.dart';
+
+class FinalAppData extends InheritedWidget{
+
+  final RouteObserver&lt;PageRoute> pageRouteObserver;
+
+  FinalAppData({Key key, this.pageRouteObserver, Widget child}) : super(key: key, child: child);
+
+  static FinalAppData of(BuildContext context){
+    return context.dependOnInheritedWidgetOfExactType&lt;FinalAppData>();
+  }
+
+  @override
+  bool updateShouldNotify(FinalAppData old) => false;
+}
+</pre>
+<p>Then in your main file:</p>
+<pre>
+// main.dart --
+
+final RouteObserver&lt;PageRoute> pageRouteObserver = RouteObserver&lt;PageRoute>();
+
+Widget build(BuildContext context) {
+  return FinalAppData(
+    pageRouteObserver : pageRouteObserver,
+    child: Container(),
+  );
+
+}
+</pre>
+<p>Now you can access the observer through the <code>InheritedWidget</code>:</p>
+<pre>
+// Demo.dart
+
+import 'package:flutter/material.dart';
+import "app_data_final.dart";
+
+
+class Demo extends StatefulWidget{
+  @override
+  _DemoState createState()=> _DemoState();
+}
+class _DemoState extends State&lt;Demo> with RouteAware{
+  
+  RouteObserver&lt;PageRoute> pageRouteObserver;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    pageRouteObserver = FinalAppData.of(context).pageRouteObserver;
+    pageRouteObserver.subscribe(this, ModalRoute.of(context));
+  }
+
+  @override
+  dispose(){
+    pageRouteObserver.unsubscribe(this);
+    super.dispose();
+  }
+
+  ....
+
+}
+</pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

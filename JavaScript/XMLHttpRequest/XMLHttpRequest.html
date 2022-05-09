@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>XMLHttpRequest</title>
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+	<script type="text/javascript" src="../../Assets/prism.min.js"></script>
+	<script type="text/javascript" src="../../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+
+
+<h1>XMLHttpRequest</h1>
+<p>XMLHttpRequest is a built-in browser object that allows to make HTTP requests in JavaScript. Despite of having the word “XML” in its name, it can operate on any data, not only in XML format.</p>
+<p>XMLHttpRequest has two modes of operation: synchronous and asynchronous. First let’s see the asynchronous variant as it’s used in the majority of cases.</p>
+<p>The code below loads the URL at <code>/article/xmlhttprequest/hello.txt</code> from the server and shows its content on-screen:</p>
+<pre>
+// 1. Create a new XMLHttpRequest object
+let xhr = new XMLHttpRequest();
+
+// 2. Configure it: GET-request for the URL /article/.../hello.txt
+xhr.open('GET', '/article/xmlhttprequest/hello.txt');
+
+// 3. Send the request over the network
+xhr.send();
+
+// 4. This will be called after the response is received
+xhr.onload = function() {
+  if (xhr.status != 200) { // analyze HTTP status of the response
+    // if it's not 200, consider it an error
+    alert(xhr.status + ': ' + xhr.statusText); // e.g. 404: Not Found
+  } else {
+    // show the result
+    alert(xhr.responseText); // responseText is the server response
+  }
+};
+</pre>
+<p>As we can see, there are several methods of <code>XMLHttpRequest</code> here. Let’s cover them.</p>
+
+
+
+
+
+
+
+<h1>Open</h1>
+<pre>
+xhr.open(method, URL, async, user, password)
+</pre>
+<p>This method is usually called first after <code>new XMLHttpRequest</code>. It specifies the main parameters of the request:</p>
+<ul>
+	<li><code>method</code> – HTTP-method. Usually "GET" or "POST", but we can also use TRACE/DELETE/PUT and so on.</li>
+	<li><code>URL</code> – the URL to request. Can use any path and protocol, but there are cross-domain limitations called “Same Origin Policy”. We can make any requests to the same protocol://domain:port that the current page comes from, but other locations are “forbidden” by default</li>
+	<li><code>async</code> – if the third parameter is explicitly set to <code>false</code>, then the request is synchronous, otherwise it’s asynchronous. We’ll talk more about that in this chapter soon.</li>
+	<li><code>user</code>, <code>password</code> – login and password for basic HTTP auth (if required).</li>
+</ul>
+<p>Please note that <code>open</code> call, contrary to its name, does not open the connection. It only configures the request, but the network activity only starts with the call of <code>send</code>.</p>
+
+
+
+
+
+
+
+
+<h1>Send</h1>
+<pre>
+xhr.send([body])
+</pre>
+<p>This method opens the connection and sends the request to server. The optional body parameter contains the request body. Some request methods like GET do not have a body. And some of them like POST use body to send the data.</p>
+
+
+
+
+
+
+
+<h1>Cancel Request</h1>
+<h3>abort()</h3>
+<p>If we changed our mind, we can terminate the request at any time. The call to <code>xhr.abort()</code> does that:</p>
+<pre>
+xhr.abort(); // terminate the request
+</pre>
+<h3>timeout</h3>
+<p>We can also specify a timeout using the corresponding property:</p>
+<pre>
+xhr.timeout = 10000;
+</pre>
+<p>The timeout is expressed in ms. If the request does not succeed within the given time, it gets canceled automatically.</p>
+<p>The maximum duration of an asynchronous request can be set using the <code>timeout</code> property:</p>
+<pre>
+xhr.timeout = 30000; // 30 seconds (in milliseconds)
+</pre>
+<p>If the request exceeds that time, it’s aborted, and the <code>timeout</code> event is generated:</p>
+<pre>
+xhr.ontimeout = function() {
+  alert( 'Sorry, the request took too long.' );
+}
+</pre>
+
+
+
+
+
+
+
+
+
+
+<h1>Events</h1>
+<p>A request is asynchronous by default. In other words, the browser sends it out and allows other JavaScript code to execute. After the request is sent, <code>xhr</code> starts to generate events. We can use <code>addEventListener</code> or on&lt;event> properties to handle them, just like with <code>DOM</code> objects.</p>
+<p>Here are useful events associated with XMLHttpRequest object:</p>
+<ul>
+	<li><code>loadstart</code> – the request has started.</li>
+	<li><code>progress</code> – the browser received a data packet (can happen multiple times).</li>
+	<li><code>abort</code> – the request was aborted by xhr.abort().</li>
+	<li><code>error</code> – an network error has occurred, the request failed.</li>
+	<li><code>load</code> – the request is successful, no errors.</li>
+	<li><code>timeout</code> – the request was canceled due to timeout (if the timeout is set).</li>
+	<li><code>loadend</code> – the request is done (with an error or without it)</li>
+	<li><code>readystatechange</code> – the request state is changed (will cover later)</li>
+</ul>
+<p>Using these events we can track successful loading (<code>onload</code>), errors (<code>onerror</code>) and the amount of the data loaded (<code>onprogress</code>).</p>
+<p>Please note that errors here are “communication errors”. In other words, if the connection is lost or the remote server does not respond at all – then it’s the error in the terms of XMLHttpRequest. Bad HTTP status like <code>500</code> or <code>404</code> are not considered errors.</p>
+<p>Here is another example:</p>
+<pre>
+&lt;script>
+  function load(url) {
+    let xhr = new XMLHttpRequest();
+    xhr.open('GET', url);
+    xhr.timeout = 1000;
+    xhr.send();
+
+    xhr.onload = function() {
+      alert(`Loaded: ${this.status} ${this.responseText}`);
+    };
+
+    xhr.onerror = () => alert('Error');
+
+    xhr.ontimeout = () => alert('Timeout!');
+  }
+&lt;/script>
+
+&lt;button onclick="load('/article/xmlhttprequest/hello.txt')">Load&lt;/button>
+&lt;button onclick="load('/article/xmlhttprequest/hello.txt?speed=0')">Load with timeout&lt;/button>
+&lt;button onclick="load('no-such-page')">Load 404&lt;/button>
+&lt;button onclick="load('http://example.com')">Load another domain&lt;/button>
+</pre>
+<ul>
+	<li>The first button triggers only <code>onload</code> as it loads the file <code>hello.txt</code> normally.</li>
+	<li>The second button loads a very slow URL, so it calls only <code>ontimeout</code> (because <code>xhr.timeout</code> is set).</li>
+	<li>The third button loads a non-existant URL, but it also calls <code>onload</code> (with “Loaded: 404”), because there’s no network error.</li>
+	<li>The last button tries to load a page from another domain. That’s prohibited unless the remote server explicitly agrees by sending certain headers (to be covered later), so we have <code>onerror</code> here. The <code>onerror</code> handler would also trigger in other cases if we start a request, and then sever the network connection of our device.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+<h1>Response</h1>
+<p>Once the server has responded, we can receive the result in the following properties of the request object:</p>
+<ul>
+	<li><code>status</code>: HTTP status code: <code>200</code>, <code>404</code>, <code>403</code> and so on. Also can be <code>0</code> if an error occurred.</li>
+	<li><code>statusText</code>: HTTP status message: usually <code>OK</code> for <code>200</code>, <code>Not Found</code> for <code>404</code>, <code>Forbidden</code> for <code>403</code> and so on.</li>
+	<li><code>responseText</code>: The text of the server response. Most of the time JSON is returned by the server. We can parse it using <code>JSON.parse(xhr.responseText)</code>.</li>
+</ul>
+
+
+
+
+
+
+<h1>Synchronous Request</h1>
+<p>If in the <code>open</code> method the third parameter <code>async</code> is set to <code>false</code>, the request is made synchronously. In other words, Javascript execution pauses at that line and continues when the response is received. Somewhat like <code>alert</code> or <code>prompt</code> commands.</p>
+<p>Synchronous calls are used rarely, because they block in-page Javascript till the loading is complete. In some browsers, a user is unable to scroll the page.</p>
+<pre>
+// Synchronous request
+xhr.open('GET', 'phones.json', false);
+
+// Send it
+xhr.send();
+// ...JavaScript "hangs" and waits till the request is complete
+</pre>
+<p>If a synchronous call takes too much time, the browser may suggest to close the “hanging” webpage.</p>
+<p>Also, because of the blocking, it becomes impossible to send two requests simultaneously. And, looking a bit forward, let’s note that some advanced capabilities of XMLHttpRequest, like requesting from another domain or specifying a timeout, are unavailable for synchronous requests.</p>
+<p>Because of all that, synchronous requests are used very sparingly, almost never. By default, requests are asynchronous.</p>
+
+
+
+
+
+
+
+
+<h1>Event “readystatechange”</h1>
+<p>The event <code>readystatechange</code> occurs multiple times during sending the request and receiving the response.</p>
+<p>As the name suggests, there’s a “ready state” of XMLHttpRequest. It is accessible as <code>xhr.readyState</code>.</p>
+<p>In the example above we only used state <code>4</code> (request complete), but there are few more.</p>
+<pre>
+const unsigned short UNSENT = 0; // initial state
+const unsigned short OPENED = 1; // open called
+const unsigned short HEADERS_RECEIVED = 2; // response headers received
+const unsigned short LOADING = 3; // response is loading (a data packed is received)
+const unsigned short DONE = 4; // request complete
+</pre>
+<p>An XMLHttpRequest object travels them in the order <code>0 → 1 → 2 → 3 → … → 3 → 4</code>. State <code>3</code> repeats every time a data packet is received over the network.</p>
+<p>Here is an example of that event:</p>
+<pre>
+let xhr = new XMLHttpRequest();
+
+xhr.open('GET', 'phones.json'); // the third parameter is true by default
+
+xhr.send(); // (1)
+
+xhr.onreadystatechange = function() { // (3)
+  if (xhr.readyState != 4) return;
+
+  button.innerHTML = 'Complete!';
+
+  if (xhr.status != 200) {
+    alert(xhr.status + ': ' + xhr.statusText);
+  } else {
+    alert(xhr.responseText);
+  }
+
+}
+
+button.innerHTML = 'Loading...'; // (2)
+button.disabled = true;
+</pre>
+<p style="font-style: italic; font-weight: 500;">Historically, the event <code>readystatechange</code> appeared long ago, before the specification settled. Nowadays, there’s no need to use it, we can replace it with other available events, but it can often be found in older scripts.</p>
+
+
+
+
+
+
+
+
+<h1>HTTP-Headers</h1>
+<p>XMLHttpRequest allows both to send custom headers and read headers from the response. There are 3 methods for HTTP-headers:</p>
+<h3>setRequestHeader(name, value)</h3>
+<p>Sets the request header with the given <code>name</code> and <code>value</code>.</p>
+<pre>
+xhr.setRequestHeader('Content-Type', 'application/json');
+</pre>
+<h3>getResponseHeader(name)</h3>
+<p>Gets the response header with the given name (except <code>Set-Cookie</code> and <code>Set-Cookie2</code>).</p>
+<pre>
+xhr.getResponseHeader('Content-Type')
+</pre>
+<h3>getAllResponseHeaders()</h3>
+<p>Returns all response headers, except <code>Set-Cookie</code> and <code>Set-Cookie2</code>.</p>
+<pre>
+xhr.getAllResponseHeaders();
+</pre>
+<p>Headers are returned as a single line, e.g.:</p>
+<pre>
+Cache-Control: max-age=31536000
+Content-Length: 4260
+Content-Type: image/png
+Date: Sat, 08 Sep 2012 16:53:16 GMT
+</pre>
+<p>The line break between headers is always "\r\n" (doesn’t depend on OS), so we can easily split it into individual headers. The separator between the name and the value is always a colon followed by a space <code>": "</code>. That’s fixed in the specification.</p>
+<p>So, if we want to get an object with name/value pairs, we need to throw in a bit JS.</p>
+<pre>
+let headers = xhr
+  .getAllResponseHeaders()
+  .split('\r\n')
+  .reduce((result, current) => {
+    let [name, value] = current.split(': ');
+    result[name] = value;
+    return result;
+  }, {});
+</pre>
+<h3>Headers limitations</h3>
+<p>Several headers are managed exclusively by the browser, e.g. <code>Referer</code> and <code>Host</code>. The full list is in the specification. XMLHttpRequest is not allowed to change them, for the sake of user safety and correctness of the request.</p>
+<h3>Can’t remove a header</h3>
+<p>Another peciliarity of XMLHttpRequest is that one can’t undo <code>setRequestHeader</code>. Once the header is set, it’s set. Additional calls to <code>setRequestHeader</code> append information to the header, it doesn't overwrite it.</p>
+<pre>
+xhr.setRequestHeader('X-Auth', '123');
+xhr.setRequestHeader('X-Auth', '456');
+
+// the header will be:
+// X-Auth: 123, 456
+</pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

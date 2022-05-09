@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>AnimatedWidget</title>
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+	<script type="text/javascript" src="../../Assets/prism.min.js"></script>
+	<script type="text/javascript" src="../../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+<h1>AnimatedWidget</h1>
+<p>If you follow the traditional AnimationController approach where you use <code>setState</code> method to update the UI to show the animation, things might get slow when your build function is very large. When your build functon is very large and contains a lot of widgets, calling <code>setState()</code> very frequently downgrade the performance as it rebuilds that large widget tree with each <code>setState</code> call.</p>
+<p>Woun't it be better if you take the animation part of your UI out of the main build function so that rest of the widget doesn't get rebuilt unnecessarily? AnimatedWidget is here to help you up.</p>
+<p>To use <code>AnimatedWidget</code> you need to extend this class and create another widget that is only reponsible for doing the animation. This class takes a <code>Listenable</code> object as a required parameter. And you must overwrite the <code>build</code> function. The mechanism of this widget is as it takes a <code>Listenable</code> object, it will rebuilds its UI automatically whenever the widget get notified by that <code>Listenable</code> object. Luckily the <code>AnimationController</code> and <code>Animation&lt;T></code> objects are derived from <code>Listenable</code>, so you can use them.</p>
+<p>Here is an example of animations from the previous article. Leter we will implement the same example with <code>AnimatedWidget</code>.</p>
+<pre>
+class _TestState extends State&lt;Test> with SingleTickerProviderStateMixin{
+
+  AnimationController _controller;
+  Animation&lt;double> opacityAnimation;
+  Animation&lt;double> widthAnimation;
+  Animation colorAnimation;
+
+  @override
+  initState(){
+    super.initState();
+    _controller = new AnimationController(
+      duration: const Duration(milliseconds: 2000), 
+      vsync: this,
+    );
+    opacityAnimation = Tween&lt;double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: Interval(0.0, 1.0, curve: Curves.easeIn)
+      )
+    );
+    widthAnimation = Tween&lt;double>(begin: 0.0, end: 100).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: Interval(0.1, 0.4, curve: Curves.easeOut)
+      )
+    );
+    colorAnimation = ColorTween(begin: Colors.yellow, end: Colors.red).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: Interval(0.4, 1.0, curve: Curves.easeOut)
+      )
+    );
+
+    _controller.addListener((){
+      setState((){});
+    });
+
+    _controller.repeat();
+  
+  }
+
+  @override
+  dispose(){
+  _controller.dispose();
+  super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context){
+    return BeautyBackground(
+      child: Column(
+        children: &lt;Widget>[
+          BackButton(),
+          Expanded(
+            child: Center(
+              child: SizedBox(
+                width: (widthAnimation.value == null) ? 0.0 : widthAnimation.value,
+                height: 100,
+                child: Opacity(
+                  opacity : (opacityAnimation.value == null) ? 0.0 : opacityAnimation.value,
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
+                      color: (colorAnimation.value == null) ? Colors.red : colorAnimation.value,
+                    ),
+                    child: SizedBox(
+                      width: double.infinity,
+                      height: double.infinity
+                    ),
+                  )
+                ),
+              ),
+            )
+          ),
+        ]
+      ),
+    );
+  }
+}
+</pre>
+<p>The above example animates three property, width, opacity and then the color of the box. We will need three class that will extend <code>AnimatedWidget</code>. Each class to animate each property. So lets first consider the width of the box. Here is the implementation:</p>
+<pre>
+class WidthAnimation extends AnimatedWidget{
+  Widget child;
+
+  WidthAnimation({Key key, AnimationController controller, this.child}) : super(
+    key: key, 
+    listenable: Tween&lt;double>(begin: 0.0, end: 100).animate(
+      CurvedAnimation(
+        parent: controller,
+        curve: Interval(0.1, 0.4, curve: Curves.bounceIn),
+      )
+    )
+  );
+
+  Animation&lt;double> get _progress => listenable;
+
+  @override
+  Widget build(BuildContext context){
+    return SizedBox(
+      width: _progress.value,
+      height: 100,
+      child: child
+    );
+  }
+}
+</pre>
+<p>The subclass <code>WidthAnimation</code> extends <code>AnimatedWidget</code> class. The constructor this subclass must initialize its parent constructor and must pass <code>listenable</code> object. Here are are creating a new <code>Animation&lt;double></code> object using <code>Tween</code> constructor and passing it as <code>listenable</code>.</p>
+<p>Now you should get the <code>Animation</code> object using the following statement:</p>
+
+<pre>
+Animation&lt;double> get _progress => listenable;
+</pre>
+
+<p>Next, you need to override the <code>build</code> method that will return a widget. That's all about implementing a custom AnimatedWidget.</p>
+<h3>How it works?</h3>
+
+<p>When you start the animation using the controller (using <code>forward()</code> or <code>repeat()</code>), the base class <code>AnimatedWidget</code> will start generating values depending on the <code>Listenable</code> object that was provided through the constructor. In our example, we have provided a Tween as a listenable object, and that Tween will start generating values from <code>0</code> to <code>100</code>, and will start at interval <code>0.1</code> and ends at <code>0.4</code> of the animation duration. When it generates a new value, it updates the <code>listenable</code> object and calls <code>build</code> method. So for each new value, the build function will be called and return the new UI. You do not need to call <code>setState()</code> method here. It is done by the base class <code>AnimatedWidget</code> automatically.</p>
+
+<p>Now, we will do the same thing to animate other two property. Here is the code:</p>
+<pre>
+class OpacityAnimation extends AnimatedWidget{
+  Widget child;
+
+  OpacityAnimation({Key key, AnimationController controller, this.child}) : super(
+    key: key, 
+    listenable: Tween&lt;double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(
+        parent: controller,
+        curve: Interval(0.0, 1.0, curve: Curves.easeIn)
+      )
+    )
+  );
+
+  Animation&lt;double> get _progress => listenable;
+
+  @override
+  Widget build(BuildContext context){
+    return Opacity(
+      opacity: _progress.value,
+      child: child
+    );
+  }
+}
+
+class ColorAnimation extends AnimatedWidget{
+  Widget child;
+
+  ColorAnimation({Key key, AnimationController controller, this.child}) : super(
+    key: key, 
+    listenable: ColorTween(begin: Colors.yellow, end: Colors.red).animate(
+      CurvedAnimation(
+        parent: controller,
+        curve: Interval(0.4, 1.0, curve: Curves.easeOut)
+      )
+    )
+  );
+
+  Animation&lt;Color> get _progress => listenable;
+
+  @override
+  Widget build(BuildContext context){
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: _progress.value
+      ),
+      child: child
+    );
+  }
+}
+</pre>
+<p>We have now seperated out the animation part out of the main class <code>_TestState</code> method. Here is the code that shows how you can combine the above three AnimatedWidget to perform the same thing:</p>
+<pre>
+class _TestState extends State&lt;Test> with SingleTickerProviderStateMixin{
+
+  AnimationController _controller;
+  
+  @override
+  initState(){
+    super.initState();
+    _controller = new AnimationController(
+      duration: const Duration(milliseconds: 2000), 
+      vsync: this,
+    );
+
+    _controller.repeat(reverse: true);
+  }
+
+  @override
+  dispose(){
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context){
+    return BeautyBackground(
+      child: Column(
+        children: &lt;Widget>[
+          BackButton(),
+          Expanded(
+            child: Center(
+              child: WidthAnimation(
+                controller: _controller,
+                child: OpacityAnimation(
+                  controller: _controller,
+                  child: ColorAnimation(
+                    controller: _controller,
+                    child: SizedBox(
+                      width: double.infinity,
+                      height: double.infinity,
+                    ),
+                  )
+                ),
+              ),
+            )
+          ),
+        ]
+      ),
+    );
+  }
+}
+</pre>
+<p>Now your main class <code>_TestState</code> looks more elegent and clean as we have totally moved the Animation declaration part out of the class and moved to its specific AnimatedWidget class. Now if you run the code your animation will be played but without calling the <code>build</code> method by using <code>setState()</code>. So no unncessary rebuild in the <code>_TestState</code> class.</p>
+
+<h2>Don't Implement Nested AnimatedWidget</h2>
+<p>An important point you should know that, you should never put another <code>AnimatedWidget</code> inside the <code>build</code> method of a <code>AnimatedWidget</code>. Becuase <code>AnimatedWidget</code> calls <code>build</code> method automatically and each time it calls <code>build</code> method, it returns a new version of the UI. If you put another <code>AnimatedWidget</code> inside the <code>build</code> method, it will repeteadly create a new instance of the inner <code>AnimatedWidget</code> every time the <code>build</code> method is called. Here is the demonstration:</p>
+<pre>
+class WidthAnimation extends AnimatedWidget{
+  Widget child;
+  AnimationController controller;
+
+  WidthAnimation({Key key, this.controller, this.child}) : super(
+    key: key, 
+    listenable: Tween&lt;double>(begin: 0.0, end: 100).animate(
+      CurvedAnimation(
+        parent: controller,
+        curve: Interval(0.1, 0.4, curve: Curves.bounceIn),
+      )
+    )
+  );
+
+  Animation&lt;double> get _progress => listenable;
+
+  @override
+  Widget build(BuildContext context){
+    return SizedBox(
+      width: _progress.value,
+      height: 100,
+      child: OpacityAnimation(
+        controller: controller,
+        child: child,
+      )
+    );
+  }
+}
+
+
+class OpacityAnimation extends AnimatedWidget{
+  Widget child;
+
+  OpacityAnimation({Key key, AnimationController controller, this.child}) : super(
+    key: key, 
+    listenable: Tween&lt;double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(
+        parent: controller,
+        curve: Interval(0.0, 1.0, curve: Curves.easeIn)
+      )
+    )
+  ){
+    print("OpacityAnimation Initialized");
+  }
+
+  Animation&lt;double> get _progress => listenable;
+
+  @override
+  Widget build(BuildContext context){
+    return Opacity(
+      opacity: _progress.value,
+      child: child
+    );
+  }
+}
+</pre>
+<p>In the above example, in the <code>build</code> method the <code>WidthAnimation</code> class, we have used <code>OpacityAnimation</code> and passed the same controller that was given to the <code>WidthAnimation</code> and passes the child as well. We have added a <code>print</code> statement in the <code>OpacityAnimated</code> constructor to see what happens when animation runs.</p>
+<p>Now in the <code>_TestState</code> class you will be able to use the code in the following way:</p>
+<pre>
+child: Center(
+  child: WidthAnimation(
+    controller: _controller,
+    child: ColorAnimation(
+      controller: _controller,
+      child: SizedBox(
+        width: double.infinity,
+        height: double.infinity,
+      ),
+    )
+  ),
+)
+</pre>
+<p>Now the <code>WidthAnimation</code> will be responsible for animating both width and opacity. The above code will work perfectly fine. But in the console, it will keep printing <code>OpacityAnimation Initialized</code> during the whole time animation runs. You can guess why. Whenever the <code>WidthAnimation</code> gets rebuilt, the <code>OpacityAnimation</code> is being created anew. This will downgrade your application performace if you structure your animation like this way. So always avoid putting a <code>AnimatedWidget</code> inside the build method of another <code>AnimatedWidget</code>.</p>
+<p>So it is always best practice to pass an <code>AnimatedWidget</code> as a child to another <code>AnimatedWidget</code>. Because when you pass the child, you passing an reference, so it doesn't get rebuilt.</p>
+<p>The <code>AnimatedWidget</code> doesn't require a child at all, if your child is relatively small, you can place it within the <code>build</code> method of <code>AnimatedWidget</code>. In this case you will only need to pass the animation controller to the <code>AnimatedWidget</code>.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>
+

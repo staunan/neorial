@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Introduction</title>
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
+	<script type="text/javascript" src="../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+<h1>What is NPM?</h1>
+<p>npm is the world’s largest software registry. Open source developers from every continent use npm to share and borrow packages, and many organizations use npm to manage private development as well.</p>
+<p>npm consists of three distinct components:</p>
+<ul>
+	<li>The Website</li>
+	<li>The Command Line Interface(CLI)</li>
+	<li>The Registry</li>
+</ul>
+<p>Use the <code>website</code> to discover packages, set up profiles, and manage other aspects of your npm experience. For example, you can set up Orgs (organizations) to manage access to public or private packages.</p>
+<p>The <code>CLI</code> runs from a terminal, and is how most developers interact with npm.</p>
+<p>The <code>registry</code> is a large public database of JavaScript software and the meta-information surrounding it.</p>
+
+
+
+
+
+<h1>Get Started</h1>
+<p>To get started with npm, you can create an account on <a target="_blank" href="https://www.npmjs.com">NPM</a> website. After successfully creation of your account you can access your account as <code>http://www.npmjs.com/~yourusername</code>.</p>
+<p>After you have created an account, next step is to install Node.js and NPM on your machine. After installation you can check if they are successfully installed by printing their version -</p>
+<pre>
+node -v
+npm -v
+</pre>
+
+
+
+
+
+
+<h1>Login</h1>
+<p>After you have successfully created an account and installed NPM on your machine you can login to NPM. To login type the following command -</p>
+<pre>
+npm login
+</pre>
+<p>Now you will be asked to provide <code>UserName</code>, <code>Password</code> and <code>Email</code>.</p>
+<p>If you have 2FA (Two FActor Authentication) enabled then you will be promted to provide OTP from 2FA Authenticator app. However, after provided details, you will be logged in and you will get the following message -</p>
+<pre>
+Logged in as ssantanuberaa on https://registry.npmjs.org/.
+</pre>
+
+
+
+
+
+
+<h1>Who Am I?</h1>
+<p>To know if you are successfully logged in, you can type the following command -</p>
+<pre>
+npm whoami
+</pre>
+<p>If you are logged in successfully, your <code>UserName</code> will be returned.</p>
+
+
+
+
+
+
+
+
+<h1>Changing Profile Information</h1>
+<p>Though you can do this through the NPM website, but you can also change your profile information using CLI.</p>
+<h3>See Profile Information</h3>
+<pre>
+npm profile get
+</pre>
+<p>You will get the following information -</p>
+<img src="Assets/img/profile.jpg">
+<p>From the CLI you can change the following information -</p>
+<ul>
+	<li>email</li>
+	<li>two-factor auth</li>
+	<li>fullname</li>
+	<li>homepage</li>
+	<li>freenode</li>
+	<li>twitter</li>
+	<li>github</li>
+	<li>password</li>
+</ul>
+<p>To change the above information use the following syntax -</p>
+<pre>
+npm profile set prop value
+</pre>
+<p>Here <code>prop</code> is the property which are <code>email</code>, <code>fullname</code> etc. For example, to change your email address -</p>
+<pre>
+npm profile set email "yournew@email.com"
+</pre>
+<p>After that you will be prompted to provide your current password. Type the password to save the changes. If you have two-factor authentication enabled, you will be asked to provide OTP.</p>
+<p style="font-weight: 500; font-style: italic;">Though NPM allows us to change profile information using CLI, but it is always recommend to use the website as there are less chance of mistaken.</p>
+
+
+
+
+
+
+
+<h1>NPM Releases</h1>
+<p>There are two types of release in NPM -</p>
+<ul>
+	<li>Latest Release</li>
+	<li>Next Release</li>
+</ul>
+<h3>Latest Release</h3>
+<p>The <code>latest</code> release of npm is the most recent stable version. When you install Node.js, npm is automatically installed. However, npm is released more frequently than Node.js, so to install the latest stable version of npm, on the command line, run:</p>
+<pre>
+npm install npm@latest -g
+</pre>
+<h3>Next Release</h3>
+<p>The <code>next</code> release of npm is the most recent unreleased version of npm that is eventually released as the latest version. You may want to update your npm client to the <code>next</code> release to test your packages against it before <code>latest</code> is released. It means this version is unstable and might contain few bugs.</p>
+<p>To update to the next release of npm, on the command line, run:</p>
+<pre>
+npm install npm@next -g
+</pre>
+<p style="font-weight: 500; font-style: italic;">Depending on the development cycle, npm install npm@next -g may reinstall the latest release of npm.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

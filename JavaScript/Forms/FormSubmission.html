@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Form Submission</title>
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
+	<script type="text/javascript" src="../../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+<h1>Form Submission</h1>
+<p>The <code>submit</code> event occurs when the form is submitted. Like when you click submit button or you press Enter on an <code>input type="text"</code> element.</p>
+<p>The method <code>submit</code> is used to submit the form manually.</p>
+
+
+
+
+<h1>Event : submit</h1>
+<p>When the <code>submit</code> event occurs, at the end of the event, the browser submits the form to the server. It is default action. You can prevent this default action using <code>event.preventDefault()</code> and stop sending the form to the server. You can also use <code>return false;</code> to prevent submitting to the server.</p>
+<div class="box">
+	<form method="post" action="www.google.com" onsubmit="alert('Preparing'); return false;">
+			<input type="text" name="firstName">
+			<button type="button">Submit</button>
+	</form>
+</div>
+<p>Note that the event occurs on <code>form</code> element. Not on the button or any input element.</p>
+
+
+
+
+
+
+<h1>Method : submit</h1>
+<p>To submit a form to the server manually, we can call <code>form.submit()</code>.</p>
+<p>Then the <code>submit</code> event is not generated. It is assumed that if the programmer calls <code>form.submit()</code>, then the script already did all related processing.</p>
+<pre>
+let form = document.createElement('form');
+form.action = 'https://google.com/search';
+form.method = 'GET';
+
+form.innerHTML = '&lt;input name="q" value="test">';
+
+// the form must be in the document to submit it
+document.body.append(form);
+
+form.submit();
+</pre>
+<pre>
+&lt;div class="box">
+&lt;form id="myForm" onsubmit="return false;">
+	&lt;input type="test" name="name">
+	&lt;button type="submit" id="formSubmit">Submit&lt;/button>
+&lt;/form>
+&lt;script type="text/javascript">
+formSubmit.onclick = function(){
+	alert("Manually Submitting !");
+	myForm.submit();
+};
+&lt;/script>
+</pre>
+<div class="box">
+<form id="myForm" onsubmit="return false;">
+	<input type="test" name="name">
+	<button type="submit" id="formSubmit">Submit</button>
+</form>
+<script type="text/javascript">
+formSubmit.onclick = function(){
+	alert("Manually Submitting !");
+	myForm.submit();
+};
+</script>
+</div>
+
+
+
+
+
+</div>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>v-html</title>
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
+	<script type="text/javascript" src="../Assets/jquery.min.js"></script>
+    <link rel="stylesheet" href="../Assets/prism-dark.css">
+    <script type="text/javascript" src="../Assets/vue.js"></script>
+</head>
+<body class="Body">
+<div class="Content Card">
+	<h1>V-HTML - Render RAW HTML</h1>
+	<p>
+		As you have seen in the <code>v-text</code> directive, it do not render the HTML tag while printing. And thanks to <code>v-html</code> directive which supports HTML rendering.
+	</p>
+	<pre>
+		&lt;div v-html="htmlcontent">&lt;/div>
+		data : {
+			htmlcontent : "&lt;span style='color:red;'>Hello&lt;/span>"
+		}
+	</pre>
+	<p>
+		And it will produce the following result -
+	</p>
+	<div class="box Output" v-html="htmlcontent"></div>
+	<p>
+		Well, one thing you have to be very careful about. Do not use v-html for user data. Well, it's just a coution. For example, if a user writes CSS inside and text box and you store it in the DB. Then you fetch the value from the DB and display them using <code>v-html</code> directive. Well those user CSS will be rendered. But don't worry JS won't run. But still, you will have the risk if you use any Style inside the <code>v-html</code> directive.
+	</p>
+	<pre>
+		&lt;span v-html="htmlcontent">&lt;/span>
+		data : {
+		htmlcontent : `&lt;style>
+				body{
+					background-color:red;
+				}
+			&lt;/style>`,
+		}	
+	</pre>
+	<p>
+		This will change the background color of body to red.
+	</p>
+	<p>Note that you cannot use <code>v-html</code> to compose template partials, because Vue is not a string-based templating engine. Instead, components are preferred as the fundamental unit for UI reuse and composition.</p>
+</div>
+<script type="text/javascript">
+new Vue({
+	el : ".Content",
+	data : {
+		htmlcontent : `<span style='color:red;'>Hello</span>`,
+	}
+});
+</script>
+</body>
+</html>

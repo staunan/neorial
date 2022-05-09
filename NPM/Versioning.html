@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Versioning</title>
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
+	<script type="text/javascript" src="../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+
+
+
+<h1>Symantic Versioning Guideline</h1>
+<p>To keep the JavaScript ecosystem healthy, reliable, and secure, every time you make significant updates to an npm package you own, we recommend publishing a new version of the package with an updated version number in the <code>package.json</code> file that uses the semantic versioning guidelines.</p>
+<table class="table is-bordered is-narrow is-striped">
+	<tr>
+		<th>Code Status</th>
+		<th>Stage</th>
+		<th>Rule</th>
+		<th>Example Version</th>
+	</tr>
+	<tr>
+		<td>First Release</td>
+		<td>New product</td>
+		<td>Start with 1.0.0</td>
+		<td>1.0.0</td>
+	</tr>
+	<tr>
+		<td>Backward compatible bug fixes</td>
+		<td>Patch release</td>
+		<td>Increment the third digit</td>
+		<td>1.0.1</td>
+	</tr>
+	<tr>
+		<td>Backward compatible new features</td>
+		<td>Minor release</td>
+		<td>Increment the middle digit and reset last digit to zero</td>
+		<td>1.1.0</td>
+	</tr>
+	<tr>
+		<td>Changes that break backward compatibility</td>
+		<td>Major release</td>
+		<td>Increment the first digit and reset middle and last digits to zero</td>
+		<td>2.0.0</td>
+	</tr>
+</table>
+<h3>Version Starts with 0</h3>
+<p>You might find lots of package that starts with 0, like <code>0.0.1</code>. It means they don't have any stable version yet. The package is available just for testing and it is in development stage and it is yet to be stable. When it become stable, it will start with 1 like <code>1.0.0</code>.</p>
+
+
+<h3>Patch Release</h3>
+<p>When there is a new release but there is no new feature, just minor bug fixes and doesn't break the existing code where that package is being used, this release is called <code>Patch Release</code>. For this case the last digit of the version number is incremented.</p>
+
+<h3>Minor Release</h3>
+<p>When there is a new release, but there is a new feature and functionality like some methods to the API. This feature might also contain other minor bug fixes. This feature doesn't break the existing code where it is being used. This release is called <code>Minor Release</code>. In this case the middle digit of the version number is incremented.</p>
+
+<h3>Major Release</h3>
+<p>When there is a new feature or functionality, or bug fixes that might break the code where it is being used is called Major Release. For this case the first digit of the version number is incremented.</p>
+
+
+
+<h1>Specify Release an Version Limit</h1>
+<p>Let's say you have a package with some dependencies. Now if your dependencies updates, it might impact your package or module. For example, one of your dependencies has a major release that might break your code. To solve this you can specify what version your package can accept. You can specify which update types your package can accept from dependencies in your package’s <code>package.json</code> file.</p>
+<h3>Patch Release</h3>
+<p>To limit patch releases you can use one of the following formats -</p>
+<pre>
+1.0
+1.0.x
+~1.0.4
+</pre>
+<p>In the first format of the version, there is no third digit. It means your package can accept any patch releases.</p>
+<p>In the second format we have used <code>x</code> in place of third digit. It alos means your package can accept any patch releases.</p>
+<p>In the third format we have used a tide symbol <code>~</code> in front of the version, it means it can accepts any patch releases which greater than or equals to the version <code>1.0.4</code>. If the version is less than <code>1.0.4</code>, your package won't accept the updates.</p>
+<h3>Minor Releases</h3>
+<p>To limit minor releases, you can use one of the following formats-</p>
+<pre>
+1
+1.x
+^1.0.4
+</pre>
+<p>Note that all of the above format can accept any patch releases.</p>
+<p>In the first format, we have only the first digit of the version. It means your package will accept any patch releases and minor releases. But won't accept any major releases.</p>
+<p>In the second format we have used x as the second number of the version. It means the same as the first format.</p>
+<p>In the last format we have used <code>^</code> symbol to limit the version. It will accept any minor releases or patch releases where the version is greater than or equals to <code>1.0.4</code>. However it won't accept any major releases.</p>
+<h3>Major Releases</h3>
+<p>To limit major releases, you can use one of the following formats -</p>
+<pre>
+*
+x
+</pre>
+<p>The both format means same. Your package can accepts any patch releases, minor releases and major releases.</p>
+<h3>Example</h3>
+<pre>
+"dependencies": {
+  "my_dep": "^1.0.0",
+  "another_dep": "~2.2.0"
+},
+</pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

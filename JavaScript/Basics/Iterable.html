@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Iterable</title>
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+	<script type="text/javascript" src="../../Assets/prism.min.js"></script>
+	<script type="text/javascript" src="../../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+
+
+
+
+<h1>Iterable</h1>
+<p>In JS Array and Strings are iterable. It means you can loop over in a <code>for...of</code> loop. But Object is not iterable. Trying to iterate an object within a <code>for...of</code> loop will give you an error.</p>
+<pre>
+var obj = {
+  'name' : "Santanu",
+  'location' : "Kolkata"
+};
+for(var key of obj){
+  alert(key);
+}
+</pre>
+<p>The above code will give you an Error : Object is not iterable. And that's why there is a special <code>for...in</code> construct only suited for Objects. But what if you want to make an object iterable. That's possible too.</p>
+
+
+
+
+
+<h1>Symbol.iterator</h1>
+<p>Consider the following example -</p>
+<pre>
+let range = {
+  from: 1,
+  to: 5
+};
+
+// We want the for..of to work:
+// for(let num of range) ... num=1,2,3,4,5
+</pre>
+<p>To make the range iterable (and thus let <code>for..of</code> work) we need to add a method to the object named <code>Symbol.iterator</code> (a special built-in symbol just for that).</p>
+<ul>
+	<li>When <code>for..of</code> starts, it calls that method once (or errors if not found). The method must return an iterator – an object with the method <code>next</code>.</li>
+	<li>Onward, <code>for..of</code> works only with that returned object.</li>
+	<li>When <code>for..of</code> wants the next value, it calls <code>next()</code> on that object.</li>
+	<li>The result of <code>next()</code> must have the form <code>{done: Boolean, value: any}</code>, where <code>done==true</code> means that the iteration is finished, otherwise value must be the new value.</li>
+</ul>
+<p>Here’s the full implementation for <code>range</code>:</p>
+<pre>
+let range = {
+  from: 1,
+  to: 5
+};
+
+// 1. call to for..of initially calls this
+range[Symbol.iterator] = function() {
+
+  // ...it returns the iterator object:
+  // 2. Onward, for..of works only with this iterator, asking it for next values
+  return {
+    current: this.from,
+    last: this.to,
+
+    // 3. next() is called on each iteration by the for..of loop
+    next() {
+      // 4. it should return the value as an object {done:.., value :...}
+      if (this.current <= this.last) {
+        return { done: false, value: this.current++ };
+      } else {
+        return { done: true };
+      }
+    }
+  };
+};
+
+// now it works!
+for (let num of range) {
+  alert(num); // 1, then 2, 3, 4, 5
+}
+</pre>
+<p>Please note the core feature of iterables: an important separation of concerns:</p>
+<ul>
+	<li>The <code>range</code> itself does not have the <code>next()</code> method.</li>
+	<li>Instead, another object, a so-called “iterator” is created by the call to <code>range[Symbol.iterator]()</code>, and it handles the whole iteration.</li>
+</ul>
+<p>So, the iterator object is separate from the object it iterates over. Technically, we may merge them and use range itself as the iterator to make the code simpler.</p>
+<pre>
+let range = {
+  from: 1,
+  to: 5,
+
+  [Symbol.iterator]() {
+    this.current = this.from;
+    return this;
+  },
+
+  next() {
+    if (this.current <= this.to) {
+      return { done: false, value: this.current++ };
+    } else {
+      return { done: true };
+    }
+  }
+};
+
+for (let num of range) {
+  alert(num); // 1, then 2, 3, 4, 5
+}
+</pre>
+<p>Now <code>range[Symbol.iterator]()</code> returns the <code>range</code> object itself: it has the necessary <code>next()</code> method and remembers the current iteration progress in <code>this.current</code>.</p>
+
+
+
+
+
+
+
+
+
+
+<h1>String is Iterable</h1>
+<p>Arrays and strings are most widely used built-in iterables. For a string, for..of loops over its characters:</p>
+<pre>
+for (let char of "test") {
+  // triggers 4 times: once for each character
+  alert( char ); // t, then e, then s, then t
+}
+</pre>
+
+
+
+
+
+
+
+<h1>Calling an iterator explicitly</h1>
+<p>Normally, internals of iterables are hidden from the external code. There’s a <code>for..of</code> loop, that works, that’s all it needs to know. But to understand things a little bit deeper let’s see how to create an iterator explicitly. We’ll iterate over a string the same way as <code>for..of</code>, but with direct calls. This code gets a string iterator and calls it “manually”:</p>
+<pre>
+let str = "Hello";
+
+// does the same as
+// for (let char of str) alert(char);
+
+let iterator = str[Symbol.iterator]();
+
+while (true) {
+  let result = iterator.next();
+  if (result.done) break;
+  alert(result.value); // outputs characters one by one
+}
+</pre>
+<p>That is rarely needed, but gives us more control over the process than for..of. For instance, we can split the iteration process: iterate a bit, then stop, do something else, and then resume later.</p>
+
+
+
+
+
+
+
+
+
+
+<h1>Iterables and Array-Likes</h1>
+<p>There are two official terms that look similar, but are very different. Please make sure you understand them well to avoid the confusion.</p>
+<ul>
+	<li>Iterables are objects that implement the <code>Symbol.iterator</code> method, as described above.</li>
+	<li>Array-likes are objects that have indexes and <code>length</code>, so they look like arrays.</li>
+</ul>
+<p>Naturally, these properties can combine. For instance, strings are both iterable (<code>for..of</code> works on them) and array-like (they have numeric indexes and <code>length</code>).</p>
+<p>But an iterable may be not array-like. And vice versa an array-like may be not iterable. For example, the <code>range</code> in the example above is iterable, but not array-like, because it does not have indexed properties and <code>length</code>.</p>
+<p>And here’s the object that is array-like, but not iterable:</p>
+<pre>
+let arrayLike = { // has indexes and length => array-like
+  0: "Hello",
+  1: "World",
+  length: 2
+};
+
+// Error (no Symbol.iterator)
+for (let item of arrayLike) {}
+</pre>
+<p>What do they have in common? Both iterables and array-likes are usually not arrays, they don’t have <code>push</code>, <code>pop</code> etc. That’s rather inconvenient if we have such an object and want to work with it as with an array.</p>
+
+
+
+
+
+
+
+
+
+
+<h1>Array.from</h1>
+<p>There’s a universal method <code>Array.from</code> that brings them together. It takes an iterable or array-like value and makes a “real” Array from it. Then we can call array methods on it.</p>
+<pre>
+let arrayLike = {
+  0: "Hello",
+  1: "World",
+  length: 2
+};
+
+let arr = Array.from(arrayLike); // (*)
+alert(arr.pop()); // World (method works)
+</pre>
+<p>The same happens for an iterable object -</p>
+<pre>
+// assuming that range is taken from the example above
+let arr = Array.from(range);
+alert(arr); // 1,2,3,4,5 (array toString conversion works)
+</pre>
+<p>The full syntax for <code>Array.from</code> allows to provide an optional “mapping” function:</p>
+<pre>
+Array.from(obj[, mapFn, thisArg])
+</pre>
+<p>The second argument <code>mapFn</code> should be the function to apply to each element before adding to the array, and <code>thisArg</code> allows to set this for it. For example -</p>
+<pre>
+// assuming that range is taken from the example above
+
+// square each number
+let arr = Array.from(range, num => num * num);
+
+alert(arr); // 1,4,9,16,25
+</pre>
+<p>Here we use <code>Array.from</code> to turn a string into an array of characters:</p>
+<pre>
+let str = '𝒳😂';
+
+// splits str into array of characters
+let chars = Array.from(str);
+
+// Same as str.split("");
+
+alert(chars[0]); // 𝒳
+alert(chars[1]); // 😂
+alert(chars.length); // 2
+</pre>
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

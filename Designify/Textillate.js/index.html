@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script type="text/javascript" src="jquery.fittext.js"></script>
+<script type="text/javascript" src="jquery.lettering.js"></script>
+<script type="text/javascript" src="jquery.textillate.js"></script>
+<link rel="stylesheet" type="text/css" href="animate.css">
+<style type="text/css">
+#Main{
+	margin:auto;
+	width: 80%;
+}
+</style>
+<script type="text/javascript">
+$(document).ready(function(){
+	$('.tlt').textillate({
+		loop:true,
+		minDisplayTime : 100,
+		in : {
+			effect : 'fadeIn'
+		},
+		out : {
+			effect : 'fadeOut',
+			delayScale : 5.5
+		},
+	});
+});
+</script>
+	<title>Textillate</title>
+</head>
+<body>
+<div>
+<div style="height: 1	00px; width: 80%; margin:auto; display: flex; justify-content: center; background-color: #ddd;">
+	<h1 class="tlt">My Title</h1>
+</div>
+</div>
+<div id="Main">
+<h1>How To Use Textillate.js</h1>
+<h3>Dependencies</h3>
+<p>jQuery, lettering.js and animate.css</p>
+<h3>Mark Up</h3>
+<pre>
+&lt;h1 class="tlt">My Title&lt;/h1>
+</pre>
+<h3>Initialization</h3>
+<p>When the DOM is ready - </p>
+<pre>
+$('.tlt').textillate();
+</pre>
+<p>This will initialize with the default options - </p>
+<h3>Attributes</h3>
+<p><code>data-in-effect</code> - This will take the value as the keyframe name for in animation</p>
+<p><code>data-out-effect</code> - This will take the value as the keyframe name for out animation</p>
+<p><code>data-in-shuffle</code> - Boolean. True value specifies that the animation will happen on shuffling order of the letters for in animation. Non in sequence.</p>
+<p><code>data-out-shuffle</code> - Boolean. True value specifies that the animation will happen on shuffling order of the letters for out animation. Not in sequence.</p>
+<h3>Options</h3>
+<h4>in</h4>
+<p>Instead of using data-in-effect attribute we can also specify the keyframe using option -</p>
+<pre>
+// in animation settings
+$('.tlt').textillate({ 
+	in: { effect: 'rollIn' } 
+});
+
+in: {
+// set the effect name
+effect: 'fadeInLeftBig',
+
+// set the delay factor applied to each consecutive character
+delayScale: 1.5,
+
+// set the delay between each character
+delay: 50,
+
+// set to true to animate all the characters at the same time
+sync: false,
+
+// randomize the character sequence
+// (note that shuffle doesn't make sense with sync = true)
+shuffle: false,
+
+// reverse the character sequence
+// (note that reverse doesn't make sense with sync = true)
+reverse: false,
+
+// callback that executes once the animation has finished
+callback: function () {}
+},
+</pre>
+<h4>out</h4>
+<pre>
+// out animation settings.
+out: {
+	effect: 'hinge',
+	delayScale: 1.5,
+	delay: 50,
+	sync: false,
+	shuffle: false,
+	reverse: false,
+	callback: function () {}
+},
+</pre>
+<h4>selector</h4>
+<p>The default selector to use when detecting multiple texts to animate</p>
+<code>selector: '.texts'</code>
+<h4>minDisplayTime</h4>
+<p>sets the minimum display time for each text before it is replaced. Delay between in and out animation.</p>
+<code>minDisplayTime: 2000</code>
+<h4>loop</h4>
+<p>Boolean. This will enable looping when it's true. It means the animation will start over after it has finished. And it will continue this way.</p>
+<code>loop:true</code>
+<h4>autoStart</h4>
+<p>Boolean. When it sets to true, the animatio will start automatically on page load.</p>
+<code>autoStart : true</code>
+<h4>callback</h4>
+<pre>
+Callback that executes once textillate has finished
+callback: function () {},
+</pre>
+<h4>type</h4>
+<pre>
+Set the type of token to animate (available types: 'char' and 'word')
+</pre>
+<h3>Events</h3>
+Textillate triggers the following events:
+<ul>
+	<li>start.tlt - triggered when textillate starts</li>
+	<li>inAnimationBegin.tlt - triggered when the in animation begins</li>
+	<li>inAnimationEnd.tlt - triggered when the in animation ends</li>
+	<li>outAnimationBegin.tlt - triggered when the out animation begins</li>
+	<li>outAnimationEnd.tlt - triggered when the in animation ends</li>
+	<li>end.tlt - triggered when textillate ends</li>
+</ul>
+<pre>
+	$('.tlt').on('inAnimationBegin.tlt', function () {
+	  // do something
+	});
+</pre>
+<h3>Methods</h3>
+<ul>
+	<li>$element.textillate('start') - Manually start/restart textillate</li>
+	<li>$element.textillate('stop') - Manually pause/stop textillate</li>
+	<li>$element.textillate('in') - Trigger the current text's in animation</li>
+	<li>$element.textillate('out') - Trigger the current text's out animation</li>
+</ul>
+</div>
+</body>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Implicitily Animated Widgets</title>
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+	<script type="text/javascript" src="../../Assets/prism.min.js"></script>
+	<script type="text/javascript" src="../../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+
+
+<h1>TweenAnimationBuilder</h1>
+<p>This widget is derived from <code>ImplicitilyAnimatedWidget</code>. This widget animates a property of a Widget to a target value whenever the target value changes.</p>
+<pre>
+const TweenAnimationBuilder&lt;T>({
+	Key key,
+	@required Tween&lt;T> tween,
+	@required Duration duration,
+	Curve curve: Curves.linear,
+	@required ValueWidgetBuilder&lt;T> builder, 
+	VoidCallback onEnd,
+	Widget child
+})
+</pre>
+<p>It has three required property. The property <code>Tween</code> specifies the animation tween. The property <code>duration</code> must be used to provide the animation duration. And then <code>builder</code> property which takes a callback.</p>
+<p>When animation begins, the <code>builder</code> callback is called with each value changed, and updates the UI. The <code>builder</code> callback is called with three parameters. These are  <code>context</code>, <code>currentValue</code> and <code>child</code> resepectively. Here is an example:</p>
+<pre>
+@override
+Widget build(BuildContext context) {
+  return TweenAnimationBuilder(
+    tween: Tween&lt;double>(begin: 0, end: targetValue),
+    duration: Duration(seconds: 1),
+    builder: (BuildContext context, double size, Widget child) {
+      return IconButton(
+        iconSize: size,
+        color: Colors.blue,
+        icon: child,
+        onPressed: () {
+          setState(() {
+            targetValue = targetValue == 24.0 ? 48.0 : 24.0;
+          });
+        },
+      );
+    },
+    child: Icon(Icons.aspect_ratio),
+  );
+}
+</pre>
+<p>You can provide any type of animation tween you want, like <code>ColorTween</code>, <code>RectTween</code>, <code>DecorationTween</code>, <code>Tween&lt;T></code> etc.</p>
+<p>When the widget is built for the first time, it animates from <code>begin</code> to <code>end</code>. A new animation can be triggered anytime by providing a new tween with a new <code>targetValue</code> value. When you change the <code>targetValue</code> dynamically, the animation runs from current animation value to the new <code>targetValue</code>.</p>
+<p>The animation is further customized by providing a <code>curve</code> and <code>duration</code>.</p>
+<p>A provided <code>onEnd</code> callback is called whenever an animation completes. Registering an <code>onEnd</code> callback my be useful to trigger an action (like another animation) at the end of the current animation.</p>
+
+<p>If your <code>builder</code> function contains a subtree that does not depend on the animation value, it's more efficient to build that subtree once instead of rebuilding it on every animation tick. If you pass the pre-built subtree as the <code>child</code> parameter, the widget will pass it back to your <code>builder</code> function so that you can incorporate it into your build.</p>
+<p>Using this pre-built child is entirely optional, but can improve performance significantly in some cases and is therefore a good practice.</p>
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

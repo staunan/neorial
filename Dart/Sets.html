@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Sets</title>
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+	<script type="text/javascript" src="../Assets/prism.min.js"></script>
+	<script type="text/javascript" src="../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+
+<h1>Sets</h1>
+<p>A set is an unordered collection of unique items. Unlike List, Sets doesn't suppoert duplicate values. All the elements are unique.</p>
+<p>You can create a set using curly brackets. Here is an example,</p>
+<pre>
+var fruits = {'Mango', 'Apple', 'Banana'};
+</pre>
+<p>In the above sets we have three elements. Dart automatically detects the type of the element of the Sets and automatically treat the set as appropritate type. For example in the above case, the set <code>fruits</code> has type <code>Set&lt;String></code>. Now if you try to insert value which is not string, it will result an error.</p>
+
+<h1>How to create Empty Set?</h1>
+<p>To create a empty set, you need to use the following syntax</p>
+<pre>
+var names = &lt;String>{};
+
+// or,
+
+Set&lt;String> names = {};
+</pre>
+<p>It means you need to specify the Sets type. Otherwise you can never create an empty set, because the following code creates an empty map not an empty set.</p>
+<pre>
+var names = {}; // Creates a map, not a set
+</pre>
+<p>The reason is, the syntax of a Set and a Map is similar. In both cases, we need to use curly brackets to create them. So by default is set to map. So the empty curly brackets means an empty map. To specify that you are creating empty set, just add the type of data that you are going to use in later time within the set.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

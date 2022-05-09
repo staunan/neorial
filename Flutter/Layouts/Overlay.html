@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Overlay in Flutter</title>
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+	<script type="text/javascript" src="../../Assets/prism.min.js"></script>
+	<script type="text/javascript" src="../../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+<h1>Overlay Widget</h1>
+<p>Before we jump into the Overlay widget, lets talk about how <code>MaterialApp</code> works.</p>
+<p>We have wrapped our entire application within the widget <code>MaterialApp</code>. The <code>MaterialApp</code> widget has a <code>Navigator</code> widget. <code>Navigator</code> widget creates a <code>Overlay</code> widget. So your application is already using an <code>Overlay</code> widget by default which is used by <code>Navigator</code> widget. The <code>Navigator</code> widget uses <code>Overlay</code> to display the routes(pages) on top of each other. That means when you go to a new page, the new page actually floats on top of the previous page. This way the multiple pages actually floats on top of each other. You cannot notice it as they are all forced to be fullscreen. When you pop a page, and go back to previous page, the topmost page from the <code>Overlay</code> widget gets removed.</p>
+
+<p><code>Overlay</code> widget uses <code>Stack</code> widget to draw the pages. Each children widget of the <code>Overlay</code> widget is called overlay entry and it is represented by the class <code>OverlayEntry</code>. As <code>Overlay</code> widget uses <code>Stack</code>, we can have a positioned item within the stack which will float on top of every pages. This way we can create a snackbar or a notification message that will float on the top of the screen.</p>
+
+<p>With the help of <code>Overlay</code> widget we can add an entry which will float on the page on top of everything else. To insert an overlay entry to <code>Overlay</code> widget, first we need to get the <code>Overlay</code> widget from our current code. Use the following code to get access to the <code>Overlay</code> widget:</p>
+<pre>
+Overlay.of(context);
+</pre>
+<p>Overlay is an inherited widget, that's why you need to use <code>of</code> method to access the widget. The <code>of</code> method returns the state of the <code>Overlay</code> widget which is <code>OverlayState</code>.</p>
+<pre>
+OverlayState overlayState = Overlay.of(context);
+</pre>
+
+
+<h3>OverlayEntry</h3>
+<p>The overlay state has <code>insert</code> method that takes <code>OverlayEntry</code> as the first parameter which will be used to insert the widget. But first lets create the <code>OverlayEntry</code> widget. The <code>OverlayEntry</code> has <code>builder</code> parameter which should return the positioned widget.</p>
+<pre>
+OverlayEntry floatItem = OverlayEntry(
+  builder: (context){
+    return Positioned(
+      top: 100,
+      left: 100,
+      width: 100,
+      height: 100,
+      child: Card(
+        child: Center(
+          child: GestureDetector(
+            onTap: (){
+              print("Click on Float");
+            },
+            child: Icon(Icons.favorite, color: Colors.red),
+          ),
+        ),
+      ),
+    );
+  }
+);
+</pre>
+<p>Note that the position of the above <code>Positioned</code> element is calculated from top left corner of the screen. Because the <code>Overlay</code> widget covers the entire screen.</p>
+
+
+<h3>Inserting OverlayEntry</h3>
+<p>Now we can insert the widget into the Overlay widget using the <code>insert</code> method of <code>OverlayState</code> class:</p>
+<pre>
+overlayState.insert(floatItem);
+</pre>
+<p>When you call the <code>insert</code> method using <code>OverlayState</code> object, it adds the specified <code>OverlayEntry</code> widget into the <code>Overlay</code> widget as the last child and also adds an reference of the <code>Overlay</code> widget to the passed <code>OverlayEntry</code> widget in a private variable <code>_overlay</code>. So every <code>OverlayEntry</code> widget has a reference that points to its container <code>Overlay</code>.</p>
+
+<h3>Removing OverlayEntry</h3>
+<p>To remove the overlay entry from the <code>Overlay</code> widget, call <code>remove</code> method on <code>OverlayEntry</code> widget.</p>
+<pre>
+floatItem.remove();
+</pre>
+<p>The <code>remove</code> method gets its conainer widget <code>Overlay</code> from the private variable <code>_overlay</code> and removes itself from that container <code>Overlay</code> widget.</p>
+
+
+<h3>Full Example</h3>
+<pre>
+class Demo extends StatefulWidget{
+  @override
+  _DemoState createState()=> _DemoState();
+}
+class _DemoState extends State&lt;Demo>{
+
+  OverlayState overlayState;
+  OverlayEntry floatItem;
+  bool visible;
+
+  void toggleFloating(){
+    if(visible){
+      floatItem.remove();
+      visible = false;
+    }else{
+      overlayState.insert(floatItem);
+      visible = true;
+    }
+  }
+
+  @override
+  initState(){
+    super.initState();
+
+    visible = false;
+    overlayState = Overlay.of(context);
+    floatItem  = OverlayEntry(
+      builder: (context){
+        return Positioned(
+          top: 100,
+          left: 100,
+          width: 100,
+          height: 100,
+          child: Card(
+            child: Center(
+              child: GestureDetector(
+                onTap: (){
+                  print("Click on Float");
+                },
+                child: Icon(Icons.favorite, color: Colors.red),
+              ),
+            ),
+          ),
+        );
+      }
+    );
+  }
+
+  @override
+  Widget build(BuildContext context){
+    return Container(
+      child: Center(
+        child: GestureDetector(
+          onTap: (){
+            toggleFloating();
+          },
+          child: Icon(Icons.favorite, color: Colors.white70),
+        ),
+      ),
+    );
+  }
+}
+</pre>
+<p>The above code will show the overlay card when you tap on the favorite icon. Tapping again on the icon will remove the widget from its parent container <code>Overlay</code> widget.</p>
+
+<h3>Use global state to declare OverlayEntry variables</h3>
+<p>Now, if you show the the overlay card and go back to previous route, the overlay card <code>floatItem</code> that you have added will not be vanished or removed. As we have gone to the previous page, we have lost the variable <code>floatItem</code>, we never can call <code>remove</code> method to remove this from the <code>Overlay</code> widget. This happens because <code>Navigator</code> doesn't track if an overlay entry gets inserted using <code>OverlayState</code>. Navigator only tracks routes that are added via <code>Navigator.push()</code> methods, as Navigator store its routes in its own private variable <code>_history</code> to manage list of all routes. When you call <code>Navigator.push()</code>, the Navigator adds that route in its private list variable <code>_history</code> and then it adds an overlay entry into the <code>Overlay</code> widget. When you call <code>Navigator.pop()</code>, the Navigator object pops the last item from <code>_history</code> and then the poped item also gets removed from <code>Overlay</code> widget. That leaves all overly entry that are added via <code>OverlayState</code> on the <code>Overlay</code> widget. As all the overlay entries are independent from each other <code>Navigator</code> only removes the route that are popped from <code>_history</code> variable.</p>
+<p>If you are using <code>Overlay</code> widget for displaying a notification toast, the toast widget should be implemented in a way that it should call the <code>remove</code> method after a specific duration. Becuase you can pass the <code>OverlayEntry</code> variable to the toast widget and that toast widget can call <code>remove</code> method using this variable. You can implement the toast in this way. Generally, it's fine for a toast notification to keep showing between page navigation for a specific duration.</p>
+<p>But what if you are implementing a dropdown menu that floats below the widget. In this case you must remove the overlay entry when going to another page or going back to previous page. Otherwise the floated dropdown menu will be displayed on another page. This is awkward. Note that if you remove the overlay entry in <code>dispose</code> method, it will work but not until the transition of the current page finishes.</p>
+<pre>
+@override
+dispose(){
+  if(visible){
+    floatItem.remove();
+  }
+  super.dispose();
+}
+</pre>
+<p>When you go back to previous page, the current page shows closing animation for a specific duration. When the animation is done then the method <code>dispose</code> gets called. So, the overlay entry will still be visible during that time. Awkward again. What's the solution then? We need to make use of <code>RouteObserver</code> and <code>RouteAware</code> to get around with this problem. Generally you need to call <code>remove</code> method from <code>didPushNext</code> and <code>didPop</code> method.</p>
+<pre>
+@override
+void didPushNext(){
+  print("Push Next");
+  toggleFloating();
+}
+
+@override
+void didPop(){
+  print("Pop");
+  toggleFloating();
+}
+</pre>
+<p>To know more go to <a href="../Navigation/RouteObserver.html">RouteObserver</a> page.</p>
+
+
+<h3>Non Positioned OverlayEntry</h3>
+<p>In the above example we have returned a positioned widge from the <code>builder</code> method. What happens if you used a non positioned element? Well, it will force the widget to cover the whole <code>Overlay</code> widget. The following code will not render the SizedBox in specified size, instead the SizedBox will expand to fill its Overflow area.</p>
+<pre>
+floatItem  = OverlayEntry(
+  builder: (context){
+    return SizedBox(
+      width: 100,
+      height: 100,
+      child: DecoratedBox(
+        decoration: BoxDecoration(color: Colors.red),
+        child: Text("Hey"),
+      ),
+    );
+  }
+);
+</pre>
+<p>Even though we have specified a value for <code>width</code> and <code>height</code>, the <code>Overflow</code> widget will force its non positioned widget child to fill the whole screen.</p>
+<p>Non Positional widget is great when you want to show a modal in which the background of the modal covers the whole screen.</p>
+
+
+
+<h3>Why <code>OverlayState</code> doesn't provide a mothod to remove the <code>OverlayEntry</code>?</h3>
+<p>The <code>Overlay</code> widget contains routes that are managed by <code>Navigator</code> widget. If you accidentally remove a route from the Overlay using <code>OverlayState</code> object, that will lead to an unexpected result. That's why the <code>OverlayState</code> didn't provide any method to remove a <code>OverlayEntry</code>. Instead Flutter developer has implemented the <code>remove</code> method on <code>OverlayEntry</code> class, so that a developer can be specific about which overlay entry they want to remove. That's why every <code>OverlayEntry</code> has an <code>_overlay</code> private variable to access the <code>Overlay</code> widget in which they appears. This private variable is the reason for why an <code>OverlayEntry</code> can be at most in one <code>Overlay</code> widget at a time. </p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

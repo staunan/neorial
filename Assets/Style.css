@@ -1,0 +1,137 @@
+.token.tag, .token.boolean, .token.number, .token.constant, .token.symbol{
+  color: #fff !important;
+}
+.tag{
+  background-color:transparent !important;
+}
+body{
+	padding: 50px;
+}
+.Body{
+	background: #eee;
+}
+pre{
+	padding: 20px;
+	font-size: 15px;
+}
+.Card{
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  transition: all .5s;
+  background-color: #fff;
+  padding: 20px;
+  margin-bottom: 1px;
+}
+code{
+	font-size: 14px;
+  white-space: nowrap;
+}
+.Output{
+	width: 50%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 25px;
+	margin:auto;
+	margin-bottom: 20px;
+	margin-top: 20px;
+}
+.Content{
+	padding: 30px;
+}
+p.tip {
+      border-left-color: #f66;
+      padding: 12px 24px 12px 30px;
+      border-left-width: 4px;
+      border-left-style: solid;
+      background-color: #f8f8f8;
+      position: relative;
+      border-bottom-right-radius: 2px;
+      border-top-right-radius: 2px;
+  }
+  p.tip:before{
+      content: "!";
+      background-color: #f66;
+      position: absolute;
+      top: 14px;
+      left: -12px;
+      color: #fff;
+      width: 20px;
+      height: 20px;
+      border-radius: 100%;
+      text-align: center;
+      line-height: 20px;
+      font-weight: bold;
+      font-family: "Dosis", "Source Sans Pro", "Helvetica Neue", Arial, sans-serif;
+      font-size: 14px;
+  }
+  .Red{
+    color: #ff3860;
+  }
+  .Green{
+    color: #12af2f;
+  }
+  .Blue{
+    color: #4366e5;
+  }
+  .Tomato{
+    color: #9c27b0;
+  }
+  .Yellow{
+    color : #ffdd57;
+  }
+
+.vertical-menu {
+width: 200px; /* Set a width if you like */
+}
+
+.vertical-menu a {
+background-color: #eee; /* Grey background color */
+color: black; /* Black text color */
+display: block; /* Make the links appear below each other */
+padding: 12px; /* Add some padding */
+text-decoration: none; /* Remove underline from links */
+}
+
+.vertical-menu a:hover {
+background-color: #ccc; /* Dark grey background on mouse-over */
+}
+
+.vertical-menu a.active {
+background-color: #4CAF50; /* Add a green color to the "active/current" link */
+color: white;
+}
+.Skipping{
+            position: fixed;
+            width: 100px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            background: #fff;
+            top: 10px;
+            right: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+h1, h2, h3, h4{
+  margin: 0;
+  margin-top: 15px;
+}
+h1+p, h2+p, h3+p, h4+p{
+  margin-top: 0;
+}
+.CardDescription{
+  margin-top: 0;
+  margin-bottom: 0;
+}
+.SnippetDemo{
+  width: 80%;
+  margin: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 50px;
+  box-shadow: 0px 14px 80px rgba(34, 35, 58, 0.2);
+  border-radius: 20px;
+  background: #fff;
+}

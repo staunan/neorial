@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Align</title>
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
+	<script type="text/javascript" src="../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+<h1>Center Align Elements</h1>
+<p>To horizontally center a block element (like &lt;div>), use <code>margin: auto;</code> Setting the width of the element will prevent it from stretching out to the edges of its container. The element will then take up the specified width, and the remaining space will be split equally between the two margins. You still can specify <code>margin-top</code> and <code>margin-bottom</code>.</p>
+<p>Note: Center aligning has no effect if the width property is not set (or set to 100%).</p>
+<pre>
+.center {
+    margin: auto;
+    width: 50%;
+    border: 3px solid green;
+    padding: 10px;
+}
+</pre>
+
+
+
+<h1>Center Align Text</h1>
+<p>To just center the text inside an element, use text-align: center;</p>
+<style type="text/css">
+.center {
+    text-align: center;
+    border: 3px solid green;
+}
+</style>
+<pre>
+.center {
+    text-align: center;
+    border: 3px solid green;
+}
+
+&lt;div class="box">
+	&lt;div class="center">Hello World&lt;/div>
+&lt;/div>
+</pre>
+<div class="box">
+	<div class="center">Hello World</div>
+</div>
+
+
+<h1>Center Vertically - Using padding</h1>
+<p>There are many ways to center an element vertically in CSS. A simple solution is to use top and bottom padding:</p>
+<style type="text/css">
+.paddingMiddle {
+    padding: 70px 0;
+    border: 3px solid green;
+}
+</style>
+<pre>
+.paddingMiddle {
+    padding: 70px 0;
+    border: 3px solid green;
+}
+
+&lt;div class="box">
+	&lt;div style="border: 2px solid green;" class="paddingMiddle">
+		Only I can change my life. No one can do it for me.
+	&lt;/div>
+&lt;/div>
+</pre>
+<div class="box">
+	<div style="border: 2px solid green;" class="paddingMiddle">
+		Only I can change my life. No one can do it for me.
+	</div>
+</div>
+
+
+
+
+
+<h1>Center Vertically - Using line-height</h1>
+<p>Another trick is to use the line-height property with a value that is equal to the height property.</p>
+<pre>
+.center {
+    line-height: 200px;
+    height: 200px;
+    border: 3px solid green;
+    text-align: center;
+}
+
+/* If the text has multiple lines, add the following: */
+.center p {
+    line-height: 1.5;
+    display: inline-block;
+    vertical-align: middle;
+}
+</pre>
+<p>Here is an example -</p>
+<pre>
+&lt;div class="box">
+	&lt;div style="border: 2px solid green; height: 100px; text-align: center; line-height: 100px;">
+		Optimism is the faith that leads to achievement. Nothing can be done without hope and confidence.
+	&lt;/div>
+&lt;/div>
+</pre>
+<div class="box">
+	<div style="border: 2px solid green; height: 100px; text-align: center; line-height: 100px;">
+		Optimism is the faith that leads to achievement. Nothing can be done without hope and confidence.
+	</div>
+</div>
+
+
+
+
+
+
+
+<h1>Center Vertically - Using position & transform</h1>
+<p>If padding and line-height are not options, a third solution is to use positioning and the transform property:</p>
+<pre>
+.center { 
+    height: 200px;
+    position: relative;
+    border: 3px solid green; 
+}
+
+.center p {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+</pre>
+<style type="text/css">
+.usingTransform{
+	border: 2px solid green;
+	height: 200px;
+	position: relative;
+}
+.usingTransform p{
+	margin: 0;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+</style>
+<div class="box">
+	<div class="usingTransform">
+		<p>With the new day comes, new strength and new thoughts.</p>
+	</div>
+</div>
+
+
+
+
+
+
+
+
+<h1>vertical-align</h1>
+<p>The vertical-align property in CSS controls how elements set next to each other on a line are lined up.</p>
+<pre>
+img {
+  vertical-align: middle;
+}
+</pre>
+<p>In order for this to work, the elements need to be set along a baseline. As in, inline (e.g. <span>, <img>) or inline-block (e.g. as set by the display property) elements.</p>
+<style type="text/css">
+.middle, .baseline, .top, .bottom{
+	border: 2px solid green;
+	box-sizing: border-box;
+	font-size: 0;
+}
+.one{
+	height: 50px;
+	width: 50px;
+	background: red;
+	display: inline-block;
+	font-size: 15px;
+}
+.two{
+	height: 100px;
+	width: 100px;
+	background: yellow;
+	display: inline-block;
+	font-size: 15px;
+}
+.three{
+	height: 50px;
+	width: 50px;
+	background: green;
+	display: inline-block;
+	font-size: 15px;
+}
+.middle div{
+	vertical-align: middle;
+}
+.baseline div{
+	vertical-align: baseline;
+}
+.top div{
+	vertical-align: top;
+}
+.bottom div{
+	vertical-align: bottom;
+}
+</style>
+<div class="box">
+	<h3>Middle</h3>
+	<div class="middle">
+		<div class="one"></div>
+		<div class="two"></div>
+		<div class="three"></div>
+	</div>
+	<h3>Baseline</h3>
+	<div class="baseline">
+		<div class="one"></div>
+		<div class="two"></div>
+		<div class="three"></div>
+	</div>
+	<h3>Top</h3>
+	<div class="top">
+		<div class="one"></div>
+		<div class="two"></div>
+		<div class="three"></div>
+	</div>
+	<h3>Bottom</h3>
+	<div class="bottom">
+		<div class="one"></div>
+		<div class="two"></div>
+		<div class="three"></div>
+	</div>
+</div>
+
+<p>Other values that you can use are -</p>
+<ul>
+	<li><code>text-top</code> Aligns the top of the element with the top of the parent element's font</li>
+	<li><code>text-bottom</code> Aligns the bottom of the element with the bottom of the parent element's font.</li>
+	<li><code>sub</code> Aligns the baseline of the element with the subscript-baseline of its parent. Like where a &lt;sub> would sit.</li>
+	<li><code>sup</code> Aligns the baseline of the element with the superscript-baseline of its parent. Like where a &lt;sup> would sit.</li>
+	<li><code>length</code> Aligns the baseline of the element at the given length above the baseline of its parent. (e.g. px, %, em, rem, etc.)</li>
+</ul>
+<p>These values are very insignificant as they are used very rarely.</p>
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

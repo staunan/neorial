@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Sweet Alert</title>
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
+	<script type="text/javascript" src="../Assets/jquery.min.js"></script>
+    <link rel="stylesheet" href="../Assets/prism-dark.css">
+    <script type="text/javascript" src="Assets/SweetAlert.js/sweetalert.min.js"></script>
+</head>
+<body class="Body">
+	<div class="Content Card">
+		<h1>SweetAlert.js</h1>
+		<h1>Installation</h1>
+		<pre><code class="language-html">
+			&lt;script type="text/javascript" src="Assets/SweetAlert.js/sweetalert.min.js">&lt;/script>
+		</code></pre>
+		<p>
+			Now play the eacy demo -
+		</p>
+
+
+		<pre><code class="language-javascript">
+			swal("Hello World");
+		</code></pre>
+		<div style="display: flex; justify-content: center;">
+			<a class="button is-primary" onclick="run1()">Run</a>
+		</div>
+
+
+		<pre><code class="language-javascript">
+			swal("Hello World", "This is Our Beautiful World");
+		</code></pre>
+		<div style="display: flex; justify-content: center;">
+			<a class="button is-primary" onclick="run2()">Run</a>
+		</div>
+
+		<pre><code class="language-javascript">
+			swal("Hello World", "This is Our Beautiful World", 'success');
+		</code></pre>
+		<div style="display: flex; justify-content: center;">
+			<a class="button is-success" onclick="run3()">Run</a>
+		</div>
+
+
+		<pre><code class="language-javascript">
+			swal("Hello World", "This is Our Beautiful World", 'warning');
+		</code></pre>
+		<div style="display: flex; justify-content: center;">
+			<a class="button is-warning" onclick="run4()">Run</a>
+		</div>
+
+
+		<pre><code class="language-javascript">
+			swal("Hello World", "This is Our Beautiful World", 'error');
+		</code></pre>
+		<div style="display: flex; justify-content: center;">
+			<a class="button is-danger" onclick="run5()">Run</a>
+		</div>
+
+		<pre><code class="language-javascript">
+			swal("Hello World", "This is Our Beautiful World", 'info');
+		</code></pre>
+		<div style="display: flex; justify-content: center;">
+			<a class="button is-info" onclick="run6()">Run</a>
+		</div>
+		<h1>With Options</h1>
+		<p>
+			All of the above can be done by the following options -
+		</p>
+		<pre><code class="language-javascript">
+			swal({
+			  title: "Good job!",
+			  text: "You clicked the button!",
+			  icon: "success",
+			});
+		</code></pre>
+		<div style="display: flex; justify-content: center;">
+			<a class="button is-info" onclick="run7()">Run</a>
+		</div>
+		<p>
+			With this format, we can specify many more options to customize our alert. For example we can change the text on the confirm button to "Aww yiss!":
+		</p>
+		<pre><code class="language-javascript">
+			swal({
+			  title: "Good job!",
+			  text: "You clicked the button!",
+			  icon: "success",
+			  button : 'Aww yiss!'
+			});
+		</code></pre>
+		<div style="display: flex; justify-content: center;">
+			<a class="button is-info" onclick="run8()">Run</a>
+		</div>
+
+		<h1>Promise</h1>
+		<p>
+			SweetAlert uses promises to keep track of how the user interacts with the alert. If the user clicks the confirm button, the promise resolves to true. If the alert is dismissed (by clicking outside of it), the promise resolves to null.
+		</p>
+		<pre><code class="language-javascript">
+			swal("Click on either the button or outside the modal.")
+			.then((value) => {
+			  swal(`The returned value is: ${value}`);
+			});
+		</code></pre>
+		<div style="display: flex; justify-content: center;">
+			<a class="button is-info" onclick="run9()">Run</a>
+		</div>
+
+
+		<h1>Danger Mode</h1>
+		<p>
+			By setting buttons (plural) to true, SweetAlert will show a cancel button in addition to the default confirm button. By setting dangerMode to true, the focus will automatically be set on the cancel button instead of the confirm button, and the confirm button will be red instead of blue to emphasize the dangerous action.
+		</p>
+		<pre><code class="language-javascript">
+			swal({
+			  title: "Are you sure?",
+			  text: "Once deleted, you will not be able to recover this imaginary file!",
+			  icon: "warning",
+			  buttons: true,
+			  dangerMode: true,
+			})
+			.then((willDelete) => {
+			  if (willDelete) {
+			    swal("Poof! Your imaginary file has been deleted!", {
+			      icon: "success",
+			    });
+			  } else {
+			    swal("Your imaginary file is safe!");
+			  }
+			});
+		</code></pre>
+		<div style="display: flex; justify-content: center;">
+			<a class="button is-info" onclick="run10()">Run</a>
+		</div>
+
+		<h1>Customizing Button</h1>
+		<p>
+			We've already seen how we can set the text on the confirm button using button: "Aww yiss!". If we also want to show and customize the cancel button, we can instead set buttons to an array of strings, where the first value is the cancel button's text and the second one is the confirm button's text:
+		</p>
+		<pre><code class="language-javascript">
+			swal("Are you sure you want to do this?", {
+			  buttons: ["Oh noez!", "Aww yiss!"],
+			});
+		</code></pre>
+		<div style="display: flex; justify-content: center;">
+			<a class="button is-info" onclick="run11()">Run</a>
+		</div>
+		<p>
+			If you want one of the buttons to just have their default text, you can set the value to true instead of a string:
+		</p>
+		<pre><code class="language-javascript">
+			swal("Are you sure you want to do this?", {
+			  buttons: ["Oh noez!", true],
+			});
+		</code></pre>
+
+
+		<h1>Input</h1>
+		<p>
+			Sometimes, you might run into a scenario where it would be nice to use the out-of-the box functionality that SweetAlert offers, but with some custom UI that goes beyond just styling buttons and text. For that, there's the content option.
+		</p>
+		<pre><code class="language-javascript">
+			swal("Write something here:", {
+			  content: "input",
+			})
+			.then((value) => {
+			  swal(`You typed: ${value}`);
+			});
+		</code></pre>
+		<div style="display: flex; justify-content: center;">
+			<a class="button is-info" onclick="run12()">Run</a>
+		</div>
+	</div>
+	<script type="text/javascript">
+		function run12(){
+			swal({
+					title : "Type Something",
+					text : "hello There",
+			  		content: "input",
+			  		buttons : true
+				})
+				.then((value) => {
+					if (value == null) {
+					}
+					else{
+						swal(`You typed: ${value}`);
+					}
+				});
+		}
+		function run11(){
+			swal("Are you sure you want to do this?", {
+			  buttons: ["Oh noez!", "Aww yiss!"],
+			});
+		}
+		function run10(){
+			swal({
+			  title: "Are you sure?",
+			  text: "Once deleted, you will not be able to recover this imaginary file!",
+			  icon: "warning",
+			  buttons: true,
+			  dangerMode: true,
+			})
+			.then((willDelete) => {
+			  if (willDelete) {
+			    swal("Poof! Your imaginary file has been deleted!", {
+			      icon: "success",
+			    });
+			  } else {
+			    swal("Your imaginary file is safe!");
+			  }
+			});
+		}
+		function run9(){
+			swal("Click on either the button or outside the modal.")
+			.then((value) => {
+			  swal(`The returned value is: ${value}`);
+			});
+		}
+		function run8(){
+			swal({
+			  title: "Good job!",
+			  text: "You clicked the button!",
+			  icon: "success",
+			  button : 'Aww yiss!'
+			});
+		}
+		function run7(){
+			swal({
+			  title: "Good job!",
+			  text: "You clicked the button!",
+			  icon: "success",
+			});
+		}
+		function run6(){
+			swal("Hello World", "This is Our Beautiful World", 'info');
+		}
+		function run5(){
+			swal("Hello World", "This is Our Beautiful World", 'error');
+		}
+		function run4(){
+			swal("Hello World", "This is Our Beautiful World", 'warning');
+		}
+		function run3(){
+			swal("Hello World", "This is Our Beautiful World", 'success');
+		}
+		function run1(){
+			swal("Hello World");
+		}
+		function run2(){
+			swal("Hello World", "This is Our Beautiful World");
+		}
+	</script>
+</body>
+</html>
+
+
+
+
+
+

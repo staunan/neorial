@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Get Started</title>
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+	<script type="text/javascript" src="../../Assets/prism.min.js"></script>
+	<script type="text/javascript" src="../../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+<h1>Install Node.js</h1>
+<p>Follow the official website guide to install Node.js.</p>
+
+
+
+
+<h1>Get Version</h1>
+<pre>
+node -v
+</pre>
+<p>If you ever wanted to know what version of Node you are using, run <code>node -v</code> and it will return the Node version installed in your system. There is another way to see version. The <code>version</code> property of the global object <code>process</code> can be used to get the version -</p>
+<pre>
+console.log(process.version)
+</pre>
+
+
+
+
+
+
+<h1>How to run Node.js Code</h1>
+<p>Node is an interpreted language and environment, not a compiled one. There are three main way to launch Node code:</p>
+<ul>
+<li>REPL</li>
+<li>Eval option</li>
+<li>Launching Node code from a file</li>
+</ul>
+<h3>REPL</h3>
+<p>By simply typing <code>node</code> on your console, you will get into REPL Environment. In which you can type node statement and press Enter to exectue that statement. It is called REPL Environment because the statement is evaluated as you type Enter and the output is generated instantly. To get out of this mode press <code>CTRL+C</code>.</p>
+<pre>
+node
+</pre>
+<h3>Eval</h3>
+<pre>
+node -e statement
+</pre>
+<p>You can use <code>-e</code> to execute Node statement. The argument <code>statement</code> is the statement to execute. Note that it must be string. This is useful when you want to check a very small chunk of code and get the output immediately. Here <code>-e</code> stands for eval. So this command actually executes an inline javascript statement right after the node command.</p>
+<pre>
+node -e "console.log('Santanu Bera')"
+> Santanu Bera
+</pre>
+<pre>
+node -e "console.log(new Date())"
+node -e "console.log(process.versions.node)"
+</pre>
+<p>Node eval (-e flag) is useful in npm and bash scripts because it allows you to execute Node in a very compact manner in the bash, zsh or any other shell environment without having to have a Node file. You can get versions, OS information or run any Node code such as working with a file system, database or HTTP.</p>
+<h3>Launching Node Code from a File</h3>
+<p>This is the most common use case because it allows you to save long Node programs and run them. To run a Node.js script from a file, simply type <code>node filename.js</code>.</p>
+<pre>
+node filename.js
+</pre>
+<p>or simply,</p>
+<pre>
+node filename
+</pre>
+<p>For example, to launch code from a program.js file which is located in a current folder, simply execute:</p>
+<pre>
+node program.js
+</pre>
+<p>The file must be in the same folder. If you need to execute code from a file which is in a different folder, just provide the relative or absolute path:</p>
+<pre>
+// Relative Path
+node ./app/server.js
+
+
+// Absolute Path
+node /var/www/app/server.js
+</pre>
+
+
+
+
+
+
+<h1>Node.js Globals</h1>
+<p>Despite being modeled after one standard, Node.js and browser JavaScript differ when it comes to globals. As you might know, in browser JavaScript we have a <code>window</code> object. However, in Node.js, it is absent (obviously we don’t deal with a browser window), but developers are provided with new objects/keywords:</p>
+<ul>
+	<li>process</li>
+	<li>global</li>
+	<li>module.exports and exports</li>
+</ul>
+<p>There is a variable named <code>global</code> which is accessible by any Node script or program. It refers to the global object. This object has properties. For example <code>global.process</code> or <code>global.require</code> or <code>global.console</code>.</p>
+<p>Any first level property of the global object is accessible without the <code>global</code> prefix. For example, <code>global.process</code> and just <code>process</code> will be the same.</p>
+<pre>
+global.process
+
+// same as
+
+process
+</pre>
+<p>There are few properties of <code>global</code> object which is used very often. Some of them are -</p>
+<ul>
+	<li>process</li>
+	<li>require()</li>
+	<li>module and module.exports</li>
+	<li>console and console.log()</li>
+	<li>setTimeout() and setInterval()</li>
+	<li>__dirname and __filename</li>
+</ul>
+<p>As we progress through this tutorial, we will know more about them.</p>
+<h3>GLOBAL</h3>
+<p>The <code>GLOBAL</code> alias for global can be seen in older project but is deprecated. Use <code>global</code> instead of <code>GLOBAL</code>.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

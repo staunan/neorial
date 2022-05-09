@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Image</title>
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
+	<script type="text/javascript" src="../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+<h1>mj-image</h1>
+<p>Displays a responsive image in your email. It is similar to the HTML &lt;img /> tag. Note that if no width is provided, the image will use the parent column width.</p>
+<p>Here is the following attribute you can use on this element -</p>
+<ul>
+	<li>padding</li>
+	<li>padding-top</li>
+	<li>padding-bottom</li>
+	<li>padding-right</li>
+	<li>padding-left</li>
+	<li>container-background-color</li>
+	<li>border</li>
+	<li>border-radius</li>
+	<li>width</li>
+	<li>height</li>
+	<li>src</li>
+	<li><code>href</code> The location where it will take the user when clicking on that image.</li>
+	<li>target</li>
+	<li>rel</li>
+	<li>alt</li>
+	<li><code>align</code> Align the image respect of the container. Values are <code>left</code>, <code>center</code>, <code>right</code></li>
+	<li><code>title</code> is the text which is displayed when user pause the mouse over the image.</li>
+	<li>css-class</li>
+</ul>
+<pre>
+&lt;mjml>
+  &lt;mj-body>
+    &lt;mj-section>
+      &lt;mj-column>
+
+        &lt;mj-image 
+          width="300"
+          border="10px solid green"
+          border-radius="50%"
+          width="200px"
+          height="250px"
+          align="left"
+          title="Hello World"
+          href="https://google.com"
+          src="http://www.online-image-editor.com//styles/2014/images/example_image.png" />
+          
+      &lt;/mj-column>
+    &lt;/mj-section>
+  &lt;/mj-body>
+&lt;/mjml>
+</pre>
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Walking the DOM</title>
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
+	<script type="text/javascript" src="../../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+
+<h1>Window and BOM</h1>
+<p>Before walking the DOM let's get familiar with two basic terminology which are <code>window</code> and <code>BOM</code></p>
+
+<h2>Window</h2>
+<p>The window is the <u>browser tab</u> that a web page is loaded into. This is represented in JavaScript by <code>window</code> object.</p>
+<div style="width: 300px;"><img src="../Assets/img/windowObjects.png" style="margin: auto;"></div>
+<p>The window object -</p>
+<ul>
+	<li>First, it is a global object for JavaScript code,</li>
+	<li>Second, it represents the “browser window” and provides methods to control it.</li>
+</ul>
+<pre>
+	function sayHi() {
+		alert("Hello");
+	}
+
+	// global functions are accessible as properties of window
+	window.sayHi();
+</pre>
+
+
+
+<h2>BOM</h2>
+<p><code>Browser Object Model (BOM)</code> are additional objects provided by the browser (host environment) to work with everything except the document. For example, The <code>navigator</code> object provides background information about the browser and the operating system, the <code>location</code> object allows us to read the current URL and can redirect the browser to a new one. For example -</p>
+<pre>
+alert(location.href); // shows current URL
+if (confirm("Go to wikipedia?")) {
+  location.href = "https://wikipedia.org"; // redirect the browser to another URL
+}
+</pre>
+<p>Functions alert/confirm/prompt are also a part of BOM: they are directly not related to the document, but represent pure browser methods of communicating with the user.</p>
+<p style="font-style: italic; font-weight: bold;">In this lesson we will only focus on <code>window</code> object.</p>
+
+
+
+
+
+<h1>Walking the DOM</h1>
+<p>The DOM allows to do anything with elements and their contents, but first we need to reach the corresponding DOM object, get it into a variable, and then we are able to modify it.</p>
+<p>All operations on the DOM start with the <code>document</code> object. From it we can access any node.</p>
+<p>Here’s a picture of links that allow to travel between DOM nodes:</p>
+<img src="../Assets/img/dom-links.png">
+<p>Let’s discuss them in more detail.</p>
+
+
+
+<h2>document</h2>
+<p>The document (represented by the DOM in browsers) is the actual page loaded into the window, and is represented in JavaScript by the <code>document</code> object. You can use this object to return and manipulate information on the HTML and CSS that comprises the document, for example get a reference to an element in the DOM, change its text content, apply new styles to it, create new elements and add them to the current element as children, or even delete it altogether.<br>The document currently loaded in each one of your browser tabs is represented by a document object model. This is a "tree structure" representation created by the browser that enables the HTML structure to be easily accessed by programming languages.<br>Before we go further we should be familiar with some few terminology. Consider the following example -</p>
+<pre>
+&lt;!DOCTYPE html>
+&lt;html>
+&lt;head>
+  &lt;meta charset="utf-8">
+  &lt;title>Simple DOM example&lt;/title>
+&lt;/head>
+&lt;body>
+    &lt;section>
+      &lt;img src="dinosaur.png">
+      &lt;p>Here we will add a link to the &lt;a href="https://www.mozilla.org/">Mozilla homepage&lt;/a>&lt;/p>
+    &lt;/section>
+&lt;/body>
+&lt;/html>
+</pre>
+
+
+<h2>documentElement and body</h2>
+<p>The topmost tree nodes are available directly as document properties:</p>
+<p>The topmost document node is document.documentElement. That’s DOM node of &lt;html> tag.</p>
+<pre>
+
+	&lt;html> = document.documentElement
+
+</pre>
+<p>Another widely used DOM node is the &lt;body> element – document.body.</p>
+<pre>
+	
+	&lt;body> = document.body
+
+</pre>
+<p>The &lt;head> tag is available as document.head</p>
+<pre>
+	
+	&lt;head> = document.head
+
+</pre>
+<h3>document.body can be <code>null</code></h3>
+<p>A script cannot access an element that doesn’t exist at the moment of running.  particular, if a script is inside &lt;head>, then document.body is unavailable, because the browser did not read it yet. As the <code>head</code> element run before the <code>body</code> element, that's why the <code>body</code> element is not structured in the DOM yet, that's why the time the script is running in the head section, <code>body</code> is not available yet.</p>
+<pre>
+
+	&lt;html>
+
+	&lt;head>
+	  &lt;script>
+	    alert( "From HEAD: " + document.body ); // null, there's no &lt;body> yet
+	  &lt;/script>
+	&lt;/head>
+
+	&lt;body>
+
+	  &lt;script>
+	    alert( "From BODY: " + document.body ); // HTMLBodyElement, now it exists
+	  &lt;/script>
+
+	&lt;/body>
+	&lt;/html>
+
+</pre>
+<p>In the DOM, the null value means “doesn’t exist” or “no such node”.</p>
+
+
+
+
+
+<h2>Children: childNodes, firstChild, lastChild</h2>
+<p>There are two terms that we’ll use from now on:</p>
+<ul>
+	<li>Child nodes (or children) – elements that are direct children. In other words, they are nested exactly in the given one. For instance, &lt;head> and &lt;body> are children of &lt;html> element.</li>
+	<li>Descendants – all elements that are nested in the given one, including children, their children and so on.</li>
+</ul>
+<p>For instance, here &lt;body> has children &lt;div> and &lt;ul> (and few blank text nodes):</p>
+<pre>
+
+	&lt;html>
+	&lt;body>
+	  &lt;div>Begin&lt;/div>
+
+	  &lt;ul>
+	    &lt;li>
+	      &lt;b>Information&lt;/b>
+	    &lt;/li>
+	  &lt;/ul>
+	&lt;/body>
+	&lt;/html>
+
+</pre>
+<p>…And if we ask for all descendants of &lt;body>, then we get direct children &lt;div>, &lt;ul> and also more nested elements like &lt;li> (being a child of &lt;ul>) and &lt;b> (being a child of &lt;li>) – the entire subtree.</p>
+
+<p>The <code>childNodes</code> collection provides access to all direct child nodes(children), including text nodes. The example below shows children of <code>document.body</code>:</p>
+<pre>
+
+	&lt;html>
+	&lt;body>
+	  &lt;div>Begin&lt;/div>
+
+	  &lt;ul>
+	    &lt;li>Information&lt;/li>
+	  &lt;/ul>
+
+	  &lt;div>End&lt;/div>
+
+	  &lt;script>
+	    for (let i = 0; i &lt; document.body.childNodes.length; i++) {
+	      alert( document.body.childNodes[i] ); // Text, DIV, Text, UL, ..., SCRIPT
+	    }
+	  &lt;/script>
+	  ...more stuff...
+	&lt;/body>
+	&lt;/html>
+
+</pre>
+<p>Please note an interesting detail here. If we run the example above, the last element shown is <code>&lt;script></code>. In fact, the document has <code>...more stuff...</code> below, but at the moment of the script execution the browser did not read it yet, so the script doesn’t see it.</p>
+<p><em style="font-weight: 500;">Properties <code>firstChild</code> and <code>lastChild</code> give fast access to the first and last child.</em></p>
+<pre>
+	
+	elem.childNodes[0] === elem.firstChild
+	elem.childNodes[elem.childNodes.length - 1] === elem.lastChild
+
+</pre>
+<p>There’s also a special function <code>elem.hasChildNodes()</code> to check whether there are any child nodes.</p>
+
+
+
+<h2>DOM collections</h2>
+<p>As we can see, childNodes looks like an array. But actually it’s not an array, but rather a collection – a special array-like iterable object.</p>
+<p>There are two important consequences:</p>
+<ul>
+	<li>We can use for..of to iterate over it. That’s because it’s iterable (provides the Symbol.iterator property, as required)</li>
+	<li>Array methods won’t work, because it’s not an array:</li>
+</ul>
+<pre>
+
+	// Iteration
+	for (let node of document.body.childNodes) {
+	  alert(node); // shows all nodes from the collection
+	}
+
+	// Array methods doesn't work
+	alert(document.body.childNodes.filter); // undefined (there's no filter method!)
+
+</pre>
+<p>We can use Array.from to create a “real” array from the collection, if we want array methods:</p>
+<pre>
+	
+	alert( Array.from(document.body.childNodes).filter ); // now it's there
+
+</pre>
+<p>There is few important things you should remember -</p>
+<ul>
+	<li>DOM collections are read-only. We can’t replace a child by something else assigning <code>childNodes[i] = ....</code>. Changing DOM needs other methods, we’ll see them in the next chapter.</li>
+	<li>DOM collections are live. If we keep a reference to <code>elem.childNodes</code>, and add/remove nodes into DOM, then they appear in the collection automatically.</li>
+	<li>Don’t use <code>for..in</code> to loop over collections. The <code>for..in</code> loop iterates over all enumerable properties. And collections have some “extra” rarely used properties that we usually do not want to get:</li>
+</ul>
+
+
+
+
+
+<h2>Siblings and the parent</h2>
+<p>Siblings are nodes that are children of the same parent. For instance, <code>&lt;head></code> and <code>&lt;body></code> are siblings:</p>
+<ul>
+	<li><code>&lt;body></code> is said to be the “next” or “right” sibling of <code>&lt;head></code></head>
+	<li><code>&lt;head></code> is said to be the “previous” or “left” sibling of <code>&lt;body></code></body>
+</ul>
+<p>The parent is available as <code>parentNode</code>.</p>
+<p>The next node in the same parent (next sibling) is <code>nextSibling</code>, and the previous one is <code>previousSibling</code>.</p>
+<pre>
+
+	&lt;html>&lt;head>&lt;/head>&lt;body>&lt;script>
+	  // HTML is "dense" to evade extra "blank" text nodes.
+
+	  // parent of &lt;body> is &lt;html>
+	  alert( document.body.parentNode === document.documentElement ); // true
+
+	  // after &lt;head> goes &lt;body>
+	  alert( document.head.nextSibling ); // HTMLBodyElement
+
+	  // before &lt;body> goes &lt;head>
+	  alert( document.body.previousSibling ); // HTMLHeadElement
+	&lt;/script>&lt;/body>&lt;/html>
+
+</pre>
+
+
+
+
+
+
+<h2>Element-only navigation</h2>
+<p>Properties listed above refer to all nodes. For instance, in childNodes we can see both text nodes, element nodes, and even comment nodes if there exist.</p>
+<p>But for many tasks we don’t want text or comment nodes. We want to manipulate element nodes that represent tags and form the structure of the page.</p>
+<p>So let’s see more navigation links that only take element nodes into account:</p>
+<img src="../Assets/img/dom-links-elements.png">
+<p>This picture is similar to the previous one but just with Element word inside:</p>
+<ul>
+	<li>children – only those children that are element nodes.</li>
+	<li>firstElementChild, lastElementChild – first and last element children.</li>
+	<li>previousElementSibling, nextElementSibling – neighbour elements.</li>
+	<li>parentElement – parent element.</li>
+</ul>
+
+<h3>Why parentElement? Can the parent be not an element?</h3>
+<p>Normally in HTML code, parent elements are always element node. But consider the following example -</p>
+<pre>
+
+	alert( document.documentElement.parentNode ); // document
+	alert( document.documentElement.parentElement ); // null
+
+</pre>
+<p>The <code>parentElement</code> property returns the “element” parent, while <code>parentNode</code> returns “any node” parent. These properties are usually the same: they both get the parent.</p>
+<p>In other words, the documentElement (&lt;html>) is the root node. Formally, it has document as its parent. But document is not an element node, so parentNode returns it and parentElement does not.</p>
+<p>Sometimes that matters when we’re walking over the chain of parents and call a method on each of them, but document doesn’t have it, so we exclude it.</p>
+<p>Let’s modify one of the examples above: replace childNodes with children. Now it shows only elements:</p>
+<pre>
+&lt;html>
+&lt;body>
+  &lt;div>Begin&lt;/div>
+
+  &lt;ul>
+    &lt;li>Information&lt;/li>
+  &lt;/ul>
+
+  &lt;div>End&lt;/div>
+
+  &lt;script>
+    for (let elem of document.body.children) {
+      alert(elem); // DIV, UL, DIV, SCRIPT
+    }
+  &lt;/script>
+  ...
+&lt;/body>
+&lt;/html>
+</pre>
+
+
+
+
+<h2>More links: tables</h2>
+<p>Till now we described the basic navigation properties. Certain types of DOM elements may provide additional properties, specific to their type, for convenience. Tables are a great example and important particular case of that.</p>
+<p>The <code>&lt;table></code> element supports (in addition to the given above) these properties:</p>
+<ul>
+	<li><code>table.rows</code> – the collection of &lt;tr> elements of the table.</li>
+	<li><code>table.caption/tHead/tFoot</code> – references to elements &lt;caption>, &lt;thead>, &lt;tfoot>.</li>
+	<li><code>table.tBodies</code> – the collection of &lt;tbody> elements (can be many according to the standard).</li>
+</ul>
+<p><code>&lt;thead></code>, <code>&lt;tfoot></code>, <code>&lt;tbody></code> elements provide the rows property:</p>
+<ul>
+	<li><code>tbody.rows</code> – the collection of <code>&lt;tr></code> inside.</li>
+</ul>
+<p><code>&lt;tr></code>:</p>
+<ul>
+	<li><code>tr.cells</code> – the collection of &lt;td> and &lt;th> cells inside the given &lt;tr>.</li>
+	<li><code>tr.sectionRowIndex</code> – the position (index) of the given &lt;tr> inside the enclosing &lt;thead>/&lt;tbody>/&lt;tfoot>.</li>
+	<li><code>tr.rowIndex</code> – the number of the &lt;tr> in the table as a whole (including all table rows).</li>
+</ul>
+<p><code>&lt;td></code> and <code>&lt;th></code>:</p>
+<ul>
+	<li><code>td.cellIndex</code> – the number of the cell inside the enclosing &lt;tr>.</li>
+</ul>
+
+<pre>
+&lt;table id="table">
+  &lt;tr>
+    &lt;td>one&lt;/td>&lt;td>two&lt;/td>
+  &lt;/tr>
+  &lt;tr>
+    &lt;td>three&lt;/td>&lt;td>four&lt;/td>
+  &lt;/tr>
+&lt;/table>
+
+&lt;script>
+  // get the content of the first row, second cell
+  alert( table.rows[0].cells[1].innerHTML ) // "two"
+&lt;/script>
+</pre>
+
+
+
+
+
+<h2>document.getElementById or just id</h2>
+<p>If an element has the <code>id</code> attribute, then there’s a global variable by the name from that id. We can use it to access the element, like this:</p>
+<pre>
+
+	&lt;div id="elem">
+	  &lt;div id="elem-content">Element&lt;/div>
+	&lt;/div>
+
+	&lt;script>
+	  alert(elem); // DOM-element with id="elem"
+	  alert(window.elem); // accessing global variable like this also works
+
+	  // for elem-content things are a bit more complex
+	  // that has a dash inside, so it can't be a variable name
+	  alert(window['elem-content']); // ...but accessible using square brackets [...]
+	&lt;/script>
+
+</pre>
+<p>That’s unless we declare the same-named variable by our own:</p>
+<pre>
+
+	&lt;div id="elem">&lt;/div>
+
+	&lt;script>
+	  let elem = 5;
+
+	  alert(elem); // the variable overrides the element
+	&lt;/script>
+
+</pre>
+<p>The id must be unique. There can be only one element in the document with the given id. If there are multiple elements with the same id, then the behavior of corresponding methods is unpredictable. The browser may return any of them at random. So please stick to the rule and keep id unique.</p>
+<p>It is also good to avoid using the id name as a variable name directly. As there might be name conflict. The behavior is described in the specification, but it is supported mainly for compatibility. The browser tries to help us by mixing namespaces of JS and DOM.</p>
+<p>The better alternative is to use a special method document.getElementById(id)</p>
+<pre>
+
+	&lt;div id="elem">
+	  &lt;div id="elem-content">Element&lt;/div>
+	&lt;/div>
+
+	&lt;script>
+	  let elem = document.getElementById('elem');
+
+	  elem.style.background = 'red';
+	&lt;/script>
+
+</pre>
+<p><em style="font-weight: 500;">Only document.getElementById, not anyNode.getElementById</em></p>
+<p>The method getElementById that can be called only on document object. It looks for the given id in the whole document.</p>
+
+
+
+
+<h2>elem.getElementsByTagName(tag)</h2>
+<p><code>elem.getElementsByTagName(tag)</code> looks for elements with the given tag and returns the collection of them. The tag parameter can also be a star "*" for “any tags”.</p>
+<pre>
+
+	// get all divs in the document
+	let divs = document.getElementsByTagName('div');
+
+</pre>
+<p>This method is callable in the context of any DOM element. Consider the following example -</p>
+<pre>
+
+	&lt;table id="table">
+	  &lt;tr>
+	    &lt;td>Your age:&lt;/td>
+
+	    &lt;td>
+	      &lt;label>
+	        &lt;input type="radio" name="age" value="young" checked> less than 18
+	      &lt;/label>
+	      &lt;label>
+	        &lt;input type="radio" name="age" value="mature"> from 18 to 50
+	      &lt;/label>
+	      &lt;label>
+	        &lt;input type="radio" name="age" value="senior"> more than 60
+	      &lt;/label>
+	    &lt;/td>
+	  &lt;/tr>
+	&lt;/table>
+
+	&lt;script>
+		let table = document.getElementById('table');
+		let inputs = table.getElementsByTagName('input');
+
+		for (let input of inputs) {
+			alert( input.value + ': ' + input.checked );
+		}
+	&lt;/script>
+
+</pre>
+<p>In the above example, we are calling <code>getElementsByTagName()</code> on table element. That's very useful because it provides a scope from which you want the elements. So the above methods return only those <code>input</code> elements which are inside of the table. Any input element outside of the table won't be returned.</p>
+<p><em style="font-weight: 500;">Don’t forget the "s" letter!</em></p>
+<p>Novice developers sometimes forget the letter <code>s</code>. That is, they try to call getElementByTagName instead of <code>getElementsByTagName</code>. The <code>s</code> letter is absent in <code>getElementById</code>, because it returns a single element. But <code>getElementsByTagName</code> returns a collection of elements, so there’s <code>s</code> inside.</p>
+<p><em style="font-weight: 500;">It returns a collection, not an element!</em></p>
+<p>Another widespread novice mistake is to write:</p>
+<pre>
+
+	// doesn't work
+	document.getElementsByTagName('input').value = 5;
+
+</pre>
+<p>That won’t work, because it takes a collection of inputs and assigns the value to it rather than to elements inside it. We should either iterate over the collection or get an element by its index, and then assign, like this:</p>
+<pre>
+	
+	// should work (if there's an input)
+	document.getElementsByTagName('input')[0].value = 5;
+
+</pre>
+
+
+
+
+<h2>elem.getElementsByClassName(className)</h2>
+<p><code>elem.getElementsByClassName(className)</code> returns elements that have the given CSS class. Elements may have other classes too.</p>
+<p>Just like above this method is callable in the context of any DOM element.</p>
+
+<pre>
+	
+	let articles = form.getElementsByClassName('article');
+	alert(articles.length); // 2, found two elements with class "article"
+
+</pre>
+
+
+
+
+
+<h2>querySelectorAll</h2>
+<p>The call to <code>elem.querySelectorAll(css)</code> returns all elements inside elem matching the given CSS selector. That’s the most often used and powerful method. Here we look for all <code>&lt;li></code> elements that are last children:</p>
+<pre>
+	
+	&lt;ul>
+	  &lt;li>The&lt;/li>
+	  &lt;li>test&lt;/li>
+	&lt;/ul>
+	&lt;ul>
+	  &lt;li>has&lt;/li>
+	  &lt;li>passed&lt;/li>
+	&lt;/ul>
+	&lt;script>
+	  let elements = document.querySelectorAll('ul > li:last-child');
+
+	  for (let elem of elements) {
+	    alert(elem.innerHTML); // "test", "passed"
+	  }
+	&lt;/script>
+
+</pre>
+<p>This method is indeed powerful, because any CSS selector can be used.</p>
+<p><em style="font-weight: 500;">Can use pseudo-classes as well</em></p>
+<p>Pseudo-classes in the CSS selector like <code>:hover</code> and <code>:active</code> are also supported. For instance, <code>document.querySelectorAll(':hover')</code> will return the collection with elements that the pointer is over now (in nesting order: from the outermost &lt;html> to the most nested one).</p>
+
+
+
+
+
+<h2>querySelector</h2>
+<p>The call to <code>elem.querySelector(css)</code> returns the first element for the given CSS selector.</p>
+<p>In other words, the result is the same as <code>elem.querySelectorAll(css)[0]</code>, but the latter is looking for all elements and picking one, while <code>elem.querySelector</code> just looks for one. So it’s faster and shorter to write.</p>
+
+
+
+
+
+
+
+<h2>matches</h2>
+<p>Previous methods were searching the DOM.</p>
+<p>The <code>elem.matches(css)</code> does not look for anything, it merely checks if <code>elem</code> matches the given CSS-selector. It returns <code>true</code> or <code>false</code>.</p>
+<p>The method comes handy when we are iterating over elements (like in array or something) and trying to filter those that interest us.</p>
+<pre>
+	
+	&lt;a href="http://example.com/file.zip">...&lt;/a>
+	&lt;a href="http://ya.ru">...&lt;/a>
+
+	&lt;script>
+	  // can be any collection instead of document.body.children
+	  for (let elem of document.body.children) {
+	    if (elem.matches('a[href$="zip"]')) {
+	      alert("The archive reference: " + elem.href );
+	    }
+	  }
+	&lt;/script>
+
+</pre>
+
+
+
+
+
+
+
+
+<h2>Closest</h2>
+<p>All elements that are directly above the given one are called its ancestors.</p>
+<p>In other words, ancestors are: parent, the parent of parent, its parent and so on. The ancestors together form the chain of parents from the element to the top.</p>
+<p>The method <code>elem.closest(css)</code> looks the nearest ancestor that matches the CSS-selector. The <code>elem</code> itself is also included in the search.</p>
+<p>In other words, the method closest goes up from the element and checks each of parents. If it matches the selector, then the search stops, and the ancestor is returned.</p>
+<pre>
+	
+	&lt;h1>Contents&lt;/h1>
+
+	&lt;div class="contents">
+	  &lt;ul class="book">
+	    &lt;li class="chapter">Chapter 1&lt;/li>
+	    &lt;li class="chapter">Chapter 1&lt;/li>
+	  &lt;/ul>
+	&lt;/div>
+
+	&lt;script>
+	  let chapter = document.querySelector('.chapter'); // LI
+
+	  alert(chapter.closest('.book')); // UL
+	  alert(chapter.closest('.contents')); // DIV
+
+	  alert(chapter.closest('h1')); // null (because h1 is not an ancestor)
+	&lt;/script>
+
+</pre>
+
+
+
+
+
+
+
+<h2>Live Collection</h2>
+<p>All methods <code>getElementsBy*</code> return a live collection. Such collections always reflect the current state of the document and “auto-update” when it changes.</p>
+<p>In the example below, there are two scripts.</p>
+<ul>
+	<li>The first one creates a reference to the collection of &lt;div>. As of now, it’s length is 1.</li>
+	<li>The second scripts runs after the browser meets one more &lt;div>, so it’s length is 2.</li>
+</ul>
+<pre>
+	
+	&lt;div>First div&lt;/div>
+
+	&lt;script>
+	  let divs = document.getElementsByTagName('div');
+	  alert(divs.length); // 1
+	&lt;/script>
+
+	&lt;div>Second div&lt;/div>
+
+	&lt;script>
+	  alert(divs.length); // 2
+	&lt;/script>
+
+</pre>
+<p>In contrast, <code>querySelectorAll</code> returns a static collection. It’s like a fixed array of elements. If we use it instead, then both scripts output 1:</p>
+<pre>
+	
+	&lt;div>First div&lt;/div>
+
+	&lt;script>
+	  let divs = document.querySelectorAll('div');
+	  alert(divs.length); // 1
+	&lt;/script>
+
+	&lt;div>Second div&lt;/div>
+
+	&lt;script>
+	  alert(divs.length); // 1
+	&lt;/script>
+
+</pre>
+<p>Now we can easily see the difference. The static collection did not increase after the appearance of a new <code>div</code> in the document.</p>
+<img src="../Assets/img/liveCollections.jpg">
+
+
+
+
+
+<h2>elemA.contains(elemB)</h2>
+<p>This method returns true if <code>elemA</code> contains <code>elemB</code>. In other words, if the <code>elemB</code> is the descendent of <code>elemA</code>, or if <code>elemA==elemB</code>, then the method returns <code>true</code>, otherwise <code>false</code>. </p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

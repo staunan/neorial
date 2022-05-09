@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>GestureDetector</title>
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+	<script type="text/javascript" src="../../Assets/prism.min.js"></script>
+	<script type="text/javascript" src="../../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+<h1>MouseRegion Widget</h1>
+<p>For mouse movements, you may use the MouseRegion widget. A widget that tracks the movement of mice, even when no button is pressed.</p>
+<p>It does not listen to events that can construct gestures, such as when the pointer is pressed, moved, then released or canceled. For these events, use <code>Listener</code>, or more preferably, <code>GestureDetector</code>. When you want to detect for wheel scrolling events, you may use the <code>Listener</code> widget</p>
+<p>If it has a child, this widget defers to the child for sizing behavior. If it does not have a child, it grows to fit the parent instead.</p>
+
+<h2>Properties</h2>
+<h3>onEnter</h3>
+<p>Called when a mouse pointer has entered this widget.</p>
+
+<h3>onExit</h3>
+<p>Called when a mouse pointer has exited this widget when the widget is still mounted.</p>
+
+<h3>onHover</h3>
+<p>Called when a mouse pointer moves within this widget without buttons pressed.</p>
+
+<pre>
+MouseRegion(
+  onEnter: (PointerEnterEvent event) {
+    print('x: ${event.position.dx}, y: ${event.position.dy}');
+  },
+  onHover: (PointerHoverEvent event) {
+    print('x: ${event.position.dx}, y: ${event.position.dy}');
+  },
+  onExit: (PointerExitEvent event) {
+    print('x: ${event.position.dx}, y: ${event.position.dy}');
+  },
+  child: child,
+)
+</pre>
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

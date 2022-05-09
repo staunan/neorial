@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Window Size and Scrolling</title>
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
+	<script type="text/javascript" src="../../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+<h1>Window sizes and scrolling</h1>
+<p>How to find out the width of the browser window? How to get the full height of the document, including the scrolled out part? How to scroll the page using JavaScript?</p>
+<p>From the DOM point of view, the root document element is <code>document.documentElement</code>. That element corresponds to <code>&lt;html></code> and has all the properties described in the previous chapter. For some cases we can use it, but there are additional methods and peculiarities important enough to consider.</p>
+
+
+
+<h1>Width/height of the window</h1>
+<p>Properties clientWidth/clientHeight of document.documentElement is exactly what we want here:</p>
+<img src="../Assets/img/document-client-width-height.png">
+<p><code>document.documentElement.clientWidth</code> and <code>document.documentElement.clientHeight</code> returns the width and height without the scrollbar. It means the space which are available for content. These two properties includes padding though.</p>
+
+
+
+
+<h1>window.innerWidth/window.innerHeight</h1>
+<p>These two properties return width and height including scrollbar.</p>
+<p>In most cases we need the available window width: to draw or position something. That is: inside scrollbars if there are any. So we should use <code>documentElement.clientHeight/Width</code>.</p>
+<pre>
+&lt;button onclick="getDimension()">Click&lt;/button>
+&lt;p style="font-weight: bold;">Output : &lt;/p>
+&lt;p id="output1">&lt;/p>
+
+function getDimension(){
+  var output = document.getElementById("output1");
+	output.innerHTML = "clientWidth = " + document.documentElement.clientWidth+"<br>"+"innerWidth = " + window.innerWidth;
+}
+</pre>
+<div class="box">
+<script type="text/javascript">
+function getDimension(){
+	var output = document.getElementById("output1");
+	output.innerHTML = "clientWidth = " + document.documentElement.clientWidth+"<br>"+"innerWidth = " + window.innerWidth;
+}
+</script>
+<button onclick="getDimension()">Click</button>
+<p style="font-weight: bold;">Output : </p>
+<p id="output1"></p>
+</div>
+
+
+
+
+
+
+<h1>scrollWidth/scrollHeight</h1>
+<p>We already know what scrollWidth and scrollHeight are for element node. It's the same thing for window too. It returns the clientWidth/clientHeight including scrolled out part. It means it returns the full width/height that the content would take without the scroll plus the padding.</p>
+<p>But, there is a problem, again cross-browser issue. In some browsers, if there is no scrollbar, they returns <code>scrollWidth/scrollHeight</code> which are even less than <code>clientWidth/clientHeight</code>. Which are nonsense for regular elements. While other browser returns <code>clientWidth/clientHeight</code> which are equals to <code>scrollWidth/scrollHeight</code>.</p>
+<p>To have a reliable full window size, we should take the maximum of these properties:</p>
+<pre>
+let scrollHeight = Math.max(
+  document.body.scrollHeight, document.documentElement.scrollHeight,
+  document.body.offsetHeight, document.documentElement.offsetHeight,
+  document.body.clientHeight, document.documentElement.clientHeight
+);
+
+alert('Full document height, with scrolled out part: ' + scrollHeight);
+</pre>
+
+
+
+
+
+
+
+
+<h1>srollLeft/scrollTop</h1>
+<p>These two properties are used to measure how much we have scrolled the document. Well that's what we have learnt in the previous chapter.</p>
+<p>Most browsers provide documentElement.scrollLeft/Top for the document scroll, but Chrome/Safari/Opera have bugs  and we should use <code>document.body</code> instead of <code>document.documentElement</code> there.</p>
+
+
+
+
+
+
+<h1>pageYOffset/pageXOffset</h1>
+<p>Using scrollLeft/scrollTop property on document.documentElement for some browsers and on document.body for other browsers are not efficent. Luckily, we don’t have to remember these peculiarities at all, because of the special properties <code>window.pageXOffset/pageYOffset</code>:</p>
+<pre>
+alert('Current scroll from the top: ' + window.pageYOffset);
+alert('Current scroll from the left: ' + window.pageXOffset);
+</pre>
+<p>These are read-only properties.</p>
+
+
+
+<h1>DOCTYPE is important</h1>
+<p>Please note: top-level geometry properties may work a little bit differently when there’s no <!DOCTYPE HTML> in HTML. Odd things are possible. In modern HTML we should always write DOCTYPE. Generally that’s not a JavaScript question, but here it affects JavaScript as well.</p>
+
+
+
+
+<h1>Scrolling: scrollTo, scrollBy, scrollIntoView</h1>
+<p>Regular elements can be scrolled by changing <code>scrollTop/scrollLeft</code>. You can also use this property on <code>document.documentElement</code> in some browsers while <code>document.body</code> in other browsers to scroll the whole page. But it has a cross browser issue again. To solve this we can use the following properties and methods -</p>
+<h3>scrollTo()</h3>
+<p>The method <code>scrollTo(pageX,pageY)</code> scrolls the page relative to the document top-left corner. It’s like setting scrollLeft/scrollTop. The first argument <code>pageX</code> specifies scrollLeft and <code>pageY</code> specifies <code>scrollTop</code>.</p>
+<pre>
+&lt;button onclick="scrollToSpecificPoint()">Scroll To 100px&lt;/button>
+&lt;script type="text/javascript">
+	function scrollToSpecificPoint(){
+		window.scrollTo(0, 100);
+	}
+&lt;/script>
+</pre>
+<div class="box">
+	<button onclick="scrollToSpecificPoint()">Scroll To 100px to Top</button>
+	<script type="text/javascript">
+		function scrollToSpecificPoint(){
+			window.scrollTo(0, 100);
+		}
+	</script>
+</div>
+<p>In the above example, as we don't have horizontal scrollbar, the first argument is 0.</p>
+<p>This method doesn't except negative value.</p>
+
+<h3>scrollBy()</h3>
+<p>The method <code>scrollBy(x,y)</code> scrolls the page relative to its current position. For instance, scrollBy(0,10) scrolls the page 10px down.</p>
+<pre>
+&lt;button onclick="scrollByExample()">Scroll 10px to Top&lt;/button>
+&lt;script type="text/javascript">
+	function scrollByExample(){
+		window.scrollBy(0, 10);
+	}
+&lt;/script>
+</pre>
+<div class="box">
+	<button onclick="scrollByExample()">Scroll by 10px to Top</button>
+	<script type="text/javascript">
+		function scrollByExample(){
+			window.scrollBy(0, 10);
+		}
+	</script>
+</div>
+<p>You can also use negative value to scroll to bottom.</p>
+<pre>
+&lt;button onclick="scrollByExampleNegative()">Scroll 10px to Top&lt;/button>
+&lt;script type="text/javascript">
+	function scrollByExampleNegative(){
+		window.scrollBy(0, -10);
+	}
+&lt;/script>
+</pre>
+<div class="box">
+	<button onclick="scrollByExampleNegative()">Scroll by 10px to Bottom</button>
+	<script type="text/javascript">
+		function scrollByExampleNegative(){
+			window.scrollBy(0, -10);
+		}
+	</script>
+</div>
+<p>You can also provide negative value for the first argument. Positive value means it will scroll to left. And negative value means it will scroll to right.</p>
+
+
+<h3>scrollIntoView()</h3>
+<p>The call to <code>elem.scrollIntoView(top)</code> scrolls the page to make elem visible. It has one argument:</p>
+<ul>
+	<li>if top=true (that’s the default), then the page will be scrolled to make elem appear on the top of the window. The upper edge of the element is aligned with the window top.</li>
+	<li>if top=false, then the page scrolls to make elem appear at the bottom. The bottom edge of the element is aligned with the window bottom.</li>
+</ul>
+<pre>
+&lt;button id="topButton" onclick="scrollIntoViewTop()">Scroll Into View Top&lt;/button>
+&lt;button id="bottomButton" onclick="scrollIntoViewBottom()">Scroll Into View Bottom&lt;/button>
+&lt;script type="text/javascript">
+	function scrollIntoViewBottom(){
+		bottomButton.scrollIntoView(false);
+	}
+	function scrollIntoViewTop(){
+		topButton.scrollIntoView(true);
+	}
+&lt;/script>
+</pre>
+<div class="box">
+	<button id="topButton" onclick="scrollIntoViewTop()">Scroll Into View Top</button>
+	<button id="bottomButton" onclick="scrollIntoViewBottom()">Scroll Into View Bottom</button>
+	<script type="text/javascript">
+		function scrollIntoViewBottom(){
+			bottomButton.scrollIntoView(false);
+		}
+		function scrollIntoViewTop(){
+			topButton.scrollIntoView(true);
+		}
+	</script>
+</div>
+
+
+
+
+
+
+
+
+
+<h1>Forbid the Scrolling</h1>
+<p>Sometimes we need to make the document “unscrollable”. For instance, when we need to cover it with a large message requiring immediate attention, and we want the visitor to interact with that message, not with the document.</p>
+<p>To make the document unscrollable, its enough to set <code>document.body.style.overflow = "hidden"</code>. The page will freeze on its current scroll.</p>
+<div class="box">
+<button id="freeze" onclick="freezeDocument()">Freeze Document</button>
+<button onclick="unfreezeDocument()">Unfreeze Document</button>
+<script type="text/javascript">
+function freezeDocument(){
+	document.body.style.overflow = "hidden";
+}
+function unfreezeDocument(){
+	document.body.style.overflow = "";
+}
+</script>
+</div>
+
+
+
+
+
+
+
+
+
+
+<div style="width: 100%; height: 100vh;"></div>
+</div>
+</body>
+</html>

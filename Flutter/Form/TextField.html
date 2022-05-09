@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>TextField in Flutter</title>
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+	<script type="text/javascript" src="../../Assets/prism.min.js"></script>
+	<script type="text/javascript" src="../../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+<h1>TextField</h1>
+<p>A material design text field.</p>
+<pre>
+TextField()
+</pre>
+<p>This will render a text box in the screen that looks like the following image</p>
+<img src="../../Assets/flutter/1_XbztwSCRr5PCArztwJK4vA.png">
+<p>By default, a text field has a decoration that draws a divider below the text field. </p>
+
+<h3>autocorrect</h3>
+<p>This argument specifies whether to enable autocorrection.</p>
+
+<h3>autofocus</h3>
+<p>To automatically focus on a TextField when the widget is created, set the <code>autofocus</code> field to true.</p>
+<pre>
+TextField(
+  autofocus: true,
+),
+</pre>
+<p>This sets the focus on the TextField by default.</p>
+<img src="../../Assets/flutter/1_ShSZNDQbkpobZGruVYhzcA.gif" style="width: 200px; height: 400px;">
+<p>To know how to manually change the focus on demand, see <a href="FocusNode.html">FocusNode</a>.</p>
+
+<h3>controller</h3>
+<p>This argument specifies a <code>TextEditingController</code> to be attached with the TextField widget. With the help of the controller you can do a lot of things like reading/wring text from/to the TextField. To know how to use controller go to <a href="TextEditingController.html">TextEditingController</a> section.</p>
+
+<h3>cursorColor</h3>
+<p>The color of the cursor can be changed using this property.</p>
+<pre>
+TextField(
+  cursorColor : Colors.green,
+),
+</pre>
+
+<h3>cursorRadius</h3>
+<p>How rounded the corners of the cursor should be.</p>
+
+<h3>cursorWidth</h3>
+<p>How thick the cursor will be.</p>
+<pre>
+TextField(
+  cursorColor: Colors.red,
+  cursorRadius: Radius.circular(16.0),
+  cursorWidth: 16.0,
+),
+</pre>
+<img src="../../Assets/flutter/1_gwmSwLgGkOxDjG6msVz43w.png">
+
+
+<h3>decoration</h3>
+<p>The decoration to show around the text field. To know more see <a href="InputDecoration.html">InputDecoration</a> section.</p>
+
+<h3>enabled</h3>
+<p>If <code>false</code> the text field is "disabled": it ignores taps and its decoration is rendered in grey.</p>
+
+
+<h3>enableInteractiveSelection</h3>
+<p>If <code>true</code>, then long-pressing this TextField will select text and show the cut/copy/paste menu, and tapping will move the text caret. </p>
+
+
+
+<h3>enableSuggestions</h3>
+<p>Whether to show input suggestions as the user types. If <code>true</code>, there will be word suggestions while the user types, if <code>false</code>, the words suggestions will be disabled.</p>
+<pre>
+TextField(
+  enableSuggestions: true,
+),
+</pre>
+
+
+<h3>focusNode</h3>
+<p>This argument is used to attach a <CODE>FocusNode</CODE> to the TextField widget. It helps to gain focus dynamically. Read <a href="FocusNode.html">FocusNode</a> to learn more.</p>
+
+
+<h3>keyboardType</h3>
+<p>The type of keyboard to use for editing the text. Use <code>TextInputType</code> class to use different type of keyboard. This enum class defines the following constants:</p>
+<ul>
+	<li><code>datetime</code>: The keyboard optimized for date and time information.</li>
+	<li><code>emailAddress</code>: Optimize for email addresses.</li>
+	<li><code>multiline</code>: Optimize for multiline textual information.</li>
+	<li><code>number</code>: Optimize for unsigned numerical information without a decimal point. </li>
+	<li><code>phone</code>: Optimize for telephone numbers.</li>
+	<li><code>text</code>: Optimize for textual information.</li>
+	<li><code>url</code>: Optimize for URLs.</li>
+</ul>
+<pre>
+TextField(
+  keyboardType: TextInputType.number,
+),
+</pre>
+
+<h3>maxLength</h3>
+<p>The maximum number of characters (Unicode scalar values) to allow in the text field.</p>
+<pre>
+TextField(
+  maxLength: 4,
+),
+</pre>
+<img src="../../Assets/flutter/1_E0azKpXlxgZT4yVhOzNXYQ.png">
+<p>By setting the <code>maxLength</code> property, a maximum length is enforced and a counter is added by default to the <code>TextField</code>.</p>
+<p>If set, a character counter will be displayed below the field showing how many characters have been entered. If set to a number greater than 0, it will also display the maximum number allowed.</p>
+<p>The user cannot type more than <code>maxLength</code> character. But this behaviour can be changed by setting <code>maxLengthEnforced</code> to <code>false</code>. By default <code>maxLengthEnforced</code> is set to <code>true</code>, means the user cannot type more than maximum length. But if this value is <code>false</code>, then it will enforce the <code>TextField</code> to allow character more than maximum length. If <code>maxLengthEnforced</code> is set to <code>false</code>, then more than <code>maxLength</code> characters may be entered, but the error counter and divider will switch to the <code>decoration.errorStyle</code> when the limit is exceeded.</p>
+
+<p>You can also set maxLength to <code>TextField.noMaxLength</code>. For example,</p>
+<pre>
+TextField(
+  maxLength: TextField.noMaxLength,
+),
+</pre>
+<p>The <code>TextField</code> widget defines a constant <code>noMaxLength</code>, which specifies that there will be no limitation on the number of characters but a counter will be added which indicates how many character has been entered to the TextField. It will be a single counter without having a maximum number of character shown at the trailing part of the counter.</p>
+
+
+<h3>maxLengthEnforced</h3>
+<p>If <code>true</code>, prevents the field from allowing more than <code>maxLength</code> characters.</p>
+
+
+<h3>maxLines</h3>
+<p>The maximum number of lines for the text to span, wrapping if necessary. If this is <code>1</code> (the default), the text will not wrap, but will scroll horizontally instead.</p>
+<p>If this is <code>null</code>, there is no limit to the number of lines, and the text container will start with enough vertical space for one line and automatically grow to accommodate additional lines as they are entered.</p>
+<p>If this is not null, the value must be greater than zero, and it will lock the input to the given number of lines and take up enough horizontal space to accommodate that number of lines. Setting <code>minLines</code> as well allows the input to grow between the indicated range.</p>
+<p>The full set of behaviors possible with <code>minLines</code> and <code>maxLines</code> are as follows. These examples apply equally to <code>TextField</code>, <code>TextFormField</code>, and <code>EditableText</code>.</p>
+<p>Input that occupies a single line and scrolls horizontally as needed.</p>
+<pre>
+TextField()
+</pre>
+<p>Input whose height grows from one line up to as many lines as needed for the text that was entered. If a height limit is imposed by its parent, it will scroll vertically when its height reaches that limit.</p>
+<pre>
+TextField(maxLines: null)
+</pre>
+<p>The input's height is large enough for the given number of lines. If additional lines are entered the input scrolls vertically.</p>
+<pre>
+TextField(maxLines: 2)
+</pre>
+<p>Input whose height grows with content between a min and max. An infinite max is possible with maxLines: null.</p>
+<pre>
+TextField(minLines: 2, maxLines: 4)
+</pre>
+
+
+<h3>minLines</h3>
+<p>The minimum number of lines to occupy when the content spans fewer lines. When <code>maxLines</code> is set as well, the height will grow between the indicated range of lines. When <code>maxLines</code> is null, it will grow as high as needed, starting from <code>minLines</code>.</p>
+
+<h3>obscureText</h3>
+<p>Whether to hide the text being edited (e.g., for passwords). When this is set to <code>true</code>, all the characters in the text field are replaced by U+2022 BULLET characters (•). Defaults to <code>false</code>. Cannot be <code>null</code>.</p>
+<pre>
+TextField(
+  obscureText: true,
+),
+</pre>
+<img src="../../Assets/flutter/1_Pd--PQnL-5XJ7ISK15XtqA.png">
+
+
+
+
+<h3>onChanged</h3>
+<p>Called when the user initiates a change to the TextField's value: when they have inserted or deleted text. This callback doesn't run when the TextField's text is changed programmatically, via the TextField's controller. Typically it isn't necessary to be notified of such changes, since they're initiated by the app itself.</p>
+<pre>
+String value = "";
+TextField(
+  onChanged: (text) {
+    value = text;
+  },
+)
+</pre>
+
+
+
+<h3>onEditingComplete</h3>
+<p>Called when the user submits editable content (e.g., user presses the "done" button on the keyboard).</p>
+
+
+<h3>onSubmitted</h3>
+<p>Called when the user indicates that they are done editing the text in the field.</p>
+
+
+<h3>onTap</h3>
+<p>Called when user taps on the TextField.</p>
+
+
+<h3>readOnly</h3>
+<p>If <code>true</code>, then user won't be able to enter text into the TextField. If <code>false</code>, the TextField goes into editable mode. The text is still selectable.</p>
+
+<h3>style</h3>
+<p>The style to use for the text being edited. Use <code>TextStyle</code> to provide the style.</p>
+<pre>
+TextField(
+  style: TextStyle(color: Colors.red, fontWeight: FontWeight.w300),
+),
+</pre>
+<img src="../../Assets/flutter/1_ds6WjxtHv69xsncVoOF8Fg.png">
+
+
+<h3>textAlign</h3>
+<p>How the text should be aligned horizontally. Use <code>TextAlign</code> class to provide the values. Here are the values you can use:</p>
+<ul>
+	<li><code>center</code>: Align the text in the center of the container.</li>
+	<li><code>end</code>: Align the text on the trailing edge of the container.</li>
+	<li><code>justify</code>: Stretch lines of text that end with a soft line break to fill the width of the container. Lines that end with hard line breaks are aligned towards the start edge.</li>
+	<li><code>left</code>: Align the text on the left edge of the container.</li>
+	<li><code>right</code>: Align the text on the right edge of the container.</li>
+	<li><code>start</code>: Align the text on the leading edge of the container.</li>
+</ul>
+
+
+<h3>textCapitalization</h3>
+<p>Configures how the platform keyboard will select an uppercase or lowercase keyboard. Only supports text keyboards, other keyboard types will ignore this configuration. Use <code>TextCapitalization</code> class to define the values:</p>
+<ul>
+	<li><code>characters</code>: Defaults to an uppercase keyboard for each character.</li>
+	<li><code>none</code>: Defaults to a lowercase keyboard.</li>
+	<li><code>sentences</code>: Defaults to an uppercase keyboard for the first letter of each sentence.</li>
+	<li><code>words</code>: Defaults to an uppercase keyboard for the first letter of each word.</li>
+</ul>
+
+
+
+
+<h3>textInputAction</h3>
+<p>Changing textInputAction of the TextField lets you change the action button of the keyboard itself.</p>
+<p>Defaults to <code>TextInputAction.newline</code> if <code>keyboardType</code> is <code>TextInputType.multiline</code> and <code>TextInputAction.done</code> otherwise.</p>
+<pre>
+TextField(
+  textInputAction: TextInputAction.continueAction,
+),
+</pre>
+<img src="../../Assets/flutter/1_YWTJ0wLBtaBJm8XODCG-6g.png">
+<pre>
+TextField(
+  textInputAction: TextInputAction.send,
+),
+</pre>
+<img src="../../Assets/flutter/1_Lc7TmV5BlSAdE7a9PKeCYw.png">
+<p>To know more about the values available head on to <a target="_blank" href="https://api.flutter.dev/flutter/services/TextInputAction-class.html">TextInputAction</a> doc.</p>
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

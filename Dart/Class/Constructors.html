@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Class</title>
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+
+
+<h1>Constructors</h1>
+<p>In the previous lesson we have learned two type of constructor which is <code>unnamed</code> and <code>named</code> constructor. In this section we will explore other capabilities of the constructors.</p>
+
+
+<h1>Initializer List</h1>
+<p>You can provide a initializer list after the constructor signature. Here is an example:</p>
+<pre>
+class Point {
+  final num x;
+  final num y;
+  final num distanceFromOrigin;
+
+  Point(x, y) : x = x, y = y, distanceFromOrigin = sqrt(x * x + y * y);
+}
+</pre>
+<p>The part after <code>:</code> is called "initializer list. It is a <code>,</code> separated list of expressions that can access constructor parameters and can assign to instance fields, even <code>final</code> instance fields. This is handy to initialize final fields with calculated values.</p>
+
+<p>You can also mix the initialization.</p>
+<pre>
+Point(this.x, this.y) : distanceFromOrigin = sqrt(x * x + y * y);
+
+// Equivalent to
+
+Point(x, y) : distanceFromOrigin = sqrt(x * x + y * y) {
+  this.x = x;
+  this.y = y;
+}
+</pre>
+<p>You can also have a constructor body after the initializer list. The initializer list is executed before the constructor body.</p>
+<pre>
+Point(x, y) : x = x, y = y {
+  this.distanceFromOrigin = sqrt(x * x + y * y);
+}
+</pre>
+<p>Here is another example:</p>
+<pre>
+// Initializer list sets instance variables before
+// the constructor body runs.
+Point.fromJson(Map&lt;String, double> json)
+    : x = json['x'],
+      y = json['y'] {
+  print('In Point.fromJson(): ($x, $y)');
+}
+</pre>
+<p>It is important to note that the initializer list doesn't have access to <code>this</code>. Hence, the following code is invalid:</p>
+<pre>
+// Invalid code 
+
+Point(x, y) : this.x = x, this.y = y {
+  this.distanceFromOrigin = sqrt(x * x + y * y);
+}
+</pre>
+
+
+
+<h3>Calling superclass constructor</h3>
+<p>The initializer list is also used to call other constructors like : ..., super('foo'). Specify the superclass constructor after a colon (:), just before the constructor body (if any). If there are other initialization in the initializer list, the call to superclass constructor must appear at the end of the initializer list, like <code>..., super('foo')</code>.</p>
+<p>Below example demonstrate this:</p>
+<pre>
+class Person {
+  String firstName;
+
+  Person.fromJson(Map data) {
+    print('in Person');
+  }
+}
+
+class Employee extends Person {
+  Employee.fromJson(Map data) : super.fromJson(data) {
+    print('in Employee');
+  }
+}
+
+main() {
+  var emp = new Employee.fromJson({});
+
+  // Prints:
+  // in Person
+  // in Employee
+}
+</pre>
+
+<h3>Using assert()</h3>
+<p>During development, you can validate inputs by using <code>assert</code> in the initializer list.</p>
+<pre>
+Point.withAssert(this.x, this.y) : assert(x >= 0) {
+  print('In Point.withAssert(): ($x, $y)');
+}
+</pre>
+
+
+
+<h3>Redirecting constructors</h3>
+<p>Sometimes a constructor’s only purpose is to redirect to another constructor in the same class. A redirecting constructor’s body is empty, with the constructor call appearing after a colon (:).</p>
+<pre>
+class Point {
+  double x, y;
+
+  // The main constructor for this class.
+  Point(this.x, this.y);
+
+  // Delegates to the main constructor.
+  Point.alongXAxis(double x) : this(x, 0);
+}
+</pre>
+
+
+
+
+
+
+<h1>Factory constructors</h1>
+<p>To create a factory constructor use <code>factory</code> keyword before the constructor. The factory constructor can be unnamed or named. The factory constructor doesn't have access to <code>this</code>.</p>
+<p>Use a factory in situations where you don't necessarily want to return a new instance of the class itself. Use cases:</p>
+<ul>
+  <li>Return an existing instance instead of creating a new instance. Caching Mechanism.</li>
+  <li>Singleton pattern.</li>
+  <li>You want to return a subclass instance instead of the class itself.</li>
+</ul>
+<p>A Dart class may have generative constructors or factory constructors. A generative constructor is a function that always returns a new instance of the class. Because of this, it does not utilize the <code>return</code> keyword.</p>
+<p>The factory constructor need only return an instance that is the same type as the class or that implements its methods (ie satisfies its interface). This could be a new instance of the class, but could also be an existing instance of the class or a new/existing instance of a subclass (which will necessarily have the same methods as the parent). A factory can use control flow to determine what object to return, and must utilize the <code>return</code> keyword.  In order for a factory to return a new class instance, it must first call a generative constructor.</p>
+
+<h3>Example: Caching Mechanism</h3>
+<pre>
+class Logger {
+  final String name;
+  bool mute = false;
+  static final Map&lt;String, Logger> _cache = &lt;String, Logger>{};
+
+  factory Logger(String name) {
+    return _cache.putIfAbsent(name, () => Logger._internal(name));
+  }
+
+  Logger._internal(this.name);
+
+  void log(String msg) {
+    if (!mute) print(msg);
+  }
+}
+</pre>
+
+<p>In the above example we have two constructor, private constructor <code>_internal</code> and unnamed factory constructor <code>Logger</code>. We also have a private static map variable <code>_cache</code>, which stores instances whenever a new object is created.</p>
+<pre>
+Logger log = Logger("UI");
+log.mute = true;
+</pre>
+<p>The above example will call the factory constructor. The factory constructor will check if there's already an instance available with the name <code>UI</code>, if it is found, the existing instance is returned, otherwise it will create a new instance and will return it.</p>
+<pre>
+Logger log2 = Logger("UI"); // Will return the same instance that is stored in log
+print(log2.mute) // true
+log2.mute = false;
+print(log.mute) // false
+assert(log.mute == log2.mute)
+
+Logger log3 = Logger("OtherUI");
+print(log3.mute); // false
+</pre>
+
+
+<h3>Example: Returning Subclass instance</h3>
+<p>The term factory alludes(suggests) to the Factory Pattern, which is all about allowing a constructor to return a subclass instance (instead of a class instance) based on the arguments supplied. A good example of this use case in Dart is the abstract HTML Element class, which defines dozens of named factory constructor functions returning different subclasses. For example, <code>Element.div()</code> and <code>Element.li()</code> return <code>&lt;div></code> and <code>&lt;li></code> elements, respectively. Here is a real example:</p>
+<pre>
+import 'dart:math';
+
+abstract class Shape {
+  num get area;
+}
+
+class Circle implements Shape {
+  final num radius;
+  Circle(this.radius);
+  num get area => pi * pow(radius, 2);
+}
+
+class Square implements Shape {
+  final num side;
+  Square(this.side);
+  num get area => pow(side, 2);
+}
+
+main() {
+  final circle = Circle(2);
+  final square = Square(2);
+  print(circle.area); // 12.566370614359172
+  print(square.area); // 4
+}
+</pre>
+<p>In the above example we are not using any factory constructor. In the main method, we had to create object using classes <code>Circle</code> and <code>Square</code> seperately.</p>
+<p>Now we will use factory constructor to create object from the <code>Shape</code> class directly. Add a factory constructor to the abstract Shape class:</p>
+<pre>
+abstract class Shape {
+  factory Shape(String type) {
+    if (type == 'circle') return Circle(2);
+    if (type == 'square') return Square(2);
+    throw 'Can\'t create $type.';
+  }
+  num get area;
+}
+</pre>
+<p>If the <code>type</code> parameter is other than <code>"circle"</code> or <code>"square"</code>, it will throw an exception. Now you can create object from <code>Shape</code> class instead. And it is more convenient.</p>
+<pre>
+final circle = Shape('circle');
+final square = Shape('square');
+</pre>
+<p>Here is full example:</p>
+<pre>
+import 'dart:math';
+
+abstract class Shape {
+  factory Shape(String type) {
+    if (type == 'circle') return Circle(2);
+    if (type == 'square') return Square(2);
+    throw 'Can\'t create $type.';
+  }
+  num get area;
+}
+
+class Circle implements Shape {
+  final num radius;
+  Circle(this.radius);
+  num get area => pi * pow(radius, 2);
+}
+
+class Square implements Shape {
+  final num side;
+  Square(this.side);
+  num get area => pow(side, 2);
+}
+
+main() {
+  final circle = Shape('circle');
+  final square = Shape('square');
+  print(circle.area); // 12.566370614359172
+  print(square.area); // 4
+}
+</pre>
+
+
+
+<h3>Example: Implementing a Singleton Pattern</h3>
+<p>A singleton is a class that allows only a single instance of itself to be created and gives access to that created instance. It contains static variables that can accommodate unique and private instances of itself. It is used in scenarios when a user wants to restrict instantiation of a class to only one object.</p>
+<p>Singleton Pattern is used to provide global point of access to the object. In terms of practical use Singleton patterns are used in logging, caches, thread pools, configuration settings, device driver objects. Design pattern is often used in conjunction with Factory design pattern.</p>
+<p>A singleton should be used when managing access to a resource which is shared by the entire application, and it would be destructive to potentially have multiple instances of the same class. Making sure that access to shared resources thread safe is one very good example of where this kind of pattern can be vital.</p>
+<p>Here is an following example of how you can acheive Singleton Pattern in Software Design.</p>
+<pre>
+class MyClass {
+  static final MyClass _singleton = new MyClass._internal();
+
+  factory MyClass() {
+    return _singleton;
+  }
+
+  MyClass._internal() {
+    ... // initialization logic here
+  }
+
+  ... // rest of the class
+}
+
+// consuming code
+MyClass myObj = new MyClass(); // get back the singleton
+... 
+// another piece of consuming code
+MyClass myObj = new MyClass(); // still getting back the singleton
+</pre>
+<p>Acheiving Singleton Pattern using dart is fairly easy. Use a static private variable that will store the reference of the instance. And use a factory constructor to return the same instance. So whenever the constructor is called with <code>new</code>, it will always return the same instance which is stored within the static private variable.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

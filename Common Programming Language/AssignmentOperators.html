@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Assignment Operator</title>
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
+	<script type="text/javascript" src="../Assets/jquery.min.js"></script>
+	<link rel="stylesheet" href="../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+
+<h1>Assignment Operator</h1>
+<p>There is only one Assignment Operator which is <code>=</code> sign. It assigns the value of its right side operand to the operand on its left side.</p>
+<pre>
+let a = 30;
+let b;
+b = a;
+console.log(b);       // 30
+</pre>
+<p>The <code>=</code> operator takes the value of <code>a</code> and then assign the value to the variable <code>b</code>. That what all it does. You can use function that returns the value or expression that evaluates to a value and then the assignment operation is done.</p>
+<pre>
+let b = getValue();          // Function Call
+let x = c + d;               // Expression
+</pre>
+<p>Here the returned value from the function <code>getValue()</code> gets assigned to the variable <code>b</code>. And the result of <code>c + d</code> is evaluated first and then the result gets assigned to the variable <code>x</code>.</p>
+<h3>Left Operand must be Variable</h3>
+<p>The only rule is that the first variable cannot be literals. It must be variable. For example the following is wrong -</p>
+<pre>
+30 = 10;
+"Hey" = "Hi";
+</pre>
+<p>However, the followings are correct -</p>
+<pre>
+let a, hey;
+a = 30;
+hey = "hi";
+</pre>
+<h3>Multiple Assignment in One Statement</h3>
+<p>You can use multiple assignment in one statement. In this case, the same value is assigned to all the variable. Here is the syntax -</p>
+<pre>
+variable1 = variable2 = variable3 = value;
+</pre>
+<p>The value is assigned to all three variable <code>variable1</code>, <code>variable2</code> and <code>variable3</code>. So their values become same.</p>
+<h3>Assignment Operator has the lowest priority</h3>
+<p>The assignment operator has the lowest priority. It means expression on the right side is evaluated first and then the assignment operation happens.</p>
+<pre>
+let a = 20;
+let b = 30;
+let c = a + b; // c is 50, not 20
+</pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h1>Compund Assignment Operator</h1>
+<p>Consider the following example -</p>
+<pre>
+let a = 30;
+let b = 45;
+a = a + b;
+</pre>
+<p>Consider the last statement. The statement like this, we do very often in our real life programming. To make the statement concise, most programming language offers Compund Assignment Operator. They looks like this -</p>
+<pre>
+a += b;
+a *= b;
+a -= b;
+a /= b;
+a %= b;
+</pre>
+<p>The above statement are equivalent to the followings -</p>
+<pre>
+a = a + b;
+a = a * b;
+a = a - b;
+a = a / b;
+a = a % b;
+</pre>
+<p>So the Arithment Operators and Assignment Operators together is used to built Compund Assignment Operators. They are kind of shortcut syntax. You can live without these operators but these are good to know. In the above examples we have used only arithmetic operators along with Assignment Operator. But few programming language offers other variation too. Like in PHP -</p>
+<pre>
+$fullName = "Santanu ";
+$lastName = "Bera";
+$fullName .= $lastName;
+
+// Which is equivalent to the following -
+$fullName = $fullName . $lastName; // Dot operator is used for string concatenation.
+</pre>
+<p>So there are different compound operators in different programming language. But their application is same in all programming language.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>ConstrainedBox in Flutter</title>
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+	<script type="text/javascript" src="../../Assets/prism.min.js"></script>
+	<script type="text/javascript" src="../../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+
+
+<h1>BoxConstraints</h1>
+<p>BoxConstraints is used to proved the constraints value to the <code>ConstrainedBox</code> widget.</p>
+<p>You can change a Widget's sizing behaviour beased on the BoxConstraints given to it. You can provide BoxConstraints in <code>ConstrainedBox</code> widget. First lets explore few BoxConstraints that we can use.</p>
+
+<h3>BoxConstraints()</h3>
+<p>Creates box constraints with the given constraints.</p>
+<pre>
+BoxConstraints({
+	double minWidth: 0.0, 
+	double maxWidth: double.infinity, 
+	double minHeight: 0.0, 
+	double maxHeight: double.infinity
+})
+</pre>
+
+<h3>BoxConstraints.expand({double width, double height})</h3>
+<p>Creates box constraints that expand to fill another box constraints.</p>
+<p>If <code>width</code> or <code>height</code> is given, the constraints will require exactly the given value in the given dimension.</p>
+<p>If <code>width</code> and <code>height</code> is not given, then the default value is <code>double.Infinity</code>, means the widget will tries to fill the parent widget.</p>
+
+<h3>BoxConstraints.loose(Size size)</h3>
+<p>Creates box constraints that forbid sizes larger than the given <code>size</code>.</p>
+
+<h3>BoxConstraints.tight(Size size)</h3>
+<p>Creates box constraints that is respected only by the given size.</p>
+
+<p>To explore more see <a href="https://api.flutter.dev/flutter/rendering/BoxConstraints-class.html">BoxConstraints</a> class.</p>
+
+
+
+
+
+
+
+
+
+<h1>ConstrainedBox</h1>
+<p>A widget that imposes additional constraints on its child.</p>
+<p>For example, if you wanted child to have a minimum height of 50.0 logical pixels, you could use const <code>BoxConstraints(minHeight: 50.0)</code>  as the constraints.</p>
+<h2>Properties</h2>
+<h3>constraints</h3>
+<p>Used to provide additional constraints to child.</p>
+
+<h3>child</h3>
+<p>The child widget.</p>
+
+<h2>Example</h2>
+<p>The following example will make the Card widget to fill its parent widget.</p>
+<pre>
+ConstrainedBox(
+  constraints: const BoxConstraints.expand(),
+  child: const Card(child: Text('Hello World!')),
+)
+</pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

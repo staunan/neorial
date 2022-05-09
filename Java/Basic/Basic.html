@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" type="text/css" href="bulma.css">
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<title>Java Basic</title>
+</head>
+<body>
+<div style="width: 80%; margin:auto; margin-top: 50px; margin-bottom: 50px;">
+	<h1>Comment</h1>
+	<hr>
+	<pre>
+		//This is a comment which ends with a new line.
+
+		/* This is a comment
+			Which can be written in multiple lines.
+		*/
+
+		/** This is a Javadoc comment */
+	</pre>
+	<p>
+		We rarely use the last syntax. It is used for generating java documentation for your application. Which we generally don't use it.
+	</p>
+	<h1>Java Data Type and Variable</h1>
+	<hr>
+	<p>
+		Java is a rich set of data type. If you want to declare a variable, you need one of the data type to tell the Java what kind of value the variable can hold. There are two type of data type in Java. One is <code>Primitive Data Type</code> and other is <code>Object Data Type</code>.
+	</p>
+	<h2>Primitive Data Type</h2>
+	<h3>Byte</h3>
+	<ul>
+		<li>Minimum value is -128</li>
+		<li>Maximum value is 127</li>
+		<li>Default is 0</li>
+	</ul>
+	<p><code>byte a=100, b=-35;</code></p>
+	<h3>short</h3>
+	<ul>
+		<li>Minimum value is -32768</li>
+		<li>Maximum value is 32767</li>
+		<li>Default value is 0</li>
+	</ul>
+	<p><code>short s = 10000, short r = -20000;</code></p>
+	<h3>int</h3>
+	<ul>
+		<li>Minimum value is - 2,147,483,648</li>
+		<li>Maximum value is 2,147,483,647</li>
+		<li>Default is 0</li>
+	</ul>
+	<p><code>int a = 100000, int b = -200000;</code></p>
+	<h3>long</h3>
+	<ul>
+		<li>Minimum value is -9,223,372,036,854,775,808</li>
+		<li>Maximum value is 9,223,372,036,854,775,807</li>
+		<li>Default is 0</li>
+	</ul>
+	<p><code>long a = 100000L, long b = -200000L;</code></p>
+	<p>Note that if you are using <code>long</code> data type, while giving the value, the value should be followed by a 'L' or 'l' letter.</p>
+	<h3>float</h3>
+	<ul>
+		<li>Default value is 0.0f</li>
+	</ul>
+	<p><code>float f1 = 234.5f;</code></p>
+	<p>Note that if you are using float data type, the value should be followed by a <code>f</code> letter.</p>
+	<h3>Double</h3>
+	<ul>
+		<li>Default is 0.0d</li>
+	</ul>
+	<p><code>double d1 = 123.4;</code></p>
+	<h3>Boolean</h3>
+	<li>
+		<li>Possible values are <code>true</code> and <code>false</code></li>
+		<li>Default value is <code>false</code></li>
+	</li>
+	<p><code>boolean one = true;</code></p>
+	<h3>char</h3>
+	<ul>
+		<li>Char value is used to store any single character.</li>
+	</ul>
+	<p><code>char letterA = 'A';</code></p>
+	<hr>
+	<p>So, these are the primitive data type. Another data type is Object data type which includes <code>String</code>, <code>Array</code>, <code>Class Object</code> etc. We will discuss them as we progress through the tutorial.</p>
+	<h1>Constant</h1>
+	<hr>
+	<p>With the help of <code>final</code> keyword we can define constant.</p>
+	<p><code>final int a = 25;</code></p>
+	<p><code>final double b = 29.556;</code></p>
+	<p><code>final char charA = 'A';</code></p>
+	<p>The access modifier and <code>static</code> keyword comes before the <code>final</code> keyword. Like this -</p>
+	<p><code> private static final int NUMBER_OF_HOURS_IN_A_DAY = 24;</code></p>
+	<div class="box">
+		It’s very important to realize that when it comes to objects, Java does not support constants as you might expect. If you assign a variable to an object using the final keyword it means the variable will only ever hold the reference to that object.
+
+		It cannot be changed to reference another object. However, it does not mean that the contents of the object cannot change.
+	</div>
+	<h1>Statement Terminator</h1>
+	<p>Each statement in Java must be terminated by a semicolon <code>;</code>. This is very important.</p>
+	<h1>Operators</h1>
+	<hr>
+	<h2>Arithmetic Operator</h2>
+	<ul>
+		<li><code> + (Addition)</code> => Adds two numerical value and returns it.</li>
+		<li><code> - (Subtraction)</code> => Subtract from two value and returns it.</li>
+		<li><code> * (Multiplication)</code> => Multiply two value and returns it.</li>
+		<li><code> / (Division)</code> => Divide one value by the other and returns it.</li>
+		<li><code> % (Modulus)</code> => Returns the reminder.</li>
+		<li><code> ++ (Increament)</code> => Increment the value by 1.</li>
+		<li><code> -- (Decrement)</code> => Decrement the value by 1.</li>
+	</ul>
+	<h2>Relational Operator</h2>
+	<ul>
+		<li><code> == (Equals To)</code> => Returns true if both value are equal, otherwise returns false.</li>
+		<li><code> != (Not Equals To)</code> => Returns true if both value are not equal, if both values are equal, it returns false.</li>
+		<li><code> > (Greter Than)</code> => Returns true if the first value is greater than the second one. Otherwise it returns false.</li>
+		<li><code> < (Less Than)</code> => Returns true if the first value is smaller than the second one. Otherwise it returns true.</li>
+		<li><code> >= (Greater Than Equals To)</code> => Returns true if first value is either larger or equals to the second value. Otherwise it returns false.</li>
+		<li><code> <= (Less Than Equals To)</code> => Returns true if the first value is either smaller or equals to the second value. Otherwise it returns true.</li>
+	</ul>
+	<h2>Logical Operator</h2>
+	<ul>
+		<li><code>&amp;&amp; (And)</code> => Returns true if both the expression or value evaluates to true. Otherwise it returns false.</li>
+		<li><code>|| (OR)</code> => Returns true if either one of them evaluates to true. If both are false, it returns false.</li>
+		<li><code>! (Not)</code> => Returns true if the value evaluates to false. Returns false if the value evaluates to true.</li>
+	</ul>
+	<h2>Conditional Operator</h2>
+	Conditional operator is also known as the ternary operator. This operator consists of three operands and is used to evaluate Boolean expressions. The goal of the operator is to decide, which value should be assigned to the variable. The operator is written as −
+	<p><code>variable x = (expression) ? value if true : value if false;</code></p>
+	<h2>Assignment Operator</h2>
+	<ul>
+		<li><code>= (Simple Assignment Operator)</code> => It assigns the right side value to the left side variable. If the right side is an expression, then the expression is evaluated first and then the value is stored to the variable.</li>
+	</ul>
+	<h1>Conditional Statement</h1>
+	<hr>
+	<h2>If Statement</h2>
+	<pre>
+		if(condition){  
+			//code to be executed  
+		}  
+	</pre>
+	<h2>If-Else Statement</h2>
+	<pre>
+		if(Boolean_expression) {
+		   // Executes when the Boolean expression is true
+		}else {
+		   // Executes when the Boolean expression is false
+		}
+	</pre>
+	<h2>If-Else Ladder</h2>
+	<pre>
+		if(Boolean_expression 1) {
+		   // Executes when the Boolean expression 1 is true
+		}else if(Boolean_expression 2) {
+		   // Executes when the Boolean expression 2 is true
+		}else if(Boolean_expression 3) {
+		   // Executes when the Boolean expression 3 is true
+		}else {
+		   // Executes when the none of the above condition is true.
+		}
+	</pre>
+	<h1>Switch Statement</h1>
+	<hr>
+	<pre>
+		switch(expression) {
+		   case value :
+		      // Statements
+		      break; // optional
+		   
+		   case value :
+		      // Statements
+		      break; // optional
+		   
+		   // You can have any number of case statements.
+		   default : // Optional
+		      // Statements
+		}
+	</pre>
+	<p>Some Rules -</p>
+	<ul>
+		<li>The variable used in a switch statement can only be integers, convertable integers (byte, short, char), strings and enums.</li>
+		<li>The value for a case must be the same data type as the variable in the switch and it must be a constant or a literal.</li>
+		<li>When the variable being switched on is equal to a case, the statements following that case will execute until a break statement is reached.</li>
+		<li>When a break statement is reached, the switch terminates, and the flow of control jumps to the next line following the switch statement.</li>
+		<li>Not every case needs to contain a break. If no break appears, the flow of control will fall through to subsequent cases until a break is reached.</li>
+		<li>A switch statement can have an optional default case, which must appear at the end of the switch. The default case can be used for performing a task when none of the cases is true. No break is needed in the default case.</li>
+	</ul>
+	<p>Example -</p>
+	<pre>
+		public class Test {
+
+		   public static void main(String args[]) {
+		      // char grade = args[0].charAt(0);
+		      char grade = 'C';
+
+		      switch(grade) {
+		         case 'A' :
+		            System.out.println("Excellent!"); 
+		            break;
+		         case 'B' :
+		         case 'C' :
+		            System.out.println("Well done");
+		            break;
+		         case 'D' :
+		            System.out.println("You passed");
+		         case 'F' :
+		            System.out.println("Better try again");
+		            break;
+		         default :
+		            System.out.println("Invalid grade");
+		      }
+		      System.out.println("Your grade is " + grade);
+		   }
+		}
+	</pre>
+	<p>And the output of the above program is -</p>
+	<pre>
+		Well done
+		Your grade is C
+	</pre>
+	<h1>Loop</h1>
+	<hr>
+	<h2>While Loop</h2>
+	<pre>
+		while(Boolean_expression) {
+		   // Statements
+		}
+	</pre>
+	<p>
+		The condition may be any expression, and true is any non zero value.
+	</p>
+	<h2>For Loop</h2>
+	<pre>
+		for(initialization; Boolean_expression; update) {
+		   // Statements
+		}
+	</pre>
+	<p>
+		Example -
+	</p>
+	<pre>
+		for(int x = 10; x < 20; x = x + 1) {
+	    	System.out.print("value of x : " + x );
+	    	System.out.print("\n");
+		}
+	</pre>
+	<p>And here is the output -</p>
+	<pre>
+		value of x : 10
+		value of x : 11
+		value of x : 12
+		value of x : 13
+		value of x : 14
+		value of x : 15
+		value of x : 16
+		value of x : 17
+		value of x : 18
+		value of x : 19
+	</pre>
+	<h2>Do While Loop</h2>
+	<pre>
+		do {
+		   // Statements
+		}while(Boolean_expression);
+	</pre>
+	<p>Notice that the Boolean expression appears at the end of the loop, so the statements in the loop execute once before the Boolean is tested.</p>
+	<p>If the Boolean expression is true, the control jumps back up to do statement, and the statements in the loop execute again. This process repeats until the Boolean expression is false.</p>
+	<div class="box">
+		Notice, the semicolon after the while loop. This is required. Otherwise you will get and error.
+	</div>
+	<p>Example -</p>
+	<pre>
+		public class Test {
+
+	   	public static void main(String args[]) {
+		      int x = 10;
+
+		      do {
+		         System.out.print("value of x : " + x );
+		         x++;
+		         System.out.print("\n");
+		      }while( x < 20 );
+		   }
+		}
+	</pre>
+	<p>And here is the output -</p>
+	<pre>
+		value of x : 10
+		value of x : 11
+		value of x : 12
+		value of x : 13
+		value of x : 14
+		value of x : 15
+		value of x : 16
+		value of x : 17
+		value of x : 18
+		value of x : 19
+	</pre>
+	<h1>Break</h1>
+	<hr>
+	<p>The break statement in Java programming language has the following two usages −</p>
+	<ul>
+		<li>When the break statement is encountered inside a loop, the loop is immediately terminated and the program control resumes at the next statement following the loop.</li>
+		<li>It can be used to terminate a case in the switch statement.</li>
+	</ul>
+	<p>Example -</p>
+	<pre>
+		public class Test {
+
+		public static void main(String args[]) {
+		      int [] numbers = {10, 20, 30, 40, 50};
+
+		      for(int x : numbers ) {
+		         if( x == 30 ) {
+		            break;
+		         }
+		         System.out.print( x );
+		         System.out.print("\n");
+		      }
+		   }
+		}
+	</pre>
+	<p>Output -</p>
+	<pre>
+		10
+		20
+	</pre>
+	<h1>Continue</h1>
+	<hr>
+	<p>The continue keyword can be used in any of the loop control structures. It causes the loop to immediately jump to the next iteration of the loop.</p>
+	<ul>
+		<li>In a for loop, the continue keyword causes control to immediately jump to the update statement.</li>
+		<li>In a while loop or do/while loop, control immediately jumps to the Boolean expression.</li>
+	</ul>
+	<p>So, basically what it does, is that, when the control reaches the <code>continue</code> statement, the rest of the loop body is skipped, but the loop is not terminated. The loop will continue with the next iteration.</p>
+	<p>Example -</p>
+	<pre>
+		public class Test {
+
+		public static void main(String args[]) {
+		      int [] numbers = {10, 20, 30, 40, 50};
+
+		      for(int x : numbers ) {
+		         if( x == 30 ) {
+		            continue;
+		         }
+		         System.out.print( x );
+		         System.out.print("\n");
+		      }
+		   }
+		}
+	</pre>
+	<p>Output -</p>
+	<pre>
+		10
+		20
+		40
+		50
+	</pre>
+	<h1>Output</h1>
+	<hr>
+	<p>To print something in the console while we are testing our program we have two statement to use - </p>
+	<ul>
+		<li><code>System.out.println(argument)</code> => this prints the value of the argument in the console which is followed by a new line. Here, <code>ln</code> at the end of the <code>print</code> statement, stands for <code>New Line.</code></li>
+		<li><code>System.out.print(argument)</code> => this prints the value of the argument in the console but without any new line at the end of the output.</li>
+	</ul>
+	<p>Throughout the tutorial we will use these two statement in many places. Watch !</p>
+</div>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

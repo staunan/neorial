@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Stream</title>
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+	<script type="text/javascript" src="../Assets/prism.min.js"></script>
+	<script type="text/javascript" src="../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+<h1>Stream</h1>
+<p>Asynchronous programming in Dart is characterized by the <code>Future</code> and <code>Stream</code> classes.</p>
+<p><code>Future</code> represents a single value (either an error or data) that it delivers asynchronously. Streams work similarly, but instead of a single thing, a stream can deliver zero or more values and errors over time.</p>
+<p>A stream is a sequence of asynchronous events. It is like an asynchronous Iterable—where, instead of getting the next event when you ask for it, the stream tells you that there is an event when it is ready.</p>
+<p>You can think Stream as a flow of data, where you sink the data on one side into the stream, and the data flows with the stream and available on the other side of the flow. Real application like video streaming or opening a large file uses Stream. For example, when you ask for a video from a Get/Post request, the video doesn't develivered at once, instead a chunk of the video is loaded, and then next chunk of the video data loaded, and it keeps continuing that way until the full video is loaded into the client side. This is called video streaming. Another application of Stream is opening a large file. Instead of getting all the content of the file at once, your code should get data in chunks so that it will be easier to load, and perform other tasks.</p>
+
+
+
+
+
+<h1>Receiving stream events: await for</h1>
+<p>The asynchronous for loop (commonly just called <code>await for</code>) iterates over the events of a stream.</p>
+<pre>
+Future&lt;int> sumStream(Stream&lt;int> stream) async {
+  var sum = 0;
+  await for (var value in stream) {
+    sum += value;
+  }
+  return sum;
+}
+</pre>
+<p>Here in the above example, we have created a function <code>sumStream</code> and it takes a stream object. Through this stream we will keep getting events.</p>
+<p>The function uses <code>await for</code> to iterate over a stream events. When an event arrives, the loop body executes, and then the execution pauses and waits for another event to occur. The <code>await for</code> statements keep iterating its body this way until the stream is done. When the stream is done the loop body ends and the function returns the result.</p>
+<p>The function is marked as <code>async</code> and it is important when you are using <code>await for</code> loop. Because the function doesn't end immediately.</p>
+<p>Here is the full example:</p>
+<pre>
+import 'dart:async';
+
+Future&lt;int> sumStream(Stream&lt;int> stream) async {
+  var sum = 0;
+  await for (var value in stream) {
+    sum += value;
+  }
+  return sum;
+}
+
+Stream&lt;int> countStream(int to) async* {
+  for (int i = 1; i <= to; i++) {
+    yield i;
+  }
+}
+
+main() async {
+  var stream = countStream(10);
+  var sum = await sumStream(stream);
+  print(sum); // 55
+}
+
+</pre>
+<p>The function <code>countStream</code> creates a stream. We will learn how to create stream in next section.</p>
+
+
+<h1>Creating Stream: Using Asynchronous Generator</h1>
+<p>You can creating stream just by defining a function that returns a Stream object. It is also necessary to mark the function body as <code>async*</code>. This is called asynchronous generator.</p>
+<pre>
+Stream&lt;int> countStream(int to) async* {
+  for (int i = 1; i <= to; i++) {
+    yield i;
+  }
+}
+</pre>
+<p>In the above example, we have a function <code>countStream</code> that returns <code>Stream&lt;int></code>. The <code>&lt;int></code> after the Stream specifies that the data from the stream will be of type integer.</p>
+<p>Note that the above function doesn't create the stream yet. It is just a function definition. You need to call this method in order to create the stream.</p>
+<pre>
+var stream = countStream(10);
+</pre>
+<p>The call to <code>countStream</code> function returns a <code>Stream</code> object.</p>
+<p>Another important thing to note that when we create a Stream object, it doesn't start execute the function body immediately until you attach a listener to that stream. In order to stream the events, the stream object must have a listener attached to it. The following statement creates a listener for the stream:</p>
+<pre>
+var sum = await sumStream(stream);
+</pre>
+<p>The statement <code>await for</code> inside <code>sumStream</code> function creates a listener for that stream.The above statement cuases the stream to run the stream function body.</p>
+
+<p>The stream closes automatically when the function <code>countStream</code> terminates.</p>
+
+<h3>yield</h3>
+<p>The yield statement adds the value to the stream. It is like a <code>return</code> statement but it doesn't end the loop or function.</p>
+
+
+
+
+
+
+
+
+<h1>Creating Stream: StreamController</h1>
+<p>Stream using asynchronous generator function is useful when you have a single data source, a single function engouh to handle the single data source. But what if you want to stream the data from different parts of your program and deals with different data source. <code>StreamController</code> class can be used in such situation.</p>
+<pre>
+StreamController&lt;double> controller = StreamController&lt;double>();
+</pre>
+<p>It creates a stream controller that you can use to manage the stream. To access the stream object through controller use the <code>stream</code> property:</p>
+<pre>
+Stream stream = controller.stream;
+</pre>
+
+
+
+
+
+
+<h2>Subscribing to the Stream</h2>
+<p>You can use <code>await for</code> construct to iterate over the stream. There is an alternative way you can attach a listener to the stream. This is called subscribing to the stream. You are allowed to attach only one listener to the stream. Attaching more than one listener to the stream will give you exception.</p>
+<pre>
+stream.listen((value) {
+  print('Value from controller: $value');
+});
+</pre>
+<p>The <code>listen</code> method takes a callback and the callback receives data as the parameter, which is <code>value</code> in the above example. Whenever there is an even ready into the stream, the callback is called.</p>
+<p>The method <code>listen</code> returns <code>StreamSubscription</code> object, which you can store in a variable so that it will be useful to cancel the subscription in later time.</p>
+<pre>
+StreamSubscription&lt;double> streamSubscription = stream.listen((value) {
+  print('Value from controller: $value');
+});
+</pre>
+<p>Here’s the full definition for the <code>listen()</code> method:</p>
+<pre>
+StreamSubscription&lt;T> listen (void onData(T event), {
+    Function onError,
+    void onDone(), // Invoked when the stream is closed
+    bool cancelOnError // Kills the stream when an error occurs
+  }
+);
+</pre>
+<p>The <code>listen</code> method takes a callback as the first and required parameter, and that callback receives event which is the data. But there are few named parameters you can use. For example, to handle error you can provide a callback to <code>onError</code> parameter, and you can also provide a callback to <code>onDone</code> parameter that will be executed when the stream is closed.</p>
+<pre>
+stream.listen((value) {
+    print('Value from controller: $value');
+  },
+  onError: (e) => print(e),
+  onDone: () => print("Finished"),
+);
+</pre>
+
+
+
+
+<h2>Cancel a Subscription</h2>
+<p>To cancel the subscription call <code>cancel</code> method on <code>StreamSubscription</code> object.</p>
+<pre>
+StreamSubscription&lt;double> streamSubscription = stream.listen((value) {
+  print('Value from controller: $value');
+});
+streamSubscription.cancel();
+</pre>
+<p>It is always good practice to cancel the subscription when the stream closes and there will be no event in the stream to listen to.</p>
+
+
+
+
+<h2>Emit / Add a value onto the stream</h2>
+<p>To add a value to the stream you can use <code>add</code> method of controller object.</p>
+<pre>
+controller.add(12);
+</pre>
+<p>The above statement will produce the followin output:</p>
+<pre>
+Value from controller: 12
+</pre>
+
+
+<h2>Sinking Data: EventSink</h2>
+<p>Another alternative way to add data to the stream using the <code>sink</code> property of the StreamController object.</p>
+<pre>
+streamController.sink.add(12);
+</pre>
+<p>The <code>sink</code> property is an object of class <code>EventSink&lt;T></code>.</p>
+
+
+<h1>Error Handling</h1>
+<p>You can provide a callback to <code>listen</code> method with <code>onError</code> parameter to handle error. To handle error in <code>await for</code> construct, use <code>try-catch</code> statement.</p>
+<pre>
+try {
+  await for (var num in stream) {
+    print(num);
+  }
+} catch (e) {
+  print(e);
+}
+</pre>
+<p>When an exception occurs, the <code>await for</code> loop doesn't wait for next event in the stream. The loop terminates.</p>
+<p>Here is an example:</p>
+<pre>
+Stream&lt;int> createNumberStreamWithException(int last) async* {
+  for (int i = 1; i <= last; i++) {
+    if (i == 5) {
+      throw new Exception("Demo exception when accessing 5th number");
+    }
+    yield i; //to be able to send spaced out events
+  }
+}
+
+void handlingExceptionUsingAwaitFor() async {
+  var stream = createNumberStreamWithException(15);
+  try {
+    await for (var num in stream) {
+      print(num);
+    }
+  } catch (e) {
+    print(e);
+  }
+  print("Finished");
+}
+
+void main() {
+  handlingExceptionUsingAwaitFor();
+}
+</pre>
+<p>And the output will be:</p>
+<pre>
+1
+2
+3
+4
+Exception: Demo exception when accessing 5th number
+Finished
+</pre>
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

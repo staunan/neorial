@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>JS PDF Playground</title>
+	<style type="text/css">
+		.PDFContainer{
+			width: 100%;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			height: 100px;
+		}
+	</style>
+</head>
+<body style="margin: 0; padding: 0;">
+<script type="text/javascript" src="jspdf.min.js"></script>
+<script type="text/javascript" src="html.js"></script>
+<script type="text/javascript" src="split_text_to_size.js"></script>
+<div class="PDFContainer">
+	<button onclick="generatePDF()">Download PDF</button>
+	<button onclick="fromHTMLtoPDF()">Generate PDF From HTML</button>
+</div>
+<style type="text/css">
+.Proforma{
+	display: inline-block; border: 1px solid black; padding: 3px; padding-left: 10px; padding-right: 10px;
+}
+</style>
+<div style="margin: auto; width: 50%; border: 1px solid #333;">
+	<div id="PDFContent">
+
+		<!-- Proforma -->
+		<div>
+			<p class="Proforma">PRO FORMA INVOICE</p>
+		</div>
+
+
+
+
+
+
+	</div>
+</div>
+<script type="text/javascript">
+function generatePDF(){
+	// Create PDF Instance --
+	var doc = new jsPDF();
+	doc.setFontSize(40);
+	doc.setTextColor(125, 76, 76);
+	doc.setCharSpace(50);
+	doc.text("Hello World", 25, 30);
+	console.log(doc.getTextColor());
+	// doc.save("sample.pdf");
+}
+function fromHTMLtoPDF(){
+	var doc = new jsPDF();          
+	var source = document.getElementById("PDFContent");
+	doc.fromHTML(
+			source,
+			15,
+			15,
+			{
+				'width': 180,
+			}
+	);
+
+	doc.save("dataurlnewwindow.pdf");
+}
+</script>
+
+</body>
+</html>

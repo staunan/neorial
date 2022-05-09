@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Browser Default Action</title>
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
+	<script type="text/javascript" src="../../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+
+
+<h1>Browser Default Action</h1>
+<p>Many events automatically lead to browser actions. For instance -</p>
+<ul>
+	<li>A click on a link – initiates going to its URL.</li>
+	<li>A click on submit button inside a form – initiates its submission to the server.</li>
+	<li>Pressing a mouse button over a text and moving it – selects the text.</li>
+</ul>
+<p>If we handle an event in JavaScript, often we don’t want browser actions. Fortunately, it can be prevented.</p>
+<p>Here are some situation where this feature is used very commonly -</p>
+<ul>
+	<li>Before a user clicks logout button, you can show a confirm window. If it is yes then follows the default action and if the answer is no, then prevent the browser's default action.</li>
+	<li>If you have nested context menu, if you click the inner context menu, it will also open the outer context menu too. This can be prevented by using <code>event.defaultPrevented</code>.</li>
+</ul>
+
+
+
+
+<h1>Preventing browser actions</h1>
+<p>There are two ways to tell the browser we don’t want it to act:</p>
+<ul>
+	<li>The main way is to use the event object. There’s a method <code>event.preventDefault()</code>.</li>
+	<li>If the handler is assigned using <code>on&lt;event></code> (not by addEventListener), then we can just return false from it.</li>
+</ul>
+<p>For example, the following two links won't lead you to the url -</p>
+<pre>
+&lt;a href="/" onclick="return false">Click here&lt;/a>
+or
+&lt;a href="/" onclick="event.preventDefault()">here&lt;/a>
+</pre>
+<div class="box">
+<a href="/" onclick="return false">Click here</a>
+or
+<a href="/" onclick="event.preventDefault()">here</a>
+</div>
+<h3>It doesn't mean that you need to return <code>true</code></h3>
+<p>The value returned by an event handler is usually ignored. The only exception – is return false from a handler assigned using <code>on&lt;event></code>. In all other cases, the return is not needed and it’s not processed anyhow.</p>
+<h3>Example - Menu</h3>
+<p>Consider the following example. In the following example We are preventing the browser's default action. But you will still be able to open it in new tab by right clicking on the link. If it were buttons instead of links, opening in new tab wasn't possible. So the following approach servs the following benefit -</p>
+<ul>
+	<li>You can open the link in new tab.</li>
+	<li>You can execute your own custom code.</li>
+	<li>You can prevent the browser's default action if you want.</li>
+	<li>Search engine can use <code>a</code> tag to index your links.</li>
+</ul>
+<pre>
+&lt;style type="text/css">
+.demo1{
+	list-style: none;
+}
+.demo1>li{
+	display: inline-block;
+	margin-right: 10px;
+}
+.demo1>li a{
+	padding: 10px;
+	border: 1px solid #333;
+	background: violet;
+	color: #fff;
+}
+&lt;/style>
+&lt;ul id="menu" class="menu">
+  &lt;li>&lt;a href="/html">HTML&lt;/a>&lt;/li>
+  &lt;li>&lt;a href="/javascript">JavaScript&lt;/a>&lt;/li>
+  &lt;li>&lt;a href="/css">CSS&lt;/a>&lt;/li>
+&lt;/ul>
+
+&lt;script type="text/javascript">
+document.getElementById("demo1").onclick = function(event){
+	if (event.target.tagName != 'A') {
+		return;
+	}
+	alert(event.target.textContent); // Do your own action here --
+	return false;
+};
+&lt;/script>
+</pre>
+<div class="box">
+<style type="text/css">
+.demo1{
+	list-style: none;
+}
+.demo1>li{
+	display: inline-block;
+	margin-right: 10px;
+}
+.demo1>li a{
+	padding: 10px;
+	border: 1px solid #333;
+	background: violet;
+	color: #fff;
+}
+</style>
+<ul class="menu demo1" id="demo1">
+  <li><a href="/html">HTML</a></li>
+  <li><a href="/javascript">JavaScript</a></li>
+  <li><a href="/css">CSS</a></li>
+</ul>
+<script type="text/javascript">
+document.getElementById("demo1").onclick = function(event){
+	if (event.target.tagName != 'A') {
+		return;
+	}
+	alert(event.target.textContent);
+	return false;
+};
+</script>
+</div>
+<p>If we omit <code>return false</code>, then after our code executes the browser will do its “default action” – following to the URL in href.</p>
+<h3>Example - "return false;"</h3>
+<p>The following example doesn't work -</p>
+<pre>
+&lt;script>
+function handler1() {
+  alert( "..." );
+  return false;
+}
+&lt;/script>
+
+&lt;a href="http://w3.org" onclick="handler1()">the browser will go to w3.org&lt;/a>
+</pre>
+<div class="box">
+<script>
+function handler1() {
+  alert( "..." );
+  return false;
+}
+</script>
+
+<a href="http://w3.org" onclick="handler1()">the browser will go to w3.org</a>
+</div>
+<p>When the browser reads the on* attribute like <code>onclick</code>, it creates the handler from its content.</p>
+<p>For onclick="handler()" the function will be:</p>
+<pre>
+function(event) {
+  handler() // the content of onclick
+}
+</pre>
+<p>Now we can see that the value returned by <code>handler()</code> is not used and does not affect the result. Here is the solution -</p>
+<pre>
+&lt;script>
+  function handler() {
+    alert("...");
+    return false;
+  }
+&lt;/script>
+
+&lt;a href="http://w3.org" onclick="return handler()">w3.org&lt;/a>
+</pre>
+<p>You can also use <code>event.preventDefault()</code> like this -</p>
+<pre>
+&lt;script>
+  function handler(event) {
+    alert("...");
+    event.preventDefault();
+  }
+&lt;/script>
+
+&lt;a href="http://w3.org" onclick="handler(event)">w3.org&lt;/a>
+</pre>
+<div class="box">
+<script>
+  function handler2(event) {
+    alert("...");
+    event.preventDefault();
+  }
+</script>
+
+<a href="http://w3.org" onclick="handler2(event)">w3.org</a>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h1>Prevent Further Events</h1>
+<p>Certain events flow one into another. If we prevent the first event, there will be no second.</p>
+<p>For instance, <code>mousedown</code> on an <code>&lt;input></code> field leads to focusing in it, and the focus event. If we prevent the <code>mousedown</code> event, there’s no <code>focus</code>.</p>
+<p>Try to click on the first <code>&lt;input></code> below – the focus event happens. That’s normal. But if you click the second one, there’s no focus.</p>
+<pre>
+&lt;input value="Focus works" onfocus="this.value=''">
+&lt;input onmousedown="return false" onfocus="this.value=''" value="Click me">
+</pre>
+<div class="box">
+<input value="Focus works" onfocus="this.value=''">
+<input onmousedown="return false" onfocus="this.value=''" value="Click me">
+</div>
+<p>That’s because the browser action is canceled on <code>mousedown</code>. The focusing is still possible if we use another way to enter the input. For instance, the <code>Tab</code> key to switch from the 1st input into the 2nd. But not with the mouse click any more.</p>
+
+
+
+
+
+
+
+
+
+<h1>event.defaultPrevented</h1>
+<p>The property event.defaultPrevented is true if the default action was prevented, and false otherwise. There’s an interesting use case for it.</p>
+<p>You remember in the chapter Bubbling and capturing we talked about <code>event.stopPropagation()</code> and why stopping bubbling is bad?</p>
+<p>Sometimes we can use <code>event.defaultPrevented</code> instead.</p>
+<p>Let’s see a practical example where stopping the bubbling looks necessary, but actually we can do well without it.</p>
+<p>By default the browser on <code>contextmenu</code> event (right mouse click) shows a context menu with standard options. We can prevent it and show our own, like this:</p>
+<pre>
+&lt;button>Right-click for browser context menu&lt;/button>
+
+&lt;button oncontextmenu="alert('Draw our menu'); return false">
+  Right-click for our context menu
+&lt;/button>
+</pre>
+<div class="box">
+<button>Right-click for browser context menu</button>
+
+<button oncontextmenu="alert('Draw our menu'); return false">
+  Right-click for our context menu
+</button>
+</div>
+<p>Now let’s say we want to implement our own document-wide context menu, with our options. And inside the document we may have other elements with their own context menus:</p>
+<pre>
+&lt;p>Right-click here for the document context menu&lt;/p>
+&lt;button id="elem">Right-click here for the button context menu&lt;/button>
+
+&lt;script>
+  elem.oncontextmenu = function(event) {
+    event.preventDefault();
+    alert("Button context menu");
+  };
+
+  document.oncontextmenu = function(event) {
+    event.preventDefault();
+    alert("Document context menu");
+  };
+&lt;/script>
+</pre>
+<div class="box" id="example1">
+<p>Right-click here for the document context menu</p>
+<button id="example11">Right-click here for the button context menu</button>
+
+<script>
+  example11.oncontextmenu = function(event) {
+    event.preventDefault();
+    alert("Button context menu");
+  };
+
+  example1.oncontextmenu = function(event) {
+    event.preventDefault();
+    alert("Document context menu");
+  };
+</script>
+</div>
+<p>The problem is that when we click on elem, we get two menus: the button-level and (the event bubbles up) the document-level menu.</p>
+<p>How to fix it? One of solutions is to think like: “We fully handle the event in the button handler, let’s stop it” and use <code>event.stopPropagation()</code>:</p>
+<pre>
+&lt;p>Right-click for the document menu&lt;/p>
+&lt;button id="elem">Right-click for the button menu (fixed with event.stopPropagation)&lt;/button>
+
+&lt;script>
+  elem.oncontextmenu = function(event) {
+    event.preventDefault();
+    event.stopPropagation();
+    alert("Button context menu");
+  };
+
+  document.oncontextmenu = function(event) {
+    event.preventDefault();
+    alert("Document context menu");
+  };
+&lt;/script>
+</pre>
+<div class="box" id="example2">
+<p>Right-click for the document menu</p>
+<button id="example22">Right-click for the button menu (fixed with event.stopPropagation)</button>
+
+<script>
+  example22.oncontextmenu = function(event) {
+    event.preventDefault();
+    event.stopPropagation();
+    alert("Button context menu");
+  };
+
+  example2.oncontextmenu = function(event) {
+    event.preventDefault();
+    alert("Document context menu");
+  };
+</script>
+</div>
+<p>Now the button-level menu works as intended. But the price is high. We forever deny access to information about right-clicks for any outer code, including counters that gather statistics and so on. That’s quite unwise.</p>
+<p>An alternative solution would be to check in the document handler if the default action was prevented? If it is so, then the event was handled, and we don’t need to react on it.</p>
+<pre>
+&lt;p>Right-click for the document menu (fixed with event.defaultPrevented)&lt;/p>
+&lt;button id="elem">Right-click for the button menu&lt;/button>
+
+&lt;script>
+  elem.oncontextmenu = function(event) {
+    event.preventDefault();
+    alert("Button context menu");
+  };
+
+  document.oncontextmenu = function(event) {
+    if (event.defaultPrevented) return;
+
+    event.preventDefault();
+    alert("Document context menu");
+  };
+&lt;/script>
+</pre>
+<div class="box" id="example33">
+<p>Right-click for the document menu (fixed with event.defaultPrevented)</p>
+<button id="example3">Right-click for the button menu</button>
+
+<script>
+  example3.oncontextmenu = function(event) {
+    event.preventDefault();
+    alert("Button context menu");
+  };
+
+  example33.oncontextmenu = function(event) {
+    if (event.defaultPrevented) return;
+
+    event.preventDefault();
+    alert("Document context menu");
+  };
+</script>
+</div>
+<p>Now everything also works correctly. If we have nested elements, and each of them has a context menu of its own, that would also work. Just make sure to check for event.defaultPrevented in each contextmenu handler.</p>
+<h3>event.stopPropagation() and event.preventDefault()</h3>
+<p>These two are different thing. <code>event.stopPropagation()</code> stops the bubbling. And <code>event.preventDefault() doesn't stop bubblinng, instead it prevents the default browser action.</code></p>
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

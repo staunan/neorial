@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Inheritance</title>
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+
+<h1>Inheritance</h1>
+<p>Use <code>extends</code> to create a subclass, and <code>super</code> to refer to the superclass. When you extends a class, the subclass gets all the instance members of its superclass except for constructor. The constructors doesn't get inherited. If superclass defines static members, or private members, the subclass will also get static and private members. Getter or setter also gets inherited. So the only exception is the constructor. Only constructor doesn't get inherited.</p>
+
+<p>In the following example, we are declaring a class <code>Shape</code>. The class is extended by the <code>Circle</code> class. Since there is an inheritance relationship between the classes, the child class, i.e., the class <code>Circle</code> gets an implicit access to its parent class data member.</p>
+<pre>
+void main() { 
+   var obj = new Circle(); 
+   obj.cal_area(); 
+}  
+class Shape { 
+   void cal_area() { 
+      print("calling calc area defined in the Shape class"); 
+   } 
+}  
+class Circle extends Shape {}
+
+// Output --
+calling calc area defined in the Shape class
+</pre>
+<p>Dart also supports multi-level inheritance. For example, Class B is derived from class A. And class C is derived from class B (A->B->C). In the following example, the class <code>Leaf</code> derives the attributes from <code>Root</code> and <code>Child</code> classes by virtue of multi-level inheritance:</p>
+<pre>
+Live Demo
+void main() { 
+   var obj = new Leaf(); 
+   obj.str = "hello"; 
+   print(obj.str); 
+}  
+class Root { 
+   String str; 
+}  
+class Child extends Root {}  
+class Leaf extends Child {}  
+//indirectly inherits from Root by virtue of inheritance
+
+// Output
+hello
+</pre>
+
+
+<h3>Overriding Methods: @override</h3>
+<p>Subclasses can override instance methods, getters, and setters. You can use the <code>@override</code> annotation to indicate that you are intentionally overriding a member:</p>
+<pre>
+class Television {
+  void turnOn() {
+    _illuminateDisplay();
+    _activateIrSensor();
+  }
+  // ···
+}
+
+class SmartTelevision extends Television {
+  @override
+  void turnOn() {...}
+  // ···
+}
+</pre>
+
+
+<h3>Overriding operators</h3>
+<p>You can override an operator that will be used on class operand. For example, lets consider the operator <code>+</code>, which is used on primitive type integer to perform addition operation. But what if you want to use this <code>+</code> operator on class object to perform some operation. In this case you need to override <code>+</code> the operator to give it another functionality to perform addition on class objects.</p>
+<p>Following is the syntax of overriding an operator:</p>
+<pre>
+return_type operator operator_symbol(parameter_list){
+  // return result --
+}
+</pre>
+<p>In the above syntax <code>operator</code> is a keyword. And operator_symbol represents the actual operator which will be overriden. The return type and the parameter type must be the same as the class type. Here is an example:</p>
+<pre>
+class Vector {
+  final int x, y;
+
+  Vector(this.x, this.y);
+
+  Vector operator +(Vector v){
+    return Vector(x + v.x, y + v.y);
+  }
+  Vector operator -(Vector v){
+    return Vector(x - v.x, y - v.y);
+  }
+
+  // Operator == and hashCode not shown. For details, see note below.
+  // ···
+}
+
+void main() {
+  final v = Vector(2, 3);
+  final w = Vector(2, 2);
+
+  assert(v + w == Vector(4, 5));
+  assert(v - w == Vector(0, 1));
+}
+</pre>
+<p>In the above example we have overriden two operator, <code>-</code> and <code>+</code>:</p>
+<pre>
+Vector operator +(Vector v){
+  return Vector(x + v.x, y + v.y);
+}
+Vector operator -(Vector v){
+  return Vector(x - v.x, y - v.y);
+}
+</pre>
+<p>Internally, When we perform <code>v + w</code>, it will actually translate into a function call like the following:</p>
+<pre>
+v.overriden_operator(w);
+</pre>
+<p>So the statement <code>v + w</code>, will pass <code>w</code> as an argument and it will call the function on the object <code>v</code>.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

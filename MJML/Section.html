@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Section</title>
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
+	<script type="text/javascript" src="../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+<h1>mj-section</h1>
+<p>Sections are intended to be used as rows within your email. They will be used to structure the layout.</p>
+<p>The full-width property will be used to manage the background width. By default, it will be 600px. With the full-width property on, it will be changed to 100%.</p>
+<p>Inverting the order in which columns display: set the `direction` attribute to `rtl` to change the order in which columns display on desktop. Because MJML is mobile-first, structure the columns in the order you want them to stack on mobile, and use `direction` to change the order they display on desktop.</p>
+<p> Sections cannot be nested into sections. Also, any content in a section should also be wrapped in a column.</p>
+<pre>
+&lt;mjml>
+  &lt;mj-body>
+    &lt;mj-section full-width="full-width" background-color="red">
+      &lt;!-- Your columns go here -->
+    &lt;/mj-section>
+  &lt;/mj-body>
+&lt;/mjml>
+</pre>
+<p>Here are some attribute you can use on this element -</p>
+<ul>
+	<li><code>full-width</code> make the section full width.</li>
+	<li>border</li>
+	<li>border-bottom</li>
+	<li>border-left</li>
+	<li>border-right</li>
+	<li>border-top</li>
+	<li>border-radius</li>
+	<li>background-color</li>
+	<li><code>background-url</code> If you want to use any image as the background, use this attribute.</li>
+	<li>background-repeat</li>
+	<li>background-size</li>
+	<li>vertical-align</li>
+	<li>text-align</li>
+	<li>padding</li>
+	<li>padding-top</li>
+	<li>padding-bottom</li>
+	<li>padding-left</li>
+	<li>padding-right</li>
+	<li><code>direction</code> ltr/rtl</li>
+	<li>css-class</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

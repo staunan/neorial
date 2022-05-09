@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Conditional Operators</title>
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
+	<script type="text/javascript" src="../Assets/jquery.min.js"></script>
+	<link rel="stylesheet" href="../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+
+
+<h1>Conditional Operator</h1>
+<p>Conditional Operators are used to combine more than one comparision operator to make complex conditional statement. There are three Conditional Operator -</p>
+<ul>
+	<li><code>&&</code> - And Operator.</li>
+	<li><code>||</code> - Or Operator.</li>
+	<li><code>!</code> - Not Operator.</li>
+</ul>
+<p>These operators works only on Boolean values. If you use other data types then they are automatically converted to Boolean type before they evaluate.</p>
+
+
+
+<h1>And Operator</h1>
+<p>If one of the operand is false, then this operator returns false. Otherwise it returns true.</p>
+<pre>
+true && true                // true
+true && false               // false
+false && true               // false
+false && false              // false
+</pre>
+
+
+
+
+
+<h1>Or Operator</h1>
+<p>If one of the operand is true, then the operator reurns true. Otherwise it returns false.</p>
+<pre>
+true || true                    // true
+true || false                   // true
+false || true                   // true
+false || false                  // false
+</pre>
+
+
+
+
+
+
+<h1>Not Operator</h1>
+<p>This is an Unary Operator as it takes only one operand. It returns the opposite of the operand. It means if the operand if true, then it returns false. If the operand if false, then it returns true.</p>
+<pre>
+!true         // false
+!false        // true
+</pre>
+
+
+
+
+
+
+
+
+<h1>Precedence</h1>
+<p>The Not Operator has the higher precedence. And then the And Operator and lastly Or Operator. For example -</p>
+<pre>
+	true && false || !false
+</pre>
+<p>Here, <code>!false</code> is evaluated first which becomes true. After that <code>true && false</code> is evaluated which results to false. So it finally becomes to <code>false || true</code>, which results to true.</p>
+<p>For a simple structure like this, it is predictable to tell what will be the final result. But if your structure gets even more complex and looses the readibility it is better to wrap them up with parenthesis. That will make the code more readable and will be easier to debug. For example -</p>
+<pre>
+	true && ((false || !false) && (true || !false))           // true
+</pre>
+<p>However parenthesis is useful to customize the condition the way we want to evaluate to controll better.</p>
+
+
+
+
+
+
+
+
+<h1>Short Circuit Evaluation</h1>
+<p>The way the && and || operator works is called Short Circuit Evaluation. It is a simple logic. For && operator, if the first operator is false, then the && operator returns false without checking if the second argument is true or false. Because for && operator, if the first argument is false, the result will always be false and doesn't depends on the value of the second operand. So there is no need for checking the second operand and then comparing the two value.</p>
+<p>The same logic works for || operator too. If the first operand is true, then it returns true without checking the second operand. Because for || operator, if the first operand if true, the result will always be true.</p>
+
+
+
+
+
+
+
+
+
+<h1>Real Life Examples</h1>
+<p>All of the above examples are demonstraded using boolean value true and false. But in real life programming, we never do that drama. In real life we use conditional operator along with comparision operator to build complex condition. For example -</p>
+<pre>
+if(  (age > 30 && gender == "Male")  ||  (age > 40 && gender == "Female")  || userHasAccess == true  )
+{
+	console.log("Welcome");
+}
+else
+{
+	console.log("Get Out");
+}
+</pre>
+<p>In the above example, the message "Welcome" gets printed for those who are Male and aged above 30 or Female who are aged above 40 or members who already has access (userHasAccess == true). Otherwise it prints the message "Get Out". Things like this we do almost all the time in real life programming.</p>
+<p>You can also you function. In that case the returned value will be used with other operands. You can also bind functions with expression to create more complex structure. The evaluated value of the expression will be used with other operand.</p>
+<pre>
+if(getAgeOfLoggedInMember() > 30 && getGenderOfLoggedInMember() == "Male"){
+	console.log("Hey Buddy, Welcome to the Party !");
+}
+
+or,
+
+if( (getBookPrice() + getTravelCost() + getTax()) > 500 ){
+	console.log("Overpriced !");
+}
+</pre>
+<p>Here in the first example, the value that is returned from the function <code>getAgeOfLoggedInMember()</code> gets compared with 30 to check if it is greater than 30. Similarly, <code>getGenderOfLoggedInMember()</code> function returns the value and that value is compared with the string "Male". This way the whole condition gets evaluated.</p>
+<p>In the second example, each value that is returned from each function gets sums up, and then the sum is gets comapred with the value 500.</p>
+<p>This way both operand can contain complex structure and they gets evaluated first before they are being used with operators.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

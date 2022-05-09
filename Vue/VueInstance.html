@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Vue Instance</title>
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+	<script src="../Assets/prism.min.js"></script>
+	<script type="text/javascript" src="../Assets/jquery.min.js"></script>
+    <link rel="stylesheet" href="../Assets/prism-dark.css">
+    <script type="text/javascript" src="../Assets/vue.js"></script>
+</head>
+<body class="Body">
+	<div class="Content Card">
+		<h1>The Vue Instance</h1>
+		<p>
+			Every Vue application starts by creating a new Vue instance with the Vue function:
+		</p>
+		<pre>
+			var vm = new Vue({
+			  // options
+			});
+		</pre>
+		<p>
+			Here, now <code>vm</code> is the Vue instance. A Vue application consists of a root Vue instance created with <code>new Vue</code>.
+		</p>
+
+		<h1>Data and Methods</h1>
+		<p>
+			When a Vue instance is created, it adds all the properties found in its data object to Vue’s reactivity system. When the values of those properties change, the view will “react”, updating to match the new values.
+		</p>
+		<pre>
+			// Our data object
+			var data = { a: 1 }
+
+			// The object is added to a Vue instance
+			var vm = new Vue({
+			  data: data
+			});
+		</pre>
+		<p>
+			No you can access vm properties from outside of the Vue instance using <code>vm.a</code>.
+		</p>
+		<p>
+			When this data changes, the view will re-render. It should be noted that properties in data are only reactive if they existed when the instance was created. That means if you add a new property, like:
+		</p>
+		<pre>
+			vm.b = 'hi'
+		</pre>
+		<p>
+			Then changes to b will not trigger any view updates. But there's a way to get around with it. Using <code>vm.$set()</code> method. We will learn later.
+		</p>
+
+		<h1>Don't Use freeze()</h1>
+		<p>
+			When you are working with Vue.js, don't use <code>Object.freeze()</code>, which prevents existing properties from being changed, which also means the reactivity system can’t track changes.
+		</p>
+		<pre>
+			var obj = {
+			  foo: 'bar'
+			};
+			Object.freeze(obj);
+			new Vue({
+			  el: '#app',
+			  data () {
+			    return {
+			      obj
+			    }
+			  }
+			});
+		</pre>
+		<p>
+			Now if you dynamically change the value of obj object, the changes won't automatically update in the DOM as we have freeze it. <span style="font-style: italic; font-weight: 500;">Use <code>freeze()</code> only when you don't want a part of Vue properties not to be changed. It's like using constant.</span>
+		</p>
+
+		<h1>vm.$data</h1>
+		<p>
+			Remember you can access any vue properties using the syntax <code>vm.property</code>. But if you still want to access <code>data</code> object of Vue instance you can use vm.$data.
+		</p>
+		<pre>
+		let obj = {
+			foo : bar,
+		};
+		let vm = new Vue({
+			el : ".Content",
+			data(){
+				return {
+					a : 25,
+					obj
+				}
+			}
+		});
+		console.log(vm.obj); // Same as the following -
+		console.log(vm.$data.obj);
+		</pre>
+
+
+		<h1>vm.$el</h1>
+		<p>
+			If you want to know which element the Vue instance is mounted on you can use <code>vm.$el</code> to return the element.
+		</p>
+		<pre>
+		let obj = {
+			foo : bar,
+		};
+		let vm = new Vue({
+			el : ".Content",
+			data(){
+				return {
+					a : 25,
+					obj
+				}
+			}
+		});
+		console.log(vm.$el);
+		console.log(vm.$el === document.getElementById(".Content"));
+		</pre>
+	</div>
+	<script>
+		let obj = {
+			foo : "bar",
+		};
+		let vm = new Vue({
+			el : ".Content",
+			data(){
+				return {
+					a : 25,
+					obj
+				}
+			}
+		});
+
+	</script>
+</body>
+</html>

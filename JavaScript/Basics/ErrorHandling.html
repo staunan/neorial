@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Error Handling</title>
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+	<script type="text/javascript" src="../../Assets/prism.min.js"></script>
+	<script type="text/javascript" src="../../Assets/jquery.min.js"></script>
+	<link rel="stylesheet" href="../../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+
+
+<h1>Error Handling</h1>
+<p>No matter how great we are at programming, sometimes our scripts have errors. They may occur because of our mistakes, an unexpected user input, an erroneous server response and for a thousand of other reasons. Usually, a script “dies” (immediately stops) in case of an error, printing it to console.</p>
+<p>But there’s a syntax construct <code>try..catch</code> that allows to “catch” errors and, instead of dying, do something more reasonable.</p>
+<p>The <code>try..catch</code> construct has two main blocks: <code>try</code>, and then <code>catch</code>:</p>
+<pre>
+try {
+
+	// code...
+
+} catch (err) {
+
+	// error handling
+
+}
+</pre>
+<ul>
+	<li>First, the code in <code>try {...}</code> is executed.</li>
+	<li>If there were no errors, then <code>catch(err)</code> is ignored: the execution reaches the end of try and then jumps over <code>catch</code>.</li>
+	<li>If an error occurs, then <code>try</code> execution is stopped, and the control flows to the beginning of <code>catch(err)</code>. The <code>err</code> variable (can use any name for it) contains an error object with details about what’s happened.</li>
+</ul>
+<img src="../Assets/img/try-catch-flow.png">
+<p>So, an error inside the <code>try {…}</code> block does not kill the script: we have a chance to handle it in <code>catch</code>.</p>
+
+<h3>try..catch only works for runtime errors</h3>
+<p>For try..catch to work, the code must be runnable. In other words, it should be valid JavaScript. It won’t work if the code is syntactically wrong, for instance it has unmatched curly braces:</p>
+<pre>
+try {
+	{{{{{{{{{{{{}}
+} catch(e) {
+	alert("The engine can't understand this code, it's invalid");
+}
+</pre>
+<p>The JavaScript engine first reads the code, and then runs it. The errors that occur on the reading phrase are called “parse-time” errors and are unrecoverable (from inside that code). That’s because the engine can’t understand the code.</p>
+<p>So, <code>try..catch</code> can only handle errors that occur in the valid code. Such errors are called “runtime errors” or, sometimes, “exceptions”.</p>
+
+<h3>try..catch works synchronously</h3>
+<p>If an exception happens in “scheduled” code, like in <code>setTimeout</code>, then <code>try..catch</code> won’t catch it:</p>
+<pre>
+try {
+	setTimeout(function() {
+		noSuchVariable; // script will die here
+	}, 1000);
+} catch (e) {
+	alert( "won't work" );
+}
+</pre>
+<p>That’s because <code>try..catch</code> actually wraps the <code>setTimeout</code> call that schedules the function. But the function itself is executed later, when the engine has already left the <code>try..catch</code> construct.</p>
+<p>To catch an exception inside a scheduled function, <code>try..catch</code> must be inside that function:</p>
+<pre>
+setTimeout(function() {
+	try {
+		noSuchVariable; // try..catch handles the error!
+	} catch (e) {
+		alert( "error is caught here!" );
+	}
+}, 1000);
+</pre>
+
+
+
+
+
+
+<h1>Error Object</h1>
+<p>When an error occurs, JavaScript generates an object containing the details about it. The object is then passed as an argument to <code>catch</code>:</p>
+<pre>
+try {
+	// ...
+} catch(err) { // <-- the "error object", could use another word instead of err
+	// ...
+}
+</pre>
+<p>For all built-in errors, the <code>error</code> object inside <code>catch</code> block has two main properties:</p>
+<ul>
+	<li><code>name</code>: Error name. For an undefined variable that’s "ReferenceError".</li>
+	<li><code>message</code>: Textual message about error details.</li>
+</ul>
+<p>There are other non-standard properties available in most environments. One of most widely used and supported is:</p>
+<ul>
+	<li><code>stack</code>: Current call stack. A string with information about the sequence of nested calls that led to the error. Used for debugging purposes.</li>
+</ul>
+<p>For example -</p>
+<pre>
+try {
+	lalala; // error, variable is not defined!
+} catch(err) {
+	alert(err.name); // ReferenceError
+	alert(err.message); // lalala is not defined
+	alert(err.stack); // ReferenceError: lalala is not defined at ...
+
+	// Can also show an error as a whole
+	// The error is converted to string as "name: message"
+	alert(err); // ReferenceError: lalala is not defined
+}
+</pre>
+
+
+
+
+
+
+
+
+
+<h1>Example</h1>
+<p>As we already know, JavaScript supports the <code>JSON.parse(str)</code> method to read JSON-encoded values. Usually it’s used to decode data received over the network, from the server or another source. We receive it and call <code>JSON.parse</code>, like this:</p>
+<pre>
+let json = '{"name":"John", "age": 30}'; // data from the server
+
+let user = JSON.parse(json); // convert the text representation to JS object
+
+// now user is an object with properties from the string
+alert( user.name ); // John
+alert( user.age );  // 30
+</pre>
+<p>If json is malformed, <code>JSON.parse</code> generates an error, so the script “dies”. This way, if something’s wrong with the data, the visitor will never know that (unless they open the developer console). And people really don’t like when something “just dies” without any error message.</p>
+<p>Let’s use try..catch to handle the error:</p>
+<pre>
+let json = "{ bad json }";
+
+try {
+
+	let user = JSON.parse(json); // <-- when an error occurs...
+	alert( user.name ); // doesn't work
+
+} catch (e) {
+	// ...the execution jumps here
+	alert( "Our apologies, the data has errors, we'll try to request it one more time." );
+	alert( e.name );
+	alert( e.message );
+}
+</pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h1>Throwing Error</h1>
+<p>What if json is syntactically correct, but doesn’t have a required name property? Like this:</p>
+<pre>
+let json = '{ "age": 30 }'; // incomplete data
+
+try {
+
+	let user = JSON.parse(json); // <-- no errors
+	alert( user.name ); // no name!
+
+} catch (e) {
+	alert( "doesn't execute" );
+}
+</pre>
+<p>Here <code>JSON.parse</code> runs normally, but the absence of <code>name</code> is actually an error for us. To unify error handling, we’ll use the <code>throw</code> operator.</p>
+<p>The <code>throw</code> operator generates an error.</p>
+<pre>
+throw &lt;error object>
+</pre>
+<p>Technically, we can use anything as an error object. That may be even a primitive, like a number or a string, but it’s better to use objects, preferably with <code>name</code> and <code>message</code> properties (to stay somewhat compatible with built-in errors).</p>
+<p>JavaScript has many built-in constructors for standard errors: <code>Error</code>, <code>SyntaxError</code>, <code>ReferenceError</code>, <code>TypeError</code> and others. We can use them to create error objects as well.</p>
+<pre>
+let error = new Error(message);
+// or
+let error = new SyntaxError(message);
+let error = new ReferenceError(message);
+// ...
+</pre>
+<p>For built-in errors (not for any objects, just for errors), the <code>name</code> property is exactly the name of the constructor. And <code>message</code> is taken from the argument.</p>
+<p></p>
+<pre>
+let error = new Error("Things happen o_O");
+
+alert(error.name); // Error
+alert(error.message); // Things happen o_O
+</pre>
+<p>Let’s see what kind of error <code>JSON.parse</code> generates:</p>
+<pre>
+try {
+	JSON.parse("{ bad json o_O }");
+} catch(e) {
+	alert(e.name); // SyntaxError
+	alert(e.message); // Unexpected token o in JSON at position 0
+}
+</pre>
+<p>As we can see, that’s a <code>SyntaxError</code>. And in our case, the absence of name could be treated as a syntax error also, assuming that users must have a <code>name</code>.</p>
+<p>So let’s throw it:</p>
+<pre>
+let json = '{ "age": 30 }'; // incomplete data
+
+try {
+
+	let user = JSON.parse(json); // <-- no errors
+
+	if (!user.name) {
+		throw new SyntaxError("Incomplete data: no name"); // (*)
+	}
+
+	alert( user.name );
+
+} catch(e) {
+	alert( "JSON Error: " + e.message ); // JSON Error: Incomplete data: no name
+}
+</pre>
+<p>In the line (*), the throw operator generates a <code>SyntaxError</code> with the given message, the same way as JavaScript would generate it itself. The execution of <code>try</code> immediately stops and the control flow jumps into <code>catch</code>.</p>
+<p>Now <code>catch</code> became a single place for all error handling: both for <code>JSON.parse</code> and other cases.</p>
+
+
+
+
+
+<h1>Rethrowing</h1>
+<p>By default the <code>catch</code> block handles all kind of error. If try block generates error, it must fall in the <code>catch</code> block.</p>
+<pre>
+let json = '{ "age": 30 }'; // incomplete data
+
+try {
+  user = JSON.parse(json); // <-- forgot to put "let" before user
+
+  // ...
+} catch(err) {
+  alert("JSON Error: " + err); // JSON Error: ReferenceError: user is not defined
+  // (no JSON Error actually)
+}
+</pre>
+<p>In the above exmple, it shows "JSON Error". Even if it is a <code>ReferenceError</code>. So this is wrong. To filter what kind of Error it is you can use <code>name</code> property of the <code>error</code> object.</p>
+<pre>
+let json = '{ "age": 30 }'; // incomplete data
+try {
+
+  let user = JSON.parse(json);
+
+  if (!user.name) {
+    throw new SyntaxError("Incomplete data: no name");
+  }
+
+  blabla(); // unexpected error
+
+  alert( user.name );
+
+} catch(e) {
+
+  if (e.name == "SyntaxError") {
+    alert( "JSON Error: " + e.message );
+  } else {
+    throw e; // rethrow (*)
+  }
+
+}
+</pre>
+<p>The error throwing on line (*) from inside catch block “falls out” of <code>try..catch</code> and can be either caught by an outer <code>try..catch</code> construct (if it exists), or it kills the script.</p>
+<p>So the <code>catch</code> block actually handles only errors that it knows how to deal with and “skips” all others. The example below demonstrates how such errors can be caught by one more level of <code>try..catch</code>:</p>
+<pre>
+function readData() {
+  let json = '{ "age": 30 }';
+
+  try {
+    // ...
+    blabla(); // error!
+  } catch (e) {
+    // ...
+    if (e.name != 'SyntaxError') {
+      throw e; // rethrow (don't know how to deal with it)
+    }
+  }
+}
+
+try {
+  readData();
+} catch (e) {
+  alert( "External catch got: " + e ); // caught it!
+}
+</pre>
+<p>Here <code>readData</code> only knows how to handle <code>SyntaxError</code>, while the outer <code>try..catch</code> knows how to handle everything.</p>
+
+
+
+
+
+<h1>try…catch…finally</h1>
+<p>The <code>try..catch</code> construct may have one more code clause: <code>finally</code>. If it exists, it runs in all cases:</p>
+<ul>
+	<li>after <code>try</code>, if there were no errors,</li>
+	<li>after <code>catch</code>, if there were errors.</li>
+</ul>
+<pre>
+try {
+   ... try to execute the code ...
+} catch(e) {
+   ... handle errors ...
+} finally {
+   ... execute always ...
+}
+</pre>
+<p>Try running this code:</p>
+<pre>
+try {
+  alert( 'try' );
+  if (confirm('Make an error?')) BAD_CODE();
+} catch (e) {
+  alert( 'catch' );
+} finally {
+  alert( 'finally' );
+}
+</pre>
+<h3>Variables are local inside try..catch..finally</h3>
+<p>Any variable declared with the keyword <code>let</code> can be accessible inside the block only. If it were decleared inside <code>try</code> then you cannot access it outside of <code>try</code> block. Similarly, the variable declared within <code>catch</code> block, can be accessible within the <code>catch</code> block only.</p>
+<h3>finally and return</h3>
+<p>The <code>finally</code> clause works for any exit from <code>try..catch</code>. That includes an explicit <code>return</code>.</p>
+<p>In the example below, there’s a <code>return</code> in <code>try</code>. In this case, <code>finally</code> is executed just before the control returns to the outer code.</p>
+<pre>
+function func() {
+
+  try {
+    return 1;
+
+  } catch (e) {
+    /* ... */
+  } finally {
+    alert( 'finally' );
+  }
+}
+
+alert( func() ); // first works alert from finally, and then this one
+</pre>
+<h3>try..finally</h3>
+<p>The <code>try..finally</code> construct, without <code>catch</code> clause, is also useful. We apply it when we don’t want to handle errors right here, but want to be sure that processes that we started are finalized.</p>
+<pre>
+function func() {
+  // start doing something that needs completion (like measurements)
+  try {
+    // ...
+  } finally {
+    // complete that thing even if all dies
+  }
+}
+</pre>
+<p>In the code above, an error inside <code>try</code> always falls out, because there’s no <code>catch</code>. But <code>finally</code> works before the execution flow jumps outside.</p>
+
+
+
+
+
+
+
+
+
+
+<h1>Global catch</h1>
+<p>Let’s imagine we’ve got a fatal error outside of <code>try..catch</code>, and the script died. Like a programming error or something else terrible. Is there a way to react on such occurrences? We may want to log the error, show something to the user (normally they don’t see error messages) etc.
+</p>
+<p>There is none in the specification, but environments usually provide it, because it’s really useful. For instance, Node.JS has process.on(<code>‘uncaughtException’</code>) for that. And in the browser we can assign a function to special <code>window.onerror</code> property. It will run in case of an uncaught error.</p>
+<pre>
+window.onerror = function(message, url, line, col, error) {
+  // ...
+};
+</pre>
+<ul>
+	<li><code>message</code> : Error message.</li>
+	<li><code>url</code>: URL of the script where error happened.</li>
+	<li><code>line</code>, <code>col</code>: Line and column numbers where error happened.</li>
+	<li><code>error</code>: Error object.</li>
+</ul>
+<pre>
+&lt;script>
+  window.onerror = function(message, url, line, col, error) {
+    alert(`${message}\n At ${line}:${col} of ${url}`);
+  };
+
+  function readData() {
+    badFunc(); // Whoops, something went wrong!
+  }
+
+  readData();
+&lt;/script>
+</pre>
+<p>The role of the global handler <code>window.onerror</code> is usually not to recover the script execution – that’s probably impossible in case of programming errors, but to send the error message to developers.</p>
+<p>There are also web-services that provide error-logging for such cases, like <code>https://errorception.com</code> or <code>http://www.muscula.com</code>.</p>
+<p>They work like this:</p>
+<ul>
+	<li>We register at the service and get a piece of JS (or a script URL) from them to insert on pages.</li>
+	<li>That JS script has a custom window.onerror function.</li>
+	<li>When an error occurs, it sends a network request about it to the service.</li>
+	<li>We can log in to the service web interface and see errors.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

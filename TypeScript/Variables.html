@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Variables</title>
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+	<script type="text/javascript" src="Assets/main.js"></script>
+</head>
+<body class="Body">
+	<div class="Content Card">
+		<h1>Variables</h1>
+		<p>
+			We have already discussed how to define a variable and it's syntax. Let's learn it in details.
+		</p>
+		<pre>
+			var name:string = "John"; 
+			var score1:number = 50;
+			var score2:number = 42.50
+			var sum = score1 + score2 
+			console.log("name"+name) 
+			console.log("first score: "+score1) 
+			console.log("second score: "+score2) 
+			console.log("sum of the scores: "+sum)
+			let fullName: string = `Bob Bobbington`;
+			let age: number = 37;
+		</pre>
+		<p>
+			The TypeScript compiler will generate errors, if we attempt to assign a value to a variable that is not of the same type. Hence, TypeScript follows Strong Typing. The Strong typing syntax ensures that the types specified on either side of the assignment operator (=) are the same. This is why the following code will result in a compilation error −
+		</p>
+		<pre>
+			var num:number = "hello"     // will result in a compilation error
+		</pre>
+		<p>
+			In the above example the variable <code>sum</code> is <code>any</code> typed. It means <code>sum</code> can take any value but other variables cannot.
+		</p>
+		<p>Few more example -</p>
+		<pre>
+			let sentence: string = `Hello, my name is ${ fullName }.
+
+			I'll be ${ age + 1 } years old next month.`;
+
+			// is Equivalent to -
+
+			let sentence: string = "Hello, my name is " + fullName + ".\n\n" + "I'll be " + (age + 1) + " years old next month.";
+		</pre>
+		<p>
+			We may need to describe the type of variables that we do not know when we are writing an application. These values may come from dynamic content, e.g. from the user or a 3rd party library. In these cases, we want to opt-out of type-checking and let the values pass through compile-time checks. To do so, we label these with the any type:
+		</p>
+		<pre>
+			let notSure: any = 4;
+			notSure = "maybe a string instead";
+			notSure = false; // okay, definitely a boolean
+		</pre>
+		<p>
+			The any type is a powerful way to work with existing JavaScript, allowing you to gradually opt-in and opt-out of type-checking during compilation. You might expect Object to play a similar role, as it does in other languages. But variables of type Object only allow you to assign any value to them - you can’t call arbitrary methods on them, even ones that actually exist:
+		</p>
+		<pre>
+			let notSure: any = 4;
+			notSure.ifItExists(); // okay, ifItExists might exist at runtime
+			notSure.toFixed(); // okay, toFixed exists (but the compiler doesn't check)
+
+			let prettySure: Object = 4;
+			prettySure.toFixed(); // Error: Property 'toFixed' doesn't exist on type 'Object'.
+		</pre>
+		<p>
+			The any type is also handy if you know some part of the type, but perhaps not all of it. For example, you may have an array but the array has a mix of different types:
+		</p>
+		<pre>
+			let list: any[] = [1, true, "free"];
+
+			list[1] = 100;
+		</pre>
+		<h1>Type Assertion</h1>
+		<p>
+			TypeScript allows changing a variable from one type to another. TypeScript refers to this process as Type Assertion. The syntax is to put the target type between < > symbols and place it in front of the variable or expression. A type assertion is like a type cast in other languages, but performs no special checking or restructuring of data. It has no runtime impact, and is used purely by the compiler. TypeScript assumes that you, the programmer, have performed any special checks that you need. The following example explains this concept −
+		</p>
+		<p>
+			Type assertions have two forms. One is the “angle-bracket” syntax:
+		</p>
+		<pre>
+			let someValue: any = "this is a string";
+			let strLength: number = (&lt;string>someValue).length;
+		</pre>
+		<p>And the other is the as-syntax:</p>
+		<pre>
+			let someValue: any = "this is a string";
+
+			let strLength: number = (someValue as string).length;
+		</pre>
+		<p>
+			The two samples are equivalent. Using one over the other is mostly a choice of preference; however, when using TypeScript with JSX, only as-style assertions are allowed.
+		</p>
+		<h1>Inferred Typing in TypeScript</h1>
+		<p>
+			Given the fact that, Typescript is strongly typed, this feature is optional. TypeScript also encourages dynamic typing of variables. This means that, TypeScript encourages declaring a variable without a type. In such cases, the compiler will determine the type of the variable on the basis of the value assigned to it. TypeScript will find the first usage of the variable within the code, determine the type to which it has been initially set and then assume the same type for this variable in the rest of your code block.
+		</p>
+		<pre>
+			var num = 2;    // data type inferred as  number 
+			console.log("value of num "+num); 
+			num = "12";
+			console.log(num);
+		</pre>
+		<p>
+			The compiler will transprit your ts file successfully but it will generate error in the console that cannot assign string to type number. The code declares a variable and sets its value to 2. Note that the variable declaration doesn’t specify the data type. Hence, the program uses inferred typing to determine the data type of the variable, i.e., it assigns the type of the first value that the variable is set to. In this case, num is set to the type number. When the code tries to set the variable’s value to string. The compiler throws an error as the variable’s type is already set to number.
+		</p>
+	</div>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

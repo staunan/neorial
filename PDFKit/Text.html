@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Text</title>
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
+	<script type="text/javascript" src="../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../Assets/prism-dark.css">
+  <script type="text/javascript" src="pdfkit.js"></script>
+  <script type="text/javascript" src="blob-stream.js"></script>
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+
+<h1>text</h1>
+<p>Adding text to a document is as simple as calling the <code>text</code> method.</p>
+<pre>
+doc.text(Hello world!');
+doc.text('Hello Santanu!');
+</pre>
+<div class="box">
+<button onclick="Demo1()">Demo</button>
+<script type="text/javascript">
+function Demo1(){
+	// Initializing doc --
+	var doc = new PDFDocument;
+	var stream = doc.pipe(blobStream());
+
+
+	// Content Start -----------
+	doc.text('Hello world!');
+	doc.text('Hello Santanu!');
+	// Content End -------------
+
+
+
+
+	// Downloading PDF --
+	doc.end();
+	stream.on('finish', function(){
+		var blob = stream.toBlob('application/pdf');
+		url = stream.toBlobURL('application/pdf');
+		var link = document.createElement('a');
+		link.setAttribute('target', '_blank');
+		link.setAttribute('href', url);
+		document.body.appendChild(link);
+		link.click();
+	});
+}
+</script>
+</div>
+<p>In the above example we have two <code>text</code> method. Each text method ends with a newline automatically and that's why the second text method prints the text in next line.</p>
+<p>Internally, PDFKit keeps track of the current X and Y position of text as it is added to the document. This way, subsequent calls to the text method will automatically appear as new lines below the previous line. However, you can modify the position of text by passing X and Y coordinates to the text method after the text itself.</p>
+<pre>
+doc.text('Hello world!', 100, 200);
+</pre>
+<div class="box">
+<button onclick="Demo2()">Demo</button>
+<script type="text/javascript">
+function Demo2(){
+	// Initializing doc --
+	var doc = new PDFDocument;
+	var stream = doc.pipe(blobStream());
+
+
+	// Content Start -----------
+	doc.text('Hello world!', 100, 200);
+	// Content End -------------
+
+
+
+
+	// Downloading PDF --
+	doc.end();
+	stream.on('finish', function(){
+		var blob = stream.toBlob('application/pdf');
+		url = stream.toBlobURL('application/pdf');
+		var link = document.createElement('a');
+		link.setAttribute('target', '_blank');
+		link.setAttribute('href', url);
+		document.body.appendChild(link);
+		link.click();
+	});
+}
+</script>
+</div>
+<p>If you want to move down or up by lines, just call the <code>moveDown</code> or <code>moveUp</code> method with the number of lines you'd like to move (1 by default).</p>
+<pre>
+// The cursor position will move to two line below the current cursor position.
+doc.moveDown(2);
+// The cursor position will move up two line above the current cursor position.
+doc.moveUp(2);
+</pre>
+<p>PDFKit includes support for line wrapping out of the box! If no options are given, text is automatically wrapped within the page margins and placed in the document flow below any previous text, or at the top of the page. PDFKit automatically inserts new pages as necessary so you don't have to worry about doing that for long pieces of text. PDFKit can also automatically wrap text into multiple columns.</p>
+<p>If you pass a specific X and Y position for the text, it will not wrap unless you also pass the width option, setting the width the text should be wrapped to. If you set the height option, the text will be clipped to the number of lines that can fit in that height.</p>
+<p>When line wrapping is enabled, you can choose a text justification. There are four options: <code>left</code> (the default), <code>center</code>, <code>right</code>, and <code>justify</code>.</p>
+<pre>
+var lorem = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam in suscipit purus. 
+Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Vivamus nec 
+hendrerit felis. Morbi aliquam facilisis risus eu lacinia. Sed eu leo in turpis fringilla hendrerit. Ut 
+nec accumsan nisl.';
+
+doc.fontSize(11);
+doc.text('This text is left aligned. ' + lorem, {width: 410, align: 'left'});
+
+doc.moveDown();
+doc.text('This text is Center aligned. ' + lorem, {width: 410, align: 'center'});
+
+doc.moveDown();
+doc.text('This text is right aligned. ' + lorem, {width: 410, align: 'right'});
+
+doc.moveDown();
+doc.text('This text is left aligned. ' + lorem, {width: 410, align: 'justify'});
+</pre>
+<div class="box">
+<button onclick="Demo3()">Demo</button>
+<script type="text/javascript">
+function Demo3(){
+	// Initializing doc --
+	var doc = new PDFDocument;
+	var stream = doc.pipe(blobStream());
+
+
+	// Content Start -----------
+	var lorem = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam in suscipit purus.  Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Vivamus nec hendrerit felis. Morbi aliquam facilisis risus eu lacinia. Sed eu leo in turpis fringilla hendrerit. Ut nec accumsan nisl.';
+
+	doc.fontSize(11);
+	doc.text('This text is left aligned. ' + lorem, {width: 410, align: 'left'});
+
+	doc.moveDown();
+	doc.text('This text is Center aligned. ' + lorem, {width: 410, align: 'center'});
+
+	doc.moveDown();
+	doc.text('This text is right aligned. ' + lorem, {width: 410, align: 'right'});
+
+	doc.moveDown();
+	doc.text('This text is left aligned. ' + lorem, {width: 410, align: 'justify'});
+
+	// # draw bounding rectangle
+	// doc.rect(doc.x, 0, 410, doc.y).stroke()
+	// Content End -------------
+
+
+
+
+	// Downloading PDF --
+	doc.end();
+	stream.on('finish', function(){
+		var blob = stream.toBlob('application/pdf');
+		url = stream.toBlobURL('application/pdf');
+		var link = document.createElement('a');
+		link.setAttribute('target', '_blank');
+		link.setAttribute('href', url);
+		document.body.appendChild(link);
+		link.click();
+	});
+}
+</script>
+</div>
+<h3>fontSize()</h3>
+<p>In the above example we have used the method <code>fontSize()</code>. It sets the size of the font. It accepts unitless integer.</p>
+<pre>
+doc.fontSize(11);
+</pre>
+
+
+
+
+
+
+
+<h1>fillColor()</h1>
+<p>This method is used to set the text color. It takes the color name.</p>
+<pre>
+doc.fillColor('green').text(lorem);
+</pre>
+<div class="box">
+<button onclick="DemoColor()">Demo</button>
+<script type="text/javascript">
+function DemoColor(){
+	// Initializing doc --
+	var doc = new PDFDocument;
+	var stream = doc.pipe(blobStream());
+
+
+	// Content Start -----------
+	var lorem = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam in suscipit purus.  Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Vivamus nec hendrerit felis. Morbi aliquam facilisis risus eu lacinia. Sed eu leo in turpis fringilla hendrerit. Ut nec accumsan nisl. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam in suscipit purus.  Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Vivamus nec hendrerit felis. Morbi aliquam facilisis risus eu lacinia. Sed eu leo in turpis fringilla hendrerit. Ut nec accumsan nisl. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam in suscipit purus.  Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Vivamus nec hendrerit felis. Morbi aliquam facilisis risus eu lacinia. Sed eu leo in turpis fringilla hendrerit. Ut nec accumsan nisl';
+
+	doc.fillColor('green').text(lorem);
+	// Content End -------------
+
+
+
+
+	// Downloading PDF --
+	doc.end();
+	stream.on('finish', function(){
+		var blob = stream.toBlob('application/pdf');
+		url = stream.toBlobURL('application/pdf');
+		var link = document.createElement('a');
+		link.setAttribute('target', '_blank');
+		link.setAttribute('href', url);
+		document.body.appendChild(link);
+		link.click();
+	});
+}
+</script>
+</div>
+
+
+
+
+
+
+
+
+<h1>Text Styling</h1>
+<p>PDFKit has many options for controlling the look of text added to PDF documents, which can be passed to the text method. They are enumerated below.</p>
+<ul>
+	<li><code>liineBreak</code> : Default value is <code>true</code>, which means the text will wrap if the text is too long to fit in a single line. You can set this option to false if you don't want your text to be wrapped in the new line.</li>
+	<li><code>width</code> : The width that text should be wrapped to (by default, the page width minus the left and right margin).</li>
+	<li><code>height</code> : The maximum height that text should be clipped to.</li>
+	<li><code>ellipsis</code> : The character to display at the end of the text when it is too long. Set to true to use the default character.</.li>
+	<li><code>colums</code> : The number of columns to flow the text into.</li>
+	<li><code>columnGap</code> : The amount of space between each column (1/4 inch by default).</li>
+	<li><code>indent</code> : The amount in PDF points (72 per inch) to indent each paragraph of text.</li>
+	<li><code>paragraphGap</code> : The amount of space between each paragraph of text.</li>
+	<li><code>lineGap</code> : The amount of space between each line of text.</li>
+	<li><code>wordSpacing</code> : The amount of space between each word in the text.</li>
+	<li><code>characterSpacing</code> : The amount of space between each character in the text.</li>
+	<li><code>fill</code> : Whether to fill the text (true by default).</li>
+	<li><code>stroke</code> : Whether to stroke the text.</li>
+	<li><code>link</code> : A URL to link this text to (shortcut to create an annotation).</li>
+	<li><code>underline</code> : Whether to underline the text.</li>
+	<li><code>strike</code> : Whether to strike out the text.</li>
+	<li><code>continued</code> : Whether the text segment will be followed immediately by another segment. Useful for changing styling in the middle of a paragraph.</li>
+</ul>
+<p>Here is an example combining some of the options above, wrapping a piece of text into three columns, in a specified width and height.</p>
+<h3>Multiple Colums</h3>
+<pre>
+	var lorem = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam in suscipit purus.
+		Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Vivamus nec 
+		hendrerit felis. Morbi aliquam facilisis risus eu lacinia. Sed eu leo in turpis fringilla hendrerit.
+		Ut nec accumsan nisl. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam in suscipit
+		purus.  Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae;
+		Vivamus nec hendrerit felis. Morbi aliquam facilisis risus eu lacinia. Sed eu leo in turpis 
+		fringilla hendrerit. Ut nec accumsan nisl. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+		Etiam in suscipit purus.  Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere
+		cubilia Curae; Vivamus nec hendrerit felis. Morbi aliquam facilisis risus eu lacinia. Sed eu leo in 
+		turpis fringilla hendrerit. Ut nec accumsan nisl';
+
+	doc.text(lorem, {
+			columns: 3,
+			columnGap: 15,
+			height: 100,
+			align: 'justify'
+	});
+</pre>
+<div class="box">
+<button onclick="Demo4()">Demo</button>
+<script type="text/javascript">
+function Demo4(){
+	// Initializing doc --
+	var doc = new PDFDocument;
+	var stream = doc.pipe(blobStream());
+
+
+	// Content Start -----------
+	var lorem = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam in suscipit purus.  Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Vivamus nec hendrerit felis. Morbi aliquam facilisis risus eu lacinia. Sed eu leo in turpis fringilla hendrerit. Ut nec accumsan nisl. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam in suscipit purus.  Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Vivamus nec hendrerit felis. Morbi aliquam facilisis risus eu lacinia. Sed eu leo in turpis fringilla hendrerit. Ut nec accumsan nisl. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam in suscipit purus.  Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Vivamus nec hendrerit felis. Morbi aliquam facilisis risus eu lacinia. Sed eu leo in turpis fringilla hendrerit. Ut nec accumsan nisl';
+
+	doc.text(lorem, {
+			columns: 3,
+			columnGap: 15,
+			height: 100,
+			align: 'justify'
+	});
+	// Content End -------------
+
+
+
+
+	// Downloading PDF --
+	doc.end();
+	stream.on('finish', function(){
+		var blob = stream.toBlob('application/pdf');
+		url = stream.toBlobURL('application/pdf');
+		var link = document.createElement('a');
+		link.setAttribute('target', '_blank');
+		link.setAttribute('href', url);
+		document.body.appendChild(link);
+		link.click();
+	});
+}
+</script>
+</div>
+
+
+
+<h3>Continue</h3>
+<p>As mentioned above, PDFKit supports a simple form of rich text via the continued option. When set to true, PDFKit will retain the text wrapping state between <code>text</code> calls. This way, when you call <code>text</code> again after changing the text styles, the wrapping will continue right where it left off. The options given to the first <code>text</code> call are also retained for subsequent calls after a continued one, but of course you can override them. In the following example, the width option from the first <code>text</code> call is retained by the second call.</p>
+<pre>
+	doc.fillColor('green')
+			.text(lorem.slice(0, 500),{continued : true, width : 150})
+			.fillColor('blue')
+			.text(lorem.slice(500));
+</pre>
+<div class="box">
+<button onclick="Demo5()">Demo</button>
+<script type="text/javascript">
+function Demo5(){
+	// Initializing doc --
+	var doc = new PDFDocument;
+	var stream = doc.pipe(blobStream());
+
+
+	// Content Start -----------
+	var lorem = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam in suscipit purus.  Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Vivamus nec hendrerit felis. Morbi aliquam facilisis risus eu lacinia. Sed eu leo in turpis fringilla hendrerit. Ut nec accumsan nisl. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam in suscipit purus.  Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Vivamus nec hendrerit felis. Morbi aliquam facilisis risus eu lacinia. Sed eu leo in turpis fringilla hendrerit. Ut nec accumsan nisl. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam in suscipit purus.  Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Vivamus nec hendrerit felis. Morbi aliquam facilisis risus eu lacinia. Sed eu leo in turpis fringilla hendrerit. Ut nec accumsan nisl';
+	doc.fillColor('green')
+			.text(lorem.slice(0, 500),{continued : true, width : 150})
+			.fillColor('blue')
+			.text(lorem.slice(500));
+	// Content End -------------
+
+
+
+
+	// Downloading PDF --
+	doc.end();
+	stream.on('finish', function(){
+		var blob = stream.toBlob('application/pdf');
+		url = stream.toBlobURL('application/pdf');
+		var link = document.createElement('a');
+		link.setAttribute('target', '_blank');
+		link.setAttribute('href', url);
+		document.body.appendChild(link);
+		link.click();
+	});
+}
+</script>
+</div>
+
+<h3>Link</h3>
+<pre>
+doc.fillColor('green').text(lorem,{link : 'https://www.google.com'});
+</pre>
+<div class="box">
+<button onclick="Demo5()">Demo</button>
+<script type="text/javascript">
+function Demo5(){
+	// Initializing doc --
+	var doc = new PDFDocument;
+	var stream = doc.pipe(blobStream());
+
+
+	// Content Start -----------
+	var lorem = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam in suscipit purus.  Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Vivamus nec hendrerit felis. Morbi aliquam facilisis risus eu lacinia. Sed eu leo in turpis fringilla hendrerit. Ut nec accumsan nisl. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam in suscipit purus.  Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Vivamus nec hendrerit felis. Morbi aliquam facilisis risus eu lacinia. Sed eu leo in turpis fringilla hendrerit. Ut nec accumsan nisl. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam in suscipit purus.  Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Vivamus nec hendrerit felis. Morbi aliquam facilisis risus eu lacinia. Sed eu leo in turpis fringilla hendrerit. Ut nec accumsan nisl';
+	doc.fillColor('green').text(lorem,{link : 'https://www.google.com'});
+	// Content End -------------
+
+
+
+
+	// Downloading PDF --
+	doc.end();
+	stream.on('finish', function(){
+		var blob = stream.toBlob('application/pdf');
+		url = stream.toBlobURL('application/pdf');
+		var link = document.createElement('a');
+		link.setAttribute('target', '_blank');
+		link.setAttribute('href', url);
+		document.body.appendChild(link);
+		link.click();
+	});
+}
+</script>
+</div>
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

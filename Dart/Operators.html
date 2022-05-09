@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Operators</title>
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+	<script type="text/javascript" src="../Assets/prism.min.js"></script>
+	<script type="text/javascript" src="../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+
+<h1>Operators</h1>
+<p>Dart supports many operators. Here are few important operators:</p>
+<ul>
+	<li>Arithmetic Operators</li>
+	<li>Relational Operators</li>
+	<li>Assignment Operator</li>
+	<li>Logical Operator</li>
+	<li>Conditional expressions</li>
+	<li>Cascade notation</li>
+	<li>Conditional member access</li>
+</ul>
+
+
+
+
+
+
+<h2>Arithmetic Operators</h2>
+<ul>
+	<li> <code>+</code> : Addition</li>
+	<li> <code>-</code> : Subtraction</li>
+	<li> <code>*</code> : Multiplication</li>
+	<li> <code>/</code> : Division</li>
+
+	<li> <code>-expr</code> : Unary minus, also known as negation (reverse the sign of the expression)</li>
+	<li> <code>~/</code> : Divide, returning an integer result</li>
+	<li> <code>%</code> : Get the remainder of an integer division (modulo)</li>
+
+	<li> <code>++var</code> : Prefix Increment Operator. For example, var = var + 1 (expression value is var + 1)</li>
+	<li> <code>var++</code> : Postfix Increment Operator. For example, var = var + 1 (expression value is var)</li>
+	<li> <code>--var</code> : Prefix Decrement Operator. For example, var = var – 1 (expression value is var – 1)</li>
+	<li> <code>var--</code> : Postfix Decrement Operator. For example, var = var – 1 (expression value is var)</li>
+</ul>
+<pre>
+assert(2 + 3 == 5);
+assert(2 - 3 == -1);
+assert(2 * 3 == 6);
+assert(5 / 2 == 2.5); // Result is a double
+assert(5 ~/ 2 == 2); // Result is an int
+assert(5 % 2 == 1); // Remainder
+
+assert('5/2 = ${5 ~/ 2} r ${5 % 2}' == '5/2 = 2 r 1');
+</pre>
+<pre>
+var a, b;
+
+a = 0;
+b = ++a; // Increment a before b gets its value.
+assert(a == b); // 1 == 1
+
+a = 0;
+b = a++; // Increment a AFTER b gets its value.
+assert(a != b); // 1 != 0
+
+a = 0;
+b = --a; // Decrement a before b gets its value.
+assert(a == b); // -1 == -1
+
+a = 0;
+b = a--; // Decrement a AFTER b gets its value.
+assert(a != b); // -1 != 0
+</pre>
+
+
+
+
+
+
+<h2>Relational Operators</h2>
+<ul>
+	<li> <code>==</code> : Equal</li>
+	<li> <code>!=</code> : Not equal</li>
+	<li> <code>></code> : Greater than</li>
+	<li> <code><</code> : Less than</li>
+	<li> <code>>=</code> : Greater than or equal to</li>
+	<li> <code><=</code> : Less than or equal to</li>
+</ul>
+
+
+
+
+<h2>Assignment Operator</h2>
+<p>There is only one assignment operator which is <code>=</code>. You can combine arithmentic operator with the <code>=</code> to create <code>Compund Assignment Operator</code>. For example, <code>+=</code>. Here is the list of few Compund Assignment Operator.</p>
+<ul>
+	<li>+=</li>
+	<li>-=</li>
+	<li>*=</li>
+	<li>/=</li>
+</ul>
+<pre>
+var a = 30;
+var b = 50;
+a += b; // a = a + b;
+print(a); // a = 80
+</pre>
+
+
+
+
+
+
+
+<h2>Logical Operator</h2>
+<p>You can invert or combine boolean expressions using the logical operators.</p>
+<ul>
+	<li><code>!expr</code> : inverts the following expression (changes false to true, and vice versa)</li>
+	<li><code>||</code> : logical OR</li>
+	<li><code>&&</code> : logical AND</li>
+</ul>
+<pre>
+if (!done && (col == 0 || col == 3)) {
+  // ...Do something...
+}
+</pre>
+
+
+
+
+
+
+<h2>Conditional expressions</h2>
+<p>Dart has two operators that let you concisely evaluate expressions that might otherwise require <code>if-else</code> statements:</p>
+<pre>
+condition ? expr1 : expr2
+</pre>
+<p>If condition is <code>true</code>, evaluates <code>expr1</code> (and returns its value); otherwise, evaluates and returns the value of <code>expr2</code>.
+</p>
+<pre>
+expr1 ?? expr2
+</pre>
+<p>If <code>expr1</code> is non-null, returns its value; otherwise, evaluates and returns the value of <code>expr2</code>.</p>
+
+
+
+
+
+
+<h2>Cascade notation</h2>
+<p>Cascades (..) allow you to make a sequence of operations on the same object. In addition to function calls, you can also access fields on that same object. This often saves you the step of creating a temporary variable and allows you to write more fluid code.</p>
+<pre>
+querySelector('#confirm') // Get an object.
+  ..text = 'Confirm' // Use its members.
+  ..classes.add('important')
+  ..onClick.listen((e) => window.alert('Confirmed!'));
+</pre>
+<p>The first method call, <code>querySelector()</code>, returns a selector object. The code that follows the cascade notation operates on this selector object, ignoring any subsequent values that might be returned.</p>
+<p>The previous example is equivalent to the following code:</p>
+<pre>
+var button = querySelector('#confirm');
+button.text = 'Confirm';
+button.classes.add('important');
+button.onClick.listen((e) => window.alert('Confirmed!'));
+</pre>
+<p>Be careful to construct your cascade on a function that returns an actual object. For example, the following code fails:</p>
+<pre>
+var sb = StringBuffer();
+sb.write('foo')
+  ..write('bar'); // Error: method 'write' isn't defined for 'void'.
+</pre>
+<p>The above code doesn't work, as <code>write()</code> method returns <code>void</code>, and you can’t construct a cascade on <code>void</code>.</p>
+
+
+
+
+
+
+<h2>Conditional member access</h2>
+<p>Like <code>.</code>, but the leftmost operand can be <code>null</code>; example: <code>foo?.bar</code> selects property <code>bar</code> from expression <code>foo</code> unless <code>foo</code> is <code>null</code> (in which case the value of <code>foo?.bar</code> is <code>null</code>)</p>
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

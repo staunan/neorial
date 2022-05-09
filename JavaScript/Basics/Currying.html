@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Currying</title>
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+	<script type="text/javascript" src="../../Assets/prism.min.js"></script>
+	<script type="text/javascript" src="../../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+
+
+
+<h1>Currying</h1>
+<p>In mathematics and computer science, currying is the technique of translating the evaluation of a function that takes multiple arguments into evaluating a sequence of functions, each with a single argument. For example, a function that takes two arguments, one from <code>X</code> and one from <code>Y</code>, and produces outputs in <code>Z</code>, by currying is translated into a function that takes a single argument from <code>X</code> and produces as outputs functions from <code>Y</code> to <code>Z</code>. Currying is related to, but not the same as, <code>partial application</code>.</p>
+<p>For instance, Currying is translating a function from callable as <code>f(a, b, c)</code> into callable as <code>f(a)(b)(c)</code>. Here is an example of how to implement curry in JS:</p>
+<pre>
+function curry(func) {
+  return function(a) {
+    return function(b) {
+      return func(a, b);
+    };
+  };
+}
+
+// usage
+function sum(a, b) {
+  return a + b;
+}
+
+let carriedSum = curry(sum);
+
+alert( carriedSum(1)(2) ); // 3
+</pre>
+<p>As you can see, the implementation is a series of wrappers.</p>
+<ul>
+	<li>The result of <code>curry(func)</code> is a wrapper <code>function(a)</code>.</li>
+	<li>When it is called like <code>sum(1)</code>, the argument is saved in the Lexical Environment, and a new wrapper is returned <code>function(b)</code>.</li>
+	<li>Then <code>sum(1)(2)</code> finally calls <code>function(b)</code> providing 2, and it passes the call to the original multi-argument <code>sum</code>.</li>
+</ul>
+<p>In other words, when a function, instead of taking all arguments at one time, takes the first one and return a new function that takes the second one and returns a new function which takes the third one, and so forth, until all arguments have been fulfilled.</p>
+<p>That is, when we turn a function call <code>add(1,2,3)</code> into <code>add(1)(2)(3)</code> . By using this technique, the little piece can be configured and reused with ease.</p>
+<h3>Why it’s useful ?</h3>
+<ul>
+	<li>Currying helps you to avoid passing the same variable again and again.</li>
+	<li>It helps to create a higher order function. It extremely helpful in event handling.</li>
+	<li>Little pieces can be configured and reused with ease.</li>
+</ul>
+<p>Let’s look at a simple add function. It accepts three operands as arguments, and returns the sum of all three as the result.</p>
+<pre>
+function add(a,b,c){
+ return a + b + c;
+}
+</pre>
+<p>You can call it with too few (with odd results), or too many (excess arguments get ignored).</p>
+<pre>
+add(1,2,3) --> 6 
+add(1,2) --> NaN
+add(1,2,3,4) --> 6 //Extra parameters will be ignored.
+</pre>
+<p>How to convert an existing function to curried version?</p>
+<p>The curry function does not exist in native JavaScript. But library like <code>lodash</code> makes it easier to convert a function to curried one.</p>
+<pre>
+//import or load lodash
+var abc = function(a, b, c) {
+  return a + b + c;
+};
+ 
+var curried = _.curry(abc);
+var addBy2 = curried(2);
+console.log(addBy2(0,0));
+// => 2
+console.log(addBy2(1,1));
+// => 4
+console.log(curried(4)(5)(6));
+// => 15
+</pre>
+<h3>Example:Logging</h3>
+<p>Advanced currying allows both to keep the function callable normally and to get partials easily. To understand the benefits we definitely need a worthy real-life example. For instance, we have the logging function <code>log(date, importance, message)</code> that formats and outputs the information. In real projects such functions also have many other useful features like: sending it over the network or filtering:</p>
+<pre>
+function log(date, importance, message) {
+  alert(`[${date.getHours()}:${date.getMinutes()}] [${importance}] ${message}`);
+}
+</pre>
+<p>Let’s curry it!</p>
+<pre>
+log = _.curry(log);
+</pre>
+<p>After that log still works the normal way:</p>
+<pre>
+log(new Date(), "DEBUG", "some debug");
+</pre>
+<p>…But also can be called in the curried form:</p>
+<pre>
+log(new Date())("DEBUG")("some debug"); // log(a)(b)(c)
+</pre>
+<p>Let’s get a convenience function for today’s logs:</p>
+<pre>
+// todayLog will be the partial of log with fixed first argument
+let todayLog = log(new Date());
+
+// use it
+todayLog("INFO", "message"); // [HH:mm] INFO message
+</pre>
+<p>And now a convenience function for today’s debug messages:</p>
+<pre>
+let todayDebug = todayLog("DEBUG");
+
+todayDebug("message"); // [HH:mm] DEBUG message
+</pre>
+<p>So:</p>
+<ul>
+	<li>We didn’t lose anything after currying: <code>log</code> is still callable normally.</li>
+	<li>We were able to generate partial functions that are convenient in many cases.</li>
+</ul>
+<h3>Advanced curry implementation</h3>
+<p>In case you’re interested, here’s the “advanced” curry implementation that we could use above.</p>
+<pre>
+function curry(func) {
+
+  return function curried(...args) {
+    if (args.length >= func.length) {
+      return func.apply(this, args);
+    } else {
+      return function(...args2) {
+        return curried.apply(this, args.concat(args2));
+      }
+    }
+  };
+
+}
+
+function sum(a, b, c) {
+  return a + b + c;
+}
+
+let curriedSum = curry(sum);
+
+// still callable normally
+alert( curriedSum(1, 2, 3) ); // 6
+
+// get the partial with curried(1) and call it with 2 other arguments
+alert( curriedSum(1)(2,3) ); // 6
+
+// full curried form
+alert( curriedSum(1)(2)(3) ); // 6
+</pre>
+<p>The new <code>curry</code> may look complicated, but it’s actually pretty easy to understand.</p>
+<p>The result of <code>curry(func)</code> is the wrapper curried that looks like this:</p>
+<pre>
+// func is the function to transform
+function curried(...args) {
+  if (args.length >= func.length) { // (1)
+    return func.apply(this, args);
+  } else {
+    return function pass(...args2) { // (2)
+      return curried.apply(this, args.concat(args2));
+    }
+  }
+};
+</pre>
+<p>When we run it, there are two branches:</p>
+<ul>
+	<li>Call now: if passed <code>args</code> count is the same as the original function has in its definition (<code>func.length</code>) or longer, then just pass the call to it.</li>
+	<li>Get a partial: otherwise, <code>func</code> is not called yet. Instead, another wrapper pass is returned, that will re-apply curried providing previous arguments together with the new ones. Then on a new call, again, we’ll get either a new partial (if not enough arguments) or, finally, the result.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

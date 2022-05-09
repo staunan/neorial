@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Title</title>
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
+	<script type="text/javascript" src="../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+<h1>mj-navbar</h1>
+<p>Individual links of the menu should we wrapped inside mj-navbar.</p>
+<p> The "hamburger" feature only work on mobile device with all iOS mail client, for others mail clients the render is performed on an normal way, the links are displayed inline and the hamburger is not visible.</p>
+<p> All the attributes prefixed with ico- help to customize the hamburger icon. They only work with the hamburger mode enabled.</p>
+<pre>
+&lt;mjml>
+  &lt;mj-body>
+    &lt;mj-section background-color="#ef6451">
+      &lt;mj-column>
+
+        &lt;mj-navbar base-url="https://mjml.io" hamburger="hamburger" ico-color="#ffffff">
+            &lt;mj-navbar-link href="/gettings-started-onboard" color="#ffffff">Getting started&lt;/mj-navbar-link>
+            &lt;mj-navbar-link href="/try-it-live" color="#ffffff">Try it live&lt;/mj-navbar-link>
+            &lt;mj-navbar-link href="/templates" color="#ffffff">Templates&lt;/mj-navbar-link>
+            &lt;mj-navbar-link href="/components" color="#ffffff">Components&lt;/mj-navbar-link>
+        &lt;/mj-navbar>
+
+      &lt;/mj-column>
+    &lt;/mj-section>
+  &lt;/mj-body>
+&lt;/mjml>
+</pre>
+<p>As you can see, <code>mj-navbar</code> consist of <code>mj-navbar-link</code> element. Each <code>mj-navbar-link</code> represents each link on the navbar.</p>
+<p>Here is some useful list of attribute you can use on <code>mj-navbar</code> element - </p>
+<ul>
+	<li><code>base-url</code> is the Base URL for the children components.</li>
+	<li><code>hamburger</code> activate the hamburger navigation on mobile if the value is hamburger.</li>
+	<li><code>align</code> Align content left/center/right.</li>
+	<li><code>ico-color	</code> color of the hamburger icon.</li>
+	<li><code>ico-font-size</code> hamburger icon size (hamburger mode required). Default is 30px.</li>
+</ul>
+<p>Here is some useful list of attribute you can use on <code>mj-navbar-item</code> element -</p>
+<ul>
+	<li><code>color</code> The text color.</li>
+	<li>font-family</li>
+	<li>font-size</li>
+	<li>font-style</li>
+	<li>font-weight</li>
+	<li>line-height</li>
+	<li>text-decoration</li>
+	<li>text-transform</li>
+	<li>padding</li>
+	<li>padding-top</li>
+	<li>padding-bottom</li>
+	<li>padding-right</li>
+	<li>padding-left</li>
+	<li>rel</li>
+	<li>href</li>
+	<li>target</li>
+</ul>
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

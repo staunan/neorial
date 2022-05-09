@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Typography</title>
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+	<script src="../Assets/prism.min.js"></script>
+	<script type="text/javascript" src="../Assets/jquery.min.js"></script>
+    <link rel="stylesheet" href="../Assets/prism-dark.css">
+</head>
+<body class="Body">
+	<div class="Content Card">
+		<h1>Text Color</h1>
+		<p>
+			Use <code>color</code> property to give the text color.
+		</p>
+		<pre>
+			p{ color : red; }
+		</pre>
+
+
+		<h1>Text Alignment</h1>
+		<p>
+			The <code>text-align</code> property is used to set the horizontal alignment of a text. A text can be left or right aligned, centered, or justified.
+		</p>
+		<pre>
+		p{
+			// It will align the text in center. It means it will create equal space on the left and right side.
+			text-align:center;
+
+			// It will align the text in left side. It means all the line starts from the same point on the left side.
+			text-align : left;
+
+			// It will align the text in right side. 
+			//It means all the line starts from the same point on the right side.
+			text-align : right;
+
+			// The text will try to streach to make the both left and right side equal. 
+			//It actually adds space in between words to equal the line. 
+			text-align : justify;
+		}
+		</pre>
+
+
+		<h1>Text Decoration</h1>
+		<p>
+			The <code>text-decoration</code> property is used to set or remove decorations from text. The value text-decoration: none; is often used to remove underlines from links:
+		</p>
+		<pre>
+			a {
+				// It removes the underline from the link
+			    text-decoration: none;
+			}
+		</pre>
+		<p>
+			You can also use other values -
+		</p>
+		<pre>
+			// Creates a line above the text.
+			h1 {
+			    text-decoration: overline;
+			}
+
+			// Just like strike-through text. Line over the text.
+			h2 {
+			    text-decoration: line-through;
+			}
+
+			// line below the text.
+			h3 {
+			    text-decoration: underline;
+			}
+		</pre>
+
+		<h1>Text Transformation</h1>
+		<p>
+			The <code>text-transform</code> property is used to specify uppercase and lowercase letters in a text. It can be used to turn everything into uppercase or lowercase letters, or capitalize the first letter of each word:
+		</p>
+		<pre>
+			// MAKES ALL THE LETTERS APPEAR IN UPPERCASE LETTER.
+			p.uppercase {
+			    text-transform: uppercase;
+			}
+
+			// makes all the letters appear in lowercase letter.
+			p.lowercase {
+			    text-transform: lowercase;
+			}
+
+			// The First Letter Of Each Word Is In Capital Letter.
+			p.capitalize {
+			    text-transform: capitalize;
+			}
+		</pre>
+
+		<h1>Text Indentation</h1>
+		<p>
+			The <code>text-indent</code> property is used to specify the indentation of the first line of a text:
+		</p>
+		<pre>
+			&lt;div style="text-indent: 50px;">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+			tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+			quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+			consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+			cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+			proident, sunt in culpa qui officia deserunt mollit anim id est laborum.&lt;/div>
+		</pre>
+		<div style="text-indent: 50px;">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+			tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+			quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+			consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+			cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+			proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		</div>
+
+
+		<h1>Letter Spacing</h1>
+		<p>
+			The <code>letter-spacing</code> property is used to specify the space between the characters in a text.
+		</p>
+		<pre>
+			&lt;div style="letter-spacing:15px;">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+			tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+			quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+			consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+			cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+			proident, sunt in culpa qui officia deserunt mollit anim id est laborum.&lt;/div>
+		</pre>
+		<div style="letter-spacing: 15px;">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+			tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+			quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+			consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+			cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+			proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		</div>
+
+
+		<h1>Line Height</h1>
+		<p>
+			The <code>line-height</code> property is used to specify the space between lines:
+		</p>
+		<pre>
+			&lt;div style="line-height:40px;">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+			tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+			quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+			consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+			cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+			proident, sunt in culpa qui officia deserunt mollit anim id est laborum.&lt;/div>
+		</pre>
+		<div style="line-height: 40px;">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+			tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+			quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+			consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+			cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+			proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		</div>
+
+
+		<h1>Word Spacing</h1>
+		<p>
+			The <code>word-spacing</code> property is used to specify the space between the words in a text.
+		</p>
+		<pre>
+			&lt;div style="line-height:40px;">Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
+			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+			quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+			consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+			cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+			proident, sunt in culpa qui officia deserunt mollit anim id est laborum.&lt;/div>
+		</pre>
+		<div style="word-spacing: 40px;">Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
+			sed do eiusmod
+			tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+			quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+			consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+			cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+			proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		</div>
+
+
+
+
+<h1>text-overflow</h1>
+<p>The <code>text-overflow</code> property in CSS deals with situations where text is clipped when it overflows the element's box. It can be clipped (i.e. cut off, hidden), display an ellipsis ('…', Unicode Range Value U+2026) or display an author-defined string (no current browser support for author-defined strings).</p>
+<p>Note that <code>text-overflow</code> only occurs when the container's overflow property has the value <code>hidden</code>, <code>scroll</code> or auto and <code>white-space: nowrap;</code></p>
+<p>Text overflow can only happen on block or inline-block level elements, because the element needs to have a width in order to be overflow-ed.</p>
+<p>You can use the following values -</p>
+<ul>
+	<li><code>clip</code> Default value. The text is clipped and not accessible.</li>
+	<li><code>ellipsis</code> Render an ellipsis ("...") to represent the clipped text</li>
+	<li><code>string</code> Render the given string to represent the clipped text.</li>
+</ul>
+<p>Consider the following - </p>
+<pre>
+&lt;div class="box">
+	&lt;div style="width: 200px; background: #eee; margin: 5px;">
+		Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+	&lt;/div>
+	&lt;div style="width: 200px; text-overflow: ellipsis; background: #eee; white-space: nowrap; overflow: hidden; margin: 5px;">
+		Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+	&lt;/div>
+	&lt;div style="width: 200px; text-overflow: clip; background: #eee; white-space: nowrap; overflow: hidden; margin: 5px;">
+		Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+	&lt;/div>
+&lt;/div>	
+</pre>
+<div class="box">
+	<div style="width: 200px; background: #eee; margin: 5px;">
+		Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+	</div>
+	<div style="width: 200px; text-overflow: ellipsis; background: #eee; white-space: nowrap; overflow: hidden; margin: 5px;">
+		Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+	</div>
+	<div style="width: 200px; text-overflow: clip; background: #eee; white-space: nowrap; overflow: hidden; margin: 5px;">
+		Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+	</div>
+</div>
+
+
+
+
+
+
+<h1>word-wrap</h1>
+<p>The <code>word-wrap</code> property allows long words to be able to be broken and wrap onto the next line.</p>
+<p>You can use the following values -</p>
+<ul>
+	<li><code>normal</code> Break words only at allowed break points.</li>
+	<li><code>break-word</code> Allows unbreakable words to be broken.</li>
+</ul>
+<p>Consider the following example -</p>
+<pre>
+
+	.wordwrapNormal{
+		word-wrap: normal;
+		width: 100px;
+		background: #eee;
+		margin: 10px;
+	}
+	.wordwrapBreak{
+		word-wrap: break-word;
+		width: 100px;
+		background: #eee;
+		margin: 10px;
+	}
+
+	&lt;div class="box">
+		&lt;div>
+		  &lt;p class="wordwrapNormal">This paragraph was written by techonthenet.com and 
+		  contains the word, antidisestablishmentarianism, to demonstrate how to handle word breaking.&lt;/p>
+		&lt;/div>
+
+		&lt;div>
+		  &lt;p class="wordwrapBreak">This paragraph was written by techonthenet.com and 
+		  contains the word, antidisestablishmentarianism, to demonstrate how to handle word breaking.&lt;/p>
+		&lt;/div>
+	&lt;/div>
+
+</pre>
+<style type="text/css">
+	.wordwrapNormal{
+		word-wrap: normal;
+		width: 100px;
+		background: #eee;
+		margin: 10px;
+	}
+	.wordwrapBreak{
+		word-wrap: break-word;
+		width: 100px;
+		background: #eee;
+		margin: 10px;
+	}
+</style>
+<div class="box">
+	<div>
+	  <p class="wordwrapNormal">This paragraph was written by techonthenet.com and contains the word, antidisestablishmentarianism, to demonstrate how to handle word breaking.</p>
+	</div>
+
+	<div>
+	  <p class="wordwrapBreak">This paragraph was written by techonthenet.com and contains the word, antidisestablishmentarianism, to demonstrate how to handle word breaking.</p>
+	</div>
+</div>
+
+
+
+
+
+<h1>word-break</h1>
+<p>The <code>word-break</code> property in CSS can be used to change when line breaks ought to occur. Normally, line breaks in text can only occur in certain spaces, like when there is a space or a hyphen.</p>
+<p>In the example below we can make the word-break between letters instead:</p>
+<pre>
+
+	p {
+	  word-break: break-all;
+	}
+
+</pre>
+<p>You can use the following values -</p>
+<ul>
+	<li><code>normal</code> Use the default rules for word breaking.</li>
+	<li><code>break-all</code> Any word/letter can break onto the next line to prevent overflow.</li>
+	<li><code>keep-all</code>For Chinese, Japanese and Korean text words are not broken. Otherwise this is the same as normal.</li>
+	<li><code>break-word</code> To prevent overflow, word may be broken at arbitrary points.</li>
+</ul>
+<p>Here is the demo -</p>
+<pre>
+
+	.breakNormal{
+		width: 100px;
+		word-break: normal;
+		margin: 5px;
+		background: #eee;
+	}
+	.breakAll{
+		width: 100px;
+		word-break: break-all;
+		margin: 5px;
+		background: #eee;
+	}
+	.breakWord{
+		width: 100px;
+		word-break: break-word;
+		margin: 5px;
+		background: #eee;
+	}
+
+	&lt;div class="box">
+		&lt;div class="breakNormal">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod&lt;/div>
+
+		&lt;div class="breakAll">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod&lt;/div>
+
+		&lt;div class="breakWord">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod&lt;/div>
+	&lt;/div>
+
+</pre>
+<style type="text/css">
+.breakNormal{
+	width: 100px;
+	word-break: normal;
+	margin: 5px;
+	background: #eee;
+	display: inline-block;
+}
+.breakAll{
+	width: 100px;
+	word-break: break-all;
+	margin: 5px;
+	background: #eee;
+	display: inline-block;
+}
+.breakWord{
+	width: 100px;
+	word-break: break-word;
+	margin: 5px;
+	background: #eee;
+	display: inline-block;
+}
+</style>
+<div class="box">
+	<div class="breakNormal">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod</div>
+
+	<div class="breakAll">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod</div>
+
+	<div class="breakWord">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod</div>
+</div>
+<p>Here is another useful practical demo -</p>
+<style type="text/css">
+.Santanu{
+	width: 1em;
+	font-size: 25px;
+	font-weight: bold;
+	word-break: break-all;
+	text-transform: uppercase;
+	color: #fff;
+}
+</style>
+<div class="box" style="background: crimson; display: flex; justify-content: center; align-content: center;">
+	<p class="Santanu">
+		Santanu
+	</p>
+</div>
+
+
+
+
+
+
+<h1>white-space</h1>
+<p>The <code>white-space</code> property controls how text is handled on the element it is applied to. Let's say you have HTML exactly like this:</p>
+<pre>
+	&lt;div class="whiteSpace">
+	   A bunch of words you see.
+	&lt;/div>
+</pre>
+
+<h3 style="margin-bottom: 0;">normal</h3>
+<p style="margin-top: 0;">You've styled the div to have a set width of 100px. At a reasonable font size, that's too much text to fit in 100px. Without doing anything, the default white-space value is <code>normal</code>, and the text will wrap. See the example below or follow along at home with the demo.</p>
+<pre>
+	.whiteSpace{
+	  /* This is the default, you don't need to
+	     explicitly declare it unless overriding
+	     another declaration */
+	  white-space: normal; 
+	}
+</pre>
+<img src="Assets/img/whitespacenormal.png">
+
+<h3 style="margin-bottom: 0;">nowrap</h3>
+<p style="margin-top: 0;">If you want to prevent the text from wrapping, you can apply <code>white-space: nowrap;</code></p>
+<img src="Assets/img/whitespacenowrap.png">
+<pre>
+	&lt;div class="box">
+		&lt;div style="width: 200px; white-space: nowrap; padding: 10px; border: 1px solid black;">
+			Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+		&lt;/div>
+	&lt;/div>
+</pre>
+<div class="box">
+	<div style="width: 200px; white-space: nowrap; padding: 10px; border: 1px solid black;">
+		Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+	</div>
+</div>
+
+
+<h3 style="margin-bottom: 0;">pre</h3>
+<p style="margin-top: 0;">Notice in HTML code example, there are actually two line breaks, one before the line of text and one after, which allow the text to be on its own line (in the code). When the text renders in the browser, those line breaks appear as if they are stripped out. Also stripped out are the extra spaces on the line before the first letter. If we want to force the browser to display those line breaks and extra white space characters we can use <code>white-space: pre;</code></p>
+<img src="Assets/img/whitespacepre.png">
+<p>It's called pre because the behavior is that as if you had wrapped the text in <code>&lt;pre>&lt;/pre></code> tags (which by default handle white space and line breaks that way).</p>
+<pre>
+	&lt;div class="box">
+		&lt;div style="width: 200px; white-space: pre; padding: 10px; border: 1px solid black;">
+			Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+		&lt;/div>
+	&lt;/div>
+</pre>
+<div class="box">
+	<div style="width: 200px; white-space: pre; padding: 10px; border: 1px solid black;">
+		Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+	</div>
+</div>
+
+
+
+<h3 style="margin-bottom: 0;">pre-wrap</h3>
+<p style="margin-top: 0;">White space is honored exactly as it is in the HTML and the text does not wrap until a line break is present in the code. This is particularly useful when literally displaying code, which benefits aesthetically from some formatting.</p>
+<p>Perhaps you like how pre honors white space and breaks, but you need the text to wrap instead of potentially break out of its parent container. That's what <code>white-space: pre-wrap;</code> is for. Whitespace is preserved by the browser. Text will wrap when necessary, and on line breaks</p>
+<img src="Assets/img/whitespacepre-wrap.png">
+<pre>
+	&lt;div class="box">
+		&lt;div style="width: 200px; white-space: pre-wrap; padding: 10px; border: 1px solid black;">
+			Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+		&lt;/div>
+	&lt;/div>
+</pre>
+<div class="box">
+	<div style="width: 200px; white-space: pre-wrap; padding: 10px; border: 1px solid black;">
+		Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+	</div>
+</div>
+
+
+<h3 style="margin-bottom: 0;">pre-line</h3>
+<p style="margin-top: 0;">Finally, <code>white-space: pre-line;</code> will break lines where they break in code, but extra white space is still stripped. Sequences of whitespace will collapse into a single whitespace. Text will wrap when necessary, and on line breaks.</p>
+<img src="Assets/img/whitespacepre-line.png">
+<pre>
+	&lt;div class="box">
+		&lt;div style="width: 200px; white-space: pre-line; padding: 10px; border: 1px solid black;">
+			Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+		&lt;/div>
+	&lt;/div>
+</pre>
+<div class="box">
+	<div style="width: 200px; white-space: pre-line; padding: 10px; border: 1px solid black;">
+		Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+	</div>
+</div>
+
+
+
+
+
+
+<h1>caret-color</h1>
+<p>The caret-color property in CSS changes the color of the cursor (caret) in inputs, texareas, or really any element that is editable, like &lt;div contenteditable>.</p>
+<pre>
+
+	input,
+	textarea,
+	[contenteditable] {
+	  caret-color: red;
+	}
+
+</pre>
+<style type="text/css">
+	.Caretnew{
+		caret-color: red;
+	}
+</style>
+<div class="box">
+	<input type="text" style="padding: 10px;" value="Red Cursor" class="Caretnew">
+</div>
+
+
+
+
+
+<h1>quotes</h1>
+<p>The quotes property sets the type of quotation marks for quotations. The quotes property in CSS allows you to specify which types of quotes are used when quotes are added via the <code>content: open-quote;</code> or <code>content: close-quote;</code> rules or using <code>&lt;q></code> element. Here’s how to use it:</p>
+<pre>
+#a {
+    quotes: "'" "'";
+}
+q {
+  quotes: "“" "”" "‘" "’";
+}
+q:before {
+    content: open-quote;
+}
+q:after {
+    content: close-quote;
+}
+</pre>
+<pre>
+#a {
+    quotes: "'" "'";
+}
+
+#b {
+    quotes: "„" "“" "‚" "‘";
+}
+
+#c {
+    quotes: "«" "»" "‹" "›";
+}
+
+&lt;p>&lt;q id="a">This is a quote.&lt;/q>&lt;/p>
+&lt;p>&lt;q id="b">This is a &lt;q>quote&lt;/q> inside a quote.&lt;/q>&lt;/p>
+&lt;p>&lt;q id="c">This is a &lt;q>quote&lt;/q> inside a quote.&lt;/q>&lt;/p>
+</pre>
+<style type="text/css">
+#a {
+    quotes: "'" "'";
+}
+#b {
+    quotes: "„" "“" "‚" "‘";
+}
+#c {
+    quotes: "«" "»" "‹" "›";
+}
+</style>
+<div class="box">
+<p><q id="a">This is a quote.</q></p>
+<p><q id="b">This is a <q>quote</q> inside a quote.</q></p>
+<p><q id="c">This is a <q>quote</q> inside a quote.</q></p>
+</div>
+<p>In the example above, four values are added. A set of double smart quotes and a pair of single smart quotes. It's slightly confusing as each quote is wrapped in quotes - but those are just programatic quotes (could be double (") or single (')) as anywhere else in CSS. The quotes inside are what will be used on the page.</p>
+<img src="Assets/img/quotes.png">
+<p>There are four values for the content property that relate to the quotes property: open-quote, close-quote, no-open-quote, and no-close-quote.</p>
+<p>The <code>no-open-quote</code> and <code>no-close-quote</code> values stop the quotes from displaying, but they continue to increment the quote depth.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	</div>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

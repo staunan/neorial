@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Image in Flutter</title>
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+	<script type="text/javascript" src="../../Assets/prism.min.js"></script>
+	<script type="text/javascript" src="../../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+<h1>Image</h1>
+<p>A widget that displays an image. The following image formats are supported: JPEG, PNG, GIF, Animated GIF, WebP, Animated WebP, BMP, and WBMP.</p>
+<p>The Image class provides various constructor that provide us various way to display images:</p>
+<ul>
+	<li>Image.asset()</li>
+	<li>Image.network()</li>
+	<li>Image.file()</li>
+	<li>Image.memory()</li>
+</ul>
+
+<h2>Properties</h2>
+<h3>image</h3>
+<p>The image to display.</p>
+
+
+<h3>height</h3>
+<p>Specifies the height of the Image widget.</p>
+
+
+<h3>width</h3>
+<p>Specifies the width of the Image widget.</p>
+
+
+<h3>fit</h3>
+<p>Specifies how to inscribe the image into the space allocated during layout. Use <code>BoxFit</code> to provide the values. See <a href="BoxFit.html">BoxFit</a> section to learn about BoxFit.</p>
+
+<h3>alignment</h3>
+<p>Specifies the alignment of the Image. For example, if the alignment is <code>Alignment.topLeft</code>, the image will start from top left corner of the Image widget. If the alignment is <code>Alignment.bottomRight</code>, the image will start from the bottom right corner of the Image widget.</p>
+
+
+<h3>repeat</h3>
+<p>It specifies if the image should repeat. If the image is smaller than the Image widget, you can use this property to control the behaviour of filling the uncovered area of the widget. The <code>ImageRepeat</code> enum is used for providing the values. It defines the following constants:</p>
+<ul>
+	<li><code>noRepeat</code>: Leave uncovered portions of the box transparent.</li>
+	<li><code>repeat</code>: Repeat the image in both the x and y directions until the box is filled.</li>
+	<li><code>repeatX</code>: Repeat the image in the x direction until the box is filled horizontally.</li>
+	<li><code>repeatY</code>: Repeat the image in the y direction until the box is filled vertically.</li>
+</ul>
+
+
+
+
+<h1>Image.network</h1>
+<p>The named constructor <code>network()</code> can be used to display an image that is fetched from the internet.</p>
+<pre>
+Image.network(
+  'https://github.com/flutter/plugins/raw/master/packages/video_player/demo_ipod.gif',
+);
+</pre>
+<p>You can use <code>loadingBuilder</code> to show some progress while the image is loading.</p>
+<pre>
+Image.network(
+	imgURL,
+	fit: BoxFit.fill,
+	loadingBuilder:(BuildContext context, Widget child, ImageChunkEvent loadingProgress) {
+		if (loadingProgress == null) 
+			return child;
+		return Center(
+			child: CircularProgressIndicator(
+				value: loadingProgress.expectedTotalBytes != null ? 
+					loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes : null,
+			),
+		);
+	},
+),
+</pre>
+<p>The second parameter of the <code>loadingBuilder</code> callback is <code>child</code>. It is the <code>Image</code> widget itself. Typically, this builder will wrap the child widget in some way and return the wrapped widget. If this builder returns <code>child</code> directly, it will yield the same result as if <code>Image.loadingBuilder</code> was null.</p>
+<p>The <code>loadingProgress</code> argument contains the current progress towards loading the image. This argument will be non-null while the image is loading, but it will be null in the following cases:</p>
+<ul>
+	<li>When the widget is first rendered before any bytes have been loaded.</li>
+	<li>When an image has been fully loaded and is available to be painted.</li>
+</ul>
+<p>This builder must not return null.</p>
+<p>You will see the following output:</p>
+<video width="300" height="400" loop controls autoplay="autoplay">
+	<source src="../../Assets/flutter/loading_progress_image.mp4" type="video/mp4">
+</video>
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

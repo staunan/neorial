@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Form</title>
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
+	<script type="text/javascript" src="../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+<script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+<div class="Content Card">
+
+
+<h1>Forms</h1>
+<p>HTML form elements work a little bit differently from other DOM elements in React, because form elements naturally keep some internal state. For example, this form in plain HTML accepts a single name:</p>
+<pre>
+&lt;form>
+  &lt;label>
+    Name:
+    &lt;input type="text" name="name" />
+  &lt;/label>
+  &lt;input type="submit" value="Submit" />
+&lt;/form>
+</pre>
+<p>This form has the default HTML form behavior of browsing to a new page when the user submits the form. If you want this behavior in React, it just works. But in most cases, it’s convenient to have a JavaScript function that handles the submission of the form and has access to the data that the user entered into the form. The standard way to achieve this is with a technique called “controlled components”.</p>
+
+
+
+<h1>Controlled Components</h1>
+<p>In HTML, form elements such as &lt;input>, &lt;textarea>, and &lt;select> typically maintain their own state and update it based on user input. In React, mutable state is typically kept in the <code>state</code> property of components, and only updated with <code>setState()</code>.</p>
+<p>We can combine the two by making the React state be the “single source of truth”. Then the React component that renders a form also controls what happens in that form on subsequent user input. An input form element whose value is controlled by React in this way is called a “controlled component”.</p>
+
+<p>For example, if we want to make the previous example log the name when it is submitted, we can write the form as a controlled component:</p>
+
+
+<pre>
+class NameForm extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {value: ''};
+
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleChange(event) {
+    this.setState({value: event.target.value});
+  }
+
+  handleSubmit(event) {
+    alert('A name was submitted: ' + this.state.value);
+    event.preventDefault();
+  }
+
+  render() {
+    return (
+      &lt;form onSubmit={this.handleSubmit}>
+        &lt;label>
+          Name:
+          &lt;input type="text" value={this.state.value} onChange={this.handleChange} />
+        &lt;/label>
+        &lt;input type="submit" value="Submit" />
+      &lt;/form>
+    );
+  }
+}
+</pre>
+<p>Since the <code>value</code> attribute is set on our form element, the displayed value will always be <code>this.state.value</code>, making the React state the source of truth. Since handleChange runs on every keystroke to update the React state, the displayed value will update as the user types.</p>
+<div class="box">
+	<div id="nameForm">
+		
+	</div>
+</div>
+<p>With a controlled component, every state mutation will have an associated handler function. This makes it straightforward to modify or validate user input. For example, if we wanted to enforce that names are written with all uppercase letters, we could write handleChange as:</p>
+<pre>
+handleChange(event) {
+  this.setState({value: event.target.value.toUpperCase()});
+}
+</pre>
+<div class="box">
+<div id="nameFormCapital"></div>
+</div>
+
+
+
+
+
+<h1>textarea</h1>
+<p>In HTML, a <code>&lt;textarea></code> element defines its text by its children:</p>
+<pre>
+&lt;textarea>
+  Hello there, this is some text in a text area
+&lt;/textarea>
+</pre>
+<p>In React, a <code>&lt;textarea></code> uses a <code>value</code> attribute instead. This way, a form using a <code>&lt;textarea></code> can be written very similarly to a form that uses a single-line input:</p>
+<pre>
+class EssayForm extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      value: 'Please write an essay about your favorite DOM element.'
+    };
+
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleChange(event) {
+    this.setState({value: event.target.value});
+  }
+
+  handleSubmit(event) {
+    alert('An essay was submitted: ' + this.state.value);
+    event.preventDefault();
+  }
+
+  render() {
+    return (
+      &lt;form onSubmit={this.handleSubmit}>
+        &lt;label>
+          Essay:
+          &lt;textarea value={this.state.value} onChange={this.handleChange} />
+        &lt;/label>
+        &lt;input type="submit" value="Submit" />
+      &lt;/form>
+    );
+  }
+}
+</pre>
+<p>Notice that <code>this.state.value</code> is initialized in the constructor, so that the text area starts off with some text in it.</p>
+
+
+
+
+
+
+<h1>select</h1>
+<p>In HTML, <code>&lt;select></code> creates a drop-down list. For example, this HTML creates a drop-down list of flavors:</p>
+<pre>
+&lt;select>
+  &lt;option value="grapefruit">Grapefruit&lt;/option>
+  &lt;option value="lime">Lime&lt;/option>
+  &lt;option selected value="coconut">Coconut&lt;/option>
+  &lt;option value="mango">Mango&lt;/option>
+&lt;/select>
+</pre>
+<p>Note that the Coconut option is initially selected, because of the <code>selected</code> attribute. React, instead of using this <code>selected</code> attribute, uses a <code>value</code> attribute on the root <code>select</code> tag. This is more convenient in a controlled component because you only need to update it in one place. For example:</p>
+<pre>
+class FlavorForm extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {value: 'coconut'};
+
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleChange(event) {
+    this.setState({value: event.target.value});
+  }
+
+  handleSubmit(event) {
+    alert('Your favorite flavor is: ' + this.state.value);
+    event.preventDefault();
+  }
+
+  render() {
+    return (
+      &lt;form onSubmit={this.handleSubmit}>
+        &lt;label>
+          Pick your favorite flavor:
+          &lt;select value={this.state.value} onChange={this.handleChange}>
+            &lt;option value="grapefruit">Grapefruit&lt;/option>
+            &lt;option value="lime">Lime&lt;/option>
+            &lt;option value="coconut">Coconut&lt;/option>
+            &lt;option value="mango">Mango&lt;/option>
+          &lt;/select>
+        &lt;/label>
+        &lt;input type="submit" value="Submit" />
+      &lt;/form>
+    );
+  }
+}
+</pre>
+<p>You can pass an array into the <code>value</code> attribute, allowing you to select multiple options in a select tag:</p>
+<pre>
+&lt;select multiple={true} value={['B', 'C']}>
+</pre>
+
+
+
+
+
+
+<h1>Multiple Inputs</h1>
+<p>When you need to handle multiple controlled input elements, you can add a <code>name</code> attribute to each element and let the handler function choose what to do based on the value of <code>event.target.name</code>.</p>
+<pre>
+class Reservation extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isGoing: true,
+      numberOfGuests: 2
+    };
+
+    this.handleInputChange = this.handleInputChange.bind(this);
+  }
+
+  handleInputChange(event) {
+    const target = event.target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const name = target.name;
+
+    this.setState({
+      [name]: value
+    });
+  }
+
+  render() {
+    return (
+      &lt;form>
+        &lt;label>
+          Is going:
+          &lt;input
+            name="isGoing"
+            type="checkbox"
+            checked={this.state.isGoing}
+            onChange={this.handleInputChange} />
+        &lt;/label>
+        &lt;br />
+        &lt;label>
+          Number of guests:
+          &lt;input
+            name="numberOfGuests"
+            type="number"
+            value={this.state.numberOfGuests}
+            onChange={this.handleInputChange} />
+        &lt;/label>
+      &lt;/form>
+    );
+  }
+}
+</pre>
+<p>Note how we used the ES6 computed property name syntax to update the state key corresponding to the given input name:</p>
+<pre>
+this.setState({
+  [name]: value
+});
+</pre>
+
+
+
+
+
+<h1>Controlled Input Null Value</h1>
+<p>Specifying the value prop on a controlled component prevents the user from changing the input unless you desire so. If you’ve specified a value but the input is still editable, you may have accidentally set value to undefined or null.</p>
+<p>The following code demonstrates this. (The input is locked at first but becomes editable after a short delay.)</p>
+<pre>
+// Not Editable
+ReactDOM.render(&lt;input value="hi" />, document.getElementById('editable'));
+</pre>
+<div class="box">
+<div id="editable"></div>
+<script type="text/babel">
+ReactDOM.render(<input value="hi" />, document.getElementById('editable'));
+</script>
+</div>
+<pre>
+// Editable
+ReactDOM.render(&lt;input value={null} />, document.getElementById('notEditable'));
+</pre>
+<div class="box">
+<div id="notEditable"></div>
+<script type="text/babel">
+ReactDOM.render(<input value={null} />, document.getElementById('notEditable'));
+</script>
+</div>
+<p>If you look at the Console, you will see some error.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/babel">
+class NameForm extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {value: ''};
+
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleChange(event) {
+    this.setState({value: event.target.value});
+  }
+
+  handleSubmit(event) {
+    alert('A name was submitted: ' + this.state.value);
+    event.preventDefault();
+  }
+
+  render() {
+    return (
+      <form onSubmit={this.handleSubmit}>
+        <label>
+          Name:
+          <input type="text" value={this.state.value} onChange={this.handleChange} />
+        </label>
+        <input type="submit" value="Submit" />
+      </form>
+    );
+  }
+}
+
+class NameFormCapital extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {value: ''};
+
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleChange(event) {
+    this.setState({value: event.target.value.toUpperCase()});
+  }
+
+  handleSubmit(event) {
+    alert('A name was submitted: ' + this.state.value);
+    event.preventDefault();
+  }
+
+  render() {
+    return (
+      <form onSubmit={this.handleSubmit}>
+        <label>
+          Name:
+          <input type="text" value={this.state.value} onChange={this.handleChange} />
+        </label>
+        <input type="submit" value="Submit" />
+      </form>
+    );
+  }
+}
+
+ReactDOM.render(
+	<NameForm />,
+	document.getElementById('nameForm')
+);
+
+ReactDOM.render(
+	<NameFormCapital />,
+	document.getElementById('nameFormCapital')
+);
+</script>
+</div>
+</body>
+</html>

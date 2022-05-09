@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Accordion</title>
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
+	<script type="text/javascript" src="../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+<h1>Accordion</h1>
+<img src="Images/accordion.gif">
+<p>mjml-accordion is an interactive MJML component to stack content in tabs, so the information is collapsed and only the titles are visible. Readers can interact by clicking on the tabs to reveal the content, providing a great experience on mobile devices where space is scarce. This element consist of one or more <code style="white-space: nowrap;">mj-accordion-element</code> element.</p>
+<p> Every attribute in `mj-accordion` are applied to `mj-accordion-element` unless you overide them on `mj-accordion-element`</p>
+<p>Here are some attributes you can use -</p>
+<ul>
+	<li>
+		<code>container-background-color</code> is used to set the background color of the whole accordion.
+	</li>
+	<li>
+		<code>border</code> is used to override the border of the accordion. <code>border="1px solid green"</code>
+	</li>
+	<li>
+		<code>icon-height</code> height of the collapse/expand icon on the right side.
+	</li>
+	<li>
+		<code>icon-width</code> width of the collapse/expand icon on the right side.
+	</li>
+	<li>
+		<code>icon-position</code> position of the collapse/expand icon. Possible values are <code>left</code>, <code>right</code>
+	</li>
+	<li><code>icon-unwrapped-url</code> sets the icon when you expand the accordion.</li>
+	<li><code>icon-wrapped-url</code> sets the icon when you collapse the accordion.</li>
+	<li><code>css-class	</code> is used to specify the CSS classes to override the default style.</li>
+</ul>
+<p>Other common attribute you can use -</p>
+<ul>
+	<li>color</li>
+	<li>font-size</li>
+	<li>font-family</li>
+	<li>padding-top</li>
+	<li>padding-bottom</li>
+	<li>padding-left</li>
+	<li>padding-right</li>
+	<li>padding</li>
+</ul>
+<p>Here is an example -</p>
+<pre>
+&lt;mj-body>
+  &lt;mj-section padding="20px">
+    &lt;mj-column>
+      &lt;mj-accordion container-background-color="#eee">
+        &lt;mj-accordion-element>
+          &lt;mj-accordion-title>Why use an accordion?&lt;/mj-accordion-title>
+          &lt;mj-accordion-text>
+            &lt;span style="line-height:20px">
+              Because emails with a lot of content are most of the time a very bad experience on mobile,
+              mj-accordion comes handy when you want to deliver a lot of information in a concise way.
+            &lt;/span>
+          &lt;/mj-accordion-text>
+        &lt;/mj-accordion-element>
+        &lt;mj-accordion-element>
+          &lt;mj-accordion-title>How it works&lt;/mj-accordion-title>
+          &lt;mj-accordion-text>
+            &lt;span style="line-height:20px">
+              Content is stacked into tabs and users can expand them at will. If responsive styles are 
+              not supported (mostly on desktop clients), tabs are then expanded and your content is readable at once.
+            &lt;/span>
+          &lt;/mj-accordion-text>
+        &lt;/mj-accordion-element>
+      &lt;/mj-accordion>
+    &lt;/mj-column>
+  &lt;/mj-section>
+&lt;/mj-body>
+</pre>
+<p>Each <code>mj-accordion-element</code> consists of two element. One is <code>mj-accordion-title</code> and another is <code>mj-accordion-text</code>.</p>
+<p>Here is the following attribute you can use on both element -</p>
+<ul>
+	<li>background-color</li>
+	<li>color</li>
+	<li>font-family</li>
+	<li>font-size</li>
+	<li>padding-bottom</li>
+	<li>padding-left</li>
+	<li>padding-right</li>
+	<li>padding-top</li>
+	<li>padeding</li>
+	<li>css-class</li>
+</ul>
+<p>You can insert any HTML you want within the <code>mj-accordion-text</code> element, like image, list, table, article, header etc.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

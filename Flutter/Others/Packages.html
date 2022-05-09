@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Using a Package in Flutter</title>
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+	<script type="text/javascript" src="../../Assets/prism.min.js"></script>
+	<script type="text/javascript" src="../../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+<h1>Using a Package</h1>
+<p>Packages are published to <a target="_blank" href="https://pub.dev">pub.dev</a>. You can search for any packages in that website and you can find a lot of information about the package.</p>
+
+<h1>Installing a Package</h1>
+<p>To install a package open <code>pubspec.yaml</code> file and under <code>dependencies</code> add the package name with the version. For example, to install <code>SQFLite</code> in flutter you need to add the line below the dependencies attribute:</p>
+<pre>
+dependencies:
+  ...
+  sqflite: ^1.3.0
+</pre>
+<p>The line <code>sqflite: ^1.3.0</code> specifies that we are going to install <code>sqflite</code> and the version is <code>1.3.0</code>.</p>
+<p>After that run the following code from the project directory:</p>
+<pre>
+flutter pub get
+</pre>
+<p>This will take some time and will install automatically.</p>
+<p>To check if the package has been successfully installed in your project, open <code>pubspec.lock</code> file and check if the package has been listed in that file.</p>
+
+<p>When running <code>flutter pub get</code> for the first time after adding a package, Flutter saves the concrete package version found in the <code>pubspec.lock</code> lockfile. This ensures that you get the same version again if you, or another developer on your team, run <code>flutter pub get</code>.</p>
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

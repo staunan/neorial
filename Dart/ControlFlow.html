@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Control Flow Statements</title>
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+	<script type="text/javascript" src="../Assets/prism.min.js"></script>
+	<script type="text/javascript" src="../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+<h1>Control Flow Statements</h1>
+<p>You can control the flow of your Dart code using any of the following:</p>
+<ul>
+	<li><code>if</code> and <code>else</code></li>
+	<li><code>for</code> loops</li>
+	<li><code>forEach</code> method</li>
+	<li><code>for-in</code> statement</li>
+	<li><code>while</code> and <code>do-while</code> loops</li>
+	<li><code>break</code> and <code>continue</code></li>
+	<li><code>switch</code> and <code>case</code></li>
+	<li><code>assert</code></li>
+</ul>
+
+
+
+
+<h2>If and else</h2>
+<p>Dart supports <code>if</code> statements with optional <code>else</code> statements, as the next sample shows.</p>
+<pre>
+// if Statement
+if(condition){
+	// Statements
+}
+
+// if-else Statement
+if(condition){
+	// Statements
+}else{
+	// Statements
+}
+
+// if-else Ladder
+if(condition1){
+	// Statements
+}else if(condition2){
+	// Statements
+}else if(condition3){
+	// Statements ...
+}
+...
+...
+...
+else{
+	// Statements
+}
+</pre>
+<p>Here is the following example:</p>
+<pre>
+if (isRaining()) {
+  you.bringRainCoat();
+} else if (isSnowing()) {
+  you.wearJacket();
+} else {
+  car.putTopDown();
+}
+</pre>
+<p>Unlike JavaScript, conditions must use boolean values, nothing else.</p>
+
+
+
+
+
+<h2>For loops</h2>
+<p>You can iterate with the standard for loop. For example:</p>
+<pre>
+var message = StringBuffer('Dart is fun');
+for (var i = 0; i < 5; i++) {
+  message.write('!');
+}
+</pre>
+
+
+
+
+
+
+<h2>forEach method</h2>
+<p>If the object that you are iterating over is an Iterable, you can use the <code>forEach()</code> method. Using <code>forEach()</code> is a good option if you don’t need to know the current iteration counter:</p>
+<pre>
+candidates.forEach((candidate) => candidate.interview());
+
+// or,
+
+candidates.forEach(function(candidate){
+	return candidate.interview();
+});
+</pre>
+
+
+
+
+
+
+
+<h2>for-in Statement</h2>
+<p>Iterable classes such as List and Set also support the <code>for-in</code> form of iteration:</p>
+<pre>
+var collection = [0, 1, 2];
+for (var x in collection) {
+  print(x); // 0 1 2
+}
+</pre>
+
+
+
+
+
+<h2>while loop</h2>
+<p>A <code>while</code> loop evaluates the condition before the loop:</p>
+<pre>
+while(condition){
+	// Statements
+}
+</pre>
+<p>For example,</p>
+<pre>
+while (!isDone()) {
+  doSomething();
+}
+</pre>
+<p>The condition is tested first. If the condition is evaluated as <code>true</code>, then the statement of while body executed otherwise the control goes out of the while loop.</p>
+
+
+
+<h2>do-while loop</h2>
+<p>A do-while loop evaluates the condition after the loop:</p>
+<pre>
+do{
+	// Statements
+}while(condition);
+</pre>
+<p>The statements in the <code>do</code> body is executed first, then the condition is checked. If the condition becomes <code>true</code>, the statements get executed for the second time. That means even if in the first attempt, the condition becomes <code>false</code>, there's a gaurentee that the statements will be executed for at least once.</p>
+<pre>
+do {
+  printLine();
+} while (!atEndOfPage());
+</pre>
+
+
+
+
+
+
+
+<h2>break statement</h2>
+<p>Use <code>break</code> statement to terminate the loop and let the control goes out of it.</p>
+<pre>
+while (true) {
+  if (shutDownRequested()) break;
+  processIncomingRequests();
+}
+</pre>
+<p>When the control goes to <code>break</code> statement, the loop breaks. Generally the <code>break</code> statement appears inside a <code>if</code> statement.</p>
+
+
+
+
+
+
+
+<h2>continue statement</h2>
+<p>Use <code>continue</code> to skip to the next loop iteration:</p>
+<pre>
+for (int i = 0; i < candidates.length; i++) {
+  var candidate = candidates[i];
+  if (candidate.yearsExperience < 5) {
+    continue;
+  }
+  candidate.interview();
+}
+</pre>
+<p>Whenever the control meets the <code>continue</code> statement, the following statements after it gets skipped and starts a new iteration. Generally <code>continue</code> statement is appeared within the <code>if</code> statement.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+<h2>switch and case</h2>
+<pre>
+switch(value){
+	case value1:
+		statements1
+		break;
+	case value2:
+		statements2
+		break;
+	...
+
+	default:
+		statements
+}
+</pre>
+<p>The value should be <code>integer</code>, <code>string</code>, or compile time constants.</p>
+<p>When the control gets inside the <code>switch</code> statement, the value of first <code>case</code> statement is checked against the value in the <code>switch</code> statement, if it matches, then the corresponding statements under that <code>case</code> statement gets executed. If the value doesn't match, then the next <code>case</code> statement gets checked. This way it goes to the last <code>case</code> statement until a match is found. If no match s found against any <code>case</code> statement, then the <code>default</code> statements gets executed if there is any.</p>
+<p>To terminate the execution of the <code>case</code> statement, use <code>break</code> statement.
+As a rule, if there is any statement present under the <code>case</code> statement, the <code>break</code> statement must be present to terminate the <code>switch</code> statement. Otherwise, there will be an error.
+</p>
+<p>The following example omits the <code>break</code> statement in a <code>case</code> clause, thus generating an error:</p>
+<pre>
+var command = 'OPEN';
+switch (command) {
+  case 'OPEN':
+    executeOpen();
+    // ERROR: Missing break
+
+  case 'CLOSED':
+    executeClosed();
+    break;
+}
+</pre>
+<p>However, Dart does support empty <code>case</code> clauses, allowing a form of fall-through:</p>
+<pre>
+var command = 'CLOSED';
+switch (command) {
+  case 'CLOSED': // Empty case falls through.
+  case 'NOW_CLOSED':
+    // Runs for both CLOSED and NOW_CLOSED.
+    executeNowClosed();
+    break;
+}
+</pre>
+<p>Here is an example of switch-case statement</p>
+<pre>
+var command = 'OPEN';
+switch (command) {
+  case 'CLOSED':
+    executeClosed();
+    break;
+  case 'PENDING':
+    executePending();
+    break;
+  case 'APPROVED':
+    executeApproved();
+    break;
+  case 'DENIED':
+    executeDenied();
+    break;
+  case 'OPEN':
+    executeOpen();
+    break;
+  default:
+    executeUnknown();
+}
+</pre>
+<p>If you want both, statements as well as fall-through mechanism, then you can use <code>continue</code> statement to achieve this goal:</p>
+<pre>
+var command = 'CLOSED';
+switch (command) {
+  case 'CLOSED':
+    executeClosed();
+    continue nowClosed;
+  // Continues executing at the nowClosed label.
+
+  nowClosed:
+  case 'NOW_CLOSED':
+    // Runs for both CLOSED and NOW_CLOSED.
+    executeNowClosed();
+    break;
+}
+</pre>
+
+
+
+
+
+
+
+
+
+<h2>assert statement</h2>
+<p>During development, use an assert statement to disrupt normal execution if a boolean condition is <code>false</code>. Here are some more:</p>
+<pre>
+assert(condition, optionalMessage);
+</pre>
+<pre>
+// Make sure the variable has a non-null value.
+assert(text != null);
+
+// Make sure the value is less than 100.
+assert(number < 100);
+
+// Make sure this is an https URL.
+assert(urlString.startsWith('https'));
+
+</pre>
+<p>To attach a message to an assertion, add a string as the second argument to <code>assert</code>.</p>
+<pre>
+assert(urlString.startsWith('https'),
+    'URL ($urlString) should start with "https".');
+</pre>
+<p>The first argument of <code>assert</code> is a condition. But you can use a expression or a function call that returns a boolean value.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

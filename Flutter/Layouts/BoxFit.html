@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>BoxFit in Flutter</title>
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+	<script type="text/javascript" src="../../Assets/prism.min.js"></script>
+	<script type="text/javascript" src="../../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+<h1>BoxFit</h1>
+<p>How a box should be inscribed into another box. This class defines the following constants:</p>
+
+<h3>contain</h3>
+<p>As large as possible while still containing the source entirely within the target box.</p>
+<img src="../../Assets/flutter/boxfit/box_fit_contain.png" style="width: 400px;">
+
+<h3>cover</h3>
+<p>As small as possible while still covering the entire target box.</p>
+<img src="../../Assets/flutter/boxfit/box_fit_cover.png" style="width: 400px;">
+
+<h3>fill</h3>
+<p>Fill the target box by distorting the source's aspect ratio.</p>
+<img src="../../Assets/flutter/boxfit/box_fit_fill.png" style="width: 400px;">
+
+
+<h3>fitHeight</h3>
+<p>Make sure the full height of the source is shown, regardless of whether this means the source overflows the target box horizontally.</p>
+<img src="../../Assets/flutter/boxfit/box_fit_fitHeight.png" style="width: 400px;">
+
+<h3>fitWidth</h3>
+<p>Make sure the full width of the source is shown, regardless of whether this means the source overflows the target box vertically.</p>
+<img src="../../Assets/flutter/boxfit/box_fit_fitWidth.png" style="width: 400px;">
+
+<h3>none</h3>
+<p>Align the source within the target box (by default, centering) and discard any portions of the source that lie outside the box. The source image is not resized.</p>
+<img src="../../Assets/flutter/boxfit/box_fit_none.png" style="width: 400px;">
+
+<h3>scaleDown</h3>
+<p>Align the source within the target box (by default, centering) and, if necessary, scale the source down to ensure that the source fits within the box.</p>
+<p>This is the same as contain if that would shrink the image, otherwise it is the same as none.</p>
+<img src="../../Assets/flutter/boxfit/box_fit_scaleDown.png" style="width: 400px;">
+
+
+
+
+
+
+
+<h1>FittedBox Widget</h1>
+<p>Scales and positions its child within itself according to fit. If a child is unable to fit inside the parent for example the child is bigger than the parent widget, then you can use <code>FittedBox</code> to scale the child widget to fit in the parent. Or If the child widget is small but you want your child widget to take the whole are of the parent you can use <code>FittedBox</code>. Note that this widget will scale its child means it is like zooming in or zooming out or stretching the child. So the content might get smaller or bigger.</p>
+<pre>
+container(
+	width : 100,
+	height : 100,
+	child : FittedBox(
+		fit : BoxFit.contain,
+		alignment : Alignment.center,
+		child : Container(
+			width : 150,
+			height : 150,
+			child : Text("Hi..."),
+		)
+	)
+)
+</pre>
+<p>The <code>fit</code> argument is used to specify the <code>BoxFit</code> value to tell the widget how the child should be fitted within the parent.</p>
+<p>The <code>alignment</code> property aligns the child within itself accroding to the <code>Alignment</code> value.</p>
+
+
+
+</div>
+</body>
+</html>

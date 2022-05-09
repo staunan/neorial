@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Fonts</title>
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+	<script src="../Assets/prism.min.js"></script>
+	<script type="text/javascript" src="../Assets/jquery.min.js"></script>
+    <link rel="stylesheet" href="../Assets/prism-dark.css">
+</head>
+<body class="Body">
+	<style type="text/css">
+		h4{
+			margin-bottom: 0;
+		}
+		h4+p{
+			margin-top: 0;
+		}
+	</style>
+	<div class="Content Card">
+		<h1>Font Style</h1>
+		<p>
+			The <code>font-style</code> property is mostly used to specify italic text. It has two value, italic and normal. 
+		</p>
+		<pre>
+			// If the text is italic, it makes the text normal.
+			p.normal {
+			    font-style: normal;
+			}
+
+			// If the text is normal, it makes the text italic.
+			p.italic{
+				font-style:italic;
+			}
+		</pre>
+
+		<h1>Font Size</h1>
+		<p>
+			The <code>font-size</code> specifies the size of the text. The higher the value is bigger the text.
+		</p>
+		<pre>
+			h1 {
+			    font-size: 40px;
+			}
+		</pre>
+
+
+		<h1>Font Family</h1>
+		<p>
+			The font family of a text is set with the <code>font-family</code> property. The font-family property should hold several font names as a "fallback" system. If the browser does not support the first font, it tries the next font, and so on.
+		</p>
+		<p>
+			Start with the font you want, and end with a generic family, to let the browser pick a similar font in the generic family, if no other fonts are available.
+		</p>
+		<p>
+			Note: If the name of a font family is more than one word, it must be in quotation marks, like: "Times New Roman".
+		</p>
+		<pre>
+			p {
+				font-family: "Times New Roman", Times, serif;
+			}
+		</pre>
+
+
+		<h1>Font Weight</h1>
+		<p>
+			The property <code>font-weight</code> represents the thickness of the font. 
+		</p>
+		<pre>
+			p.normal {
+			    font-weight: normal; // Same as 500
+			}
+
+			p.thick {
+			    font-weight: bold; // Same as 700
+			}
+
+			// You can also use number like 500, 600,700, 800 etc.
+			p.thick {
+			    font-weight: 700;
+			}
+		</pre>
+
+
+		<h1>Font Variant</h1>
+		<p>
+			The <code>font-variant</code> property specifies whether or not a text should be displayed in a small-caps font. In a small-caps font, all lowercase letters are converted to uppercase letters. However, the converted uppercase letters appears in a smaller font size than the original uppercase letters in the text.
+		</p>
+		<pre>
+			// If the font variant is set, you can make the text normal using the normal value
+			p.normal {
+			    font-variant: normal;
+			}
+
+			// You can use small-caps value to make the text appear in small-caps font.
+			p.small {
+			    font-variant: small-caps;
+			}
+		</pre>
+
+		<h1>Font</h1>
+		<p>
+			All the above font property discussed above can be specified in the <code>font</code> property as a shortcut. But the shorthand property is used very rarely as it is not much of a readable. You rather use different property for different purpose to make your code look more cleaner.
+		</p>
+		<p class="tip">
+			Avoid using <code>font</code> shorthand property
+		</p>
+		<pre>
+			p.ex2 {
+			    font: italic bold 12px/30px Georgia, serif;
+			}
+		</pre>
+
+
+
+
+<h1>Web Fonts</h1>
+<p>Web fonts allow Web designers to use fonts that are not installed on the user's computer. When you have found/bought the font you wish to use, just include the font file on your web server, and it will be automatically downloaded to the user when needed.</p>
+<p>Your "own" fonts are defined within the CSS <code>@font-face</code> rule.</p>
+<p>In the <code>@font-face</code> rule; first define a name for the font (e.g. myFirstFont) and then point to the font file.</p>
+<p>To use the font for an HTML element, refer to the name of the font (myFirstFont) through the font-family property:</p>
+<pre>
+	
+	@font-face {
+	    font-family: myFirstFont;
+	    src: url(sansation_light.woff);
+	}
+
+	div {
+	    font-family: myFirstFont;
+	}
+
+</pre>
+<h4>Using Bold Text</h4>
+<p>You must add another <code>@font-face</code> rule containing descriptors for bold text:</p>
+<pre>
+	
+	@font-face {
+		font-family: myFirstFont;
+		src: url(sansation_bold.woff);
+		font-weight: bold;
+	}
+
+</pre>
+<p>The file "sansation_bold.woff" is another font file, that contains the bold characters for the Sansation font.</p>
+<p>Browsers will use this whenever a piece of text with the font-family "myFirstFont" should render as bold.</p>
+<p>This way you can have many @font-face rules for the same font.</p>
+<p>The following table lists all the font descriptors that can be defined inside the @font-face rule:</p>
+<h4>font-family</h4>
+<p>Required. Defines a name for the font</p>
+<h4>src</h4>
+<p>Required. Defines the URL of the font file</p>
+<h4>font-stretch</h4>
+<p>Optional. Defines how the font should be stretched. Default is "normal". You can use one of the following values -</p>
+<ul>
+	<li>normal</li>
+	<li>condensed</li>
+	<li>ultra-condensed</li>
+	<li>extra-condensed</li>
+	<li>semi-condensed</li>
+	<li>expanded</li>
+	<li>semi-expanded</li>
+	<li>extra-expanded</li>
+	<li>ultra-expanded</li>
+</ul>
+<h4>font-style</h4>
+<p>Optional. Defines how the font should be styled. Default is "normal". You can use one of the following values -</p>
+<ul>
+	<li>normal</li>
+	<li>italic</li>
+	<li>oblique</li>
+</ul>
+<h4>font-weight</h4>
+<p>Optional. Defines the boldness of the font. Default is "normal". You can use one of the following values - </p>
+<ul>
+	<li>normal</li>
+	<li>bold</li>
+	<li>100</li>
+	<li>200</li>
+	<li>300</li>
+	<li>400</li>
+	<li>500</li>
+	<li>600</li>
+	<li>700</li>
+	<li>800</li>
+	<li>900</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	</div>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

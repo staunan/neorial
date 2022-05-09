@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Coordinates</title>
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
+	<script type="text/javascript" src="../../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+<h1 id="topHeading">Coordinates</h1>
+<p>To move elements around we should be familiar with coordinates. Most JavaScript methods deal with one of two coordinate systems:</p>
+<ul>
+	<li>Relative to the window(or another viewport) top/left.</li>
+	<li>Relative to the document top/left.</li>
+</ul>
+<p>It’s important to understand the difference and which type is where.</p>
+
+
+
+
+
+
+<h1>Window coordinates: getBoundingClientRect</h1>
+<p>Window coordinates start at the left-upper corner of the window. The method <code>elem.getBoundingClientRect()</code> returns window coordinates for elem as an object with properties:</p>
+<ul>
+	<li><code>top</code> Y-coordinate for the top element edge,</li>
+	<li><code>left</code> X-coordinate for the left element edge,</li>
+	<li><code>right</code> X-coordinate for the right element edge,</li>
+	<li><code>bottom</code>  Y-coordinate for the bottom element edge.</li>
+</ul>
+<img src="../Assets/img/coords.png">
+<h3>Window coordinates changes</h3>
+<p>When you scroll the page, window coordinates changes as well. Consider the following example in which upon clicking on the button we are getting the button's coorinate relative to the window -</p>
+<pre>
+&lt;button onclick="windowCoordinate(event)">Get Window Coordinate&lt;/button>
+&lt;script type="text/javascript">
+function windowCoordinate(event){
+	var coordinates = event.target.getBoundingClientRect();
+	alert("Top = "+coordinates.top);
+}
+&lt;/script>
+</pre>
+<div class="box">
+<button onclick="windowCoordinate(event)">Get Window Coordinate</button>
+<script type="text/javascript">
+function windowCoordinate(event){
+	var coordinates = event.target.getBoundingClientRect();
+	alert("Top = "+coordinates.top);
+}
+</script>
+</div>
+<p>If you click the button multiple times in different position you will get different top coordinates depending on it's position.</p>
+<h3>Coordinates can be negative</h3>
+<p>If you scroll the page to the top, the element goes up. If your element goes above the window(out of the viewport) and you try to get the top coordinate you will get negative value.</p>
+<pre>
+&lt;button onclick="getFirstHeadingCoordinate()">Get First Heading Coordinate&lt;/button>
+&lt;script type="text/javascript">
+function getFirstHeadingCoordinate(){
+	var element = document.getElementById("topHeading");
+	var coordinates = element.getBoundingClientRect();
+	alert("First Heading Coordinate = " + coordinates.top);
+}
+&lt;/script>
+</pre>
+<div class="box">
+<button onclick="getFirstHeadingCoordinate()">Get First Heading Coordinate</button>
+<script type="text/javascript">
+function getFirstHeadingCoordinate(){
+	var element = document.getElementById("topHeading");
+	var coordinates = element.getBoundingClientRect();
+	alert("First Heading Coordinate = " + coordinates.top);
+}
+</script>
+</div>
+<p>Here, <code>topHeading</code> is the very first heading of this document.</p>
+<h3>height and width using getBoundingClientRect()</h3>
+<p>You can get height and width using getBoundingClientRect(). This is how it is done -</p>
+<pre>
+height = bottom - top;
+width = right - left;
+</pre>
+<pre>
+&lt;div id="targetBox" style="height : 300px; width: 300px; background-color : red; margin: auto;">&lt;/div>
+&lt;button onclick="getWidthAndHeight()">Get Width and Height&lt;/button>
+&lt;script type="text/javascript">
+function getWidthAndHeight(){
+	var element = document.getElementById("targetBox");
+	var coord = element.getBoundingClientRect();
+	alert("Height = "+(coord.bottom - coord.top));
+}
+&lt;/script>
+</pre>
+<div class="box">
+<div id="targetBox" style="height : 70px; width: 70px; background-color : red; margin: auto;"></div>
+<button onclick="getWidthAndHeight()">Get Width and Height</button>
+<script type="text/javascript">
+function getWidthAndHeight(){
+	var element = document.getElementById("targetBox");
+	var coord = element.getBoundingClientRect();
+	alert("Height = "+(coord.bottom - coord.top));
+}
+</script>
+</div>
+
+
+
+
+
+
+
+
+
+<h1>elementFromPoint(x,y)</h1>
+<p>The call to <code>document.elementFromPoint(x, y)</code> returns the most nested element at window coordinates (x, y).</p>
+<pre>
+let elem = document.elementFromPoint(x, y);
+</pre>
+<p>For instance, the code below highlights and outputs the tag of the element that is now in the middle of the window:</p>
+<pre>
+let centerX = document.documentElement.clientWidth / 2;
+let centerY = document.documentElement.clientHeight / 2;
+
+let elem = document.elementFromPoint(centerX, centerY);
+
+elem.style.background = "#ff525752";
+</pre>
+<p>Here, the first argument specifies <code>top</code> and last argument specifies <code>left</code> coordinates.</p>
+<p>As it uses window coordinates, the element may be different depending on the current scroll position.</p>
+<h3>elementFromPoint returns null sometimes</h3>
+<p>The method <code>document.elementFromPoint(x,y)</code> only works if (x,y) are inside the visible area. If any of the coordinates is negative or exceeds the window width/height, then it returns <code>null</code>.</p>
+<pre>
+let elem = document.elementFromPoint(x, y);
+// if the coordinates happen to be out of the window, then elem = null
+elem.style.background = ''; // Error!
+</pre>
+
+
+
+
+
+
+
+
+
+
+
+
+<h1>Document Coordinates</h1>
+<p>Document-relative coordinates start from the left-upper corner of the document, not the window.</p>
+<p>There’s no standard method to get document coordinates of an element. But it’s easy to write it. The two coordinate systems are connected by the formula:</p>
+<ul>
+	<li><code>pageY</code> = <code>clientY</code> + height of the scrolled-out vertical part of the document.</li>
+	<li><code>pageX</code> = <code>clientX</code> + width of the scrolled-out horizontal part of the document.</li>
+</ul>
+<p>In the above formula, <code>clientY</code> is the vertical position relative to window. And <code>clientX</code> is horizontal position relative to the window.</p>
+<p>The following function <code>getCoords(elem)</code> will take window coordinates from elem.getBoundingClientRect() and add the current scroll to them:</p>
+<pre>
+// get document coordinates of the element
+function getCoords(elem) {
+  let box = elem.getBoundingClientRect();
+
+  return {
+    top: box.top + window.pageYOffset,
+    left: box.left + window.pageXOffset
+  };
+}
+</pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+<div style="width: 100%; height: 300px;"></div>
+</body>
+</html>

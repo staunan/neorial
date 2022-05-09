@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Prototypal Inheritance</title>
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+	<script type="text/javascript" src="../../Assets/prism.min.js"></script>
+	<script type="text/javascript" src="../../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+
+
+<h1>[[Prototype]]</h1>
+<p>In programming, we often want to take something and extend it. For instance, we have a <code>user</code> object with its properties and methods, and want to make <code>admin</code> and <code>guest</code> as slightly modified variants of it. We’d like to reuse what we have in <code>user</code>, not copy/reimplement its methods, just build a new object on top of it.</p>
+<p>Prototypal inheritance is a language feature that helps in that. In JavaScript, objects have a special hidden property <code>[[Prototype]]</code> (as named in the specification), that is either <code>null</code> or references another object. That object is called “a prototype”:</p>
+<img src="../Assets/img/object-prototype-empty.png">
+<p>That <code>[[Prototype]]</code> has a “magical” meaning. When we want to read a property from object, and it’s missing, JavaScript automatically takes it from the prototype. In programming, such thing is called “prototypal inheritance”. Many cool language features and programming techniques are based on it.</p>
+<p>The property <code>[[Prototype]]</code> is internal and hidden, but there are many ways to set it. One of them is to use <code>__proto__</code>, like this:</p>
+<pre>
+let animal = {
+  eats: true
+};
+let rabbit = {
+  jumps: true
+};
+
+rabbit.__proto__ = animal;
+</pre>
+<p>Please note that <code>__proto__</code> is not the same as <code>[[Prototype]]</code>. That’s a getter/setter for it. We’ll talk about other ways of setting it later, but for now <code>__proto__</code> will do just fine.</p>
+<p>If we look for a property in <code>rabbit</code>, and it’s missing, JavaScript automatically takes it from <code>animal</code>.</p>
+<pre>
+// we can find both properties in rabbit now:
+alert( rabbit.eats ); // true (**)
+alert( rabbit.jumps ); // true
+</pre>
+<img src="../Assets/img/proto-animal-rabbit.png">
+<p>Here we can say that "animal is the prototype of rabbit" or "rabbit prototypally inherits from animal". So if <code>animal</code> has a lot of useful properties and methods, then they become automatically available in <code>rabbit</code>. Such properties are called “inherited”. If we have a method in <code>animal</code>, it can be called on <code>rabbit</code>:</p>
+<pre>
+let animal = {
+  eats: true,
+  walk() {
+    alert("Animal walk");
+  }
+};
+
+let rabbit = {
+  jumps: true,
+  __proto__: animal
+};
+
+// walk is taken from the prototype
+rabbit.walk(); // Animal walk
+</pre>
+<p>The method is automatically taken from the prototype, like this:</p>
+<img src="../Assets/img/proto-animal-rabbit-walk.png">
+<p>The prototype chain can be longer:</p>
+<pre>
+let animal = {
+  eats: true,
+  walk() {
+    alert("Animal walk");
+  }
+};
+
+let rabbit = {
+  jumps: true,
+  __proto__: animal
+};
+
+let longEar = {
+  earLength: 10,
+  __proto__: rabbit
+};
+
+// walk is taken from the prototype chain
+longEar.walk(); // Animal walk
+alert(longEar.jumps); // true (from rabbit)
+</pre>
+<img src="../Assets/img/proto-animal-rabbit-chain.png">
+<p>There are actually only two limitations:</p>
+<ul>
+	<li>The references can’t go in circles. JavaScript will throw an error if we try to assign <code>__proto__</code> in a circle</li>
+	<li>The value of <code>__proto__</code> can be either an object or <code>null</code>. All other values (like primitives) are ignored.</li>
+</ul>
+<p>Also it may be obvious, but still: there can be only one <code>[[Prototype]]</code>. An object may not inherit from two others.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+<h1>Read/write rules</h1>
+<h3>Reading Data Properties</h3>
+<p>If a data property doesn't exists, it is looked up in the prototype chain.</p>
+<pre>
+let user = {
+  firstName : "Santanu",
+  lastName : 'Bera',
+  get fullName(){
+    return this.firstName + " " + this.lastName;
+  }
+}
+let Admin = {
+  __proto__ : user,
+  isAdmin : true
+}
+console.log(Admin.firstName); // Santanu
+</pre>
+<h3>Writting/Deleting a Data Property</h3>
+<p>If you do delete or write operation, it is done directly on the object not in the prototype chain.</p>
+<pre>
+let user = {
+  firstName : "Santanu",
+  lastName : 'Bera',
+  get fullName(){
+    return this.firstName + " " + this.lastName;
+  }
+}
+let Admin = {
+  __proto__ : user,
+  isAdmin : true
+}
+console.log(Object.keys(Admin));
+Admin.firstName = "Hello";
+console.log(Object.keys(Admin));
+
+// Output -
+[ "isAdmin" ]
+[ "isAdmin", "firstName" ]
+</pre>
+<p>In this example, we assign a <code>firstName</code> to the <code>Admin</code> object. So, <code>Admin</code> object gets a new property <code>firstName</code> even though the prototype chain already has <code>firstName</code>. And from now if you access the property <code>firstName</code>, it is taken directly from the <code>Admin</code> object itself.</p>
+<p>Similarly, in the following example, we are trying to delete <code>firstName</code>, but the delete operation will not succeed as it looks for the property in the <code>Admin</code> object and there is no <code>firstName</code> property in the <code>Admin</code> object.</p>
+<pre>
+let user = {
+  firstName : "Santanu",
+  lastName : 'Bera',
+  get fullName(){
+    return this.firstName + " " + this.lastName;
+  }
+}
+let Admin = {
+  __proto__ : user,
+  isAdmin : true
+}
+console.log(Object.keys(Admin));
+delete Admin.firstName;
+console.log(Object.keys(Admin));
+
+// Output -
+[ "isAdmin" ]
+[ "isAdmin" ]
+</pre>
+<h3>Writting Accessor Properties</h3>
+<p>For writting accessor properties, the behavior is somehow different. In the following example, the writting operation is done directly on the prototype chain. But the <code>Admin</code> property gets it's own new property <code>firstName</code> and <code>lastName</code>.</p>
+<pre>
+let user = {
+  firstName : "Santanu",
+  lastName : 'Bera',
+  get fullName(){
+    return this.firstName + " " + this.lastName;
+  },
+  set fullName(name){
+    [this.firstName, this.lastName] = name.split(" ");
+  }
+}
+let Admin = {
+  __proto__ : user,
+  isAdmin : true
+}
+console.log(Object.keys(Admin)); // [ "isAdmin" ]
+Admin.fullName = "Lorem Ipsum";
+console.log(Object.keys(Admin)); // [ "isAdmin", "firstName", "lastName" ]
+console.log(Object.keys(user)); // [ "firstName", "lastName", "fullName" ]
+console.log(Admin.fullName); // Lorem Ipsum
+console.log(user.fullName); // Santanu Bera
+</pre>
+<p>This is because the accessor properties acts like a method, they are not regular properties. They directly act on the object.</p>
+<p>When we assign <code>fullName</code> to the <code>Admin</code> object, it tries to find it in the <code>Admin</code> object, in our case it is not in the <code>Admin</code>. So it looks in the prototype chain. When it finds that it is a accessor properties, it calls its setter to act on the <code>Admin</code> object. If it were a data property then a new property <code>fullName</code> would get created in the <code>Admin</code> object.</p>
+<p>Here when you assign <code>fullName</code> to the <code>Admin</code> object, the <code>[this.firstName, this.lastName] = name.split(" ");</code> gets executed. And new property <code>firstName</code> and <code>lastName</code> gets created on the <code>Admin</code> object for its own.</p>
+<h3>Reading accessor properties</h3>
+<pre>
+let user = {
+  firstName : "Santanu",
+  lastName : 'Bera',
+  get fullName(){
+    return this.firstName + " " + this.lastName;
+  },
+  set fullName(name){
+    [this.firstName, this.lastName] = name.split(" ");
+  }
+}
+let Admin = {
+  __proto__ : user,
+  isAdmin : true
+}
+console.log(Admin.fullName); // Santanu Bera
+</pre>
+<p>When we read property <code>fullName</code>, it tries to find it in the <code>Admin</code> object. In our case it is not in the <CODE>Admin</CODE> object. So it tries to find it in the prototype chain, when it finds out that it is an accessor property, it runs its getter to get the result. The getter run on the <code>Admin</code> object. Now getter uses <code>this.firstName</code> and <code>this.lastName</code>. Here <code>this</code> refers to <code>Admin</code>. But there is no <code>Admin.firstName</code> and <code>Admin.lastName</code>. So, it takes the value from the prototype chain and returns it.</p>
+<p>Now when you assign <code>Admin.fullName = "Some Name";</code> it run its setter, and new property <code>firstName</code> and <code>lastName</code> gets created on the <code>Admin</code> object. Now next time you read <code>Admin.fullName</code>, it takes the value from the <code>Admin</code> object itself.</p>
+
+
+
+
+
+
+
+
+
+<h1>The value of “this”</h1>
+<p>An interesting question may arise in the example above: what’s the value of this inside set <code>fullName(value)</code>? Where the properties <code>this.name</code> and <code>this.surname</code> are written: <code>user</code> or <code>admin</code>?</p>
+<p>The answer is simple: <code>this</code> is not affected by prototypes at all. No matter where the method is found: in an object or its prototype. In a method call, <code>this</code> is always the object before the dot.</p>
+<p>So if a accessor properties or an object method uses <code>this</code>, it always refers to the object from which it is called. Not the object that is inherited from. This gives us ability to work with the object itself, not it's base object. That keeps the base object seperated from the inherited/derived object. We can manipulate the derived object while the base object stays intact in any manner.</p>
+<p>In our example, we cannot change or manipulate anything on the <code>user</code> object with the <code>Admin</code> object calls.</p>
+
+
+
+
+
+
+
+
+
+<h1>F.prototype</h1>
+<p>In modern JavaScript we can set a prototype using <code>__proto__</code>.</p>
+<p>But in the old times, there was another (and the only) way to set it: to use a "prototype" property of the constructor function. And there are still many scripts that use it.</p>
+<p>As we know already, <code>new F()</code> creates a new object. When a new object is created with <code>new F()</code>, the object’s <code>[[Prototype]]</code> is set to <code>F.prototype</code>.</p>
+<p>In other words, if <code>F</code> has a prototype property with a value of the object type, then new operator uses it to set <code>[[Prototype]]</code> for the new object.</p>
+<pre>
+let animal = {
+  eats: true
+};
+
+function Rabbit(name) {
+  this.name = name;
+}
+
+Rabbit.prototype = animal;
+
+let rabbit = new Rabbit("White Rabbit"); //  rabbit.__proto__ == animal
+
+alert( rabbit.eats ); // true
+</pre>
+<p>Setting <code>Rabbit.prototype = animal</code> literally states the following: "When a new Rabbit is created, assign its <code>[[Prototype]]</code> to <code>animal</code>".</p>
+<img src="../Assets/img/proto-constructor-animal-rabbit.png">
+<p>Here is another example -</p>
+<pre>
+let user = {
+  firstName : "Santanu",
+  lastName : "Bera",
+};
+function Admin(id){
+  this.id = id;
+};
+Admin.prototype = user;
+let admin = new Admin(100);
+console.log(admin.firstName); // Santanu
+</pre>
+<p>The inheritance mechanism is same but it just an old way to set the base object from which the object is inherited from.</p>
+
+
+
+
+
+
+
+<h1>Default F.prototype, constructor property</h1>
+<p>Every function has the "prototype" property even if we don’t supply it. The default "prototype" is an object with the only property constructor that points back to the function itself.</p>
+<pre>
+function Rabbit() {}
+
+/* default prototype
+Rabbit.prototype = { constructor: Rabbit };
+*/
+</pre>
+<img src="../Assets/img/function-prototype-constructor.png">
+<p>We can check it:</p>
+<pre>
+function Rabbit() {}
+// by default:
+// Rabbit.prototype = { constructor: Rabbit }
+
+alert( Rabbit.prototype.constructor == Rabbit ); // true
+</pre>
+<p>Naturally, if we do nothing, the constructor property is available to all rabbits through <code>[[Prototype]]</code>:</p>
+<pre>
+function Rabbit() {}
+// by default:
+// Rabbit.prototype = { constructor: Rabbit }
+
+let rabbit = new Rabbit(); // inherits from {constructor: Rabbit}
+
+alert(rabbit.constructor == Rabbit); // true (from prototype)
+</pre>
+<img src="../Assets/img/rabbit-prototype-constructor.png">
+<p>We can use <code>constructor</code> property to create a new object using the same constructor as the existing one.</p>
+<pre>
+function Rabbit(name) {
+  this.name = name;
+  alert(name);
+}
+
+let rabbit = new Rabbit("White Rabbit");
+
+let rabbit2 = new rabbit.constructor("Black Rabbit");
+</pre>
+<p>To summurize,</p>
+<pre>
+rabbit.constructor == Rabbit.prototype.constructor == Rabbit
+</pre>
+<p>That’s handy when we have an object, don’t know which constructor was used for it (e.g. it comes from a 3rd party library), and we need to create another one of the same kind. But probably the most important thing about <code>constructor</code> is that…</p>
+<p style="font-weight: 500; font-style: italic;">…JavaScript itself does not ensure the right "constructor" value.</p>
+<p>Yes, it exists in the default "prototype" for functions, but that’s all. What happens with it later – is totally on us. In particular, if we replace the default prototype as a whole, then there will be no "constructor" in it.</p>
+<pre>
+function Rabbit() {}
+Rabbit.prototype = {
+  jumps: true
+};
+
+let rabbit = new Rabbit();
+alert(rabbit.constructor === Rabbit); // false
+</pre>
+<p>So, to keep the right "constructor" we can choose to add/remove properties to the default "prototype" instead of overwriting it as a whole:</p>
+<pre>
+function Rabbit() {}
+
+// Not overwrite Rabbit.prototype totally
+// just add to it
+Rabbit.prototype.jumps = true
+// the default Rabbit.prototype.constructor is preserved
+</pre>
+<p>Or, alternatively, recreate the constructor property manually:</p>
+<pre>
+Rabbit.prototype = {
+  jumps: true,
+  constructor: Rabbit
+};
+
+// now constructor is also correct, because we added it
+</pre>
+<h3>Hiding Properties</h3>
+<p>You can use object.constructor property to keep sensitive information as they are not accessible from <code>for..in</code> or <code>Object.keys()</code>.</p>
+<pre>
+let user = {
+  firstName : "Santanu",
+  lastName : "Bera",
+};
+function Admin(id){
+  this.id = id;
+};
+// Admin.prototype = user;
+let admin = new Admin(100);
+admin.constructor.amount = 1000;
+console.log(admin.constructor.amount); // 1000
+console.log(Object.keys(admin)); // [ "id" ]
+for(key in user){
+  console.log(key); // firstName, lastName
+}
+</pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h1>Native prototypes</h1>
+<p>The "prototype" property is widely used by the core of JavaScript itself. All built-in constructor functions use it. Let’s say we output an empty object:</p>
+<pre>
+let obj = {};
+alert( obj ); // "[object Object]" ?
+</pre>
+<p>Where’s the code that generates the string "<code>[object Object]</code>"? That’s a built-in <code>toString</code> method, but where is it? The <code>obj</code> is empty!</p>
+<p>…But the short notation <code>obj = {}</code> is the same as <code>obj = new Object()</code>, where Object – is a built-in object constructor function. And that function has <code>Object.prototype</code> that references a huge object with <code>toString</code> and other functions.</p>
+<img src="../Assets/img/object-prototype.png">
+<p>When <code>new Object()</code> is called (or a literal object <code>{...}</code> is created), the <code>[[Prototype]]</code> of it is set to <code>Object.prototype</code> by the rule that we’ve discussed in the previous chapter:</p>
+<img src="../Assets/img/object-prototype-1.png">
+<p>Afterwards when <code>obj.toString()</code> is called – the method is taken from <code>Object.prototype</code>. You can check it like this -</p>
+<pre>
+let obj = {};
+
+alert(obj.__proto__ === Object.prototype); // true
+// obj.toString === obj.__proto__.toString == Object.prototype.toString
+</pre>
+<p>Please note that there is no additional <code>[[Prototype]]</code> in the chain above <code>Object.prototype</code> - </p>
+<pre>
+alert(Object.prototype.__proto__); // null
+</pre>
+
+
+
+
+
+
+
+
+
+
+
+<h1>Other built-in prototypes</h1>
+<p>Other built-in objects such as <code>Array</code>, <code>Date</code>, <code>Function</code> and others also keep methods in prototypes.</p>
+<p>For instance, when we create an array <code>[1, 2, 3]</code>, the default <code>new Array()</code> constructor is used internally. So the array data is written into the new object, and <code>Array.prototype</code> becomes its prototype and provides methods. That’s very memory-efficient. By specification, all built-in prototypes have <code>Object.prototype</code> on the top. Sometimes people say that “everything inherits from objects”.</p>
+<img src="../Assets/img/native-prototypes-classes.png">
+<pre>
+let arr = [1, 2, 3];
+
+// it inherits from Array.prototype
+alert( arr.__proto__ === Array.prototype ); // true
+
+// then from Object.prototype
+alert( arr.__proto__.__proto__ === Object.prototype ); // true
+
+// and null on the top.
+alert( arr.__proto__.__proto__.__proto__ ); // null
+</pre>
+<p>Some methods in prototypes may overlap, for instance, <code>Array.prototype</code> has its own <code>toString</code> that lists comma-delimited elements:</p>
+<pre>
+let arr = [1, 2, 3]
+alert(arr); // 1,2,3 <-- the result of Array.prototype.toString
+</pre>
+<p>As we’ve seen before, <code>Object.prototype</code> has <code>toString</code> as well, but <code>Array.prototype</code> is closer in the chain, so the array variant is used.</p>
+<img src="../Assets/img/native-prototypes-array-tostring.png">
+<p>In-browser tools like Chrome developer console also show inheritance (may need to use console.dir for built-in objects):</p>
+<img src="../Assets/img/console_dir_array.png">
+<p>Other built-in objects also work the same way. Even functions. They are objects of a built-in <code>Function</code> constructor, and their methods: <code>call</code>/<code>apply</code> and others are taken from <code>Function.prototype</code>. Functions have their own <code>toString</code> too.</p>
+<pre>
+function f() {}
+
+alert(f.__proto__ == Function.prototype); // true
+alert(f.__proto__.__proto__ == Object.prototype); // true, inherit from objects
+</pre>
+
+
+
+
+
+
+
+
+<h1>Native Prototype for Primitives</h1>
+<p>The most intricate thing happens with strings, numbers and booleans. As we remember, they are not objects. But if we try to access their properties, then temporary wrapper objects are created using built-in constructors <code>String</code>, <code>Number</code>, <code>Boolean</code>, they provide the methods and disappear.</p>
+<p>These objects are created invisibly to us and most engines optimize them out, but the specification describes it exactly this way. Methods of these objects also reside in prototypes, available as <code>String.prototype</code>, <code>Number.prototype</code> and <code>Boolean.prototype</code>.</p>
+<h3>Values null and undefined have no object wrappers</h3>
+<p>Special values <code>null</code> and <code>undefined</code> stand apart. They have no object wrappers, so methods and properties are not available for them. And there are no corresponding prototypes too.</p>
+
+
+
+
+
+
+<h1>Changing native prototypes</h1>
+<p>Native prototypes can be modified. For instance, if we add a method to <code>String.prototype</code>, it becomes available to all strings:</p>
+<pre>
+String.prototype.show = function() {
+  alert(this);
+};
+
+"BOOM!".show(); // BOOM!
+</pre>
+<p>During the process of development we may have ideas which new built-in methods we’d like to have. And there may be a slight temptation to add them to native prototypes. But that is generally a bad idea.</p>
+<p>Prototypes are global, so it’s easy to get a conflict. If two libraries add a method <code>String.prototype.show</code>, then one of them overwrites the other one.</p>
+<p>In modern programming, there is only one case when modifying native prototypes is approved. That’s polyfills. In other words, if there’s a method in JavaScript specification that is not yet supported by our JavaScript engine (or any of those that we want to support), then may implement it manually and populate the built-in prototype with it. So polyfills code always modify the Native Prototype. Here is an example of a polyfill -</p>
+<pre>
+if (!String.prototype.repeat) { // if there's no such method
+  // add it to the prototype
+
+  String.prototype.repeat = function(n) {
+    // repeat the string n times
+
+    // actually, the code should be more complex than that,
+    // throw errors for negative values of "n"
+    // the full algorithm is in the specification
+    return new Array(n + 1).join(this);
+  };
+}
+
+alert( "La".repeat(3) ); // LaLaLa
+</pre>
+
+
+
+
+
+
+
+<h1>Borrowing from prototypes</h1>
+<p>In the chapter Decorators and forwarding, call/apply we talked about method borrowing:</p>
+<pre>
+function showArgs() {
+  // borrow join from array and call in the context of arguments
+  alert( [].join.call(arguments, " - ") );
+}
+
+showArgs("John", "Pete", "Alice"); // John - Pete - Alice
+</pre>
+<p>Because <code>join</code> resides in <code>Array.prototype</code>, we can call it from there directly and rewrite it as:</p>
+<pre>
+function showArgs() {
+  alert( Array.prototype.join.call(arguments, " - ") );
+}
+</pre>
+<p>That’s more efficient, because it avoids the creation of an extra array object <code>[]</code>. On the other hand, it is longer to write.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h1>Methods for prototypes</h1>
+<p>Let's cover additional methods to work with a prototype. There are also other ways to get/set a prototype, besides those that we already know:</p>
+<ul>
+  <li><code>Object.create(proto[, descriptors])</code> – creates an empty object with given proto as <code>[[Prototype]]</code> and optional property descriptors.</li>
+  <li><code>Object.getPrototypeOf(obj)</code> – returns the <code>[[Prototype]]</code> of <code>obj</code>.</li>
+  <li><code>Object.setPrototypeOf(obj, proto)</code> – sets the <code>[[Prototype]]</code> of <code>obj</code> to <code>proto</code>.</li>
+</ul>
+<pre>
+let animal = {
+  eats: true
+};
+
+// create a new object with animal as a prototype
+let rabbit = Object.create(animal);
+
+alert(rabbit.eats); // true
+alert(Object.getPrototypeOf(rabbit) === animal); // get the prototype of rabbit
+
+Object.setPrototypeOf(rabbit, {}); // change the prototype of rabbit to {}
+</pre>
+<p><code>Object.create</code> has an optional second argument: property descriptors. We can provide additional properties to the new object there, like this:</p>
+<pre>
+let animal = {
+  eats: true
+};
+
+let rabbit = Object.create(animal, {
+  jumps: {
+    value: true
+  }
+});
+
+alert(rabbit.jumps); // true
+</pre>
+<p>We can use <code>Object.create</code> to perform an object cloning more powerful than copying properties in <code>for..in</code>:</p>
+<pre>
+// fully identical shallow clone of obj
+let clone = Object.create(Object.getPrototypeOf(obj), Object.getOwnPropertyDescriptors(obj));
+</pre>
+<p>This call makes a truly exact copy of <code>obj</code>, including all properties: enumerable and non-enumerable, data properties and setters/getters – everything, and with the right <code>[[Prototype]]</code>.</p>
+
+
+
+
+
+
+
+
+
+
+<h1>__proto__ as a key</h1>
+<p>As we know, objects can be used as associative arrays to store key/value pairs. …But if we try to store user-provided keys in it (for instance, a user-entered dictionary), we can see an interesting glitch: all keys work fine except "__proto__".</p>
+<pre>
+let obj = {};
+
+let key = prompt("What's the key?", "__proto__");
+obj[key] = "some value";
+
+alert(obj[key]); // [object Object], not "some value"!
+</pre>
+<p>Here if the user types in <code>__proto__</code>, the assignment is ignored! That shouldn’t surprise us. The <code>__proto__</code> property is special: it must be either an object or <code>null</code>, a string can not become a prototype.</p>
+<p>The <code>__proto__</code> is not a property of an object, but an accessor property of <code>Object.prototype</code>:</p>
+<img src="../Assets/img/object-prototype-2.png">
+<p>
+So, if <code>obj.__proto__</code> is read or assigned, the corresponding getter/setter is called from its prototype, and it gets/sets <code>[[Prototype]]</code>.
+</p>
+<p>As it was said in the beginning: <code>__proto__</code> is a way to access <code>[[Prototype]]</code>, it is not <code>[[Prototype]]</code> itself. Now, if we want to use an object as an associative array, we can do it with a little trick:</p>
+<pre>
+let obj = Object.create(null);
+
+let key = prompt("What's the key?", "__proto__");
+obj[key] = "some value";
+
+alert(obj[key]); // "some value"
+</pre>
+<p><code>Object.create(null)</code> creates an empty object without a prototype (<code>[[Prototype]]</code> is <code>null</code>):</p>
+<img src="../Assets/img/object-prototype-null.png">
+<p>So, there is no inherited getter/setter for <code>__proto__</code>. Now it is processed as a regular data property, so the example above works right.</p>
+<p>We can call such object “very plain” or “<code>pure dictionary objects</code>”, because they are even simpler than regular plain object <code>{...}</code>.</p>
+<p>A downside is that such objects lack any built-in object methods, e.g. <code>toString</code>:</p>
+<pre>
+let obj = Object.create(null);
+
+alert(obj); // Error (no toString)
+</pre>
+<p>Please note that most object-related methods are <code>Object.something(...)</code>, like <code>Object.keys(obj)</code> – they are not in the prototype, so they will keep working on such objects:</p>
+<pre>
+let chineseDictionary = Object.create(null);
+chineseDictionary.hello = "ni hao";
+chineseDictionary.bye = "zai jian";
+
+alert(Object.keys(chineseDictionary)); // hello,bye
+</pre>
+
+
+
+
+
+
+
+
+
+
+<h1>Getting all properties</h1>
+<p>There are many ways to get keys/values from an object. We already know these ones:</p>
+<ul>
+  <li><code>Object.keys(obj)</code> / <code>Object.values(obj)</code> / <code>Object.entries(obj)</code> – returns an array of enumerable own string property names/values/key-value pairs. These methods only list enumerable properties, and those that have strings as keys.</li>
+</ul>
+<p>If we want symbolic properties:</p>
+<ul>
+  <li><code>Object.getOwnPropertySymbols(obj)</code> – returns an array of all own symbolic property names.</li>
+</ul>
+<p>If we want non-enumerable properties:</p>
+<ul>
+  <li><code>Object.getOwnPropertyNames(obj)</code> – returns an array of all own string property names.</li>
+</ul>
+<p>If we want all properties:</p>
+<ul>
+  <li><code>Reflect.ownKeys(obj)</code> – returns an array of all own property names.</li>
+</ul>
+<p>These methods are a bit different about which properties they return, but all of them operate on the object itself. Properties from the prototype are not listed.</p>
+<p>The <code>for..in</code> loop is different: it loops over inherited properties too.</p>
+<pre>
+let animal = {
+  eats: true
+};
+
+let rabbit = {
+  jumps: true,
+  __proto__: animal
+};
+
+// only own keys
+alert(Object.keys(rabbit)); // jumps
+
+// inherited keys too
+for(let prop in rabbit) alert(prop); // jumps, then eats
+</pre>
+<p>If we want to distinguish inherited properties, there’s a built-in method <code>obj.hasOwnProperty(key)</code>: it returns <code>true</code> if obj has its own (not inherited) property named <code>key</code>.</p>
+<p>So we can filter out inherited properties (or do something else with them):</p>
+<pre>
+let animal = {
+  eats: true
+};
+
+let rabbit = {
+  jumps: true,
+  __proto__: animal
+};
+
+for(let prop in rabbit) {
+  let isOwn = rabbit.hasOwnProperty(prop);
+  alert(`${prop}: ${isOwn}`); // jumps:true, then eats:false
+}
+</pre>
+<p>Here we have the following inheritance chain: <code>rabbit</code>, then <code>animal</code>, then <code>Object.prototype</code> (because animal is a literal object <code>{...}</code>, so it’s by default), and then <code>null</code> above it:</p>
+<img src="../Assets/img/rabbit-animal-object.png">
+<p>Note, there’s one funny thing. Where is the method <code>rabbit.hasOwnProperty</code> coming from? Looking at the chain we can see that the method is provided by <code>Object.prototype.hasOwnProperty</code>. In other words, it’s inherited.</p>
+<p>…But why <code>hasOwnProperty</code> does not appear in <code>for..in</code> loop, if it lists all inherited properties? The answer is simple: it’s not enumerable. Just like all other properties of <code>Object.prototype</code>. That’s why they are not listed.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

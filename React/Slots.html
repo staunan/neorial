@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Slots</title>
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
+	<script type="text/javascript" src="../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+<h1>Composition vs Inheritance</h1>
+<p>React has a powerful composition model, and we recommend using composition instead of inheritance to reuse code between components.</p>
+
+
+<h1>Containment</h1>
+<p>Some components don’t know their children ahead of time. This is especially common for components like Sidebar or Dialog that represent generic “boxes”.</p>
+<p>We recommend that such components use the special children prop to pass children elements directly into their output:</p>
+<pre>
+function FancyBorder(props) {
+  return (
+    &lt;div className={'FancyBorder FancyBorder-' + props.color}>
+      {props.children}
+    &lt;/div>
+  );
+}
+</pre>
+<p>This lets other components pass arbitrary children to them by nesting the JSX:</p>
+<pre>
+function WelcomeDialog() {
+  return (
+    &lt;FancyBorder color="blue">
+      &lt;h1 className="Dialog-title">
+        Welcome
+      &lt;/h1>
+      &lt;p className="Dialog-message">
+        Thank you for visiting our spacecraft!
+      &lt;/p>
+    &lt;/FancyBorder>
+  );
+}
+</pre>
+<p>Anything inside the <code>&lt;FancyBorder></code> JSX tag gets passed into the FancyBorder component as a children prop. Since FancyBorder renders <code>{props.children}</code> inside a <code>&lt;div></code>, the passed elements appear in the final output.</p>
+<p>While this is less common, sometimes you might need multiple “holes” in a component. In such cases you may come up with your own convention instead of using <code>children</code>:</p>
+<pre>
+function SplitPane(props) {
+  return (
+    &lt;div className="SplitPane">
+      &lt;div className="SplitPane-left">
+        {props.left}
+      &lt;/div>
+      &lt;div className="SplitPane-right">
+        {props.right}
+      &lt;/div>
+    &lt;/div>
+  );
+}
+
+function App() {
+	return (
+		&lt;SplitPane
+			left={&lt;Contacts />}
+			right={&lt;Chat />} 
+		/>
+	);
+}
+</pre>
+<p>React elements like <code>&lt;Contacts /></code> and <code>&lt;Chat /></code> are just objects, so you can pass them as props like any other data. This approach may remind you of “slots” in other libraries but there are no limitations on what you can pass as props in React.</p>
+
+
+
+<h1>Specialization</h1>
+<p>Sometimes we think about components as being “special cases” of other components. For example, we might say that a WelcomeDialog is a special case of Dialog. In React, this is also achieved by composition, where a more “specific” component renders a more “generic” one and configures it with props:</p>
+<pre>
+function Dialog(props) {
+  return (
+    &lt;FancyBorder color="blue">
+      &lt;h1 className="Dialog-title">
+        {props.title}
+      &lt;/h1>
+      &lt;p className="Dialog-message">
+        {props.message}
+      &lt;/p>
+    &lt;/FancyBorder>
+  );
+}
+
+function WelcomeDialog() {
+  return (
+    &lt;Dialog
+      title="Welcome"
+      message="Thank you for visiting our spacecraft!" />
+  );
+}
+</pre>
+<p>Composition works equally well for components defined as classes:</p>
+<pre>
+function Dialog(props) {
+  return (
+    &lt;FancyBorder color="blue">
+      &lt;h1 className="Dialog-title">
+        {props.title}
+      &lt;/h1>
+      &lt;p className="Dialog-message">
+        {props.message}
+      &lt;/p>
+      {props.children}
+    &lt;/FancyBorder>
+  );
+}
+
+class SignUpDialog extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSignUp = this.handleSignUp.bind(this);
+    this.state = {login: ''};
+  }
+
+  render() {
+    return (
+      &lt;Dialog title="Mars Exploration Program"
+              message="How should we refer to you?">
+        &lt;input value={this.state.login}
+               onChange={this.handleChange} />
+
+        &lt;button onClick={this.handleSignUp}>
+          Sign Me Up!
+        &lt;/button>
+      &lt;/Dialog>
+    );
+  }
+
+  handleChange(e) {
+    this.setState({login: e.target.value});
+  }
+
+  handleSignUp() {
+    alert(`Welcome aboard, ${this.state.login}!`);
+  }
+}
+</pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

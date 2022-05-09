@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Node Properties</title>
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
+	<script type="text/javascript" src="../../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+<h1>DOM Node Classes</h1>
+<p>DOM nodes have different properties depending on their class. For instance, an element node corresponding to tag <code>&lt;a></code> has link-related properties, and the one corresponding to <code>&lt;input></code> has input-related properties and so on. Text nodes are not the same as element nodes. But there are also common properties and methods between all of them, because all classes of DOM nodes form a single hierarchy.</p>
+<p>Each DOM node belongs to the corresponding built-in class.</p>
+<p>The root of the hierarchy is EventTarget, that is inherited by Node, and other DOM nodes inherit from it.</p>
+<img src="../Assets/img/dom-class-hierarchy.png">
+<ul>
+	<li><code>EventTarget</code> – is the root “abstract” class. Objects of that class are never created. It serves as a base, so that all DOM nodes support so-called “events”, we’ll study them later.</li>
+	<li><code>Node</code> – is also an “abstract” class, serving as a base for DOM nodes. It provides the core tree functionality: parentNode, nextSibling, childNodes and so on (they are getters). Objects of Node class are never created. But there are concrete node classes that inherit from it, namely: Text for text nodes, Element for element nodes and more exotic ones like Comment for comment nodes.</li>
+	<li><code>Element</code> – is a base class for DOM elements. It provides element-level navigation like <code>nextElementSibling</code>, <code>children</code> and searching methods like <code>getElementsByTagName</code>, <code>querySelector</code>. In the browser there may be not only HTML, but also XML and SVG documents. The Element class serves as a base for more specific classes: SVGElement, XMLElement and HTMLElement.</li>
+	<li><code>HTMLElement</code> – is finally the basic class for all HTML elements. It is inherited by various HTML elements:
+		<ul>
+			<li><code>HTMLInputElement</code> – the class for <code>&lt;input></code> elements,</li>
+			<li><code>HTMLBodyElement</code> – the class for <code>&lt;body></code> elements,</li>
+			<li><code>HTMLAnchorElement</code> – the class for <code>&lt;a></code> elements</li>
+			<li>…and so on, each tag has its own class that may provide specific properties and methods.</li>
+		</ul>
+	</li>
+</ul>
+<p>So, the full set of properties and methods of a given node comes as the result of the inheritance.</p>
+<p>For example, let’s consider the DOM object for an &lt;input> element. It belongs to <code>HTMLInputElement</code> class. It gets properties and methods as a superposition of:</p>
+<ul>
+	<li><code>HTMLInputElement</code> – this class provides input-specific properties, and inherits from…</li>
+	<li><code>HTMLElement</code> – it provides common HTML element methods (and getters/setters) and inherits from…</li>
+	<li><code>Element</code> – provides generic element methods and inherits from…</li>
+	<li><code>Node</code> – provides common DOM node properties and inherits from…</li>
+	<li><code>EventTarget</code> – gives the support for events (to be covered),</li>
+	<li>…and finally it inherits from <code>Object</code>, so “pure object” methods like <code>hasOwnProperty</code> are also available.</li>
+</ul>
+
+
+
+<h2>How to Know the Parent Class</h2>
+<p>To see the DOM node class name, we can recall that an object usually has the constructor property. It references to the class constructor, and constructor.name is its name:</p>
+<pre>
+	
+	alert( document.body.constructor.name ); // HTMLBodyElement
+
+</pre>
+<p>You can also to string it --</p>
+<pre>
+	
+	console.log(document.body.toString()); // [object HTMLBodyElement]
+
+</pre>
+<p>We also can use instanceof to check the inheritance:</p>
+<pre>
+	
+	alert( document.body instanceof HTMLBodyElement ); // true
+	alert( document.body instanceof HTMLElement ); // true
+	alert( document.body instanceof Element ); // true
+	alert( document.body instanceof Node ); // true
+	alert( document.body instanceof EventTarget ); // true
+
+</pre>
+<p>That’s also easy to see by outputting an element with <code>console.dir(elem)</code> in a browser. You can see <code>__proto__</code> property to see the parent class. You can expand the prototype to see the all the level of Node class that is inherited from the base class.</p>
+<pre>
+	
+	console.log(document.body.__proto__.__proto__.__proto__);
+
+</pre>
+
+
+
+
+<h2>console.log vs console.dir</h2>
+<p>Most browsers support two commands in their developer tools: <code>console.log</code> and <code>console.dir</code>. They output their arguments to the console. For JavaScript objects these commands usually do the same.</p>
+<p>But for DOM elements they are different:</p>
+<ul>
+	<li><code>console.log(elem)</code> shows the element DOM tree.</li>
+	<li><code>console.dir(elem)</code> shows the element as a DOM object, good to explore its properties.</li>
+</ul>
+<p>Try it on <code>document.body</code>.</p>
+
+
+
+<h2>nodeType</h2>
+<p>The nodeType property provides an old-fashioned way to get the “type” of a DOM node. It has a numeric value:</p>
+<ul>
+	<li><code>elem.nodeType == 1</code> for element nodes,</li>
+	<li><code>elem.nodeType == 3</code> for text nodes,</li>
+	<li><code>elem.nodeType == 9</code> for the document object,</li>
+</ul>
+<pre>
+	&lt;body>
+	  &lt;script>
+	  let elem = document.body;
+
+	  // let's examine what it is?
+	  alert(elem.nodeType); // 1 => element
+
+	  // and the first child is...
+	  alert(elem.firstChild.nodeType); // 3 => text
+
+	  // for the document object, the type is 9
+	  alert( document.nodeType ); // 9
+	  &lt;/script>
+	&lt;/body>
+</pre>
+
+
+
+<h2>nodeName</h2>
+<p>The <code>nodeName</code> property of the Node returns the name of the Node.</p>
+<ul>
+	<li>If the node is Element Node, it will return the tag name.</li>
+	<li>If the node is an Attribute Node, it will return the name of the attribute.</li>
+	<li>If the node is a Text node, it will return "#text"</li>
+</ul>
+<p>This is alternatives to <code>tagName</code> attribute, where <code>tagName</code> is only applicable for Element Nodes.</p>
+<p>Take a look at the following example -</p>
+<pre>
+	&lt;div id="Element">
+		&lt;p>
+			Hello &lt;a href="#">Santanu&lt;/a>
+		&lt;/p>
+	&lt;/div>
+
+	console.log(document.getElementById("Element").nodeName); //DIV
+	console.log(document.querySelector("#Element p").nodeName); //P
+</pre>
+<p>Returning the node names of all the child nodes -</p>
+<pre>
+	let element = document.querySelector("#Element p");
+	for (var i = 0; i&lt;element.childNodes.length; i++) {
+		console.log(element.childNodes[i].nodeName);
+	}
+</pre>
+
+
+<h2>tagName</h2>
+<pre>
+	
+	alert( document.body.nodeName ); // BODY
+	alert( document.body.tagName ); // BODY
+
+</pre>
+<p><code>tagName</code> do the same thing as <code>nodeName</code>. But still there are some difference -</p>
+<ul>
+	<li>The <code>tagName</code> property exists only for Element nodes.</li>
+	<li>The <code>nodeName</code> is defined for any Node</li>
+</ul>
+<pre>
+&lt;body>&lt;!-- comment -->
+
+  &lt;script>
+    // for comment
+    alert( document.body.firstChild.tagName ); // undefined (no element)
+    alert( document.body.firstChild.nodeName ); // #comment
+
+    // for document
+    alert( document.tagName ); // undefined (not element)
+    alert( document.nodeName ); // #document
+  &lt;/script>
+&lt;/body>
+</pre>
+<p>In other words, <code>tagName</code> is only supported by element nodes (as it originates from Element class), while <code>nodeName</code> can say something about other node types.</p>
+
+
+
+<h2>innerHTML</h2>
+<p>The innerHTML property allows to get the HTML inside the element as a string. We can also modify it. So it’s one of most powerful ways to change the page. The example shows the contents of document.body and then replaces it completely:</p>
+<pre>
+&lt;body>
+  &lt;p>A paragraph&lt;/p>
+  &lt;div>A div&lt;/div>
+
+  &lt;script>
+    alert( document.body.innerHTML ); // read the current contents
+    document.body.innerHTML = 'The new BODY!'; // replace it
+  &lt;/script>
+
+&lt;/body>
+</pre>
+<p>We can try to insert invalid HTML, the browser will fix our errors:</p>
+<pre>
+&lt;body>
+
+  &lt;script>
+    document.body.innerHTML = '&lt;b>test'; // forgot to close the tag
+    alert( document.body.innerHTML ); // &lt;b>test&lt;/b> (fixed)
+  &lt;/script>
+
+&lt;/body>
+</pre>
+<p><em style="font-weight: 500;">Scripts don’t execute</em></p>
+<p>If <code>innerHTML</code> inserts a <code>&lt;script></code> tag into the document – it doesn’t execute. It becomes a part of HTML.</p>
+<p><em style="font-weight: 500;">Beware: <code>innerHTML+=</code> does a full overwrite</em></p>
+<p>We can append “more HTML” by using <code>elem.innerHTML+="something"</code>.</p>
+<pre>
+
+	chatDiv.innerHTML += "&lt;div>Hello&lt;img src='smile.gif'/> !&lt;/div>";
+	chatDiv.innerHTML += "How goes?";
+
+</pre>
+<p>But we should be very careful about doing it, because what’s going on is not an addition, but a full overwrite.</p>
+<p>Technically, these two lines do the same:</p>
+<pre>
+	
+	elem.innerHTML += "...";
+	// is a shorter way to write:
+	elem.innerHTML = elem.innerHTML + "..."
+
+</pre>
+<p>Using innerHTML has the following disadvantages -</p>
+<ul>
+	<li>As the content is “zeroed-out” and rewritten from the scratch, all images and other resources will be reloaded. In the chatDiv example above the line chatDiv.innerHTML+="How goes?" re-creates the HTML content and reloads smile.gif (hope it’s cached). If chatDiv has a lot of other text and images, then the reload becomes clearly visible.</li>
+	<li>There are other side-effects as well. For instance, if the existing text was selected with the mouse, then most browsers will remove the selection upon rewriting <code>innerHTML</code>. And if there was an &lt;input> with a text entered by the visitor, then the text will be removed. And so on.</li>
+	<li>If you attached an event using <code>addEventListener</code> to the element, it will be removed if you assign new content using innerHTML.</li>
+</ul>
+
+
+
+<h2>outerHTML</h2>
+<p>The <code>outerHTML</code> property contains the full HTML of the element. That’s like <code>innerHTML</code> plus the element itself.</p>
+<pre>
+&lt;div id="elem">Hello &lt;b>World&lt;/b>&lt;/div>
+
+&lt;script>
+  alert(elem.outerHTML); // &lt;div id="elem">Hello &lt;b>World&lt;/b>&lt;/div>
+&lt;/script>
+</pre>
+<p><em style="font-weight: 500;">Remember, unlike <code>innerHTML</code>, <code>outerHTML</code> only change the DOM, but it doesn't change the variable.</em> Consider the following -</p>
+<pre>
+&lt;div>Hello, world!&lt;/div>
+
+&lt;script>
+  let div = document.querySelector('div');
+
+  // replace div.outerHTML with &lt;p>...&lt;/p>
+  div.outerHTML = '&lt;p>A new element!&lt;/p>'; // (*)
+
+  // Wow! The div is still the same!
+  alert(div.outerHTML); // &lt;div>Hello, world!&lt;/div>
+&lt;/script>
+</pre>
+<p>In the line (*) we take the full HTML of <code>&lt;div>...&lt;/div></code> and replace it by <code>&lt;p>...&lt;/p></code>. In the outer document we can see the new content instead of the <code>&lt;div></code>. But the old div variable is still the same.</p>
+<p>Novice developers sometimes make an error here: they modify <code>div.outerHTML</code> and then continue to work with variable as if it had the new content in it. Remember, once you change the outerHTML on the element, the variable is of no use, you should query the dom again to get the new element and work with them.</p>
+
+
+
+
+<h2>nodeValue/data: text node content</h2>
+<p>The <code>innerHTML</code> property is only valid for element nodes.</p>
+<p>Other node types have their counterpart: <code>nodeValue</code> and <code>data</code> properties. These two are almost the same for practical use, there are only minor specification differences. So we’ll use <code>data</code>, because it’s shorter.</p>
+<pre>
+&lt;body>
+  Hello
+  &lt;!-- Comment -->
+  &lt;script>
+    let text = document.body.firstChild;
+    alert(text.data); // Hello
+
+    let comment = text.nextSibling;
+    alert(comment.data); // Comment
+  &lt;/script>
+&lt;/body>
+</pre>
+
+
+
+<h2>textContent</h2>
+<p>The text content property sets or returns the texual content of the specified node and all its descendants. Let's consider the following HTML structure - </p>
+<pre>
+	&lt;div id="Parent">
+		&lt;p>
+			Hello &lt;a href="#">Santanu&lt;/a>
+		&lt;/p>
+	&lt;/div>
+
+	console.log(document.getElementById("Parent").textContent);
+</pre>
+<p>It will print <code>Hello Santanu</code> in the console. As we said that it will return the textual content of the specified node and all its descendants, it returns the texts of it's child nodes.</p>
+<p>If you set the <code>textContent</code> property, if there's any child node, it will be replaced with the text given to it. For example -</p>
+<pre>
+
+	element.textContent = "Hello World";
+
+</pre>
+<p>The above statement will remove the <code>p</code> tag (anything inside the element) and replace it with the text "Hello World"; If you put a HTML tag inside the text it will not be rendered.</p>
+<pre>
+	element.textContent = "Hello &lt;span style='color:red;'>World&lt;/span>";
+</pre>
+<p>The above statement won't create the span Node inside the element. It will be treated as a plain text.</p>
+<p><em style="font-weight: 500;">Writing to textContent is much more useful, because it allows to write text the “safe way”. Safe Way because as HTML inside the text is not rendered as HTML elements, all the tags are treated as simple string.</em></p>
+
+
+
+<h2>hidden</h2>
+<p>The <code>hidden</code> attribute and the DOM property specifies whether the element is visible or not.</p>
+<p>We can use it in HTML or assign using JavaScript, like this:</p>
+<pre>
+&lt;div>Both divs below are hidden&lt;/div>
+
+&lt;div hidden>With the attribute "hidden"&lt;/div>
+
+&lt;div id="elem">JavaScript assigned the property "hidden"&lt;/div>
+
+&lt;script>
+  elem.hidden = true;
+&lt;/script>
+</pre>
+<p>Technically, hidden works the same as <code>style="display:none"</code>. But it’s shorter to write.</p>
+
+
+</div>
+</body>
+</html>

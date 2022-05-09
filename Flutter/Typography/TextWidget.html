@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Text Widget in Flutter</title>
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+	<script type="text/javascript" src="../../Assets/prism.min.js"></script>
+	<script type="text/javascript" src="../../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+<h1>Text Widget</h1>
+<p>This widget is used to display string with single style.</p>
+<pre>
+Text("Hello World"),
+</pre>
+<p>Let's learn about some arguments that can be used to style the text and control different behaviour.</p>
+
+<h2>style</h2>
+<p>This argument can be used to specify the visual style of the text. The style definition can be defined by TextStyle class. We will learn more about TextStyle class leter.</p>
+
+<h2>maxLines</h2>
+<p>An optional maximum number of lines for the text to span, wrapping if necessary. If the text exceeds the given number of lines, it will be truncated according to the overflow behaviour.</p>
+<pre>
+maxLines : 1,
+maxLines : 5, 
+</pre>
+
+
+<h2>overflow</h2>
+<p>This argument controls the overflow behaviour of the text. The class TextOverflow canbe used to specify overflow behaviour. This class defines the following constants :</p>
+<ul>
+	<li><code>clip</code> : Clip the overflowing text to fix its container.</li>
+	<li><code>ellipsis</code> : Use an ellipsis to indicate that the text has overflowed.</li>
+	<li><code>fade</code> : Fade the overflowing text to transparent.</li>
+	<li><code>visible</code> : Render overflowing text outside of its container.</li>
+</ul>
+<p>For example,</p>
+<pre>
+overflow : TextOverflow.visible,
+</pre>
+
+
+<h2>textAlign</h2>
+<p>This argument is used to specify the alignment of the text. The TextAlign class can be used to specify the alignment. This class defines the following constant.</p>
+<ul>
+	<li><code>center</code> : Align the text in the center of the container.</li>
+	<li><code>end</code> : Align the text on the trailing edge of the container.</li>
+	<li><code>justsify</code> : Stretch lines of text that end with a soft line break to fill the width of the container.</li>
+	<li><code>left</code> : Align the text on the left edge of the container.</li>
+	<li><code>right</code> : Align the text on the right edge of the container.</li>
+	<li><code>start</code> : Align the text on the leading edge of the container.</li>
+</ul>
+<p>For example,</p>
+<pre>
+textAlign : TextAlign.start,
+</pre>
+
+
+
+<h1>Text.rich</h1>
+<p>The constructor <code>Text()</code> is used to style the text as a whole. It means the provided style is applied to all the text. But what if you want to apply different styles to different part of the text. For this purpose we can use <code>Text.rich</code> constructor. This constructor takes <code>TextSpan</code> argument as the first parameter.</p>
+<pre>
+Text.rich(
+	TextSpan(
+		Text : "Hello",
+		children : <TextSpan>[
+			TextSpan(text : "Beautiful", style : TextStyle(...)),
+			TextSpan(text : " World", style : TextStyle(...)),
+		],
+	),
+),
+</pre>
+<p>We will learn more about <code>TextSpan</code> widget in later section.</p>
+
+
+
+
+
+
+</div>
+</body>
+</html>

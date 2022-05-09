@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Adding a Package</title>
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
+	<script type="text/javascript" src="../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+
+
+<h1>Package.json File</h1>
+<p>Packages published to the registry must contain a <code>package.json</code> file.</p>
+<p>A <code>package.json</code> file:</p>
+<ul>
+	<li>Lists the packages your project depends on</li>
+	<li>Specifies versions of a package that your project can use using semantic versioning rules</li>
+	<li>Makes your build reproducible, and therefore easier to share with other developers</li>
+</ul>
+<h3>Required name and version fields</h3>
+<p>A package.json file must contain "name" and "version" fields. The "name" field contains your package’s name, and must be lowercase and one word, and may contain hyphens and underscores. The "version" field must be in the form <code>x.x.x</code> and follow the <a target="_blank" href="Versioning.html">symantic versioning guideline</a>.</p>
+<pre>
+{
+	"name": "my-awesome-package",
+	"version": "1.0.0"
+}
+</pre>
+<h3>author field</h3>
+<p><code>author</code> field allows you to specify author's name and email address -</p>
+<pre>
+{
+	"author": {
+	  "name": "Fedor Indutny",
+	  "email": "fedor@indutny.com"
+	}
+}
+</pre>
+<p>There are other information you can include which we will discuss later.</p>
+<h3>main field</h3>
+<p>The name of the file that will be loaded when your module is required by another application. The default name is <code>index.js</code></p>
+<pre>
+{
+	"main" : "index.js"
+}
+</pre>
+
+
+
+
+
+
+<h1>Creating package.json File</h1>
+<p>Create a new folder and <code>cd</code> to this directory. And then type the following command-</p>
+<pre>
+npm init
+</pre>
+<p>It will ask you for few basic information. Provide them. If you are not sure about the information right away you can skip them by pressing Enter key. You can always change them later.</p>
+<p>If you don't want to go through the process of providing answers you can run the following command. The following command will generate <code>package.json</code> file with all the default values and information that can be extracted from the current directory.</p>
+<pre>
+npm init --yes
+</pre>
+<p>For example, let's say we have a package.json file with the default values which looks like the following -</p>
+<pre>
+{
+	"name": "demoforsantanu",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC"
+}
+</pre>
+
+
+
+
+
+
+
+<h1>Creating Main File</h1>
+<p>After creating package.json file, next we will create a file <code>index.js</code>. In package.json file there is a field called main, which tells what file will be loaded when our package is required by an application. So the <code>main</code> field points to a single js file which will be loaded when our application requires it. Create the file with the following content -</p>
+<pre>
+exports.printMsg = function() {
+  console.log("This is a message from the demo package");
+}
+</pre>
+
+
+
+
+
+<h1>Publishing Package</h1>
+<p>As an npm user, you can create unscoped packages to use in your own projects and publish them to the npm public registry for others to use in theirs. Unscoped packages are always public and are referred to by the package name only:</p>
+<pre>
+package-name
+</pre>
+<p style="font-weight: 500; font-style: italic;">You can only publish unscoped packages to the npm public registry. You cannot publish unscoped packages to an npm Enterprise registry.</p>
+<p>To publish the package run the following -</p>
+<pre>
+npm publish
+</pre>
+<p>It will publish your package to the NPM registry.</p>
+
+
+
+
+<h1>Installing your Package</h1>
+<p>Now create another directory (say, <code>test</code>) outside of your package directory and cd to your directory then run the following command -</p>
+<pre>
+// Syntax --
+npm install &lt;YourPackageName>
+
+// In our Case --
+npm install demoforsantanu
+</pre>
+<p>It will install your package called <code>demoforsantanu</code>. You can see your package within <code>node_modules</code> directory which is within the <code>test</code> directory.</p>
+
+
+
+
+
+<h1>Using your Package</h1>
+<p>Within the <code>test</code> directory create another js file (say, main.js) which will require your package.</p>
+<pre>
+var demo = require("demoforsantanu");
+demo.printMsg();
+</pre>
+<p>To test your file run <code>node main.js</code> on the command to see the output.</p>
+
+
+
+
+
+
+
+<h1>Readme File</h1>
+<p>To help others find your packages on npm and have a good experience using your code in their projects, we recommend including a <code>README</code> file in your package directory. Your <code>README</code> file may include directions for installing, configuring, and using the code in your package, as well as any other information a user may find helpful. The <code>README</code> file will be shown on the package page.</p>
+<p>Currently your Readme page of the package is empty -</p>
+<img src="Assets/img/readmeEmpty.jpg" style="height: 400px; width: 70%; border: 5px solid #333;">
+<p>Now let's add a README file. An npm package README file must be in the root-level directory of the package.</p>
+<ul>
+	<li>In a text editor, in your package root directory, create a file called <code>README.md</code>.</li>
+	<li>In the <code>README.md</code> file, add useful information about your package.</li>
+	<li>Save the <code>README.md</code> file.</li>
+</ul>
+<p>Let's say your README file looks like this -</p>
+<pre>
+# Hey Shit Face !
+Bullshit
+</pre>
+<p>The <code>README</code> file will only be updated on the package page when you publish a new version of your package. To update your <code>README</code> file:</p>
+<pre>
+npm version patch
+npm publish
+</pre>
+<p>After successfully publishing your package your read me page of the package will be updated -</p>
+<img src="Assets/img/readmecontent.jpg" style="height: 400px; width: 70%; border: 5px solid #333;">
+
+
+
+<h1>Updating and Publishing a Package</h1>
+<p>Updating a Package means updating its version and then publish it again.</p>
+<p>To update your package as a patch release -</p>
+<pre>
+npm version patch
+npm publish
+</pre>
+<p>In the first command we are updating the version. In this case we are incrementing the last number of the version which is called patch version.</p>
+<p>After that the last command updates the previous version with the new one.</p>
+<p>To change the minor version -</p>
+<pre>
+npm version minor
+</pre>
+<p>To change the major version -</p>
+<pre>
+npm version major
+</pre>
+
+
+
+
+
+
+
+<h1>Publishing Scoped Public Packges</h1>
+<p>To share your code publicly in a user or Org namespace, you can publish public user-scoped or Org-scoped packages to the npm registry.</p>
+<p>First run the following command to create package.json</p>
+<pre>
+npm init --scope@scopeName
+</pre>
+<p>Replace the <code>scopeName</code> with the desired scope name you want. The <code>scopeName</code> can either be your user username or Org name. After that go through the process of creating package.json file in the command prompt.</p>
+<p>After that create a <code>README.md</code> file and main entry js file.</p>
+<p>After you have created your package in your local, it is ready to be published. Now when you publish a scoped package, its visibility is private by default. To make it public run the following command -</p>
+<pre>
+npm publish --access public
+</pre>
+<p>Remember that everytime you make a change to the package and publish to the NPM registry, you must add <code>--access public</code> flag</p>
+<p>Now when you want to install a scoped package you have to also mentioned the scopename before the package name. Here is the syntax -</p>
+<pre>
+npm install @scopeName/packageName
+</pre>
+<p>Now when you are requiring the package in your application, you must mention its scope name-</p>
+<pre>
+var demo = require("@scopeName/packageName");
+</pre>
+
+
+
+
+
+
+
+
+
+
+<h1>How to Name your package?</h1>
+<p>When choosing a name for your package, choose a name that - </p>
+<ul>
+	<li>is unique (is not already owned by someone else).</li>
+	<li>is descriptive.</li>
+	<li>meets npm policy guidelines. For example, do not give your package an offensive name, and do not use someone else’s trademarked name or violate the npm trademark policy.</li>
+	<li>is not spelled in a similar way to another package name</li>
+	<li>will not confuse others about authorship</li>
+</ul>
+
+
+
+
+
+
+
+<h1>Downloading and Installing Packages</h1>
+<p>You can install a package locally if you want to depend on the package from your own module, using something like Node.js <code>require</code>. This is <code>npm install</code>’s default behavior.</p>
+<p>Unscoped packages are always public, which means they can be searched for, downloaded, and installed by anyone. To install a public package, on the command line, run -</p>
+<pre>
+npm install packageName
+</pre>
+<p>This will create the node_modules directory in your current directory (if one doesn’t exist yet) and will download the package to that directory.</p>
+<p>If there is no <code>package.json</code> file in the local directory, the latest version of the package is installed. If there is a <code>package.json</code> file, npm installs the latest version that satisfies the version rule declared in <code>package.json</code>.</p>
+<p>Scoped public packages can be downloaded and installed by anyone, as long as the scope name is referenced during installation:</p>
+<pre>
+npm install @scopeName/packageName
+</pre>
+
+<h3>Installing Flags</h3>
+<p><code>npm install packageName</code> takes few flags - </p>
+<ul>
+	<li><code>--save</code> This is default. The package will be installed, and there will be a reference within the <code>dependencies</code> attribute.</li>
+	<li><code>--save-dev</code> The package will be installed and there will be a reference within the <code>devDependencies</code> attribute.</li>
+	<li><code>--no-save</code> The package will not be referenced in the <code>package.json</code> file.</li>
+</ul>
+
+<h3>Installing a Package Globally</h3>
+<p>Installing a package globally allows you to use the code in the package as a set of tools on your local computer. To download and install packages globally, on the command line, run the following command:</p>
+<pre>
+npm install -g packageName
+</pre>
+<p>Here <code>-g</code> stands for global.</p>
+
+
+
+
+
+
+
+
+<h1>Updating a Package</h1>
+<p>If you want to update all modules at once you can run -</p>
+<pre>
+npm update
+</pre>
+<p>This command first analyze the <code>package.json</code> file and check which modules are outdated. If it finds one, it updates it.</p>
+<p>To update a single local package, run -</p>
+<pre>
+npm update packageName
+</pre>
+<p>To find out what modules are outdated, run -</p>
+<pre>
+// For local packages --
+npm outdated
+
+
+// For Global packages --
+npm outdated -g --depth=0
+</pre>
+<p>It will give you all the packages which are outdated.</p>
+<p>To update a global package, run -</p>
+<pre>
+npm update -g packageName
+</pre>
+<p>To update all the global packages at once -</p>
+<pre>
+npm update -g
+</pre>
+
+
+
+
+
+
+<h1>How to use a Package</h1>
+<p>Once you have installed a package in node_modules, you can use it in your code.</p>
+<p>Using <code>require</code> function you can require a package in your application.</p>
+<p>For example, to use a lodash package, use -</p>
+<pre>
+var lodash = require('lodash');
+
+var output = lodash.without([1, 2, 3], 1);
+console.log(output);
+</pre>
+<p>To require a scoped package -</p>
+<pre>
+var projectName = require("@scope/packageName");
+</pre>
+
+
+
+
+
+
+<h1>Uninstalling a Package</h1>
+<p>Uninstall a unscoped package -</p>
+<pre>
+npm uninstall packageName
+
+// Example -
+npm uninstall lodash
+</pre>
+<p>Uninstall a scoped package -</p>
+<pre>
+npm uninstall @scopeName/packageName
+</pre>
+<p>To uninstall a global package, run -</p>
+<pre>
+npm uninstall -g packageName
+npm uninstall -g @scopeName/packageName
+</pre>
+<p>In older version of NPM, you will find some flag added in <code>npm uninstall</code> command. Like <code>--save</code>, <code>--save-dev</code> etc. These commands are not required in newer version of NPM as they both behaves same. Actually these flags are used to clean up <code>package.json</code> file accordingly. But in newer version, the <code>package.json</code> file is updated whenever you run <code>npm uninstall</code>.</p>
+
+
+
+
+
+
+
+
+<h1>Listing Packages</h1>
+<p>To know your all kind of dependencies you can run -</p>
+<pre>
+npm ls
+</pre>
+<p>It will list all the packages that your applications depends on.</p>
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

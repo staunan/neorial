@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>v-pre</title>
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+	<script src="../Assets/prism.min.js"></script>
+	<script type="text/javascript" src="../Assets/jquery.min.js"></script>
+    <link rel="stylesheet" href="../Assets/prism-dark.css">
+</head>
+<body class="Body">
+	<div class="Content Card">
+		<h1>v-pre</h1>
+		<p v-pre>
+			Ever wonder how you can a skip a block of element from Vue's compilation. Or how you can print <code>{{</code> in your page which appears within the Vue's root element? There's no way except <code>v-pre</code>
+		</p>
+		<p>
+			<code>v-pre</code> is used to skip a block of element from Vue's compilation. During compilation when Vue hits <code>v-pre</code> this element will be skipped including all it's childs. So if you use any mustache syntax or any directive inside that element, they won't be parsed. This actually increases the compiling speed. This is very useful when you have large block of content with no directive, skipping them reduces the compilation time.
+		</p>
+		<pre>
+			&lt;div v-pre>{{ this will not be compiled }}&lt;/div>
+		</pre>
+		<p class="tip">
+			Never use this directive on the Root element. And you know why.
+		</p>
+	</div>
+</body>
+</html>

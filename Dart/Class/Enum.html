@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Enumerated types</title>
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+<h1>Enumerated types</h1>
+<p>Imagine that you're working on a weather application, and you need a way to represent different states for weather. For example, weather can be sunny, cloudy or rainy. Now, you have two ways to represent these states in your code. One way is using constants and another way using enum. Let's see how you can do it with constants:</p>
+<pre>
+const SUNNY = 'Sunny';
+const CLOUDY = 'Cloudy';
+const RAINY = 'Rainy';
+</pre>
+<p>Another way to represent the same information is to use enumerated types using the enum keyword.</p>
+<pre>
+enum Weather {SUNNY, CLOUDY, RAINY};
+</pre>
+
+
+
+
+
+
+
+
+<p>Enumerated types, often called enumerations or enums, are a special kind of class used to represent a fixed number of constant values. Declare an enumerated type using the <code>enum</code> keyword:</p>
+<pre>
+enum Color { red, green, blue }
+</pre>
+<p>Each value in an enum has an <code>index</code> getter, which returns the zero-based position of the value in the enum declaration. For example, the first value has index <code>0</code>, and the second value has index <code>1</code>.</p>
+<pre>
+assert(Color.red.index == 0);
+assert(Color.green.index == 1);
+assert(Color.blue.index == 2);
+</pre>
+<p>To get a list of all of the values in the enum, use the enum’s <code>values</code> constant.</p>
+<pre>
+List&lt;Color> colors = Color.values;
+assert(colors[2] == Color.blue);
+</pre>
+<p>You can use enums in <code>switch</code> statements, and you’ll get a warning if you don’t handle all of the enum’s values:</p>
+<pre>
+var aColor = Color.blue;
+
+switch (aColor) {
+  case Color.red:
+    print('Red as roses!');
+    break;
+  case Color.green:
+    print('Green as grass!');
+    break;
+  default: // Without this, you see a WARNING.
+    print(aColor); // 'Color.blue'
+}
+</pre>
+<p>Enumerated types have the following limits:</p>
+<ul>
+  <li>You can’t subclass, mix in, or implement an enum.</li>
+  <li>You can’t explicitly instantiate an enum.</li>
+</ul>
+
+
+
+
+<h3>Iterating values</h3>
+<p>The property <code>values</code> returns a List of values. So you can use <code>forEach</code> construct to iterate over enum values. Consider the following example:</p>
+<pre>
+enum Status { 
+   none, 
+   running, 
+   stopped, 
+   paused 
+}  
+void main() { 
+   print(Status.values); 
+   Status.values.forEach((v) => print('value: $v, index: ${v.index}'));
+   print('running: ${Status.running}, ${Status.running.index}'); 
+   print('running index: ${Status.values[1]}'); 
+}
+</pre>
+<p>Here is the output:</p>
+<pre>
+[Status.none, Status.running, Status.stopped, Status.paused] 
+value: Status.none, index: 0 
+value: Status.running, index: 1 
+value: Status.stopped, index: 2 
+value: Status.paused, index: 3 
+running: Status.running, 1 
+running index: Status.running 
+</pre>
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

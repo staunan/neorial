@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Dependencies</title>
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
+	<script type="text/javascript" src="../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+<h1>Specifying Dependencies</h1>
+<p>Let's say you have two packages <code>demo-package</code> and <code>demoforsantanu</code>. The package <code>demoforsantanu</code> depends on the package <code>demo-package</code>. Here is the sample code below -</p>
+<pre>
+// @ssantanuberaa/demo-package
+exports.printMessage = function(){
+	console.log("Hello World");
+};
+
+// demoforsantanu
+import demo = require("@ssantanuberaa/demo-package");
+exports.printMsg = function() {
+  return demo.printMessage();
+}
+</pre>
+<p>To specify the packages your project depends on, you must list them as "dependencies" or "devDependencies" in your package’s <code>package.json</code> file. When you (or another user) run <code>npm install packageName</code>, npm will download dependencies and devDependencies that are listed in <code>package.json</code> that meet the semantic version requirements listed for each.</p>
+<ul>
+	<li><code>dependencies</code> : Packages required by your application in production.</li>
+	<li><code>devDependencies</code> : Packages that are only needed for local development and testing.</li>
+</ul>
+<p>You can add dependencies to a <code>package.json</code> file from the command line or by manually editing the <code>package.json</code> file.</p>
+<h3>Using CLI</h3>
+<p>To add dependencies and devDependencies to a <code>package.json</code> file from the command line, you can install them in the root directory of your package using the <code style="white-space: nowrap;">--save-prod</code> flag for dependencies (the default behavior of npm install) or the <code style="white-space: nowrap;">--save-dev</code> flag for devDependencies.</p>
+<p>To add an entry to the "dependencies" attribute of a <code>package.json</code> file, on the command line, run the following command:</p>
+<pre>
+npm install packageName [--save-prod]
+</pre>
+<p>To add an entry to the "devDependencies" attribute of a <code>package.json</code> file, on the command line, run the following command:</p>
+<pre>
+npm install packageName --save-dev
+</pre>
+<p>After installing dependencies, the <code>package.json</code> file will be automatically updated. The entry will be added in the <code>dependencies</code> object.</p>
+<h3>Using Text Editor</h3>
+<p>To add dependencies to a <code>package.json</code> file, in a text editor, add an attribute called "dependencies" that references the name and semantic version of each dependency:</p>
+<pre>
+{
+  "name": "my_package",
+  "version": "1.0.0",
+  "dependencies": {
+    "my_dep": "^1.0.0",
+    "another_dep": "~2.2.0"
+  }
+}
+</pre>
+<p>To add devDependencies to a <code>package.json</code> file, in a text editor, add an attribute called "devDependencies" that references the name and semantic version of each devDependency:</p>
+<pre>
+"name": "my_package",
+"version": "1.0.0",
+"dependencies": {
+  "my_dep": "^1.0.0",
+  "another_dep": "~2.2.0"
+},
+"devDependencies" : {
+  "my_test_framework": "^3.1.0".
+  "another_dev_dep": "1.0.0 - 1.2.0"
+}
+</pre>
+<p>After adding the dependencies run <code>npm install</code> to update your dependencies. It will install the dependencies in the <code>node_modules</code> directory.</p>
+<p>So in our case we need to update the <code>package.json</code> file of <code>demoforsantanu</code> package as this package depends on another package. So the package.json file will look like this -</p>
+<pre>
+{
+	"name": "demoforsantanu",
+	"version": "1.1.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"dependencies": {
+		"@ssantanuberaa/demo-package": "^1.0.0"
+	}
+}
+</pre>
+<p>Now when someone install your package <code>demoforsantanu</code>, the NPM will also install all the dependencies that are mentioned in the <code>package.json</code> file of <code>demoforsantanu</code>.</p>
+<p>Also, if other application (say, <code>demo</code>) uses your package <code>demoforsantanu</code>, that application's <code>package.json</code> file will look like the following -</p>
+<pre>
+{
+  "name": "demo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "demoforsantanu": "^1.1.0"
+  }
+}
+</pre>
+<p>As you can see, the <code>package.json</code> file of <code>demo</code> package has also dependencies <code>demoforsantanu</code> as this application depends on <code>demoforsantanu</code> and <code>demoforsantanu</code> depends on <code>demo-package</code>.</p>
+
+
+
+
+
+
+</div>
+</body>
+</html>

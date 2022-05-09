@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Colors</title>
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
+	<script type="text/javascript" src="../Assets/jquery.min.js"></script>
+    <link rel="stylesheet" href="../Assets/prism-dark.css">
+</head>
+<body class="Body">
+	<div class="Content Card">
+		<h1>Colors</h1>
+		<p>
+			Color is the one of the main part of styling. Colors are specified using predefined color names, Hexadecimal Color Code, RGB, HEX, HSL, RGBA, HSLA values.
+		</p>
+		<p>
+			But in real life, we mostly use Color name, Hexadecimal Color Code, RGB and RGBA. Others are used very rarely. So we will discuss only Color name, Hexadecimal Color Code, RGB and RGBA.
+		</p>
+		<h2>Color Name</h2>
+		<p>
+			Names are the name of the color like red, yellow, blue, grey, pink and many more.	
+		</p>
+		<pre><code class="language-css">
+			p{
+				background-color : pink;
+				color : red;
+			}
+		</code></pre>
+		<p>
+			Note that, the name is case-insensitive. red or RED, Red, rEd all are same.
+		</p>
+		<h2>Hexadecimal Color</h2>
+		<p>
+			Most color can be specified with the Hexadecimal value. It starts with a <code>#</code> sign and followed by six digit hexadimal digit(0 to F); Most browser provides a color picker, if you inspect the document you can get it. It is hard to remember these color code, so using color picker you can choose awesome color that is predefined in the color picker.
+		</p>
+		<pre><code class="language-css">
+			p{
+				background-color : #0000cc;
+				color : #4caf50;
+			}
+		</code></pre>
+		<p>
+			Here again, the values are Case-insensitive. #0000cc or #0000CC means same.
+		</p>
+		<p>
+			Hexadecimal color can be specified with three digit. It will be converted to six digit automatically in the browser. Each digit is counted as twice. For example #eee is equivalent with #eeeeee. #faf is same as #ffaaff. Or #e3a is same as #ee33aa.
+		</p>
+		<pre><code class="language-css">
+			p{
+				background-color : #0f0;
+				color : #dea;
+			}
+		</code></pre>
+		<p>
+			Hexadecimal color can alos be represent with the 8 digit value. And the short form takes four digit in which each digit counted twice just like above. The last extra two digit represent the opacity of the color, called <code>alpha</code>.
+		</p>
+		<pre><code class="language-css">
+			p{
+				background: #00ff0080;
+			}
+		</code></pre>
+		<p>
+			These 8 and 4 digit version of color code is new to the Web. Some major browser support it but others doesn't support it yet. So try ignoring this value. Any combination of color can be represented with <code>rgba</code> function. Try stick to it.
+		</p>
+		<h2>RGB</h2>
+		<p>
+			Here, <code>rgb</code> is a CSS function which takes three arguments. <code>rgba(red, green, blue)</code>
+		</p>
+		<p>
+			All the three arguments has minimum value <code>0</code> and maximum is <code>255</code>. <code>rgb</code> provides the combination color of red, green, blue of their specified values.
+		</p>
+		<pre><code class="language-css">
+			p{
+				background-color : rgb(10,30,67);
+				color : rgb(87,89,169);
+			}
+		</code></pre>
+		<p>
+			You should grab the rgb color from the color picker tool to get the right color and using color picker you can be never wrong with the value.
+		</p>
+		<h2>RGBA</h2>
+		<p>
+			It is the same as rgb but it takes another argument at the end which specify the opcity of the color. It is stand for <code>alpha</code>. It has the value between 0 to 1. 1 is full color where 0 is transparent.
+		</p>
+		<pre><code class="language-css">
+			p{
+				background-color : rgba(10,30,67,0.3);
+				color : rgba(87,89,169,0.7);
+			}
+		</code></pre>
+		<p>
+			Try with different value of alpha and see the result.
+		</p>
+		<h1>Forground and Background</h1>
+		<p>
+			So far we are discussing the different combination of values. Lets dive into some CSS property to attach these value to. There are two place to put the color in -
+		</p>
+		<h2>Forground</h2>
+		<p>
+			Forground color is just the text color of the element. We use <code>color</code> property to specify the forground color.
+		</p>
+		<pre><code class="language-css">
+			p{
+				color : rgba(87,89,169,0.7);
+			}
+		</code></pre>
+		<h2>Background</h2>
+		<p>
+			Background color is the background color of an element. We use <code>background-color</code> property to specify the background color.
+		</p>
+		<pre><code class="language-css">
+			p{
+				background-color : rgba(87,89,169,0.7);
+			}
+		</code></pre>
+		<h1>Opacity</h1>
+		<p>
+			The opacity property in CSS specifies how transparent an element is. Opacity has a default initial value of 1 (100% opaque). Opacity is not inherited, but because the parent has opacity that applies to everything within it. You cannot make a child element less transparent than the parent. It means if you apply the opacity to the parent <code>div</code>, the effect will reflect on all the child element. There's no way you can make the child element have more opacity.
+		</p>
+		<p>
+			When an element has a value of 0 the element is completely invisible; a value of 1 is completely opaque (solid). Take a look at the following example -
+		</p>
+		<pre>
+			&lt;div style="opacity: .5">
+				&lt;p style="opacity: 1;">This is a text&lt;/p>
+			&lt;/div>
+		</pre>
+		<div style="display: flex; justify-content: center; align-items: center; height: 100px;">
+			<div style="opacity: .5; background-color: red;">
+				<p style="opacity: .1;">This is a text</p>
+			</div>
+		</div>
+		<p>
+			See? If the child element has the higher opacity, it doesn't change anything at all. But you can make the child more less opaque. The following works -
+		</p>
+		<pre>
+			&lt;div style="opacity: .5">
+				&lt;p style="opacity: .1;">This is a text&lt;/p>
+			&lt;/div>
+		</pre>
+		<p>
+			To get around with it, you can make the parent div background transparent using <code>rgba()</code> color. So that the child element are safe from the opacity effect.
+		</p>
+		<p class="tip">
+			It is always better to use rgba instead of opacity value. So that you can never go wrong.
+		</p>
+	</div>
+</body>
+</html>
+
+
+
+
+
+
+
+
+

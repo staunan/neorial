@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Implicitily Animated Widgets</title>
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+	<script type="text/javascript" src="../../Assets/prism.min.js"></script>
+	<script type="text/javascript" src="../../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+<h1>Implicitily Animated Widgets</h1>
+<p>Flutter provides a few built-In AnimatedWidget that derived from <code>AnimatedWidget</code>. These widget takes a <code>Listenable</code> object to manage its animation. Like <code>OpacityTransition</code>. They are called explicit animated widgets as the developer needs to provide a <code>Listenable</code> object like <code>AnimaionController</code>, or <code>Animation&lt;T></code> explicitily.</p>
+<p>Flutter also ships with implicit animated widgets and these widgets doesn't require the <code>Listenable</code> object. Instead they manages an internal <code>AnimationController</code> to perform the animation. Thus making it easy to use and build animation. The <code>Listenable</code> object is implicit to their widget, that is why they are called implicit animated widgets.</p>
+<p>Implicity animated widgets are derived from the abstruct class <code>ImplicitAnimatedWidget</code>. These widgets do not perform animation when they are added first time to the widget tree. Rather, when they are rebuilt with different values(target value), they will respond to those changes by animating the changes over a specified <code>duration</code>.</p>
+<p>While these widgets are simple to use and don't require you to manually manage the lifecycle of an <code>AnimationController</code>, they are also somewhat limited: Besides the target value for the animated property, developers can only chose a <code>duration</code> and <code>curve</code> for the animation. If you require more control over the animation (e.g. you want to stop it somewhere in the middle), consider using a <code>AnimatedWidget</code> or one of its subclasses (explicit animated widgets).</p>
+<p>A number of implicitly animated widgets ship with the framework. They are usually named <code>AnimatedFoo</code>, where <code>Foo</code> is the name of the non-animated version of that widget. Commonly used implicitly animated widgets include:</p>
+<ul>
+	<li><a href="TweenAnimationBuilder.html">TweenAnimationBuilder</a>: which animates any property expressed by a Tween to a specified target value. This widget violates the naming convention.</li>
+	<li><code>AnimatedAlign</code>: which is an implicitly animated version of <code>Align</code>.</li>
+	<li><code>AnimatedContainer</code>: which is an implicitly animated version of <code>Container</code>.</li>
+	<li><code>AnimatedDefaultTextStyle</code>: which is an implicitly animated version of <code>DefaultTextStyle</code>.</li>
+	<li><code>AnimatedOpacity</code>: which is an implicitly animated version of <code>Opacity</code>.</li>
+	<li><code>AnimatedPadding</code>: which is an implicitly animated version of <code>Padding</code>.</li>
+	<li><code>AnimatedPhysicalModel</code>: which is an implicitly animated version of <code>PhysicalModel</code>.</li>
+	<li><code>AnimatedPositioned</code>: which is an implicitly animated version of <code>Positioned</code>.</li>
+	<li><code>AnimatedPositionedDirectional</code>: which is an implicitly animated version of <code>PositionedDirectional</code>.</li>
+	<li><code>AnimatedTheme</code>: which is an implicitly animated version of <code>Theme</code>.</li>
+	<li><code>AnimatedCrossFade</code>: which cross-fades between two given children and animates itself between their sizes.</li>
+	<li><code>AnimatedSize</code>: which automatically transitions its size over a given duration.</li>
+	<li><code>AnimatedSwitcher</code>: which fades from one widget to another.</li>
+</ul>
+<p>These widgets has a <code>curve</code> parameter which specifies the animation curve. You can also provide the duration of the animation with the <code>duration</code> property. These widgets also has <code>onEnd</code> parameter which takes a callback which is called whenever the animation completes.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>
+

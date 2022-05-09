@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Visibility in Flutter</title>
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+	<script type="text/javascript" src="../../Assets/prism.min.js"></script>
+	<script type="text/javascript" src="../../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+
+
+
+<h1>Visibility in Flutter</h1>
+<p>Visibility widget helps you to hide/show a widget. Normally you won't require the Visibility Widget to hide or show the Widget. You can simple acheive the result by inline <code>if</code> statement, or a conditional statement. Here is how you can do that:</p>
+<p>Let’s say you want to hide <code>MyWidget</code> in this layout when condition is <code>false</code></p>
+<img src="../../Assets/flutter/visibility/1_nCB36TuFJg_lGICpHpNqMA.png" style="width: 300px;">
+<pre>
+Column(
+  children: &lt;Widget>[
+    OtherWidget(),
+    if(condition == true) MyWidget(), // Inline if statement, coutersy of Dart 2.3!
+    OtherWidget(),
+  ],
+)
+</pre>
+<p>However, things get a little more complicated when you notice that if <code>MyWidget</code> is a StatefulWidget, it’s State will be recreated each time <code>MyWidget</code> is shown. Or the fact that as <code>MyWidget</code> is removed you won't get the size. What should you do if you want to get <code>MyWidget</code> size to do some calculation while it is hidden? In these case the Visibility widget may satisfiy your requirement.</p>
+<p>The above example is same as:</p>
+<pre>
+Visibility(
+  visible: condition == true,
+  child: MyWidget(),
+)
+</pre>
+<p>If the <code>visible</code> property is <code>false</code> then the Widget will be removed from the widget tree and replaced with 0 sized box. If the property is <code>true</code>, the <code>MyWidget</code> will be created and will be included in the widget tree, means the widget <code>MyWidget</code> will be visible. So if you change the property dynamically the widget will be recreated from the scratch. This is same as using an inline if or conditional statement.</p>
+<p>The above example will produce the following result:</p>
+<img src="../../Assets/flutter/visibility/1_zayS5W9_QzTGtzb2xqco_w.png" style="width: 300px;">
+<p>We will look into other property that Visibilty widget offers in order to maintain its state and size while it is hidden.</p>
+<h3>maintainState</h3>
+<p>If <code>true</code> the States in the child widget will not be lost when it’s hidden.</p>
+<h3>maintainSize</h3>
+<p>If <code>true</code>, it will maintain the child widget space when it’s hidden.</p>
+<h3>maintainAnimation</h3>
+<p>If <code>true</code>, it will maintain the animations within the child widget when it’s hidden.</p>
+<h3>maintainInteractivity</h3>
+<p>If <code>true</code>, it will allow the widget to be interactive when it’s hidden.</p>
+<h3>replacement</h3>
+<p>This property takes a widget which will be replaced when the widget is hidden. If this property is not present by default a zero sized based widget will be replaced.</p>
+
+<p>A new notes about the above properties:</p>
+<ul>
+	<li>All of the <code>maintain__</code> fields are <code>false</code> by default.</li>
+	<li>These fields must be enabled in the ascending order. E.q: If <code>maintainSize</code> is <code>true</code> then <code>maintainAnimation</code> and <code>maintainState</code> must also be <code>true</code>.</li>
+	<li>Dynamically changing these fields may cause a recreation of the States in the child widget.</li>
+</ul>
+
+
+<h2>Examples</h2>
+<h3>Example 1</h3>
+<p>Keeping the child’s State but hide the child completely. You can also get the child’s size while it’s hidden.</p>
+<pre>
+ Visibility(
+   visible: condition == true,
+   maintainState: true,
+   child: MyWidget(),
+ )
+</pre>
+<h3>Example 2</h3>
+<p>Let the child occupy space in the layout but prevent users from interacting.</p>
+<pre>
+ Visibility(
+   visible: condition == true,
+   maintainState: true,
+   maintainAnimation: true,
+   maintainSize: true,
+   child: MyWidget(),
+ )
+</pre>
+<img src="../../Assets/flutter/visibility/1_jglTz9X5xH6ByjFasrRtKQ.png" style="width: 300px;">
+<h3>Example 3</h3>
+<p>Let the child occupy space in the layout and allow users to interact.</p>
+<pre>
+ Visibility(
+   visible: condition == true,
+   maintainState: true,
+   maintainAnimation: true,
+   maintainSize: true,
+   maintainInteractivity: true,
+   child: MyWidget(),
+ )
+</pre>
+
+
+
+
+
+
+
+
+<h1>Opacity Widget</h1>
+<p>A widget that makes its child partially transparent. For the value 0.0, the child is simply not painted at all.</p>
+<pre>
+Opacity(
+  opacity: _visible ? 1.0 : 0.0,
+  child: MyWidget(),
+)
+</pre>
+<p>This is more efficient than adding and removing the child widget from the tree on demand</p>
+<img src="../../Assets/flutter/visibility/1_hvYY--YBqYLwcmzeKUWU4w.png" style="width: 300px;">
+<p>The child will stay in the widget tree only not painted so it’s State won’t be recreated. It will still take up space and has interactivity.</p>
+<p>This is the equivalent of:</p>
+<pre>
+ Visibility(
+   visible: condition == true,
+   maintainState: true,
+   maintainAnimation: true,
+   maintainSize: true,
+   maintainInteractivity: true,
+   child: MyWidget(),
+ )
+</pre>
+<p>You can animate the transition using <code>AnimatedOpacity</code> or a custom <code>AnimationController</code>.</p>
+
+
+
+
+
+
+
+
+
+<h1>Offstage Widget</h1>
+<p>A widget that lays the child out as if it was in the tree, but without painting anything, without making the child available for hit testing, and without taking any room in the parent. <code>Offstage</code> children are still active: they can receive focus and have keyboard input directed to them.</p>
+
+<p>Animations continue to run in offstage children, and therefore use battery and CPU time, regardless of whether the animations end up being visible.</p>
+
+<p><code>Offstage</code> can be used to measure the dimensions of a widget without bringing it on screen (yet). To hide a widget from view while it is not needed, prefer removing the widget from the tree entirely rather than keeping it alive in an <code>Offstage</code> subtree.</p>
+
+<p>This widget will hide the child based on the <code>offstage</code> value.</p>
+<pre>
+Offstage(
+   offstage: condition == true,
+   child: MyWidget(),
+)
+</pre>
+<p>The child won’t take up any space or have any interactivity but you can still get the child size.</p>
+<p>The above example is equivalent of the following:</p>
+<pre>
+Visibility(
+   visible: condition == true,
+   maintainState: true,
+   maintainAnimation: true,
+   child: MyWidget(),
+)
+</pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Basics</title>
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+	<script type="text/javascript" src="../Assets/prism.min.js"></script>
+	<script type="text/javascript" src="../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+<h1>Comment</h1>
+<pre>
+// This is a comment.
+</pre>
+<p>A single-line comment. Dart also supports multi-line and document comments.</p>
+
+
+
+
+
+
+<h1>Variables</h1>
+<h2>Creating variable using <code>var</code> keyword.</h2>
+<p>To create a variable use <code>var</code> keyword. This keyword means that you can assign any type of value to the variable.</p>
+<pre>
+var name = "Santanu";
+
+name = 30; // Error
+</pre>
+<p>Now after the literal gets assigned to the variable <code>name</code>, the Dart automatically detect the type of the literal and decide how the variable should be treated throughout the execution of the program. In this case, the name is treated as <code>String</code> type. If you try to assign any value which is not string, the Dart compiler throws an error and program execution halts.</p>
+
+<h2>Creating variable using <code>dynamic</code> keyword</h2>
+<p>The <code>dynamic</code> keyword is used to create a variable whose data type is unknown. You can use this keyword to store any kind of data anytime on the same variable. It is just like <code>var</code> in Javascript.</p>
+<pre>
+dynamic value = 30;
+dynamic number = "Santanu Bera";
+number = 30; // Works
+</pre>
+
+<h2>Creating variable using <code>Object</code> keyword</h2>
+<p>In dart everything is an Object. Even the keyword <code>null</code> is also an object. The variable always store reference. The reference to the object which is assigned to the variable. As everything in Dart is an object you can <code>object</code> keyword to create a variable. Which is same as <code>dynamic</code> keyword. You can store any value anytime on the same variable.</p>
+<pre>
+Object name = "Santanu Bera";
+name = 30; // Works
+</pre>
+
+<h2>Variable always stores reference</h2>
+<p>In dart everything is Object. Even number, string and null are object. That's why everything you store in a variable in an Object. Thus variable contains memory reference to the object which is assigned to the variable.</p>
+
+<h2>Strong Data Types</h2>
+<p>You can also use <code>String</code>, <code>bool</code> etc to create variable. These are called strong data types because you are declaring the type of data which is going to be assigned to the variable and the variable should not accept any value of other data type.</p>
+
+<h2>Default Value</h2>
+<p>What if you declare a variable and leave it uninitialize with a value, the value <code>null</code> is going to be the default value for any data type. So uninitialized or unassigned variable gets <code>null</code> value by default.</p>
+<pre>
+int rollNumber;
+assert(rollNumber == null);
+</pre>
+
+
+
+
+
+<h1>Constant</h1>
+<h2>const and final</h2>
+<p>Use <code>final</code> and <code>const</code> keyword to declare a constant or variable whose value is fixed during the execution.</p>
+<p>Instead of <code>var</code>, use <code>const</code> or <code>final</code> to declare a constant.</p>
+<pre>
+const pi = 3.14;
+final numberOfStudents = 50;
+</pre>
+<p>If you want to explicitly specify the data type you can use the following structure:</p>
+<pre>
+const double pi = 3.14;
+final int numberOfStudents = 3.14;
+</pre>
+<h2>Difference between const and final keyword</h2>
+<p>The keyword <code>const</code> takes compile time constant value or static constant. Whereas <code>final</code> can take the runtime calculated or evaluated result of an expression. On the other hand, <code>final</code> is used for dynamic constants. For example:</p>
+<pre>
+const int value1 = 70; // Works fine
+const int value1 = a + b + c; // Error, const takes a constant literal value not an expression.
+
+final int value2 = a + b + c; // Okay, final takes runtime calculated value.
+value2 = 60; // Error, Assigning other value is an error.
+</pre>
+<p>Once a value is set, further modification is not allowed.</p>
+<p>Another difference is that <code>final</code> is used to declare a class level constant. Whereas using <code>const</code> for class level constant is an error. Instance variables can be final but not const.</p>
+<p>Few example of static constants are:</p>
+<pre>
+const bar = 1000000; // Unit of pressure (dynes/cm2)
+const double atm = 1.01325 * bar; // Standard atmosphere
+</pre>
+
+
+
+</div>
+</body>
+</html>
