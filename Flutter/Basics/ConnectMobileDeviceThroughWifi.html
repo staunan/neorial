@@ -35,6 +35,15 @@
 </ul>
 <p>Now you can run the command <code>flutter devices</code> to see all the devices available. It should show your phone IP address in the device list.</p>
 
+<p>Now everytime before you run the flutter project, you need to connect your devices through <code>ADB</code>. But only the following steps needed and you don't need to plug your USB cable anymore.</p>
+<pre>
+cd /
+cd C:\Users\NeoRe\AppData\Local\Android\Sdk\platform-tools
+adb tcpip 5555
+adb connect mobile_ip_address
+adb devices
+</pre>
+
 
 </div>
 </body>
