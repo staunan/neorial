@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Underline</title>
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+</head>
+<body class="Body">
+<div class="page card">
+
+<h1>Underline</h1>
+<h2>text-decoration-line</h2>
+<p>The <code>text-decoration-line</code> property is used to set or remove decorations from text. The value <code>text-decoration-line: none;</code> is often used to remove underlines from links:</p>
+<pre>
+a {
+    text-decoration-line: none;
+}
+</pre>
+<p>You can also use other values:</p>
+<pre>
+// Creates a line above the text.
+h1 {
+    text-decoration-line: overline;
+}
+
+// Just like strike-through text. Line over the text.
+h2 {
+    text-decoration-line: line-through;
+}
+
+// line below the text.
+h3 {
+    text-decoration-line: underline;
+}
+</pre>
+
+
+
+
+<h2>text-decoration-style</h2>
+<p>The text-decoration-style property sets the style of the text decoration (like solid, wavy, dotted, dashed, double).</p>
+<pre>
+div.a {
+    text-decoration-line: underline;
+    text-decoration-style: solid;
+}
+
+div.b {
+    text-decoration-line: underline;
+    text-decoration-style: wavy;
+}
+
+div.c {
+    text-decoration-line: underline;
+    text-decoration-style: double;
+}
+
+div.d {
+    text-decoration-line: overline underline;
+    text-decoration-style: wavy;
+}
+
+&lt;div class="a">Solid&lt;/div>
+&lt;div class="b">Wavy&lt;/div>
+&lt;div class="c">Double&lt;/div>
+&lt;div class="d">Wavy overline and underline&lt;/div>
+</pre>
+<p>The above code will output the following:</p>
+<div class="SnippetDemo">
+<style>
+div.a {
+    text-decoration-line: underline;
+    text-decoration-style: solid;
+}
+
+div.b {
+    text-decoration-line: underline;
+    text-decoration-style: wavy;
+}
+
+div.c {
+    text-decoration-line: underline;
+    text-decoration-style: double;
+}
+
+div.d {
+    text-decoration-line: overline underline;
+    text-decoration-style: wavy;
+}
+</style>
+<div class="a mr-5">Solid</div>
+<div class="b mr-5">Wavy</div>
+<div class="c mr-5">Double</div>
+<div class="d mr-5">Wavy overline and underline</div>
+</div>
+
+
+<h2>text-decoration-color</h2>
+<p>The <code>text-decoration-color</code> property specifies the color of the text-decoration (underlines, overlines, linethroughs).</p>
+<pre>
+p.colored_underline {
+    text-decoration: underline;
+    text-decoration-color: red;
+}
+&lt;p class="colored_underline">Hello World&lt;/p>
+</pre>
+<div class="SnippetDemo">
+    <style>
+    p.colored_underline {
+        text-decoration: underline;
+        text-decoration-color: red;
+    }
+    </style>
+    <p class="colored_underline">Hello World</p>
+</div>
+
+
+
+<h2>text-decoration-thickness</h2>
+<p>The <code>text-decoration-thickness</code> property specifies the thickness of the decoration line.</p>
+<pre>
+p.thickness_underline {
+    text-decoration-line: overline;
+    text-decoration-thickness: 20px;
+    text-decoration-color: blue;
+    text-decoration-style: dashed;
+}
+&lt;p class="thickness_underline">Hello World&lt;/p>
+</pre>
+<div class="SnippetDemo py-6">
+    <style>
+    p.thickness_underline {
+        text-decoration-line: overline;
+        text-decoration-thickness: 20px;
+        text-decoration-color: blue;
+        text-decoration-style: dashed;
+    }
+    </style>
+    <p class="thickness_underline">Staunan Ebra is very good guy!</p>
+</div>
+
+
+
+
+
+<h2>text-underline-position</h2>
+<p>The <code>text-underline-position</code> CSS property specifies the position of the underline which is set using the <code>text-decoration</code> property's <code>underline</code> value.</p>
+<pre>
+p.underline_position_under {
+    text-decoration-line: underline;
+    text-underline-position: under;
+}
+p.underline_position_left {
+    text-decoration-line: underline;
+    text-underline-position: left;
+}
+p.underline_position_right {
+    text-decoration-line: underline;
+    text-underline-position: right;
+}
+p.underline_position_auto {
+    text-decoration-line: underline;
+    text-underline-position: auto;
+}
+&lt;p class="underline_position_under">Underline Position : Under&lt;/p>
+&lt;p class="underline_position_left">Underline Position : Left&lt;/p>
+&lt;p class="underline_position_right">Underline Position : Right&lt;/p>
+&lt;p class="underline_position_auto">Underline Position : Auto&lt;/p>
+</pre>
+<div class="SnippetDemo">
+    <style>
+    p.underline_position_under {
+        text-decoration-line: underline;
+        text-underline-position: under;
+    }
+    p.underline_position_left {
+        text-decoration-line: underline;
+        text-underline-position: left;
+    }
+    p.underline_position_right {
+        text-decoration-line: underline;
+        text-underline-position: right;
+    }
+    p.underline_position_auto {
+        text-decoration-line: underline;
+        text-underline-position: auto;
+    }
+    </style>
+    <div>
+        <p class="underline_position_under">Underline Position : Under</p>
+        <p class="underline_position_left">Underline Position : Left</p>
+        <p class="underline_position_right">Underline Position : Right</p>
+        <p class="underline_position_auto">Underline Position : Auto</p>
+    </div>
+</div>
+<p>Here are the values you can use with this property:</p>
+<ol>
+    <li>under: Forces the line to be set below the alphabetic baseline, at a position where it won't cross any descenders. This is useful for ensuring legibility with chemical and mathematical formulas, which make a large use of subscripts.</li>
+    <li>left: In vertical writing-modes, this keyword forces the line to be placed on the left side of the text. In horizontal writing-modes, it is a synonym of <code>auto</code>.</li>
+    <li>right: In vertical writing-modes, this keyword forces the line to be placed on the right side of the text. In horizontal writing-modes, it is a synonym of <code>auto</code>.</li>
+</ol>
+
+
+
+
+<h2>text-underline-offset</h2>
+<p>The text-underline-offset property in CSS sets the distance of text underlines from their initial position. Once you apply an underline for an element using <code>text-decoration</code> with the value of <code>underline</code>, you can say how far that line should be from your text using the <code>text-underline-offset</code> property.</p>
+<pre>
+p.underline_position_offset {
+    text-decoration-line: underline;
+    text-underline-offset: 20px;
+}
+
+&lt;p class="underline_position_offset">Underline Offset : 20px&lt;/p>
+</pre>
+<div class="SnippetDemo">
+    <style>
+    p.underline_position_offset {
+        text-decoration-line: underline;
+        text-underline-offset: 20px;
+    }
+    </style>
+    <div>
+        <p class="underline_position_offset">Underline Offset : 20px</p>
+    </div>
+</div>
+<p>Note that, it doesn't work on other text-decoration lines, such as line-through or overline. You can also use negative value to make the underline appear on top direction.</p>
+
+
+
+
+
+<h2>text-decoration</h2>
+<p>The text-decoration property specifies the decoration added to text, and is a shorthand property for:</p>
+<ol>
+    <li>text-decoration-line (required)</li>
+    <li>text-decoration-color</li>
+    <li>text-decoration-style</li>
+    <li>text-decoration-thickness</li>
+</ol>
+<pre>
+text-decoration: text-decoration-line text-decoration-color text-decoration-style text-decoration-thickness;
+</pre>
+<p>For example,</p>
+<pre>
+h1 {
+    text-decoration: underline overline dotted red;
+}
+
+h2 {
+    text-decoration: underline wavy blue 5px;
+}
+</pre>
+
+
+
+
+</div>
+</body>
+</html>

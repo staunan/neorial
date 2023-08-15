@@ -124,6 +124,75 @@ h1+p, h2+p, h3+p, h4+p{
   margin-top: 0;
   margin-bottom: 0;
 }
+
+
+/* Table of Content */
+.table_of_content{
+  padding: 30px;
+}
+.table_of_content h1{
+  font-size: 30px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+.table_of_content .tags{
+  display: flex;
+  flex-wrap: wrap;
+}
+.table_of_content .tags>div{
+  white-space: nowrap;
+  margin-right: 25px;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  margin-bottom: 10px;
+  color: #ff9800;
+}
+.table_of_content ol{
+  padding-left: 50px;
+  margin-bottom: 30px;
+}
+.table_of_content .small_desc{
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+.table_of_content li{
+  margin-bottom: 30px;
+}
+.table_of_content a{
+  font-weight: bold;
+}
+/* Page */
+.page{
+  padding: 30px;
+}
+.page h1{
+  font-size: 30px;
+  font-weight: bold;
+}
+.page h2{
+  font-size: 25px;
+  font-weight: bold;
+  color: #009688;
+}
+.page h3{
+  font-size: 20px;
+  font-weight: bold;
+  color: #9c27b0;
+}
+.page p{
+  margin-bottom: 20px;
+}
+.page ol{
+  padding-left: 50px;
+  margin-bottom: 30px;
+}
+.page pre{
+  margin-bottom: 30px;
+}
+.page .picturebox{
+  padding: 10px;
+}
 .SnippetDemo{
   width: 80%;
   margin: 30px;
@@ -134,4 +203,10 @@ h1+p, h2+p, h3+p, h4+p{
   box-shadow: 0px 14px 80px rgba(34, 35, 58, 0.2);
   border-radius: 20px;
   background: #fff;
+}
+/* Helpers */
+.center{
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

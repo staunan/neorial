@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Cudos Blockchain</title>
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
+	<script type="text/javascript" src="../Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="../Assets/prism-dark.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+<h2>Install Cudos Client</h2>
+<p>To work with Codus Blockchain you need to use the <a href="https://github.com/cosmos/cosmjs">Codus</a> JS library. In nodejs use the following command:</p>
+<pre>
+npm install cudosjs
+</pre>
+
+<h3>Cudos Testnet RPC URL</h3>
+<pre>
+https://sentry1.gcp-uscentral1.cudos.org:36657
+</pre>
+
+
+<h2>Connect to Cudos Blockchain</h2>
+<p>The following code connects you to Cudos blockchain:</p>
+<pre>
+import { CosmWasmClient } from 'cudosjs';
+const rpc = "https://sentry1.gcp-uscentral1.cudos.org:36657";
+const client = CosmWasmClient.connect(rpc);
+</pre>
+<p>You can also use StargateClient class to connect to the rpc. The above code is equivalent with the following:</p>
+<pre>
+import { StargateClient } from "cudosjs";
+const rpc = "https://sentry1.gcp-uscentral1.cudos.org:36657";
+const client = await StargateClient.connect(rpc);
+</pre>
+
+
+
+<h2>Create a Wallet on Cudos Blockchain</h2>
+<pre>
+import {
+	DirectSecp256k1HdWallet,
+	encodeSecp256k1Pubkey
+} from "cudosjs";
+
+const wallet = await DirectSecp256k1HdWallet.generate(12, { prefix: 'cudos'});
+const account = (await wallet.getAccounts())[0];
+const walletInfo = {
+	mnemonic: wallet.mnemonic,
+	address: account.address,
+	pubKey: encodeSecp256k1Pubkey(account.pubkey)
+};
+</pre>
+
+<h2>Cudos Block Explorer URL</h2>
+<p>After you create an wallet, you can use <code>walletInfo.address</code> to see the current balance using the following url:</p>
+<pre>
+https://explorer.testnet.cudos.org/
+</pre>
+
+<h2>Denomination : cudos/acudos</h2>
+<p>In Economy, "A denomination refers to the units classification for the stated or face value of financial instruments such as currency notes or coins, as well as for securities, bonds, and other investments". So it is basically like a Unit or Currency. The short form is <code>denom</code>. In Cudos blockchain we use <code>CUDOS</code> and <code>ACUDOS</code> as denom/unit/currency. The native tokens are reffered as Cudos. The fraction part of cudos is reffered as acudos.</p>
+<pre>
+1 CUDOS = 1000000000000000000 ACUDOS
+1 CUDOS = 10^18 ACUDOS
+</pre>
+
+<h2>Transfer Cudos: Fund Wallet</h2>
+<p>After you create a wallet, you can transfer some cudos into your wallet. The following code transfers 1000 acudos from your wallet into the wallet <code>cudos1fysafnmnpgmqcjrlkyzq2a5vlnddhhey0xkt88</code>.</p>
+<pre>
+import { DirectSecp256k1HdWallet, SigningStargateClient } from "cudosjs";
+
+const rpc = "https://sentry1.gcp-uscentral1.cudos.org:36657";
+const mnemonic = "...";
+const recipientAddress = "cudos1fysafnmnpgmqcjrlkyzq2a5vlnddhhey0xkt88";
+const amount = { denom: "acudos", amount: 1000};
+const gasFee = {
+  amount: [{ denom: "acudos", amount: "50000000000000000000" }],
+  gas: "10000000"
+};
+const msg = "A small description about the transaction...";
+
+// Connect to the Cudos Network with wallet --
+const wallet = await DirectSecp256k1HdWallet.fromMnemonic(mnemonic);
+const signedClient = await SigningStargateClient.connectWithSigner(rpc, wallet);
+const senderAddress = (await wallet.getAccounts())[0].address;
+
+// Transfer token --
+const result = await signedClient.sendTokens(senderAddress, recipientAddress, [amount], gasFee, msg);
+console.log(result);
+</pre>
+<p>Here is the sample output of the variable <code>result</code>:</p>
+<pre>
+{
+  code: 0,
+  height: 6519852,
+  rawLog: '...',
+  transactionHash: '05A95C8B2E8B3E160FF9D3CF69AF277D8D3C0E991AE7758D70A3F0BFAA8A998B',
+  gasUsed: 70086,
+  gasWanted: 10000000
+}
+</pre>
+<p>You can save <code>transactionHash</code> to fetch details of this transaction later.</p>
+
+
+<h2>Fetch Balance</h2>
+<pre>
+const walletAddress = "cudos1s858rccm2sch7qvaqh4ftsegd6830yt6yuu8uk";
+const balanceResult = await client.getAllBalances(walletAddress);
+let balances = JSON.stringify(balanceResult);
+</pre>
+<p>You will get output like the following:</p>
+<pre>
+[{"denom":"acudos", "amount":"1000000000000000000"}]
+</pre>
+
+
+
+<h2>Fetch Transaction Details</h2>
+<pre>
+// Connect to Cudos --
+import { 
+	StargateClient,
+	isDeliverTxSuccess
+} from "cudosjs";
+const rpc = "https://sentry1.gcp-uscentral1.cudos.org:36657";
+const client = await StargateClient.connect(rpc);
+
+// Get transaction details --
+const txHash = '05A95C8B2E8B3E160FF9D3CF69AF277D8D3C0E991AE7758D70A3F0BFAA8A998B';
+const txDetails = await client.getTx(txHash);
+
+// Check wheather this transaction was succeed or failed --
+let success = isDeliverTxSuccess(txDetails);
+</pre>
+<p>The method <code>isDeliverTxSuccess</code> returns <code>true</code>, if transaction is completed successfully. If not, it returns false.</p>
+
+
+
+<h2>Deploy a Smart Contract</h2>
+<pre>
+import * as fs from 'fs';
+import {
+	DirectSecp256k1HdWallet,
+	SigningCosmWasmClient
+} from "cudosjs";
+
+const mnemonic = "vanish photo suggest wagon quantum ahead sustain manual chalk stand during just";
+const rpc = "https://sentry1.gcp-uscentral1.cudos.org:36657";
+const contractFilePath = "directory_path/filename.wasm";
+const gasFee = {
+  amount: [{ denom: "acudos", amount: "50000000000000000000" }],
+  gas: "10000000"
+};
+
+// Connect to Cudos Network with signer --
+const signingWallet = await DirectSecp256k1HdWallet.fromMnemonic(mnemonic);
+const signingCosmosClient = await SigningCosmWasmClient.connectWithSigner(rpc, signingWallet);
+
+// Get Signer wallet address --
+const signingAddress = (await signingWallet.getAccounts())[0].address;
+
+// Get the file --
+const constractFile = fs.readFileSync(contractFilePath);
+
+// Upload Contract --
+const uploadResult = await signingCosmosClient.upload(signingAddress, constractFile, gasFee);
+console.log('Deploy Result :', uploadResult);
+</pre>
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

@@ -32,10 +32,28 @@ mongo
 
 
 
+<h1>Connect to MongoDB Server from Command Line</h1>
+<p>First you need to add MongoDB installation path to environment variable. Generally, the MongoDB server  installation directory is <code>C:\Program Files\MongoDB\Server\5.0\bin</code>. Add this directory to your environment variable.</p>
+<p>Open CMD and print the version. If it is successful, you will now be able to connect to your server:</p>
+<pre>
+mongo --version
+</pre>
+<p>You can use a connection string to connect:</p>
+<pre>
+mongo "mongodb://localhost:27017/database_name?readPreference=primary&directConnection=true&ssl=false"
+</pre>
+<p>If the connection is successful, you will enter in mongo shell, where you can now perform db query.</p>
 
 
+<h2>Backup your database</h2>
+<pre>
+mongodump --db admin -o C:\backup
+</pre>
 
-
+<h2>Restore your Database</h2>
+<pre>
+mongorestore --db nft-marketplace C:\backup\admin
+</pre>
 
 
 

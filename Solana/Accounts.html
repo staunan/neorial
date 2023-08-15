@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Accounts</title>
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+<h1>Accounts</h1>
+<p>Accounts within Solana are used to store state. They are an essential building block for developing on Solana. Here is few characterstics:</p>
+<ul>
+  <li>Accounts are used to store data</li>
+  <li>Each account has a unique address</li>
+  <li>Accounts have a max size of 10MB (10 Mega Bytes)</li>
+  <li>PDA accounts have a max size of 10KB (10 Kilo Bytes)</li>
+  <li>PDA accounts can be used to sign on behalf of a program</li>
+  <li>Account size is static</li>
+  <li>Account data storage is paid with rent</li>
+  <li>Default account owner is the System Program</li>
+</ul>
+
+<h1>Solana-CLI</h1>
+<p>To Install solana CLI, go to <a href="https://docs.solana.com/cli/install-solana-cli-tools">intall page</a>. After that open CMD and type <code>solana --version</code>, if the version shows, the solana cli is installed properly.</p>
+<pre>
+solana --version
+</pre>
+
+
+<h1>Configuration</h1>
+<h2>Get Configuration</h2>
+<pre>
+solana config get
+
+C:\Users\NeoRe>solana config get
+Config File: C:\Users\NeoRe\.config\solana\cli\config.yml
+RPC URL: https://metaplex.devnet.rpcpool.com/
+WebSocket URL: wss://metaplex.devnet.rpcpool.com/ (computed)
+Keypair Path: C:\Users\NeoRe\.config\solana\wallets\account_1.json
+Commitment: confirmed
+</pre>
+
+<h2>Set Configuration</h2>
+<h3>RPC URL : Update Cluster URL to Devnet</h3>
+<p>To make sure you are on the <code>devnet</code>, type the following command:</p>
+<pre>
+solana config set --url https://metaplex.devnet.rpcpool.com/
+</pre>
+<p>This will show output like the following:</p>
+<pre>
+Config File: C:\Users\NeoRe\.config\solana\cli\config.yml
+RPC URL: https://metaplex.devnet.rpcpool.com/
+WebSocket URL: wss://metaplex.devnet.rpcpool.com/ (computed)
+Keypair Path: C:\Users\NeoRe\.config\solana\id.json
+Commitment: confirmed
+</pre>
+<p>To know the cluster version, use:</p>
+<pre>
+solana cluster-version
+</pre>
+
+<h1>Solana-Keygen</h1>
+<p>To work with wallet, we need to use <code>solana-keygen</code> command. This tool is installed by default with solana-cli installation.</p>
+<p>To know the solana-keygen version, use:</p>
+<pre>
+solana-keygen --version
+</pre>
+
+<h2>New Wallet : File System Wallet</h2>
+<p>The solana's config file is located in the directory <code>C:\Users\&lt;username>\.config\solana</code>. Lets create a new folder inside this directory called <code>wallets</code> under which we will keep all our wallets here. Now run the following command to create a new wallet in that directory:</p>
+<pre>
+solana-keygen new -o C:\Users\NeoRe\.config\solana\wallets\account_1.json
+</pre>
+<p>This will prompt you to enter BIP39 Passphrase. You can skip this. The above command will generate a new file inside the <code>wallets</code> directory. This file contains unencrypted keypair of your wallet. The wallet has been created successfully, but it is not assigned with the Solana-CLI yet. The next step is to make this file our default keypair. Enter the following command to make the file as our default keypair/wallet:</p>
+<pre>
+solana config set --keypair C:\Users\NeoRe\.config\solana\wallets\account_1.json
+</pre>
+<p>Now you can run following command to know the address or public key associated with the default account, which is in our case <code>account_1</code></p>
+<pre>
+solana address
+</pre>
+<pre>
+solana pubkey
+</pre>
+<p>The above command <code>solana pubkey</code> display the public key of default account, to know the public key of any account use the file path:</p>
+<pre>
+solana pubkey &lt;C:\Users\NeoRe\.config\solana\wallets\account_2.json>
+</pre>
+
+<p>To know the balance, use the following command:</p>
+<pre>
+solana balance
+</pre>
+<p>This way you can create wallet as many as you want and make any wallet as your default wallet.</p>
+
+
+<h2>Fund Wallet | Solana Faucet</h2>
+<p>In order to add SOL to your devnet wallet, you can request funds from a faucet:</p>
+<pre>
+solana airdrop 2
+</pre>
+<p>If the command is successful, you will see the updated balance at the end. Make sure you are entering the airdrop amount that is within the airdrop limit. Currently the maximum airdrop request limit is <code>2 SOL</code> and there is a daily total limit of <code>24 SOL</code>.</p>
+<p>Run <code>solana balance</code> to check your wallet is funded with <code>2 SOL</code>.</p>
+
+<h1>Lamports</h1>
+<p>A SOL is the name of Solana's native token, which can be passed to nodes in a Solana cluster in exchange for running an on-chain program or validating its output. The system may perform micropayments of fractional SOLs, which are called lamports. They are named in honor of Solana's biggest technical influence, Leslie Lamport. A lamport has a value of 0.000000001 SOL</p>
+
+<h1>Run a Local Test Network</h1>
+<p>Open command prompt in administrative mode and run the following command:</p>
+<pre>
+solana-test-validator
+</pre>
+
+
+<h1>Transaction Logs</h1>
+<p>To watch for transaction logs in command prompt, open CMD in admistrative mode and enter the following command:</p>
+<pre>
+solana logs
+</pre>
+
+
+
+</div>
+</body>
+</html>

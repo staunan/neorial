@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Deploying</title>
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+</head>
+<body class="Body">
+<div class="Content Card">
+
+
+<h1>Deploying</h1>
+<h3>Requirements</h3>
+<ul>
+  <li>NodeJS v14 or greater & NPM</li>
+  <li>The latest stable Rust build</li>
+  <li>Solana CLI v1.7.11 or later</li>
+  <li>Git</li>
+</ul>
+
+<h3>Clone the repo</h3>
+<p>We will use the following repo for our example:</p>
+<pre>
+https://github.com/solana-labs/example-helloworld
+</pre>
+<p>After cloning the repo, run <code>npm install</code> to install packages.</p>
+
+<h3>Build the on-chain program</h3>
+<p>There is both a Rust and C version of the on-chain program. Open CMD in administrative mode and enter one of the following command:</p>
+<pre>
+npm run build:program-rust
+npm run build:program-c
+</pre>
+
+<h3>Deploy the on-chain program</h3>
+<pre>
+solana program deploy dist/program/helloworld.so
+</pre>
+
+<h3>Run the JavaScript client</h3>
+<pre>
+npm run start
+</pre>
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>
