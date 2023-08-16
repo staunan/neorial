@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Overflow</title>
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+</head>
+<body>
+<div class="page card">
+
+
+<h1>Overflow</h1>
+<p>The <code>overflow</code> property helps us handle situation when the content overflows an element's box. It has the following syntax:</p>
+<pre>
+overflow: visible|hidden|scroll|auto|initial|inherit;
+</pre>
+<ol>
+    <li><code>visible</code> : It specifies that the overflow content is not clipped. It renders outside the element's box. This is default.</li>
+    <li><code>hidden</code> : It specifies that the overflow content (rest of the content that goes outside of the container element) will be hidden.</li>
+    <li><code>scroll</code> : It specifies that there will always be scrollbar. The scrollbar will be disabled by default if the content is perfectly fitted in the container. But if the content goes outside of the container, the scrollbar will be activated. This value will add both horizontal and vertical scrollbar.</li>
+    <li><code>auto</code> : It specifies that initially there will not be any scrollbar. If the content goes outside of the container, then and only then the scrollbar will be added dynamically by the browser to scroll the rest of the content. This value add scrollbar when you need and where you need. It may add vertical or horizontal or even both, depending on the content.</li>
+</ol>
+<p>In the following example, the outer div has dimension of (200px * 200px). But this is small to contain the content it has. The property <code>overflow: scroll;</code> adds a scrollbar in this situation.</p>
+<pre style="white-space: pre-wrap;">
+&lt;div style="width: 200px; min-height: 200px; height: 30px; background: #eee; overflow: scroll;">
+    This is a lots of text This is a lots of text This is a lots of text This is a lots of text This is a lots of text This is a lots of text This is a lots of text This is a lots of text This is a lots of text This is a lots of text This is a lots of text This is a lots of text 
+    &lt;div style="width: 300px; background-color: red;">
+        This is a lots of text This is a lots of text This is a lots of text This is a lots of text This is a lots of text This is a lots of text This is a lots of text This is a lots of text This is a lots of text This is a lots of text This is a lots of text This is a lots of text 
+    &lt;/div>
+&lt;/div>
+</pre>
+<div class="SnippetDemo">
+    <div style="width: 200px; min-height: 200px; height: 30px; background: #eee; overflow: scroll;">
+        This is a lots of text This is a lots of text This is a lots of text This is a lots of text This is a lots of text This is a lots of text This is a lots of text This is a lots of text This is a lots of text This is a lots of text This is a lots of text This is a lots of text 
+        <div style="width: 300px; background-color: red;">
+            This is a lots of text This is a lots of text This is a lots of text This is a lots of text This is a lots of text This is a lots of text This is a lots of text This is a lots of text This is a lots of text This is a lots of text This is a lots of text This is a lots of text 
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+<h1>overflow-x &amp; overflow-y</h1>
+<p>Note that, <code>overflow</code> is the shorthand of <code>overflow-x</code> and <code>overflow-y</code>. Overflow is for controlling both horizontal and vertical scrollbar, where's <code>overflow-x</code> is for controlling only horizontal and <code>overflow-y</code> is for controlling only vertical scrollbar.
+</p>
+<p>Note that the following never works. <code>scroll</code> and <code>visible</code> never work together.</p>
+<pre style="white-space: pre-wrap;">
+&lt;div style="width: 100px; min-height: 200px; height: 30px; background: red; overflow-y: scroll; overflow-x: visible;">
+    This is a lots of text This is a lots of text This is a lots of text This is a lots of text This is a lots of text This is a lots of text This is a lots of text This is a lots of text This is a lots of text This is a lots of text This is a lots of text This is a lots of text This is a lots of text This is a lots of text This is a lots of text This is a lots of text This is a lots of text This is a lots of text This is a lots of text This is a lots of text This is a lots of text This is a lots of text This is a lots of text This is a lots of text This is a lots of text This is a lots of text This is a lots of text This is a lots of text This is a lots of text This is a lots of text This is a lots of text This is a lots of text This is a lots of text This is a lots of text This is a lots of text This is a lots of text 
+    &lt;div style="height: 10px; width: 200px; background: green;">&lt;/div>
+&lt;/div>
+</pre>
+<div class="SnippetDemo">
+    <div style="width: 100px; min-height: 200px; height: 30px; background: red; overflow-y: scroll; overflow-x: visible;">
+        This is a lots of text This is a lots of text This is a lots of text This is a lots of text This is a lots of text This is a lots of text This is a lots of text This is a lots of text This is a lots of text This is a lots of text This is a lots of text This is a lots of text This is a lots of text This is a lots of text This is a lots of text This is a lots of text This is a lots of text This is a lots of text This is a lots of text This is a lots of text This is a lots of text This is a lots of text This is a lots of text This is a lots of text This is a lots of text This is a lots of text This is a lots of text This is a lots of text This is a lots of text This is a lots of text This is a lots of text This is a lots of text This is a lots of text This is a lots of text This is a lots of text This is a lots of text 
+        <div style="height: 10px; width: 200px; background: green;"></div>
+    </div>
+</div>
+<p class="tip">
+    To get around with the above unusual behaviour you can use hidden. So if you don't want a scrollbar use <code>hidden</code> value. But remember you cannot overflow only one side. You have to overflow on both. So applying <code>visible</code> only on one side never works.
+</p>
+
+
+
+
+
+
+
+</div>
+</body>
+</html>
