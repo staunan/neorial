@@ -4,113 +4,111 @@
 	<title>Tables</title>
 	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
 	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
-	<script type="text/javascript" src="../Assets/jquery.min.js"></script>
-  <link rel="stylesheet" href="../Assets/prism-dark.css">
 </head>
 <body class="Body">
-<div class="Content Card">
+<div class="page card">
 
 
 
 <h1>Styling Table</h1>
-<p>Let's consider the following table -</p>
+<p>In this chapter we will learn how to style a table element. Consider the following table which we will use in rest of the tutorial:</p>
 <pre>
-&lt;div class="box">
 &lt;table>
-  &lt;caption>A summary of the UK's most famous punk bands&lt;/caption>
-  &lt;thead>
-    &lt;tr>
-      &lt;th scope="col">Band&lt;/th>
-      &lt;th scope="col">Year formed&lt;/th>
-      &lt;th scope="col">No. of Albums&lt;/th>
-      &lt;th scope="col">Most famous song&lt;/th>
-    &lt;/tr>
-  &lt;/thead>
-  &lt;tbody>
-    &lt;tr>
-      &lt;th scope="row">Buzzcocks&lt;/th>
-      &lt;td>1976&lt;/td>
-      &lt;td>9&lt;/td>
-      &lt;td>Ever fallen in love (with someone you shouldn't've)&lt;/td>
-    &lt;/tr>
-    &lt;tr>
-      &lt;th scope="row">The Clash&lt;/th>
-      &lt;td>1976&lt;/td>
-      &lt;td>6&lt;/td>
-      &lt;td>London Calling&lt;/td>
-    &lt;/tr>
-    &lt;tr>
-      &lt;th scope="row">The Stranglers&lt;/th>
-      &lt;td>1974&lt;/td>
-      &lt;td>17&lt;/td>
-      &lt;td>No More Heroes&lt;/td>
-    &lt;/tr>
-  &lt;/tbody>
-  &lt;tfoot>
-    &lt;tr>
-      &lt;th scope="row" colspan="2">Total albums&lt;/th>
-      &lt;td colspan="2">77&lt;/td>
-    &lt;/tr>
-  &lt;/tfoot>
+    &lt;caption>A summary of the UK's most famous punk bands&lt;/caption>
+    &lt;thead>
+      &lt;tr>
+        &lt;th scope="col">Band&lt;/th>
+        &lt;th scope="col">Year formed&lt;/th>
+        &lt;th scope="col">No. of Albums&lt;/th>
+        &lt;th scope="col">Most famous song&lt;/th>
+      &lt;/tr>
+    &lt;/thead>
+    &lt;tbody>
+      &lt;tr>
+        &lt;th scope="row">Buzzcocks&lt;/th>
+        &lt;td>1976&lt;/td>
+        &lt;td>9&lt;/td>
+        &lt;td>Ever fallen in love (with someone you shouldn't've)&lt;/td>
+      &lt;/tr>
+      &lt;tr>
+        &lt;th scope="row">The Clash&lt;/th>
+        &lt;td>1976&lt;/td>
+        &lt;td>6&lt;/td>
+        &lt;td>London Calling&lt;/td>
+      &lt;/tr>
+      &lt;tr>
+        &lt;th scope="row">The Stranglers&lt;/th>
+        &lt;td>1974&lt;/td>
+        &lt;td>17&lt;/td>
+        &lt;td>No More Heroes&lt;/td>
+      &lt;/tr>
+    &lt;/tbody>
+    &lt;tfoot>
+      &lt;tr>
+        &lt;th scope="row" colspan="2">Total albums&lt;/th>
+        &lt;td colspan="2">77&lt;/td>
+      &lt;/tr>
+    &lt;/tfoot>
 &lt;/table>
-&lt;/div>
 </pre>
-<div class="box">
-<table>
-  <caption>A summary of the UK's most famous punk bands</caption>
-  <thead>
-    <tr>
-      <th scope="col">Band</th>
-      <th scope="col">Year formed</th>
-      <th scope="col">No. of Albums</th>
-      <th scope="col">Most famous song</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th scope="row">Buzzcocks</th>
-      <td>1976</td>
-      <td>9</td>
-      <td>Ever fallen in love (with someone you shouldn't've)</td>
-    </tr>
-    <tr>
-      <th scope="row">The Clash</th>
-      <td>1976</td>
-      <td>6</td>
-      <td>London Calling</td>
-    </tr>
-    <tr>
-      <th scope="row">The Stranglers</th>
-      <td>1974</td>
-      <td>17</td>
-      <td>No More Heroes</td>
-    </tr>
-  </tbody>
-  <tfoot>
-    <tr>
-      <th scope="row" colspan="2">Total albums</th>
-      <td colspan="2">77</td>
-    </tr>
-  </tfoot>
-</table>
+<div class="SnippetDemo">
+  <table>
+    <caption>A summary of the UK's most famous punk bands</caption>
+    <thead>
+      <tr>
+        <th scope="col">Band</th>
+        <th scope="col">Year formed</th>
+        <th scope="col">No. of Albums</th>
+        <th scope="col">Most famous song</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th scope="row">Buzzcocks</th>
+        <td>1976</td>
+        <td>9</td>
+        <td>Ever fallen in love (with someone you shouldn't've)</td>
+      </tr>
+      <tr>
+        <th scope="row">The Clash</th>
+        <td>1976</td>
+        <td>6</td>
+        <td>London Calling</td>
+      </tr>
+      <tr>
+        <th scope="row">The Stranglers</th>
+        <td>1974</td>
+        <td>17</td>
+        <td>No More Heroes</td>
+      </tr>
+    </tbody>
+    <tfoot>
+      <tr>
+        <th scope="row" colspan="2">Total albums</th>
+        <td colspan="2">77</td>
+      </tr>
+    </tfoot>
+  </table>
 </div>
 
 
 
 <h1>Table Borders</h1>
-<p>To specify table borders in CSS, use the border property.</p>
+<p>To specify table borders in CSS, use the <code>border</code> property.</p>
 <pre>
 .table1, .table1 th, .table1 td{
 	border: 1px solid black;
 }
 </pre>
 <style type="text/css">
+.table1{
+  border-collapse: separate;
+}
 .table1, .table1 th, .table1 td{
-	border: 1px solid black;
+  border: 1px solid black;
 }
 </style>
-<div class="box">
+<div class="SnippetDemo">
 <table class="table1">
   <caption>A summary of the UK's most famous punk bands</caption>
   <thead>
@@ -149,402 +147,20 @@
   </tfoot>
 </table>
 </div>
-<p>Notice that the table in the example above has double borders. This is because both the table and the &lt;th> and &lt;td> elements have separate borders.</p>
-
-
-
-
-<h1>border-collapse</h1>
-<p>The border-collapse property sets whether the table borders should be collapsed into a single border:</p>
+<p>Notice that the table in the example above has double borders. This is because we have applied the border style on the <code>table</code> element, the <code>&lt;th></code> element and <code>&lt;td></code> element. This is why each element draw its own border. To overcome this issue, we can use property <code>border-collapse</code>.</p>
+<h3>Example: Horizontal Dividers</h3>
+<p>Instead of using border like before, add the <code>border-bottom</code> property to <code>&lt;th></th></code> and <code>&lt;td></code> for horizontal dividers:</p>
 <pre>
-.table2{
-	border-collapse: collapse;
-}
-.table2, .table2 th, .table2 td{
-	border: 1px solid black;
-}
-</pre>
-<style type="text/css">
-.table2{
-	border-collapse: collapse;
-}
-.table2, .table2 th, .table2 td{
-	border: 1px solid black;
-}
-</style>
-<div class="box">
-<table class="table2">
-  <caption>A summary of the UK's most famous punk bands</caption>
-  <thead>
-    <tr>
-      <th scope="col">Band</th>
-      <th scope="col">Year formed</th>
-      <th scope="col">No. of Albums</th>
-      <th scope="col">Most famous song</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th scope="row">Buzzcocks</th>
-      <td>1976</td>
-      <td>9</td>
-      <td>Ever fallen in love (with someone you shouldn't've)</td>
-    </tr>
-    <tr>
-      <th scope="row">The Clash</th>
-      <td>1976</td>
-      <td>6</td>
-      <td>London Calling</td>
-    </tr>
-    <tr>
-      <th scope="row">The Stranglers</th>
-      <td>1974</td>
-      <td>17</td>
-      <td>No More Heroes</td>
-    </tr>
-  </tbody>
-  <tfoot>
-    <tr>
-      <th scope="row" colspan="2">Total albums</th>
-      <td colspan="2">77</td>
-    </tr>
-  </tfoot>
-</table>
-</div>
-
-
-
-
-<h1>Table Width and Height</h1>
-<p>Width and height of a table are defined by the width and height properties.</p>
-<p>The example below sets the width of the table to 100%, and the height of the &lt;th> elements to 50px:</p>
-<pre>
-.table3{
+.table{
 	border-collapse: collapse;
 	width: 100%;
 }
-.table3, .table3 th, .table3 td{
-	border: 1px solid black;
-}
-.table3 th{
-	height: 50px;
-}
-</pre>
-<style type="text/css">
-.table3{
-	border-collapse: collapse;
-	width: 100%;
-}
-.table3, .table3 th, .table3 td{
-	border: 1px solid black;
-}
-.table3 th{
-	height: 50px;
-}
-</style>
-<div class="box">
-<table class="table3">
-  <caption>A summary of the UK's most famous punk bands</caption>
-  <thead>
-    <tr>
-      <th scope="col">Band</th>
-      <th scope="col">Year formed</th>
-      <th scope="col">No. of Albums</th>
-      <th scope="col">Most famous song</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th scope="row">Buzzcocks</th>
-      <td>1976</td>
-      <td>9</td>
-      <td>Ever fallen in love (with someone you shouldn't've)</td>
-    </tr>
-    <tr>
-      <th scope="row">The Clash</th>
-      <td>1976</td>
-      <td>6</td>
-      <td>London Calling</td>
-    </tr>
-    <tr>
-      <th scope="row">The Stranglers</th>
-      <td>1974</td>
-      <td>17</td>
-      <td>No More Heroes</td>
-    </tr>
-  </tbody>
-  <tfoot>
-    <tr>
-      <th scope="row" colspan="2">Total albums</th>
-      <td colspan="2">77</td>
-    </tr>
-  </tfoot>
-</table>
-</div>
-
-
-
-
-
-<h1>Horizontal Alignment</h1>
-<p>The text-align property sets the horizontal alignment (like left, right, or center) of the content in &lt;th> or &lt;td>.</p>
-<p>By default, the content of &lt;th> elements are center-aligned and the content of &lt;td> elements are left-aligned.</p>
-<pre>
-.table4{
-	border-collapse: collapse;
-	width: 100%;
-}
-.table4, .table4 th, .table4 td{
-	border: 1px solid black;
-}
-.table4 th{
-	height: 50px;
-}
-.table4 td{
-	text-align: center;
-}
-</pre>
-<style type="text/css">
-.table4{
-	border-collapse: collapse;
-	width: 100%;
-}
-.table4, .table4 th, .table4 td{
-	border: 1px solid black;
-}
-.table4 th{
-	height: 50px;
-}
-.table4 td{
-	text-align: center;
-}
-</style>
-<div class="box">
-<table class="table4">
-  <caption>A summary of the UK's most famous punk bands</caption>
-  <thead>
-    <tr>
-      <th scope="col">Band</th>
-      <th scope="col">Year formed</th>
-      <th scope="col">No. of Albums</th>
-      <th scope="col">Most famous song</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th scope="row">Buzzcocks</th>
-      <td>1976</td>
-      <td>9</td>
-      <td>Ever fallen in love (with someone you shouldn't've)</td>
-    </tr>
-    <tr>
-      <th scope="row">The Clash</th>
-      <td>1976</td>
-      <td>6</td>
-      <td>London Calling</td>
-    </tr>
-    <tr>
-      <th scope="row">The Stranglers</th>
-      <td>1974</td>
-      <td>17</td>
-      <td>No More Heroes</td>
-    </tr>
-  </tbody>
-  <tfoot>
-    <tr>
-      <th scope="row" colspan="2">Total albums</th>
-      <td colspan="2">77</td>
-    </tr>
-  </tfoot>
-</table>
-</div>
-
-
-
-
-
-
-
-
-<h1>Vertical Alignment</h1>
-<p>The vertical-align property sets the vertical alignment (like top, bottom, or middle) of the content in &lt;th> or &lt;td>.</p>
-<p>By default, the vertical alignment of the content in a table is middle (for both &lt;th> and &lt;td> elements).</p>
-<pre>
-.table5{
-	border-collapse: collapse;
-	width: 100%;
-}
-.table5, .table5 th, .table5 td{
-	border: 1px solid black;
-}
-.table5 th{
-	height: 50px;
-}
-.table5 td{
-	text-align: center;
-	vertical-align: bottom;
-}
-</pre>
-<style type="text/css">
-.table5{
-	border-collapse: collapse;
-	width: 100%;
-}
-.table5, .table5 th, .table5 td{
-	border: 1px solid black;
-}
-.table5 th{
-	height: 50px;
-}
-.table5 td{
-	text-align: center;
-	vertical-align: bottom;
-}
-</style>
-<div class="box">
-<table class="table5">
-  <caption>A summary of the UK's most famous punk bands</caption>
-  <thead>
-    <tr>
-      <th scope="col">Band</th>
-      <th scope="col">Year formed</th>
-      <th scope="col">No. of Albums</th>
-      <th scope="col">Most famous song</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th scope="row">Buzzcocks</th>
-      <td>1976</td>
-      <td>9</td>
-      <td>Ever fallen in love (with someone you shouldn't've)</td>
-    </tr>
-    <tr>
-      <th scope="row">The Clash</th>
-      <td>1976</td>
-      <td>6</td>
-      <td>London Calling</td>
-    </tr>
-    <tr>
-      <th scope="row">The Stranglers</th>
-      <td>1974</td>
-      <td>17</td>
-      <td>No More Heroes</td>
-    </tr>
-  </tbody>
-  <tfoot>
-    <tr>
-      <th scope="row" colspan="2">Total albums</th>
-      <td colspan="2">77</td>
-    </tr>
-  </tfoot>
-</table>
-</div>
-
-
-
-
-
-<h1>Table Padding</h1>
-<p>To control the space between the border and the content in a table, use the padding property on &lt;td> and &lt;th> elements:</p>
-<pre>
-.table6{
-	border-collapse: collapse;
-	width: 100%;
-}
-.table6, .table6 th, .table6 td{
-	border: 1px solid black;
-}
-.table6 th{
-	height: 50px;
-	padding: 10px;
-}
-.table6 td{
-	text-align: center;
-	vertical-align: bottom;
-	padding: 10px;
-}
-</pre>
-<style type="text/css">
-.table6{
-	border-collapse: collapse;
-	width: 100%;
-}
-.table6, .table6 th, .table6 td{
-	border: 1px solid black;
-}
-.table6 th{
-	height: 50px;
-	padding: 10px;
-}
-.table6 td{
-	text-align: center;
-	vertical-align: bottom;
-	padding: 10px;
-}
-</style>
-<div class="box">
-<table class="table6">
-  <caption>A summary of the UK's most famous punk bands</caption>
-  <thead>
-    <tr>
-      <th scope="col">Band</th>
-      <th scope="col">Year formed</th>
-      <th scope="col">No. of Albums</th>
-      <th scope="col">Most famous song</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th scope="row">Buzzcocks</th>
-      <td>1976</td>
-      <td>9</td>
-      <td>Ever fallen in love (with someone you shouldn't've)</td>
-    </tr>
-    <tr>
-      <th scope="row">The Clash</th>
-      <td>1976</td>
-      <td>6</td>
-      <td>London Calling</td>
-    </tr>
-    <tr>
-      <th scope="row">The Stranglers</th>
-      <td>1974</td>
-      <td>17</td>
-      <td>No More Heroes</td>
-    </tr>
-  </tbody>
-  <tfoot>
-    <tr>
-      <th scope="row" colspan="2">Total albums</th>
-      <td colspan="2">77</td>
-    </tr>
-  </tfoot>
-</table>
-</div>
-
-
-
-
-
-<h1>Horizontal Dividers</h1>
-<p>Instead of using border like before, add the border-bottom property to <th> and <td> for horizontal dividers:</p>
-<pre>
-.table7{
-	border-collapse: collapse;
-	width: 100%;
-}
-.table7, .table7 th, .table7 td{
-	/*border: 1px solid black;*/
-}
-.table7 th{
+.table th{
 	height: 50px;
 	padding: 10px;
 	border-bottom: 1px solid #eee;
 }
-.table7 td{
-	text-align: center;
-	vertical-align: bottom;
+.table td{
 	padding: 10px;
 	border-bottom: 1px solid #eee;
 }
@@ -554,17 +170,12 @@
 	border-collapse: collapse;
 	width: 100%;
 }
-.table7, .table7 th, .table7 td{
-	/*border: 1px solid black;*/
-}
 .table7 th{
 	height: 50px;
 	padding: 10px;
 	border-bottom: 1px solid #eee;
 }
 .table7 td{
-	text-align: center;
-	vertical-align: bottom;
 	padding: 10px;
 	border-bottom: 1px solid #eee;
 }
@@ -612,29 +223,405 @@
 
 
 
-
-<h1>Hoverable Table</h1>
-<p>Use the :hover selector on <tr> to highlight table rows on mouse over:</p>
+<h1>border-collapse</h1>
+<p>The <code>border-collapse</code> property sets whether the table borders should be collapsed into a single border. It has two values:</p>
+<ol>
+  <li><code>collapse</code>: The adjacent borders will collapse into single border.</li>
+  <li><code>separate</code>: This is default value, it means the border won't collapse. It will let the element have their own border.</li>
+</ol>
+<p>This property should only be applied on <code>table</code> element, not <code>td</code> or <code>th</code> or <code>tr</code> elements.</p>
 <pre>
-.table8{
+.table2{
+	border-collapse: collapse;
+}
+.table2, .table2 th, .table2 td{
+	border: 1px solid black;
+}
+</pre>
+<style type="text/css">
+.table2{
+	border-collapse: collapse;
+}
+.table2, .table2 th, .table2 td{
+	border: 1px solid black;
+}
+</style>
+<div class="SnippetDemo">
+<table class="table2">
+  <caption>A summary of the UK's most famous punk bands</caption>
+  <thead>
+    <tr>
+      <th scope="col">Band</th>
+      <th scope="col">Year formed</th>
+      <th scope="col">No. of Albums</th>
+      <th scope="col">Most famous song</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">Buzzcocks</th>
+      <td>1976</td>
+      <td>9</td>
+      <td>Ever fallen in love (with someone you shouldn't've)</td>
+    </tr>
+    <tr>
+      <th scope="row">The Clash</th>
+      <td>1976</td>
+      <td>6</td>
+      <td>London Calling</td>
+    </tr>
+    <tr>
+      <th scope="row">The Stranglers</th>
+      <td>1974</td>
+      <td>17</td>
+      <td>No More Heroes</td>
+    </tr>
+  </tbody>
+  <tfoot>
+    <tr>
+      <th scope="row" colspan="2">Total albums</th>
+      <td colspan="2">77</td>
+    </tr>
+  </tfoot>
+</table>
+</div>
+
+
+
+
+<h1>Width and Height</h1>
+<p>Width and height of a table elements are defined by the <code>width</code> and <code>height</code> properties. These properties can be applied on all table elements like <code>table</code>, <code>th</code>, <code>td</code>, <code>tr</code>, <code>tbody</code>, <code>tfoot</code>, <code>caption</code> etc.</p>
+<p>The example below sets the width of the <code>table</code> to <code>100%</code>, and the height of the <code>&lt;th></code> elements to <code>50px</code>:</p>
+<pre>
+.table3{
 	border-collapse: collapse;
 	width: 100%;
 }
-.table8, .table8 th, .table8 td{
-	/*border: 1px solid black;*/
+.table3, .table3 th, .table3 td{
+	border: 1px solid black;
 }
-.table8 th{
+.table3 th{
+	height: 50px;
+}
+</pre>
+<style type="text/css">
+.table3{
+	border-collapse: collapse;
+	width: 100%;
+}
+.table3, .table3 th, .table3 td{
+	border: 1px solid black;
+}
+.table3 th{
+	height: 50px;
+}
+</style>
+<div class="SnippetDemo">
+<table class="table3">
+  <caption>A summary of the UK's most famous punk bands</caption>
+  <thead>
+    <tr>
+      <th scope="col">Band</th>
+      <th scope="col">Year formed</th>
+      <th scope="col">No. of Albums</th>
+      <th scope="col">Most famous song</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">Buzzcocks</th>
+      <td>1976</td>
+      <td>9</td>
+      <td>Ever fallen in love (with someone you shouldn't've)</td>
+    </tr>
+    <tr>
+      <th scope="row">The Clash</th>
+      <td>1976</td>
+      <td>6</td>
+      <td>London Calling</td>
+    </tr>
+    <tr>
+      <th scope="row">The Stranglers</th>
+      <td>1974</td>
+      <td>17</td>
+      <td>No More Heroes</td>
+    </tr>
+  </tbody>
+  <tfoot>
+    <tr>
+      <th scope="row" colspan="2">Total albums</th>
+      <td colspan="2">77</td>
+    </tr>
+  </tfoot>
+</table>
+</div>
+<p>Note that in the above example, we have applied height <code>50px</code> to table header only. But inner table cell also has the same height even though we haven't applied any height to <code>td</code> element. This is because we have <code>th</code> element in front of every row. So if we set any height to <code>th</code>, it increases the row height as well, and making all td element of that row size.
+</p>
+
+
+
+
+<h1>Horizontal Alignment</h1>
+<p>The <code>text-align</code> property sets the horizontal alignment (like <code>left</code>, <code>right</code>, or <code>center</code>) of the content in <code>&lt;th></code> or <code>&lt;td></code>.</p>
+<p>By default, the content of <code>&lt;th></code> elements are center-aligned and the content of <code>&lt;td></code> elements are left-aligned. In the following example, we are aligning content to center of all <code>td</code> cell:</p>
+<pre>
+.table4{
+	border-collapse: collapse;
+	width: 100%;
+}
+.table4, .table4 th, .table4 td{
+	border: 1px solid black;
+}
+.table4 th{
+	height: 50px;
+}
+.table4 td{
+	text-align: center;
+}
+</pre>
+<style type="text/css">
+.table4{
+	border-collapse: collapse;
+	width: 100%;
+}
+.table4, .table4 th, .table4 td{
+	border: 1px solid black;
+}
+.table4 th{
+	height: 50px;
+}
+.table4 td{
+	text-align: center !important;
+}
+</style>
+<div class="SnippetDemo">
+<table class="table4">
+  <caption>A summary of the UK's most famous punk bands</caption>
+  <thead>
+    <tr>
+      <th scope="col">Band</th>
+      <th scope="col">Year formed</th>
+      <th scope="col">No. of Albums</th>
+      <th scope="col">Most famous song</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">Buzzcocks</th>
+      <td>1976</td>
+      <td>9</td>
+      <td>Ever fallen in love (with someone you shouldn't've)</td>
+    </tr>
+    <tr>
+      <th scope="row">The Clash</th>
+      <td>1976</td>
+      <td>6</td>
+      <td>London Calling</td>
+    </tr>
+    <tr>
+      <th scope="row">The Stranglers</th>
+      <td>1974</td>
+      <td>17</td>
+      <td>No More Heroes</td>
+    </tr>
+  </tbody>
+  <tfoot>
+    <tr>
+      <th scope="row" colspan="2">Total albums</th>
+      <td colspan="2">77</td>
+    </tr>
+  </tfoot>
+</table>
+</div>
+
+
+
+
+
+
+
+
+<h1>Vertical Alignment</h1>
+<p>The <code>vertical-align</code> property sets the vertical alignment (like <code>top</code>, <code>bottom</code>, or <code>middle</code>) of the content in <code>&lt;th></code> or <code>&lt;td></code>.</p>
+<p>By default, the vertical alignment of the content in a table is <code>top</code> (for both <code>&lt;th></code> and <code>&lt;td></code> elements). In the following example, we are setting vertical alignment of all <code>td</code> cell to <code>bottom</code>:</p>
+<pre>
+.table5{
+	border-collapse: collapse;
+	width: 100%;
+}
+.table5, .table5 th, .table5 td{
+	border: 1px solid black;
+}
+.table5 th{
+	height: 50px;
+}
+.table5 td{
+	text-align: center;
+	vertical-align: bottom;
+}
+</pre>
+<style type="text/css">
+.table5{
+	border-collapse: collapse;
+	width: 100%;
+}
+.table5, .table5 th, .table5 td{
+	border: 1px solid black;
+}
+.table5 th{
+	height: 50px;
+}
+.table5 td{
+	text-align: center;
+	vertical-align: bottom;
+}
+</style>
+<div class="SnippetDemo">
+<table class="table5">
+  <caption>A summary of the UK's most famous punk bands</caption>
+  <thead>
+    <tr>
+      <th scope="col">Band</th>
+      <th scope="col">Year formed</th>
+      <th scope="col">No. of Albums</th>
+      <th scope="col">Most famous song</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">Buzzcocks</th>
+      <td>1976</td>
+      <td>9</td>
+      <td>Ever fallen in love (with someone you shouldn't've)</td>
+    </tr>
+    <tr>
+      <th scope="row">The Clash</th>
+      <td>1976</td>
+      <td>6</td>
+      <td>London Calling</td>
+    </tr>
+    <tr>
+      <th scope="row">The Stranglers</th>
+      <td>1974</td>
+      <td>17</td>
+      <td>No More Heroes</td>
+    </tr>
+  </tbody>
+  <tfoot>
+    <tr>
+      <th scope="row" colspan="2">Total albums</th>
+      <td colspan="2">77</td>
+    </tr>
+  </tfoot>
+</table>
+</div>
+
+
+
+
+
+<h1>Table Padding</h1>
+<p>To control the space between the border and the content in a table, use the <code>padding</code> property on <code>&lt;td></code> and <code>&lt;th></code> elements. The property <code>padding</code>, can be used on cell to give padding. In the following example, we are setting padding of <code>10px</code> to each cell:</p>
+<pre>
+.table6{
+	border-collapse: collapse;
+	width: 100%;
+}
+.table6, .table6 th, .table6 td{
+	border: 1px solid black;
+}
+.table6 th{
+	height: 50px;
+	padding: 10px;
+}
+.table6 td{
+	text-align: center;
+	vertical-align: bottom;
+	padding: 10px;
+}
+</pre>
+<style type="text/css">
+.table6{
+	border-collapse: collapse;
+	width: 100%;
+}
+.table6, .table6 th, .table6 td{
+	border: 1px solid black;
+}
+.table6 th{
+	height: 50px;
+	padding: 10px;
+}
+.table6 td{
+	text-align: center;
+	vertical-align: bottom;
+	padding: 10px;
+}
+</style>
+<div class="SnippetDemo">
+<table class="table6">
+  <caption>A summary of the UK's most famous punk bands</caption>
+  <thead>
+    <tr>
+      <th scope="col">Band</th>
+      <th scope="col">Year formed</th>
+      <th scope="col">No. of Albums</th>
+      <th scope="col">Most famous song</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">Buzzcocks</th>
+      <td>1976</td>
+      <td>9</td>
+      <td>Ever fallen in love (with someone you shouldn't've)</td>
+    </tr>
+    <tr>
+      <th scope="row">The Clash</th>
+      <td>1976</td>
+      <td>6</td>
+      <td>London Calling</td>
+    </tr>
+    <tr>
+      <th scope="row">The Stranglers</th>
+      <td>1974</td>
+      <td>17</td>
+      <td>No More Heroes</td>
+    </tr>
+  </tbody>
+  <tfoot>
+    <tr>
+      <th scope="row" colspan="2">Total albums</th>
+      <td colspan="2">77</td>
+    </tr>
+  </tfoot>
+</table>
+</div>
+
+
+
+<h1>Hoverable Table</h1>
+<p>Use the <code>:hover</code> selector on <code>&lt;tr></code> to highlight table rows on mouse over:</p>
+<pre>
+.table{
+	border-collapse: collapse;
+	width: 100%;
+}
+.table th{
 	height: 50px;
 	padding: 10px;
 	border-bottom: 1px solid #eee;
 }
-.table8 td{
+.table td{
 	text-align: center;
 	vertical-align: bottom;
 	padding: 10px;
 	border-bottom: 1px solid #eee;
 }
-.table8 tr:hover{
+.table tr{
+  cursor: pointer;
+}
+.table tr:hover{
 	background-color: #eee;
 }
 </pre>
@@ -643,25 +630,21 @@
 	border-collapse: collapse;
 	width: 100%;
 }
-.table8, .table8 th, .table8 td{
-	/*border: 1px solid black;*/
-}
 .table8 th{
 	height: 50px;
-	padding: 10px;
 	border-bottom: 1px solid #eee;
 }
 .table8 td{
-	text-align: center;
-	vertical-align: bottom;
-	padding: 10px;
 	border-bottom: 1px solid #eee;
+}
+.table8 tr{
+  cursor: pointer;
 }
 .table8 tr:hover{
 	background-color: #eee;
 }
 </style>
-<div class="box">
+<div class="SnippetDemo">
 <table class="table8">
   <caption>A summary of the UK's most famous punk bands</caption>
   <thead>
@@ -707,31 +690,26 @@
 
 
 <h1>Striped Table</h1>
-<p>For zebra-striped tables, use the nth-child() selector and add a background-color to all even (or odd) table rows:</p>
+<p>For zebra striped tables, use the <code>nth-child()</code> selector and add a <code>background-color</code> to all even (or odd) table rows:</p>
 <pre>
-.table9{
-	border-collapse: collapse;
-	width: 100%;
+.table{
+  border-collapse: collapse;
+  width: 100%;
 }
-.table9, .table9 th, .table9 td{
-	/*border: 1px solid black;*/
+.table th{
+  height: 50px;
+  padding: 10px;
+  border-bottom: 1px solid #eee;
 }
-.table9 th{
-	height: 50px;
-	padding: 10px;
-	border-bottom: 1px solid #eee;
+.table td{
+  padding: 10px;
+  border-bottom: 1px solid #eee;
 }
-.table9 td{
-	text-align: center;
-	vertical-align: bottom;
-	padding: 10px;
-	border-bottom: 1px solid #eee;
+.table tr:nth-child(even){
+  background: #ddd;
 }
-.table9 tr:nth-child(even){
-	background: #ddd;
-}
-.table9 tr:hover{
-	background-color: #eee;
+.table tr:hover{
+  background-color: #eee;
 }
 </pre>
 <style type="text/css">
@@ -739,17 +717,12 @@
 	border-collapse: collapse;
 	width: 100%;
 }
-.table9, .table9 th, .table9 td{
-	/*border: 1px solid black;*/
-}
 .table9 th{
 	height: 50px;
 	padding: 10px;
 	border-bottom: 1px solid #eee;
 }
 .table9 td{
-	text-align: center;
-	vertical-align: bottom;
 	padding: 10px;
 	border-bottom: 1px solid #eee;
 }
@@ -760,7 +733,7 @@
 	background-color: #eee;
 }
 </style>
-<div class="box">
+<div class="SnippetDemo">
 <table class="table9">
   <caption>A summary of the UK's most famous punk bands</caption>
   <thead>
