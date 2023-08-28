@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Overflow</title>
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+</head>
+<body>
+<div class="page card">
+
+<h1>Links</h1>
+<p>To style a link differently depending on their state:</p>
+<ol>
+    <li><code>a:link</code> - a normal, unvisited link</li>
+    <li><code>a:visited</code> - a link the user has visited</li>
+    <li><code>a:hover</code> - a link when the user mouses over it</li>
+    <li><code>a:active</code> - a link the moment it is clicked</li>
+</ol>
+<p>When setting the style for several link states, there are some order rules:</p>
+<ol>
+    <li>a:hover MUST come after a:link and a:visited.</li>
+    <li>a:active MUST come after a:hover.</li>
+</ol>
+<p>By default browser render links with an underline below the text. If you want to remove that underline use <code>text-decoration</code> property with the value <code>none</code></p>
+
+
+
+</div>
+</body>
+</html>
