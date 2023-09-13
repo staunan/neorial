@@ -9,19 +9,48 @@
 <div class="page card">
 
 <h1>Links</h1>
-<p>To style a link differently depending on their state:</p>
+<p>With CSS we can customize anchor tag in different ways. A link has different state. You can display style to indicate not visited link or visited link. You can also display different style when the link is hovered. Or different style when link is active. You can use the following pseudo class to specify different css rules depending on different state:</p>
 <ol>
-    <li><code>a:link</code> - a normal, unvisited link</li>
-    <li><code>a:visited</code> - a link the user has visited</li>
-    <li><code>a:hover</code> - a link when the user mouses over it</li>
-    <li><code>a:active</code> - a link the moment it is clicked</li>
+    <li><code>a:link</code>: A normal, unvisited link.</li>
+    <li><code>a:visited</code>: A link the user has visited.</li>
+    <li><code>a:hover</code>: A link when the user puts his mouse over it.</li>
+    <li><code>a:active</code>: A link the moment it is clicked.</li>
 </ol>
+<p>The above pseudo class is described in Chapter <a href="Pseudo.html">Pseudo Class</a>.</p>
+
+
+<h3>Order of pseudo class</h3>
 <p>When setting the style for several link states, there are some order rules:</p>
 <ol>
-    <li>a:hover MUST come after a:link and a:visited.</li>
-    <li>a:active MUST come after a:hover.</li>
+    <li><code>a:hover</code> MUST come after <code>a:link</code> and <code>a:visited</code>.</li>
+    <li><code>a:active</code> MUST come after <code>a:hover</code>.</li>
 </ol>
-<p>By default browser render links with an underline below the text. If you want to remove that underline use <code>text-decoration</code> property with the value <code>none</code></p>
+
+
+<h3>Removing Default style from Anchor tag</h3>
+<p>By default browser render links with an underline below the text. If you want to remove that underline use <code>text-decoration</code> property with the value <code>none</code>.</p>
+<pre>
+.remove_link{
+    text-decoration: none;
+}
+</pre>
+<div class="SnippetDemo">
+    <style>
+        .remove_link{
+            text-decoration: none;
+        }
+    </style>
+    <a class="remove_link" href="https://www.google.com">Google</a>
+</div>
+
+
+
+
+
+
+
+
+
 
 
 
