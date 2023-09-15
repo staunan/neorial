@@ -2,18 +2,16 @@
 <html>
 <head>
 	<title>Box Constraints</title>
+    <link rel="icon" type="image/x-icon" href="../../Assets/favicon.png">
 	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
 	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
-	<script type="text/javascript" src="../../Assets/prism.min.js"></script>
-	<script type="text/javascript" src="../../Assets/jquery.min.js"></script>
-  <link rel="stylesheet" href="../../Assets/prism-dark.css">
 </head>
 <body class="Body">
-<div class="Content Card">
+<div class="page card">
 
 
 
-<h1>Box Constraints</h1>
+<h1>Constraints</h1>
 <img src="../../Assets/flutter/WidgetTree.png">
 <p>Flutter renders widgets in a tree structure, in the above tree, each circle represents each widget.
 To render each widget, flutter first goes down the tree from the root widget, and then goes back when traverse finished.</p>
@@ -24,17 +22,17 @@ To render each widget, flutter first goes down the tree from the root widget, an
 
 <h3>What are the Constraints??</h3>
 <p>A constraint is just a property specifying the size or space a widget can take up. A constraint is just a set of 4 doubles: a minimum and maximum width, and a minimum and maximum height. A widget gets its own constraints from its parent.</p>
-<p>In Flutter you need to remember the following rules -</p>
-<ul>
+<p>In Flutter you need to remember the following rules:</p>
+<ol>
 	<li>A widget gets its own constraints from its parent. A constraint is just a set of 4 doubles: a minimum and maximum width, and a minimum and maximum height.</li>
 	<li>Then the widget goes through its own list of children. One by one, the widget tells its children what their constraints are (which can be different for each child), and then asks each child what size it wants to be.</li>
 	<li>Then, the widget positions its children (horizontally in the x axis, and vertically in the y axis), one by one.</li>
 	<li>And, finally, the widget tells its parent about its own size (within the original constraints, of course).</li>
-</ul>
+</ol>
 <p>For example, if a composed widget contains a column with some padding, and wants to lay out its two children as follows:</p>
 <img src="../../Assets/flutter/FlutterWidgetChildrenConversation.png">
 <p>The negotiation goes something like this:</p>
-<ul>
+<ol>
 	<li><code>Widget</code> : “Hey parent, what are my constraints?”</li>
 	<li><code>Parent</code> : “You must be from 90 to 300 pixels wide, and 30 to 85 tall.”</li>
 	<li><code>Widget</code> : “Hmmm, since I want to have 5 pixels of padding, then my children can have at most 290 pixels of width and 75 pixels of height.”</li>
@@ -45,22 +43,22 @@ To render each widget, flutter first goes down the tree from the root widget, an
 	<li><code>Second child</code> : “OK, I wish to be 140 pixels wide, and 30 pixels tall.”</li>
 	<li><code>Widget</code> : “Very well. My first child has position x: 5 and y: 5, and my second child has x: 80 and y: 25.”</li>
 	<li><code>Widget</code> : “Hey parent, I’ve decided that my size is going to be 300 pixels wide, and 60 pixels tall.”</li>
-</ul>
+</ol>
 
 
 
 
 <h3>Limitations</h3>
 <p>As a result of the layout rule mentioned above, Flutter’s layout engine has a few important limitations:</p>
-<ul>
+<ol>
 	<li>A widget can decide its own size only within the constraints given to it by its parent. This means a widget usually can’t have any size it wants.</li>
 	<li>A widget can’t know and doesn’t decide its own position in the screen, since it’s the widget’s parent who decides the position of the widget.</li>
 	<li>Since the parent’s size and position, in its turn, also depends on its own parent, it’s impossible to precisely define the size and position of any widget without taking into consideration the tree as a whole.</li>
-</ul>
+</ol>
 
 
 <h1>Tight vs. loose constraints</h1>
-<p>It’s very common to hear that some constraint is “tight” or “loose”, so it’s worth knowing what that means.</p>
+<p>It's very common to hear that some constraint is “tight” or “loose”, so it's worth knowing what that means.</p>
 <p>A tight constraint offers a single possibility, an exact size. In other words, a tight constraint has its maximum width equal to its minimum width; and has its maximum height equal to its minimum height. In flutter the root widget is given the tight constraints which is the same as the screen size. That's why the root widget always fills up the screen.</p>
 <p>A loose constraint, on the other hand, sets the maximum width and height, but lets the widget be as small as it wants. In other words, a loose constraint has a minimum width and height both equal to zero. So in loose constraints the minimum height and minimum width is always 0. In the <code>Parent-Child</code> widget conversion above you can see the child widgets given loose constraints.</p>
 
@@ -68,7 +66,7 @@ To render each widget, flutter first goes down the tree from the root widget, an
 <h1>Unbounded Vs Bounded Constraints</h1>
 <p>An unbounded widget is a widget which has either the max width or max height set to Infinity.</p>
 <p>A bounded widget have some definite value for its max width and max height property. A bounded widget can have a tight width, tight height or both. A widget have tight width if it have same value for both min Width and max Width property. Same analogy goes for tight height.</p>
-<p>Bounded widgets honor the constraints and try to be as big as possible. In case of unbounded widget, we have a special case of Infinity. A widget can not try to be as big as Infinity, it is not possible. A box that tries to be as big as possible won’t function usefully when given an unbounded constraint and, in debug mode, such a combination throws an exception that points to this file.</p>
+<p>Bounded widgets honor the constraints and try to be as big as possible. In case of unbounded widget, we have a special case of Infinity. A widget can not try to be as big as Infinity, it is not possible. A box that tries to be as big as possible won't function usefully when given an unbounded constraint and, in debug mode, such a combination throws an exception that points to this file.</p>
 
 
 <h3>So where do we use unbounded constraint?</h3>
@@ -78,7 +76,7 @@ In unbounded constraint, a widget tries to be as big as possible in the bounded 
 
 
 
-<h1>Flex</h1>
+<h3>Flex</h3>
 <p>Flex boxes themselves (Row and Column) behave differently based on whether they are in bounded constraints or unbounded constraints in their given direction.</p>
 <p>In bounded constraints, they try to be as big as possible in that direction.</p>
 <p>In unbounded constraints, they try to fit their children in that direction. In this case, you cannot set flex on the children to anything other than 0 (the default). In the widget library, this means that you cannot use Expanded when the flex box is inside another flex box or inside a scrollable. If you do, you’ll get an exception message pointing you at this document.</p>

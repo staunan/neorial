@@ -1,16 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Container Widget in Flutter</title>
+	<title>Container Widget</title>
+    <link rel="icon" type="image/x-icon" href="../../Assets/favicon.png">
 	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
 	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
-	<script type="text/javascript" src="../../Assets/prism.min.js"></script>
-	<script type="text/javascript" src="../../Assets/jquery.min.js"></script>
-  <link rel="stylesheet" href="../../Assets/prism-dark.css">
 </head>
 <body class="Body">
-<div class="Content Card">
-
+<div class="page card">
 
 
 <h1>Container Widget</h1>
@@ -21,7 +18,6 @@
 
 <h2>padding</h2>
 <p>This argument is used to specify the padding of the widget. The distance between the container edge and its child edge. The padding is specified using <a href="PaddingWidget.html">EdgeInsets</a> class.</p>
-
 
 <h2>width</h2>
 <p>It specifies the width of the container.</p>
@@ -39,6 +35,33 @@
 <h2>decoration</h2>
 <p>Decoration argument is used to decorate box in varius way. Like you can set background color, or background gradient, or background image. You can also control the roundness of border and set border etc. To know more how it is done head to <a href="Decoration.html">Decoration</a> chapter.</p>
 
+<h2>Examples</h2>
+<pre>
+Center(
+	child: Container(
+		margin: const EdgeInsets.all(10.0),
+		color: Colors.amber[600],
+		width: 48.0,
+		height: 48.0,
+	),
+)
+</pre>
+<pre>
+Container(
+	constraints: BoxConstraints.expand(
+		height: Theme.of(context).textTheme.headlineMedium!.fontSize! * 1.1 + 200.0,
+	),
+	padding: const EdgeInsets.all(8.0),
+	color: Colors.blue[600],
+	alignment: Alignment.center,
+	transform: Matrix4.rotationZ(0.1),
+	child: Text('Hello World',
+		style: Theme.of(context)
+			.textTheme
+			.headlineMedium!
+			.copyWith(color: Colors.white)),
+)
+</pre>
 
 
 </div>

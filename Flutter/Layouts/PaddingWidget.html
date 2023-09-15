@@ -1,23 +1,21 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Padding Widget in Flutter</title>
+	<title>Padding Widget</title>
+    <link rel="icon" type="image/x-icon" href="../../Assets/favicon.png">
 	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
 	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
-	<script type="text/javascript" src="../../Assets/prism.min.js"></script>
-	<script type="text/javascript" src="../../Assets/jquery.min.js"></script>
-  <link rel="stylesheet" href="../../Assets/prism-dark.css">
 </head>
 <body class="Body">
-<div class="Content Card">
+<div class="page card">
 
 
 
 <h1>Padding Widget</h1>
-<p>You can use Padding widget instead of Container widget with padding argument. There is not any difference at all. If you use Container widget with padding argument it will make the Container widget to make a Padding widget for you internally.</p>
-<p>Container doesn't inplement its properties directly, instead Container combines a number of simple widgets and wraps them into a convenient package. For example, the Container.padding property causes the Container to build a Padding widget and the Container.decoration property causes the Container to build a DecoratedBox widget. Here is an example of Padding widget :</p>
+<p>You can use <code>Padding</code> widget instead of <code>Container</code> widget with <code>padding</code> argument. There is not any difference at all. If you use <code>Container</code> widget with <code>padding</code> argument it will make the <code>Container</code> widget to make a <code>Padding</code> widget for you internally.</p>
+<p><code>Container</code> doesn't inplement its properties directly, instead <code>Container</code> combines a number of simple widgets and wraps them into a convenient package. For example, the <code>Container.padding</code> property causes the <code>Container</code> to build a <code>Padding</code> widget and the <code>Container.decoration</code> property causes the <code>Container</code> to build a <code>DecoratedBox</code> widget. Here is an example of <code>Padding</code> widget :</p>
 <pre>
-const Card(
+Card(
 	child : Padding(
 		padding : EdgeInsets.all(8.0),
 		child : Text("Hello world"),
@@ -29,7 +27,7 @@ const Card(
 
 
 <h1>EdgeInsets for Padding</h1>
-<p>You need to use EdgeInsets class in order to specify padding or margin. This method has following three methods :</p>
+<p>You need to use <code>EdgeInsets</code> class in order to specify padding or margin. This method has following three methods :</p>
 <h3>EdgeInsets.all()</h3>
 <p>The method <code>all()</code> is used to provide padding in all four sides equally. You can use double value which specifies the amount in pixel.</p>
 <pre>
