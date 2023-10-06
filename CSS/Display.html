@@ -11,18 +11,17 @@
 
 
 <h1>display</h1>
-<p>The display property specifies if/how an element is displayed.</p>
-<p>Every HTML element has a default display value depending on what type of element it is. The default display value for most elements is block or inline.</p>
-<p>You can use the following value to the display property -</p>
-<ul>
+<p>The <code>display</code> property specifies how an element is displayed. Every HTML element has a default display value depending on what type of element it is. The default display value for most elements is <code>block</code> or <code>inline</code>. You can use the following value to the display property:</p>
+<ol>
 	<li>inline</li>
 	<li>inline-block</li>
 	<li>block</li>
 	<li>none</li>
-	<li>flex</li>
 	<li>table</li>
+	<li>flex</li>
 	<li>grid</li>
-</ul>
+	<li>inline-flex</li>
+</ol>
 
 
 <h1>inline</h1>
@@ -40,10 +39,10 @@
 	proident, sunt in culpa qui officia deserunt mollit anim id est laborum.&lt;/p>
 &lt;/div>
 </pre>
-<div class="box">
+<div class="SnippetDemo">
 	<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
 	tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-	quis nostrud exercitation <span style="padding: 30px; margin: 30px; background: rgba(0,0,0,0.4); ">ullamco laboris nisi ut aliquip ex ea commodo
+	quis nostrud exercitation <span style="padding: 30px; margin: 30px; background: rgba(0,0,0,0.4); width: 100px;">ullamco laboris nisi ut aliquip ex ea commodo
 	consequat. Duis aute irure dolor</span> in reprehenderit in voluptate velit esse
 	cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
 	proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
@@ -57,9 +56,11 @@
 
 <h1>inline-block</h1>
 <p>An element set to inline-block is very similar to inline in that it will set inline with the natural flow of text (on the "baseline"). The difference is that you are able to set a width and height which will be respected.</p>
-<p>Also, with <code>display: inline-block</code>, the top and bottom margins/paddings are respected, but with <code>display: inline</code> they are not.</p>
-<p>Compared to <code>display: block</code>, the major difference is that <code>display: inline-block</code> does not add a line-break after the element, so the element can sit next to other elements.</p>
+<p>Also, with <code>display: inline-block;</code>, the top and bottom margins/paddings are respected, but with <code>display: inline;</code> they are not.</p>
+<p>Compared to <code>display: block;</code>, the major difference is that <code>display: inline-block;</code> does not add a line-break after the element, so the element can sit next to other elements.</p>
 <img src="Assets/img/inline-block.png">
+<p>One common use for <code>display: inline-block</code> is to display list items horizontally instead of vertically</p>
+<h3>Example: inline-block with margin and padding</h3>
 <pre>
 .inlineBlockWithMarginAndPadding{
 	display: inline-block;
@@ -68,13 +69,6 @@
 	padding: 20px;
 	background: red;
 }
-.inlineBlockWithoutMarginAndPadding{
-	display: inline-block;
-	height: 50px;
-	background: red;
-}
-
-
 &lt;div class="box">
 	&lt;p style="background: #eee;">
 		Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
@@ -84,6 +78,35 @@
 		cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
 		proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 	&lt;/p>
+&lt;/div>
+</pre>
+<div class="SnippetDemo">
+	<style type="text/css">
+		.inlineBlockWithMarginAndPadding{
+			display: inline-block;
+			height: 50px;
+			margin: 20px;
+			padding: 20px;
+			background: red;
+		}
+	</style>
+	<p style="background: #eee;">
+		Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+		tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+		quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+		consequat. <span class="inlineBlockWithMarginAndPadding">Duis aute irure dolor</span> in reprehenderit in voluptate velit esse
+		cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+		proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+	</p>
+</div>
+<h3>Example: inline-block without margin and padding</h3>
+<pre>
+.inlineBlockWithoutMarginAndPadding{
+	display: inline-block;
+	height: 50px;
+	background: red;
+}
+&lt;div class="box">
 	&lt;p style="background: #eee;">
 		Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
 		tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
@@ -94,30 +117,15 @@
 	&lt;/p>
 &lt;/div>
 </pre>
-<style type="text/css">
-.inlineBlockWithMarginAndPadding{
-	display: inline-block;
-	height: 50px;
-	margin: 20px;
-	padding: 20px;
-	background: red;
-}
-.inlineBlockWithoutMarginAndPadding{
-	display: inline-block;
-	height: 50px;
-	background: red;
-	text-align: center;
-}
-</style>
-<div class="box">
-	<p style="background: #eee;">
-		Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-		tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-		quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-		consequat. <span class="inlineBlockWithMarginAndPadding">Duis aute irure dolor</span> in reprehenderit in voluptate velit esse
-		cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-		proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-	</p>
+<div class="SnippetDemo">
+	<style type="text/css">
+		.inlineBlockWithoutMarginAndPadding{
+			display: inline-block;
+			height: 50px;
+			background: red;
+			text-align: center;
+		}
+	</style>
 	<p style="background: #eee;">
 		Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
 		tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
@@ -127,247 +135,214 @@
 		proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 	</p>
 </div>
-<p>One common use for <code>display: inline-block</code> is to display list items horizontally instead of vertically</p>
 
 
-<h1>Unwanted White-Space</h1>
-<p>Consider the following Example -</p>
-<pre>
-.box{
-  width: 25%;
-  height: 50px;
-  background-color: red;
-  display: inline-block;
-}
-
-&lt;table style='width: 100%;'>
-  &lt;tr>
-    &lt;td>
-      &lt;div class='box'>&lt;/div>
-      &lt;div class='box'>&lt;/div>
-      &lt;div class='box'>&lt;/div>
-      &lt;div class='box'>&lt;/div>
-    &lt;/td>
-  &lt;/tr>
-&lt;/table>
-</pre>
-<style type="text/css">
-.boxy{
-  width: 25%;
-  height: 50px;
-  background-color: red;
-  display: inline-block;
-}
-</style>
-<div class="box">
-	<table style='width: 100%;'>
-	  <tr>
-	    <td>
-	      <div class='boxy'></div>
-	      <div class='boxy'></div>
-	      <div class='boxy'></div>
-	      <div class='boxy'></div>
-	    </td>
-	  </tr>
-	</table>
-</div>
-<p>Even though you have 25% width of each block and there is no margin around the each block, still there is a gap between these blocks. These are actually whitespace (line-break and spaces) after each div element. Here are some work around -</p>
-<p>Specify the font-size to 0 to the parent container and override the font-size in children elements.</p>
+<h3>Removing Unwanted White-Space Using font-size</h3>
+<p>Consider the following Example:</p>
 <pre>
 &lt;style type="text/css">
-.boxy2{
-  width: 25%;
-  height: 50px;
-  background-color: red;
-  display: inline-block;
-  font-size: 13px;
-}
+	.boxy{
+	  width: 25%;
+	  height: 50px;
+	  background-color: red;
+	  display: inline-block;
+	}
 &lt;/style>
-&lt;div class="box">
-	&lt;table style='width: 100%;'>
-	  &lt;tr>
-	    &lt;td style="font-size: 0;">
-	      &lt;div class='boxy2'>&lt;/div>
-	      &lt;div class='boxy2'>&lt;/div>
-	      &lt;div class='boxy2'>&lt;/div>
-	      &lt;div class='boxy2'>&lt;/div>
-	    &lt;/td>
-	  &lt;/tr>
-	&lt;/table>
+&lt;div style="width: 100%;">
+	&lt;div class='boxy'>&lt;/div>
+	&lt;div class='boxy'>&lt;/div>
+	&lt;div class='boxy'>&lt;/div>
+	&lt;div class='boxy'>&lt;/div>
 &lt;/div>
 </pre>
-<style type="text/css">
-.boxy2{
-  width: 25%;
-  height: 50px;
-  background-color: red;
-  display: inline-block;
-  font-size: 13px;
-}
-</style>
-<div class="box">
-	<table style='width: 100%;'>
-	  <tr>
-	    <td style="font-size: 0;">
-	      <div class='boxy2'></div>
-	      <div class='boxy2'></div>
-	      <div class='boxy2'></div>
-	      <div class='boxy2'></div>
-	    </td>
-	  </tr>
-	</table>
-</div>
-
-
-
-
-
-<h1>line-height | font-size</h1>
-<p>If you are overriding the display property to <code>inline-block</code>, don't forget to set <code>line-height</code> to 0 to the parent container and set the line-height to the each child elements.</p>
-<p>You can also solve the propble using <code>font-size</code> property too.</p>
-<p>Consider the following example -</p>
-<pre>
-.middle{
-	border: 2px solid green;
-	box-sizing: border-box;
-}
-.one{
-	height: 50px;
-	width: 50px;
-	background: red;
-	display: inline-block;
-}
-.two{
-	height: 100px;
-	width: 100px;
-	background: yellow;
-	display: inline-block;
-}
-.three{
-	height: 50px;
-	width: 50px;
-	background: green;
-	display: inline-block;
-}
-
-&lt;div class="box">
-	&lt;div class="middle">
-		&lt;div class="one">&lt;/div>
-		&lt;div class="two">&lt;/div>
-		&lt;div class="three">&lt;/div>
-	&lt;/div>
-&lt;/div>
-</pre>
-<style type="text/css">
-.middle{
-	border: 2px solid green;
-	box-sizing: border-box;
-}
-.one{
-	height: 50px;
-	width: 50px;
-	background: red;
-	display: inline-block;
-}
-.two{
-	height: 100px;
-	width: 100px;
-	background: yellow;
-	display: inline-block;
-}
-.three{
-	height: 50px;
-	width: 50px;
-	background: green;
-	display: inline-block;
-}
-</style>
-<div class="box">
-	<div class="middle">
-		<div class="one"></div>
-		<div class="two"></div>
-		<div class="three"></div>
+<div class="SnippetDemo">
+	<style type="text/css">
+		.boxy{
+		  width: 25%;
+		  height: 50px;
+		  background-color: red;
+		  display: inline-block;
+		}
+	</style>
+	<div style="width: 100%;">
+		<div class='boxy'></div>
+		<div class='boxy'></div>
+		<div class='boxy'></div>
+		<div class='boxy'></div>
 	</div>
 </div>
-</pre>
-<p>Notice there is a gap at the bottom of the div, even if there is no margin or padding. To deal with that issue, set the line-height to 0 and to parent container and set the line-height to the each child element.</p>
+<p>Even though you have 25% width of each block and there is no margin around the each block, still there is a gap between these blocks. These are actually whitespace (line-break and spaces) after each div element. Here are some work around:</p>
+<p>Specify the <code>font-size</code> to <code>0</code> to the parent container and override the <code>font-size</code> in children elements:</p>
 <pre>
 &lt;style type="text/css">
-		.middle1{
-        border: 2px solid green;
-        box-sizing: border-box;
-        line-height : 0;
-    }
-    .one1{
-        height: 50px;
-        width: 50px;
-        background: red;
-        display: inline-block;
-        line-height: initial;
-        vertical-align: bottom;
-    }
-    .two1{
-        height: 100px;
-        width: 100px;
-        background: yellow;
-        display: inline-block;
-        line-height: initial;
-        vertical-align: bottom;
-    }
-    .three1{
-        height: 50px;
-        width: 50px;
-        background: green;
-        display: inline-block;
-        line-height: initial;
-        vertical-align: bottom;
-    }
+	.boxy2{
+	  width: 25%;
+	  height: 50px;
+	  background-color: red;
+	  display: inline-block;
+	  font-size: 13px;
+	}
 &lt;/style>
-&lt;div class="box">
-	&lt;div class="middle1">
-    &lt;div class="one1">Box - 1&lt;/div>
-    &lt;div class="two1">Box - 2&lt;/div>
-    &lt;div class="three1">Box - 3&lt;/div>
-  &lt;/div>
+&lt;div style='width: 100%; font-size: 0;'>
+	&lt;div class='boxy2'>&lt;/div>
+	&lt;div class='boxy2'>&lt;/div>
+	&lt;div class='boxy2'>&lt;/div>
+	&lt;div class='boxy2'>&lt;/div>
 &lt;/div>
 </pre>
-<style type="text/css">
-		.middle1{
-        border: 2px solid green;
-        box-sizing: border-box;
-        line-height : 0;
-    }
-    .one1{
-        height: 50px;
-        width: 50px;
-        background: red;
-        display: inline-block;
-        line-height: initial;
-        vertical-align: bottom;
-    }
-    .two1{
-        height: 100px;
-        width: 100px;
-        background: yellow;
-        display: inline-block;
-        line-height: initial;
-        vertical-align: bottom;
-    }
-    .three1{
-        height: 50px;
-        width: 50px;
-        background: green;
-        display: inline-block;
-        line-height: initial;
-        vertical-align: bottom;
-    }
-</style>
-<div class="box">
-	<div class="middle1">
-    <div class="one1">Box - 1</div>
-    <div class="two1">Box - 2</div>
-    <div class="three1">Box - 3</div>
-  </div>
+<div class="SnippetDemo">
+	<style type="text/css">
+		.boxy2{
+		  width: 25%;
+		  height: 50px;
+		  background-color: red;
+		  display: inline-block;
+		  font-size: 13px;
+		}
+	</style>
+	<div style='width: 100%; font-size: 0;'>
+		<div class='boxy2'></div>
+		<div class='boxy2'></div>
+		<div class='boxy2'></div>
+		<div class='boxy2'></div>
+	</div>
+</div>
+
+
+
+
+<h3>Removing Unwanted White-Space Using line-height</h3>
+<p>If you are overriding the <code>display</code> property to <code>inline-block</code>, don't forget to set <code>line-height</code> to <code>0</code> to the parent container and set the <code>line-height</code> to the each child elements. You can also solve the propble using <code>font-size</code> property too. Consider the following example:</p>
+<pre>
+&lt;style type="text/css">
+	.container1{
+		border: 2px solid green;
+		box-sizing: border-box;
+		display: inline-block;
+	}
+	.one1{
+		height: 50px;
+		width: 50px;
+		background: red;
+		display: inline-block;
+	}
+	.two1{
+		height: 100px;
+		width: 100px;
+		background: yellow;
+		display: inline-block;
+	}
+	.three1{
+		height: 50px;
+		width: 50px;
+		background: green;
+		display: inline-block;
+	}
+&lt;/style>
+&lt;div class="container1">
+	&lt;div class="one1">&lt;/div>
+	&lt;div class="two1">&lt;/div>
+	&lt;div class="three1">&lt;/div>
+&lt;/div>
+</pre>
+<div class="SnippetDemo">
+	<style type="text/css">
+		.container1{
+			border: 2px solid green;
+			box-sizing: border-box;
+			display: inline-block;
+		}
+		.one1{
+			height: 50px;
+			width: 50px;
+			background: red;
+			display: inline-block;
+		}
+		.two1{
+			height: 100px;
+			width: 100px;
+			background: yellow;
+			display: inline-block;
+		}
+		.three1{
+			height: 50px;
+			width: 50px;
+			background: green;
+			display: inline-block;
+		}
+	</style>
+	<div class="container1">
+		<div class="one1"></div>
+		<div class="two1"></div>
+		<div class="three1"></div>
+	</div>
+</div>
+<p>Notice there is a gap at the bottom of the div, even if there is no margin or padding. To deal with that issue, set the <code>line-height</code> to <code>0</code> and to parent container and set the <code>line-height</code> to the each child element:</p>
+<pre>
+&lt;style type="text/css">
+	.container2{
+		border: 2px solid green;
+		box-sizing: border-box;
+		display: inline-block;
+		line-height: 0;
+	}
+	.one2{
+		height: 50px;
+		width: 50px;
+		background: red;
+		display: inline-block;
+	}
+	.two2{
+		height: 100px;
+		width: 100px;
+		background: yellow;
+		display: inline-block;
+	}
+	.three2{
+		height: 50px;
+		width: 50px;
+		background: green;
+		display: inline-block;
+	}
+&lt;/style>
+&lt;div class="container2">
+	&lt;div class="one2">&lt;/div>
+	&lt;div class="two2">&lt;/div>
+	&lt;div class="three2">&lt;/div>
+&lt;/div>
+</pre>
+<div class="SnippetDemo">
+	<style type="text/css">
+		.container2{
+			border: 2px solid green;
+			box-sizing: border-box;
+			display: inline-block;
+			line-height: 0;
+		}
+		.one2{
+			height: 50px;
+			width: 50px;
+			background: red;
+			display: inline-block;
+		}
+		.two2{
+			height: 100px;
+			width: 100px;
+			background: yellow;
+			display: inline-block;
+		}
+		.three2{
+			height: 50px;
+			width: 50px;
+			background: green;
+			display: inline-block;
+		}
+	</style>
+	<div class="container2">
+		<div class="one2"></div>
+		<div class="two2"></div>
+		<div class="three2"></div>
+	</div>
 </div>
 
 
@@ -388,14 +363,20 @@
 
 
 <h1>block</h1>
-<p>A number of elements are set to block by the browser UA stylesheet. They are usually container elements, like &lt;div>, &lt;section>, and &lt;ul>. Also text "blocks" like &lt;p> and &lt;h1>. Block level elements do not sit inline but break past them. By default (without setting a width) they take up as much horizontal space as they can.</p>
-
-<div class="box">
-	<h1 style="background: yellow;">Hello CSS</h1>
-	<p style="background: red;">Lorem ipsum dolor sit amet</p>
-	<div style="background: yellow;">Hello World</div>
+<p>A number of elements are set to block by the browser UA stylesheet. They are usually container elements, like <code>&lt;div></code>, <code>&lt;section></code>, and <code>&lt;ul></code>. Also text blocks like <code>&lt;p></code> and <code>&lt;h1></code>. Block level elements do not sit inline but break past them. By default (without setting a width) they take up as much horizontal space as they can.</p>
+<pre>
+&lt;h1 style="background: yellow;">Hello CSS&lt;/h1>
+&lt;p style="background: red;">Lorem ipsum dolor sit amet&lt;/p>
+&lt;div style="background: yellow;">Hello World&lt;/div>
+</pre>
+<div class="SnippetDemo">
+	<div style="flex: 1;">
+		<h1 style="background: yellow;">Hello CSS</h1>
+		<p style="background: red;">Lorem ipsum dolor sit amet</p>
+		<div style="background: yellow;">Hello World</div>
+	</div>
 </div>
-<p>As you can see, the text are small the element is taking the 100% width of the parent element. And each element starts on a new line.</p>
+<p>As you can see, the content of the elements are few but the elements are taking the 100% width of the parent element. And each element starts on a new line.</p>
 
 
 
@@ -403,7 +384,7 @@
 
 
 <h1>none</h1>
-<p>If the display is set to <code>none</code>, the element will be dissapeared and will not be rendered in the iewport. But you can find the element if you inspect the DOM.</p>
+<p>If the <code>display</code> is set to <code>none</code>, the element will be dissapeared and will not be rendered in the viewport. But you can find the element if you inspect the DOM.</p>
 <p><code>display: none;</code> is commonly used with JavaScript to hide and show elements without deleting and recreating them.</p>
 
 
@@ -423,58 +404,59 @@ div {
   display: table-caption;
 }
 </pre>
-<p>To use, just mimic normal table structure. Simple example:</p>
+<p>The following example mimics normal table structure:</p>
 <pre>
-.tableRow{
-	display: table-row;
-}
-.tableCell{
-	border: 1px solid black;
-	display: table-cell;
-	padding: 5px;
-}
-
+&lt;style type="text/css">
+	.tableRow{
+		display: table-row;
+	}
+	.tableCell{
+		border: 1px solid black;
+		display: table-cell;
+		padding: 5px;
+	}
+&lt;/style>
 &lt;div style="display: table; border: 1px solid black;">
-  &lt;div class="tableRow">
-    &lt;div class="tableCell">Gross but sometimes useful.&lt;/div>
-    &lt;div class="tableCell">It is rarely used.&lt;/div>
-  &lt;/div>
-  &lt;div class="tableRow">
-    &lt;div class="tableCell">Should be Avoided&lt;/div>
-    &lt;div class="tableCell">Use table element instead&lt;/div>
-  &lt;/div>
+	&lt;div class="tableRow">
+		&lt;div class="tableCell">Gross but sometimes useful.&lt;/div>
+		&lt;div class="tableCell">It is rarely used.&lt;/div>
+	&lt;/div>
+	&lt;div class="tableRow">
+		&lt;div class="tableCell">Should be Avoided&lt;/div>
+		&lt;div class="tableCell">Use table element instead&lt;/div>
+	&lt;/div>
 &lt;/div>
 </pre>
-<style type="text/css">
-.tableRow{
-	display: table-row;
-}
-.tableCell{
-	border: 1px solid black;
-	display: table-cell;
-	padding: 5px;
-}
-</style>
-<div class="box">
+<div class="SnippetDemo">
+	<style type="text/css">
+		.tableRow{
+			display: table-row;
+		}
+		.tableCell{
+			border: 1px solid black;
+			display: table-cell;
+			padding: 5px;
+		}
+	</style>
 	<div style="display: table; border: 1px solid black;">
-	  <div class="tableRow">
-	    <div class="tableCell">Gross but sometimes useful.</div>
-	    <div class="tableCell">It is rarely used.</div>
-	  </div>
-	  <div class="tableRow">
-	    <div class="tableCell">Should be Avoided</div>
-	    <div class="tableCell">Use table element instead</div>
-	  </div>
+		<div class="tableRow">
+			<div class="tableCell">Gross but sometimes useful.</div>
+			<div class="tableCell">It is rarely used.</div>
+		</div>
+		<div class="tableRow">
+			<div class="tableCell">Should be Avoided</div>
+			<div class="tableCell">Use table element instead</div>
+		</div>
 	</div>
 </div>
 
 
 
 <h1>Flex</h1>
-<p><code>display:flex;</code> is already discussed in Flexbox Chapter in details.</p>
+<p>Visit <a href="FlexBox.html">FlexBox</a> chapter to learn more about flex technology.</p>
 
 <h1>Grid</h1>
-<p><code>display:grid;</code> is already discussed in Grid Chapter in details.</p>
+<p>Visit <a href="Grid.html">Grid</a> chapter to learn more about grid technology.</p>
 
 
 
