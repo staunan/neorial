@@ -1,41 +1,104 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>CSS Grid</title>
+	<title>Grid</title>
     <link rel="icon" type="image/x-icon" href="../Assets/favicon.png">
 	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
 	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
-	<script type="text/javascript" src="../Assets/jquery.min.js"></script>
-	<link rel="stylesheet" href="../Assets/prism-dark.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/css/helper.css">
 </head>
-<body class="Body">
-<div class="Content Card">
+<body>
+<div class="page card">
 
+
+<style>
+.d-grid{
+  display: grid;
+}
+</style>
+<style>
+.Red{
+  min-height: 50px;
+  min-width: 50px;
+  color : #fff;
+  background-color: red;
+}
+.Blue{
+  min-height: 50px;
+  min-width: 50px;
+  color : #fff;
+  background-color: blue;
+}
+.Green{
+  min-height: 50px;
+  min-width: 50px;
+  color : #fff;
+  background-color: green;
+}
+.Yellow{
+  min-height: 50px;
+  min-width: 50px;
+  color : #fff;
+  background-color: yellow;
+}
+.Grey{
+  min-height: 50px;
+  min-width: 50px;
+  color : #fff;
+  background-color: grey;
+}
+.Tomato{
+  min-height: 50px;
+  min-width: 50px;
+  color : #fff;    		
+  background-color: tomato;
+}
+</style>
 
 
 <h1>Grid Terminology</h1>
-<p>Before diving into the concepts of Grid it's important to understand the terminology.</p>
+<p>Before diving into the concepts of Grid it's important to understand the terminologies.</p>
+
+
 <h3>Grid Container</h3>
-<p>The element on which <code>display: grid</code> is applied. It's the direct parent of all the grid items. In the following example <code>container</code> is the grid container.</p>
+<p>The element on which <code>display: grid</code> is applied. It's the direct parent of all the grid items. In the following example the root element with id <code>gridContainer</code> is called Grid Container.</p>
 <pre>
-&lt;div class="container">
-	&lt;div class="item item-1">&lt;/div>
-	&lt;div class="item item-2">&lt;/div>
-	&lt;div class="item item-3">&lt;/div>
+&lt;div id="gridContainer" class="d-grid">
+  &lt;div class="Red">&lt;/div>
+  &lt;div class="Green">&lt;/div>
+  &lt;div class="Blue">&lt;/div>
 &lt;/div>
 </pre>
+<div class="SnippetDemo">
+  <div id="gridContainer" class="d-grid">
+    <div class="Red"></div>
+    <div class="Green"></div>
+    <div class="Blue"></div>
+  </div>
+</div>
+
+
+
+
+
 <h3>Grid Item</h3>
-<p>The children (i.e. direct descendants) of the grid container. Here the <code>item</code> elements are grid items, but <code>sub-item</code> isn't.</p>
-<pre>
-&lt;div class="container">
-	&lt;div class="item">&lt;/div> 
-	&lt;div class="item">
-		&lt;p class="sub-item">&lt;/p>
-	&lt;/div>
-	&lt;div class="item">&lt;/div>
-&lt;/div>
-</pre>
+<p>The children (i.e. direct descendants) of the grid container. In the following example, the <code>div</code>s with the title attribute <code>grid-item</code> is called <code>Grid Item</code>, but the <code>p</code> element with the title attribute <code>not-a-grid-item</code> isn't a grid item. Only the direct child of grid container is called grid item.</p>
+<div class="SnippetDemo">
+  <div id="gridContainer" class="d-grid">
+    <div title="grid-item" class="Red"></div>
+    <div title="grid-item" class="Green">
+      <p title="not-a-grid-item"></p>
+    </div>
+    <div title="grid-item" class="Blue"></div>
+  </div>
+</div>
+
+
+
+
+
+
+
 <h3>Grid Line</h3>
 <p>The dividing lines that make up the structure of the grid. They can be either vertical ("column grid lines") or horizontal ("row grid lines") and reside on either side of a row or column. Here the yellow line is an example of a column grid line.</p>
 <img src="Assets/img/grid-line.png">
