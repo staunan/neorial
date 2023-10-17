@@ -1,1079 +1,1526 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Title</title>
+	<title>Flexbox</title>
     <link rel="icon" type="image/x-icon" href="../Assets/favicon.png">
 	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
 	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
-	<script src="../Assets/prism.min.js"></script>
-	<script type="text/javascript" src="../Assets/jquery.min.js"></script>
-    <link rel="stylesheet" href="../Assets/prism-dark.css">
-    <style>
-    	.Red{
-			min-height: 50px;
-			min-width: 50px;
-			color : #fff;
-			background-color: red;
-    	}
-    	.Blue{
-			min-height: 50px;
-			min-width: 50px;
-			color : #fff;
-			background-color: blue;
-    	}
-    	.Green{
-			min-height: 50px;
-			min-width: 50px;
-			color : #fff;
-			background-color: green;
-    	}
-    	.Tomato{
-			min-height: 50px;
-			min-width: 50px;
-			color : #fff;    		
-			background-color: tomato;
-    	}
-		.parent{
-			display: flex;
-		}
-    </style>
+	<link rel="stylesheet" type="text/css" href="../Assets/css/helper.css">
 </head>
-<body class="Body">
-	<div class="Content Card">
-	<h1>Flexbox</h1>
-	<ul>
-		<li><a href="#WhatIsFlexbox">What is Flexbox</a></li>
-		<li><a href="#Display">Display</a></li>
-		<li><a href="#FlexDirection">flex-direction</a></li>
-		<li><a href="#FlexBasis">flex-basis</a></li>
-		<li><a href="#flexWrap">flex-wrap</a></li>
-		<li><a href="#justifyContent">justify-content</a></li>
-		<li><a href="#alignItems">align-items</a></li>
-		<li><a href="#flexGrow">flex-grow</a></li>
-		<li><a href="#flexShrink">flex-shrink</a></li>
-		<li><a href="#flexFlow">flex-flow</a></li>
-		<li><a href="#alignSelf">align-self</a></li>
-		<li><a href="#order">order</a></li>
-		<li><a href="#alignContent">align-content</a></li>
-	</ul>
+<body>
+<div class="page card">
 
-	<h1><a name="WhatIsFlexbox"></a>What is Flexbox</h1>
-	<p>
-		Flexbox is amazing thing happened to CSS. It's a layout system. Which is flexible and supported in all major browser. It's native to CSS. Using flexbox layout system you can do much more than you can do with position, float stuff. By default a <code>div</code> is a block lavel element. It means it's <code>display</code> is block by defult. If you have multiple <code>div</code> one after another they apeared vertically one after another. This default behaviour can be changed by using flexbox.
-	</p>
-	<pre>
-	&lt;div class="parent">
-		&lt;div class="child Red">Child-1&lt;/div>
-		&lt;div class="child Blue">Child-2&lt;/div>
-		&lt;div class="child Green">Child-3&lt;/div>
-		&lt;div class="child Tomato">Child-4&lt;/div>
-	&lt;/div>
-	</pre>
-	<div class="box">
-		<div class="parent">
-			<div class="child Red">Child-1</div>
-			<div class="child Blue">Child-2</div>
-			<div class="child Green">Child-3</div>
-			<div class="child Tomato">Child-4</div>
-		</div>
+
+<h1>Flexbox</h1>
+<p>Table of Content:</p>
+<ol>
+	<li><a href="#WhatIsFlexbox">What is Flexbox</a></li>
+	<li><a href="#Display">Display</a></li>
+	<li><a href="#FlexDirection">flex-direction</a></li>
+	<li><a href="#FlexBasis">flex-basis</a></li>
+	<li><a href="#flexWrap">flex-wrap</a></li>
+	<li><a href="#justifyContent">justify-content</a></li>
+	<li><a href="#alignItems">align-items</a></li>
+	<li><a href="#flexGrow">flex-grow</a></li>
+	<li><a href="#flexShrink">flex-shrink</a></li>
+	<li><a href="#flexFlow">flex-flow</a></li>
+	<li><a href="#alignSelf">align-self</a></li>
+	<li><a href="#order">order</a></li>
+	<li><a href="#flexbox_helper_class">Flexbox Helper Class</a></li>
+</ol>
+
+
+
+
+
+
+
+
+
+<h1><a name="WhatIsFlexbox"></a>What is Flexbox</h1>
+<p>Flexbox is amazing thing happened to CSS. It's a layout system. Which is flexible and supported in all major browser. It's native to CSS. Using flexbox layout system you can do much more than you can do with position, float stuff. By default a <code>div</code> is a block level element. It means its <code>display</code> is block by defult. If you have multiple <code>div</code> one after another they apeared vertically one after another. This default behaviour can be changed by using flexbox.</p>
+<p>Consider the following CSS and boxes which we are going to use through out the chapter:</p>
+<pre>
+.Red{
+	min-height: 50px;
+	min-width: 50px;
+	color : #fff;
+	background-color: red;
+}
+.Blue{
+	min-height: 50px;
+	min-width: 50px;
+	color : #fff;
+	background-color: blue;
+}
+.Green{
+	min-height: 50px;
+	min-width: 50px;
+	color : #fff;
+	background-color: green;
+}
+.Yellow{
+	min-height: 50px;
+	min-width: 50px;
+	color : #fff;
+	background-color: yellow;
+}
+.Grey{
+	min-height: 50px;
+	min-width: 50px;
+	color : #fff;
+	background-color: grey;
+}
+.Tomato{
+	min-height: 50px;
+	min-width: 50px;
+	color : #fff;    		
+	background-color: tomato;
+}
+</pre>
+<style>
+.Red{
+	min-height: 50px;
+	min-width: 50px;
+	color : #fff;
+	background-color: red;
+}
+.Blue{
+	min-height: 50px;
+	min-width: 50px;
+	color : #fff;
+	background-color: blue;
+}
+.Green{
+	min-height: 50px;
+	min-width: 50px;
+	color : #fff;
+	background-color: green;
+}
+.Yellow{
+	min-height: 50px;
+	min-width: 50px;
+	color : #fff;
+	background-color: yellow;
+}
+.Grey{
+	min-height: 50px;
+	min-width: 50px;
+	color : #fff;
+	background-color: grey;
+}
+.Tomato{
+	min-height: 50px;
+	min-width: 50px;
+	color : #fff;    		
+	background-color: tomato;
+}
+</style>
+<p>The following example shows how the div elements are appeared without flex behaviour:</p>
+<pre>
+&lt;div>
+	&lt;div class="Red">Child-1&lt;/div>
+	&lt;div class="Blue">Child-2&lt;/div>
+	&lt;div class="Green">Child-3&lt;/div>
+	&lt;div class="Tomato">Child-4&lt;/div>
+&lt;/div>
+</pre>
+<div class="SnippetDemo">
+	<div>
+		<div class="Red">Child-1</div>
+		<div class="Blue">Child-2</div>
+		<div class="Green">Child-3</div>
+		<div class="Tomato">Child-4</div>
 	</div>
-	<p>
-		Initially we are using the following style to differentiate the different div block. We will be using this style throughout this tutorial -
-	</p>
-	<pre>
-	.Red{
-		min-height: 50px;
-		min-width: 50px;
-		color : #fff;
-		background-color: red;
-	}
-	.Blue{
-		min-height: 50px;
-		min-width: 50px;
-		color : #fff;
-		background-color: blue;
-	}
-	.Green{
-		min-height: 50px;
-		min-width: 50px;
-		color : #fff;
-		background-color: green;
-	}
-	.Tomato{
-		min-height: 50px;
-		min-width: 50px;
-		color : #fff;    		
-		background-color: tomato;
-	}
-	</pre>
-	<p>
-		We haven't applied any flexbox yet. The above output is the default behaviour of the <code>div</code> element.
-	</p>
+</div>
 
 
-	<h1><a name="Display"></a>display</h1>
-	<p>
-		To use flexbox use <code>display:flex;</code>
-	</p>
-	<pre>
-		.parent{
-			display : flex;
-		}
-	</pre>
-	<div class="box">
-		<div class="parent">
-			<div class="child Red">Child-1</div>
-			<div class="child Blue">Child-2</div>
-			<div class="child Green">Child-3</div>
-			<div class="child Tomato">Child-4</div>
-		</div>
+
+
+
+
+
+
+
+
+
+
+
+
+<h1><a name="Display"></a>display</h1>
+<p>To use flexbox use <code>display:flex;</code></p>
+<pre>
+&lt;div class="d-flex">
+	&lt;div class="Red">Child-1&lt;/div>
+	&lt;div class="Blue">Child-2&lt;/div>
+	&lt;div class="Green">Child-3&lt;/div>
+	&lt;div class="Tomato">Child-4&lt;/div>
+&lt;/div>
+</pre>
+<div class="SnippetDemo">
+	<div class="d-flex">
+		<div class="Red">Child-1</div>
+		<div class="Blue">Child-2</div>
+		<div class="Green">Child-3</div>
+		<div class="Tomato">Child-4</div>
 	</div>
-	<p>
-		As you can see, the default behaviour of the flexbox. Each child will take minimum space that the content can be fitted inside it. And also each div appears horizontally one after another. The above will be equal to -
-	</p>
-	<pre>
-		.parent{
-			word-spacing:-5px; // For Chrome. The value differs in different browser.
-		}
-		.parent>div{
-			display:inline-block;
-		}
-	</pre>
-	<p>
-		As you can see, using flexbox is very simple, takes less code and do much more.
-	</p>
+</div>
+<p>As you can see, the default behaviour of the flexbox. Each child will take minimum space that the content can be fitted inside it. And also each div appears horizontally one after another. The above will be equal to:</p>
+<pre>
+.parent{
+	word-spacing:-5px; // For Chrome. The value differs in different browser.
+}
+.parent>div{
+	display:inline-block;
+}
+</pre>
+<p>As you can see, using flexbox is very simple, takes less code and do much more.</p>
 
 
-	<h1><a name="FlexDirection"></a>flex-direction</h1>
-	<p>
-		In the above example, the stack of the child divs are stacked one after another horizontally. You can change that order using <code>flex-direction</code> property. By default it's value is <code>row</code>. It means the first div appears first in horizontal lin and second div appears second and so on.
-	</p>
-	<p>
-		The value <code>row-reverse</code> stack up the divs horizontally but it starts from the right side and the order is reversed. If you compare, the stack is totally reversed.
-	</p>
-	<pre>
-		.parent{
-			display:flex;
-			flex-direction : row-reverse;
-		}
-	</pre>
-	<div class="box">
-		<div class="parent" style="flex-direction: row-reverse;">
-			<div class="child Red">Child-1</div>
-			<div class="child Blue">Child-2</div>
-			<div class="child Green">Child-3</div>
-			<div class="child Tomato">Child-4</div>
-		</div>
+
+
+
+
+
+
+
+
+
+
+<h1><a name="FlexDirection"></a>flex-direction</h1>
+<p>In the above example, the stack of the child divs are stacked one after another horizontally. You can change that order using <code>flex-direction</code> property. By default it's value is <code>row</code>. It means the first <code>div</code> appears first in horizontal line and second <code>div</code> appears second and so on.</p>
+<p>The value <code>row-reverse</code> stack up the divs horizontally but it starts from the right side and the order is reversed. If you compare, the stack is totally reversed.</p>
+<pre>
+&lt;div class="d-flex" style="flex-direction: row-reverse;">
+	&lt;div class="Red">Child-1&lt;/div>
+	&lt;div class="Blue">Child-2&lt;/div>
+	&lt;div class="Green">Child-3&lt;/div>
+	&lt;div class="Tomato">Child-4&lt;/div>
+&lt;/div>
+</pre>
+<div class="SnippetDemo">
+	<div class="d-flex" style="flex-direction: row-reverse;">
+		<div class="Red">Child-1</div>
+		<div class="Blue">Child-2</div>
+		<div class="Green">Child-3</div>
+		<div class="Tomato">Child-4</div>
 	</div>
-
-	<p>
-		The value <code>column</code> changes the direction to vertically.
-	</p>
-	<pre>
-		.parent{
-			display:flex;
-			flex-direction : column;
-		}
-	</pre>
-	<div class="box">
-		<div class="parent" style="flex-direction: column;">
-			<div class="child Red">Child-1</div>
-			<div class="child Blue">Child-2</div>
-			<div class="child Green">Child-3</div>
-			<div class="child Tomato">Child-4</div>
-		</div>
+</div>
+<p>The value <code>column</code> changes the direction to vertically.</p>
+<pre>
+&lt;div class="parent" style="flex-direction: column;">
+	&lt;div class="child Red">Child-1&lt;/div>
+	&lt;div class="child Blue">Child-2&lt;/div>
+	&lt;div class="child Green">Child-3&lt;/div>
+	&lt;div class="child Tomato">Child-4&lt;/div>
+&lt;/div>
+</pre>
+<div class="SnippetDemo">
+	<div class="d-flex" style="flex-direction: column;">
+		<div class="Red">Child-1</div>
+		<div class="Blue">Child-2</div>
+		<div class="Green">Child-3</div>
+		<div class="Tomato">Child-4</div>
 	</div>
-
-	<p>
-		The value <code>column-reverse</code> is just like the value <code>column</code> but the order is reversed.
-	</p>
-	<pre>
-		.parent{
-			display:flex;
-			flex-direction : column-reverse;
-		}
-	</pre>
-	<div class="box">
-		<div class="parent" style="flex-direction: column-reverse;">
-			<div class="child Red">Child-1</div>
-			<div class="child Blue">Child-2</div>
-			<div class="child Green">Child-3</div>
-			<div class="child Tomato">Child-4</div>
-		</div>
+</div>
+<p>The value <code>column-reverse</code> is just like the value <code>column</code> but the order is reversed.</p>
+<pre>
+&lt;div class="d-flex" style="flex-direction: column-reverse;">
+	&lt;div class="Red">Child-1&lt;/div>
+	&lt;div class="Blue">Child-2&lt;/div>
+	&lt;div class="Green">Child-3&lt;/div>
+	&lt;div class="Tomato">Child-4&lt;/div>
+&lt;/div>
+</pre>
+<div class="SnippetDemo">
+	<div class="d-flex" style="flex-direction: column-reverse;">
+		<div class="Red">Child-1</div>
+		<div class="Blue">Child-2</div>
+		<div class="Green">Child-3</div>
+		<div class="Tomato">Child-4</div>
 	</div>
+</div>
 
-	<h1><a name="FlexBasis"></a>flex-basis</h1>
-	<pre>
-		// Initial CSS ---
-		.parent{
-			display: flex;
-		}
-	</pre>
-	<p>
-		It specifies the initial size of the flex item, before any available space is distributed to the childs. If you set the flex-basis, initially an item will take that space in the flexbox container. For example, let's specify the Red block's flex-basis.
-	</p>
-	<pre>
-		.Red{
-			flex-basis : 100px;
-		}
-	</pre>
-	<div class="box">
-		<div class="parent">
-			<div class="child Red" style="flex-basis: 100px;">Child-1</div>
-			<div class="child Blue">Child-2</div>
-			<div class="child Green">Child-3</div>
-			<div class="child Tomato">Child-4</div>
-		</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h1><a name="FlexBasis"></a>flex-basis</h1>
+<p>It specifies the initial size of the flex item, before any available space is distributed to the childs. If you set the <code>flex-basis</code>, initially an item will take that space in the flexbox container. So, this is kind of specifying the width of the container.</p>
+
+<h3>Example: One</h3>
+<p>Let's consider an example where parent element has a specific width. All child element can perfectly fit inside the parent element's width, even after specifying flex basis. That means the parent has enough space to accomodate all children with their respective <code>flex-basis</code> values. In this case the element will take exactly that much width what is specified on property <code>flex-basis</code>. For example, let's specify the Red block's <code>flex-basis</code>:</p>
+<pre>
+&lt;div class="d-flex" style="width: 1000px; background: grey;">
+	&lt;div class="Red" style="flex-basis: 100px;">Child-1&lt;/div>
+	&lt;div class="Blue">Child-2&lt;/div>
+	&lt;div class="Green">Child-3&lt;/div>
+	&lt;div class="Tomato">Child-4&lt;/div>
+&lt;/div>
+</pre>
+<div class="SnippetDemo">
+	<div class="d-flex" style="width: 1000px; background: grey;">
+		<div class="Red" style="flex-basis: 100px;">Child-1</div>
+		<div class="Blue">Child-2</div>
+		<div class="Green">Child-3</div>
+		<div class="Tomato">Child-4</div>
 	</div>
-	<p>
-		So, this is kind of specifying the width of the container. Red will take 100px now. You can also specify the <code>flex-box</code> to other flex items.
-	</p>
-	<p>
-		Now what if you specify a flex-basis that is higher than it's container. For example, let's set the flex-basis to 50% to all flex-item and see what happens -
-	</p>
-	<pre>
-		.child{
-			flex-basis : 50%;
-		}
-	</pre>
-	<div class="box">
-		<div class="parent">
-			<div class="child Red" style="flex-basis: 50%;">Child-1</div>
-			<div class="child Blue" style="flex-basis: 50%;">Child-2</div>
-			<div class="child Green" style="flex-basis: 50%;">Child-3</div>
-			<div class="child Tomato" style="flex-basis: 50%;">Child-4</div>
-		</div>
+</div>
+<p>In the example above, The first red box is given <code>100px</code> width and positioned. And then the next blue element is positioned. And then green and so on. As other color boxes do not have <code>flex-basis</code> specified, they will take whatever their content requires. If the parent element requires more space to accomodate all its children, then it will shrink flex items with to fit all children.</p>
+<p>In the above example, the parent element is greyed background which is <code>1000px</code> wide. Only the red box is having <code>flex-basis</code> of <code>100px</code>. And other boxes do not have any <code>flex-basis</code> specified, so other colored boxes will take space whatever their content requires. As there is enough space on the parent element, the red box will take <code>100px</code> width to satisfy the <code>flex-basis</code>.</p>
+<p class="tip">Note that, it is important to set the <code>width</code> to the parent element in order for <code>flex-basis</code> to take effect.</p>
+
+<h3>Example: Two</h3>
+<p>Now what if you specify a <code>flex-basis</code> that is higher than it's container. For example, let's set the <code>flex-basis</code> to <code>50%</code> to all flex-item and see what happens:</p>
+<pre>
+&lt;div class="d-flex" style="width: 500px; background: grey;">
+	&lt;div class="Red" style="flex-basis: 200px;">Child-1&lt;/div>
+	&lt;div class="Blue" style="flex-basis: 200px;">Child-2&lt;/div>
+	&lt;div class="Green" style="flex-basis: 200px;">Child-3&lt;/div>
+	&lt;div class="Tomato" style="flex-basis: 200px;">Child-4&lt;/div>
+&lt;/div>
+</pre>
+<div class="SnippetDemo">
+	<div class="d-flex" style="width: 500px; background: grey;">
+		<div class="Red" style="flex-basis: 200px;">Child-1</div>
+		<div class="Blue" style="flex-basis: 200px;">Child-2</div>
+		<div class="Green" style="flex-basis: 200px;">Child-3</div>
+		<div class="Tomato" style="flex-basis: 200px;">Child-4</div>
 	</div>
-	<p>
-		As you can see, the items never overflow, instead they takes up the perfect space to fill the container width. The way this works, if the last item cannot be fitted within it's container with the specified flex-basis, all flex items including the last flex item will shrink equally. A flex item keep shrinking until it's content about to overflow. When a flex item's content is about to overflow, the item will stop shrinking. Even then if the last flex item still cannot be fitted within it's container then and only then the overflow happen. To try it out let's increase the flex items. In the following example, we have about 32 flex-items whose flex-basis is 50%. 
-	</p>
-	<div class="box">
-		<div class="parent">
-			<div class="child Red" style="flex-basis: 50%;">Child-1</div>
-			<div class="child Blue" style="flex-basis: 50%;">Child-2</div>
-			<div class="child Green" style="flex-basis: 50%;">Child-3</div>
-			<div class="child Tomato" style="flex-basis: 50%;">Child-4</div>
-			<div class="child Red" style="flex-basis: 50%;">Child-1</div>
-			<div class="child Blue" style="flex-basis: 50%;">Child-2</div>
-			<div class="child Green" style="flex-basis: 50%;">Child-3</div>
-			<div class="child Tomato" style="flex-basis: 50%;">Child-4</div>
-			<div class="child Red" style="flex-basis: 50%;">Child-1</div>
-			<div class="child Blue" style="flex-basis: 50%;">Child-2</div>
-			<div class="child Green" style="flex-basis: 50%;">Child-3</div>
-			<div class="child Tomato" style="flex-basis: 50%;">Child-4</div>
-			<div class="child Red" style="flex-basis: 50%;">Child-1</div>
-			<div class="child Blue" style="flex-basis: 50%;">Child-2</div>
-			<div class="child Green" style="flex-basis: 50%;">Child-3</div>
-			<div class="child Tomato" style="flex-basis: 50%;">Child-4</div>
-			<div class="child Red" style="flex-basis: 50%;">Child-1</div>
-			<div class="child Blue" style="flex-basis: 50%;">Child-2</div>
-			<div class="child Green" style="flex-basis: 50%;">Child-3</div>
-			<div class="child Tomato" style="flex-basis: 50%;">Child-4</div>
-			<div class="child Red" style="flex-basis: 50%;">Child-1</div>
-			<div class="child Blue" style="flex-basis: 50%;">Child-2</div>
-			<div class="child Green" style="flex-basis: 50%;">Child-3</div>
-			<div class="child Tomato" style="flex-basis: 50%;">Child-4</div>
-			<div class="child Red" style="flex-basis: 50%;">Child-1</div>
-			<div class="child Blue" style="flex-basis: 50%;">Child-2</div>
-			<div class="child Green" style="flex-basis: 50%;">Child-3</div>
-			<div class="child Tomato" style="flex-basis: 50%;">Child-4</div>
-		</div>
+</div>
+<p>In the example above even though we have specified <code>flex-basis</code> as <code>200px</code>, the color boxs width is less than <code>200px</code>. As you can see, the flex items never overflow, instead they takes up the perfect space to fill the container width. The way this works, if the last item cannot be fitted within it's container with the specified <code>flex-basis</code>, all flex items including the last flex item will shrink equally. A flex item keep shrinking until it's content about to overflow. When a flex item's content is about to overflow, the item will stop shrinking. Even then if the last flex item still cannot be fitted within it's container then and only then the overflow happen. To try it out let's increase the flex items. In the following example, we have about 32 flex-items whose <code>flex-basis</code> is 50%.</p>
+
+
+<h3>Example: Three</h3>	
+<pre>
+&lt;div class="d-flex">
+	&lt;div class="Red" style="flex-basis: 50%;">Child-1&lt;/div>
+	&lt;div class="Blue" style="flex-basis: 50%;">Child-2&lt;/div>
+	&lt;div class="Green" style="flex-basis: 50%;">Child-3&lt;/div>
+	&lt;div class="Tomato" style="flex-basis: 50%;">Child-4&lt;/div>
+	&lt;div class="Red" style="flex-basis: 50%;">Child-1&lt;/div>
+	&lt;div class="Blue" style="flex-basis: 50%;">Child-2&lt;/div>
+	&lt;div class="Green" style="flex-basis: 50%;">Child-3&lt;/div>
+	&lt;div class="Tomato" style="flex-basis: 50%;">Child-4&lt;/div>
+	&lt;div class="Red" style="flex-basis: 50%;">Child-1&lt;/div>
+	&lt;div class="Blue" style="flex-basis: 50%;">Child-2&lt;/div>
+	&lt;div class="Green" style="flex-basis: 50%;">Child-3&lt;/div>
+	&lt;div class="Tomato" style="flex-basis: 50%;">Child-4&lt;/div>
+	&lt;div class="Red" style="flex-basis: 50%;">Child-1&lt;/div>
+	&lt;div class="Blue" style="flex-basis: 50%;">Child-2&lt;/div>
+	&lt;div class="Green" style="flex-basis: 50%;">Child-3&lt;/div>
+	&lt;div class="Tomato" style="flex-basis: 50%;">Child-4&lt;/div>
+	&lt;div class="Red" style="flex-basis: 50%;">Child-1&lt;/div>
+	&lt;div class="Blue" style="flex-basis: 50%;">Child-2&lt;/div>
+	&lt;div class="Green" style="flex-basis: 50%;">Child-3&lt;/div>
+	&lt;div class="Tomato" style="flex-basis: 50%;">Child-4&lt;/div>
+&lt;/div>
+</pre>
+<div class="SnippetDemo">
+	<div class="d-flex">
+		<div class="Red" style="flex-basis: 50%;">Child-1</div>
+		<div class="Blue" style="flex-basis: 50%;">Child-2</div>
+		<div class="Green" style="flex-basis: 50%;">Child-3</div>
+		<div class="Tomato" style="flex-basis: 50%;">Child-4</div>
+		<div class="Red" style="flex-basis: 50%;">Child-1</div>
+		<div class="Blue" style="flex-basis: 50%;">Child-2</div>
+		<div class="Green" style="flex-basis: 50%;">Child-3</div>
+		<div class="Tomato" style="flex-basis: 50%;">Child-4</div>
+		<div class="Red" style="flex-basis: 50%;">Child-1</div>
+		<div class="Blue" style="flex-basis: 50%;">Child-2</div>
+		<div class="Green" style="flex-basis: 50%;">Child-3</div>
+		<div class="Tomato" style="flex-basis: 50%;">Child-4</div>
+		<div class="Red" style="flex-basis: 50%;">Child-1</div>
+		<div class="Blue" style="flex-basis: 50%;">Child-2</div>
+		<div class="Green" style="flex-basis: 50%;">Child-3</div>
+		<div class="Tomato" style="flex-basis: 50%;">Child-4</div>
+		<div class="Red" style="flex-basis: 50%;">Child-1</div>
+		<div class="Blue" style="flex-basis: 50%;">Child-2</div>
+		<div class="Green" style="flex-basis: 50%;">Child-3</div>
+		<div class="Tomato" style="flex-basis: 50%;">Child-4</div>
 	</div>
-	<p>
-		In the above example, each flex item has reached to it's minimum size where it's content if fitted without overflowing. So they stopped shrinking. But the parent div requires more space to accomodate all 32 flex-item within it. And that's when the actual overflow happens.
-	</p>
-	<p>
-		Let's compare the following two example -
-	</p>
-	<pre>
-	&lt;div class="parent">
-		&lt;div class="child Red" style="flex-basis: 25%;">Child-1&lt;/div>
-		&lt;div class="child Blue" style="flex-basis: 25%;">Child-2&lt;/div>
-		&lt;div class="child Green" style="flex-basis: 45%;">Child-3&lt;/div>
-		&lt;div class="child Tomato" style="flex-basis: 5%;">Child-4&lt;/div>
-	&lt;/div>
+</div>
+<p>In the above example, each flex item has reached to it's minimum size where it's content is fitted without overflowing. So they stopped shrinking. But the parent div requires more space to accomodate all 32 flex items within it. And that's when the actual overflow happens.</p>
 
-	&lt;div class="parent">
-		&lt;div class="child Red" style="flex-basis: 25%;">Child-1&lt;/div>
-		&lt;div class="child Blue" style="flex-basis: 25%;">Child-2&lt;/div>
-		&lt;div class="child Green" style="flex-basis: 45%;">Child-3&lt;/div>
-		&lt;div class="child Tomato" style="flex-basis: 45%;">Child-4&lt;/div>
-	&lt;/div>
-	</pre>
-	<div class="box">
-		<div class="parent">
-			<div class="child Red" style="flex-basis: 25%;">Child-1</div>
-			<div class="child Blue" style="flex-basis: 25%;">Child-2</div>
-			<div class="child Green" style="flex-basis: 45%;">Child-3</div>
-			<div class="child Tomato" style="flex-basis: 5%;">Child-4</div>
-		</div>
+
+<h3>Example: Four</h3>	
+<p>Let's compare the following two example:</p>
+<pre>
+&lt;div class="parent">
+	&lt;div class="child Red" style="flex-basis: 25%;">Child-1&lt;/div>
+	&lt;div class="child Blue" style="flex-basis: 25%;">Child-2&lt;/div>
+	&lt;div class="child Green" style="flex-basis: 45%;">Child-3&lt;/div>
+	&lt;div class="child Tomato" style="flex-basis: 5%;">Child-4&lt;/div>
+&lt;/div>
+</pre>
+<div class="SnippetDemo">
+	<div class="d-flex" style="width: 1000px;">
+		<div class="Red" style="flex-basis: 25%;">Child-1</div>
+		<div class="Blue" style="flex-basis: 25%;">Child-2</div>
+		<div class="Green" style="flex-basis: 45%;">Child-3</div>
+		<div class="Tomato" style="flex-basis: 5%;">Child-4</div>
 	</div>
-
-	<div class="box">
-		<div class="parent">
-			<div class="child Red" style="flex-basis: 25%;">Child-1</div>
-			<div class="child Blue" style="flex-basis: 25%;">Child-2</div>
-			<div class="child Green" style="flex-basis: 45%;">Child-3</div>
-			<div class="child Tomato" style="flex-basis: 45%;">Child-4</div>
-		</div>
+</div>
+<p>In the example above, we have distributed flex basis in a way it sums up its parent's width. First two element is given <code>25%</code> width, third element gets <code>45%</code> width and last element gets <code>5%</code> width. All flex items can be fitted inside its parent element without compromising its flex basis. So no shrinking happens here. But in the following example, if you sum up all flex-basis of all child element, it is larger than its parent element. And that's when the shrinking happens.</p>
+<pre>
+&lt;div class="parent">
+	&lt;div class="child Red" style="flex-basis: 25%;">Child-1&lt;/div>
+	&lt;div class="child Blue" style="flex-basis: 25%;">Child-2&lt;/div>
+	&lt;div class="child Green" style="flex-basis: 45%;">Child-3&lt;/div>
+	&lt;div class="child Tomato" style="flex-basis: 45%;">Child-4&lt;/div>
+&lt;/div>
+</pre>
+<div class="SnippetDemo">
+	<div class="d-flex" style="width: 1000px;">
+		<div class="Red" style="flex-basis: 25%;">Child-1</div>
+		<div class="Blue" style="flex-basis: 25%;">Child-2</div>
+		<div class="Green" style="flex-basis: 45%;">Child-3</div>
+		<div class="Tomato" style="flex-basis: 45%;">Child-4</div>
 	</div>
-	<p>
-		If you compare the width of the each flex item, and mathametically calculate them, you will realize a equal percentage if reduced from all the flex item to fit them within it's parent container.
-	</p>
-	<p>
-		Okay, now you have the basic idea of flex-basis. It generally means the with of the flex items. But it also means height when <code>flex-direction</code> is column.
-	</p>
-	<pre>
-	.parent{
-		display : flex;
-		flex-direction:column;
-	}
+</div>
+<p>If you compare the width of the each flex item, and mathametically calculate them, you will realize a equal percentage if reduced from all the flex item to fit them within it's parent container.</p>
 
-	&lt;div class="parent">
-		&lt;div class="child Red" style=d"flex-basis: 25%;">Child-1&lt;/div>
-		&lt;div class="child Blue" style="flex-basis: 25%;">Child-2&lt;/div>
-		&lt;div class="child Green" style="flex-basis: 55%;">Child-3&lt;/div>
-		&lt;div class="child Tomato" style="flex-basis: 25%;">Child-4&lt;/div>
-	&lt;/div>
-	</pre>
-	<div class="box">
-		<div class="parent" style="flex-direction: column;">
-			<div class="child Red" style="flex-basis: 25%;">Child-1</div>
-			<div class="child Blue" style="flex-basis: 25%;">Child-2</div>
-			<div class="child Green" style="flex-basis: 45%;">Child-3</div>
-			<div class="child Tomato" style="flex-basis: 45%;">Child-4</div>
-		</div>
+
+
+
+
+
+<h3>Example: Five</h3>
+<p>Okay, now you have the basic idea of <code>flex-basis</code>. It generally means the with of the flex items. But it also means height when <code>flex-direction</code> is <code>column</code>.</p>
+<pre>
+&lt;div class="d-flex flex-column">
+	&lt;div class="child Red" style="flex-basis: 25%;">Child-1&lt;/div>
+	&lt;div class="child Blue" style="flex-basis: 25%;">Child-2&lt;/div>
+	&lt;div class="child Green" style="flex-basis: 45%;">Child-3&lt;/div>
+	&lt;div class="child Tomato" style="flex-basis: 45%;">Child-4&lt;/div>
+&lt;/div>
+</pre>
+<div class="SnippetDemo">
+	<div class="d-flex flex-column">
+		<div class="child Red" style="flex-basis: 25%;">Child-1</div>
+		<div class="child Blue" style="flex-basis: 25%;">Child-2</div>
+		<div class="child Green" style="flex-basis: 45%;">Child-3</div>
+		<div class="child Tomato" style="flex-basis: 45%;">Child-4</div>
 	</div>
-	<p>
-		As you can see, each flex item has equal width. So flex-basis doesn't work when flex-direction is column? Yes it does. But when the flex-direction is column, flex-basis becomes the height of the flex-item. But still in the above output, there's no effect of flex-basis. This is because the parent div doesn't have any any specified height. As height always behaves different than the width in the browser, you must specify a height of the parent div to make the flex-basis work. So the following will work -
-	</p>
-	<pre>
-	.parent{
-		display : flex;
-		flex-direction:column;
-		height : 800px;
-	}
-
-	&lt;div class="parent">
-		&lt;div class="child Red" style=d"flex-basis: 25%;">Child-1&lt;/div>
-		&lt;div class="child Blue" style="flex-basis: 25%;">Child-2&lt;/div>
-		&lt;div class="child Green" style="flex-basis: 55%;">Child-3&lt;/div>
-		&lt;div class="child Tomato" style="flex-basis: 25%;">Child-4&lt;/div>
-	&lt;/div>
-	</pre>
-	<div class="box">
-		<div class="parent" style="flex-direction: column; height : 800px;">
-			<div class="child Red" style="flex-basis: 25%;">Child-1</div>
-			<div class="child Blue" style="flex-basis: 25%;">Child-2</div>
-			<div class="child Green" style="flex-basis: 45%;">Child-3</div>
-			<div class="child Tomato" style="flex-basis: 45%;">Child-4</div>
-		</div>
+</div>
+<p>As you can see, each flex item has equal width. So <code>flex-basis</code> doesn't work when <code>flex-direction</code> is <code>column</code>? Yes it does. But when the <code>flex-direction</code> is <code>column</code>, <code>flex-basis</code> becomes the height of the flex item. But still in the above output, there's no effect of <code>flex-basis</code>. This is because the parent <code>div</code> doesn't have any any specified <code>height</code>. As height always behaves different than the width in the browser, you must specify a <code>height</code> of the parent <code>div</code> to make the <code>flex-basis</code> work. So the following will work:</p>
+<pre>
+&lt;div class="d-flex flex-column" style="height : 800px;">
+	&lt;div class="child Red" style="flex-basis: 25%;">Child-1&lt;/div>
+	&lt;div class="child Blue" style="flex-basis: 25%;">Child-2&lt;/div>
+	&lt;div class="child Green" style="flex-basis: 45%;">Child-3&lt;/div>
+	&lt;div class="child Tomato" style="flex-basis: 45%;">Child-4&lt;/div>
+&lt;/div>
+</pre>
+<div class="SnippetDemo">
+	<div class="d-flex flex-column" style="height : 800px;">
+		<div class="child Red" style="flex-basis: 25%;">Child-1</div>
+		<div class="child Blue" style="flex-basis: 25%;">Child-2</div>
+		<div class="child Green" style="flex-basis: 45%;">Child-3</div>
+		<div class="child Tomato" style="flex-basis: 45%;">Child-4</div>
 	</div>
+</div>
 
 
-	<h1><a name="flexWrap"></a>flex-wrap</h1>
-	<p>
-		The flex-wrap property specifies whether the flexible items should wrap or not. It defines whether the flex items are forced in a single line or can be flowed into multiple lines. The flex-wrap property can have the following three values --
-	</p>
-	<ul>
-		<li>wrap</li>
-		<li>wrap-reverse</li>
-		<li>nowrap</li>
-	</ul>
-	<h3>wrap</h3>
-	<p>
-		Let's consider the following code -
-	</p>
-	<pre>
-	.parent{
-		display : flex;
-	}		
-	&lt;div class="parent" style="width: 300px; background-color: grey; padding: 10px;">
-		&lt;div class="child Red">Child-1&lt;/div>
-		&lt;div class="child Blue">Child-2&lt;/div>
-		&lt;div class="child Green">Child-3&lt;/div>
-		&lt;div class="child Tomato">Child-4&lt;/div>
-		&lt;div class="child Red">Child-5&lt;/div>
-		&lt;div class="child Blue">Child-6&lt;/div>
-		&lt;div class="child Green">Child-7&lt;/div>
-		&lt;div class="child Tomato">Child-8&lt;/div>
-	&lt;/div>
-	</pre>
 
-	<div class="box" style="display: flex; justify-content: center; align-items: center;">
-		<div class="parent" style="width: 300px; background-color: grey; padding: 10px;">
-			<div class="child Red">Child-1</div>
-			<div class="child Blue">Child-2</div>
-			<div class="child Green">Child-3</div>
-			<div class="child Tomato">Child-4</div>
-			<div class="child Red">Child-5</div>
-			<div class="child Blue">Child-6</div>
-			<div class="child Green">Child-7</div>
-			<div class="child Tomato">Child-8</div>
-		</div>
+
+
+
+
+	
+	
+<h1><a name="flexWrap"></a>flex-wrap</h1>
+<p>The <code>flex-wrap</code> property specifies whether the flexible items should wrap or not. It defines whether the flex items are forced in a single line or can be flowed into multiple lines. The <code>flex-wrap</code> property can have the following three values:</p>
+<ol>
+	<li>wrap</li>
+	<li>wrap-reverse</li>
+	<li>nowrap</li>
+</ol>
+
+
+<h2>flex-wrap: wrap;</h2>
+<p>Let's understand this property through some examples.</p>
+
+
+
+<h3>Example One : Without flex-wrap</h3>
+<p>Let's consider the following code:</p>
+<pre>	
+&lt;div class="d-flex" style="width: 300px; background-color: grey; padding: 10px;">
+	&lt;div class="Red">Child-1&lt;/div>
+	&lt;div class="Blue">Child-2&lt;/div>
+	&lt;div class="Green">Child-3&lt;/div>
+	&lt;div class="Tomato">Child-4&lt;/div>
+	&lt;div class="Red">Child-5&lt;/div>
+	&lt;div class="Blue">Child-6&lt;/div>
+	&lt;div class="Green">Child-7&lt;/div>
+	&lt;div class="Tomato">Child-8&lt;/div>
+&lt;/div>
+</pre>	
+<div class="SnippetDemo">
+	<div class="d-flex" style="width: 300px; background-color: grey; padding: 10px;">
+		<div class="Red">Child-1</div>
+		<div class="Blue">Child-2</div>
+		<div class="Green">Child-3</div>
+		<div class="Tomato">Child-4</div>
+		<div class="Red">Child-5</div>
+		<div class="Blue">Child-6</div>
+		<div class="Green">Child-7</div>
+		<div class="Tomato">Child-8</div>
 	</div>
-	<p>
-		As you can see we have limit the width of the parent to 300px. But within this div we have 8 div which clearly cannot be fit inside the parent. So it overflows. But it is forced to be in a single line. It didn't wrap by default. If we want to wrap the div so that each child item stays within the parent width we have to explicitly set the flex-wrap property to the parent div. Consider the following example -
-	</p>
+</div>
+<p>As you can see we have limit the width of the parent to <code>300px</code>. But within this <code>div</code> we have 8 div which clearly cannot be fit inside the parent. So it overflows. But it is forced to be in a single line. It didn't wrap by default. If we want to wrap the <code>div</code> so that each child item stays within the parent <code>width</code> we have to explicitly set the <code>flex-wrap</code> property to the parent <code>div</code>.</p>
 
-	<pre>
-	.parent{
-		display : flex;
-		flex-wrap : wrap;
-	}		
-	&lt;div class="parent" style="width: 300px; background-color: grey; padding: 10px;">
-		&lt;div class="child Red">Child-1&lt;/div>
-		&lt;div class="child Blue">Child-2&lt;/div>
-		&lt;div class="child Green">Child-3&lt;/div>
-		&lt;div class="child Tomato">Child-4&lt;/div>
-		&lt;div class="child Red">Child-5&lt;/div>
-		&lt;div class="child Blue">Child-6&lt;/div>
-		&lt;div class="child Green">Child-7&lt;/div>
-		&lt;div class="child Tomato">Child-8&lt;/div>
-	&lt;/div>
-	</pre>
-	<div class="box" style="display: flex; justify-content: center; align-items: center;">
-		<div class="parent" style="width: 300px; background-color: grey; padding: 10px; flex-wrap: wrap;">
-			<div class="child Red">Child-1</div>
-			<div class="child Blue">Child-2</div>
-			<div class="child Green">Child-3</div>
-			<div class="child Tomato">Child-4</div>
-			<div class="child Red">Child-5</div>
-			<div class="child Blue">Child-6</div>
-			<div class="child Green">Child-7</div>
-			<div class="child Tomato">Child-8</div>
-		</div>
+
+
+<h3>Example Two : flex-wrap without height</h3>
+<p>Consider the following example:</p>
+<pre>
+&lt;div class="d-flex flex-wrap" style="width: 300px; background-color: grey; padding: 10px;">
+	&lt;div class="Red">Child-1&lt;/div>
+	&lt;div class="Blue">Child-2&lt;/div>
+	&lt;div class="Green">Child-3&lt;/div>
+	&lt;div class="Tomato">Child-4&lt;/div>
+	&lt;div class="Red">Child-5&lt;/div>
+	&lt;div class="Blue">Child-6&lt;/div>
+	&lt;div class="Green">Child-7&lt;/div>
+	&lt;div class="Tomato">Child-8&lt;/div>
+&lt;/div>
+</pre>
+<div class="SnippetDemo">
+	<div class="d-flex flex-wrap" style="width: 300px; background-color: grey; padding: 10px;">
+		<div class="Red">Child-1</div>
+		<div class="Blue">Child-2</div>
+		<div class="Green">Child-3</div>
+		<div class="Tomato">Child-4</div>
+		<div class="Red">Child-5</div>
+		<div class="Blue">Child-6</div>
+		<div class="Green">Child-7</div>
+		<div class="Tomato">Child-8</div>
 	</div>
-	<p>
-		As you can see the effect of the flex-wrap property in the output. Within the parent we can accomodate only 5 child div, so the browser span rest of the divs in the new row. If you have 100s of child div, the browser will keep creating new row to place the next divs, but they will never exceeds the width of the parent.
-	</p>
-	<p>
-		Now what if you have the limit of height of the parent element? Well the divs will overflow vertically rather than horizontally. Consider the following where there is also limit on the height -
-	</p>
-	<pre>
-	.parent{
-		display : flex;
-		flex-wrap : wrap;
-	}		
-	&lt;div class="parent" style="width: 300px; height: 60px; background-color: grey; padding: 10px;">
-		&lt;div class="child Red">Child-1&lt;/div>
-		&lt;div class="child Blue">Child-2&lt;/div>
-		&lt;div class="child Green">Child-3&lt;/div>
-		&lt;div class="child Tomato">Child-4&lt;/div>
-		&lt;div class="child Red">Child-5&lt;/div>
-		&lt;div class="child Blue">Child-6&lt;/div>
-		&lt;div class="child Green">Child-7&lt;/div>
-		&lt;div class="child Tomato">Child-8&lt;/div>
-	&lt;/div>
-	</pre>
-	<div class="box" style="display: flex; justify-content: center; align-items: center;">
-		<div class="parent" style="width: 300px; height: 60px; background-color: grey; padding: 10px; flex-wrap: wrap;">
-			<div class="child Red">Child-1</div>
-			<div class="child Blue">Child-2</div>
-			<div class="child Green">Child-3</div>
-			<div class="child Tomato">Child-4</div>
-			<div class="child Red">Child-5</div>
-			<div class="child Blue">Child-6</div>
-			<div class="child Green">Child-7</div>
-			<div class="child Tomato">Child-8</div>
-		</div>
+</div>
+<p>As you can see the effect of the <code>flex-wrap</code> property in the output. Within the parent we can accomodate only 5 child <code>div</code>, so the browser span rest of the divs in the new row. If you have 100s of child <code>div</code>, the browser will keep creating new row to place the next divs, but they will never exceeds the <code>width</code> of the parent.</p>
+<p>Now what if you have the limit of <code>height</code> of the parent element? Well the divs will overflow vertically rather than horizontally.</p>
+
+
+
+
+<h3>Example Three : flex-wrap with height</h3>
+<p>Consider the following where there is also limit on the <code>height</code>:</p>
+<pre>
+&lt;div class="d-flex flex-wrap" style="width: 300px; height: 200px; background-color: grey; padding: 10px;">
+	&lt;div class="Red">Child-1&lt;/div>
+	&lt;div class="Blue">Child-2&lt;/div>
+	&lt;div class="Green">Child-3&lt;/div>
+	&lt;div class="Tomato">Child-4&lt;/div>
+	&lt;div class="Red">Child-5&lt;/div>
+	&lt;div class="Blue">Child-6&lt;/div>
+	&lt;div class="Green">Child-7&lt;/div>
+	&lt;div class="Tomato">Child-8&lt;/div>
+	&lt;div class="Red">Child-1&lt;/div>
+	&lt;div class="Blue">Child-2&lt;/div>
+	&lt;div class="Green">Child-3&lt;/div>
+	&lt;div class="Tomato">Child-4&lt;/div>
+	&lt;div class="Red">Child-5&lt;/div>
+	&lt;div class="Blue">Child-6&lt;/div>
+	&lt;div class="Green">Child-7&lt;/div>
+	&lt;div class="Tomato">Child-8&lt;/div>
+	&lt;div class="Red">Child-1&lt;/div>
+	&lt;div class="Blue">Child-2&lt;/div>
+	&lt;div class="Green">Child-3&lt;/div>
+	&lt;div class="Tomato">Child-4&lt;/div>
+	&lt;div class="Red">Child-5&lt;/div>
+	&lt;div class="Blue">Child-6&lt;/div>
+	&lt;div class="Green">Child-7&lt;/div>
+	&lt;div class="Tomato">Child-8&lt;/div>
+&lt;/div>
+</pre>
+<div class="SnippetDemo" style="padding-bottom: 100px;">
+	<div class="d-flex flex-wrap" style="width: 300px; height: 200px; background-color: grey; padding: 10px;">
+		<div class="Red">Child-1</div>
+		<div class="Blue">Child-2</div>
+		<div class="Green">Child-3</div>
+		<div class="Tomato">Child-4</div>
+		<div class="Red">Child-5</div>
+		<div class="Blue">Child-6</div>
+		<div class="Green">Child-7</div>
+		<div class="Tomato">Child-8</div>
+		<div class="Red">Child-1</div>
+		<div class="Blue">Child-2</div>
+		<div class="Green">Child-3</div>
+		<div class="Tomato">Child-4</div>
+		<div class="Red">Child-5</div>
+		<div class="Blue">Child-6</div>
+		<div class="Green">Child-7</div>
+		<div class="Tomato">Child-8</div>
+		<div class="Red">Child-1</div>
+		<div class="Blue">Child-2</div>
+		<div class="Green">Child-3</div>
+		<div class="Tomato">Child-4</div>
+		<div class="Red">Child-5</div>
+		<div class="Blue">Child-6</div>
+		<div class="Green">Child-7</div>
+		<div class="Tomato">Child-8</div>
 	</div>
-	<p>
-		The flex-wrap property works well with flex property on child div. Consider the following example -
-	</p>
-	<pre>
-	.parent{
-		display : flex;
-		flex-wrap : wrap;
-	}
-	&lt;div class="parent" style="width: 300px; background-color: grey; padding: 10px;">
-		&lt;div class="child Red" style="flex:1;">Child-1&lt;/div>
-		&lt;div class="child Blue" style="flex:1;">Child-2&lt;/div>
-		&lt;div class="child Green" style="flex:1;">Child-3&lt;/div>
-		&lt;div class="child Tomato" style="flex:1;">Child-4&lt;/div>
-		&lt;div class="child Red" style="flex:1;">Child-5&lt;/div>
-		&lt;div class="child Blue" style="flex:1;">Child-6&lt;/div>
-		&lt;div class="child Green" style="flex:1;">Child-7&lt;/div>
-		&lt;div class="child Tomato" style="flex:1;">Child-8&lt;/div>
-	&lt;/div>
-	</pre>
-	<div class="box" style="display: flex; justify-content: center; align-items: center;">
-		<div class="parent" style="width: 300px; background-color: grey; padding: 10px; flex-wrap: wrap;">
-			<div class="child Red" style="flex: 1;">Child-1</div>
-			<div class="child Blue" style="flex: 1;">Child-2</div>
-			<div class="child Green" style="flex: 1;">Child-3</div>
-			<div class="child Tomato" style="flex: 1;">Child-4</div>
-			<div class="child Red" style="flex: 1;">Child-5</div>
-			<div class="child Blue" style="flex: 1;">Child-6</div>
-			<div class="child Green" style="flex: 1;">Child-7</div>
-			<div class="child Tomato" style="flex: 1;">Child-8</div>
-		</div>
+</div>
+
+
+
+<h3>Example Four : flex-wrap with 'flex: 1;' on children elements</h3>
+<p>The <code>flex-wrap</code> property works well with <code>flex</code> property on child div. Consider the following example:</p>	
+<pre>
+&lt;div class="d-flex flex-wrap" style="width: 300px; background-color: grey; padding: 10px;">
+	&lt;div class="flex-one Red">Child-1&lt;/div>
+	&lt;div class="flex-one Blue">Child-2&lt;/div>
+	&lt;div class="flex-one Green">Child-3&lt;/div>
+	&lt;div class="flex-one Tomato">Child-4&lt;/div>
+	&lt;div class="flex-one Red">Child-5&lt;/div>
+	&lt;div class="flex-one Blue">Child-6&lt;/div>
+	&lt;div class="flex-one Green">Child-7&lt;/div>
+	&lt;div class="flex-one Tomato">Child-8&lt;/div>
+&lt;/div>
+</pre>
+<div class="SnippetDemo">
+	<div class="d-flex flex-wrap" style="width: 300px; background-color: grey; padding: 10px;">
+		<div class="flex-one Red">Child-1</div>
+		<div class="flex-one Blue">Child-2</div>
+		<div class="flex-one Green">Child-3</div>
+		<div class="flex-one Tomato">Child-4</div>
+		<div class="flex-one Red">Child-5</div>
+		<div class="flex-one Blue">Child-6</div>
+		<div class="flex-one Green">Child-7</div>
+		<div class="flex-one Tomato">Child-8</div>
 	</div>
-	<p>
-		As you can see, 6 blocks are on the top row while the rest two blocks span on the next line. And because of "flex: 1" property each div on a line is taking equal width of the another block on the same line. The browser calculates maximum how many div can be accomodated on a single row. After placing maximum blocks on the first row, the rest of the blocks span on the second row. This process goes on untill all the blocks are placed within the parent.
-	</p>
-	<p>
-		This behaviour changes if you use flex-grow.
-	</p>
-	<pre>
-	.parent{
-		display : flex;
-		flex-wrap : wrap;
-	}
-	&lt;div class="parent" style="width: 300px; background-color: grey; padding: 10px;">
-		&lt;div class="child Red" style="flex-grow:1;">Child-1&lt;/div>
-		&lt;div class="child Blue" style="flex-grow:1;">Child-2&lt;/div>
-		&lt;div class="child Green" style="flex-grow:1;">Child-3&lt;/div>
-		&lt;div class="child Tomato" style="flex-grow:1;">Child-4&lt;/div>
-		&lt;div class="child Red" style="flex-grow:1;">Child-5&lt;/div>
-		&lt;div class="child Blue" style="flex-grow:1;">Child-6&lt;/div>
-		&lt;div class="child Green" style="flex-grow:1;">Child-7&lt;/div>
-		&lt;div class="child Tomato" style="flex-grow:1;">Child-8&lt;/div>
-	&lt;/div>
-	</pre>
-	<div class="box" style="display: flex; justify-content: center; align-items: center;">
-		<div class="parent" style="width: 300px; background-color: grey; padding: 10px; flex-wrap: wrap;">
-			<div class="child Red" style="flex-grow: 1;">Child-1</div>
-			<div class="child Blue" style="flex-grow: 1;">Child-2</div>
-			<div class="child Green" style="flex-grow: 1;">Child-3</div>
-			<div class="child Tomato" style="flex-grow: 1;">Child-4</div>
-			<div class="child Red" style="flex-grow: 1;">Child-5</div>
-			<div class="child Blue" style="flex-grow: 1;">Child-6</div>
-			<div class="child Green" style="flex-grow: 1;">Child-7</div>
-			<div class="child Tomato" style="flex-grow: 1;">Child-8</div>
-		</div>
+</div>
+<p>As you can see, 5 blocks are on the top row while the rest 3 blocks span on the next line. And because of "flex: 1" property each child <code>div</code> on a line is taking equal width of the another block on the same line. The browser calculates maximum how many <code>div</code> can be accomodated on a single row. After placing maximum blocks on the first row, the rest of the blocks span on the second row. This process goes on untill all the blocks are placed within the parent.</p>
+
+
+
+<h3>Example Five : flex-wrap with 'flex-grow: 1;' on children elements</h3>
+<p>This behaviour doesn't change if you use <code>flex-grow</code>.</p>
+<pre>
+&lt;div class="d-flex flex-wrap" style="width: 300px; background-color: grey; padding: 10px;">
+	&lt;div class="flex-grow Red">Child-1&lt;/div>
+	&lt;div class="flex-grow Blue">Child-2&lt;/div>
+	&lt;div class="flex-grow Green">Child-3&lt;/div>
+	&lt;div class="flex-grow Tomato">Child-4&lt;/div>
+	&lt;div class="flex-grow Red">Child-5&lt;/div>
+	&lt;div class="flex-grow Blue">Child-6&lt;/div>
+	&lt;div class="flex-grow Green">Child-7&lt;/div>
+	&lt;div class="flex-grow Tomato">Child-8&lt;/div>
+&lt;/div>
+</pre>
+<div class="SnippetDemo">
+	<div class="d-flex flex-wrap" style="width: 300px; background-color: grey; padding: 10px;">
+		<div class="flex-grow Red">Child-1</div>
+		<div class="flex-grow Blue">Child-2</div>
+		<div class="flex-grow Green">Child-3</div>
+		<div class="flex-grow Tomato">Child-4</div>
+		<div class="flex-grow Red">Child-5</div>
+		<div class="flex-grow Blue">Child-6</div>
+		<div class="flex-grow Green">Child-7</div>
+		<div class="flex-grow Tomato">Child-8</div>
 	</div>
-	<p>
-		We just changed the flex property with the flex-grow property. And now, instead of 6, 5 blocks are on the first row. If you remember, only 5 blocks can be fit perfectly within its parent without streching or squeezing the child div. Still there's some space left after placing 5 blocks on the first row. The sixth div cannot be perfectly fit within its remaining space in the first row. Now if you are using "flex", things might seem unpredicatble. The browser will decide what to do with the sixth block. The browser internally determines whether to place the sixth block on the first row or span it on the next line. If the browser has to place it within the first row, then all the div including itself on that row have to squeeze a little bit to accomodate 6 block. In some situation the sixth block may appear on the next line. This is unpredictable. But if you use "flex-grow", you are explicitily telling browser not to squeeze any block in any situation, the blocks can only grow. And that's why when we are using "flex-grow", the first row will contain blocks which can be perfectly fit within it without squeezing it's width.
-	</p>
-	<p>
-		In real life flex-wrap is used with the "flex-basis" and "flex-grow" together so that the layout stays within our control. Consider the above example where we want to place first three block on the first row, next four block on the second row and then in the third row the last block. So let's do it -
-	</p>
-	<pre>
-	.parent{
-		display : flex;
-		flex-wrap : wrap;
-	}
-	&lt;div class="parent" style="width: 300px; background-color: grey; padding: 10px;">
-		&lt;div class="child Red" style="flex-grow:1; flex-basis: 70px">Child-1&lt;/div>
-		&lt;div class="child Blue" style="flex-grow:1; flex-basis: 70px">Child-2&lt;/div>
-		&lt;div class="child Green" style="flex-grow:1; flex-basis: 70px">Child-3&lt;/div>
-		&lt;div class="child Tomato" style="flex-grow:1; flex-basis: 100px;">Child-4&lt;/div>
-		&lt;div class="child Red" style="flex-grow:1; flex-basis: 50px;">Child-5&lt;/div>
-		&lt;div class="child Blue" style="flex-grow:1; flex-basis: 50px;">Child-6&lt;/div>
-		&lt;div class="child Green" style="flex-grow:1; flex-basis: 50px;">Child-7&lt;/div>
-		&lt;div class="child Tomato" style="flex-grow:1; flex-basis: 200px;">Child-8&lt;/div>
-	&lt;/div>
-	</pre>
-	<div class="box" style="display: flex; justify-content: center; align-items: center;">
-		<div class="parent" style="width: 300px; background-color: grey; padding: 10px; flex-wrap: wrap-reverse;">
-			<div class="child Red" style="flex-grow: 1; flex-basis: 70px;">Child-1</div>
-			<div class="child Blue" style="flex-grow: 1; flex-basis: 70px;">Child-2</div>
-			<div class="child Green" style="flex-grow: 1; flex-basis: 70px;">Child-3</div>
-			<div class="child Tomato" style="flex-grow: 1; flex-basis: 100px;">Child-4</div>
-			<div class="child Red" style="flex-grow: 1; flex-basis: 50px;">Child-5</div>
-			<div class="child Blue" style="flex-grow: 1; flex-basis: 50px;">Child-6</div>
-			<div class="child Green" style="flex-grow: 1; flex-basis: 50px;">Child-7</div>
-			<div class="child Tomato" style="flex-grow: 1; flex-basis: 200px;">Child-8</div>
-		</div>
+</div>
+
+
+
+<h3>Example Six : flex-wrap with 'flex-grow: 1;' and 'flex-basis' on children elements</h3>
+<p>In real life <code>flex-wrap</code> is used with the <code>flex-basis</code> and <code>flex-grow</code> together so that the layout stays within our control. Consider the above example where we want to place first three block on the first row, next four block on the second row and then in the third row the last block. So let's do it:</p>
+<pre>
+&lt;div class="d-flex flex-wrap" style="width: 300px; background-color: grey; padding: 10px;">
+	&lt;div class="flex-grow Red" style="flex-basis: 70px;">Child-1&lt;/div>
+	&lt;div class="flex-grow Blue" style="flex-basis: 70px;">Child-2&lt;/div>
+	&lt;div class="flex-grow Green" style="flex-basis: 70px;">Child-3&lt;/div>
+	&lt;div class="flex-grow Tomato" style="flex-basis: 100px;">Child-4&lt;/div>
+	&lt;div class="flex-grow Red" style="flex-basis: 50px;">Child-5&lt;/div>
+	&lt;div class="flex-grow Blue" style="flex-basis: 50px;">Child-6&lt;/div>
+	&lt;div class="flex-grow Green" style="flex-basis: 50px;">Child-7&lt;/div>
+	&lt;div class="flex-grow Tomato" style="flex-basis: 200px;">Child-8&lt;/div>
+&lt;/div>
+</pre>
+<div class="SnippetDemo">
+	<div class="d-flex flex-wrap" style="width: 300px; background-color: grey; padding: 10px;">
+		<div class="flex-grow Red" style="flex-basis: 70px;">Child-1</div>
+		<div class="flex-grow Blue" style="flex-basis: 70px;">Child-2</div>
+		<div class="flex-grow Green" style="flex-basis: 70px;">Child-3</div>
+		<div class="flex-grow Tomato" style="flex-basis: 100px;">Child-4</div>
+		<div class="flex-grow Red" style="flex-basis: 50px;">Child-5</div>
+		<div class="flex-grow Blue" style="flex-basis: 50px;">Child-6</div>
+		<div class="flex-grow Green" style="flex-basis: 50px;">Child-7</div>
+		<div class="flex-grow Tomato" style="flex-basis: 200px;">Child-8</div>
 	</div>
-	<p>
-		This is how it works. The browser places three blocks on the first row which yields 210px in total. As the parent has 300px width so there is still 90px space left to accomodate the next block with 100px width. But 100px cannot be placed within 90px area. So browser push the fourth block on the next line and because of "flex-grow" property the three blocks on the first row takes equal width and fill the whole line. As the blocks are having "flex-grow" property, browsers are not squeezing them. If the blocks didn't have "flex-grow" property, the fourth blocks would have been in the first block.
-	</p>
-	<h3>wrap-reverse</h3>
-	<p>
-		The flex-wrap can take another value "wrap-reverse". In the above example, try changing the value and see the effects how it goes. The mechanism is same but the row order are reversed. It means the last row appears first and so on.
-	</p>
-	<h3>nowrap</h3>
-	<p>
-		This is the default value, which means initially the child block won't span on the next line.
-	</p>
-
-	<h1><a name="justifyContent"></a>justify-content</h1>
-	<p>
-		This property takes different value and align items horizontally accordingly. It takes the following values -
-	</p>
-	<ul>
-		<li>flex-start</li>
-		<li>flex-end</li>
-		<li>center</li>
-		<li>space-between</li>
-		<li>space-around</li>
-		<li>space-evenly</li>
-	</ul>
-	<h3>flex-start</h3>
-	<p>
-		This value position the item at the beginning of the element.
-	</p>
-	<pre>
-	&lt;div style="display: flex; justify-content: flex-start; background: grey; padding: 20px; height: 200px;">
-		&lt;div>Block 1&lt;/div>
-		&lt;div>Block 2&lt;/div>
-		&lt;div>Block 3&lt;/div>
-	&lt;/div>
-	</pre>
-	<div class="box">
-		<div style="display: flex; justify-content: flex-start; background: grey; padding: 20px; height: 200px;">
-			<div style="color: #fff; padding: 10px; background: red; display: flex; justify-content: center; align-items: center; margin: 5px;">Block 1</div>
-			<div style="color: #fff; padding: 10px; background: blue; display: flex; justify-content: center; align-items: center; margin: 5px;">Block 2</div>
-			<div style="color: #fff; padding: 10px; background: yellow; display: flex; justify-content: center; align-items: center; margin: 5px;">Block 3</div>
-		</div>
+</div>
+<p>This is how it works. The browser places three blocks on the first row which yields <code>210px</code> in total. As the parent has <code>300px</code> width so there is still <code>90px</code> space left to accomodate the next block of <code>100px</code> width. But <code>100px</code> cannot be placed within <code>90px</code> area. So browser push the fourth block on the next line and because of <code>flex-grow</code> property the three blocks on the first row takes equal width and fill the whole line. As the blocks are having <code>flex-grow</code> property, browsers are not squeezing them. Without the <code>flex-grow</code> property, the blocks won't grow to fill the whole width.</p>
+<pre>
+&lt;div class="d-flex flex-wrap" style="width: 300px; background-color: grey; padding: 10px;">
+	&lt;div class="Red" style="flex-basis: 70px;">Child-1&lt;/div>
+	&lt;div class="Blue" style="flex-basis: 70px;">Child-2&lt;/div>
+	&lt;div class="Green" style="flex-basis: 70px;">Child-3&lt;/div>
+	&lt;div class="Tomato" style="flex-basis: 100px;">Child-4&lt;/div>
+	&lt;div class="Red" style="flex-basis: 50px;">Child-5&lt;/div>
+	&lt;div class="Blue" style="flex-basis: 50px;">Child-6&lt;/div>
+	&lt;div class="Green" style="flex-basis: 50px;">Child-7&lt;/div>
+	&lt;div class="Tomato" style="flex-basis: 200px;">Child-8&lt;/div>
+&lt;/div>
+</pre>
+<div class="SnippetDemo">
+	<div class="d-flex flex-wrap" style="width: 300px; background-color: grey; padding: 10px;">
+		<div class="Red" style="flex-basis: 70px;">Child-1</div>
+		<div class="Blue" style="flex-basis: 70px;">Child-2</div>
+		<div class="Green" style="flex-basis: 70px;">Child-3</div>
+		<div class="Tomato" style="flex-basis: 100px;">Child-4</div>
+		<div class="Red" style="flex-basis: 50px;">Child-5</div>
+		<div class="Blue" style="flex-basis: 50px;">Child-6</div>
+		<div class="Green" style="flex-basis: 50px;">Child-7</div>
+		<div class="Tomato" style="flex-basis: 200px;">Child-8</div>
 	</div>
-	<h3>flex-end</h3>
-	<p>
-		This value position the items at the end of the element.
-	</p>
-	<pre>
-	&lt;div style="display: flex; justify-content: flex-end; background: grey; padding: 20px; height: 200px;">
-		&lt;div>Block 1&lt;/div>
-		&lt;div>Block 2&lt;/div>
-		&lt;div>Block 3&lt;/div>
-	&lt;/div>
-	</pre>
-	<div class="box">
-		<div style="display: flex; justify-content: flex-end; background: grey; padding: 20px; height: 200px;">
-			<div style="color: #fff; padding: 10px; background: red; display: flex; justify-content: center; align-items: center; margin: 5px;">Block 1</div>
-			<div style="color: #fff; padding: 10px; background: blue; display: flex; justify-content: center; align-items: center; margin: 5px;">Block 2</div>
-			<div style="color: #fff; padding: 10px; background: yellow; display: flex; justify-content: center; align-items: center; margin: 5px;">Block 3</div>
-		</div>
+</div>
+
+	
+
+
+
+
+
+	
+	
+<h2>wrap-reverse</h2>
+<p>The <code>flex-wrap</code> can take another value <code>wrap-reverse</code>. In the above example, try changing the value and see the effects how it goes. The mechanism is same but the row order are reversed. It means the last row appears first and so on.</p>
+<div class="SnippetDemo">
+	<div class="d-flex flex-wrap-reverse" style="width: 300px; background-color: grey; padding: 10px;">
+		<div class="Red" style="flex-basis: 70px;">Child-1</div>
+		<div class="Blue" style="flex-basis: 70px;">Child-2</div>
+		<div class="Green" style="flex-basis: 70px;">Child-3</div>
+		<div class="Tomato" style="flex-basis: 100px;">Child-4</div>
+		<div class="Red" style="flex-basis: 50px;">Child-5</div>
+		<div class="Blue" style="flex-basis: 50px;">Child-6</div>
+		<div class="Green" style="flex-basis: 50px;">Child-7</div>
+		<div class="Tomato" style="flex-basis: 200px;">Child-8</div>
 	</div>
-	<h3>center</h3>
-	<p>
-		This value position the item at the center (horizontally) of the element.
-	</p>
-	<pre>
-	&lt;div style="display: flex; justify-content: center; background: grey; padding: 20px; height: 200px;">
-		&lt;div>Block 1&lt;/div>
-		&lt;div>Block 2&lt;/div>
-		&lt;div>Block 3&lt;/div>
-	&lt;/div>
-	</pre>
-	<div class="box">
-		<div style="display: flex; justify-content: center; background: grey; padding: 20px; height: 200px;">
-			<div style="color: #fff; padding: 10px; background: red; display: flex; justify-content: center; align-items: center; margin: 5px;">Block 1</div>
-			<div style="color: #fff; padding: 10px; background: blue; display: flex; justify-content: center; align-items: center; margin: 5px;">Block 2</div>
-			<div style="color: #fff; padding: 10px; background: yellow; display: flex; justify-content: center; align-items: center; margin: 5px;">Block 3</div>
-		</div>
+</div>
+
+
+
+
+
+
+
+<h2>nowrap</h2>
+<p>This is the default value, which means initially the child block won't span on the next line.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+<h1><a name="justifyContent"></a>justify-content</h1>
+<p>This property takes different value and align items horizontally accordingly. It takes the following values:</p>
+<ol>
+	<li>flex-start</li>
+	<li>flex-end</li>
+	<li>center</li>
+	<li>space-between</li>
+	<li>space-around</li>
+	<li>space-evenly</li>
+</ol>
+
+
+
+
+<h2>flex-start</h2>
+<p>This value position the item at the beginning of the element.</p>
+<pre>
+&lt;div class="d-flex justify-content-start border full-width">
+	&lt;div class="Red">Child-1&lt;/div>
+	&lt;div class="Blue">Child-2&lt;/div>
+	&lt;div class="Green">Child-3&lt;/div>
+	&lt;div class="Tomato">Child-4&lt;/div>
+&lt;/div>
+</pre>
+<div class="SnippetDemo">
+	<div class="d-flex justify-content-start border full-width">
+		<div class="Red">Child-1</div>
+		<div class="Blue">Child-2</div>
+		<div class="Green">Child-3</div>
+		<div class="Tomato">Child-4</div>
 	</div>
+</div>
+	
 
-	<h3>space-between</h3>
-	<p>
-		Items are evenly distributed in the line; first item is on the start line, last item on the end line. It means space in between the child blocks are equally distributed.
-	</p>
-	<pre>
-	&lt;div style="display: flex; justify-content: space-between; background: grey; padding: 20px; height: 200px;">
-		&lt;div>Block 1&lt;/div>
-		&lt;div>Block 2&lt;/div>
-		&lt;div>Block 3&lt;/div>
-	&lt;/div>
-	</pre>
-	<div class="box">
-		<div style="display: flex; justify-content: space-between; background: grey; padding: 20px; height: 200px;">
-			<div style="color: #fff; padding: 10px; background: red; display: flex; justify-content: center; align-items: center; margin: 5px;">Block 1</div>
-			<div style="color: #fff; padding: 10px; background: blue; display: flex; justify-content: center; align-items: center; margin: 5px;">Block 2</div>
-			<div style="color: #fff; padding: 10px; background: yellow; display: flex; justify-content: center; align-items: center; margin: 5px;">Block 3</div>
-		</div>
+
+
+
+
+
+
+
+
+<h2>flex-end</h2>
+<p>This value position the items at the end of the element.</p>
+<pre>
+&lt;div class="d-flex justify-content-end border full-width">
+	&lt;div class="Red">Child-1&lt;/div>
+	&lt;div class="Blue">Child-2&lt;/div>
+	&lt;div class="Green">Child-3&lt;/div>
+	&lt;div class="Tomato">Child-4&lt;/div>
+&lt;/div>
+</pre>
+<div class="SnippetDemo">
+	<div class="d-flex justify-content-end border full-width">
+		<div class="Red">Child-1</div>
+		<div class="Blue">Child-2</div>
+		<div class="Green">Child-3</div>
+		<div class="Tomato">Child-4</div>
 	</div>
+</div>
 
-	<h3>space-around</h3>
-	<p>
-		Items are evenly distributed in the line with equal space around them. It means if a block has 20px of space on it's left side, then on the right side there will be 20px space. This way for each block there will be same amount of space on it's both left and right side. So between two block total there will be 40px of space.
-	</p>
-	<pre>
-	&lt;div style="display: flex; justify-content: space-around; background: grey; padding: 20px; height: 200px;">
-		&lt;div>Block 1&lt;/div>
-		&lt;div>Block 2&lt;/div>
-		&lt;div>Block 3&lt;/div>
-	&lt;/div>
-	</pre>
-	<div class="box">
-		<div style="display: flex; justify-content: space-around; background: grey; padding: 20px; height: 200px;">
-			<div style="color: #fff; padding: 10px; background: red; display: flex; justify-content: center; align-items: center; margin: 5px;">Block 1</div>
-			<div style="color: #fff; padding: 10px; background: blue; display: flex; justify-content: center; align-items: center; margin: 5px;">Block 2</div>
-			<div style="color: #fff; padding: 10px; background: yellow; display: flex; justify-content: center; align-items: center; margin: 5px;">Block 3</div>
-		</div>
+
+
+
+
+
+
+
+
+<h2>center</h2>
+<p>This value position the item at the center (horizontally) of the element.</p>
+<pre>
+&lt;div class="d-flex justify-content-center border full-width">
+	&lt;div class="Red">Child-1&lt;/div>
+	&lt;div class="Blue">Child-2&lt;/div>
+	&lt;div class="Green">Child-3&lt;/div>
+	&lt;div class="Tomato">Child-4&lt;/div>
+&lt;/div>
+</pre>
+<div class="SnippetDemo">
+	<div class="d-flex justify-content-center border full-width">
+		<div class="Red">Child-1</div>
+		<div class="Blue">Child-2</div>
+		<div class="Green">Child-3</div>
+		<div class="Tomato">Child-4</div>
 	</div>
+</div>
 
-	<h3>space-evenly</h3>
-	<p>
-		Items are distributed so that the spacing between any two adjacent alignment subjects, before the first alignment subject, and after the last alignment subject is the same. If a block has 20px space on it's left side, then the same amount of space is created in between each block.
-	</p>
-	<pre>
-	&lt;div style="display: flex; justify-content: space-evenly; background: grey; padding: 20px; height: 200px;">
-		&lt;div>Block 1&lt;/div>
-		&lt;div>Block 2&lt;/div>
-		&lt;div>Block 3&lt;/div>
-	&lt;/div>
-	</pre>
-	<div class="box">
-		<div style="display: flex; justify-content: space-evenly; background: grey; padding: 20px; height: 200px;">
-			<div style="color: #fff; padding: 10px; background: red; display: flex; justify-content: center; align-items: center; margin: 5px;">Block 1</div>
-			<div style="color: #fff; padding: 10px; background: blue; display: flex; justify-content: center; align-items: center; margin: 5px;">Block 2</div>
-			<div style="color: #fff; padding: 10px; background: yellow; display: flex; justify-content: center; align-items: center; margin: 5px;">Block 3</div>
-		</div>
+
+
+
+
+
+
+
+<h2>space-between</h2>
+<p>Items are evenly distributed in the line; first item is on the start line, last item on the end line. It means space in between the child blocks are equally distributed.</p>
+<pre>
+&lt;div class="d-flex justify-content-space-between border full-width">
+	&lt;div class="Red">Child-1&lt;/div>
+	&lt;div class="Blue">Child-2&lt;/div>
+	&lt;div class="Green">Child-3&lt;/div>
+	&lt;div class="Tomato">Child-4&lt;/div>
+&lt;/div>
+</pre>
+<div class="SnippetDemo">
+	<div class="d-flex justify-content-space-between border full-width">
+		<div class="Red">Child-1</div>
+		<div class="Blue">Child-2</div>
+		<div class="Green">Child-3</div>
+		<div class="Tomato">Child-4</div>
 	</div>
+</div>
 
-	<h1><a name="alignItems"></a>align-items</h1>
-	<p>The align items specifies how the element is positioned within a container vertically (When flex-direction is row). It can take the following values -</p>
-	<ul>
-		<li>flex-start</li>
-		<li>flex-end</li>
-		<li>center</li>
-		<li>baseline</li>
-		<li>stretch</li>
-	</ul>
 
-	<h3>flex-start</h3>
-	<p>
-		Items are positioned at the top of the container.
-	</p>
-	<pre>
-	&lt;div style="display: flex; justify-content: center; align-items: flex-start; background: grey; padding: 20px; height: 200px;">
-		&lt;div>Block 1&lt;/div>
-		&lt;div>Block 2&lt;/div>
-		&lt;div>Block 3&lt;/div>
-	&lt;/div>
-	</pre>
-	<div class="box">
-		<div style="display: flex; justify-content: center; align-items: flex-start; background: grey; padding: 20px; height: 200px;">
-			<div style="color: #fff; padding: 10px; background: red; display: flex; justify-content: center; align-items: center; margin: 5px;">Block 1</div>
-			<div style="color: #fff; padding: 10px; background: blue; display: flex; justify-content: center; align-items: center; margin: 5px;">Block 2</div>
-			<div style="color: #fff; padding: 10px; background: yellow; display: flex; justify-content: center; align-items: center; margin: 5px;">Block 3</div>
-		</div>
+
+
+
+
+
+
+
+
+<h3>space-around</h3>
+<p>Items are evenly distributed in the line with equal space around them. It means if a block has <code>20px</code> of space on it's left side, then on the right side there will be <code>20px</code> space. This way for each block there will be same amount of space on it's both left and right side. So between two block total there will be <code>40px</code> of space.</p>
+<pre>
+&lt;div class="d-flex justify-content-space-around border full-width">
+	&lt;div class="Red">Child-1&lt;/div>
+	&lt;div class="Blue">Child-2&lt;/div>
+	&lt;div class="Green">Child-3&lt;/div>
+	&lt;div class="Tomato">Child-4&lt;/div>
+&lt;/div>
+</pre>
+<div class="SnippetDemo">
+	<div class="d-flex justify-content-space-around border full-width">
+		<div class="Red">Child-1</div>
+		<div class="Blue">Child-2</div>
+		<div class="Green">Child-3</div>
+		<div class="Tomato">Child-4</div>
 	</div>
+</div>
 
-	<h3>flex-end</h3>
-	<p>
-		Items are positioned at the bottom of the container.
-	</p>
-	<pre>
-	&lt;div style="display: flex; justify-content: center; align-items: flex-end; background: grey; padding: 20px; height: 200px;">
-		&lt;div>Block 1&lt;/div>
-		&lt;div>Block 2&lt;/div>
-		&lt;div>Block 3&lt;/div>
-	&lt;/div>
-	</pre>
-	<div class="box">
-		<div style="display: flex; justify-content: center; align-items: flex-end; background: grey; padding: 20px; height: 200px;">
-			<div style="color: #fff; padding: 10px; background: red; display: flex; justify-content: center; align-items: center; margin: 5px;">Block 1</div>
-			<div style="color: #fff; padding: 10px; background: blue; display: flex; justify-content: center; align-items: center; margin: 5px;">Block 2</div>
-			<div style="color: #fff; padding: 10px; background: yellow; display: flex; justify-content: center; align-items: center; margin: 5px;">Block 3</div>
-		</div>
+
+
+
+
+
+
+
+<h3>space-evenly</h3>
+<p>Items are distributed so that the spacing between any two adjacent alignment subjects, before the first alignment subject, and after the last alignment subject is the same. If a block has <code>20px</code> space on it's left side, then the same amount of space is created in between each block.</p>
+<pre>
+&lt;div class="d-flex justify-content-space-evenly border full-width">
+	&lt;div class="Red">Child-1&lt;/div>
+	&lt;div class="Blue">Child-2&lt;/div>
+	&lt;div class="Green">Child-3&lt;/div>
+	&lt;div class="Tomato">Child-4&lt;/div>
+&lt;/div>
+</pre>
+<div class="SnippetDemo">
+	<div class="d-flex justify-content-space-evenly border full-width">
+		<div class="Red">Child-1</div>
+		<div class="Blue">Child-2</div>
+		<div class="Green">Child-3</div>
+		<div class="Tomato">Child-4</div>
 	</div>
+</div>
 
 
-	<h3>center</h3>
-	<p>
-		Items are positioned at the center of the container.
-	</p>
-	<pre>
-	&lt;div style="display: flex; justify-content: center; align-items: center; background: grey; padding: 20px; height: 200px;">
-		&lt;div>Block 1&lt;/div>
-		&lt;div>Block 2&lt;/div>
-		&lt;div>Block 3&lt;/div>
-	&lt;/div>
-	</pre>
-	<div class="box">
-		<div style="display: flex; justify-content: center; align-items: center; background: grey; padding: 20px; height: 200px;">
-			<div style="color: #fff; padding: 10px; background: red; display: flex; justify-content: center; align-items: center; margin: 5px;">Block 1</div>
-			<div style="color: #fff; padding: 10px; background: blue; display: flex; justify-content: center; align-items: center; margin: 5px;">Block 2</div>
-			<div style="color: #fff; padding: 10px; background: yellow; display: flex; justify-content: center; align-items: center; margin: 5px;">Block 3</div>
-		</div>
+
+
+
+
+
+<h1><a name="alignItems"></a>align-items</h1>
+<p>The align items specifies how the element is positioned within a container vertically (When <code>flex-direction</code> is <code>row</code>). It can take the following values:</p>
+<ol>
+	<li>flex-start</li>
+	<li>flex-end</li>
+	<li>center</li>
+	<li>baseline</li>
+	<li>stretch</li>
+</ol>
+
+
+
+
+
+
+<h2>flex-start</h2>
+<p>Items are positioned at the top of the container.</p>
+<pre>
+&lt;div class="d-flex align-items-start border height-200">
+	&lt;div class="Red">Child-1&lt;/div>
+	&lt;div class="Blue">Child-2&lt;/div>
+	&lt;div class="Green">Child-3&lt;/div>
+	&lt;div class="Tomato">Child-4&lt;/div>
+&lt;/div>
+</pre>
+<div class="SnippetDemo">
+	<div class="d-flex align-items-start border height-200">
+		<div class="Red">Child-1</div>
+		<div class="Blue">Child-2</div>
+		<div class="Green">Child-3</div>
+		<div class="Tomato">Child-4</div>
 	</div>
+</div>
 
-	<h3>baseline</h3>
-	<p>Baseline is same as flex-start value. Where flex-start works with the block, the baseline works with the content inside them. Consider the following example where we have set different height for three different blocks to make the demo understandable -</p>
-	<pre>
-	&lt;div style="display: flex; justify-content: center; align-items: baseline; background: grey; padding: 20px; height: 200px;">
-		&lt;div>Block 1&lt;/div>
-		&lt;div>Block 2&lt;/div>
-		&lt;div>Block 3&lt;/div>
-	&lt;/div>
-	</pre>
-	<div class="box">
-		<div style="display: flex; justify-content: center; align-items: baseline; background: grey; padding: 20px; height: 350px;">
-			<div style="color: #fff; height: 70px; padding: 10px; background: red; display: flex; justify-content: center; align-items: center; margin: 5px;">Block 1</div>
-			<div style="color: #fff; height: 100px; padding: 10px; background: blue; display: flex; justify-content: center; align-items: center; margin: 5px;">Block 2</div>
-			<div style="color: #fff; height: 50px; padding: 10px; background: yellow; display: flex; justify-content: center; align-items: center; margin: 5px;">Block 3</div>
-		</div>
+
+
+
+
+
+
+
+<h3>flex-end</h3>
+<p>Items are positioned at the bottom of the container.</p>
+<pre>
+&lt;div class="d-flex align-items-end border height-200">
+	&lt;div class="Red">Child-1&lt;/div>
+	&lt;div class="Blue">Child-2&lt;/div>
+	&lt;div class="Green">Child-3&lt;/div>
+	&lt;div class="Tomato">Child-4&lt;/div>
+&lt;/div>
+</pre>
+<div class="SnippetDemo">
+	<div class="d-flex align-items-end border height-200">
+		<div class="Red">Child-1</div>
+		<div class="Blue">Child-2</div>
+		<div class="Green">Child-3</div>
+		<div class="Tomato">Child-4</div>
 	</div>
-	<p>
-		As you can see, the baseline aligns items at the beginning of the container. But they are not positioned in the right order. If you notice the order is according to the block's content. That's why the content within them in the same line. Let's look at another example where we are positioning the first block's content as flex-end.
-	</p>
-	<pre>
-	&lt;div style="display: flex; justify-content: center; align-items: baseline; background: grey; padding: 20px; height: 200px;">
-		&lt;div>Block 1&lt;/div>
-		&lt;div>Block 2&lt;/div>
-		&lt;div>Block 3&lt;/div>
-	&lt;/div>
-	</pre>
-	<div class="box">
-		<div style="display: flex; justify-content: center; align-items: baseline; background: grey; padding: 20px; height: 350px;">
-			<div style="color: #fff; height: 70px; padding: 10px; background: red; display: flex; justify-content: center; align-items: flex-start; margin: 5px;">Block 1</div>
-			<div style="color: #fff; height: 100px; padding: 10px; background: blue; display: flex; justify-content: center; align-items: center; margin: 5px;">Block 2</div>
-			<div style="color: #fff; height: 50px; padding: 10px; background: yellow; display: flex; justify-content: center; align-items: center; margin: 5px;">Block 3</div>
-		</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+<h3>center</h3>
+<p>Items are positioned at the center of the container.</p>
+<pre>
+&lt;div class="d-flex align-items-center border height-200">
+	&lt;div class="Red">Child-1&lt;/div>
+	&lt;div class="Blue">Child-2&lt;/div>
+	&lt;div class="Green">Child-3&lt;/div>
+	&lt;div class="Tomato">Child-4&lt;/div>
+&lt;/div>
+</pre>
+<div class="SnippetDemo">
+	<div class="d-flex align-items-center border height-200">
+		<div class="Red">Child-1</div>
+		<div class="Blue">Child-2</div>
+		<div class="Green">Child-3</div>
+		<div class="Tomato">Child-4</div>
 	</div>
-	<p>
-		See? The content within the blocks are in the same line. This value doesn't care about the block's line. Baseline is dependent on their content. In real life application this value is used vary rarely. But it's good to know.
-	</p>
+</div>
 
-	<h3>stretch</h3>
-	<p>This is the default value if you don't use flex-items property. This value stretches the item so that the blocks takes the full width of the Container. If you notice in the justify-content examples, all the blockes are stretched and taking full height. This is because we were not using flex-items property. So to stop this behaviour you must either use flex-items property or height property to these blocks.</p>
 
-	<pre>
-	&lt;div style="display: flex; justify-content: center; align-items: stretch; background: grey; padding: 20px; height: 200px;">
-		&lt;div>Block 1&lt;/div>
-		&lt;div>Block 2&lt;/div>
-		&lt;div>Block 3&lt;/div>
-	&lt;/div>
-	</pre>
-	<div class="box">
-		<div style="display: flex; justify-content: center; align-items: stretch; background: grey; padding: 20px; height: 350px;">
-			<div style="color: #fff; padding: 10px; background: red; display: flex; justify-content: center; align-items: flex-start; margin: 5px;">Block 1</div>
-			<div style="color: #fff; padding: 10px; background: blue; display: flex; justify-content: center; align-items: center; margin: 5px;">Block 2</div>
-			<div style="color: #fff; padding: 10px; background: yellow; display: flex; justify-content: center; align-items: center; margin: 5px;">Block 3</div>
-		</div>
+
+
+
+
+
+
+
+<h3>baseline</h3>
+<p>Baseline is same as <code>flex-start</code> value. Where <code>flex-start</code> works with the block, the baseline works with the content inside them. Consider the following example where we have set different height for three different blocks to make the demo understandable:</p>
+<pre>
+&lt;div class="d-flex align-items-baseline border height-500">
+	&lt;div class="Red height-100 d-flex align-items-center">Child-1&lt;/div>
+	&lt;div class="Blue height-250 d-flex align-items-start">Child-2&lt;/div>
+	&lt;div class="Green height-200 d-flex align-items-end">Child-3&lt;/div>
+	&lt;div class="Tomato height-150 d-flex align-items-start">Child-4&lt;/div>
+&lt;/div>
+</pre>
+<div class="SnippetDemo">
+	<div class="d-flex align-items-baseline border height-500">
+		<div class="Red height-100 d-flex align-items-center">Child-1</div>
+		<div class="Blue height-250 d-flex align-items-start">Child-2</div>
+		<div class="Green height-200 d-flex align-items-end">Child-3</div>
+		<div class="Tomato height-150 d-flex align-items-start">Child-4</div>
 	</div>
-
-	<h1><a name="flexGrow"></a>flex-grow</h1>
-	<p>It defines the ability for a flex item to grow if necessary. It accepts a unitless value that serves as a proportion. It dictates what amount of the available space inside the flex container the item should take up.</p>
-	<p>For example, if all items have flex-grow set to 1, every child will set to an equal size inside the container. If you were to give one of the children a value of 2, that child would take up twice as much space as the others.</p>
-
-	<pre>
-	&lt;div class="box">
-		&lt;div style="display: flex;">
-			&lt;div class="Red" style="flex-grow: 1;">&lt;/div>
-			&lt;div class="Blue" style="flex-grow: 2;">&lt;/div>
-			&lt;div class="Tomato" style="flex-grow: 1;">&lt;/div>
-		&lt;/div>
-	&lt;/div>
-	</pre>
-
-	<div class="box">
-		<div style="display: flex;">
-			<div class="Red" style="flex-grow: 1;"></div>
-			<div class="Blue" style="flex-grow: 2;"></div>
-			<div class="Tomato" style="flex-grow: 1;"></div>
-		</div>
+</div>
+<p>As you can see, the baseline aligns items at the beginning of the container. But they are not positioned in the right order. If you notice the order is according to the block's content. That's why the content within them in the same line. Let's look at another example where we are positioning the first block's content as <code>flex-end</code>.</p>
+<pre>
+&lt;div class="d-flex align-items-baseline border height-500">
+	&lt;div class="Red height-100 d-flex align-items-center">Child-1&lt;/div>
+	&lt;div class="Blue height-250 d-flex align-items-start">Child-2&lt;/div>
+	&lt;div class="Green height-200 d-flex align-items-end">Child-3&lt;/div>
+	&lt;div class="Tomato height-150 d-flex align-items-start">Child-4&lt;/div>
+&lt;/div>
+</pre>
+<div class="SnippetDemo">
+	<div class="d-flex align-items-baseline border height-500">
+		<div class="Red height-100 d-flex align-items-end">Child-1</div>
+		<div class="Blue height-250 d-flex align-items-start">Child-2</div>
+		<div class="Green height-200 d-flex align-items-end">Child-3</div>
+		<div class="Tomato height-150 d-flex align-items-start">Child-4</div>
 	</div>
-	<p>Notice, the blue box is taking twice space as the other as it is set to flex-grow 2. All items have a flex-grow value of 1 except the second one which has a flex-grow value of 2. It means when the available space is distributed, the second flex-item will have twice as much space as others.</p>
+</div>
+<p>See? The content within the blocks are in the same line. This value doesn't care about the block's line. Baseline is dependent on their content. In real life application this value is used vary rarely. But it's good to know.</p>
 
-	<p>flex-grow can be work together with flex-basis to control the width of blocks. For example your parent container has the width 500px, and you want to have two blocks which has the width 230px and 200px. These two blocks certainly can fit within the parent container. But it would leave extra 70px of space empty. If you want to distribute the remaining space within them use flex-grow property to these blocks. The width of these two blocks will increase according to the value of flex-grow. For example, if your first block's flex-grow is 3 and the second block's flex-grow is 2, then the remaining space will be distributed with the ratio 3:2.
-	</p>
-	<pre>
-	&lt;div class="box">
-		&lt;div style="display: flex; width: 500px;">
-			&lt;div class="Red" style="flex-grow: 3; flex-basis: 230px;">&lt;/div>
-			&lt;div class="Blue" style="flex-grow: 2; flex-basis: 200px;">&lt;/div>
-		&lt;/div>
-	&lt;/div>
-	</pre>
 
-	<div class="box">
-		<div style="display: flex; width: 500px;">
-			<div class="Red" style="flex-grow: 3; flex-basis: 230px;"></div>
-			<div class="Blue" style="flex-grow: 2; flex-basis: 200px;"></div>
-		</div>
+
+
+
+	
+	
+	
+
+<h3>stretch</h3>
+<p>This is the default value if you don't use <code>align-items</code> property. This value stretches the item so that the blocks takes the full height of the Container. If you notice in the justify-content examples, all the blockes are stretched and taking full height. This is because we were not using <code>align-items</code> property. So to stop this behaviour you must either use <code>align-items</code> property or height property to these blocks.</p>
+<pre>
+&lt;div class="d-flex align-items-stretch border height-500">
+	&lt;div class="Red d-flex align-items-start justify-content-center">Child-1&lt;/div>
+	&lt;div class="Blue d-flex align-items-center justify-content-center">Child-2&lt;/div>
+	&lt;div class="Green d-flex align-items-end justify-content-center">Child-3&lt;/div>
+&lt;/div>
+</pre>
+<div class="SnippetDemo">
+	<div class="d-flex align-items-stretch border height-500">
+		<div class="Red d-flex align-items-start justify-content-center">Child-1</div>
+		<div class="Blue d-flex align-items-center justify-content-center">Child-2</div>
+		<div class="Green d-flex align-items-end justify-content-center">Child-3</div>
 	</div>
+</div>
 
-	<h1><a name="flexShrink"></a>flex-shrink</h1>
-	<p>It specifies the "flex shrink factor", which determines how much the flex item will shrink relative to the rest of the flex items in the flex container when there isn't enough space on the row.</p>
 
-	<pre>
-	&lt;div class="box">
-		&lt;div style="display: flex; width: 500px; background: grey; padding: 10px;">
-			&lt;div class="Red" style="flex-basis: 430px;">&lt;/div>
-			&lt;div class="Blue" style="flex-basis: 300px;">&lt;/div>
-		&lt;/div>
-	&lt;/div>
-	</pre>
 
-	<div class="box">
-		<div style="display: flex; width: 500px; background: grey; padding: 10px;">
-			<div class="Red" style="flex-basis: 430px;"></div>
-			<div class="Blue" style="flex-basis: 300px;"></div>
-		</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h1><a name="flexGrow"></a>flex-grow</h1>
+<p>It defines the ability for a flex item to grow if necessary. It accepts a unitless value that serves as a proportion. It dictates what amount of the available space inside the flex container the item should take up.</p>
+
+<h3>Example One: Equal width when flex-grow is 1</h3>
+<p>For example, if all items have <code>flex-grow</code> set to <code>1</code>, every child will set to an equal size inside the container. If you were to give one of the children a value of <code>2</code>, that child would take up twice as much space as the others.</p>
+<pre>
+&lt;div class="d-flex width-300">
+	&lt;div class="Red flex-grow-1">&lt;/div>
+	&lt;div class="Blue flex-grow-1">&lt;/div>
+	&lt;div class="Tomato flex-grow-1">&lt;/div>
+&lt;/div>
+</pre>
+<div class="SnippetDemo">
+	<div class="d-flex width-300">
+		<div class="Red flex-grow-1"></div>
+		<div class="Blue flex-grow-1"></div>
+		<div class="Tomato flex-grow-1"></div>
 	</div>
+</div>
 
-	<p>
-		In the above example, total we have 500px and within it we are trying to accomodate 730px width containier. In the above example flex-shrink is not applied so by default it is set to 1. It means all the blocks within the container will shrink by the same amount of width to fit within its container. In the following example, we set flex-shrink to 0. It means there will no shrinkage. Thus all the block will take the specified width and it will cause overflow.
-	</p>
 
-	<pre>
-	&lt;div class="box">
-		&lt;div style="display: flex; width: 500px; background: grey; padding: 10px;">
-			&lt;div class="Red" style="flex-shrink: 0; flex-basis: 430px;">&lt;/div>
-			&lt;div class="Blue" style="flex-shrink: 0; flex-basis: 300px;">&lt;/div>
-		&lt;/div>
-	&lt;/div>
-	</pre>
 
-	<div class="box">
-		<div style="display: flex; width: 500px; background: grey; padding: 10px;">
-			<div class="Red" style="flex-shrink: 0; flex-basis: 430px;"></div>
-			<div class="Blue" style="flex-shrink: 0; flex-basis: 300px;"></div>
-		</div>
+<h3>Example Two: When flex-grow is 2</h3>
+<pre>
+&lt;div class="d-flex width-300">
+	&lt;div class="Red flex-grow-1">&lt;/div>
+	&lt;div class="Blue flex-grow-2">&lt;/div>
+	&lt;div class="Tomato flex-grow-1">&lt;/div>
+&lt;/div>
+</pre>
+<div class="SnippetDemo">
+	<div class="d-flex width-300">
+		<div class="Red flex-grow-1"></div>
+		<div class="Blue flex-grow-2"></div>
+		<div class="Tomato flex-grow-1"></div>
 	</div>
+</div>
+<p>Notice, the blue box is taking twice space as the other as its <code>flex-grow</code> is set to <code>2</code>. All items have a <code>flex-grow</code> value of <code>1</code> except the second one which has a <code>flex-grow</code> value of <code>2</code>. It means when the available space is distributed, the second <code>flex-item</code> will have twice as much space as others.</p>
 
-	<p>
-		In the following example, we set flex-shrink with different amount. The second block is set to 2 and first block is set to 1.
-	</p>
 
-	<pre>
-	&lt;div class="box">
-		&lt;div style="display: flex; width: 500px; background: grey; padding: 10px;">
-			&lt;div class="Red" style="flex-shrink: 1; flex-basis: 430px;">&lt;/div>
-			&lt;div class="Blue" style="flex-shrink: 2; flex-basis: 300px;">&lt;/div>
-		&lt;/div>
-	&lt;/div>
-	</pre>		
 
-	<div class="box">
-		<div style="display: flex; width: 500px; background: grey; padding: 10px;">
-			<div class="Red" style="flex-shrink: 1; flex-basis: 430px;"></div>
-			<div class="Blue" style="flex-shrink: 2; flex-basis: 300px;"></div>
-		</div>
+
+<h3>Example Three: Using flex-grow with flex-basis</h3>
+<p>The property <code>flex-grow</code> can be work together with <code>flex-basis</code> to control the width of blocks. For example, your parent container has the <code>width</code> <code>500px</code>, and you want to have two blocks which has the <code>flex-basis</code> <code>230px</code> and <code>200px</code>. These two blocks certainly can fit within the parent container. But it would leave extra <code>70px</code> of space empty. If you want to distribute the remaining space within them use <code>flex-grow</code> property to these blocks. The width of these two blocks will increase according to the value of <code>flex-grow</code>. For example, if your first block's <code>flex-grow</code> is <code>3</code> and the second block's <code>flex-grow</code> is <code>2</code>, then the remaining space will be distributed with the ratio <code>3:2</code>.</p>
+<pre>
+&lt;div class="d-flex width-500">
+	&lt;div class="Red flex-grow-3" style="flex-basis: 230px;">&lt;/div>
+	&lt;div class="Blue flex-grow-2" style="flex-basis: 200px;">&lt;/div>
+&lt;/div>
+</pre>
+<div class="SnippetDemo">
+	<div class="d-flex width-500">
+		<div class="Red flex-grow-3" style="flex-basis: 230px;"></div>
+		<div class="Blue flex-grow-2" style="flex-basis: 200px;"></div>
 	</div>
-	<p>As you can see in the above example, the second block will shrink twice as of the first block.</p>
+</div>
 
-	<h1><a name="flexFlow"></a>flex-flow</h1>
-	<p>
-		It is a shorthand for flex-direction and flex-wrap. You can specify one or two values, no matter the order.
-	</p>
 
-	<pre>
-	&lt;div class="box">
-		&lt;div style="display: flex; flex-flow:wrap row; background: grey; padding: 10px;">
-			&lt;div class="Red" style="flex-basis: 300px; margin: 5px; flex-grow: 1;">&lt;/div>
-			&lt;div class="Blue" style="flex-basis: 300px; margin: 5px; flex-grow: 1;">&lt;/div>
-			&lt;div class="Green" style="flex-basis: 300px; margin: 5px; flex-grow: 1;">&lt;/div>
-			&lt;div class="Tomato" style="flex-basis: 300px; margin: 5px; flex-grow: 1;">&lt;/div>
-			&lt;div class="Blue" style="flex-basis: 300px; margin: 5px; flex-grow: 1;">&lt;/div>
-			&lt;div class="Green" style="flex-basis: 300px; margin: 5px; flex-grow: 1;">&lt;/div>
-			&lt;div class="Red" style="flex-basis: 300px; margin: 5px; flex-grow: 1;">&lt;/div>
-		&lt;/div>
-	&lt;/div>
-	</pre>
 
-	<div class="box">
-		<div style="display: flex; flex-flow:wrap row; background: grey; padding: 10px;">
-			<div class="Red" style="flex-basis: 300px; margin: 5px; flex-grow: 1;"></div>
-			<div class="Blue" style="flex-basis: 300px; margin: 5px; flex-grow: 1;"></div>
-			<div class="Green" style="flex-basis: 300px; margin: 5px; flex-grow: 1;"></div>
-			<div class="Tomato" style="flex-basis: 300px; margin: 5px; flex-grow: 1;"></div>
-			<div class="Blue" style="flex-basis: 300px; margin: 5px; flex-grow: 1;"></div>
-			<div class="Green" style="flex-basis: 300px; margin: 5px; flex-grow: 1;"></div>
-			<div class="Red" style="flex-basis: 300px; margin: 5px; flex-grow: 1;"></div>
-		</div>
+
+
+
+
+
+
+
+
+
+
+
+
+<h1><a name="flexShrink"></a>flex-shrink</h1>
+<p>It specifies the "flex shrink factor", which determines how much the flex item will shrink relative to the rest of the flex items in the flex container when there isn't enough space on the row.</p>
+<pre>
+&lt;div class="d-flex width-500" style="background-color: green;">
+	&lt;div class="Red" style="flex-basis: 430px;">&lt;/div>
+	&lt;div class="Blue" style="flex-basis: 300px;">&lt;/div>
+&lt;/div>
+</pre>
+<div class="SnippetDemo">
+	<div class="d-flex width-500" style="background-color: green;">
+		<div class="Red" style="flex-basis: 430px;"></div>
+		<div class="Blue" style="flex-basis: 300px;"></div>
 	</div>
-
-	<h1><a name="alignSelf"></a>align-self</h1>
-	<p>It makes possible to override the align-items value for specific flex items.</p>
-
-	<pre>
-	&lt;div style="display: flex; height: 500px; align-items: flex-start; flex-flow:wrap row; background: grey; padding: 10px;">
-		&lt;div class="Red" style="flex:1; margin: 5px;">&lt;/div>
-		&lt;div class="Blue" style="flex:1; margin: 5px;">&lt;/div>
-		&lt;div class="Green" style="flex:1; margin: 5px; align-self: baseline; padding: 15px;">Hello World&lt;/div>
-		&lt;div class="Tomato" style="flex:1; margin: 5px; align-self: stretch; ">&lt;/div>
-		&lt;div class="Blue" style="flex: 1; margin: 5px; align-self: flex-end;">&lt;/div>
-		&lt;div class="Green" style="flex:1; margin: 5px; align-self: center;">&lt;/div>
-		&lt;div class="Red" style="flex:1; margin: 5px;">&lt;/div>
-	&lt;/div>
-	</pre>
-
-	<div class="box">
-		<div style="display: flex; height: 500px; align-items: flex-start; flex-flow:wrap row; background: grey; padding: 10px;">
-			<div class="Red" style="flex:1; margin: 5px;"></div>
-			<div class="Blue" style="flex:1; margin: 5px;"></div>
-			<div class="Green" style="flex:1; margin: 5px; align-self: baseline; padding: 15px;">Hello World</div>
-			<div class="Tomato" style="flex:1; margin: 5px; align-self: stretch; "></div>
-			<div class="Blue" style="flex: 1; margin: 5px; align-self: flex-end;"></div>
-			<div class="Green" style="flex:1; margin: 5px; align-self: center;"></div>
-			<div class="Red" style="flex:1; margin: 5px;"></div>
-		</div>
+</div>
+<p>In the above example, total we have <code>500px</code> and within it we are trying to accomodate a <code>div</code> which has width of <code>730px</code>. In the above example <code>flex-shrink</code> is not applied so by default it is set to <code>1</code>. It means all the blocks within the container will shrink by the same amount of width to fit within its container. In the following example, we set <code>flex-shrink</code> to <code>0</code>. It means there will no shrinkage. Thus all the block will take the specified width and it will cause overflow.</p>
+<div class="SnippetDemo">
+	<div class="d-flex width-500" style="background-color: green;">
+		<div class="Red flex-shrink-0" style="flex-basis: 430px;"></div>
+		<div class="Blue flex-shrink-0" style="flex-basis: 300px;"></div>
 	</div>
-
-	<h1><a name="order"></a>order</h1>
-	<p>Flex items are displayed in the same order as they appear in the source document by default. The order property can be used to change this ordering.</p>
-
-	<pre>
-	&lt;div class="box">
-		&lt;div style="display: flex; align-items: flex-start; flex-flow:wrap row; background: grey; padding: 10px;">
-			&lt;div style="margin: 5px; display: flex; justify-content: center; align-items: center; color: #fff; width: 100px; height: 100px;" class="Red">Box - 1&lt;/div>
-			&lt;div style="margin: 5px; display: flex; justify-content: center; align-items: center; color: #fff; width: 100px; height: 100px;" class="Red">Box - 2&lt;/div>
-			&lt;div style="margin: 5px; display: flex; justify-content: center; align-items: center; color: #fff; width: 100px; height: 100px;" class="Red">Box - 3&lt;/div>
-			&lt;div style="margin: 5px; display: flex; justify-content: center; align-items: center; color: #fff; width: 100px; height: 100px;" class="Red">Box - 4&lt;/div>
-			&lt;div style="margin: 5px; display: flex; justify-content: center; align-items: center; color: #fff; width: 100px; height: 100px;" class="Red">Box - 5&lt;/div>
-			&lt;div style="margin: 5px; display: flex; justify-content: center; align-items: center; color: #fff; width: 100px; height: 100px;" class="Red">Box - 6&lt;/div>
-			&lt;div style="margin: 5px; display: flex; justify-content: center; align-items: center; color: #fff; width: 100px; height: 100px;" class="Red">Box - 7&lt;/div>
-			&lt;div style="margin: 5px; display: flex; justify-content: center; align-items: center; color: #fff; width: 100px; height: 100px;" class="Red">Box - 8&lt;/div>
-			&lt;div style="margin: 5px; display: flex; justify-content: center; align-items: center; color: #fff; width: 100px; height: 100px;" class="Red">Box - 9&lt;/div>
-		&lt;/div>
-	&lt;/div>
-	</pre>
-
-	<div class="box">
-		<div style="display: flex; align-items: flex-start; flex-flow:wrap row; background: grey; padding: 10px;">
-			<div style="margin: 5px; display: flex; justify-content: center; align-items: center; color: #fff; width: 100px; height: 100px;" class="Red">Box - 1</div>
-			<div style="margin: 5px; display: flex; justify-content: center; align-items: center; color: #fff; width: 100px; height: 100px;" class="Red">Box - 2</div>
-			<div style="margin: 5px; display: flex; justify-content: center; align-items: center; color: #fff; width: 100px; height: 100px;" class="Red">Box - 3</div>
-			<div style="margin: 5px; display: flex; justify-content: center; align-items: center; color: #fff; width: 100px; height: 100px;" class="Red">Box - 4</div>
-			<div style="margin: 5px; display: flex; justify-content: center; align-items: center; color: #fff; width: 100px; height: 100px;" class="Red">Box - 5</div>
-			<div style="margin: 5px; display: flex; justify-content: center; align-items: center; color: #fff; width: 100px; height: 100px;" class="Red">Box - 6</div>
-			<div style="margin: 5px; display: flex; justify-content: center; align-items: center; color: #fff; width: 100px; height: 100px;" class="Red">Box - 7</div>
-			<div style="margin: 5px; display: flex; justify-content: center; align-items: center; color: #fff; width: 100px; height: 100px;" class="Red">Box - 8</div>
-			<div style="margin: 5px; display: flex; justify-content: center; align-items: center; color: #fff; width: 100px; height: 100px;" class="Red">Box - 9</div>
-		</div>
+</div>
+<p>In the following example, we set <code>flex-shrink</code> with different amount. The second block is set to <code>1</code> and first block is set to <code>0</code>.</p>
+<div class="SnippetDemo">
+	<div class="d-flex width-500" style="background-color: green;">
+		<div class="Red flex-shrink-0" style="flex-basis: 430px;"></div>
+		<div class="Blue flex-shrink-1" style="flex-basis: 300px;"></div>
 	</div>
+</div>
+<p>As you can see in the above example, the second block will shrink alone and take <code>70px</code> width as the first block will take <code>430px</code> because its <code>flex-shrink</code> is <code>0</code>.</p>
+	
 
-	<pre>
-	&lt;div class="box">
-		&lt;div style="display: flex; align-items: flex-start; flex-flow:wrap row; background: grey; padding: 10px;">
-			&lt;div style="margin: 5px; order: 1; display: flex; justify-content: center; align-items: center; color: #fff; width: 100px; height: 100px;" class="Red">Box - 1&lt;/div>
-			&lt;div style="margin: 5px; order: 3; display: flex; justify-content: center; align-items: center; color: #fff; width: 100px; height: 100px;" class="Red">Box - 2&lt;/div>
-			&lt;div style="margin: 5px; order: 5; display: flex; justify-content: center; align-items: center; color: #fff; width: 100px; height: 100px;" class="Red">Box - 3&lt;/div>
-			&lt;div style="margin: 5px; order: 4; display: flex; justify-content: center; align-items: center; color: #fff; width: 100px; height: 100px;" class="Red">Box - 4&lt;/div>
-			&lt;div style="margin: 5px; order: 2; display: flex; justify-content: center; align-items: center; color: #fff; width: 100px; height: 100px;" class="Red">Box - 5&lt;/div>
-			&lt;div style="margin: 5px; order: 7; display: flex; justify-content: center; align-items: center; color: #fff; width: 100px; height: 100px;" class="Red">Box - 6&lt;/div>
-			&lt;div style="margin: 5px; order: 6; display: flex; justify-content: center; align-items: center; color: #fff; width: 100px; height: 100px;" class="Red">Box - 7&lt;/div>
-			&lt;div style="margin: 5px; order: 8; display: flex; justify-content: center; align-items: center; color: #fff; width: 100px; height: 100px;" class="Red">Box - 8&lt;/div>
-			&lt;div style="margin: 5px; order: 9; display: flex; justify-content: center; align-items: center; color: #fff; width: 100px; height: 100px;" class="Red">Box - 9&lt;/div>
-		&lt;/div>
-	&lt;/div>
-	</pre>
+		
 
+	
+	
 
-	<div class="box">
-		<div style="display: flex; align-items: flex-start; flex-flow:wrap row; background: grey; padding: 10px;">
-			<div style="margin: 5px; order: 1; display: flex; justify-content: center; align-items: center; color: #fff; width: 100px; height: 100px;" class="Red">Box - 1</div>
-			<div style="margin: 5px; order: 3; display: flex; justify-content: center; align-items: center; color: #fff; width: 100px; height: 100px;" class="Red">Box - 2</div>
-			<div style="margin: 5px; order: 5; display: flex; justify-content: center; align-items: center; color: #fff; width: 100px; height: 100px;" class="Red">Box - 3</div>
-			<div style="margin: 5px; order: 4; display: flex; justify-content: center; align-items: center; color: #fff; width: 100px; height: 100px;" class="Red">Box - 4</div>
-			<div style="margin: 5px; order: 2; display: flex; justify-content: center; align-items: center; color: #fff; width: 100px; height: 100px;" class="Red">Box - 5</div>
-			<div style="margin: 5px; order: 7; display: flex; justify-content: center; align-items: center; color: #fff; width: 100px; height: 100px;" class="Red">Box - 6</div>
-			<div style="margin: 5px; order: 6; display: flex; justify-content: center; align-items: center; color: #fff; width: 100px; height: 100px;" class="Red">Box - 7</div>
-			<div style="margin: 5px; order: 9; display: flex; justify-content: center; align-items: center; color: #fff; width: 100px; height: 100px;" class="Red">Box - 8</div>
-			<div style="margin: 5px; order: 8; display: flex; justify-content: center; align-items: center; color: #fff; width: 100px; height: 100px;" class="Red">Box - 9</div>
-		</div>
+<h1><a name="flexFlow"></a>flex-flow</h1>
+<p>It is a shorthand for <code>flex-direction</code> and <code>flex-wrap</code>. You can specify one or two values, no matter the order.</p>
+<pre>
+&lt;div class="d-flex w-500" style="flex-flow: wrap row;">
+	&lt;div class="Red width-100 m-10">&lt;/div>
+	&lt;div class="Blue width-200 m-10">&lt;/div>
+	&lt;div class="Green width-50 m-10">&lt;/div>
+	&lt;div class="Tomato width-500 m-10">&lt;/div>
+	&lt;div class="Blue width-400 m-10">&lt;/div>
+	&lt;div class="Green width-300 m-10">&lt;/div>
+	&lt;div class="Red width-50 m-10">&lt;/div>
+&lt;/div>
+</pre>
+<div class="SnippetDemo">
+	<div class="d-flex w-500" style="flex-flow: wrap row;">
+		<div class="Red width-100 m-10"></div>
+		<div class="Blue width-200 m-10"></div>
+		<div class="Green width-50 m-10"></div>
+		<div class="Tomato width-500 m-10"></div>
+		<div class="Blue width-400 m-10"></div>
+		<div class="Green width-300 m-10"></div>
+		<div class="Red width-50 m-10"></div>
 	</div>
-
-	<h1><a name="alignContent"></a>align-content</h1>
-	<p>The align-content property modifies the behavior of the flex-wrap property. It is similar to align-items, but instead of aligning flex items, it aligns flex lines. There must be multiple lines/rows of items for this property to have any effect! This is similar to justify-content, but align-content works vertically while justify-content works horizontally</p>
-
-	<p>It can take the following values - </p>
-	<ul>
-		<li>flex-start</li>
-		<li>flex-end</li>
-		<li>center</li>
-		<li>space-between</li>
-		<li>space-around</li>
-		<li>stretch</li>
-	</ul>
+</div>
+<p>In the above example, the first value specifies the value for <code>flex-direction</code> and second value is used for <code>flex-wrap</code> property. The values can be appreared in reversed oder. Also you can provide a single value as well. The missing value will have default value.</p>
 
 
+
+
+
+
+
+
+
+
+
+
+<h1><a name="alignSelf"></a>align-self</h1>
+<p>It makes possible to override the <code>align-items</code> value for specific flex items.</p>
+<pre>
+&lt;div class="d-flex height-500 align-items-start flex-wrap" style="background-color: grey;">
+	&lt;div class="Red align-self-center">&lt;/div>
+	&lt;div class="Blue align-self-end">&lt;/div>
+	&lt;div class="Green align-self-baseline">Hello World&lt;/div>
+	&lt;div class="Tomato align-self-stretch">&lt;/div>
+	&lt;div class="Blue align-self-end">&lt;/div>
+	&lt;div class="Green align-self-center">&lt;/div>
+	&lt;div class="Red">&lt;/div>
+&lt;/div>
+</pre>
+<div class="SnippetDemo">
+	<div class="d-flex height-500 align-items-start flex-wrap" style="background-color: grey;">
+		<div class="Red align-self-center"></div>
+		<div class="Blue align-self-end"></div>
+		<div class="Green align-self-baseline">Hello World</div>
+		<div class="Tomato align-self-stretch"></div>
+		<div class="Blue align-self-end"></div>
+		<div class="Green align-self-center"></div>
+		<div class="Red"></div>
 	</div>
+</div>
+
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h1><a name="order"></a>order</h1>
+<p>Flex items are displayed in the same order as they appear in the source document by default. The order property can be used to change this ordering.</p>
+<pre>
+&lt;div class="d-flex align-items-start flex-wrap">
+	&lt;div class="Red d-flex justify-content-center align-items-center width-100 height-100 m-10">Santanu&lt;/div>
+	&lt;div class="Green d-flex justify-content-center align-items-center width-100 height-100 m-10">Labani&lt;/div>
+	&lt;div class="Yellow d-flex justify-content-center align-items-center width-100 height-100 m-10">Santanu&lt;/div>
+	&lt;div class="Blue d-flex justify-content-center align-items-center width-100 height-100 m-10">Labani&lt;/div>
+	&lt;div class="Grey d-flex justify-content-center align-items-center width-100 height-100 m-10">Santanu&lt;/div>
+&lt;/div>
+</pre>
+<div class="SnippetDemo">
+	<div class="d-flex align-items-start flex-wrap">
+		<div class="Red d-flex justify-content-center align-items-center width-100 height-100 m-10">Santanu</div>
+		<div class="Green d-flex justify-content-center align-items-center width-100 height-100 m-10">Labani</div>
+		<div class="Yellow d-flex justify-content-center align-items-center width-100 height-100 m-10">Santanu</div>
+		<div class="Blue d-flex justify-content-center align-items-center width-100 height-100 m-10">Labani</div>
+		<div class="Grey d-flex justify-content-center align-items-center width-100 height-100 m-10">Santanu</div>
+	</div>
+</div>
+<p>In the above example, the order of the boxes appears as they were written in source code. We will now change the ordering through the help of <code>order</code> property:</p>
+<pre>
+&lt;div class="d-flex align-items-start flex-wrap">
+	&lt;div style="order: 5;" class="Red d-flex justify-content-center align-items-center width-100 height-100 m-10">Santanu&lt;/div>
+	&lt;div style="order: 2;" class="Green d-flex justify-content-center align-items-center width-100 height-100 m-10">Labani&lt;/div>
+	&lt;div style="order: 4;" class="Yellow d-flex justify-content-center align-items-center width-100 height-100 m-10">Santanu&lt;/div>
+	&lt;div style="order: 1;" class="Blue d-flex justify-content-center align-items-center width-100 height-100 m-10">Labani&lt;/div>
+	&lt;div style="order: 3;" class="Grey d-flex justify-content-center align-items-center width-100 height-100 m-10">Santanu&lt;/div>
+&lt;/div>
+</pre>
+<div class="SnippetDemo">
+	<div class="d-flex align-items-start flex-wrap">
+		<div style="order: 5;" class="Red d-flex justify-content-center align-items-center width-100 height-100 m-10">Santanu</div>
+		<div style="order: 2;" class="Green d-flex justify-content-center align-items-center width-100 height-100 m-10">Labani</div>
+		<div style="order: 4;" class="Yellow d-flex justify-content-center align-items-center width-100 height-100 m-10">Santanu</div>
+		<div style="order: 1;" class="Blue d-flex justify-content-center align-items-center width-100 height-100 m-10">Labani</div>
+		<div style="order: 3;" class="Grey d-flex justify-content-center align-items-center width-100 height-100 m-10">Santanu</div>
+	</div>
+</div>
+
+
+
+
+
+
+<h1><a name="flexbox_helper_class"></a>Flexbox Helper Class</h1>
+<pre>
+.d-flex{
+	display: flex;
+}
+.flex-column{
+	flex-direction: column;
+}
+.flex-wrap{
+	flex-wrap: wrap;
+}
+.flex-wrap-reverse{
+	flex-wrap: wrap-reverse;
+}
+.flex-grow{
+	flex-grow: 1;
+}
+.flex-one{
+	flex: 1;
+}
+.justify-content-start{
+	justify-content: flex-start;
+}
+.justify-content-end{
+	justify-content: flex-end;
+}
+.justify-content-center{
+	justify-content: center;
+}
+.justify-content-space-between{
+	justify-content: space-between;
+}
+.justify-content-space-around{
+	justify-content: space-around;
+}
+.justify-content-space-evenly{
+	justify-content: space-evenly;
+}
+.align-items-start{
+	align-items: flex-start;
+}
+.align-items-end{
+	align-items: flex-end;
+}
+.align-items-center{
+	align-items: center;
+}
+.align-items-baseline{
+	align-items: baseline;
+}
+.align-items-stretch{
+	align-items: stretch;
+}
+.align-self-start{
+	align-self: flex-start;
+}
+.align-self-end{
+	align-self: flex-end;
+}
+.align-self-center{
+	align-self: center;
+}
+.align-self-baseline{
+	align-self: baseline;
+}
+.align-self-stretch{
+	align-self: stretch;
+}
+.flex-grow-1{
+	flex-grow: 1;
+}
+.flex-grow-2{
+	flex-grow: 2;
+}
+.flex-grow-3{
+	flex-grow: 3;
+}
+.flex-grow-4{
+	flex-grow: 4;
+}
+.flex-grow-5{
+	flex-grow: 5;
+}
+.flex-shrink-0{
+	flex-shrink: 0;
+}
+.flex-shrink-1{
+	flex-shrink: 1;
+}
+.flex-shrink-2{
+	flex-shrink: 2;
+}
+.flex-shrink-3{
+	flex-shrink: 3;
+}
+.flex-shrink-4{
+	flex-shrink: 4;
+}
+.flex-shrink-5{
+	flex-shrink: 5;
+}
+</pre>
+<style>
+.d-flex{
+	display: flex;
+}
+.flex-column{
+	flex-direction: column;
+}
+.flex-wrap{
+	flex-wrap: wrap;
+}
+.flex-wrap-reverse{
+	flex-wrap: wrap-reverse;
+}
+.flex-grow{
+	flex-grow: 1;
+}
+.flex-one{
+	flex: 1;
+}
+.justify-content-start{
+	justify-content: flex-start;
+}
+.justify-content-end{
+	justify-content: flex-end;
+}
+.justify-content-center{
+	justify-content: center;
+}
+.justify-content-space-between{
+	justify-content: space-between;
+}
+.justify-content-space-around{
+	justify-content: space-around;
+}
+.justify-content-space-evenly{
+	justify-content: space-evenly;
+}
+.align-items-start{
+	align-items: flex-start;
+}
+.align-items-end{
+	align-items: flex-end;
+}
+.align-items-center{
+	align-items: center;
+}
+.align-items-baseline{
+	align-items: baseline;
+}
+.align-items-stretch{
+	align-items: stretch;
+}
+.align-self-start{
+	align-self: flex-start;
+}
+.align-self-end{
+	align-self: flex-end;
+}
+.align-self-center{
+	align-self: center;
+}
+.align-self-baseline{
+	align-self: baseline;
+}
+.align-self-stretch{
+	align-self: stretch;
+}
+.flex-grow-1{
+	flex-grow: 1;
+}
+.flex-grow-2{
+	flex-grow: 2;
+}
+.flex-grow-3{
+	flex-grow: 3;
+}
+.flex-grow-4{
+	flex-grow: 4;
+}
+.flex-grow-5{
+	flex-grow: 5;
+}
+.flex-shrink-0{
+	flex-shrink: 0;
+}
+.flex-shrink-1{
+	flex-shrink: 1;
+}
+.flex-shrink-2{
+	flex-shrink: 2;
+}
+.flex-shrink-3{
+	flex-shrink: 3;
+}
+.flex-shrink-4{
+	flex-shrink: 4;
+}
+.flex-shrink-5{
+	flex-shrink: 5;
+}
+</style>
+
+
+
+
+
+
+
+
+
+</div>
 </body>
 </html>
 
