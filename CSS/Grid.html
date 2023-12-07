@@ -60,6 +60,10 @@
 <p>Before diving into the concepts of Grid it's important to understand the terminologies.</p>
 
 
+
+
+
+
 <h3>Grid Container</h3>
 <p>The element on which <code>display: grid</code> is applied. It's the direct parent of all the grid items. In the following example the root element with id <code>gridContainer</code> is called Grid Container.</p>
 <pre>
@@ -102,16 +106,42 @@
 <h3>Grid Line</h3>
 <p>The dividing lines that make up the structure of the grid. They can be either vertical ("column grid lines") or horizontal ("row grid lines") and reside on either side of a row or column. Here the yellow line is an example of a column grid line.</p>
 <img src="Assets/img/grid-line.png">
-<p>Remember that there is also a grid line on the top of the first grid row and on the bottom of the last grid row. And also on the left edge of the first column and on the right edge of the last column.</p>
+<p>Remember that there is also a grid line on the top of the first grid row and on the bottom of the last grid row. And also on the left edge of the first column and on the right edge of the last column. In the above picture, all individual lines are called grid line.</p>
+
+
+
+
+
+
+
+
+
 <h3>Grid Track</h3>
 <p>The space between two adjacent grid lines. You can think of them like the columns or rows of the grid. Here's the grid track between the second and third row grid lines.</p>
 <img src="Assets/img/grid-track.png">
+<p>In other words, each column or row is called <code>Grid Track</code>.</p>
+
+
+
+
+
+
+
 <h3>Grid Cell</h3>
 <p>The space between two adjacent row and two adjacent column grid lines. It's a single "unit" of the grid. Here's the grid cell between row grid lines 1 and 2, and column grid lines 2 and 3.</p>
 <img src="Assets/img/grid-cell.png">
+
+
+
+
+
+
+
 <h3>Grid Area</h3>
-<p>The total space surrounded by four grid lines. A grid area may be comprised of any number of grid cells. Here's the grid area between row grid lines 1 and 3, and column grid lines 1 and 3.</p>
+<p>The total space surrounded by grid lines. A grid area may be comprised of any number of grid cells. Here's the grid area between row grid lines <code>1</code> and <code>3</code>, and column grid lines <code>1</code> and <code>3</code>.</p>
 <img src="Assets/img/grid-area.png">
+
+
 
 
 
@@ -120,121 +150,84 @@
 <h1>display:grid</h1>
 <p>An HTML element becomes a grid container by setting the display property to <code>grid</code> or <code>inline-grid</code>.</p>
 <pre>
-.grid-container {
-	display: grid | inline-grid;
-}
-</pre>
-<p>Now, all direct children of the grid container automatically become grid items. Here is an example - </p>
-<pre>
-div.grid-container-1{
-	width : 500px;
-	margin: auto;
-	margin-top: 20px;
-	background-color : pink;
-	border: 1px solid black;
-	
-	display : grid;
-}
-
-
-&lt;div class="grid-container-1">
-	&lt;div class="grid-item">1&lt;/div>
-	&lt;div class="grid-item">2&lt;/div>
-	&lt;div class="grid-item">3&lt;/div>
-	&lt;div class="grid-item">4&lt;/div>
-	&lt;div class="grid-item">5&lt;/div>
-	&lt;div class="grid-item">6&lt;/div>
+&lt;div class="d-grid width-500 border">
+  &lt;div class="Red">1&lt;/div>
+  &lt;div class="Blue">2&lt;/div>
+  &lt;div class="Green">3&lt;/div>
+  &lt;div class="Tomato">4&lt;/div>
+  &lt;div class="Grey">5&lt;/div>
 &lt;/div>
 </pre>
-<div class="box">
-	<style type="text/css">
-	div.grid-container-1{
-		width : 500px;
-		margin: auto;
-		margin-top: 20px;
-		background-color : pink;
-		border: 1px solid black;
-		
-		display : grid;
-	}
-	</style>
-	<div class="grid-container-1">
-		<div class="grid-item">1</div>
-		<div class="grid-item">2</div>
-		<div class="grid-item">3</div>
-		<div class="grid-item">4</div>
-		<div class="grid-item">5</div>
-		<div class="grid-item">6</div>
+<div class="SnippetDemo">
+	<div class="d-grid width-500 border">
+		<div class="Red">1</div>
+		<div class="Blue">2</div>
+		<div class="Green">3</div>
+		<div class="Tomato">4</div>
+		<div class="Grey">5</div>
 	</div>
 </div>
 
 
 
+
+
+
+
+
+
+
+
+
 <h1>grid-template-columns</h1>
-<p>This property is used to specify the number of columns that the grid will hold. Here is the syntax -</p>
+<p>This property is used to specify the number of columns that the <code>grid</code> will hold. Here is the syntax:</p>
 <pre>
 .grid-container{
 	display : grid;
 	grid-template-columns: 50px 100px auto;
 }
 </pre>
-<p>In the example above we are specifying three column and amonth them the first column will be 50px width, second column will be 100px width and the last column will take the remaining space of the grid. Specifying the value <code>auto</code> will make the column auto adjustable. It means when you resize your grid the last column will accordingly be resized while the other fixed value column will remain with the same width which are defined on them. Here is an example -</p>
+<p>In the example above we are specifying three column and among them the first column will be <code>50px</code> width, second column will be <code>100px</code> width and the last column will take the remaining space of the grid. Specifying the value <code>auto</code> will make the column auto adjustable. It means when you resize your grid the last column will accordingly be resized while the other fixed value column will remain with the same width which are defined on them. Here is an example:</p>
 <pre>
-div.grid-container-1{
-  width : 500px;
-  margin: auto;
-  margin-top: 20px;
-  background-color : pink;
-  border: 1px solid black;
-  
-  display : grid;
-  grid-template-columns : 50px 100px auto;
-}
-.grid-item{
-	border: 1px solid black;
-}
+&lt;div class="d-grid width-500" style="grid-template-columns : 50px 100px auto;">
+  &lt;div class="Red border">1&lt;/div>
+  &lt;div class="Blue border">2&lt;/div>
+  &lt;div class="Green border">3&lt;/div>
+  &lt;div class="Tomato border">4&lt;/div>
+  &lt;div class="Grey border">5&lt;/div>
+  &lt;div class="Yellow border">6&lt;/div>
+&lt;/div>
 </pre>
-<div class="box">
-<style type="text/css">
-div.grid-container-2{
-  width : 500px;
-  margin: auto;
-  margin-top: 20px;
-  background-color : pink;
-  border: 1px solid black;
-  
-  display : grid;
-  grid-template-columns : 50px 100px auto;
-}
-.grid-item-2{
-	border: 1px solid black;
-}
-</style>
-<div class="grid-container-2">
-  <div class="grid-item-2">1</div>
-  <div class="grid-item-2">2</div>
-  <div class="grid-item-2">3</div>
-  <div class="grid-item-2">4</div>
-  <div class="grid-item-2">5</div>
-  <div class="grid-item-2">6</div>
+<div class="SnippetDemo">
+  <div class="d-grid width-500" style="grid-template-columns : 50px 100px auto;">
+		<div class="Red border">1</div>
+		<div class="Blue border">2</div>
+		<div class="Green border">3</div>
+    <div class="Tomato border">4</div>
+		<div class="Grey border">5</div>
+    <div class="Yellow border">6</div>
+	</div>
 </div>
-</div>
-<p>You can also make the second column <code>auto</code>, so that the last two column will take up equal width. You can give any width to any column according to your needs. Whatever combination you like.</p>
-<p>If you don't specify the columns width, it will have the value <code>auto</code>.</p>
+<p>You can also make the second column <code>auto</code>. You can give any width to any column according to your needs. Whatever combination you like. If you don't specify the columns width, it will have the value <code>auto</code>.</p>
 <pre>
-.grid-container{
-	grid-template-columns : 50px 100px;
-}
+&lt;div class="d-grid width-500" style="grid-template-columns : 50px auto 100px;">
+  &lt;div class="Red border">1&lt;/div>
+  &lt;div class="Blue border">2&lt;/div>
+  &lt;div class="Green border">3&lt;/div>
+  &lt;div class="Tomato border">4&lt;/div>
+  &lt;div class="Grey border">5&lt;/div>
+  &lt;div class="Yellow border">6&lt;/div>
+&lt;/div>
 </pre>
-<div class="box">
-<div class="grid-container-2">
-  <div class="grid-item-2">1</div>
-  <div class="grid-item-2">2</div>
-  <div class="grid-item-2">3</div>
-  <div class="grid-item-2">4</div>
-  <div class="grid-item-2">5</div>
-  <div class="grid-item-2">6</div>
-</div>
+<div class="SnippetDemo">
+  <div class="d-grid width-500" style="grid-template-columns : 50px auto 100px;">
+    <div class="Red border">1</div>
+    <div class="Blue border">2</div>
+    <div class="Green border">3</div>
+    <div class="Tomato border">4</div>
+    <div class="Grey border">5</div>
+    <div class="Yellow border">6</div>
+  </div>
 </div>
 
 
@@ -248,159 +241,102 @@ div.grid-container-2{
 <h1>grid-template-rows</h1>
 <p>Using this property you can define your row and their height. Just like the <code>grid-template-columns</code> this property has the same value format.</p>
 <pre>
-.grid-container{
-	display : grid;
-	grid-template-rows : 50px 150px;
-}
-</pre>
-<p>In the above example, we are specifying that, the first row will have 50px height, and the second column will take 150px height. Here is a demo -</p>
-<pre>
-div.grid-container-3{
-  width : 500px;
-  margin: auto;
-  margin-top: 20px;
-  background-color : pink;
-  border: 1px solid black;
-  
-  display : grid;
-  grid-template-columns : 50px 100px auto;
-  grid-template-rows: 50px 150px;
-}
-.grid-item-3{
-  border: 1px solid black;
-}
-
-
-&lt;div class="grid-container-3">
-  &lt;div class="grid-item-3">1&lt;/div>
-  &lt;div class="grid-item-3">2&lt;/div>
-  &lt;div class="grid-item-3">3&lt;/div>
-  &lt;div class="grid-item-3">4&lt;/div>
-  &lt;div class="grid-item-3">5&lt;/div>
-  &lt;div class="grid-item-3">6&lt;/div>
+&lt;div class="d-grid width-500" style="grid-template-columns : 50px auto 100px; grid-template-rows : 50px 100px;">
+  &lt;div class="Red border">1&lt;/div>
+  &lt;div class="Blue border">2&lt;/div>
+  &lt;div class="Green border">3&lt;/div>
+  &lt;div class="Tomato border">4&lt;/div>
+  &lt;div class="Grey border">5&lt;/div>
+  &lt;div class="Yellow border">6&lt;/div>
 &lt;/div>
 </pre>
-<div class="box">
-<style type="text/css">
-div.grid-container-3{
-  width : 500px;
-  margin: auto;
-  margin-top: 20px;
-  background-color : pink;
-  border: 1px solid black;
-  
-  display : grid;
-  grid-template-columns : 50px 100px auto;
-  grid-template-rows: 50px 150px;
-}
-.grid-item-3{
-  border: 1px solid black;
-}
-</style>
-<div class="grid-container-3">
-  <div class="grid-item-3">1</div>
-  <div class="grid-item-3">2</div>
-  <div class="grid-item-3">3</div>
-  <div class="grid-item-3">4</div>
-  <div class="grid-item-3">5</div>
-  <div class="grid-item-3">6</div>
+<div class="SnippetDemo">
+  <div class="d-grid width-500" style="grid-template-columns : 50px auto 100px; grid-template-rows : 50px 100px;">
+    <div class="Red border">1</div>
+    <div class="Blue border">2</div>
+    <div class="Green border">3</div>
+    <div class="Tomato border">4</div>
+    <div class="Grey border">5</div>
+    <div class="Yellow border">6</div>
+  </div>
 </div>
-</div>
-<p>As you can see, the first row has 50px height and the second row has 150px height. If you set the height of the grid-container, you can see the remaining space are empty.</p>
+<p>In the above example, we are specifying that, the first row will have <code>50px</code> height, and the second column will take <code>100px</code> height. If you set the height of the grid-container, you can see the remaining space are empty.</p>
 <pre>
-.grid-container-3{
-	height : 300px;
-}
+&lt;div class="d-grid width-500 height-200 border" style="grid-template-columns : 50px auto 100px; grid-template-rows : 50px 100px;">
+  &lt;div class="Red border">1&lt;/div>
+  &lt;div class="Blue border">2&lt;/div>
+  &lt;div class="Green border">3&lt;/div>
+  &lt;div class="Tomato border">4&lt;/div>
+  &lt;div class="Grey border">5&lt;/div>
+  &lt;div class="Yellow border">6&lt;/div>
+&lt;/div>
 </pre>
-<div class="box">
-<style type="text/css">
-div.grid-container-4{
-  width : 500px;
-  margin: auto;
-  margin-top: 20px;
-  background-color : pink;
-  border: 1px solid black;
-  height: 300px;
-  
-  display : grid;
-  grid-template-columns : 50px 100px auto;
-  grid-template-rows: 50px 150px;
-}
-.grid-item-4{
-  border: 1px solid black;
-}
-</style>
-<div class="grid-container-4">
-  <div class="grid-item-4">1</div>
-  <div class="grid-item-4">2</div>
-  <div class="grid-item-4">3</div>
-  <div class="grid-item-4">4</div>
-  <div class="grid-item-4">5</div>
-  <div class="grid-item-4">6</div>
+<div class="SnippetDemo">
+  <div class="d-grid width-500 height-200 border" style="grid-template-columns : 50px auto 100px; grid-template-rows : 50px 100px;">
+    <div class="Red border">1</div>
+    <div class="Blue border">2</div>
+    <div class="Green border">3</div>
+    <div class="Tomato border">4</div>
+    <div class="Grey border">5</div>
+    <div class="Yellow border">6</div>
+  </div>
 </div>
-</div>
-<p>You can make the last row take up the remaining space of the grid by setting the last value to <code>auto</code> of <code>grid-template-rows</code> property -</p>
+<p>You can make the last row take up the remaining space of the grid by setting the last value to <code>auto</code> of <code>grid-template-rows</code> property:</p>
 <pre>
-.grid-container-3{
-	grid-template-rows: 50px auto;
-}
+&lt;div class="d-grid width-500 height-200 border" style="grid-template-columns : 50px auto 100px; grid-template-rows : 50px auto;">
+  &lt;div class="Red border">1&lt;/div>
+  &lt;div class="Blue border">2&lt;/div>
+  &lt;div class="Green border">3&lt;/div>
+  &lt;div class="Tomato border">4&lt;/div>
+  &lt;div class="Grey border">5&lt;/div>
+  &lt;div class="Yellow border">6&lt;/div>
+&lt;/div>
 </pre>
-<div class="box">
-<style type="text/css">
-div.grid-container-5{
-  width : 500px;
-  margin: auto;
-  margin-top: 20px;
-  background-color : pink;
-  border: 1px solid black;
-  height: 300px;
-  
-  display : grid;
-  grid-template-columns : 50px 100px auto;
-  grid-template-rows: 50px auto;
-}
-.grid-item-5{
-  border: 1px solid black;
-}
-</style>
-<div class="grid-container-5">
-  <div class="grid-item-5">1</div>
-  <div class="grid-item-5">2</div>
-  <div class="grid-item-5">3</div>
-  <div class="grid-item-5">4</div>
-  <div class="grid-item-5">5</div>
-  <div class="grid-item-5">6</div>
+<div class="SnippetDemo">
+  <div class="d-grid width-500 height-200 border" style="grid-template-columns : 50px auto 100px; grid-template-rows : 50px auto;">
+    <div class="Red border">1</div>
+    <div class="Blue border">2</div>
+    <div class="Green border">3</div>
+    <div class="Tomato border">4</div>
+    <div class="Grey border">5</div>
+    <div class="Yellow border">6</div>
+  </div>
 </div>
-</div>
-<p>By default, the row height is <code>auto</code>. It means if you don't specify the last row height on <code>grid-template-rows</code> property, it will have the value <code>auto</code>.</p>
+<p>By default, the row height is <code>auto</code>. It means if you don't specify the last row height on <code>grid-template-rows</code> property, it will have the value <code>auto</code> value:</p>
 <pre>
-.grid-container-3{
-	grid-template-rows: 50px;
-}
+&lt;div class="d-grid width-500 height-200 border" style="grid-template-columns : 50px auto 100px; grid-template-rows : 50px;">
+  &lt;div class="Red border">1&lt;/div>
+  &lt;div class="Blue border">2&lt;/div>
+  &lt;div class="Green border">3&lt;/div>
+  &lt;div class="Tomato border">4&lt;/div>
+  &lt;div class="Grey border">5&lt;/div>
+  &lt;div class="Yellow border">6&lt;/div>
+&lt;/div>
 </pre>
-<div class="box">
-<div class="grid-container-5">
-  <div class="grid-item-5">1</div>
-  <div class="grid-item-5">2</div>
-  <div class="grid-item-5">3</div>
-  <div class="grid-item-5">4</div>
-  <div class="grid-item-5">5</div>
-  <div class="grid-item-5">6</div>
+<div class="SnippetDemo">
+  <div class="d-grid width-500 height-200 border" style="grid-template-columns : 50px auto 100px; grid-template-rows : 50px;">
+    <div class="Red border">1</div>
+    <div class="Blue border">2</div>
+    <div class="Green border">3</div>
+    <div class="Tomato border">4</div>
+    <div class="Grey border">5</div>
+    <div class="Yellow border">6</div>
+  </div>
 </div>
-</div>
+
+
+
 
 
 
 
 
 <h1>repeat()</h1>
-<p>Repeat function repeats a value for multiple times. Suppose, your grid contains 10 column and you want to have the value <code>50px</code> or <code>auto</code> for each column. You have to write <code>50px</code> or <code>auto</code> for ten times. It is not efficient and also harder to manage later times. Repeat function simplyfy this and save us some keystroke. Here is the syntax -</p>
+<p>Repeat function repeats a value for multiple times. Suppose, your grid contains 10 column and you want to have the value <code>50px</code> or <code>auto</code> for each column. You have to write <code>50px</code> or <code>auto</code> for ten times. It is not efficient and also harder to manage later times. Repeat function simplyfy this and save us some keystroke. Here is the syntax:</p>
 <pre>
-.grid-container{
-	grid-template-columns : repeat(10, 50px);
-}
+grid-template-columns : repeat(10, 50px);
 </pre>
-<p>Here the first argument specifies how many times the function will repeat and the second argument specifies what to repeat. So in the above example, <code>50px</code> will be repeated 10 times. The above example is equivalent to -</p>
+<p>Here the first argument specifies how many times the function will repeat and the second argument specifies what to repeat. So in the above example, <code>50px</code> will be repeated 10 times. The above example is equivalent to:</p>
 <pre>
 grid-teplate-columns : 50px 50px 50px 50px 50px 50px 50px 50px 50px 50px;
 </pre>
@@ -410,82 +346,41 @@ grid-teplate-columns : 50px 50px 50px 50px 50px 50px 50px 50px 50px 50px;
 
 
 
+
 <h1>The fr Unit</h1>
-<p><code>fr</code> stands for fraction. It is the ratio you can specify. Let's say you have 500px grid container with three column. You want to give 100px to the middle column and the remaining space will be equally divided for first and last column. You can do it with <code>fr</code> unit like this -</p>
+<p>The unit <code>fr</code> stands for fraction. It is the ratio you can specify. Let's say you have <code>500px</code> grid container with three column. You want to give 100px to the middle column and the remaining space will be equally divided for first and last column. You can do it with <code>fr</code> unit like this:</p>
 <pre>
-.grid-container{
-	grid-template-columns : 1fr 100px 1fr;
-}
+grid-template-columns : 1fr 100px 1fr;
 </pre>
-<p>Well, you can also achieve the above problem using the value <code>auto</code> like this -</p>
+<p>Well, you can also achieve the above problem using the value <code>auto</code> like this:</p>
 <pre>
-.grid-container{
-	grid-template-columns : auto 100px auto;
-}
+grid-template-columns : auto 100px auto;
 </pre>
-<p>So what's the benefit of using <code>fr</code> unit. Okay, what if you want to distribute the remaining space with 2:3 ratio? You can achieve this by <code>fr</code> unit like this -</p>
+<p>So what's the benefit of using <code>fr</code> unit. Okay, what if you want to distribute the remaining space with 2:3 ratio? You can achieve this by <code>fr</code> unit like this:</p>
 <pre>
-.grid-container{
-	grid-template-columns : 2fr 100px 3fr;
-}
+grid-template-columns : 2fr 100px 3fr;
 </pre>
-<p>But it is impossible with <code>auto</code> value. If you think about solving the above problem using percentage value, it won't help. Because percentage value is calculated based on the grid width, not based on the remaining space.</p>
-<p>Here is a demo -</p>
+<p>But it is impossible with <code>auto</code> value. If you think about solving the above problem using percentage value, it won't help. Because percentage value is calculated based on the grid width, not based on the remaining space. Here is an example of using <code>fr</code> unit:</p>
 <pre>
-div.grid-container-fr{
-  width : 500px;
-  margin: auto;
-  margin-top: 20px;
-  background-color : pink;
-  border: 1px solid black;
-  height: 300px;
-  
-  display : grid;
-  grid-template-columns : 2fr 100px 1fr;
-  grid-template-rows:50px;
-}
-.grid-item-fr{
-  border: 1px solid black;
-}
-
-
-&lt;div class="grid-container-fr">
-  &lt;div class="grid-item-fr">1&lt;/div>
-  &lt;div class="grid-item-fr">2&lt;/div>
-  &lt;div class="grid-item-fr">3&lt;/div>
-  &lt;div class="grid-item-fr">4&lt;/div>
-  &lt;div class="grid-item-fr">5&lt;/div>
-  &lt;div class="grid-item-fr">6&lt;/div>
+&lt;div class="d-grid width-500 height-200 border" style="grid-template-columns : 2fr 100px 1fr; grid-template-rows : 50px;">
+  &lt;div class="Red border">1&lt;/div>
+  &lt;div class="Blue border">2&lt;/div>
+  &lt;div class="Green border">3&lt;/div>
+  &lt;div class="Tomato border">4&lt;/div>
+  &lt;div class="Grey border">5&lt;/div>
+  &lt;div class="Yellow border">6&lt;/div>
 &lt;/div>
 </pre>
-<div class="box">
-<style type="text/css">
-div.grid-container-fr{
-  width : 500px;
-  margin: auto;
-  margin-top: 20px;
-  background-color : pink;
-  border: 1px solid black;
-  height: 300px;
-  
-  display : grid;
-  grid-template-columns : 2fr 100px 1fr;
-  grid-template-rows:50px;
-}
-.grid-item-fr{
-  border: 1px solid black;
-}
-</style>
-<div class="grid-container-fr">
-  <div class="grid-item-fr">1</div>
-  <div class="grid-item-fr">2</div>
-  <div class="grid-item-fr">3</div>
-  <div class="grid-item-fr">4</div>
-  <div class="grid-item-fr">5</div>
-  <div class="grid-item-fr">6</div>
+<div class="SnippetDemo">
+  <div class="d-grid width-500 height-200 border" style="grid-template-columns : 2fr 100px 1fr; grid-template-rows : 50px;">
+    <div class="Red border">1</div>
+    <div class="Blue border">2</div>
+    <div class="Green border">3</div>
+    <div class="Tomato border">4</div>
+    <div class="Grey border">5</div>
+    <div class="Yellow border">6</div>
+  </div>
 </div>
-</div>
-
 
 
 
@@ -493,312 +388,161 @@ div.grid-container-fr{
 
 
 <h1>Moving a Grid Item</h1>
-<p>By default grid items are structured how they appear on the HTML. Just like above example, all grid items are structured one after another the way they appear in the HTML code. But what if you want to move the third box to the place of 5th box? With the help of the following grid properties we will be able to do that -</p>
-<ul>
+<p>By default grid items are structured how they appear on the HTML. Just like above example, all grid items are structured one after another the way they appear in the HTML code. But what if you want to move the third box to the place of 5th box? With the help of the following grid properties we will be able to do that:</p>
+<ol>
 	<li>grid-column-start</li>
 	<li>grid-column-end</li>
 	<li>grid-row-start</li>
 	<li>grid-row-end</li>
-</ul>
-<p>Consider the following example. Here we have highlighted the third box with the red color and 5th box with the blue color.</p>
+</ol>
+<p>Let's consider the following example:</p>
 <pre>
-div.grid-container{
-  width : 500px;
-  margin: auto;
-  margin-top: 20px;
-  background-color : pink;
-  border: 1px solid black;
-  height: 200px;
-  
-  display : grid;
-  grid-template-columns : repeat(3, auto);
-  grid-template-rows: auto auto;
-}
-.grid-item{
-  border: 1px solid black;
-}
-.box-3{
-  background-color : red;
-  color: white;
-}
-.box-5{
-  background-color: blue;
-  color: white;
-}
-
-&lt;div class="grid-container">
-  &lt;div class="grid-item box-1">1&lt;/div>
-  &lt;div class="grid-item box-2">2&lt;/div>
-  &lt;div class="grid-item box-3">3&lt;/div>
-  &lt;div class="grid-item box-4">4&lt;/div>
-  &lt;div class="grid-item box-5">5&lt;/div>
-  &lt;div class="grid-item box-6">6&lt;/div>
+&lt;div class="d-grid width-300" style="grid-template-columns: 1fr 1fr 1fr; grid-template-rows: 50px 50px;">
+  &lt;div class="Red border">1&lt;/div>
+  &lt;div class="Blue border">2&lt;/div>
+  &lt;div class="Green border">3&lt;/div>
+  &lt;div class="Tomato border">4&lt;/div>
+  &lt;div class="Grey border">5&lt;/div>
+  &lt;div class="Yellow border">6&lt;/div>
 &lt;/div>
 </pre>
-<div class="box">
-<style type="text/css">
-div.grid-container-6{
-  width : 500px;
-  margin: auto;
-  margin-top: 20px;
-  background-color : pink;
-  border: 1px solid black;
-  height: 200px;
-  
-  display : grid;
-  grid-template-columns : repeat(3, auto);
-  grid-template-rows: auto auto;
-}
-.grid-item-6{
-  border: 1px solid black;
-}
-.grid-item-6.box-3{
-  background-color : red;
-  color: white;
-}
-.grid-item-6.box-5{
-  background-color: blue;
-  color: white;
-}
-</style>
-<div class="grid-container-6">
-  <div class="grid-item-6 box-1">1</div>
-  <div class="grid-item-6 box-2">2</div>
-  <div class="grid-item-6 box-3">3</div>
-  <div class="grid-item-6 box-4">4</div>
-  <div class="grid-item-6 box-5">5</div>
-  <div class="grid-item-6 box-6">6</div>
+<div class="SnippetDemo">
+  <div class="d-grid width-300" style="grid-template-columns: 1fr 1fr 1fr; grid-template-rows: 50px 50px;">
+    <div class="Red border">1</div>
+    <div class="Blue border">2</div>
+    <div class="Green border">3</div>
+    <div class="Tomato border">4</div>
+    <div class="Grey border">5</div>
+    <div class="Yellow border">6</div>
+  </div>
 </div>
-</div>
-<p>Now we will move the red box to the place of blue box. Here is the code -</p>
+<p>Now we will move the red box to the place of blue box. Here is the code:</p>
 <pre>
-.grid-item.box-3{
-	grid-column-start: 2;
-	grid-column-end: 3;
-	grid-row-start: 2;
-	grid-row-end: 3;
-}
+&lt;div class="d-grid width-300" style="grid-template-columns: 1fr 1fr 1fr; grid-template-rows: 50px 50px;">
+  &lt;div class="Red border" style="grid-column-start: 2; grid-column-end: 3; grid-row-start: 1; grid-row-end: 2;">1&lt;/div>
+  &lt;div class="Blue border" style="grid-column-start: 1; grid-column-end: 2; grid-row-start: 1; grid-row-end: 2;">2&lt;/div>
+  &lt;div class="Green border">3&lt;/div>
+  &lt;div class="Tomato border">4&lt;/div>
+  &lt;div class="Grey border">5&lt;/div>
+  &lt;div class="Yellow border">6&lt;/div>
+&lt;/div>
 </pre>
-<div class="box">
-<style type="text/css">
-div.grid-container-7{
-  width : 500px;
-  margin: auto;
-  div.grid-container-7margin-top: 20px;
-  background-color : pink;
-  border: 1px solid black;
-  height: 200px;
-  
-  display : grid;
-  grid-template-columns : repeat(3, auto);
-  grid-template-rows: auto auto;
-}
-.grid-item-7{
-  border: 1px solid black;
-}
-.grid-item-7.box-3{
-  background-color : red;
-  color: white;
-  grid-column-start: 2;
-	grid-column-end: 3;
-	grid-row-start: 2;
-	grid-row-end: 3;
-}
-.grid-item-7.box-5{
-  background-color: blue;
-  color: white;
-}
-</style>
-<div class="grid-container-7">
-  <div class="grid-item-7 box-1">1</div>
-  <div class="grid-item-7 box-2">2</div>
-  <div class="grid-item-7 box-3">3</div>
-  <div class="grid-item-7 box-4">4</div>
-  <div class="grid-item-7 box-5">5</div>
-  <div class="grid-item-7 box-6">6</div>
-</div>
+<div class="SnippetDemo">
+  <div class="d-grid width-300" style="grid-template-columns: 1fr 1fr 1fr; grid-template-rows: 50px 50px;">
+    <div class="Red border" style="grid-column-start: 2; grid-column-end: 3; grid-row-start: 1; grid-row-end: 2;">1</div>
+    <div class="Blue border" style="grid-column-start: 1; grid-column-end: 2; grid-row-start: 1; grid-row-end: 2;">2</div>
+    <div class="Green border">3</div>
+    <div class="Tomato border">4</div>
+    <div class="Grey border">5</div>
+    <div class="Yellow border">6</div>
+  </div>
 </div>
 <p>Here, <code>grid-column-start</code> takes the column line of the grid. Vertical grid lines are called column lines and horizontal grid lines are called row lines. The line starts from the edge of the grid container. So the first grid cell is between column line 1 and 2 and row line 1 and 2. The second grid cell is between column line 2 and 3 and row line 1 and 2, the third grid cell is between grid line 3 and 4 and row line 1 and 2 and so on.</p>
-<p>So the above example tells that, the third box will start at the column line 2(grid-column-start) and end at the column line 3(grid-column-end) and start at row line 2(grid-row-start) and end at row line 3(grid-row-end).</p>
+<p>So the above example tells that, the red box will start at the column line 2(grid-column-start) and end at the column line 3(grid-column-end) and start at row line 1(grid-row-start) and end at row line 2(grid-row-end).</p>
 
-<h3>Spanning of Grid Cell</h3>
-<p>Using the above properties you can make a cell span over multiple grid cell -</p>
+
+
+
+<h2>Spanning of Grid Cell</h2>
+<p>Using the above properties you can make a cell span over multiple grid cell. In the following example, instead of six boxes, we have 5 colored boxes. And we want to make the last grey box span over two column. Here is an example:</p>
 <pre>
-&lt;style type="text/css">
-div.grid-container-8{
-  width : 500px;
-  margin: auto;
-  div.grid-container-7margin-top: 20px;
-  background-color : pink;
-  border: 1px solid black;
-  height: 300px;
-  
-  display : grid;
-  grid-template-columns : repeat(3, auto);
-  grid-template-rows: repeat(3, 50px);
-}
-.grid-item-8{
-  border: 1px solid black;
-}
-.grid-item-8.box-3{
-  background-color : red;
-  color: white;
-  grid-column-start: 2;
-  grid-column-end: 4;
-  grid-row-start: 2;
-  grid-row-end: 3;
-}
-.box-5{
-  background-color: blue;
-  color: white;
-}
-&lt;/style>
-&lt;div class="grid-container-8">
-  &lt;div class="grid-item-8 box-1">1&lt;/div>
-  &lt;div class="grid-item-8 box-2">2&lt;/div>
-  &lt;div class="grid-item-8 box-3">3&lt;/div>
-  &lt;div class="grid-item-8 box-4">4&lt;/div>
-  &lt;div class="grid-item-8 box-5">5&lt;/div>
-  &lt;div class="grid-item-8 box-6">6&lt;/div>
+&lt;div class="d-grid width-300" style="grid-template-columns: 1fr 1fr 1fr; grid-template-rows: 50px 50px;">
+  &lt;div class="Red border">1&lt;/div>
+  &lt;div class="Blue border">2&lt;/div>
+  &lt;div class="Green border">3&lt;/div>
+  &lt;div class="Tomato border">4&lt;/div>
+  &lt;div class="Grey border" style="grid-column-start: 2; grid-column-end: 4; grid-row-start: 2; grid-row-end: 3;">5&lt;/div>
 &lt;/div>
 </pre>
-<div class="box">
-<style type="text/css">
-div.grid-container-8{
-  width : 500px;
-  margin: auto;
-  div.grid-container-7margin-top: 20px;
-  background-color : pink;
-  border: 1px solid black;
-  height: 300px;
-  
-  display : grid;
-  grid-template-columns : repeat(3, auto);
-  grid-template-rows: repeat(3, 50px);
-}
-.grid-item-8{
-  border: 1px solid black;
-}
-.grid-item-8.box-3{
-  background-color : red;
-  color: white;
-  grid-column-start: 2;
-  grid-column-end: 4;
-  grid-row-start: 2;
-  grid-row-end: 3;
-}
-.grid-item-8.box-5{
-  background-color: blue;
-  color: white;
-}
-</style>
-<div class="grid-container-8">
-  <div class="grid-item-8 box-1">1</div>
-  <div class="grid-item-8 box-2">2</div>
-  <div class="grid-item-8 box-3">3</div>
-  <div class="grid-item-8 box-4">4</div>
-  <div class="grid-item-8 box-5">5</div>
-  <div class="grid-item-8 box-6">6</div>
+<div class="SnippetDemo">
+  <div class="d-grid width-300" style="grid-template-columns: 1fr 1fr 1fr; grid-template-rows: 50px 50px;">
+    <div class="Red border">1</div>
+    <div class="Blue border">2</div>
+    <div class="Green border">3</div>
+    <div class="Tomato border">4</div>
+    <div class="Grey border" style="grid-column-start: 2; grid-column-end: 4; grid-row-start: 2; grid-row-end: 3;">5</div>
+  </div>
 </div>
-</div>
+<p>Here is another example where we want to make the second blue box span over multiple rows:</p>
 <pre>
-.grid-item-8.box-3{
-  background-color : red;
-  color: white;
-  grid-column-start: 2;
-  grid-column-end: 4;
-  grid-row-start: 1;
-  grid-row-end: 3;
-}
+&lt;div class="d-grid width-300" style="grid-template-columns: 1fr 1fr 1fr; grid-template-rows: 50px 50px;">
+  &lt;div class="Red border">1&lt;/div>
+  &lt;div class="Blue border" style="grid-column-start: 2; grid-column-end: 3; grid-row-start: 1; grid-row-end: 3;">2&lt;/div>
+  &lt;div class="Green border">3&lt;/div>
+  &lt;div class="Tomato border">4&lt;/div>
+  &lt;div class="Yellow border">6&lt;/div>
+&lt;/div>
 </pre>
-<div class="box">
-<style type="text/css">
-div.grid-container-9{
-  width : 500px;
-  margin: auto;
-  div.grid-container-7margin-top: 20px;
-  background-color : pink;
-  border: 1px solid black;
-  height: 300px;
-  
-  display : grid;
-  grid-template-columns : repeat(3, auto);
-  grid-template-rows: repeat(3, 50px);
-}
-.grid-item-9{
-  border: 1px solid black;
-}
-.grid-item-9.box-3{
-  background-color : red;
-  color: white;
-  grid-column-start: 2;
-  grid-column-end: 4;
-  grid-row-start: 1;
-  grid-row-end: 3;
-}
-.grid-item-9.box-5{
-  background-color: blue;
-  color: white;
-}
-</style>
-<div class="grid-container-9">
-  <div class="grid-item-9 box-1">1</div>
-  <div class="grid-item-9 box-2">2</div>
-  <div class="grid-item-9 box-3">3</div>
-  <div class="grid-item-9 box-4">4</div>
-  <div class="grid-item-9 box-5">5</div>
-  <div class="grid-item-9 box-6">6</div>
+<div class="SnippetDemo">
+  <div class="d-grid width-300" style="grid-template-columns: 1fr 1fr 1fr; grid-template-rows: 50px 50px;">
+    <div class="Red border">1</div>
+    <div class="Blue border" style="grid-column-start: 2; grid-column-end: 3; grid-row-start: 1; grid-row-end: 3;">2</div>
+    <div class="Green border">3</div>
+    <div class="Tomato border">4</div>
+    <div class="Yellow border">6</div>
+  </div>
 </div>
-</div>
-
-
-
-
-
-
-
 
 
 
 
 <h1>grid-column</h1>
-<p>The property <code>grid-column</code> is a shorthand for <code>grid-column-start</code> and <code>grid-column-end</code>. Here is the syntax -</p>
+<p>The property <code>grid-column</code> is a shorthand for <code>grid-column-start</code> and <code>grid-column-end</code>. Here is the syntax:</p>
 <pre>
 .grid-item{
-	grid-column: start / end;
+  grid-column: start / end;
 }
 </pre>
-<p>From the above example, we can rewrite the code using <code>grid-column</code> property -</p>
+<p>The above example can be written with shortcut syntax like the following:</p>
 <pre>
-.grid-item-9.box-3{
-  background-color : red;
-  color: white;
-  grid-column: 2 / 4;
-  grid-row-start: 1;
-  grid-row-end: 3;
-}
+&lt;div class="d-grid width-300" style="grid-template-columns: 1fr 1fr 1fr; grid-template-rows: 50px 50px;">
+  &lt;div class="Red border">1&lt;/div>
+  &lt;div class="Blue border" style="grid-column: 2/3; grid-row-start: 1; grid-row-end: 3;">2&lt;/div>
+  &lt;div class="Green border">3&lt;/div>
+  &lt;div class="Tomato border">4&lt;/div>
+  &lt;div class="Yellow border">6&lt;/div>
+&lt;/div>
 </pre>
+<div class="SnippetDemo">
+  <div class="d-grid width-300" style="grid-template-columns: 1fr 1fr 1fr; grid-template-rows: 50px 50px;">
+    <div class="Red border">1</div>
+    <div class="Blue border" style="grid-column: 2/3; grid-row-start: 1; grid-row-end: 3;">2</div>
+    <div class="Green border">3</div>
+    <div class="Tomato border">4</div>
+    <div class="Yellow border">6</div>
+  </div>
+</div>
 
 
 
 
 
 <h1>grid-row</h1>
-<p>The property <code>grid-row</code> is a shorthand for <code>grid-row-start</code> and <code>grid-row-end</code>. Here is the syntax -</p>
+<p>The property <code>grid-row</code> is a shorthand for <code>grid-row-start</code> and <code>grid-row-end</code>. Here is the syntax:</p>
 <pre>
 .grid-item{
-	grid-row: start / end;
+  grid-row: start / end;
 }
 </pre>
-<p>From the above example, we can rewrite the code using <code>grid-row</code> property -</p>
+<p>From the above example, we can rewrite the code using <code>grid-row</code> property:</p>
 <pre>
-.grid-item-9.box-3{
-  background-color : red;
-  color: white;
-  grid-column: 2 / 4;
-  grid-row: 1 / 3;
-}
+&lt;div class="d-grid width-300" style="grid-template-columns: 1fr 1fr 1fr; grid-template-rows: 50px 50px;">
+  &lt;div class="Red border">1&lt;/div>
+  &lt;div class="Blue border" style="grid-column: 2/3; grid-row: 1/3">2&lt;/div>
+  &lt;div class="Green border">3&lt;/div>
+  &lt;div class="Tomato border">4&lt;/div>
+  &lt;div class="Yellow border">6&lt;/div>
+&lt;/div>
 </pre>
+<div class="SnippetDemo">
+  <div class="d-grid width-300" style="grid-template-columns: 1fr 1fr 1fr; grid-template-rows: 50px 50px;">
+    <div class="Red border">1</div>
+    <div class="Blue border" style="grid-column: 2/3; grid-row: 1/3">2</div>
+    <div class="Green border">3</div>
+    <div class="Tomato border">4</div>
+    <div class="Yellow border">6</div>
+  </div>
+</div>
 
 
 
@@ -806,458 +550,315 @@ div.grid-container-9{
 
 
 <h1>grid-area</h1>
-<p>This property can be used to give a name to the grid item so that the name can be used as a reference to somewhere else. It can also be used as a shorthand property for <code>grid-column</code> and <code>grid-row</code> property.</p>
-<p>The syntax for grid-area as shorthand is below -</p>
+<p>This property can be used to give a name to the grid item so that the name can be used as a reference to somewhere else. It can also be used as a shorthand property for <code>grid-column</code> and <code>grid-row</code> property. The syntax for <code>grid-area</code> as shorthand is below:</p>
 <pre>
 grid-area : row-start / column-start / row-end / column-end;
 </pre>
-<p>Here is an example -</p>
+<p>The above example can be written using <code>grid-area</code> as below:</p>
 <pre>
-// Giving a grid item a name
-.grid-item-9.box-3{
-	grid-area: redBox;
-}
-.grid-item-9.box-5{
-	grid-area: blueBox;
-}
-
-
-// Shorthand syntax -
-.grid-item-9.box-3{
-  background-color : red;
-  color: white;
-  grid-area : 1 / 2 / 3 / 4;
-}
+&lt;div class="d-grid width-300" style="grid-template-columns: 1fr 1fr 1fr; grid-template-rows: 50px 50px;">
+  &lt;div class="Red border">1&lt;/div>
+  &lt;div class="Blue border" style="grid-area: 1/2/3/3">2&lt;/div>
+  &lt;div class="Green border">3&lt;/div>
+  &lt;div class="Tomato border">4&lt;/div>
+  &lt;div class="Yellow border">6&lt;/div>
+&lt;/div>
 </pre>
+<div class="SnippetDemo">
+  <div class="d-grid width-300" style="grid-template-columns: 1fr 1fr 1fr; grid-template-rows: 50px 50px;">
+    <div class="Red border">1</div>
+    <div class="Blue border" style="grid-area: 1/2/3/3">2</div>
+    <div class="Green border">3</div>
+    <div class="Tomato border">4</div>
+    <div class="Yellow border">6</div>
+  </div>
+</div>
 
 
 
 
 
 <h1>grid-column-gap</h1>
-<p><code>grid-column-gap</code> is used to give a gap between to adjacent gap on the column.</p>
+<p>The property <code>grid-column-gap</code> is used to give a gap between columns.</p>
 <pre>
-div.grid-container-10{
-  width : 500px;
-  margin: auto;
-  margin-top: 20px;
-  background-color : pink;
-  border: 1px solid black;
-  height: 300px;
-  
-  display : grid;
-  grid-template-columns : 2fr 100px 1fr;
-  grid-template-rows:50px;
-  grid-column-gap: 10px;
-}
-.grid-item-10{
-  border: 1px solid black;
-}
-.box-3{
-  background-color : red;
-  grid-area : 1 / 2 / 3 / 4;
-}
-.box-5{
-  background-color: blue;
-}
-
-&lt;div class="grid-container-10">
-  &lt;div class="grid-item-10 box-1">1&lt;/div>
-  &lt;div class="grid-item-10 box-2">2&lt;/div>
-  &lt;div class="grid-item-10 box-3">3&lt;/div>
-  &lt;div class="grid-item-10 box-4">4&lt;/div>
-  &lt;div class="grid-item-10 box-5">5&lt;/div>
-  &lt;div class="grid-item-10 box-6">6&lt;/div>
+&lt;div class="d-grid width-300" 
+  style="grid-template-columns: 1fr 1fr 1fr; grid-template-rows: 50px 50px; grid-column-gap: 10px;">
+  &lt;div class="Red border">1&lt;/div>
+  &lt;div class="Blue border">2&lt;/div>
+  &lt;div class="Green border">3&lt;/div>
+  &lt;div class="Tomato border">4&lt;/div>
+  &lt;div class="Grey border">5&lt;/div>
+  &lt;div class="Yellow border">6&lt;/div>
 &lt;/div>
 </pre>
-<div class="box">
-<style type="text/css">
-div.grid-container-10{
-  width : 500px;
-  margin: auto;
-  margin-top: 20px;
-  background-color : pink;
-  border: 1px solid black;
-  height: 300px;
-  
-  display : grid;
-  grid-template-columns : 2fr 100px 1fr;
-  grid-template-rows:50px;
-  grid-column-gap: 10px;
-}
-.grid-item-10{
-  border: 1px solid black;
-}
-.grid-item-10.box-3{
-  background-color : red;
-  grid-area : 1 / 2 / 3 / 4;
-}
-.grid-item-10.box-5{
-  background-color: blue;
-}
-</style>
-<div class="grid-container-10">
-  <div class="grid-item-10 box-1">1</div>
-  <div class="grid-item-10 box-2">2</div>
-  <div class="grid-item-10 box-3">3</div>
-  <div class="grid-item-10 box-4">4</div>
-  <div class="grid-item-10 box-5">5</div>
-  <div class="grid-item-10 box-6">6</div>
+<div class="SnippetDemo">
+  <div class="d-grid width-300" 
+    style="grid-template-columns: 1fr 1fr 1fr; grid-template-rows: 50px 50px; grid-column-gap: 10px;">
+    <div class="Red border">1</div>
+    <div class="Blue border">2</div>
+    <div class="Green border">3</div>
+    <div class="Tomato border">4</div>
+    <div class="Grey border">5</div>
+    <div class="Yellow border">6</div>
+  </div>
 </div>
-</div>
-
-
-
-
-
-
-
-
 
 
 <h1>grid-row-gap</h1>
-<p><code>grid-row-gap</code> is used to give a gap between to adjacent gap on the row.</p>
+<p>The property <code>grid-row-gap</code> is used to give a gap between rows.</p>
 <pre>
-div.grid-container-11{
-  width : 500px;
-  margin: auto;
-  margin-top: 20px;
-  background-color : pink;
-  border: 1px solid black;
-  height: 300px;
-  
-  display : grid;
-  grid-template-columns : 2fr 100px 1fr;
-  grid-template-rows:50px;
-  grid-row-gap: 10px;
-}
-.grid-item-11{
-  border: 1px solid black;
-}
-.box-3{
-  background-color : red;
-  grid-area : 1 / 2 / 3 / 4;
-}
-.box-5{
-  background-color: blue;
-}
-
-&lt;div class="grid-container-11">
-  &lt;div class="grid-item-11 box-1">1&lt;/div>
-  &lt;div class="grid-item-11 box-2">2&lt;/div>
-  &lt;div class="grid-item-11 box-3">3&lt;/div>
-  &lt;div class="grid-item-11 box-4">4&lt;/div>
-  &lt;div class="grid-item-11 box-5">5&lt;/div>
-  &lt;div class="grid-item-11 box-6">6&lt;/div>
+&lt;div class="d-grid width-300" 
+  style="grid-template-columns: 1fr 1fr 1fr; grid-template-rows: 50px 50px; grid-row-gap: 10px;">
+  &lt;div class="Red border">1&lt;/div>
+  &lt;div class="Blue border">2&lt;/div>
+  &lt;div class="Green border">3&lt;/div>
+  &lt;div class="Tomato border">4&lt;/div>
+  &lt;div class="Grey border">5&lt;/div>
+  &lt;div class="Yellow border">6&lt;/div>
 &lt;/div>
 </pre>
-<div class="box">
-<style type="text/css">
-div.grid-container-11{
-  width : 500px;
-  margin: auto;
-  margin-top: 20px;
-  background-color : pink;
-  border: 1px solid black;
-  height: 300px;
-  
-  display : grid;
-  grid-template-columns : 2fr 100px 1fr;
-  grid-template-rows:50px;
-  grid-row-gap: 10px;
-}
-.grid-item-11{
-  border: 1px solid black;
-}
-.grid-item-11.box-3{
-  background-color : red;
-  grid-area : 1 / 2 / 3 / 4;
-}
-.grid-item-11.box-5{
-  background-color: blue;
-}
-</style>
-<div class="grid-container-11">
-  <div class="grid-item-11 box-1">1</div>
-  <div class="grid-item-11 box-2">2</div>
-  <div class="grid-item-11 box-3">3</div>
-  <div class="grid-item-11 box-4">4</div>
-  <div class="grid-item-11 box-5">5</div>
-  <div class="grid-item-11 box-6">6</div>
+<div class="SnippetDemo">
+  <div class="d-grid width-300" 
+    style="grid-template-columns: 1fr 1fr 1fr; grid-template-rows: 50px 50px; grid-row-gap: 10px;">
+    <div class="Red border">1</div>
+    <div class="Blue border">2</div>
+    <div class="Green border">3</div>
+    <div class="Tomato border">4</div>
+    <div class="Grey border">5</div>
+    <div class="Yellow border">6</div>
+  </div>
 </div>
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
 
 <h1>grid-gap</h1>
-<p><code>grid-gap</code> is a shorthand syntax for <code>grid-column-gap</code> and <code>grid-row-gap</code>. Here is the syntax -</p>
+<p>The property <code>grid-gap</code> is a shorthand syntax for <code>grid-column-gap</code> and <code>grid-row-gap</code>. Here is the syntax:</p>
 <pre>
 grid-gap: rowGap columnGap;
 </pre>
+<p>Here is an example:</p>
 <pre>
-.grid-container{
-	grid-gap: 10px 10px;
-}
-</pre>
-<p>If you specify one value, it will be same for both <code>grid-column-gap</code> and <code>grid-row-gap</code>.</p>
-<pre>
-div.grid-container-11{
-  width : 500px;
-  margin: auto;
-  margin-top: 20px;
-  background-color : pink;
-  border: 1px solid black;
-  height: 300px;
-  
-  display : grid;
-  grid-template-columns : 2fr 100px 1fr;
-  grid-template-rows:50px;
-  grid-gap: 10px;
-}
-.grid-item-11{
-  border: 1px solid black;
-}
-.box-3{
-  background-color : red;
-  grid-area : 1 / 2 / 3 / 4;
-}
-.box-5{
-  background-color: blue;
-}
-
-&lt;div class="grid-container-11">
-  &lt;div class="grid-item-11 box-1">1&lt;/div>
-  &lt;div class="grid-item-11 box-2">2&lt;/div>
-  &lt;div class="grid-item-11 box-3">3&lt;/div>
-  &lt;div class="grid-item-11 box-4">4&lt;/div>
-  &lt;div class="grid-item-11 box-5">5&lt;/div>
-  &lt;div class="grid-item-11 box-6">6&lt;/div>
+&lt;div class="d-grid width-300" 
+  style="grid-template-columns: 1fr 1fr 1fr; grid-template-rows: 50px 50px; grid-gap: 10px 25px;">
+  &lt;div class="Red border">1&lt;/div>
+  &lt;div class="Blue border">2&lt;/div>
+  &lt;div class="Green border">3&lt;/div>
+  &lt;div class="Tomato border">4&lt;/div>
+  &lt;div class="Grey border">5&lt;/div>
+  &lt;div class="Yellow border">6&lt;/div>
 &lt;/div>
 </pre>
-<div class="box">
-<style type="text/css">
-div.grid-container-12{
-  width : 500px;
-  margin: auto;
-  margin-top: 20px;
-  background-color : pink;
-  border: 1px solid black;
-  height: 300px;
-  
-  display : grid;
-  grid-template-columns : 2fr 100px 1fr;
-  grid-template-rows:50px;
-  grid-gap: 10px;
-}
-.grid-item-12{
-  border: 1px solid black;
-}
-.grid-item-12.box-3{
-  background-color : red;
-  grid-area : 1 / 2 / 3 / 4;
-}
-.grid-item-12.box-5{
-  background-color: blue;
-}
-</style>
-<div class="grid-container-12">
-  <div class="grid-item-12 box-1">1</div>
-  <div class="grid-item-12 box-2">2</div>
-  <div class="grid-item-12 box-3">3</div>
-  <div class="grid-item-12 box-4">4</div>
-  <div class="grid-item-12 box-5">5</div>
-  <div class="grid-item-12 box-6">6</div>
+<div class="SnippetDemo">
+  <div class="d-grid width-300" 
+    style="grid-template-columns: 1fr 1fr 1fr; grid-template-rows: 50px 50px; grid-gap: 10px 25px;">
+    <div class="Red border">1</div>
+    <div class="Blue border">2</div>
+    <div class="Green border">3</div>
+    <div class="Tomato border">4</div>
+    <div class="Grey border">5</div>
+    <div class="Yellow border">6</div>
+  </div>
 </div>
+<p>If you specify one value, it will be same for both <code>grid-column-gap</code> and <code>grid-row-gap</code>.</p>
+<pre>
+&lt;div class="d-grid width-300" 
+  style="grid-template-columns: 1fr 1fr 1fr; grid-template-rows: 50px 50px; grid-gap: 10px;">
+  &lt;div class="Red border">1&lt;/div>
+  &lt;div class="Blue border">2&lt;/div>
+  &lt;div class="Green border">3&lt;/div>
+  &lt;div class="Tomato border">4&lt;/div>
+  &lt;div class="Grey border">5&lt;/div>
+  &lt;div class="Yellow border">6&lt;/div>
+&lt;/div>
+</pre>
+<div class="SnippetDemo">
+  <div class="d-grid width-300" 
+    style="grid-template-columns: 1fr 1fr 1fr; grid-template-rows: 50px 50px; grid-gap: 10px;">
+    <div class="Red border">1</div>
+    <div class="Blue border">2</div>
+    <div class="Green border">3</div>
+    <div class="Tomato border">4</div>
+    <div class="Grey border">5</div>
+    <div class="Yellow border">6</div>
+  </div>
 </div>
-
-
-
-
-
 
 
 
 
 
 <h1>justify-content</h1>
-<p>This property specifies how the content should be aligned horizontally. The grid's total width has to be less than the container's width for the justify-content property to have any effect. Consider the following example -</p>
+<p>This property specifies how the grid items should be aligned horizontally. The grid's total width has to be less than the container's width for the justify-content property to have any effect.</p>
+<h3>Example: start</h3>
 <pre>
-div.grid-container-3{
-  width : 500px;
-  margin: auto;
-  margin-top: 20px;
-  background-color : pink;
-  border: 1px solid black;
-  height: 300px;
-  
-  display : grid;
-  grid-template-columns : 50px 50px 50px;
-  grid-template-rows:50px 50px;
-  grid-column-gap: 10px
-}
-.grid-item-3{
-  border: 1px solid black;
-}
-
-
-&lt;div class="grid-container-3">
-  &lt;div class="grid-item-3 box-1">1&lt;/div>
-  &lt;div class="grid-item-3 box-2">2&lt;/div>
-  &lt;div class="grid-item-3 box-3">3&lt;/div>
-  &lt;div class="grid-item-3 box-4">4&lt;/div>
-  &lt;div class="grid-item-3 box-5">5&lt;/div>
-  &lt;div class="grid-item-3 box-6">6&lt;/div>
+&lt;div class="d-grid width-300"
+  style="grid-template-rows: 50px 50px; 
+  grid-template-columns : 50px 50px 50px; justify-content: start; background-color: grey;">
+  &lt;div class="Red border">1&lt;/div>
+  &lt;div class="Blue border">2&lt;/div>
+  &lt;div class="Green border">3&lt;/div>
+  &lt;div class="Tomato border">4&lt;/div>
+  &lt;div class="Grey border">5&lt;/div>
+  &lt;div class="Yellow border">6&lt;/div>
 &lt;/div>
 </pre>
-<div class="box">
-<style type="text/css">
-div.grid-container-13{
-  width : 500px;
-  margin: auto;
-  margin-top: 20px;
-  background-color : pink;
-  border: 1px solid black;
-  height: 300px;
-  
-  display : grid;
-  grid-template-columns : 50px 50px 50px;
-  grid-template-rows:50px 50px;
-  grid-column-gap: 10px
-}
-.grid-item-13{
-  border: 1px solid black;
-}
-</style>
-<div class="grid-container-13">
-  <div class="grid-item-13 box-1">1</div>
-  <div class="grid-item-13 box-2">2</div>
-  <div class="grid-item-13 box-3">3</div>
-  <div class="grid-item-13 box-4">4</div>
-  <div class="grid-item-13 box-5">5</div>
-  <div class="grid-item-13 box-6">6</div>
+<div class="SnippetDemo">
+  <div class="d-grid width-300" 
+    style="grid-template-rows: 50px 50px; grid-template-columns : 50px 50px 50px; justify-content: start; background-color: grey;">
+    <div class="Red border">1</div>
+    <div class="Blue border">2</div>
+    <div class="Green border">3</div>
+    <div class="Tomato border">4</div>
+    <div class="Grey border">5</div>
+    <div class="Yellow border">6</div>
+  </div>
 </div>
-</div>
+<h3>Example: center</h3>
 <pre>
-.grid-container{
-	justify-content: center;
-}
+&lt;div class="d-grid width-300"
+  style="grid-template-rows: 50px 50px; 
+  grid-template-columns : 50px 50px 50px; justify-content: center; background-color: grey;">
+  &lt;div class="Red border">1&lt;/div>
+  &lt;div class="Blue border">2&lt;/div>
+  &lt;div class="Green border">3&lt;/div>
+  &lt;div class="Tomato border">4&lt;/div>
+  &lt;div class="Grey border">5&lt;/div>
+  &lt;div class="Yellow border">6&lt;/div>
+&lt;/div>
 </pre>
-<div class="box">
-<div class="grid-container-13" style="justify-content: center;">
-  <div class="grid-item-13 box-1">1</div>
-  <div class="grid-item-13 box-2">2</div>
-  <div class="grid-item-13 box-3">3</div>
-  <div class="grid-item-13 box-4">4</div>
-  <div class="grid-item-13 box-5">5</div>
-  <div class="grid-item-13 box-6">6</div>
+<div class="SnippetDemo">
+  <div class="d-grid width-300" 
+    style="grid-template-rows: 50px 50px; grid-template-columns : 50px 50px 50px; justify-content: center; background-color: grey;">
+    <div class="Red border">1</div>
+    <div class="Blue border">2</div>
+    <div class="Green border">3</div>
+    <div class="Tomato border">4</div>
+    <div class="Grey border">5</div>
+    <div class="Yellow border">6</div>
+  </div>
 </div>
-</div>
+<h3>Example: end</h3>
 <pre>
-.grid-container{
-	justify-content: start;
-}
+&lt;div class="d-grid width-300"
+  style="grid-template-rows: 50px 50px; 
+  grid-template-columns : 50px 50px 50px; justify-content: end; background-color: grey;">
+  &lt;div class="Red border">1&lt;/div>
+  &lt;div class="Blue border">2&lt;/div>
+  &lt;div class="Green border">3&lt;/div>
+  &lt;div class="Tomato border">4&lt;/div>
+  &lt;div class="Grey border">5&lt;/div>
+  &lt;div class="Yellow border">6&lt;/div>
+&lt;/div>
 </pre>
-<div class="box">
-<div class="grid-container-13" style="justify-content: start;">
-  <div class="grid-item-13 box-1">1</div>
-  <div class="grid-item-13 box-2">2</div>
-  <div class="grid-item-13 box-3">3</div>
-  <div class="grid-item-13 box-4">4</div>
-  <div class="grid-item-13 box-5">5</div>
-  <div class="grid-item-13 box-6">6</div>
+<div class="SnippetDemo">
+  <div class="d-grid width-300" 
+    style="grid-template-rows: 50px 50px; grid-template-columns : 50px 50px 50px; justify-content: end; background-color: grey;">
+    <div class="Red border">1</div>
+    <div class="Blue border">2</div>
+    <div class="Green border">3</div>
+    <div class="Tomato border">4</div>
+    <div class="Grey border">5</div>
+    <div class="Yellow border">6</div>
+  </div>
 </div>
-</div>
+<h3>Example: space-around</h3>
 <pre>
-.grid-container{
-	justify-content: end;
-}
+&lt;div class="d-grid width-300"
+  style="grid-template-rows: 50px 50px; 
+  grid-template-columns : 50px 50px 50px; justify-content: space-around; background-color: grey;">
+  &lt;div class="Red border">1&lt;/div>
+  &lt;div class="Blue border">2&lt;/div>
+  &lt;div class="Green border">3&lt;/div>
+  &lt;div class="Tomato border">4&lt;/div>
+  &lt;div class="Grey border">5&lt;/div>
+  &lt;div class="Yellow border">6&lt;/div>
+&lt;/div>
 </pre>
-<div class="box">
-<div class="grid-container-13" style="justify-content: end;">
-  <div class="grid-item-13 box-1">1</div>
-  <div class="grid-item-13 box-2">2</div>
-  <div class="grid-item-13 box-3">3</div>
-  <div class="grid-item-13 box-4">4</div>
-  <div class="grid-item-13 box-5">5</div>
-  <div class="grid-item-13 box-6">6</div>
+<div class="SnippetDemo">
+  <div class="d-grid width-300" 
+    style="grid-template-rows: 50px 50px; grid-template-columns : 50px 50px 50px; justify-content: space-around; background-color: grey;">
+    <div class="Red border">1</div>
+    <div class="Blue border">2</div>
+    <div class="Green border">3</div>
+    <div class="Tomato border">4</div>
+    <div class="Grey border">5</div>
+    <div class="Yellow border">6</div>
+  </div>
 </div>
-</div>
+<h3>Example: space-evenly</h3>
 <pre>
-.grid-container{
-	justify-content: stretch;
-}
+&lt;div class="d-grid width-300"
+  style="grid-template-rows: 50px 50px; 
+  grid-template-columns : 50px 50px 50px; justify-content: space-evenly; background-color: grey;">
+  &lt;div class="Red border">1&lt;/div>
+  &lt;div class="Blue border">2&lt;/div>
+  &lt;div class="Green border">3&lt;/div>
+  &lt;div class="Tomato border">4&lt;/div>
+  &lt;div class="Grey border">5&lt;/div>
+  &lt;div class="Yellow border">6&lt;/div>
+&lt;/div>
 </pre>
-<p>The value <code>stretch</code> resizes the grid items to allow the grid to fill the full width of the grid container.</p>
-<div class="box">
-<div class="grid-container-13" style="justify-content: stretch;">
-  <div class="grid-item-13 box-1">1</div>
-  <div class="grid-item-13 box-2">2</div>
-  <div class="grid-item-13 box-3">3</div>
-  <div class="grid-item-13 box-4">4</div>
-  <div class="grid-item-13 box-5">5</div>
-  <div class="grid-item-13 box-6">6</div>
+<div class="SnippetDemo">
+  <div class="d-grid width-300" 
+    style="grid-template-rows: 50px 50px; grid-template-columns : 50px 50px 50px; justify-content: space-evenly; background-color: grey;">
+    <div class="Red border">1</div>
+    <div class="Blue border">2</div>
+    <div class="Green border">3</div>
+    <div class="Tomato border">4</div>
+    <div class="Grey border">5</div>
+    <div class="Yellow border">6</div>
+  </div>
 </div>
-</div>
+<h3>Example: stretch</h3>
+<p>The value <code>stretch</code> will alter the width of any <code>auto</code> sized element, but not ones of fixed size. And the alteration will be such that each of these resized elements gets an equal amount of space. For example, the following example has no effect, as there is no <code>auto</code> sized column.</p>
 <pre>
-.grid-container{
-	justify-content: space-evenly;
-}
+&lt;div class="d-grid width-300"
+  style="grid-template-rows: 50px 50px; 
+  grid-template-columns : 50px 50px 50px; justify-content: stretch; background-color: grey;">
+  &lt;div class="Red border">1&lt;/div>
+  &lt;div class="Blue border">2&lt;/div>
+  &lt;div class="Green border">3&lt;/div>
+  &lt;div class="Tomato border">4&lt;/div>
+  &lt;div class="Grey border">5&lt;/div>
+  &lt;div class="Yellow border">6&lt;/div>
+&lt;/div>
 </pre>
-<div class="box">
-<div class="grid-container-13" style="justify-content: space-evenly;">
-  <div class="grid-item-13 box-1">1</div>
-  <div class="grid-item-13 box-2">2</div>
-  <div class="grid-item-13 box-3">3</div>
-  <div class="grid-item-13 box-4">4</div>
-  <div class="grid-item-13 box-5">5</div>
-  <div class="grid-item-13 box-6">6</div>
+<div class="SnippetDemo">
+  <div class="d-grid width-300" 
+    style="grid-template-rows: 50px 50px; grid-template-columns : 50px 50px 50px; justify-content: stretch; background-color: grey;">
+    <div class="Red border">1</div>
+    <div class="Blue border">2</div>
+    <div class="Green border">3</div>
+    <div class="Tomato border">4</div>
+    <div class="Grey border">5</div>
+    <div class="Yellow border">6</div>
+  </div>
 </div>
-</div>
+<p>The following example with <code>auto</code> keyword:</p>
 <pre>
-.grid-container{
-	justify-content: space-around;
-}
+&lt;div class="d-grid width-300"
+  style="grid-template-rows: 50px 50px; 
+  grid-template-columns : auto 50px auto; justify-content: stretch; background-color: grey;">
+  &lt;div class="Red border">1&lt;/div>
+  &lt;div class="Blue border">2&lt;/div>
+  &lt;div class="Green border">3&lt;/div>
+  &lt;div class="Tomato border">4&lt;/div>
+  &lt;div class="Grey border">5&lt;/div>
+  &lt;div class="Yellow border">6&lt;/div>
+&lt;/div>
 </pre>
-<div class="box">
-<div class="grid-container-13" style="justify-content: space-around;">
-  <div class="grid-item-13 box-1">1</div>
-  <div class="grid-item-13 box-2">2</div>
-  <div class="grid-item-13 box-3">3</div>
-  <div class="grid-item-13 box-4">4</div>
-  <div class="grid-item-13 box-5">5</div>
-  <div class="grid-item-13 box-6">6</div>
+<div class="SnippetDemo">
+  <div class="d-grid width-300" 
+    style="grid-template-rows: 50px 50px; grid-template-columns : auto 50px auto; justify-content: stretch; background-color: grey;">
+    <div class="Red border">1</div>
+    <div class="Blue border">2</div>
+    <div class="Green border">3</div>
+    <div class="Tomato border">4</div>
+    <div class="Grey border">5</div>
+    <div class="Yellow border">6</div>
+  </div>
 </div>
-</div>
-<pre>
-.grid-container{
-	justify-content: space-between;
-}
-</pre>
-<div class="box">
-<div class="grid-container-13" style="justify-content: space-between;">
-  <div class="grid-item-13 box-1">1</div>
-  <div class="grid-item-13 box-2">2</div>
-  <div class="grid-item-13 box-3">3</div>
-  <div class="grid-item-13 box-4">4</div>
-  <div class="grid-item-13 box-5">5</div>
-  <div class="grid-item-13 box-6">6</div>
-</div>
-</div>
-
 
 
 
@@ -1270,110 +871,175 @@ div.grid-container-13{
 	justify-content: start;
 }
 </pre>
-<div class="box">
-<div class="grid-container-13" style="align-content: start;">
-  <div class="grid-item-13 box-1">1</div>
-  <div class="grid-item-13 box-2">2</div>
-  <div class="grid-item-13 box-3">3</div>
-  <div class="grid-item-13 box-4">4</div>
-  <div class="grid-item-13 box-5">5</div>
-  <div class="grid-item-13 box-6">6</div>
-</div>
-</div>
+<h3>Example: start</h3>
 <pre>
-.grid-container{
-	justify-content: center;
-}
+&lt;div class="d-grid width-300 height-300"
+  style="grid-template-rows: 50px 50px; 
+  grid-template-columns : 50px 50px 50px; align-content: start; background-color: grey;">
+  &lt;div class="Red border">1&lt;/div>
+  &lt;div class="Blue border">2&lt;/div>
+  &lt;div class="Green border">3&lt;/div>
+  &lt;div class="Tomato border">4&lt;/div>
+  &lt;div class="Grey border">5&lt;/div>
+  &lt;div class="Yellow border">6&lt;/div>
+&lt;/div>
 </pre>
-<div class="box">
-<div class="grid-container-13" style="align-content: center;">
-  <div class="grid-item-13 box-1">1</div>
-  <div class="grid-item-13 box-2">2</div>
-  <div class="grid-item-13 box-3">3</div>
-  <div class="grid-item-13 box-4">4</div>
-  <div class="grid-item-13 box-5">5</div>
-  <div class="grid-item-13 box-6">6</div>
+<div class="SnippetDemo">
+  <div class="d-grid width-300 height-300"
+    style="grid-template-rows: 50px 50px; grid-template-columns : 50px 50px 50px; align-content: start; background-color: grey;">
+    <div class="Red border">1</div>
+    <div class="Blue border">2</div>
+    <div class="Green border">3</div>
+    <div class="Tomato border">4</div>
+    <div class="Grey border">5</div>
+    <div class="Yellow border">6</div>
+  </div>
 </div>
-</div>
+<h3>Example: center</h3>
 <pre>
-.grid-container{
-	justify-content: end;
-}
+&lt;div class="d-grid width-300 height-300"
+  style="grid-template-rows: 50px 50px; 
+  grid-template-columns : 50px 50px 50px; align-content: center; background-color: grey;">
+  &lt;div class="Red border">1&lt;/div>
+  &lt;div class="Blue border">2&lt;/div>
+  &lt;div class="Green border">3&lt;/div>
+  &lt;div class="Tomato border">4&lt;/div>
+  &lt;div class="Grey border">5&lt;/div>
+  &lt;div class="Yellow border">6&lt;/div>
+&lt;/div>
 </pre>
-<div class="box">
-<div class="grid-container-13" style="align-content: end;">
-  <div class="grid-item-13 box-1">1</div>
-  <div class="grid-item-13 box-2">2</div>
-  <div class="grid-item-13 box-3">3</div>
-  <div class="grid-item-13 box-4">4</div>
-  <div class="grid-item-13 box-5">5</div>
-  <div class="grid-item-13 box-6">6</div>
+<div class="SnippetDemo">
+  <div class="d-grid width-300 height-300"
+    style="grid-template-rows: 50px 50px; grid-template-columns : 50px 50px 50px; align-content: center; background-color: grey;">
+    <div class="Red border">1</div>
+    <div class="Blue border">2</div>
+    <div class="Green border">3</div>
+    <div class="Tomato border">4</div>
+    <div class="Grey border">5</div>
+    <div class="Yellow border">6</div>
+  </div>
 </div>
-</div>
+<h3>Example: end</h3>
 <pre>
-.grid-container{
-	justify-content: stretch;
-}
+&lt;div class="d-grid width-300 height-300"
+  style="grid-template-rows: 50px 50px; 
+  grid-template-columns : 50px 50px 50px; align-content: end; background-color: grey;">
+  &lt;div class="Red border">1&lt;/div>
+  &lt;div class="Blue border">2&lt;/div>
+  &lt;div class="Green border">3&lt;/div>
+  &lt;div class="Tomato border">4&lt;/div>
+  &lt;div class="Grey border">5&lt;/div>
+  &lt;div class="Yellow border">6&lt;/div>
+&lt;/div>
 </pre>
-<div class="box">
-<div class="grid-container-13" style="align-content: stretch;">
-  <div class="grid-item-13 box-1">1</div>
-  <div class="grid-item-13 box-2">2</div>
-  <div class="grid-item-13 box-3">3</div>
-  <div class="grid-item-13 box-4">4</div>
-  <div class="grid-item-13 box-5">5</div>
-  <div class="grid-item-13 box-6">6</div>
+<div class="SnippetDemo">
+  <div class="d-grid width-300 height-300"
+    style="grid-template-rows: 50px 50px; grid-template-columns : 50px 50px 50px; align-content: end; background-color: grey;">
+    <div class="Red border">1</div>
+    <div class="Blue border">2</div>
+    <div class="Green border">3</div>
+    <div class="Tomato border">4</div>
+    <div class="Grey border">5</div>
+    <div class="Yellow border">6</div>
+  </div>
 </div>
-</div>
+<h3>Example: space-around</h3>
 <pre>
-.grid-container{
-	justify-content: space-evenly;
-}
+&lt;div class="d-grid width-300 height-300"
+  style="grid-template-rows: 50px 50px; 
+  grid-template-columns : 50px 50px 50px; align-content: space-around; background-color: grey;">
+  &lt;div class="Red border">1&lt;/div>
+  &lt;div class="Blue border">2&lt;/div>
+  &lt;div class="Green border">3&lt;/div>
+  &lt;div class="Tomato border">4&lt;/div>
+  &lt;div class="Grey border">5&lt;/div>
+  &lt;div class="Yellow border">6&lt;/div>
+&lt;/div>
 </pre>
-<div class="box">
-<div class="grid-container-13" style="align-content: space-evenly;">
-  <div class="grid-item-13 box-1">1</div>
-  <div class="grid-item-13 box-2">2</div>
-  <div class="grid-item-13 box-3">3</div>
-  <div class="grid-item-13 box-4">4</div>
-  <div class="grid-item-13 box-5">5</div>
-  <div class="grid-item-13 box-6">6</div>
+<div class="SnippetDemo">
+  <div class="d-grid width-300 height-300"
+    style="grid-template-rows: 50px 50px; grid-template-columns : 50px 50px 50px; align-content: space-around; background-color: grey;">
+    <div class="Red border">1</div>
+    <div class="Blue border">2</div>
+    <div class="Green border">3</div>
+    <div class="Tomato border">4</div>
+    <div class="Grey border">5</div>
+    <div class="Yellow border">6</div>
+  </div>
 </div>
-</div>
+<h3>Example: space-evenly</h3>
 <pre>
-.grid-container{
-	justify-content: space-around;
-}
+&lt;div class="d-grid width-300 height-300"
+  style="grid-template-rows: 50px 50px; 
+  grid-template-columns : 50px 50px 50px; align-content: space-evenly; background-color: grey;">
+  &lt;div class="Red border">1&lt;/div>
+  &lt;div class="Blue border">2&lt;/div>
+  &lt;div class="Green border">3&lt;/div>
+  &lt;div class="Tomato border">4&lt;/div>
+  &lt;div class="Grey border">5&lt;/div>
+  &lt;div class="Yellow border">6&lt;/div>
+&lt;/div>
 </pre>
-<div class="box">
-<div class="grid-container-13" style="align-content: space-around;">
-  <div class="grid-item-13 box-1">1</div>
-  <div class="grid-item-13 box-2">2</div>
-  <div class="grid-item-13 box-3">3</div>
-  <div class="grid-item-13 box-4">4</div>
-  <div class="grid-item-13 box-5">5</div>
-  <div class="grid-item-13 box-6">6</div>
+<div class="SnippetDemo">
+  <div class="d-grid width-300 height-300"
+    style="grid-template-rows: 50px 50px; grid-template-columns : 50px 50px 50px; align-content: space-evenly; background-color: grey;">
+    <div class="Red border">1</div>
+    <div class="Blue border">2</div>
+    <div class="Green border">3</div>
+    <div class="Tomato border">4</div>
+    <div class="Grey border">5</div>
+    <div class="Yellow border">6</div>
+  </div>
 </div>
-</div>
+<h3>Example: stretch</h3>
+<p>The value <code>stretch</code> stretches the <code>auto</code> sized rows equally to fill the grid container. For example, the following example has fixed sized rows, hence the property <code>stretch</code> do not have any effect.</p>
 <pre>
-.grid-container{
-	justify-content: space-between;
-}
+&lt;div class="d-grid width-300 height-300"
+  style="grid-template-rows: 50px 50px; 
+  grid-template-columns : 50px 50px 50px; align-content: stretch; background-color: grey;">
+  &lt;div class="Red border">1&lt;/div>
+  &lt;div class="Blue border">2&lt;/div>
+  &lt;div class="Green border">3&lt;/div>
+  &lt;div class="Tomato border">4&lt;/div>
+  &lt;div class="Grey border">5&lt;/div>
+  &lt;div class="Yellow border">6&lt;/div>
+&lt;/div>
 </pre>
-<div class="box">
-<div class="grid-container-13" style="align-content: space-between;">
-  <div class="grid-item-13 box-1">1</div>
-  <div class="grid-item-13 box-2">2</div>
-  <div class="grid-item-13 box-3">3</div>
-  <div class="grid-item-13 box-4">4</div>
-  <div class="grid-item-13 box-5">5</div>
-  <div class="grid-item-13 box-6">6</div>
+<div class="SnippetDemo">
+  <div class="d-grid width-300 height-300"
+    style="grid-template-columns: 1fr 1fr 1fr; grid-template-rows: 50px 50px; grid-template-columns : 50px 50px 50px; align-content: stretch; background-color: grey;">
+    <div class="Red border">1</div>
+    <div class="Blue border">2</div>
+    <div class="Green border">3</div>
+    <div class="Tomato border">4</div>
+    <div class="Grey border">5</div>
+    <div class="Yellow border">6</div>
+  </div>
 </div>
+<p>In the following example, we have <code>auto</code> sized rows:</p>
+<pre>
+&lt;div class="d-grid width-300 height-300"
+  style="grid-template-rows: 50px auto; 
+  grid-template-columns : 50px 50px 50px; align-content: stretch; background-color: grey;">
+  &lt;div class="Red border">1&lt;/div>
+  &lt;div class="Blue border">2&lt;/div>
+  &lt;div class="Green border">3&lt;/div>
+  &lt;div class="Tomato border">4&lt;/div>
+  &lt;div class="Grey border">5&lt;/div>
+  &lt;div class="Yellow border">6&lt;/div>
+&lt;/div>
+</pre>
+<div class="SnippetDemo">
+  <div class="d-grid width-300 height-300"
+    style="grid-template-rows: 50px auto; grid-template-columns : 50px 50px 50px; align-content: stretch; background-color: grey;">
+    <div class="Red border">1</div>
+    <div class="Blue border">2</div>
+    <div class="Green border">3</div>
+    <div class="Tomato border">4</div>
+    <div class="Grey border">5</div>
+    <div class="Yellow border">6</div>
+  </div>
 </div>
-
-
-
-
 
 
 
@@ -1382,124 +1048,107 @@ div.grid-container-13{
 
 
 <h1>justify-items</h1>
-<p>The property <code>justify-items</code> is used to align content of the grid cell horizontally. Consider the following example -</p>
+<p>The property <code>justify-items</code> is used to align content of the grid cell horizontally.</p>
+<h3>Example: start</h3>
 <pre>
-div.grid-container-3{
-  width : 500px;
-  margin: auto;
-  margin-top: 20px;
-  background-color : pink;
-  border: 1px solid black;
-  height: 300px;
-  
-  display : grid;
-  grid-template-columns : auto auto auto;
-  grid-template-rows:auto auto;
-  grid-gap: 10px;
-}
-.grid-item-3{
-  border: 1px solid black;
-}
-
-&lt;div class="grid-container-3">
-  &lt;div class="grid-item-3 box-1">1&lt;/div>
-  &lt;div class="grid-item-3 box-2">2&lt;/div>
-  &lt;div class="grid-item-3 box-3">3&lt;/div>
-  &lt;div class="grid-item-3 box-4">4&lt;/div>
-  &lt;div class="grid-item-3 box-5">5&lt;/div>
-  &lt;div class="grid-item-3 box-6">6&lt;/div>
+&lt;div class="d-grid width-300 height-300"
+  style="grid-template-rows: 50px 50px; grid-template-columns : 1fr 1fr 1fr; 
+  background-color: grey; justify-items: start;">
+  &lt;div class="Red border">1&lt;/div>
+  &lt;div class="Blue border">2&lt;/div>
+  &lt;div class="Green border">3&lt;/div>
+  &lt;div class="Tomato border">4&lt;/div>
+  &lt;div class="Grey border">5&lt;/div>
+  &lt;div class="Yellow border">6&lt;/div>
 &lt;/div>
 </pre>
-<div class="box">
-<div class="grid-container-14">
-  <div class="grid-item-14 box-1">1</div>
-  <div class="grid-item-14 box-2">2</div>
-  <div class="grid-item-14 box-3">3</div>
-  <div class="grid-item-14 box-4">4</div>
-  <div class="grid-item-14 box-5">5</div>
-  <div class="grid-item-14 box-6">6</div>
+<div class="SnippetDemo">
+  <div class="d-grid width-300"
+    style="grid-template-rows: 50px 50px; grid-template-columns : 1fr 1fr 1fr; 
+    background-color: grey; justify-items: start;">
+    <div class="Red border">1</div>
+    <div class="Blue border">2</div>
+    <div class="Green border">3</div>
+    <div class="Tomato border">4</div>
+    <div class="Grey border">5</div>
+    <div class="Yellow border">6</div>
+  </div>
 </div>
-<style type="text/css">
-div.grid-container-14{
-  width : 500px;
-  margin: auto;
-  margin-top: 20px;
-  background-color : pink;
-  border: 1px solid black;
-  height: 300px;
-  
-  display : grid;
-  grid-template-columns : auto auto auto;
-  grid-template-rows:auto auto;
-  grid-gap: 10px;
-}
-.grid-item-14{
-  border: 1px solid black;
-}
-</style>
-</div>
+<h3>Example: center</h3>
 <pre>
-.grid-item-14{
-	justify-items : start;
-}
+&lt;div class="d-grid width-300 height-300"
+  style="grid-template-rows: 50px 50px; grid-template-columns : 1fr 1fr 1fr; 
+  background-color: grey; justify-items: center;">
+  &lt;div class="Red border">1&lt;/div>
+  &lt;div class="Blue border">2&lt;/div>
+  &lt;div class="Green border">3&lt;/div>
+  &lt;div class="Tomato border">4&lt;/div>
+  &lt;div class="Grey border">5&lt;/div>
+  &lt;div class="Yellow border">6&lt;/div>
+&lt;/div>
 </pre>
-<div class="box">
-<div class="grid-container-14" style="justify-items : start;">
-  <div class="grid-item-14 box-1">1</div>
-  <div class="grid-item-14 box-2">2</div>
-  <div class="grid-item-14 box-3">3</div>
-  <div class="grid-item-14 box-4">4</div>
-  <div class="grid-item-14 box-5">5</div>
-  <div class="grid-item-14 box-6">6</div>
+<div class="SnippetDemo">
+  <div class="d-grid width-300"
+    style="grid-template-rows: 50px 50px; grid-template-columns : 1fr 1fr 1fr; 
+    background-color: grey; justify-items: center;">
+    <div class="Red border">1</div>
+    <div class="Blue border">2</div>
+    <div class="Green border">3</div>
+    <div class="Tomato border">4</div>
+    <div class="Grey border">5</div>
+    <div class="Yellow border">6</div>
+  </div>
 </div>
-</div>
+<h3>Example: end</h3>
 <pre>
-.grid-item-14{
-	justify-items : end;
-}
+&lt;div class="d-grid width-300 height-300"
+  style="grid-template-rows: 50px 50px; grid-template-columns : 1fr 1fr 1fr; 
+  background-color: grey; justify-items: end;">
+  &lt;div class="Red border">1&lt;/div>
+  &lt;div class="Blue border">2&lt;/div>
+  &lt;div class="Green border">3&lt;/div>
+  &lt;div class="Tomato border">4&lt;/div>
+  &lt;div class="Grey border">5&lt;/div>
+  &lt;div class="Yellow border">6&lt;/div>
+&lt;/div>
 </pre>
-<div class="box">
-<div class="grid-container-14" style="justify-items : end;">
-  <div class="grid-item-14 box-1">1</div>
-  <div class="grid-item-14 box-2">2</div>
-  <div class="grid-item-14 box-3">3</div>
-  <div class="grid-item-14 box-4">4</div>
-  <div class="grid-item-14 box-5">5</div>
-  <div class="grid-item-14 box-6">6</div>
+<div class="SnippetDemo">
+  <div class="d-grid width-300"
+    style="grid-template-rows: 50px 50px; grid-template-columns : 1fr 1fr 1fr; 
+    background-color: grey; justify-items: end;">
+    <div class="Red border">1</div>
+    <div class="Blue border">2</div>
+    <div class="Green border">3</div>
+    <div class="Tomato border">4</div>
+    <div class="Grey border">5</div>
+    <div class="Yellow border">6</div>
+  </div>
 </div>
-</div>
+<h3>Example: stretch</h3>
 <pre>
-.grid-item-14{
-	justify-items : stretch;
-}
+&lt;div class="d-grid width-300 height-300"
+  style="grid-template-rows: 50px 50px; grid-template-columns : 1fr 1fr 1fr; 
+  background-color: grey; justify-items: stretch;">
+  &lt;div class="Red border">1&lt;/div>
+  &lt;div class="Blue border">2&lt;/div>
+  &lt;div class="Green border">3&lt;/div>
+  &lt;div class="Tomato border">4&lt;/div>
+  &lt;div class="Grey border">5&lt;/div>
+  &lt;div class="Yellow border">6&lt;/div>
+&lt;/div>
 </pre>
-<div class="box">
-<div class="grid-container-14" style="justify-items : stretch;">
-  <div class="grid-item-14 box-1">1</div>
-  <div class="grid-item-14 box-2">2</div>
-  <div class="grid-item-14 box-3">3</div>
-  <div class="grid-item-14 box-4">4</div>
-  <div class="grid-item-14 box-5">5</div>
-  <div class="grid-item-14 box-6">6</div>
+<div class="SnippetDemo">
+  <div class="d-grid width-300"
+    style="grid-template-rows: 50px 50px; grid-template-columns : 1fr 1fr 1fr; 
+    background-color: grey; justify-items: stretch;">
+    <div class="Red border">1</div>
+    <div class="Blue border">2</div>
+    <div class="Green border">3</div>
+    <div class="Tomato border">4</div>
+    <div class="Grey border">5</div>
+    <div class="Yellow border">6</div>
+  </div>
 </div>
-</div>
-<pre>
-.grid-item-14{
-	justify-items : center;
-}
-</pre>
-<div class="box">
-<div class="grid-container-14" style="justify-items : center;">
-  <div class="grid-item-14 box-1">1</div>
-  <div class="grid-item-14 box-2">2</div>
-  <div class="grid-item-14 box-3">3</div>
-  <div class="grid-item-14 box-4">4</div>
-  <div class="grid-item-14 box-5">5</div>
-  <div class="grid-item-14 box-6">6</div>
-</div>
-</div>
-
-
 
 
 
@@ -1508,88 +1157,140 @@ div.grid-container-14{
 
 
 <h1>align-items</h1>
-<p>The property <code>align-items</code> is used to align content of the grid cell vertically. Consider the following example -</p>
+<p>The property <code>align-items</code> is used to align content of the grid cell vertically.</p>
+<h3>Example: start</h3>
 <pre>
-.grid-item-14{
-	align-items : start;
-}
+&lt;div class="d-grid width-300 height-300"
+  style="grid-template-rows: 1fr 1fr; grid-template-columns : 1fr 1fr 1fr; 
+  background-color: grey; align-items : start;">
+  &lt;div class="Red border">1&lt;/div>
+  &lt;div class="Blue border">2&lt;/div>
+  &lt;div class="Green border">3&lt;/div>
+  &lt;div class="Tomato border">4&lt;/div>
+  &lt;div class="Grey border">5&lt;/div>
+  &lt;div class="Yellow border">6&lt;/div>
+&lt;/div>
 </pre>
-<div class="box">
-<div class="grid-container-14" style="align-items : start;">
-  <div class="grid-item-14 box-1">1</div>
-  <div class="grid-item-14 box-2">2</div>
-  <div class="grid-item-14 box-3">3</div>
-  <div class="grid-item-14 box-4">4</div>
-  <div class="grid-item-14 box-5">5</div>
-  <div class="grid-item-14 box-6">6</div>
+<div class="SnippetDemo">
+  <div class="d-grid width-300 height-300"
+    style="grid-template-rows: 1fr 1fr; grid-template-columns : 1fr 1fr 1fr; 
+    background-color: grey; align-items : start;">
+    <div class="Red border">1</div>
+    <div class="Blue border">2</div>
+    <div class="Green border">3</div>
+    <div class="Tomato border">4</div>
+    <div class="Grey border">5</div>
+    <div class="Yellow border">6</div>
+  </div>
 </div>
-</div>
+<h3>Example: center</h3>
 <pre>
-.grid-item-14{
-	align-items : end;
-}
+&lt;div class="d-grid width-300 height-300"
+  style="grid-template-rows: 1fr 1fr; grid-template-columns : 1fr 1fr 1fr; 
+  background-color: grey; align-items : center;">
+  &lt;div class="Red border">1&lt;/div>
+  &lt;div class="Blue border">2&lt;/div>
+  &lt;div class="Green border">3&lt;/div>
+  &lt;div class="Tomato border">4&lt;/div>
+  &lt;div class="Grey border">5&lt;/div>
+  &lt;div class="Yellow border">6&lt;/div>
+&lt;/div>
 </pre>
-<div class="box">
-<div class="grid-container-14" style="align-items : end;">
-  <div class="grid-item-14 box-1">1</div>
-  <div class="grid-item-14 box-2">2</div>
-  <div class="grid-item-14 box-3">3</div>
-  <div class="grid-item-14 box-4">4</div>
-  <div class="grid-item-14 box-5">5</div>
-  <div class="grid-item-14 box-6">6</div>
+<div class="SnippetDemo">
+  <div class="d-grid width-300 height-300"
+    style="grid-template-rows: 1fr 1fr; grid-template-columns : 1fr 1fr 1fr; 
+    background-color: grey; align-items : center;">
+    <div class="Red border">1</div>
+    <div class="Blue border">2</div>
+    <div class="Green border">3</div>
+    <div class="Tomato border">4</div>
+    <div class="Grey border">5</div>
+    <div class="Yellow border">6</div>
+  </div>
 </div>
-</div>
+<h3>Example: end</h3>
 <pre>
-.grid-item-14{
-	align-items : stretch;
-}
+&lt;div class="d-grid width-300 height-300"
+  style="grid-template-rows: 1fr 1fr; grid-template-columns : 1fr 1fr 1fr; 
+  background-color: grey; align-items : end;">
+  &lt;div class="Red border">1&lt;/div>
+  &lt;div class="Blue border">2&lt;/div>
+  &lt;div class="Green border">3&lt;/div>
+  &lt;div class="Tomato border">4&lt;/div>
+  &lt;div class="Grey border">5&lt;/div>
+  &lt;div class="Yellow border">6&lt;/div>
+&lt;/div>
 </pre>
-<div class="box">
-<div class="grid-container-14" style="align-items : stretch;">
-  <div class="grid-item-14 box-1">1</div>
-  <div class="grid-item-14 box-2">2</div>
-  <div class="grid-item-14 box-3">3</div>
-  <div class="grid-item-14 box-4">4</div>
-  <div class="grid-item-14 box-5">5</div>
-  <div class="grid-item-14 box-6">6</div>
+<div class="SnippetDemo">
+  <div class="d-grid width-300 height-300"
+    style="grid-template-rows: 1fr 1fr; grid-template-columns : 1fr 1fr 1fr; 
+    background-color: grey; align-items : end;">
+    <div class="Red border">1</div>
+    <div class="Blue border">2</div>
+    <div class="Green border">3</div>
+    <div class="Tomato border">4</div>
+    <div class="Grey border">5</div>
+    <div class="Yellow border">6</div>
+  </div>
 </div>
-</div>
+<h3>Example: stretch</h3>
 <pre>
-.grid-item-14{
-	align-items : center;
-}
+&lt;div class="d-grid width-300 height-300"
+  style="grid-template-rows: 1fr 1fr; grid-template-columns : 1fr 1fr 1fr; 
+  background-color: grey; align-items : stretch;">
+  &lt;div class="Red border">1&lt;/div>
+  &lt;div class="Blue border">2&lt;/div>
+  &lt;div class="Green border">3&lt;/div>
+  &lt;div class="Tomato border">4&lt;/div>
+  &lt;div class="Grey border">5&lt;/div>
+  &lt;div class="Yellow border">6&lt;/div>
+&lt;/div>
 </pre>
-<div class="box">
-<div class="grid-container-14" style="align-items : center;">
-  <div class="grid-item-14 box-1">1</div>
-  <div class="grid-item-14 box-2">2</div>
-  <div class="grid-item-14 box-3">3</div>
-  <div class="grid-item-14 box-4">4</div>
-  <div class="grid-item-14 box-5">5</div>
-  <div class="grid-item-14 box-6">6</div>
+<div class="SnippetDemo">
+  <div class="d-grid width-300 height-300"
+    style="grid-template-rows: 1fr 1fr; grid-template-columns : 1fr 1fr 1fr; 
+    background-color: grey; align-items : stretch;">
+    <div class="Red border">1</div>
+    <div class="Blue border">2</div>
+    <div class="Green border">3</div>
+    <div class="Tomato border">4</div>
+    <div class="Grey border">5</div>
+    <div class="Yellow border">6</div>
+  </div>
 </div>
-</div>
-
-
-
-
 
 
 
 <h1>place-items</h1>
-<p>The property <code>place-items</code> is shorthand for <code>justify-items</code> and <code>align-items</code>. Here is the syntax -</p>
+<p>The property <code>place-items</code> is shorthand for <code>justify-items</code> and <code>align-items</code>. Here is the syntax:</p>
 <pre>
-.grid-container{
-	place-items: align-items / justify-items;
-}
+place-items: align-items justify-items;
 </pre>
-<p>For example -</p>
+<p>For example:</p>
 <pre>
-.grid-container{
-	place-items: center / space-around;
-}
+&lt;div class="d-grid width-300 height-300"
+  style="grid-template-rows: 1fr 1fr; grid-template-columns : 1fr 1fr 1fr; 
+  background-color: grey; place-items : center center;">
+  &lt;div class="Red border">1&lt;/div>
+  &lt;div class="Blue border">2&lt;/div>
+  &lt;div class="Green border">3&lt;/div>
+  &lt;div class="Tomato border">4&lt;/div>
+  &lt;div class="Grey border">5&lt;/div>
+  &lt;div class="Yellow border">6&lt;/div>
+&lt;/div>
 </pre>
-<p style="font-style: italic; font-weight: bold;">This property is not well supported in most browsers. Should avoid using this property.</p>
+<div class="SnippetDemo">
+  <div class="d-grid width-300 height-300"
+    style="grid-template-rows: 1fr 1fr; grid-template-columns : 1fr 1fr 1fr; 
+    background-color: grey; place-items : center center;">
+    <div class="Red border">1</div>
+    <div class="Blue border">2</div>
+    <div class="Green border">3</div>
+    <div class="Tomato border">4</div>
+    <div class="Grey border">5</div>
+    <div class="Yellow border">6</div>
+  </div>
+</div>
 
 
 
@@ -1597,19 +1298,35 @@ div.grid-container-14{
 
 
 <h1>place-content</h1>
-<p>The property <code>place-content</code> is used as a shorthand of <code>justify-content</code> and <code>align-content</code> property. Here is the syntax -</p>
+<p>The property <code>place-content</code> is used as a shorthand of <code>justify-content</code> and <code>align-content</code> property. Here is the syntax:</p>
 <pre>
-.grid-container{
-	place-content: align-items / justify-items;
-}
+place-content: align-items / justify-items;
 </pre>
-<p>For example -</p>
+<p>For example:</p>
 <pre>
-.grid-container{
-	place-content: center / space-around;
-}
+&lt;div class="d-grid width-300 height-300"
+  style="grid-template-rows: 50px 50px; grid-template-columns : 50px 50px 50px; 
+  background-color: grey; place-content : center center;">
+  &lt;div class="Red border">1&lt;/div>
+  &lt;div class="Blue border">2&lt;/div>
+  &lt;div class="Green border">3&lt;/div>
+  &lt;div class="Tomato border">4&lt;/div>
+  &lt;div class="Grey border">5&lt;/div>
+  &lt;div class="Yellow border">6&lt;/div>
+&lt;/div>
 </pre>
-<p style="font-style: italic; font-weight: bold;">This property is not well supported in most browsers. Should avoid using this property.</p>
+<div class="SnippetDemo">
+  <div class="d-grid width-300 height-300"
+    style="grid-template-rows: 50px 50px; grid-template-columns : 50px 50px 50px;
+    background-color: grey; place-content : center center;">
+    <div class="Red border">1</div>
+    <div class="Blue border">2</div>
+    <div class="Green border">3</div>
+    <div class="Tomato border">4</div>
+    <div class="Grey border">5</div>
+    <div class="Yellow border">6</div>
+  </div>
+</div>
 
 
 
