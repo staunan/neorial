@@ -1051,7 +1051,7 @@ grid-gap: rowGap columnGap;
 <p>The property <code>justify-items</code> is used to align content of the grid cell horizontally.</p>
 <h3>Example: start</h3>
 <pre>
-&lt;div class="d-grid width-300 height-300"
+&lt;div class="d-grid width-300"
   style="grid-template-rows: 50px 50px; grid-template-columns : 1fr 1fr 1fr; 
   background-color: grey; justify-items: start;">
   &lt;div class="Red border">1&lt;/div>
@@ -1076,7 +1076,7 @@ grid-gap: rowGap columnGap;
 </div>
 <h3>Example: center</h3>
 <pre>
-&lt;div class="d-grid width-300 height-300"
+&lt;div class="d-grid width-300"
   style="grid-template-rows: 50px 50px; grid-template-columns : 1fr 1fr 1fr; 
   background-color: grey; justify-items: center;">
   &lt;div class="Red border">1&lt;/div>
@@ -1101,7 +1101,7 @@ grid-gap: rowGap columnGap;
 </div>
 <h3>Example: end</h3>
 <pre>
-&lt;div class="d-grid width-300 height-300"
+&lt;div class="d-grid width-300"
   style="grid-template-rows: 50px 50px; grid-template-columns : 1fr 1fr 1fr; 
   background-color: grey; justify-items: end;">
   &lt;div class="Red border">1&lt;/div>
@@ -1126,7 +1126,7 @@ grid-gap: rowGap columnGap;
 </div>
 <h3>Example: stretch</h3>
 <pre>
-&lt;div class="d-grid width-300 height-300"
+&lt;div class="d-grid width-300"
   style="grid-template-rows: 50px 50px; grid-template-columns : 1fr 1fr 1fr; 
   background-color: grey; justify-items: stretch;">
   &lt;div class="Red border">1&lt;/div>
@@ -1300,7 +1300,7 @@ place-items: align-items justify-items;
 <h1>place-content</h1>
 <p>The property <code>place-content</code> is used as a shorthand of <code>justify-content</code> and <code>align-content</code> property. Here is the syntax:</p>
 <pre>
-place-content: align-items / justify-items;
+place-content: align-content / justify-content;
 </pre>
 <p>For example:</p>
 <pre>
@@ -1327,6 +1327,359 @@ place-content: align-items / justify-items;
     <div class="Yellow border">6</div>
   </div>
 </div>
+
+
+
+<h1>justify-self</h1>
+<p>The property <code>justify-items</code> for grid container applies to all grid items. What if you want to specify different horizontal position for a particular grid items? The property <code>justify-self</code> for the grid item solves this problem. Here is an example:</p>
+<pre>
+&lt;div class="d-grid width-300 border"
+  style="grid-template-rows: 50px 50px; grid-template-columns : 1fr 1fr 1fr; justify-items: end;">
+  &lt;div class="Red border" style="justify-self: start;">1&lt;/div>
+  &lt;div class="Blue border" style="justify-self: start;">2&lt;/div>
+  &lt;div class="Green border" style="justify-self: start;">3&lt;/div>
+  &lt;div class="Tomato border">4&lt;/div>
+  &lt;div class="Grey border">5&lt;/div>
+  &lt;div class="Yellow border">6&lt;/div>
+&lt;/div>
+</pre>
+<div class="SnippetDemo">
+  <div class="d-grid width-300 border"
+    style="grid-template-rows: 50px 50px; grid-template-columns : 1fr 1fr 1fr; justify-items: end;">
+    <div class="Red border" style="justify-self: start;">1</div>
+    <div class="Blue border" style="justify-self: start;">2</div>
+    <div class="Green border" style="justify-self: start;">3</div>
+    <div class="Tomato border">4</div>
+    <div class="Grey border">5</div>
+    <div class="Yellow border">6</div>
+  </div>
+</div>
+
+
+<h1>align-self</h1>
+<p>The property <code>align-items</code> for grid container applies to all grid items. What if you want to specify different vertical position for a particular grid items? The property <code>align-self</code> for the grid item solves this problem. Here is an example:</p>
+<pre>
+&lt;div class="d-grid width-300 height-300 border"
+  style="grid-template-rows: 1fr 1fr; grid-template-columns : 1fr 1fr 1fr; 
+  align-items : end;">
+  &lt;div class="Red border">1&lt;/div>
+  &lt;div class="Blue border" style="align-self: center;">2&lt;/div>
+  &lt;div class="Green border">3&lt;/div>
+  &lt;div class="Tomato border" style="align-self: center;">4&lt;/div>
+  &lt;div class="Grey border" style="align-self: start;">5&lt;/div>
+  &lt;div class="Yellow border" style="align-self: center;">6&lt;/div>
+&lt;/div>
+</pre>
+<div class="SnippetDemo">
+  <div class="d-grid width-300 height-300 border"
+    style="grid-template-rows: 1fr 1fr; grid-template-columns : 1fr 1fr 1fr; 
+    align-items : end;">
+    <div class="Red border">1</div>
+    <div class="Blue border" style="align-self: center;">2</div>
+    <div class="Green border">3</div>
+    <div class="Tomato border" style="align-self: center;">4</div>
+    <div class="Grey border" style="align-self: start;">5</div>
+    <div class="Yellow border" style="align-self: center;">6</div>
+  </div>
+</div>
+
+
+
+
+<h1>place-self</h1>
+<p>The property <code>place-self</code> sets both the <code>align-self</code> and <code>justify-self</code> properties in a single declaration.</p>
+<pre>
+place-self: align-self justify-self;
+</pre>
+<p>For example:</p>
+<pre>
+&lt;div class="d-grid width-300 height-300 border"
+  style="grid-template-rows: 1fr 1fr; grid-template-columns : 1fr 1fr 1fr; 
+  align-items : end;">
+  &lt;div class="Red border">1&lt;/div>
+  &lt;div class="Blue border" style="place-self: end center;">2&lt;/div>
+  &lt;div class="Green border">3&lt;/div>
+  &lt;div class="Tomato border">4&lt;/div>
+  &lt;div class="Grey border" style="place-self: start center;">5&lt;/div>
+  &lt;div class="Yellow border">6&lt;/div>
+&lt;/div>
+</pre>
+<div class="SnippetDemo">
+  <div class="d-grid width-300 height-300 border"
+    style="grid-template-rows: 1fr 1fr; grid-template-columns : 1fr 1fr 1fr; 
+    align-items : end;">
+    <div class="Red border">1</div>
+    <div class="Blue border" style="place-self: end center;">2</div>
+    <div class="Green border">3</div>
+    <div class="Tomato border">4</div>
+    <div class="Grey border" style="place-self: start center;">5</div>
+    <div class="Yellow border">6</div>
+  </div>
+</div>
+
+
+
+
+
+<h1>span Keyword</h1>
+<p>So far we have been using numeric number for the property <code>grid-column-end</code> and <code>grid-row-end</code>. You can also specify <code>span</code> keyword followed by a numeric number.</p>
+<p>In the following example, the blue box is spanning over two cells:</p>
+<pre>
+&lt;div class="d-grid width-300 border"
+  style="grid-template-rows: 50px 50px; grid-template-columns : 1fr 1fr 1fr;">
+  &lt;div class="Red border">1&lt;/div>
+  &lt;div class="Blue border" style="grid-column: 2 / 4;">2&lt;/div>
+  &lt;div class="Tomato border">4&lt;/div>
+  &lt;div class="Grey border">5&lt;/div>
+  &lt;div class="Yellow border">6&lt;/div>
+&lt;/div>
+</pre>
+<div class="SnippetDemo">
+  <div class="d-grid width-300 border"
+    style="grid-template-rows: 50px 50px; grid-template-columns : 1fr 1fr 1fr;">
+    <div class="Red border">1</div>
+    <div class="Blue border" style="grid-column: 2 / 4;">2</div>
+    <div class="Tomato border">4</div>
+    <div class="Grey border">5</div>
+    <div class="Yellow border">6</div>
+  </div>
+</div>
+<p>In the above example we are dealing with numeric number for the <code>grid-column</code> property. In the above example, we are saying that the second grid item will start at grid line 2 and end at grid line 4. It means it will span over two grid column. You can specify how much grid column the grid item will span over using the keyword <code>span</code> followed by a numeric number which specifies the number of column that the grid item will span over. </p>
+<pre>
+grid-column: 2 / span 2;
+</pre>
+<p>The above example can be written using <code>span</code> keyword:</p>
+<pre>
+&lt;div class="d-grid width-300 border"
+  style="grid-template-rows: 50px 50px; grid-template-columns : 1fr 1fr 1fr;">
+  &lt;div class="Red border">1&lt;/div>
+  &lt;div class="Blue border" style="grid-column: 2 / span 2;">2&lt;/div>
+  &lt;div class="Tomato border">4&lt;/div>
+  &lt;div class="Grey border">5&lt;/div>
+  &lt;div class="Yellow border">6&lt;/div>
+&lt;/div>
+</pre>
+<div class="SnippetDemo">
+  <div class="d-grid width-300 border"
+    style="grid-template-rows: 50px 50px; grid-template-columns : 1fr 1fr 1fr;">
+    <div class="Red border">1</div>
+    <div class="Blue border" style="grid-column: 2 / span 2;">2</div>
+    <div class="Tomato border">4</div>
+    <div class="Grey border">5</div>
+    <div class="Yellow border">6</div>
+  </div>
+</div>
+<p>The same rule goes for the <code>grid-row</code> property. In the following example, we are spanning the first red box over two row in the first column:</p>
+<div class="SnippetDemo">
+  <div class="d-grid width-300 border"
+    style="grid-template-rows: 50px 50px; grid-template-columns : 1fr 1fr 1fr;">
+    <div class="Red border" style="grid-row: 1 / 3;">1</div>
+    <div class="Blue border">2</div>
+    <div class="Tomato border">4</div>
+    <div class="Grey border">5</div>
+    <div class="Yellow border">6</div>
+  </div>
+</div>
+<p>You can explicitily specify the <code>span</code> keyword on the <code>grid-column-end</code> and <code>grid-row-end</code> property.</p>
+<pre>
+.gridItem{
+  grid-column-start: 2;
+  grid-column-end: span 2;
+  grid-row-start: 1;
+  grid-row-end: span 2;
+  background-color : red;
+}
+</pre>
+<p class="tip">The keyword <code>span</code> is invalid for <code>grid-column-start</code> and <code>grid-row-start</code>.</p>
+
+
+
+
+<h1>auto-fill keyword</h1>
+<p>The keyword <code>auto-fill</code> is used as the first argument of <code>repeat()</code> function which tells the browser to automatically create as many grid columns as possible. The second argument specifies the each grid column width.</p>
+<p>Consider the following example:</p>
+<pre>
+&lt;div class="d-grid width-300 border"
+  style="grid-template-rows: repeat(auto-fill, 50px); grid-template-columns : repeat(auto-fill, 1fr);">
+  &lt;div class="Red border">1&lt;/div>
+  &lt;div class="Blue border">2&lt;/div>
+  &lt;div class="Tomato border">4&lt;/div>
+  &lt;div class="Grey border">5&lt;/div>
+  &lt;div class="Yellow border">6&lt;/div>
+&lt;/div>
+</pre>
+<div class="SnippetDemo">
+  <div class="d-grid width-300 border"
+    style="grid-template-rows: repeat(auto-fill, 50px); grid-template-columns : repeat(auto-fill, 1fr);">
+    <div class="Red border">1</div>
+    <div class="Blue border">2</div>
+    <div class="Tomato border">4</div>
+    <div class="Grey border">5</div>
+    <div class="Yellow border">6</div>
+  </div>
+</div>
+<p>As you can see in the above example, we are using <code>auto-fill</code> keyword for columns. It means we are telling browser to create as many columns as possible and each one have the <code>1fr</code> width. Since <code>1fr</code> means the whole width, so only one column is created. Now consider the following example:</p>
+<div class="SnippetDemo">
+  <div class="d-grid width-300 border"
+    style="grid-template-rows: repeat(auto-fill, 50px); grid-template-columns : repeat(auto-fill, 80px);">
+    <div class="Red border">1</div>
+    <div class="Blue border">2</div>
+    <div class="Tomato border">4</div>
+    <div class="Grey border">5</div>
+    <div class="Yellow border">6</div>
+  </div>
+</div>
+<p>In the above example, we are specifying <code>80px</code> for each grid item. So only three box can be accomodated within the <code>grid-gap</code>. You can achieve the same thing using the following code:</p>
+<pre>
+grid-template-columns: repeat(4, 100px);
+</pre>
+<p>So what's the benefit of using <code>auto-fill</code>? Well, if you use fixed value for the number of columns, and then if you resize your grid, the grid-items will overflow and will be hidden. But with the <code>auto-fill</code> keyword, if you resize your grid container, the grid column will also auto adjust. If you shrink your grid container enough, the trailer grid item will span over next line. You can experiment in the browser console.</p>
+<p>If you notice, after creating four columns there are some gap at the end of the last column. In the next section with the help of <code>minmax()</code> we will see how to fill that gap.</p>
+
+
+
+
+<h1>minmax()</h1>
+<p>The helper function <code>minmax()</code> is used with <code>repeat()</code> function and is used to specify the minimum width and the maximum width of the grid column. Consider the following example:</p>
+<pre>
+grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+</pre>
+<div class="SnippetDemo">
+  <div class="d-grid width-300 border"
+    style="grid-template-rows: repeat(auto-fill, 50px); grid-template-columns : repeat(auto-fill, minmax(80px, 1fr));">
+    <div class="Red border">1</div>
+    <div class="Blue border">2</div>
+    <div class="Tomato border">4</div>
+    <div class="Grey border">5</div>
+    <div class="Yellow border">6</div>
+  </div>
+</div>
+<p>The function <code>minmax</code> takes the minimum width as the first argument and maximum width as the second argument. The browser first creates grid columns with the min-width to see how much grid column can be created, then the browser uses the second argument to distribute the remaining space to each grid item. Here, you can use any absolute value (like px) for the maximum width instead of using <code>1fr</code>. But there is no guarantte  that after reaching maximum width of the grid item, there won't be any remaining space. Here is an example:</p>
+<div class="SnippetDemo">
+  <div class="d-grid width-300 border"
+    style="grid-template-rows: repeat(auto-fill, 50px); grid-template-columns : repeat(auto-fill, minmax(50px, 80px));">
+    <div class="Red border">1</div>
+    <div class="Blue border">2</div>
+    <div class="Tomato border">4</div>
+    <div class="Grey border">5</div>
+    <div class="Yellow border">6</div>
+  </div>
+</div>
+<p>As you notice in the above example, there are still some space left over. So it is always better to use <code>1fr</code> as the maximum width.</p>
+<p>The function <code>minmax()</code> can also be used with fixed numbered columns. For example:</p>
+<pre>
+grid-template-columns: repeat(4, minmax(100px, 1fr));
+</pre>
+<div class="SnippetDemo">
+  <div class="d-grid width-300 border"
+    style="grid-template-rows: repeat(auto-fill, 50px); grid-template-columns : repeat(4, minmax(50px, 80px));">
+    <div class="Red border">1</div>
+    <div class="Blue border">2</div>
+    <div class="Tomato border">4</div>
+    <div class="Grey border">5</div>
+    <div class="Yellow border">6</div>
+  </div>
+</div>
+<p>In the above example, we are telling browser to create grid columns with the minimum width 100px, and if there are some space available use the maximum width to stretch all the grid items equally untill the grid container fills with the grid item.</p>
+<p>In the above examples, the outputs are same for fixed numbered column and <code>auto-fill</code> keyword. Well, one thing to note that, if you use fixed number for the column, the grid will always have fixed number of column regerdless if you resize your grid container. But for the keyword <code>auto-fill</code>, the grid columns are dynamic. If you resize your grid container, your grid columns will change accordingly and causing the trailling grid-item to span over next grid row.</p>
+<p>So with the combination of <code>auto-fill</code> and <code>min-max</code> you can have more flexibility.</p>
+
+
+
+
+
+<h1>auto-fit Keyword</h1>
+<p>Just like <code>auto-fill</code>, you can also use <code>auto-fit</code> keyword as the first argument. <code>auto-fit</code> is just like <code>auto-fill</code> with a major difference. Consider the following example:</p>
+<pre>
+div.grid-container-21{
+  width : 700px;
+  margin: auto;
+  margin-top: 20px;
+  background-color : pink;
+  border: 1px solid black;
+  
+  display : grid;
+  grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+  grid-gap: 10px;
+  padding: 10px;
+}
+.grid-container-21>div{
+  border: 1px solid black;
+  padding: 20px
+}
+
+&lt;div class="grid-container-21">
+  &lt;div class="grid-item-21">1&lt;/div>
+  &lt;div class="grid-item-21">2&lt;/div>
+  &lt;div class="grid-item-21">3&lt;/div>
+  &lt;div class="grid-item-21">4&lt;/div>
+  &lt;div class="grid-item-21">5&lt;/div>  
+  &lt;div class="grid-item-21">6&lt;/div>
+&lt;/div>
+</pre>
+<div class="box">
+<div class="grid-container-21">
+  <div class="grid-item-21">1</div>
+  <div class="grid-item-21">2</div>
+  <div class="grid-item-21">3</div>
+  <div class="grid-item-21">4</div>
+  <div class="grid-item-21">5</div>  
+  <div class="grid-item-21">6</div>
+</div>
+<style type="text/css">
+div.grid-container-21{
+  width : 700px;
+  margin: auto;
+  margin-top: 20px;
+  background-color : pink;
+  border: 1px solid black;
+  
+  display : grid;
+  grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+  grid-gap: 10px;
+  padding: 10px;
+}
+.grid-container-21>div{
+  border: 1px solid black;
+  padding: 20px
+}
+</style>
+</div>
+<p>In the example above, there are 6 grid items. But the number of grid column created is 8. So there are 8 grid columns above. As there are only 6 grid items, two grid columns remains empty. That's why even though you are using <code>1fr</code> as the maximum width, the grid items are not filling the grid container as there are still two columns acting as a placeholder. Now consider the same example with the <code>auto-fit</code> keyword.</p>
+<pre>
+grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
+</pre>
+<div class="box">
+<div class="grid-container-22">
+  <div class="grid-item-22">1</div>
+  <div class="grid-item-22">2</div>
+  <div class="grid-item-22">3</div>
+  <div class="grid-item-22">4</div>
+  <div class="grid-item-22">5</div>  
+  <div class="grid-item-22">6</div>
+</div>
+<style type="text/css">
+div.grid-container-22{
+  width : 700px;
+  margin: auto;
+  margin-top: 20px;
+  background-color : pink;
+  border: 1px solid black;
+  
+  display : grid;
+  grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
+  grid-gap: 10px;
+  padding: 10px;
+}
+.grid-container-22>div{
+  border: 1px solid black;
+  padding: 20px
+}
+</style>
+</div>
+<p>You can see visually that the grid items are stretched to fill the grid container. You might think that with the keyword <code>auto-fit</code>, only six columns are created. But no. It creates the same number of grid column as <code>auto-fill</code> would. But the difference is that the empty grid columns are not acting as a placeholder anymore. Instead they are squeezed in on a single line with the width of nothing. In other words they are not displayed on the grid container. That's why the six columns are stretched out to fill out the available gap.</p>
+
+
 
 
 
@@ -1601,329 +1954,6 @@ div.grid-container{
 
 
 
-<h1>span Keyword</h1>
-<p>So far we have been using numeric number for the property <code>grid-column-end</code> and <code>grid-row-end</code>. You can also specify <code>span</code> keyword followed by a numeric number. For example consider the following example -</p>
-<pre>
-&lt;div class="grid-container-15">
-  &lt;div class="grid-item-15">1&lt;/div>
-  &lt;div class="grid-item-15">2&lt;/div>
-  &lt;div class="grid-item-15">3&lt;/div>
-  &lt;div class="grid-item-15">4&lt;/div>
-  &lt;div class="grid-item-15">5&lt;/div>  
-&lt;/div>
-
-div.grid-container-15{
-  width : 500px;
-  margin: auto;
-  margin-top: 20px;
-  background-color : pink;
-  border: 1px solid black;
-  height: 300px;
-  
-  display : grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(2, 1fr);
-  grid-gap: 10px;
-  padding: 10px;
-}
-.grid-container-15>div{
-  border: 1px solid black;
-}
-.grid-container-15>div:nth-child(2){
-  grid-column: 2 / 4;
-  background-color : red;
-}
-</pre>
-<div class="box">
-<div class="grid-container-15">
-  <div class="grid-item-15">1</div>
-  <div class="grid-item-15">2</div>
-  <div class="grid-item-15">3</div>
-  <div class="grid-item-15">4</div>
-  <div class="grid-item-15">5</div>  
-</div>
-<style type="text/css">
-div.grid-container-15{
-  width : 500px;
-  margin: auto;
-  margin-top: 20px;
-  background-color : pink;
-  border: 1px solid black;
-  
-  display : grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(2, 1fr);
-  grid-gap: 10px;
-  padding: 10px;
-}
-.grid-container-15>div{
-  border: 1px solid black;
-  padding: 20px;
-}
-.grid-container-15>div:nth-child(2){
-  grid-column: 2 / 4;
-  background-color : red;
-}
-</style>
-</div>
-<p>In the above example we are dealing with numeric number for the <code>grid-column</code> property. In the above example, we are saying that the second grid item will start at grid line 2 and end at grid line 4. It means it will span over two grid column. You can specify how much grid column the grid item will span over using the keyword <code>span</code> followed by a numeric number which specifies the number of column that the grid item will span over.</p>
-<pre>
-grid-column: 2 / span 2;
-</pre>
-<p>You will get the same output.</p>
-<pre>
-.grid-container-15>div:nth-child(2){
-  grid-column: 2 / span 2;
-  background-color : red;
-}
-</pre>
-<div class="box">
-<div class="grid-container-15">
-  <div class="grid-item-15">1</div>
-  <div class="grid-item-15">2</div>
-  <div class="grid-item-15">3</div>
-  <div class="grid-item-15">4</div>
-  <div class="grid-item-15">5</div>  
-</div>
-</div>
-<p>The same rule goes for the <code>grid-row</code> property. Consider the following example -</p>
-<pre>
-.grid-container-15>div:nth-child(2){
-  grid-column: 2 / span 2;
-  grid-row: 1 / span 2;
-  background-color : red;
-}
-</pre>
-<div class="box">
-<div class="grid-container-15">
-  <div class="grid-item-15">1</div>
-  <div class="grid-item-15" style="grid-row: 1 / span 2;">2</div>
-  <div class="grid-item-15">3</div>
-  <div class="grid-item-15">4</div>
-  <div class="grid-item-15">5</div>  
-</div>
-</div>
-<p>The keyword <code>span</code> is invalid for <code>grid-column-start</code> and <code>grid-row-start</code>.</p>
-<p>You can explicitily specify the <code>span</code> keyword on the <code>grid-column-end</code> and <code>grid-row-end</code> property.</p>
-<pre>
-.grid-container-15>div:nth-child(2){
-  grid-column-start: 2;
-  grid-column-end: span 2;
-  grid-row-start: 1;
-  grid-row-end: span 2;
-  background-color : red;
-}
-</pre>
-
-
-
-
-
-
-
-<h1>auto-fill keyword</h1>
-<p>The keyword <code>auto-fill</code> is used as the first argument of <code>repeat()</code> function which tells the browser to automatically create as many grid columns as possible. The second argument specifies the each grid column width.</p>
-<p>Consider the following example -</p>
-<pre>
-div.grid-container-16{
-  width : 500px;
-  margin: auto;
-  margin-top: 20px;
-  background-color : pink;
-  border: 1px solid black;
-  
-  display : grid;
-  grid-template-columns: repeat(auto-fill, 1fr);
-  grid-gap: 10px;
-  padding: 10px;
-}
-.grid-container-16>div{
-  border: 1px solid black;
-  padding: 20px
-}
-
-&lt;div class="grid-container-16">
-  &lt;div class="grid-item-16">1&lt;/div>
-  &lt;div class="grid-item-16">2&lt;/div>
-  &lt;div class="grid-item-16">3&lt;/div>
-  &lt;div class="grid-item-16">4&lt;/div>
-  &lt;div class="grid-item-16">5&lt;/div>  
-  &lt;div class="grid-item-16">6&lt;/div>
-&lt;/div>
-</pre>
-<div class="box">
-<div class="grid-container-16">
-  <div class="grid-item-16">1</div>
-  <div class="grid-item-16">2</div>
-  <div class="grid-item-16">3</div>
-  <div class="grid-item-16">4</div>
-  <div class="grid-item-16">5</div>  
-  <div class="grid-item-16">6</div>
-</div>
-<style type="text/css">
-div.grid-container-16{
-  width : 500px;
-  margin: auto;
-  margin-top: 20px;
-  background-color : pink;
-  border: 1px solid black;
-  
-  display : grid;
-  grid-template-columns: repeat(auto-fill, 1fr);
-  grid-gap: 10px;
-  padding: 10px;
-}
-.grid-container-16>div{
-  border: 1px solid black;
-  padding: 20px
-}
-</style>
-</div>
-<p>As you can see in the above example, we are using <code>auto-fill</code>. It means we are telling browser to create as many columns as possible and each one have the <code>1fr</code> width. Since <code>1fr</code> means the whole with, so only one column is created. Now consider the following example -</p>
-<pre>
-.grid-container-16{
-	grid-template-columns: repeat(auto-fill, 100px);
-}
-</pre>
-<div class="box">
-<div class="grid-container-17">
-  <div class="grid-item-17">1</div>
-  <div class="grid-item-17">2</div>
-  <div class="grid-item-17">3</div>
-  <div class="grid-item-17">4</div>
-  <div class="grid-item-17">5</div>  
-  <div class="grid-item-17">6</div>
-</div>
-<style type="text/css">
-div.grid-container-17{
-  width : 500px;
-  margin: auto;
-  margin-top: 20px;
-  background-color : pink;
-  border: 1px solid black;
-  
-  display : grid;
-  grid-template-columns: repeat(auto-fill, 100px);
-  grid-gap: 10px;
-  padding: 10px;
-}
-.grid-container-17>div{
-  border: 1px solid black;
-  padding: 20px
-}
-</style>
-</div>
-<p>In the above example, we are specifying <code>100px</code> for each grid item. So only four can be created with the <code>grid-gap</code>.</p>
-<p>You can achieve the same thing using the following code -</p>
-<pre>
-grid-template-columns: repeat(4, 100px);
-</pre>
-<p>So what's the benefit of using <code>auto-fill</code>? Well, if you use fixed value for the number of columns, and then if you resize your grid, the grid-items will overflow and will be hidden. But with the <code>auto-fill</code> keyword, if you resize your grid container, the grid column will also auto adjust. If you shrink your grid container enough, the trailer grid item will span over next line. You can experiment in the browser console.</p>
-<p>If you notice, after creating four columns there are some gap at the end of the last column. In the next section with the help of <code>minmax()</code> we will see how to fill that gap.</p>
-
-
-
-
-
-
-<h1>minmax()</h1>
-<p><code>minmax()</code> function is used with <code>repeat()</code> function and is used to specify the minimum width and the maximum width of the grid column. Consider the following example -</p>
-<pre>
-grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-</pre>
-<div class="box">
-<div class="grid-container-18">
-  <div class="grid-item-18">1</div>
-  <div class="grid-item-18">2</div>
-  <div class="grid-item-18">3</div>
-  <div class="grid-item-18">4</div>
-  <div class="grid-item-18">5</div>  
-  <div class="grid-item-18">6</div>
-</div>
-<style type="text/css">
-div.grid-container-18{
-  width : 500px;
-  margin: auto;
-  margin-top: 20px;
-  background-color : pink;
-  border: 1px solid black;
-  
-  display : grid;
-  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-  grid-gap: 10px;
-  padding: 10px;
-}
-.grid-container-18>div{
-  border: 1px solid black;
-  padding: 20px
-}
-</style>
-</div>
-<p>The function <code>minmax</code> takes the minimum width as the first argument and maximum width as the second argument. The browser first creates grid columns with the min-width to see how much grid column can be created, then the browser uses the second argument to distribute the remaining space to each grid item. Here, you can use any absolute value (like px) for the maximum width instead of using <code>1fr</code>. But there is no guarantte  that after reaching maximum width of the grid item, there won't be any remaining space. Here is an example -</p>
-<div class="box">
-<div class="grid-container-19">
-  <div class="grid-item-19">1</div>
-  <div class="grid-item-19">2</div>
-  <div class="grid-item-19">3</div>
-  <div class="grid-item-19">4</div>
-  <div class="grid-item-19">5</div>  
-  <div class="grid-item-19">6</div>
-</div>
-<style type="text/css">
-div.grid-container-19{
-  width : 500px;
-  margin: auto;
-  margin-top: 20px;
-  background-color : pink;
-  border: 1px solid black;
-  
-  display : grid;
-  grid-template-columns: repeat(auto-fill, minmax(100px, 105px));
-  grid-gap: 10px;
-  padding: 10px;
-}
-.grid-container-19>div{
-  border: 1px solid black;
-  padding: 20px
-}
-</style>
-</div>
-<p>As you notice in the above example, there are still some space left over. So it is always better to use <code>1fr</code> as the maximum width.</p>
-<p>The function minmax() can also be used with fixed numbered columns. For example -</p>
-<pre>
-grid-template-columns: repeat(4, minmax(100px, 1fr));
-</pre>
-<div class="box">
-<div class="grid-container-20">
-  <div class="grid-item-20">1</div>
-  <div class="grid-item-20">2</div>
-  <div class="grid-item-20">3</div>
-  <div class="grid-item-20">4</div>
-  <div class="grid-item-20">5</div>  
-  <div class="grid-item-20">6</div>
-</div>
-<style type="text/css">
-div.grid-container-20{
-  width : 500px;
-  margin: auto;
-  margin-top: 20px;
-  background-color : pink;
-  border: 1px solid black;
-  
-  display : grid;
-  grid-template-columns: repeat(4, minmax(100px, 1fr));
-  grid-gap: 10px;
-  padding: 10px;
-}
-.grid-container-20>div{
-  border: 1px solid black;
-  padding: 20px
-}
-</style>
-</div>
-<p>In the above example, we are telling browser to create grid columns with the minimum width 100px, and if there are some space available use the maximum width to stretch all the grid items equally untill the grid container fills with the grid item.</p>
-<p>In the above examples, the outputs are same for fixed numbered column and <code>auto-fill</code> keyword. Well, one thing to note that, if you use fixed number for the column, the grid will always have fixed number of column regerdless if you resize your grid container. But for the keyword <code>auto-fill</code>, the grid columns are dynamic. If you resize your grid container, your grid columns will change accordingly and causing the trailling grid-item to span over next grid row.</p>
-<p>So with the combination of <code>auto-fill</code> and <code>min-max</code> you can have more flexibility.</p>
 
 
 
@@ -1936,96 +1966,23 @@ div.grid-container-20{
 
 
 
-<h1>auto-fit Keyword</h1>
-<p>Just like <code>auto-fill</code>, you can also use <code>auto-fit</code> keyword as the first argument. <code>auto-fit</code> is just like <code>auto-fill</code> with a major difference. Consider the following example -</p>
-<pre>
-div.grid-container-21{
-  width : 700px;
-  margin: auto;
-  margin-top: 20px;
-  background-color : pink;
-  border: 1px solid black;
-  
-  display : grid;
-  grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
-  grid-gap: 10px;
-  padding: 10px;
-}
-.grid-container-21>div{
-  border: 1px solid black;
-  padding: 20px
-}
 
-&lt;div class="grid-container-21">
-  &lt;div class="grid-item-21">1&lt;/div>
-  &lt;div class="grid-item-21">2&lt;/div>
-  &lt;div class="grid-item-21">3&lt;/div>
-  &lt;div class="grid-item-21">4&lt;/div>
-  &lt;div class="grid-item-21">5&lt;/div>  
-  &lt;div class="grid-item-21">6&lt;/div>
-&lt;/div>
-</pre>
-<div class="box">
-<div class="grid-container-21">
-  <div class="grid-item-21">1</div>
-  <div class="grid-item-21">2</div>
-  <div class="grid-item-21">3</div>
-  <div class="grid-item-21">4</div>
-  <div class="grid-item-21">5</div>  
-  <div class="grid-item-21">6</div>
-</div>
-<style type="text/css">
-div.grid-container-21{
-  width : 700px;
-  margin: auto;
-  margin-top: 20px;
-  background-color : pink;
-  border: 1px solid black;
-  
-  display : grid;
-  grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
-  grid-gap: 10px;
-  padding: 10px;
-}
-.grid-container-21>div{
-  border: 1px solid black;
-  padding: 20px
-}
-</style>
-</div>
-<p>In the example above, there are 6 grid items. But the number of grid column created is 8. So there are 8 grid columns above. As there are only 6 grid items, two grid columns remains empty. That's why even though you are using <code>1fr</code> as the maximum width, the grid items are not filling the grid container as there are still two columns acting as a placeholder. Now consider the same example with the <code>auto-fit</code> keyword.</p>
-<pre>
-grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
-</pre>
-<div class="box">
-<div class="grid-container-22">
-  <div class="grid-item-22">1</div>
-  <div class="grid-item-22">2</div>
-  <div class="grid-item-22">3</div>
-  <div class="grid-item-22">4</div>
-  <div class="grid-item-22">5</div>  
-  <div class="grid-item-22">6</div>
-</div>
-<style type="text/css">
-div.grid-container-22{
-  width : 700px;
-  margin: auto;
-  margin-top: 20px;
-  background-color : pink;
-  border: 1px solid black;
-  
-  display : grid;
-  grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
-  grid-gap: 10px;
-  padding: 10px;
-}
-.grid-container-22>div{
-  border: 1px solid black;
-  padding: 20px
-}
-</style>
-</div>
-<p>You can see visually that the grid items are stretched to fill the grid container. You might think that with the keyword <code>auto-fit</code>, only six columns are created. But no. It creates the same number of grid column as <code>auto-fill</code> would. But the difference is that the empty grid columns are not acting as a placeholder anymore. Instead they are squeezed in on a single line with the width of nothing. In other words they are not displayed on the grid container. That's why the six columns are stretched out to fill out the available gap.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -2280,129 +2237,6 @@ div.grid-container-26{
 
 
 
-<h1>justify-self</h1>
-<p>The property <code>justify-items</code> for grid container applies to all grid items. What if you want to specify different horizontal position for a particular grid items? The property <code>justify-self</code> for the grid item solves this problem. Here is an example -</p>
-<pre>
-&lt;div class="grid-container">
-  &lt;div class="grid-item">1&lt;/div>
-  &lt;div class="grid-item">2&lt;/div>
-  &lt;div class="grid-item">3&lt;/div>
-  &lt;div class="grid-item">4&lt;/div>
-  &lt;div class="grid-item">5&lt;/div>  
-  &lt;div class="grid-item">6&lt;/div>
-  &lt;div class="grid-item">7&lt;/div>
-  &lt;div class="grid-item">8&lt;/div>  
-  &lt;div class="grid-item">9&lt;/div>
-&lt;/div>
-
-
-div.grid-container{
-  width : 700px;
-  margin: auto;
-  margin-top: 20px;
-  background-color : pink;
-  border: 1px solid black;
-  height: 500px;
-  
-  display : grid;
-  grid-template-columns: repeat(3, 100px);
-  grid-template-rows: repeat(3, 70px);
-  grid-gap: 10px;
-  padding: 10px;
-  justify-content: center;
-}
-.grid-container>div{
-  border: 1px solid black;
-  padding: 20px
-}
-.grid-container>div:nth-child(5){
-  justify-self: end;
-}
-</pre>
-<div class="box">
-<style type="text/css">
-div.grid-container-27{
-  width : 700px;
-  margin: auto;
-  margin-top: 20px;
-  background-color : pink;
-  border: 1px solid black;
-  height: 500px;
-  
-  display : grid;
-  grid-template-columns: repeat(3, 100px);
-  grid-template-rows: repeat(3, 70px);
-  grid-gap: 10px;
-  padding: 10px;
-  justify-content: center;
-}
-.grid-container-27>div{
-  border: 1px solid black;
-  padding: 20px;
-}
-.grid-container-27>div:nth-child(5){
-  justify-self: end;
-}
-</style>
-<div class="grid-container-27">
-  <div class="grid-item-27">1</div>
-  <div class="grid-item-27">2</div>
-  <div class="grid-item-27">3</div>
-  <div class="grid-item-27">4</div>
-  <div class="grid-item-27">5</div>  
-  <div class="grid-item-27">6</div>
-  <div class="grid-item-27">7</div>
-  <div class="grid-item-27">8</div>  
-  <div class="grid-item-27">9</div>
-</div>
-</div>
-
-
-
-
-
-
-
-
-<h1>align-self</h1>
-<p>The property <code>align-items</code> for grid container applies to all grid items. What if you want to specify different vertical position for a particular grid items? The property <code>align-self</code> for the grid item solves this problem. Here is an example -</p>
-<div class="box">
-<style type="text/css">
-div.grid-container-28{
-  width : 700px;
-  margin: auto;
-  margin-top: 20px;
-  background-color : pink;
-  border: 1px solid black;
-  height: 500px;
-  
-  display : grid;
-  grid-template-columns: repeat(3, 100px);
-  grid-template-rows: repeat(3, 100px);
-  grid-gap: 10px;
-  padding: 10px;
-  justify-content: center;
-}
-.grid-container-28>div{
-  border: 1px solid black;
-  padding: 20px;
-}
-.grid-container-28>div:nth-child(5){
-  align-self: end;
-}
-</style>
-<div class="grid-container-28">
-  <div class="grid-item-28">1</div>
-  <div class="grid-item-28">2</div>
-  <div class="grid-item-28">3</div>
-  <div class="grid-item-28">4</div>
-  <div class="grid-item-28">5</div>  
-  <div class="grid-item-28">6</div>
-  <div class="grid-item-28">7</div>
-  <div class="grid-item-28">8</div>  
-  <div class="grid-item-28">9</div>
-</div>
-</div>
 
 
 
@@ -2412,56 +2246,17 @@ div.grid-container-28{
 
 
 
-<h1>place-self</h1>
-<p><code>place-self</code> sets both the <code>align-self</code> and <code>justify-self</code> properties in a single declaration.</p>
-<pre>
-.grid-item{
-	place-self: align-self justify-self;
-}
-</pre>
-<p>For example -</p>
-<pre>
-.grid-item{
-	place-self : center center;
-}
-</pre>
-<div class="box">
-<style type="text/css">
-div.grid-container-29{
-  width : 700px;
-  margin: auto;
-  margin-top: 20px;
-  background-color : pink;
-  border: 1px solid black;
-  height: 500px;
-  
-  display : grid;
-  grid-template-columns: repeat(3, 100px);
-  grid-template-rows: repeat(3, 100px);
-  grid-gap: 10px;
-  padding: 10px;
-  justify-content: center;
-}
-.grid-container-29>div{
-  border: 1px solid black;
-  padding: 20px;
-}
-.grid-container-29>div:nth-child(5){
-  place-self: center center;
-}
-</style>
-<div class="grid-container-29">
-  <div class="grid-item-29">1</div>
-  <div class="grid-item-29">2</div>
-  <div class="grid-item-29">3</div>
-  <div class="grid-item-29">4</div>
-  <div class="grid-item-29">5</div>  
-  <div class="grid-item-29">6</div>
-  <div class="grid-item-29">7</div>
-  <div class="grid-item-29">8</div>  
-  <div class="grid-item-29">9</div>
-</div>
-</div>
+
+
+
+
+
+
+
+
+
+
+
 
 
 
