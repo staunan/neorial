@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>MySQL - Introduction</title>
+    <link rel="icon" type="image/x-icon" href="../Assets/favicon.png">
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+</head>
+<body>
+<div class="page card">
+
+<h1>Introduction to databases</h1>
+<p>By definition, a database is simply a structured collection of data. The data within a database are naturally related, for example, a product belongs to a product category and is associated with multiple tags. Hence, we use the term <code>relational database</code>.</p>
+<p>In a relational database, we model data like products, categories, tags, etc., using tables. A table contains columns and rows, much like a spreadsheet.</p>
+<p>Tables can relate to one another table using various types of relationships, like one-to-one and one-to-many.</p>
+<p>Because we handle a substantial amount of data, we need a way to efficiently define databases, tables, and process data. Moreover, we want to transform data into valuable information.</p>
+
+<h1>SQL - the language of the relational database</h1>
+<p>SQL stands for the structured query language. SQL is the standardized language used to access the database. SQL is composed of three parts:</p>
+<ol>
+	<li>Data definition language (DDL) includes statements for defining the database and its objects such as tables, views, triggers, stored procedures, etc.</li>
+	<li>Data manipulation language (DML) contains statements for updating and querying data.</li>
+	<li>Data control language (DCL) allows you to grant permissions to users to access specific data in the database.</li>
+</ol>
+
+<h1>MySQL</h1>
+<p>MySQL is a robust database management system designed for managing relational databases. It is open-source software supported by Oracle, meaning that you can use MySQL without any cost. Additionally, you will have the flexibility to modify its source code to tailor it to your specific requirements.</p>
+
+<h1>Install MySQL</h1>
+<p>If you want to install MySQL on Windows, you can use the MySQL Installer. The MySQL Installer provides you with an easy-to-use wizard that helps you to install MySQL with the following main products:</p>
+<p>To download the MySQL installer, go to the following link <a target="_blank" href="http://dev.mysql.com/downloads/installer/">http://dev.mysql.com/downloads/installer/</a>. </p>
+
+
+<h1>Connect to MySQL Using mysql command-line client</h1>
+<p>After successful installation and setup the server it is time to connect to the server.</p>
+<p>MySQL is a command-line client program that allows you to interact with MySQL in interactive and non-interactive modes.</p>
+<p>The mysql command-line client is typically located in the bin directory of MySQL's installation directory e.g., on Windows it is:</p>
+<pre>
+C:\Program Files\MySQL\MySQL Server 8.0\bin
+</pre>
+<p>To invoke the mysql program, you open the Command Prompt and navigate to the <code>bin</code> directory of the MySQL installation directory:</p>
+<pre>
+C:\Program Files\MySQL\MySQL Server 8.0\bin>
+</pre>
+<p>If the <code>bin</code> directory is included in the <code>PATH</code>, you can use the mysql command from the Command Prompt without the need to navigate to the <code>bin</code> directory.</p>
+<p>To connect to the MySQL Server, you type this command on Command Prompt:</p>
+<pre>
+mysql -u root -p
+</pre>
+<p>In this command, <code>-u root</code> means that you connect to the MySQL Server using the user <code>root</code>. <code>-p</code> instructs mysql to prompt for a password. You type the password for the <code>root</code> user and press <code>Enter</code>:</p>
+<pre>
+Enter password: ********
+</pre>
+<p>If everything is OK, you will connect to the MySQL Server and see the following command:</p>
+<pre>
+mysql>
+</pre>
+<p>To display available databases in the current server, you enter the <code>SHOW DATABASES</code> statement terminated by a semicolon (<code>;</code>) and press the <code>Enter</code> key:</p>
+<pre>
+mysql> show databases;
+</pre>
+<p>The mysql program will return the following output:</p>
+<pre>
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+4 rows in set (0.01 sec)
+</pre>
+<p>Here are the steps that occur behind the scenes:</p>
+<ol>
+	<li>First, the mysql command-line client sends the query to the MySQL Server.</li>
+	<li>Second, the MySQL server executes the query and sends the result back.</li>
+	<li>Third, the mysql command-line client displays the result.</li>
+</ol>
+
+
+
+
+
+<h1>Sample Database</h1>
+
+
+
+
+
+
+
+</div>
+</body>
+</html>
