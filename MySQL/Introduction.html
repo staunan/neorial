@@ -77,17 +77,46 @@ mysql> show databases;
 	<li>Second, the MySQL server executes the query and sends the result back.</li>
 	<li>Third, the mysql command-line client displays the result.</li>
 </ol>
+<p>In the above example, you can see there are four database already present (information_schema, mysql, performance_schema, sys). These databases are provided by MySQL when you install it. In real life projects these databases are not required. And most of the time these pre installed databases are ignored in projects.</p>
 
 
 
 
 
 <h1>Sample Database</h1>
-
-
-
-
-
+<p>We use the <code>classicmodels</code> database as a MySQL sample database to help you work with MySQL quickly and effectively. The <code>classicmodels</code> database is a retailer of scale models of classic cars. It contains typical business data, including information about customers, products, sales orders, sales order line items, and more.</p>
+<a href="mysqlsampledatabase.zip">Download Sample Database</a>
+<h2>MySQL Sample Database Schema</h2>
+<p>The MySQL sample database schema consists of the following tables:</p>
+<ol>
+	<li>customers: stores customer's data.</li>
+	<li>products: stores a list of scale model cars.</li>
+	<li>productlines: stores a list of product lines.</li>
+	<li>orders: stores sales orders placed by customers.</li>
+	<li>orderdetails: stores sales order line items for every sales order.</li>
+	<li>payments: stores payments made by customers based on their accounts.</li>
+	<li>employees: stores employee information and the organization structure such as who reports to whom.</li>
+	<li>offices: stores sales office data.</li>
+</ol>
+<p>The following picture illustrates the ER diagram of the sample database:</p>
+<img src="images/mysql-sample-database.png" alt="mysql-sample-database" style="width: 100%;">
+<h2>How to Load the Sample Database into MySQL Server</h2>
+<p>Unzip the downloaded file into a temporary directory. You can use any directory you prefer, for example, C:\temp  directory. And then connect to MySQL server so that you can execute query. After get into the MySQL terminal, use the following command to load data from file into a database.</p>
+<pre>
+source c:/temp/mysqlsampledatabase.sql
+</pre>
+<p>Use the <code>SHOW DATABASES</code> command to list all databases in the current server:</p>
+<pre>
++--------------------+
+| Database           |
++--------------------+
+| classicmodels      |
+| information_schema |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+</pre>
 
 
 </div>
