@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>MySQL - OR Operator</title>
+    <link rel="icon" type="image/x-icon" href="../../Assets/favicon.png">
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+</head>
+<body>
+<div class="page card">
+
+<h1>OR Operator</h1>
+<p>The MySQL <code>OR</code> operator is a logical operator that combines two Boolean expressions.</p>
+<pre>
+A OR B
+</pre>
+<p>If any of the operands returns <code>1</code> then <code>OR</code> returns <code>1</code>. If both operands <code>A</code> and <code>B</code> is <code>0</code>, it return <code>0</code>, If both operands are <code>NULL</code>, then <code>OR</code> operator returns <code>NULL</code>.</p>
+
+<h3>Example 1 : Returns 1</h3>
+<p>If both A and B are not NULL, the OR operator returns 1 (true) if either A or B is non-zero. For example:</p>
+<pre>
+SELECT 1 OR 1, 1 OR 0, 0 OR 1;
+
++--------+--------+--------+
+| 1 OR 1 | 1 OR 0 | 0 OR 1 |
++--------+--------+--------+
+|      1 |      1 |      1 |
++--------+--------+--------+
+1 row in set (0.00 sec)
+</pre>
+
+<h3>Example 2 : Returns 0</h3>
+<p>If both A and B are zero (false), the OR operator returns zero. For example:</p>
+<pre>
+SELECT 0 OR 0;
+
++--------+
+| 0 OR 0 |
++--------+
+|      0 |
++--------+
+1 row in set (0.00 sec)
+</pre>
+
+
+<h3>Example 3 : Returns NULL</h3>
+<p>If both operands are <code>NULL</code>, it returns <code>NULL</code>.</p>
+<pre>
+SELECT 1 OR NULL, 0 OR NULL, NULL or NULL;
+
++-----------+-----------+--------------+
+| 1 OR NULL | 0 OR NULL | NULL or NULL |
++-----------+-----------+--------------+
+|         1 |      NULL |         NULL |
++-----------+-----------+--------------+
+1 row in set (0.00 sec)
+</pre>
+
+
+<h3>Example 4 : Short-Circuit Evaluation</h3>
+<p>Like the <code>AND</code> operator, the <code>OR</code> operator is also short-circuited. In other words, MySQL stops evaluating the remaining parts of the expression as soon as it can determine the result. For example:</p>
+<pre>
+SELECT 1 = 1 OR 1 / 0;
+
++----------------+
+| 1 = 1 OR 1 / 0 |
++----------------+
+|              1 |
++----------------+
+1 row in set (0.00 sec)
+</pre>
+<p>Because the expression <code>1 = 1</code> always returns <code>1</code>, MySQL won't evaluate the <code>1 / 0</code> expression. And MySQL would issue an error if it did.</p>
+
+
+<h2>Operator precedence</h2>
+<p>When an expression contains both <code>AND</code> and <code>OR</code> operators, MySQL uses the operator precedence to determine the order of evaluation of the operators. MySQL evaluates the operator with higher precedence first. Since the <code>AND</code> operator has higher precedence than the <code>OR</code> operator, MySQL evaluates the <code>AND</code> operator before the <code>OR</code> operator. For example:</p>
+<pre>
+SELECT 1 OR 0 AND 0;
+
++--------------+
+| 1 OR 0 AND 0 |
++--------------+
+|            1 |
++--------------+
+1 row in set (0.00 sec)
+</pre>
+<p>To change the order of evaluation, you use the parentheses. For example:</p>
+<pre>
+SELECT (1 OR 0) AND 0;
+
++----------------+
+| (1 OR 0) AND 0 |
++----------------+
+|              0 |
++----------------+
+1 row in set (0.00 sec)
+</pre>
+
+
+
+<h3>Example 5 : Sample Database</h3>
+<p>The following query uses the <code>OR</code> operator in the <code>WHERE</code> clause to select all the customers located in the USA or France:</p>
+<pre>
+SELECT    
+	customername, 
+	country
+FROM    
+	customers
+WHERE country = 'USA' OR 
+      country = 'France';
+</pre>
+<p>The following example uses the <code>OR</code> operator to select the customers who locate in the USA or France and have a credit limit greater than 100,000.</p>
+<pre>
+SELECT   
+	customername, 
+	country, 
+	creditLimit
+FROM   
+	customers
+WHERE (country = 'USA' OR country = 'France')
+	AND creditlimit > 100000;
+
+
++------------------------------+---------+-------------+
+| customername                 | country | creditLimit |
++------------------------------+---------+-------------+
+| La Rochelle Gifts            | France  |   118200.00 |
+| Mini Gifts Distributors Ltd. | USA     |   210500.00 |
+| Land of Toys Inc.            | USA     |   114900.00 |
+| Saveley & Henriot, Co.       | France  |   123900.00 |
+| Muscle Machine Inc           | USA     |   138500.00 |
+| Diecast Classics Inc.        | USA     |   100600.00 |
+| Collectable Mini Designs Co. | USA     |   105000.00 |
+| Marta's Replicas Co.         | USA     |   123700.00 |
+| Mini Classics                | USA     |   102700.00 |
+| Corporate Gift Ideas Co.     | USA     |   105000.00 |
+| Online Diecast Creations Co. | USA     |   114200.00 |
++------------------------------+---------+-------------+
+11 rows in set (0.00 sec)
+</pre>
+<p>Notice that if you do not use the parentheses, the query will return the customers who locate in the USA or the customers located in France with a credit limit greater than 100,000.</p>
+<pre>
+SELECT    
+    customername, 
+    country, 
+    creditLimit
+FROM    
+    customers
+WHERE 
+    country = 'USA'
+    OR country = 'France'
+    AND creditlimit > 100000;
+
+
++------------------------------+---------+-------------+
+| customername                 | country | creditLimit |
++------------------------------+---------+-------------+
+| Signal Gift Stores           | USA     |    71800.00 |
+| La Rochelle Gifts            | France  |   118200.00 |
+| Mini Gifts Distributors Ltd. | USA     |   210500.00 |
+| Mini Wheels Co.              | USA     |    64600.00 |
+| Land of Toys Inc.            | USA     |   114900.00 |
+| Saveley & Henriot, Co.       | France  |   123900.00 |
+| Muscle Machine Inc           | USA     |   138500.00 |
+| Diecast Classics Inc.        | USA     |   100600.00 |
+| Technics Stores Inc.         | USA     |    84600.00 |
+| American Souvenirs Inc       | USA     |        0.00 |
+...
+</pre>
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>
