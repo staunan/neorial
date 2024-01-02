@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>MySQL - Where Clause</title>
+    <link rel="icon" type="image/x-icon" href="../../Assets/favicon.png">
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+</head>
+<body>
+<div class="page card">
+
+<h1>Where Clause</h1>
+<p>The <code>WHERE</code> clause allows you to specify a search condition for the rows returned by a query. The following shows the syntax of the <code>WHERE</code> clause:</p>
+<pre>
+SELECT 
+    select_list
+FROM
+    table_name
+WHERE
+    search_condition;
+</pre>
+<p>The <code>search_condition</code> is a combination of one or more expressions using the logical operator <code>AND</code>, <code>OR</code> and <code>NOT</code>. The <code>SELECT</code> statement will include any row that satisfies the <code>search_condition</code> in the result. Besides the <code>SELECT</code> statement, you can use the <code>WHERE</code> clause in the <code>UPDATE</code> or <code>DELETE</code> statement to specify which rows to update or delete.</p>
+<h3>Order of Execution</h3>
+<p>When executing a <code>SELECT</code> statement with a <code>WHERE</code> clause, MySQL evaluates the <code>WHERE</code> clause after the <code>FROM</code> clause and before the <code>SELECT</code> and <code>ORDER BY</code> clauses:</p>
+
+<h3>Example 1 : Equality Operator</h3>
+<p>The following query uses the <code>WHERE</code> clause to find all employees whose job titles are <code>Sales Rep</code>:</p>
+<pre>
+SELECT 
+    lastname, 
+    firstname, 
+    jobtitle
+FROM
+    employees
+WHERE
+    jobtitle = 'Sales Rep';
+</pre>
+<p>Output:</p>
+<pre>
++-----------+-----------+-----------+
+| lastname  | firstname | jobtitle  |
++-----------+-----------+-----------+
+| Jennings  | Leslie    | Sales Rep |
+| Thompson  | Leslie    | Sales Rep |
+| Firrelli  | Julie     | Sales Rep |
+| Patterson | Steve     | Sales Rep |
+| Tseng     | Foon Yue  | Sales Rep |
+| Vanauf    | George    | Sales Rep |
+| Bondur    | Loui      | Sales Rep |
+| Hernandez | Gerard    | Sales Rep |
+| Castillo  | Pamela    | Sales Rep |
+| Bott      | Larry     | Sales Rep |
+| Jones     | Barry     | Sales Rep |
+| Fixter    | Andy      | Sales Rep |
+| Marsh     | Peter     | Sales Rep |
+| King      | Tom       | Sales Rep |
+| Nishi     | Mami      | Sales Rep |
+| Kato      | Yoshimi   | Sales Rep |
+| Gerard    | Martin    | Sales Rep |
++-----------+-----------+-----------+
+17 rows in set (0.00 sec)
+</pre>
+<p>In this example, the <code>SELECT</code> statement examines all rows of the employees table and selects only rows whose values are in the jobTitle column are <code>Sales Rep</code>.</p>
+
+
+<h3>Example 2 : And Operator</h3>
+<p>The following example uses the <code>WHERE</code> clause to find employees whose job titles are <code>Sales Rep</code> and office codes are <code>1</code>:</p>
+<pre>
+SELECT 
+    lastname, 
+    firstname, 
+    jobtitle,
+    officeCode
+FROM
+    employees
+WHERE
+    jobtitle = 'Sales Rep' AND officeCode = 1;
+</pre>
+<p>Output:</p>
+<pre>
++----------+-----------+-----------+------------+
+| lastname | firstname | jobtitle  | officeCode |
++----------+-----------+-----------+------------+
+| Jennings | Leslie    | Sales Rep | 1          |
+| Thompson | Leslie    | Sales Rep | 1          |
++----------+-----------+-----------+------------+
+2 rows in set (0.00 sec)
+</pre>
+<p>In this example, the expression in the <code>WHERE</code> clause uses the <code>AND</code> operator to combine two conditions:</p>
+<pre>
+jobtitle = 'Sales Rep' AND officeCode = 1;
+</pre>
+<p>The <code>AND</code> operator evaluates to <code>TRUE</code> only if both expressions are evaluated to <code>TRUE</code>. Therefore, the query returns rows whose values in the <code>jobTitle</code> column is <code>Sales Rep</code> and <code>officeCode</code> is <code>1</code>.</p>
+
+
+<h3>Example 3 : OR Operator</h3>
+<p>This query finds employees whose job title is <code>Sales Rep</code> or employees who locate the office with office code <code>1</code>:</p>
+<pre>
+SELECT 
+    lastName, 
+    firstName, 
+    jobTitle, 
+    officeCode
+FROM
+    employees
+WHERE
+    jobtitle = 'Sales Rep' OR officeCode = 1
+ORDER BY 
+    officeCode, jobTitle;
+</pre>
+<p>Output:</p>
+<pre>
++-----------+-----------+--------------------+------------+
+| lastName  | firstName | jobTitle           | officeCode |
++-----------+-----------+--------------------+------------+
+| Murphy    | Diane     | President          | 1          |
+| Bow       | Anthony   | Sales Manager (NA) | 1          |
+| Jennings  | Leslie    | Sales Rep          | 1          |
+| Thompson  | Leslie    | Sales Rep          | 1          |
+| Firrelli  | Jeff      | VP Marketing       | 1          |
+| Patterson | Mary      | VP Sales           | 1          |
+| Firrelli  | Julie     | Sales Rep          | 2          |
+| Patterson | Steve     | Sales Rep          | 2          |
+| Tseng     | Foon Yue  | Sales Rep          | 3          |
+| Vanauf    | George    | Sales Rep          | 3          |
+| Bondur    | Loui      | Sales Rep          | 4          |
+| Hernandez | Gerard    | Sales Rep          | 4          |
+| Castillo  | Pamela    | Sales Rep          | 4          |
+| Gerard    | Martin    | Sales Rep          | 4          |
+| Nishi     | Mami      | Sales Rep          | 5          |
+| Kato      | Yoshimi   | Sales Rep          | 5          |
+| Fixter    | Andy      | Sales Rep          | 6          |
+| Marsh     | Peter     | Sales Rep          | 6          |
+| King      | Tom       | Sales Rep          | 6          |
+| Bott      | Larry     | Sales Rep          | 7          |
+| Jones     | Barry     | Sales Rep          | 7          |
++-----------+-----------+--------------------+------------+
+21 rows in set (0.00 sec)
+</pre>
+<p>The <code>OR</code> operator evaluates to <code>TRUE</code> only if one of the expressions evaluates to <code>TRUE</code>:</p>
+<pre>
+jobtitle = 'Sales Rep' OR officeCode = 1
+</pre>
+<p>Therefore, the query returns any employee who has the job title <code>Sales Rep</code> or office code <code>1</code>.</p>
+
+
+<h3>Example 4 : Other Operators</h3>
+<p>The following query finds employees who are located in offices whose office code is from <code>1</code> to <code>3</code>:</p>
+<pre>
+SELECT 
+    firstName, 
+    lastName, 
+    officeCode
+FROM
+    employees
+WHERE
+    officeCode BETWEEN 1 AND 3
+ORDER BY officeCode;
+</pre>
+<p>The following query finds the employees whose last names end with the string 'son':</p>
+<pre>
+SELECT 
+    firstName, 
+    lastName
+FROM
+    employees
+WHERE
+    lastName LIKE '%son'
+ORDER BY firstName;
+</pre>
+<p>The following example uses the <code>WHERE</code> clause with the <code>IN</code> operator to find employees who are located in the offices with the codes <code>1</code>, <code>2</code>, and <code>3</code>:</p>
+<pre>
+SELECT 
+    firstName, 
+    lastName, 
+    officeCode
+FROM
+    employees
+WHERE
+    officeCode IN (1 , 2, 3)
+ORDER BY 
+    officeCode;
+</pre>
+<p>The following statement uses the <code>WHERE</code> clause with the <code>IS NULL</code> operator to get the rows with the values in the <code>reportsTo</code> column are <code>NULL</code>:</p>
+<pre>
+SELECT 
+    lastName, 
+    firstName, 
+    reportsTo
+FROM
+    employees
+WHERE
+    reportsTo IS NULL;
+</pre>
+
+<h3>Example 5 : Comparison Operators</h3>
+<p>The following table shows the comparison operators that you can use to form the expression in the <code>WHERE</code> clause.</p>
+<ol>
+    <li><code>=</code> : Equal to. You can use it with almost any data type.</li>
+    <li><code><></code>	or <code>!=</code>: Not equal to.</li>
+    <li><code><</code>: Less than. You typically use it with numeric and date/time data types.</li>
+    <li><code>></code>:	Greater than.</li>
+    <li><code><=</code>: Less than or equal to.</li>
+    <li><code>>=</code>: Greater than or equal to.</li>
+</ol>
+<p>Here is an example: The following query uses the not equal to (<code><></code>) operator to find all employees who are not the <code>Sales Rep</code>:</p>
+<pre>
+SELECT 
+    lastname, 
+    firstname, 
+    jobtitle
+FROM
+    employees
+WHERE
+    jobtitle <> 'Sales Rep';
+</pre>
+<p>The following query finds employees whose office code is greater than <code>5</code>:</p>
+<pre>
+SELECT 
+    lastname, 
+    firstname, 
+    officeCode
+FROM
+    employees
+WHERE 
+    officecode > 5;
+</pre>
+<p>The following query returns employees with office code less than or equal to <code>4</code>(<code><=4</code>):</p>
+<pre>
+SELECT 
+    lastname, 
+    firstname, 
+    officeCode
+FROM
+    employees
+WHERE 
+    officecode <= 4;
+</pre>
+
+
+</div>
+</body>
+</html>

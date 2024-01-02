@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>MySQL - Order By</title>
+    <link rel="icon" type="image/x-icon" href="../../Assets/favicon.png">
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+</head>
+<body>
+<div class="page card">
+
+<h1>ORDER BY</h1>
+<p>When you use the <code>SELECT</code> statement to query data from a table, the order of rows in the result is unspecified. To sort the rows in the result, you add the <code>ORDER BY</code> clause to the <code>SELECT</code> statement. The following illustrates the syntax of the <code>ORDER BY</code> clause:</p>
+<pre>
+SELECT 
+    select_list
+FROM 
+    table_name
+ORDER BY 
+    column1 [ASC|DESC], 
+    column2 [ASC|DESC],
+    ...;
+</pre>
+<p>In this syntax, you specify the one or more columns that you want to sort after the <code>ORDER BY</code> clause. The <code>ASC</code> stands for ascending and the <code>DESC</code> stands for descending. You use <code>ASC</code> to sort the result in ascending order and <code>DESC</code> to sort the result in descending order.</p>
+
+
+<h3>Example 1 : ASC</h3>
+<pre>
+ORDER BY column1 ASC;
+</pre>
+<p>This <code>ORDER BY</code> clause sorts the result by the values in the column1 in ascending order.</p>
+
+<h3>Example 2 : DESC</h3>
+<pre>
+ORDER BY column1 DESC;
+</pre>
+<p>This <code>ORDER BY</code> clause sorts the result by the values in the column1 in descending order.</p>
+
+
+
+<h3>Example 3 : Default ASC</h3>
+<p>By default, the <code>ORDER BY</code> clause uses ASC if you don't explicitly specify any option. Therefore, the following <code>ORDER BY</code> clauses are equivalent:</p>
+<pre>
+ORDER BY column1 ASC;
+</pre>
+<p>and</p>
+<pre>
+ORDER BY column1;
+</pre>
+
+
+<h3>Example 4 : Multiple Column</h3>
+<p>If you want to sort the result by multiple columns, you specify a comma-separated list of columns in the <code>ORDER BY</code> clause:</p>
+<pre>
+ORDER BY
+    column1,
+    column2;
+</pre>
+<p>In this case, the <code>ORDER BY</code> clause sorts the result by column1 in ascending order first and sorts the sorted result by column2 in ascending order.</p>
+<p>In the following example we sort the result by a column in ascending order and then by another column in descending order:</p>
+<pre>
+ORDER BY
+    column1 ASC,
+    column2 DESC;
+</pre>
+<p>In this case, the ORDER BY clause:</p>
+<ol>
+    <li>First, sort the result by the values in the column1 in ascending order.</li>
+    <li>Then, sort the sorted result set by the values in the column2  in descending order. Note that the order of values in the column1 will not change in this step, only the order of values in the column2 changes.</li>
+</ol>
+
+
+<h3>Order of execution</h3>
+<p>When executing the <code>SELECT</code> statement with an <code>ORDER BY</code> clause, MySQL always evaluates the <code>ORDER BY</code> clause after the <code>FROM</code> and <code>SELECT</code> clauses.</p>
+
+<h3>Example 5 : Use Expression</h3>
+<p>We can also use <code>ORDER BY</code> clause on an expression column. The following query selects the order line items from the <code>orderdetails</code> table. It calculates the subtotal for each line item and sorts the result set based on the subtotal.</p>
+<pre>
+SELECT 
+    orderNumber, 
+    orderlinenumber, 
+    quantityOrdered * priceEach 
+FROM 
+    orderdetails 
+ORDER BY 
+    quantityOrdered * priceEach DESC;
+</pre>
+<p>To make the query more readable, you can assign a column alias to the expression in the <code>SELECT</code> clause and use the column alias in the <code>ORDER BY</code> clause as shown in the following query:</p>
+<pre>
+SELECT 
+    orderNumber, 
+    orderLineNumber, 
+    quantityOrdered * priceEach AS subtotal 
+FROM 
+    orderdetails 
+ORDER BY 
+    subtotal DESC;
+</pre>
+<p>In this example, we use <code>subtotal</code> as the column alias for the expression <code>quantityOrdered * priceEach</code> and sort the result set by the <code>subtotal</code> alias. Since MySQL evaluates the <code>SELECT</code> clause before the <code>ORDER BY</code> clause, you can use the column alias specified in the <code>SELECT</code> clause in the <code>ORDER BY</code> clause.</p>
+
+
+<h3>Example 5 : FIELD()</h3>
+<p>The <code>FIELD()</code> function returns the index (position) of a value within a list of values.</p>
+<pre>
+FIELD(value, value1, value2, ...)
+</pre>
+<p>In this syntax:</p>
+<ol>
+    <li><code>value</code>: The value for which you want to find the position.</li>
+    <li><code>value1, value2, ...</code>: A list of values against which you want to compare the specified value.</li>
+</ol>
+<p>The <code>FIELD()</code> function returns the position of the <code>value</code> in the list of values value1, value2, and so on.</p>
+<p>If the <code>value</code> is not found in the list, the <code>FIELD()</code> function returns <code>0</code>.</p>
+<p>For example, the following query returns <code>1</code> because the position of the string 'A' is the first position on the list 'A', 'B', and 'C'</p>
+<pre>
+SELECT FIELD('A', 'A', 'B','C');
+</pre>
+<p>Output:</p>
+<pre>
++--------------------------+
+| FIELD('A', 'A', 'B','C') |
++--------------------------+
+|                        1 |
++--------------------------+
+1 row in set (0.00 sec)
+</pre>
+<p>And the following example returns <code>2</code> because 'B' has the second position in the list:</p>
+<pre>
+SELECT FIELD('B', 'A','B','C');
+</pre>
+<p>Output:</p>
+<pre>
++-------------------------+
+| FIELD('B', 'A','B','C') |
++-------------------------+
+|                       2 |
++-------------------------+
+1 row in set (0.00 sec)
+</pre>
+<p>In our sample database in <code>orders</code> table, suppose that you want to sort the sales orders based on their statuses in the following order: In Process, On Hold, Canceled, Resolved, Disputed, Shipped. To do this, you can use the <code>FIELD()</code> function to map each order status to a number and sort the result by the result of the <code>FIELD()</code> function:</p>
+<pre>
+SELECT 
+    orderNumber, 
+    status 
+FROM 
+    orders 
+ORDER BY 
+    FIELD(
+        status, 
+        'In Process', 
+        'On Hold', 
+        'Cancelled', 
+        'Resolved', 
+        'Disputed', 
+        'Shipped'
+    );
+</pre>
+<p>Output:</p>
+<pre>
++-------------+------------+
+| orderNumber | status     |
++-------------+------------+
+|       10425 | In Process |
+|       10421 | In Process |
+|       10422 | In Process |
+|       10420 | In Process |
+|       10424 | In Process |
+|       10423 | In Process |
+|       10414 | On Hold    |
+|       10401 | On Hold    |
+|       10334 | On Hold    |
+|       10407 | On Hold    |
+...
+</pre>
+    
+
+
+</div>
+</body>
+</html>

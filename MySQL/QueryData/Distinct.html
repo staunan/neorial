@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>MySQL - Distinct Keyword</title>
+    <link rel="icon" type="image/x-icon" href="../../Assets/favicon.png">
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+</head>
+<body>
+<div class="page card">
+
+<h1>Distinct</h1>
+<p>When querying data from a table, you may get duplicate rows. To remove these duplicate rows, you use the <code>DISTINCT</code> clause in the <code>SELECT</code> statement. Here's the syntax of the <code>DISTINCT</code> clause:</p>
+<pre>
+SELECT DISTINCT
+    select_list
+FROM
+    table_name
+WHERE 
+    search_condition
+ORDER BY 
+    sort_expression;
+</pre>
+<p>In this syntax, you specify one or more columns that you want to select distinct values after the <code>SELECT DISTINCT</code> keywords. If you specify one column, the <code>DISTINCT</code> clause will evaluate the uniqueness of rows based on the values of that column. However, if you specify two or more columns, the <code>DISTINCT</code> clause will use the values of these columns to evaluate the uniqueness of the rows.</p>
+<h3>Order of Execution</h3>
+<p>When executing the <code>SELECT</code> statement with the <code>DISTINCT</code> clause, MySQL evaluates the <code>DISTINCT</code> clause after the <code>FROM</code>, <code>WHERE</code>, and <code>SELECT</code> clause and before the <code>ORDER BY</code> clause:</p>
+
+
+<h3>Example 1 : Distinct with single column</h3>
+<p>First, select the last names from the employees table using the following <code>SELECT DISTINCT</code> statement:</p>
+<pre>
+SELECT DISTINCT 
+    lastname
+FROM
+    employees
+ORDER BY 
+    lastname;
+</pre>
+
+
+<h3>DISTINCT and NULL values</h3>
+<p>When you specify a column that has <code>NULL</code> values in the <code>DISTINCT</code> clause, the <code>DISTINCT</code> clause will keep only one <code>NULL</code> value because it considers all <code>NULL</code> values are the same.</p>
+
+<h3>Example 2 : Distinct with multiple columns</h3>
+<p>In the result of the following query, you will never get a duplicate row that has same city and state both.</p>
+<pre>
+SELECT DISTINCT
+    state, city
+FROM
+    customers
+WHERE
+    state IS NOT NULL
+ORDER BY 
+    state, 
+    city;
+</pre>
+
+
+</div>
+</body>
+</html>

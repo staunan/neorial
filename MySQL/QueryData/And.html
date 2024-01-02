@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>MySQL - AND Operator</title>
+    <link rel="icon" type="image/x-icon" href="../../Assets/favicon.png">
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+</head>
+<body>
+<div class="page card">
+
+<h1>AND</h1>
+<p>MySQL doesn't have a built-in Boolean type. Instead, it uses the number zero as <code>FALSE</code> and non-zero values as <code>TRUE</code>. The <code>AND</code> operator is a logical operator that combines two or more Boolean expressions and returns <code>1</code>, <code>0</code>, or <code>NULL</code>:</p>
+<pre>
+A AND B
+</pre>
+<p>In this expression, <code>A</code> and <code>B</code> are called operands. They can be literal values or expressions. The logical <code>AND</code> operator returns <code>1</code> if both <code>A</code> and <code>B</code> are non-zero and not <code>NULL</code>. It returns <code>0</code> if either operand is zero. If any of the operand or both are <code>NULL</code>, it returns <code>NULL</code>.</p>
+
+<h3>Example 1 : Returns 1</h3>
+<pre>
+SELECT 1 AND 1;
+
++---------+
+| 1 AND 1 |
++---------+
+|       1 |
++---------+
+1 row in set (0.00 sec)
+</pre>
+
+<h3>Example 2 : Returns 0</h3>
+<p>The logical AND operator returns <code>0</code> if <code>A</code> or <code>B</code> is zero or both <code>A</code> and <code>B</code> are zero:</p>
+<pre>
+SELECT 1 AND 0, 0 AND 1, 0 AND 0, 0 AND NULL;
+
++---------+---------+---------+------------+
+| 1 AND 0 | 0 AND 1 | 0 AND 0 | 0 AND NULL |
++---------+---------+---------+------------+
+|       0 |       0 |       0 |          0 |
++---------+---------+---------+------------+
+1 row in set (0.00 sec)
+</pre>
+
+<h3>Example 3 : Returns NULL</h3>
+<p>The logical <code>AND</code> operator returns <code>NULL</code> if either operand is <code>NULL</code> or both operands are <code>NULL</code>.</p>
+<pre>
+SELECT 1 AND NULL, NULL AND NULL;
+
++------------+---------------+
+| 1 AND NULL | NULL AND NULL |
++------------+---------------+
+|       NULL |          NULL |
++------------+---------------+
+1 row in set (0.00 sec)
+</pre>
+
+<h3>Example 4 : Short-Circuit Evaluation</h3>
+<p>When evaluating an expression that contains the <code>AND</code> operator, MySQL stops evaluating the remaining parts of the expression as soon as it can determine the result. This is called short-circuit evaluation. In other words, the <code>AND</code> operator is short-circuited. For example:</p>
+<pre>
+SELECT 1 = 0 AND 1 / 0 ;
+
++-----------------+
+| 1 = 0 AND 1 / 0 |
++-----------------+
+|               0 |
++-----------------+
+1 row in set (0.01 sec)
+</pre>
+<p>In this example, MySQL only evaluates the first part <code>1 = 0</code> of the expression <code>1 = 0 AND 1  / 0</code>. Since the expression <code>1 = 0</code> returns <code>0</code>, MySQL can determine the result of the whole expression, which is <code>0</code>.</p>
+<p>Therefore, MySQL doesn't need to evaluate the remaining part of the expression, which is <code>1/0</code>; it would issue a <code>division by zero</code> error.</p>
+
+<h3>Where you should use AND operator?</h3>
+<p>In practice, you'll use the <code>AND</code> operator in the <code>WHERE</code> clause of the <code>SELECT</code>, <code>UPDATE</code>, <code>DELETE</code> statements to form a condition. Also, you can the <code>AND</code> operator in the conditions of the <code>INNER JOIN</code> and <code>LEFT JOIN</code> clauses.</p>
+
+<h3>Example 5 : Sample Database</h3>
+<p>The following statement uses the <code>AND</code> operator to find customers who are located in California (CA), USA:</p>
+<pre>
+SELECT 
+    customername, 
+    country, 
+    state
+FROM
+    customers
+WHERE
+    country = 'USA' AND 
+    state = 'CA';
+</pre>
+<p>By using the <code>AND</code> operator, you can combine more than two Boolean expressions. For example, the following query returns the customers who are located in California, USA, and have a credit limit greater than 100K.</p>
+<pre>
+SELECT 
+    customername, 
+    country, 
+    state, 
+    creditlimit
+FROM
+    customers
+WHERE
+    country = 'USA' AND 
+    state = 'CA' AND 
+    creditlimit > 100000;
+</pre>
+
+
+</div>
+</body>
+</html>
