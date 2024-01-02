@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>MySQL - IN Operator</title>
+    <link rel="icon" type="image/x-icon" href="../../Assets/favicon.png">
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+</head>
+<body>
+<div class="page card">
+
+<h1>IN Operator</h1>
+<p>The <code>IN</code> operator allows you to determine if a value matches any value in a list of values. Here's the syntax of the <code>IN</code> operator:</p>
+<pre>
+value IN (value1, value2, value3,...)
+</pre>
+<p>The <code>IN</code> operator returns <code>1</code> (true) if the value equals any value in the list (value1, value2, value3,…). Otherwise, it returns <code>0</code>.</p>
+<p>In this syntax:</p>
+<ol>
+    <li>First, specify the <code>value</code> to test on the left side of the <code>IN</code> operator. The value can be a column or an expression.</li>
+    <li>Second, specify a comma-separated list of values to match in the parentheses.</li>
+</ol>
+<p>The <code>IN</code> operator is functionally equivalent to a combination of multiple <code>OR</code> operators:</p>
+<pre>
+value = value1 OR value = value2 OR value = value3 OR ...
+</pre>
+
+<h3>Example 1 : Returns 1</h3>
+<p>The following example returns <code>1</code> because <code>1</code> is in the list:</p>
+<pre>
+SELECT 1 IN (1,2,3);
+
++--------------+
+| 1 IN (1,2,3) |
++--------------+
+|            1 |
++--------------+
+1 row in set (0.00 sec)
+</pre>
+
+
+<h3>Example 2 : Returns 0</h3>
+<p>The following example returns <code>0</code> because <code>4</code> is not in the list:</p>
+<pre>
+SELECT 4 IN (1,2,3);
+
++--------------+
+| 4 IN (1,2,3) |
++--------------+
+|            0 |
++--------------+
+1 row in set (0.00 sec)
+</pre>
+
+<h3>Where you should use IN operator?</h3>
+<p>In practice, you'll use the <code>IN</code> operator to form conditions in a <code>WHERE</code> clause of the <code>SELECT</code>, <code>DELETE</code>, and <code>UPDATE</code> statements. Also, you'll use the <code>IN</code> operator in a query that contains a subquery.</p>
+
+
+
+
+<h2>MySQL IN operator and NULL</h2>
+<p>Generally, the <code>IN</code> operator returns <code>NULL</code> in two cases:</p>
+<ol>
+    <li>The <code>value</code> on the left side of the operator is <code>NULL</code>.</li>
+    <li>The value doesn't equal any value in the list and one of the values in the list is <code>NULL</code>.</li>
+</ol>
+<p>The following example returns <code>NULL</code> because the value of the left side of the <code>IN</code> operator is <code>NULL</code>:</p>
+<pre>
+SELECT NULL IN (1,2,3);
+
++-----------------+
+| NULL IN (1,2,3) |
++-----------------+
+|            NULL |
++-----------------+
+1 row in set (0.00 sec)
+</pre>
+<p>The following example also returns <code>NULL</code> because the <code>0</code> is not equal to any value in the list and the list has one <code>NULL</code>:</p>
+<pre>
+SELECT 0 IN (1 , 2, 3, NULL);
+
++-----------------------+
+| 0 IN (1 , 2, 3, NULL) |
++-----------------------+
+|                  NULL |
++-----------------------+
+1 row in set (0.00 sec)
+</pre>
+<p>The following example also returns <code>NULL</code> because <code>NULL</code> is not equal to any value in the list and the list has one <code>NULL</code>. Note that <code>NULL</code> is not equal to <code>NULL</code>.</p>
+<pre>
+SELECT NULL IN (1 , 2, 3, NULL);
+</pre>
+
+
+
+
+
+<h3>Example 3 : Sample Database</h3>
+<p>The following example uses the <code>IN</code> operator to find the offices located in the USA and France:</p>
+<pre>
+SELECT 
+    officeCode, 
+    city, 
+    phone, 
+    country
+FROM
+    offices
+WHERE
+    country IN ('USA' , 'France');
+
+
++------------+---------------+-----------------+---------+
+| officeCode | city          | phone           | country |
++------------+---------------+-----------------+---------+
+| 1          | San Francisco | +1 650 219 4782 | USA     |
+| 2          | Boston        | +1 215 837 0825 | USA     |
+| 3          | NYC           | +1 212 555 3000 | USA     |
+| 4          | Paris         | +33 14 723 4404 | France  |
++------------+---------------+-----------------+---------+
+4 rows in set (0.01 sec)
+</pre>
+<p>You can also get the same result with the <code>OR</code> operator like this:</p>
+<pre>
+SELECT 
+    officeCode, 
+    city, 
+    phone
+FROM
+    offices
+WHERE
+    country = 'USA' OR country = 'France';
+</pre>
+<p>In case the list has many values, you need to construct a very long statement with multiple <code>OR</code> operators. Hence, the <code>IN</code> operator allows you to shorten the query and make it more readable.</p>
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>
