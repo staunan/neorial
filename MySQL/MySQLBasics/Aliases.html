@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>MySQL - Column Aliases & Table Aliases</title>
+    <link rel="icon" type="image/x-icon" href="../../Assets/favicon.png">
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+</head>
+<body>
+<div class="page card">
+
+<h1>Column Aliases</h1>
+<p>In MySQL, you use column aliases to assign a temporary name to a column in the query's result set. For example, column names sometimes are so technical that make the query's output very difficult to understand. To give a column a descriptive name, you can use a column alias. The following statement illustrates how to use the column alias:</p>
+<pre>
+SELECT 
+    [column_1 | expression] AS descriptive_name
+ FROM table_name;
+</pre>
+<p>To assign a column an alias, you use the <code>AS</code> keyword followed by the alias. If the alias contains spaces, you must enclose it in quotes as follows:</p>
+<pre>
+SELECT 
+    [column_1 | expression] AS `descriptive name`
+ FROM 
+    table_name;
+</pre>
+<p>Because the <code>AS</code> keyword is optional, you can omit it in the statement.</p>
+<p>In MySQL, you can use the column alias in the <code>ORDER BY</code>, <code>GROUP BY</code> and <code>HAVING</code> clauses to reference the column.</p>
+<p>You cannot use a column alias in the <code>WHERE</code> clause. The reason is that when MySQL evaluates the <code>WHERE</code> clause, the values of columns specified in the <code>SELECT</code> clause have not been evaluated yet.</p>
+
+
+<h3>Example 1: Sample Database</h3>
+<p>The following query selects the first names and last names of employees. It uses the <code>CONCAT_WS()</code> function to concatenate first name and last name into full name:</p>
+<pre>
+SELECT 
+    CONCAT_WS(', ', lastName, firstname)
+FROM
+    employees;
+</pre>
+<p>The column heading can be challenging to read. To address this issue, you can assign a column alias to the output column, as shown in the following query:</p>
+<pre>
+SELECT
+    CONCAT_WS(', ', lastName, firstname) AS `Full name`
+ FROM
+    employees;
+</pre>
+
+
+
+<h3>Example 2: Sample Database</h3>
+<p>The following query uses the column alias in the <code>ORDER BY</code> clause to alphabetically sort the employee's full names:</p>
+<pre>
+SELECT
+	CONCAT_WS(', ', lastName, firstname) `Full name`
+FROM
+	employees
+ORDER BY
+	`Full name`;
+</pre>
+
+
+
+<h3>Example 3: Sample Database</h3>
+<p>The following statement selects orders whose total amount is greater than <code>60000</code>. It uses column aliases in <code>GROUP BY</code> and <code>HAVING</code> clauses.</p>
+<pre>
+SELECT
+	orderNumber `Order no.`,
+	SUM(priceEach * quantityOrdered) Total
+FROM
+	orderdetails
+GROUP BY
+	`Order no.`
+HAVING
+	total > 60000;
+</pre>
+
+
+
+
+
+
+
+
+
+
+
+
+<h1>Table aliases</h1>
+<p>Similar to column aliases, you can assign a temporary name to a table in a query using a table alias. Here’s the basic syntax of table alias:</p>
+<pre>
+table_name AS table_alias
+</pre>
+<p>In this syntax, the <code>AS</code> keyword is optional, so you can choose to omit it.</p>
+<p>This query shows how to assign an alias e to the employees table:</p>
+<pre>
+SELECT * FROM employees e;
+</pre>
+<p>Once you assign an alias to a table, you can reference a table column using the table alias like this:</p>
+<pre>
+table_alias.column_name
+</pre>
+<p>For example:</p>
+<pre>
+SELECT 
+    e.firstName, 
+    e.lastName
+FROM
+    employees e
+ORDER BY e.firstName;
+</pre>
+<p>In practice, you often use table aliases in statements that contain <code>INNER JOIN</code>, <code>LEFT JOIN</code>, <code>RIGHT JOIN</code> clauses or in subqueries.</p>
+
+<h3>Example 1: Inner JOIN</h3>
+<p>Both tables <code>customers</code> and <code>orders</code> have the same column name: <code>customerNumber</code>. While Joining if you reference the <code>customerNumber</code> column in a query, you will get an error message:</p>
+<pre>
+Error Code: 1052. Column 'customerNumber' in on clause is ambiguous
+</pre>
+<p>To avoid this error, you use a table alias to qualify the <code>customerNumber</code> column:</p>
+<pre>
+SELECT
+	customerName,
+	COUNT(o.orderNumber) total
+FROM
+	customers c
+INNER JOIN orders o ON c.customerNumber = o.customerNumber
+GROUP BY
+	customerName
+ORDER BY
+	total DESC;
+</pre>
+<p>The query above selects the customer name and the number of orders from the <code>customers</code> and <code>orders</code> tables. It uses <code>c</code> as a table alias for the <code>customers</code> table and <code>o</code> as a table alias for the <code>orders</code> table. The columns in the <code>customers</code> and <code>orders</code> tables are referred to via the table aliases.</p>
+<p>If you do not use the alias in the query above, you have to use the table name to refer to its columns, which makes the query more verbose:</p>
+<pre>
+SELECT
+	customers.customerName,
+	COUNT(orders.orderNumber) total
+FROM
+	customers
+INNER JOIN orders ON customers.customerNumber = orders.customerNumber
+GROUP BY
+	customerName
+ORDER BY
+	total DESC
+</pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

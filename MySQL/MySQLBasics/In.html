@@ -135,6 +135,95 @@ WHERE
 
 
 
+<h1>NOT IN Operator</h1>
+<p>The <code>NOT</code> operator negates the <code>IN</code> operator:</p>
+<pre>
+value NOT IN (value1, value2, value2)
+</pre>
+<p>The <code>NOT IN</code> operator returns <code>1</code>, if the value doesn't equal any value in the list. Otherwise, it returns <code>0</code>.</p>
+<p>The above expression is equivalent with the following expression:</p>
+<pre>
+NOT (value = value1 OR value = value2 OR value = valu3)
+</pre>
+<p>or,</p>
+<pre>
+value &lt;> value1 AND value &lt;> value2 AND value &lt;> value3
+</pre>
+
+<h3>Example 1 : Returns 0</h3>
+<p>The following example uses the <code>NOT IN</code> operator to check if the number <code>1</code> is not in the list <code>(1,2,3)</code>:</p>
+<pre>
+SELECT 1 NOT IN (1,2,3);
+
++------------------+
+| 1 NOT IN (1,2,3) |
++------------------+
+|                0 |
++------------------+
+1 row in set (0.00 sec)
+</pre>
+<p>It returns <code>0</code> (false) because <code>1</code> is in the list.</p>
+
+
+
+<h3>Example 2 : Returns 1</h3>
+<p>The following example uses the <code>NOT IN</code> operator to check if <code>0</code> is not in the list <code>(1,2,3)</code>:</p>
+<pre>
+SELECT 0 NOT IN (1,2,3);
+
++------------------+
+| 0 NOT IN (1,2,3) |
++------------------+
+|                1 |
++------------------+
+1 row in set (0.00 sec)
+</pre>
+<p>Since, 0 is not in the list, it returns <code>true</code>.</p>
+
+
+<h3>Example 3 : Returns NULL</h3>
+<p>The <code>NOT IN</code> operator returns <code>NULL</code> if the value on the left side is <code>NULL</code>. For example:</p>
+<pre>
+SELECT NULL NOT IN (1,2,3);
+
++---------------------+
+| NULL NOT IN (1,2,3) |
++---------------------+
+|                NULL |
++---------------------+
+1 row in set (0.00 sec)
+</pre>
+
+
+
+<h3>Example 4 : Sample Database</h3>
+<p>The following example uses the <code>NOT IN</code> operator to find the offices that are not located in France and the USA:</p>
+<pre>
+SELECT 
+    officeCode, 
+    city, 
+    phone
+FROM
+    offices
+WHERE
+    country NOT IN ('USA' , 'France')
+ORDER BY 
+    city;
+</pre>
+<p>Output:</p>
+<pre>
++------------+--------+------------------+
+| officeCode | city   | phone            |
++------------+--------+------------------+
+| 7          | London | +44 20 7877 2041 |
+| 6          | Sydney | +61 2 9264 2451  |
+| 5          | Tokyo  | +81 33 224 5000  |
++------------+--------+------------------+
+3 rows in set (0.02 sec)
+</pre>
+
+
+
 
 
 

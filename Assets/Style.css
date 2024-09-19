@@ -211,3 +211,8 @@ h1+p, h2+p, h3+p, h4+p{
 .table_of_content.not_completed{
   background-color: red !important;
 }
+.chapter_items>li{
+  font-size: 18px;
+  margin-bottom: 5px;
+  margin-top: 5px;
+}

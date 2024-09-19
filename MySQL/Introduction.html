@@ -9,7 +9,7 @@
 <body>
 <div class="page card">
 
-<h1>Introduction to databases</h1>
+<h1>What is a Database?</h1>
 <p>By definition, a database is simply a structured collection of data. The data within a database are naturally related, for example, a product belongs to a product category and is associated with multiple tags. Hence, we use the term <code>relational database</code>.</p>
 <p>In a relational database, we model data like products, categories, tags, etc., using tables. A table contains columns and rows, much like a spreadsheet.</p>
 <p>Tables can relate to one another table using various types of relationships, like one-to-one and one-to-many.</p>
@@ -29,6 +29,7 @@
 <h1>Install MySQL</h1>
 <p>If you want to install MySQL on Windows, you can use the MySQL Installer. The MySQL Installer provides you with an easy-to-use wizard that helps you to install MySQL with the following main products:</p>
 <p>To download the MySQL installer, go to the following link <a target="_blank" href="http://dev.mysql.com/downloads/installer/">http://dev.mysql.com/downloads/installer/</a>. </p>
+<p>Follow online instruction to correctly setup the MySQL software.</p>
 
 
 <h1>Connect to MySQL Using mysql command-line client</h1>
@@ -116,6 +117,17 @@ source c:/temp/mysqlsampledatabase.sql
 | performance_schema |
 | sys                |
 +--------------------+
+</pre>
+
+<h1>Statement Terminator: Semicolon</h1>
+<p>In MySQL, each statement is seperated by semicolon. Hence it is always a good practice to end a statement with a semicolon. If you have only one statement, then semicolon is optional. But if you have two or more statements, you need to use the semicolon(<code>;</code>) to separate them so that MySQL will execute each statement individually.</p>
+
+<h1>MySQL is case insensitive</h1>
+<p>The SQL statement you write in MYSQL is case insensitive, that means you can write SQL keywords in any case you want, lowercase, uppercase or even combination of both. By convention, you write the SQL keywords in uppercase. However, it's not mandatory. Because SQL is case-insensitive, you can write the SQL statement in lowercase, uppercase, etc. For example following statemens are all valid:</p>
+<pre>
+select select_list from table_name;
+SELECT select_list FROM table_name;
+Select select_list From table_name;
 </pre>
 
 

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>MySQL - Joins</title>
+    <link rel="icon" type="image/x-icon" href="../../Assets/favicon.png">
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+</head>
+<body>
+<div class="page card">
+
+<h1>Joins</h1>   
+<p>A relational database consists of multiple related tables linking together using common columns, which are known as foreign key columns. For example, in the sample database, we have the <code>orders</code> and <code>orderdetails</code> tables that are linked using the <code>orderNumber</code> column:</p>
+<img src="../images/orders_order_details_tables.png" alt="">
+<p>To get complete order information, you need to query data from both <code>orders</code> and  <code>orderdetails</code> tables. That's why joins come into the play.</p>
+<p>A join is a method of linking data between one (self-join) or more tables based on the values of the common column between the tables.</p>
+<p>MySQL supports the following types of joins:</p>
+<ol>
+    <li>Inner join</li>
+    <li>Left join</li>
+    <li>Right join</li>
+    <li>Cross join</li>
+</ol>
+<p>To join tables, you use the <code>cross join</code>, <code>inner join</code>, <code>left join</code>, or <code>right join</code> clause. The join clause is used in the <code>SELECT</code> statement appeared after the <code>FROM</code> clause.</p>
+
+
+
+<h2>Setting up sample tables</h2>
+<p>First, create two tables called <code>members</code> and <code>committees</code>:</p>
+<pre>
+CREATE TABLE members (
+    member_id INT AUTO_INCREMENT,
+    name VARCHAR(100),
+    PRIMARY KEY (member_id)
+);
+
+CREATE TABLE committees (
+    committee_id INT AUTO_INCREMENT,
+    name VARCHAR(100),
+    PRIMARY KEY (committee_id)
+);
+</pre>
+<p>Second, insert some rows into the tables <code>members</code> and <code>committees</code> :</p>
+<pre>
+INSERT INTO members(name)
+VALUES('John'),('Jane'),('Mary'),('David'),('Amelia');
+
+INSERT INTO committees(name)
+VALUES('John'),('Mary'),('Amelia'),('Joe');
+</pre>
+<p>Third, query data from the tables <code>members</code> and <code>committees</code>:</p>
+<pre>
+SELECT * FROM members;
++-----------+--------+
+| member_id | name   |
++-----------+--------+
+|         1 | John   |
+|         2 | Jane   |
+|         3 | Mary   |
+|         4 | David  |
+|         5 | Amelia |
++-----------+--------+
+5 rows in set (0.00 sec)
+
+SELECT * FROM committees;
++--------------+--------+
+| committee_id | name   |
++--------------+--------+
+|            1 | John   |
+|            2 | Mary   |
+|            3 | Amelia |
+|            4 | Joe    |
++--------------+--------+
+4 rows in set (0.00 sec)
+</pre>
+<p>Some members are committee members, and some are not. On the other hand, some committee members are in the members table, some are not.</p>
+
+
+
+
+<h2>MySQL INNER JOIN clause</h2>
+<p>The following shows the basic syntax of the <code>inner join</code> clause that joins two tables <code>table_1</code> and <code>table_2</code>:</p>
+<pre>
+SELECT column_list
+FROM table_1
+INNER JOIN table_2 ON join_condition;
+</pre>
+<p>The inner join clause joins two tables based on a condition which is known as a <b>join predicate</b>.</p>
+<p>The inner join clause compares each row from the first table with every row from the second table.</p>
+<p>If values from both rows satisfy the join condition, the inner join clause creates a new row whose column contains all columns of the two rows from both tables and includes this new row in the result set. In other words, the inner join clause includes only matching rows from both tables.</p>
+<p>If the join condition uses the equality operator (=) and the column names in both tables used for matching are the same, and you can use the <code>USING</code> clause instead:</p>
+<pre>
+SELECT column_list
+FROM table_1
+INNER JOIN table_2 USING (column_name);
+</pre>
+<p>The following statement uses an <code>inner join</code> clause to find members who are also the committee members:</p>
+<pre>
+SELECT 
+    m.member_id, 
+    m.name AS member, 
+    c.committee_id, 
+    c.name AS committee
+FROM
+    members m
+INNER JOIN committees c ON c.name = m.name;
+
+
++-----------+--------+--------------+-----------+
+| member_id | member | committee_id | committee |
++-----------+--------+--------------+-----------+
+|         1 | John   |            1 | John      |
+|         3 | Mary   |            2 | Mary      |
+|         5 | Amelia |            3 | Amelia    |
++-----------+--------+--------------+-----------+
+3 rows in set (0.00 sec)
+</pre>
+<p>In this example, the <code>inner join</code> clause uses the values in the name columns in both tables <code>members</code> and <code>committees</code> to match.</p>
+<p>The following Venn diagram illustrates the <code>inner join</code>:</p>
+<img src="../images/mysql-join-inner-join.png" alt="">
+<p>Because both tables use the same column to match, you can use the <code>USING</code> clause as shown in the following query:</p>
+<pre>
+SELECT 
+    m.member_id, 
+    m.name AS member, 
+    c.committee_id, 
+    c.name AS committee
+FROM
+    members m
+INNER JOIN committees c USING(name);
+</pre>
+
+
+
+<h2>MySQL LEFT JOIN clause</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

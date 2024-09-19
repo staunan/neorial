@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>MySQL - LIKE Operator</title>
+    <link rel="icon" type="image/x-icon" href="../../Assets/favicon.png">
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+</head>
+<body>
+<div class="page card">
+
+<h1>LIKE Operator</h1>
+<p>The <code>LIKE</code> operator is a logical operator that tests whether a string contains a specified pattern or not. Here's the syntax of the <code>LIKE</code> operator:</p>
+<pre>
+expression LIKE pattern ESCAPE escape_character
+</pre>
+<p>In this syntax, if the expression matches the pattern, the <code>LIKE</code> operator returns <code>1</code>. Otherwise, it returns <code>0</code>.</p>
+<p>MySQL provides two wildcard characters for constructing patterns: Percentage <code>%</code> and underscore <code>_</code>.</p>
+<ol>
+	<li>The percentage ( % ) wildcard matches any string of zero or more characters.</li>
+	<li>The underscore ( _ ) wildcard matches any single character.</li>
+</ol>
+<p>For example, <code>s%`</code> matches any string starting with the character <code>s</code> such as <code>sun</code> and <code>six</code>. The <code>se_</code> matches any string starting with <code>se</code> and is followed by any character such as <code>see</code> and <code>sea</code></p>
+
+
+
+<h3>Example 1: Sample Database</h3>
+<p>This example uses the <code>LIKE</code> operator to find employees whose first names start with the letter <code>a</code>.</p>
+<pre>
+SELECT 
+    employeeNumber, 
+    lastName, 
+    firstName
+FROM
+    employees
+WHERE
+    firstName LIKE 'a%';
+</pre>
+<p>In this example, MySQL scans the whole employees table to find employees whose first names start with the letter <code>a</code> and are followed by any number of characters.</p>
+
+
+<h3>Example 2: Sample Database</h3>
+<p>This example uses the <code>LIKE</code> operator to find employees whose last names end with the literal string <code>on</code> e.g., <code>Patterson</code>, <code>Thompson</code> etc.</p>
+<pre>
+SELECT 
+    employeeNumber, 
+    lastName, 
+    firstName
+FROM
+    employees
+WHERE
+    lastName LIKE '%on';
+</pre>
+
+
+
+<h3>Example 3: Sample Database</h3>
+<p>To check if a string contains a substring, you can use the percentage ( % ) wildcard at the beginning and the end of the substring. For example, the following query uses the <code>LIKE</code> operator to find all employees whose last names contain the substring <code>on</code>:</p>
+<pre>
+SELECT 
+    employeeNumber, 
+    lastName, 
+    firstName
+FROM
+    employees
+WHERE
+    lastname LIKE '%on%';
+</pre>
+
+
+<h3>Example 4: Sample Database</h3>
+<P>To find employees whose first names start with the letter <CODe>T</CODe> , end with the letter <code>m</code>, and contain any single character between e.g., <code>Tom</code> , <code>Tim</code>, you use the underscore (_) wildcard to construct the pattern as follows:</P>
+<pre>
+SELECT 
+    employeeNumber, 
+    lastName, 
+    firstName
+FROM
+    employees
+WHERE
+    firstname LIKE 'T_m';
+</pre>
+
+
+<H1>NOT LIKE</H1>
+<p>The MySQL allows you to combine the <code>NOT</code> operator with the <code>LIKE</code> operator to find a string that does not match a specific pattern.</p>
+
+<h3>Example 1: Sample Database</h3>
+<p>Suppose you want to search for employees whose last names don't start with the letter <code>B</code>, you can use the <code>NOT LIKE</code> operator as follows:</p>
+<pre>
+SELECT 
+    employeeNumber, 
+    lastName, 
+    firstName
+FROM
+    employees
+WHERE
+    lastName NOT LIKE 'B%';
+</pre>
+
+
+<h1>LIKE operator with the ESCAPE clause</h1>
+<p>Sometimes the pattern may contain the wildcard characters e.g., <code>10%</code>, <code>_20</code>, etc.</p>
+<p>In this case, you can use the <code>ESCAPE</code> clause to specify the escape character so that the <code>LIKE</code> operator interprets the wildcard character as a literal character.</p>
+<p>If you don't specify the escape character explicitly, the backslash character (\) is the default escape character.</p>
+<p>For example, if you want to find products whose product codes contain the string <code>_20</code> , you can use the pattern <code>%\_20%</code> with the default escape character:</p>
+<pre>
+SELECT 
+    productCode, 
+    productName
+FROM
+    products
+WHERE
+    productCode LIKE '%\_20%';
+</pre>
+<p>In the example above, the backslash character means we want to escape the next character that follows the backslash. It means, we want <code>LIKE</code> operator to treat the <code>_</code> character as normal character, not a wildcard character. Backslash is default escape character.</p>
+<p>Alternatively, you can specify a different escape character e.g., <code>$</code> using the <code>ESCAPE</code> clause:</p>
+<pre>
+SELECT 
+    productCode, 
+    productName
+FROM
+    products
+WHERE
+    productCode LIKE '%$_20%' ESCAPE '$';
+</pre>
+<p>The pattern <code>%$_20%</code> matches any string that contains the <code>_20</code> string.</p>
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

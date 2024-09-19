@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>MySQL - BETWEEN Operator</title>
+    <link rel="icon" type="image/x-icon" href="../../Assets/favicon.png">
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+</head>
+<body>
+<div class="page card">
+
+<h1>BETWEEN Operator</h1>
+<p>The <code>BETWEEN</code> operator is a logical operator that specifies whether a value is in a range or not. Here's the syntax of the <code>BETWEEN</code> operator:</p>
+<pre>
+value BETWEEN low AND high;
+</pre>
+<p>The <code>BETWEEN</code> operator returns <code>1</code> if:</p>
+<pre>
+value >= low AND value &lt;= high
+</pre>
+<p>Otherwise, it returns <code>0</code>.</p>
+<p>If the <code>value</code>, <code>low</code>, or <code>high</code> is <code>NULL</code>, the <code>BETWEEN</code> operator returns <code>NULL</code></p>
+<p>For example, the following statement returns <code>1</code> because <code>15</code> is between <code>10</code> and <code>20</code>:</p>
+<pre>
+SELECT 15 BETWEEN 10 AND 20;
+</pre>
+<p>The following example returns <code>0</code> because <code>15</code> is not between <code>20</code> and <code>30</code>:</p>
+<pre>
+SELECT 15 BETWEEN 20 AND 30;
+</pre>
+<p>In practice, you'll use the <code>BETWEEN</code> operator in the <code>WHERE</code> clause of the <code>SELECT</code>, <code>UPDATE</code>, and <code>DELETE</code> statements.</p>
+<h3>Example 1: Sample Database</h3>
+<p>The following example uses the <code>BETWEEN</code> operator to find products whose buy prices between <code>90</code> and <code>100</code>:</p>
+<pre>
+SELECT 
+    productCode, 
+    productName, 
+    buyPrice
+FROM
+    products
+WHERE
+    buyPrice BETWEEN 90 AND 100;
+</pre>
+<p>This query uses the greater than or equal (>=) and less than or equal to ( &lt;= ) operators instead of the <code>BETWEEN</code> operator to get the same result:</p>
+<pre>
+SELECT 
+    productCode, 
+    productName, 
+    buyPrice
+FROM
+    products
+WHERE
+    buyPrice >= 90 AND buyPrice &lt;= 100;
+</pre>
+<h3>Example 2: With Date Values</h3>
+<p>To check if a value is between a date range, you should explicitly cast the value to the <code>DATE</code> type. For example, the following statement returns the orders with the required dates between <code>01/01/2003</code> to <code>01/31/2003</code>:</p>
+<pre>
+SELECT 
+	orderNumber,
+	requiredDate,
+	status
+ FROM 
+	orders
+ WHERE 
+	requireddate BETWEEN 
+	  CAST('2003-01-01' AS DATE) AND 
+	  CAST('2003-01-31' AS DATE);
+</pre>
+
+
+
+
+
+
+<h1>NOT BETWEEN Operator</h1>
+<p>To negate the <code>BETWEEN</code> operator, you use the <code>NOT</code> operator:</p>
+<pre>
+value NOT BETWEEN low AND high
+</pre>
+<p>The <code>NOT BETWEEN</code> operator returns <code>1</code> if:</p>
+<pre>
+value &lt; low OR value > high
+</pre>
+<p>Otherwise, it returns <code>0</code>.</p>
+<p>For example, the following statement returns <code>0</code> because <code>15</code> is between <code>10</code> and <code>20</code>:</p>
+<pre>
+SELECT 15 NOT BETWEEN 10 AND 20;
+</pre>
+<p>In practice, you'll use the <code>BETWEEN</code> operator in the <code>WHERE</code> clause of the <code>SELECT</code>, <code>UPDATE</code>, and <code>DELETE</code> statements.</p>
+<h3>Example 1: Sample Database</h3>
+<p>To find the products whose buy prices are not between <code>$20</code> and <code>$100</code>, you use the <code>NOT BETWEEN</code> operator as follows:</p>
+<pre>
+SELECT 
+    productCode, 
+    productName, 
+    buyPrice
+FROM
+    products
+WHERE
+    buyPrice NOT BETWEEN 20 AND 100;
+</pre>
+<p>You can rewrite the query above using the less than (&lt;), greater than (>), and the logical operator (AND) like this:</p>
+<pre>
+SELECT 
+    productCode, 
+    productName, 
+    buyPrice
+FROM
+    products
+WHERE
+    buyPrice &lt; 20 OR buyPrice > 100;
+</pre>
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

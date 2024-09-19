@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>MySQL - MySQL Basics</title>
+    <link rel="icon" type="image/x-icon" href="../Assets/favicon.png">
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+</head>
+<body>
+<div class="page card">
+
+
+
+<div class="table_of_content">
+    <h1>MySQL Basics</h1>
+    <div>
+        <ol>
+            <li>
+                <a href="MySQLBasics/Select.html">SELECT Clause</a>
+                <p class="small_desc">Learn how you fetch data from a table using the SELECT clause.</p>
+                <ol class="chapter_items">
+                    <li>SELECT FROM: Retrieving data from a table using this clause.</li>
+                    <li>SELECT Statement: We can use <code>SELECT</code> without the <code>FROM</code> clause.</li>
+                    <li>Column alias: Use readable name for columns when displaying output.</li>
+                </ol>
+            </li>
+            <li>
+                <a href="MySQLBasics/OrderBy.html">ORDER BY Clause</a>
+                <p class="small_desc">Learn how you can sort result with the help of <code>ORDER BY</code> clause.</p>
+                <ol class="chapter_items">
+                    <li>Using <code>ORDER BY</code> on column.</li>
+                    <li>Ascending and Desending order.</li>
+                    <li>Using <code>ORDER BY</code> on Expression column.</li>
+                    <li>Using <code>FIELD()</code> function in <code>ORDER BY</code> Clause.</li>
+                </ol>
+            </li>
+            <li>
+                <a href="MySQLBasics/Distinct.html">DISTINCT Keyword</a>
+                <p class="small_desc">Learn how you remove duplicate row from the result with the help of this keyword.</p>
+                <ol class="chapter_items">
+                    <li>Using <code>DISTINCT</code>.</li>
+                    <li><code>DISTINCT</code> and <code>NULL</code> value.</li>
+                </ol>
+            </li>
+            <li>
+                <a href="MySQLBasics/Where.html">WHERE Clause</a>
+                <p class="small_desc">Learn how you can put condition while retriving rows using the help of WHERE clause.</p>
+                <ol class="chapter_items">
+                    <li>Using <code>WHERE</code> Clause.</li>
+                    <li><code>WHERE</code> Clause with Equality Operator.</li>
+                    <li><code>WHERE</code> Clause with <code>And</code> Operator.</li>
+                    <li><code>WHERE</code> Clause with <code>OR</code> Operator.</li>
+                    <li><code>WHERE</code> Clause with Comparasion Operator.</li>
+                    <li><code>WHERE</code> Clause with Other Operators like <code>Between</code>, <code>In</code>, <code>Is Null</code>, <code>Like</code> etc.</li>
+                </ol>
+            </li>
+            <li>
+                <a href="MySQLBasics/And.html">AND Operator</a>
+                <p class="small_desc">Learn how you can combine two condition using the AND operator and where you can use them.</p>
+                <ol class="chapter_items">
+                    <li>Using <code>AND</code> Operator.</li>
+                    <li>Short-Circuit Evaluation.</li>
+                </ol>
+            </li>
+            <li>
+                <a href="MySQLBasics/Or.html">OR Operator</a>
+                <p class="small_desc">Learn how you can combine two condition using the OR operator and where you can use them.</p>
+                <ol class="chapter_items">
+                    <li>Using <code>OR</code> Operator.</li>
+                    <li>Short-Circuit Evaluation.</li>
+                    <li>Operator precedence.</li>
+                </ol>
+            </li>
+            <li>
+                <a href="MySQLBasics/In.html">IN Operator & NOT IN Operator</a>
+                <p class="small_desc">Learn how you can use IN operator in WHERE clause to check if a value exists in an array.</p>
+                <ol class="chapter_items">
+                    <li>Using <code>IN</code> Operator.</li>
+                    <li><code>IN</code> Operator with <code>NULL</code> value.</li>
+                    <li>Using <code>NOT IN</code> Operator.</li>
+                </ol>
+            </li>
+            <li>
+                <a href="MySQLBasics/Between.html">BETWEEN Operator & NOT BETWEEN Operator</a>
+                <p class="small_desc">Learn how you can use BETWEEN operator in WHERE clause to check if a value appears within a range.</p>
+                <ol class="chapter_items">
+                    <li>Using <code>BETWEEN</code> Operator.</li>
+                    <li>Using <code>NOT BETWEEN</code> Operator.</li>
+                </ol>
+            </li>
+            <li>
+                <a href="MySQLBasics/Like.html">LIKE Operator & NOT LIKE Operator</a>
+                <p class="small_desc">Learn how you can match some text based on a pattern.</p>
+                <ol class="chapter_items">
+                    <li>Using <code>LIKE</code> Operator.</li>
+                    <li>Using <code>NOT LIKE</code> Operator.</li>
+                    <li>Using <code>LIKE</code> operator with the <code>ESCAPE</code> clause</li>
+                </ol>
+            </li>
+            <li>
+                <a href="MySQLBasics/IsNull.html">IS NULL Operator & IS NOT NULL Operator</a>
+                <p class="small_desc">Learn how to use the MySQL IS NULL operator to test whether a value is NULL or not.</p>
+                <ol class="chapter_items">
+                    <li>Using <code>IS NULL</code> Operator.</li>
+                    <li>Using <code>IS NOT NULL</code> Operator.</li>
+                </ol>
+            </li>
+            <li>
+                <a href="MySQLBasics/Limit.html">LIMIT Clause</a>
+                <p class="small_desc">Learn how to use the MySQL LIMIT clause to constrain the number of rows returned by a query.</p>
+                <ol class="chapter_items">
+                    <li>Using <code>LIMIT</code> Clause.</li>
+                    <li><code>OFFSET</code> Clause.</li>
+                    <li>The <code>LIMIT</code> and <code>ORDER BY</code> clauses.</li>
+                </ol>
+            </li>
+            <li>
+                <a href="MySQLBasics/Aliases.html">Column Aliases & Table Aliases</a>
+                <p class="small_desc">Learn how to use MySQL aliases to assign temporary names to columns or tables in a query.</p>
+                <ol class="chapter_items">
+                    <li>Column Aliases.</li>
+                    <li>Table Aliases.</li>
+                </ol>
+            </li>
+            <li>
+                <a href="MySQLBasics/Joins.html">Joins</a>
+                <p class="small_desc">Learn various MySQL join clauses in the <code>SELECT</code> statement to query data from two or more tables.</p>
+                <ol class="chapter_items">
+                    <li>Column Aliases.</li>
+                    <li>Table Aliases.</li>
+                </ol>
+            </li>
+        </ol>
+    </div>
+</div>
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

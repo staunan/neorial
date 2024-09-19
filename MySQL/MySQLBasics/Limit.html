@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>MySQL - LIMIT Clause</title>
+    <link rel="icon" type="image/x-icon" href="../../Assets/favicon.png">
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+</head>
+<body>
+<div class="page card">
+
+<h1>LIMIT Clause</h1>
+<p>The <code>LIMIT</code> clause is used in the <code>SELECT</code> statement to constrain the number of rows to return. The <code>LIMIT</code> clause accepts one or two arguments. The values of both arguments must be zero or positive integers. he following illustrates the <code>LIMIT</code> clause syntax with two arguments:</p>
+<pre>
+SELECT 
+    select_list
+FROM
+    table_name
+LIMIT [offset,] row_count;
+</pre>
+<p>In this syntax:</p>
+<ol>
+    <li>The <code>offset</code> specifies the offset of the first row to return. The offset of the first row is <code>0</code>, not <code>1</code>. This argument is optional, if not present, considered to be <code>0</code>.</li>
+    <li>The <code>row_count</code> specifies the maximum number of rows to return.</li>
+</ol>
+<p>The following picture illustrates the <code>LIMIT</code> clause:</p>
+<img src="../images/MySQL-LIMIT-illustration.png" alt="">
+<p>When you use the <code>LIMIT</code> clause with one argument, MySQL will use this argument to determine the maximum number of rows to return from the first row of the result set. Therefore, these two clauses are equivalent:</p>
+<pre>
+LIMIT row_count;
+
+LIMIT 0 , row_count;
+</pre>
+
+
+<h2>OFFSET Clause</h2>
+<p>In addition to the above syntax, MySQL provides the following alternative <code>LIMIT</code> clause syntax:</p>
+<pre>
+LIMIT row_count OFFSET offset
+</pre>
+
+
+
+
+<h1>The LIMIT and ORDER BY clauses</h1>
+<p>By default, the <code>SELECT</code> statement returns rows in an unspecified order. When you add the <code>LIMIT</code> clause to the <code>SELECT</code> statement, the returned rows are unpredictable.</p>
+<p>Therefore, to ensure the <code>LIMIT</code> clause returns an expected output, you should always use it with an <code>ORDER BY</code> clause like this:</p>
+<pre>
+SELECT 
+    select_list
+FROM 
+    table_name
+ORDER BY 
+    sort_expression
+LIMIT offset, row_count;
+</pre>
+<p>The following picture illustrates the evaluation order of the <code>LIMIT</code> clause in the <code>SELECT</code> statement:</p>
+<img src="../images/mysql-limit-offset.svg" alt="">
+
+
+<h3>Example 1: Sample Database</h3>
+<p>This statement uses the <code>LIMIT</code> clause to get the top five customers who have the highest credit:</p>
+<pre>
+SELECT 
+    customerNumber, 
+    customerName, 
+    creditLimit
+FROM
+    customers
+ORDER BY creditLimit DESC
+LIMIT 5;
+</pre>
+<p>In this example:</p>
+<ol>
+    <li>First, the <code>ORDER BY</code> clause sorts the customers by credits from high to low.</li>
+    <li>Then, the <code>LIMIT</code> clause returns the first 5 rows.</li>
+</ol>
+<p>Similarly, this example uses the <code>LIMIT</code> clause to find five customers who have the lowest credits:</p>
+<pre>
+SELECT 
+    customerNumber, 
+    customerName, 
+    creditLimit
+FROM
+    customers
+ORDER BY creditLimit
+LIMIT 5;
+</pre>
+<p>In this example:</p>
+<ol>
+    <li>First, the <code>ORDER BY</code> clause sorts the customers by credits from low to high.</li>
+    <li>Then, the <code>LIMIT</code> clause returns the first 5 rows.</li>
+</ol>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

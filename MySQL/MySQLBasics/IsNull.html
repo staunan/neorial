@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>MySQL - IS NULL Operator</title>
+    <link rel="icon" type="image/x-icon" href="../../Assets/favicon.png">
+	<link rel="stylesheet" type="text/css" href="../../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../../Assets/Style.css">
+</head>
+<body>
+<div class="page card">
+
+<h1>IS NULL Operator</h1>
+<p>To test whether a value is <code>NULL</code> or not, you use the <code>IS NULL</code> operator. Here's the basic syntax of the <code>IS NULL</code> operator:</p>
+<pre>
+value IS NULL
+</pre>
+<p>If the value is <code>NULL</code>, the expression returns <code>true</code>. Otherwise, it returns <code>false</code>.</p>
+<p>Because the <code>IS NULL</code> is a comparison operator, you can use it anywhere that an operator can be used e.g., in the <code>SELECT</code> or <code>WHERE</code> clause. See the following example:</p>
+<pre>
+SELECT 1 IS NULL,  -- 0
+    0 IS NULL,  -- 0
+    NULL IS NULL; -- 1
+</pre>
+
+
+
+
+<h2>IS NOT NULL</h2>
+<p>To check if a value is not <code>NULL</code>, you use <code>IS NOT NULL</code> operator:</p>
+<pre>
+value IS NOT NULL
+</pre>
+<p>This expression returns <code>true</code> (1) if the value is not <code>NULL</code>. Otherwise, it returns <code>false</code> (0). Consider the following example:</p>
+<pre>
+SELECT 1 IS NOT NULL, -- 1
+    0 IS NOT NULL, -- 1
+    NULL IS NOT NULL; -- 0
+</pre>
+
+
+
+
+<h3>Example 1: Sample Database</h3>
+<p>The following query uses the <code>IS NULL</code> operator to find customers who do not have a sales representative:</p>
+<pre>
+SELECT 
+    customerName, 
+    country, 
+    salesrepemployeenumber
+FROM
+    customers
+WHERE
+    salesrepemployeenumber IS NULL
+ORDER BY 
+    customerName;
+</pre>
+<p>Output:</p>
+<pre>
++--------------------------------+--------------+------------------------+
+| customerName                   | country      | salesrepemployeenumber |
++--------------------------------+--------------+------------------------+
+| ANG Resellers                  | Spain        |                   NULL |
+| Anton Designs, Ltd.            | Spain        |                   NULL |
+| Asian Shopping Network, Co     | Singapore    |                   NULL |
+| Asian Treasures, Inc.          | Ireland      |                   NULL |
+...
+</pre>
+
+
+<h3>Example 2: Sample Database</h3>
+<p>This example uses the <code>IS NOT NULL</code> operator to get the customers who have a sales representative:</p>
+<pre>
+SELECT 
+    customerName, 
+    country, 
+    salesrepemployeenumber
+FROM
+    customers
+WHERE
+    salesrepemployeenumber IS NOT NULL
+ORDER BY 
+   customerName;
+</pre>
+<p>Output:</p>
+<pre>
++------------------------------------+-------------+------------------------+
+| customerName                       | country     | salesrepemployeenumber |
++------------------------------------+-------------+------------------------+
+| Alpha Cognac                       | France      |                   1370 |
+| American Souvenirs Inc             | USA         |                   1286 |
+| Amica Models & Co.                 | Italy       |                   1401 |
+| Anna's Decorations, Ltd            | Australia   |                   1611 |
+...
+</pre>
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>
