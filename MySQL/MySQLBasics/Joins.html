@@ -133,10 +133,228 @@ INNER JOIN committees c USING(name);
 
 
 <h2>MySQL LEFT JOIN clause</h2>
+<p>Similar to an <code>inner join</code>, a <code>left join</code> also requires a <b>join predicate</b>. The <code>left join</code> selects data starting from the left table. For each row in the left table, the <code>left join</code> compares with every row in the right table.</p>
+<p>If the values in the two rows satisfy the join condition, the <code>left join</code> clause creates a new row whose columns contain all columns of the rows in both tables and includes this row in the result set.</p>
+<p>If the values in the two rows are not matched, the <code>left join</code> clause still creates a new row whose columns contain columns of the row in the left table and <code>NULL</code> for columns of the row in the right table.</p>
+<p>In other words, the <code>left join</code> selects all data from the left table whether there are matching rows exist in the right table or not. In case there are no matching rows from the right table found, the <code>left join</code> uses <code>NULL</code> for columns of the row from the right table in the result set.</p>
+<p>Here is the basic syntax of a <code>left join</code> clause that joins two tables:</p>
+<pre>
+SELECT column_list 
+FROM table_1 
+LEFT JOIN table_2 ON join_condition;
+</pre>
+<p>The <code>left join</code> also supports the <code>USING</code> clause if the column used for matching in both tables is the same:</p>
+<pre>
+SELECT column_list 
+FROM table_1 
+LEFT JOIN table_2 USING (column_name);
+</pre>
+<p>The following example uses a <code>left join</code> clause to join the <code>members</code> with the <code>committees</code> table:</p>
+<pre>
+SELECT 
+    m.member_id, 
+    m.name AS member, 
+    c.committee_id, 
+    c.name AS committee
+FROM
+    members m
+LEFT JOIN committees c on m.name = c.name;
+
+
++-----------+--------+--------------+-----------+
+| member_id | member | committee_id | committee |
++-----------+--------+--------------+-----------+
+|         1 | John   |            1 | John      |
+|         2 | Jane   |         NULL | NULL      |
+|         3 | Mary   |            2 | Mary      |
+|         4 | David  |         NULL | NULL      |
+|         5 | Amelia |            3 | Amelia    |
++-----------+--------+--------------+-----------+
+5 rows in set (0.00 sec)
+</pre>
+<p>The following Venn diagram illustrates the <code>left join</code>:</p>
+<img src="../images/mysql-join-left-join.png" alt="">
+<p>This statement uses the <code>left join</code> clause with the <code>USING</code> syntax:</p>
+<pre>
+SELECT 
+    m.member_id, 
+    m.name AS member, 
+    c.committee_id, 
+    c.name AS committee
+FROM
+    members m
+LEFT JOIN committees c USING(name);
+</pre>
+
+
+<h3>Example 1 : Select rows that only exist in the left table</h3>
+<p>To find members who are not the committee members, you add a <code>WHERE</code> clause and <code>IS NULL</code> operator as follows:</p>
+<pre>
+SELECT 
+    m.member_id, 
+    m.name AS member, 
+    c.committee_id, 
+    c.name AS committee
+FROM
+    members m
+LEFT JOIN committees c USING(name)
+WHERE c.committee_id IS NULL;
+
+
++-----------+--------+--------------+-----------+
+| member_id | member | committee_id | committee |
++-----------+--------+--------------+-----------+
+|         2 | Jane   |         NULL | NULL      |
+|         4 | David  |         NULL | NULL      |
++-----------+--------+--------------+-----------+
+2 rows in set (0.00 sec)
+</pre>
+<p>Generally, this query pattern can find rows in the left table that do not have corresponding rows in the right table. This Venn diagram illustrates how to use the <code>left join</code> to select rows that only exist in the left table:</p>
+<img src="../images/mysql-join-left-join-only-rows-in-the-left-table.png" alt="">
 
 
 
 
+
+<h2>MySQL RIGHT JOIN clause</h2>
+<p>The <code>right join</code> clause is similar to the <code>left join</code> clause except that the treatment of left and right tables is reversed. The <code>right join</code> starts selecting data from the right table instead of the left table.</p>
+<p>The <code>right join</code> clause selects all rows from the right table and matches rows in the left table. If a row from the right table does not have matching rows from the left table, the column of the left table will have <code>NULL</code> in the final result set.</p>
+<p>Here is the syntax of the <code>right join</code>:</p>
+<pre>
+SELECT column_list 
+FROM table_1 
+RIGHT JOIN table_2 ON join_condition;
+</pre>
+<p>Similar to the <code>left join</code> clause, the right clause also supports the <code>USING</code> syntax:</p>
+<pre>
+SELECT column_list 
+FROM table_1 
+RIGHT JOIN table_2 USING (column_name);
+</pre>
+<p>To find rows in the right table that do not have corresponding rows in the left table, you also use a <code>WHERE</code> clause with the <code>IS NULL</code> operator:</p>
+<pre>
+SELECT column_list 
+FROM table_1 
+RIGHT JOIN table_2 USING (column_name)
+WHERE column_table_1 IS NULL;
+</pre>
+<p>This statement uses the <code>right join</code> to join the <code>members</code> and <code>committees</code> tables:</p>
+<pre>
+SELECT 
+    m.member_id, 
+    m.name AS member, 
+    c.committee_id, 
+    c.name AS committee
+FROM
+    members m
+RIGHT JOIN committees c on c.name = m.name;
+
++-----------+--------+--------------+-----------+
+| member_id | member | committee_id | committee |
++-----------+--------+--------------+-----------+
+|         1 | John   |            1 | John      |
+|         3 | Mary   |            2 | Mary      |
+|         5 | Amelia |            3 | Amelia    |
+|      NULL | NULL   |            4 | Joe       |
++-----------+--------+--------------+-----------+
+4 rows in set (0.00 sec)
+</pre>
+<p>This Venn diagram illustrates the <code>right join</code>:</p>
+<img src="../images/mysql-join-right-join.png" alt="">
+<p>The following statement uses the <code>right join</code> clause with the <code>USING</code> syntax:</p>
+<pre>
+SELECT 
+    m.member_id, 
+    m.name AS member, 
+    c.committee_id, 
+    c.name AS committee
+FROM
+    members m
+RIGHT JOIN committees c USING(name);
+</pre>
+
+
+<h3>Example 2 : Select data that exists only in the right table</h3>
+<p>To find the committee members who are not in the <code>members</code> table, you use this query:</p>
+<pre>
+SELECT 
+    m.member_id, 
+    m.name AS member, 
+    c.committee_id, 
+    c.name AS committee
+FROM
+    members m
+RIGHT JOIN committees c USING(name)
+WHERE m.member_id IS NULL;
+
+
++-----------+--------+--------------+-----------+
+| member_id | member | committee_id | committee |
++-----------+--------+--------------+-----------+
+|      NULL | NULL   |            4 | Joe       |
++-----------+--------+--------------+-----------+
+1 row in set (0.00 sec)
+</pre>
+<p>This Venn diagram illustrates how to use the <code>right join</code> to select data that exists only in the right table:</p>
+<img src="../images/mysql-join-right-join-only-rows-in-the-right-table.png" alt="">
+
+
+
+
+
+
+
+
+<h2>MySQL CROSS JOIN clause</h2>
+<p>Unlike the <code>inner join</code>, <code>left join</code>, and <code>right join</code>, the <code>cross join</code> clause does not have a join condition.</p>
+<p>The cross join makes a <a href="https://en.wikipedia.org/wiki/Cartesian_product">Cartesian product</a> of rows from the joined tables. The <code>cross join</code> combines each row from the first table with every row from the right table to make the result set.</p>
+<p>Suppose the first table has <code>n</code> rows and the second table has <code>m</code> rows. The cross-join that joins the tables will return <code>n * m</code> rows.</p>
+<p>The following shows the syntax of the cross-join clause:</p>
+<pre>
+SELECT select_list
+FROM table_1
+CROSS JOIN table_2;
+</pre>
+<p>This example uses the <code>cross join</code> clause to join the <code>members</code> with the <code>committees</code> tables:</p>
+<pre>
+SELECT 
+    m.member_id, 
+    m.name AS member, 
+    c.committee_id, 
+    c.name AS committee
+FROM
+    members m
+CROSS JOIN committees c;
+
+
++-----------+--------+--------------+-----------+
+| member_id | member | committee_id | committee |
++-----------+--------+--------------+-----------+
+|         1 | John   |            4 | Joe       |
+|         1 | John   |            3 | Amelia    |
+|         1 | John   |            2 | Mary      |
+|         1 | John   |            1 | John      |
+|         2 | Jane   |            4 | Joe       |
+|         2 | Jane   |            3 | Amelia    |
+|         2 | Jane   |            2 | Mary      |
+|         2 | Jane   |            1 | John      |
+|         3 | Mary   |            4 | Joe       |
+|         3 | Mary   |            3 | Amelia    |
+|         3 | Mary   |            2 | Mary      |
+|         3 | Mary   |            1 | John      |
+|         4 | David  |            4 | Joe       |
+|         4 | David  |            3 | Amelia    |
+|         4 | David  |            2 | Mary      |
+|         4 | David  |            1 | John      |
+|         5 | Amelia |            4 | Joe       |
+|         5 | Amelia |            3 | Amelia    |
+|         5 | Amelia |            2 | Mary      |
+|         5 | Amelia |            1 | John      |
++-----------+--------+--------------+-----------+
+20 rows in set (0.00 sec)
+</pre>
+<p>The <code>cross join</code> is useful for generating planning data. For example, you can carry the sales planning by using the cross join of customers, products, and years.</p>
+<p>In this tutorial, you have learned various MySQL join statements, including <code>cross join</code>, <code>inner join</code>, <code>left join</code>, and <code>right join</code>, to query data from two tables.</p>
 
 
 
