@@ -1,21 +1,18 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Packages</title>
+	<title>Go - Packages</title>
+    <link rel="icon" type="image/x-icon" href="../Assets/favicon.png">
 	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
 	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
-	<script type="text/javascript" src="../Assets/jquery.min.js"></script>
-	<link rel="stylesheet" href="../Assets/prism-dark.css">
 </head>
-<body class="Body">
-<div class="Content Card">
+<body>
+<div class="page card">
 
 
 
-
-<h1>Packages</h1>
-<p>Every Go program is made up of packages. Programs start running in package <code>main</code>. Every program must start with the package declaration. So it is necessary to mark the entry file with the name <code>package main</code>.</p>
+<h1>Package: main</h1>
+<p>Every Go program starts running in package <code>main</code>. Every program must start with the package declaration. So it is necessary to mark the entry file with the name <code>package main</code>.</p>
 <pre>
 package main
 
@@ -30,17 +27,17 @@ func main() {
 </pre>
 <p>The <code>main</code> package will also contain <code>main</code> function which is the entry function of the program.</p>
 
-<h3>Importing Packages</h3>
-<p>To import packages use <code>import</code> statement like the above:</p>
+<h1>Importing Packages</h1>
+<p>To import packages use <code>import</code> statement like the following:</p>
 <pre>
 import (
 	"fmt"
 	"math/rand"
 )
 </pre>
-<p>It imports two packages <code>fmt</code> and <code>math/rand</code>. This syntax is called <code>factored</code> import statement. Because it grouped multiple import statement into a single statement. You can seperately import the packages like the following:</p>
+<p>The above statement imports two packages <code>fmt</code> and <code>math/rand</code>. This syntax is called <code>factored</code> import statement. Because it grouped multiple import statement into a single statement. You can seperately import the packages like the following:</p>
 <pre>
-// The above import is equivalent to
+// The above import statement is equivalent to the following
 
 import "fmt"
 import "math/rand"
@@ -51,7 +48,7 @@ import "math/rand"
 
 <h1>Exported Vs Unexported names</h1>
 <p>In Go, a name is exported if it begins with a capital letter. For example, <code>Pizza</code> is an exported name, as is <code>Pi</code>, which is exported from the <code>math</code> package.</p>
-<p><code>pizza</code> and <code>pi</code> do not start with a capital letter, so they are not exported.</p>
+<p>But, <code>pizza</code> and <code>pi</code> do not start with a capital letter, so they are not exported.</p>
 <p>When importing a package, you can refer only to its exported names. Any "unexported" names are not accessible from outside the package.</p>
 <pre>
 package main
@@ -71,8 +68,6 @@ func main() {
 ./prog.go:9:14: undefined: math.pi
 </pre>
 <p>To fix the problem, rename <code>math.pi</code> to <code>math.Pi</code> and try it again.</p>
-
-
 
 
 

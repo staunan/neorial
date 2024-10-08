@@ -1,28 +1,26 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Variables</title>
+	<title>Go - Variables</title>
+    <link rel="icon" type="image/x-icon" href="../Assets/favicon.png">
 	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
 	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
-	<script type="text/javascript" src="../Assets/jquery.min.js"></script>
-	<link rel="stylesheet" href="../Assets/prism-dark.css">
 </head>
-<body class="Body">
-<div class="Content Card">
-
-
+<body>
+<div class="page card">
 
 
 <h1>Variables</h1>
 <p>Use <code>var</code> keyword to declare a variable. Here are the rules:</p>
-<ul>
-	<li>The name of the identifier must begin with a letter or an underscore(_). And the names may contain the letters ‘a-z’ or ’A-Z’ or digits 0-9 as well as the character ‘_’.</li>
+<ol>
+	<li>The name of the identifier must begin with a letter or an underscore(<code>_</code>).</li>
+	<li>The name may contain the letters <code>a-z</code> or <code>A-Z</code> or digits <code>0-9</code> as well as the character <code>_</code></li>
 	<li>The name of the identifier should not start with a digit.</li>
 	<li>The name of the identifier is case sensitive.</li>
 	<li>Keywords is not allowed to use as an identifier name.</li>
-	<li>There is no limit on the length of the name of the identifier.</li>
-</ul>
+	<li>There is no limit on the number of characters of the identifier.</li>
+</ol>
+<p>Here are some example of variables:</p>
 <pre>
 // Valid identifiers:
 _geeks23
@@ -37,27 +35,45 @@ geeks_geeks
 if
 default
 </pre>
-<p>Here is an example:</p>
+<p>For example the following program declares a variable called <code>name</code>:</p>
 <pre>
 package main
 import "fmt"
 
 func main() {
-
- var name = "GeeksforGeeks"
-  
+	var name = "GeeksforGeeks"
 }
 </pre>
-
-<p>The identifier represented by the underscore character(_) is known as a blank identifier. It is used as an anonymous placeholder instead of a regular identifier, and it has a special meaning in declarations, as an operand, and in assignments.</p>
-
-
-<h3>data type of variable</h3>
-<p>To mention datatype of the variable write the type after the variable name and seperate them with a space.</p>
+	
+	
+<h1>Data Type of Variable</h1>
+<p>To mention data type of the variable write the type after the variable name and seperate them with a space. Here is the syntax:</p>
 <pre>
-var name string, age int
-var c, python, java bool
+var &lt;variable_name> &lt;datatype>;
 </pre>
+<p>For example, the following statement creates a variable <code>name</code> of type <code>string</code>, and <code>age</code> of type <code>int</code>:</p>
+<pre>
+var name string;
+var age int;
+
+// In single line statement:
+var name string, age int;
+</pre>
+<p>Go is a statically typed language, which means variable must have a type in compile time. That is why the following example will give you and error.</p>
+<pre>
+var age; // Invalid, Error
+</pre>
+<p>The above statement declars a variable <code>age</code>, but we are not assigning anything to the variable. So compiler gives you an error. You must assign some value so that compiler could detect the data type of the variable.</p>
+<p>In Golang, if you don't explicitly specify the type of a variable, the language can infer it from the right-hand side of the assignment. For example:</p>
+<pre>
+var x = 42; // x is inferred to be of type int
+var name = "Santanu"; // name is inferred to be of type string
+</pre>
+<p>In the following statement, all three variable <code>c</code>, <code>python</code> and <code>java</code> is declared as boolean:</p>
+<pre>
+var c, python, java bool;
+</pre>
+
 <p>Here is an example:</p>
 <pre>
 package main
@@ -65,11 +81,11 @@ package main
 import "fmt"
 
 // package level variables
-var c, python, java bool
+var c, python, java bool;
 
 func main() {
 	// function level variable 
-	var i int
+	var i int;
 	fmt.Println(i, c, python, java)
 }
 </pre>
@@ -77,17 +93,17 @@ func main() {
 <pre>
 0 false false false
 </pre>
-
-
-
-<h3>Variables with initializers</h3>
-<p>A var declaration can include initializers, one per variable. If an initializer is present, the type can be omitted; the variable will take the type of the initializer.</p>
+	
+	
+	
+<h1>Variables with initializers</h1>
+<p>A <code>var</code> declaration can include initializers, one per variable. If an initializer is present, the type can be omitted; the variable will take the type of the initializer.</p>
 <pre>
 package main
 
 import "fmt"
 
-var i, j int = 1, 2
+var i, j int = 1, 2;
 
 func main() {
 	var c, python, java = true, false, "no!"
@@ -96,15 +112,15 @@ func main() {
 </pre>
 <p>The output of the above code is:</p>
 <pre>
-1 2 true false no
+1 2 true false no!
 </pre>
-<p>The first value <code>true</code> goes to the first variable <code>c</code>, the second value <code>false</code> goes to the second variable <code>python</code>, and the last value <code>"no"</code> goes to variable <code>java</code>.</p>
+<p>The first value <code>true</code> goes to the first variable <code>c</code>, the second value <code>false</code> goes to the second variable <code>python</code>, and the last value <code>"no!"</code> goes to variable <code>java</code>.</p>
 <p>The number of variables on the left side of the <code>=</code>, and the number of values on the right side of the <code>=</code>, must be same. Otherwise you will get an exception.</p>
-
-
-
-
-<h3>Short variable declarations</h3>
+	
+	
+	
+	
+<h1>Short variable declarations</h1>
 <p>Inside a function, the <code>:=</code> short assignment statement can be used in place of a <code>var</code> declaration with implicit type.</p>
 <pre>
 package main
@@ -120,17 +136,17 @@ func main() {
 }
 </pre>
 <p>Outside a function, every statement begins with a keyword (var, func, and so on) and so the <code>:=</code> construct is not available.</p>
-
-
-
-
-<h3>Zero values</h3>
+	
+	
+	
+	
+<h1>Zero Values</h1>
 <p>Variables declared without an explicit initial value are given their zero value.</p>
-<ul>
+<ol>
 	<li><code>0</code> for numeric types,</li>
 	<li><code>false</code> for the boolean type, and</li>
 	<li><code>""</code> (the empty string) for strings.</li>
-</ul>
+</ol>
 <pre>
 package main
 
@@ -152,13 +168,25 @@ func main() {
 
 
 
+<h1>How to print data type of a variable?</h1>
+<p>To print the type of a variable in Go, you can use the <code>reflect</code> package. Here's how you can do it:</p>
+<pre>
+package main
 
+import (
+	"fmt"
+	"reflect"
+)
 
-
-
-
-
-
+func main() {
+	var x = 42
+	fmt.Println("Type of x:", reflect.TypeOf(x))
+}	
+</pre>
+<p>This will output:</p>
+<pre>
+Type of x: int
+</pre>
 
 
 
