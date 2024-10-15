@@ -47,14 +47,14 @@ package main
 import "fmt"
 
 func main() {
-	fmt.Printf("hello, world\n")
+	fmt.Printf("hello, world\n");
 }
 </pre>
 <p>Then build it with the go tool:</p>
 <pre>
 go build demo.go
 </pre>
-<p>The command above will build an executable named demo in the current directory alongside your source code. Execute it to see the greeting:</p>
+<p>The command above will build an executable named <code>demo</code> in the current directory alongside your source code. Execute it to see the greeting:</p>
 <pre>
 // For Linux
 ./demo
@@ -66,7 +66,97 @@ go build demo.go
 <pre>
 hello, world
 </pre>
-		
+
+
+<h1>Go Syntax: Structure of a GO file</h1>
+<p>A Go file consists of the following parts:</p>
+<ol>
+	<li>Package declaration</li>
+	<li>Import packages</li>
+	<li>Functions</li>
+	<li>Statements and expressions</li>
+</ol>
+<p>In Go, every program is part of a package. We define this using the <code>package</code> keyword. In the example above, the program belongs to the <code>main</code> package. The package <code>main</code> is entry package when we execute Go code. Execution starts from package <code>main.</code></p>
+<p><code>import ("fmt")</code> lets us import files included in the <code>fmt</code> package.</p>
+<p><code>func main() {}</code> is a function. Any code inside its curly brackets <code>{}</code> will be executed. The function <code>main</code> is entry function when execution starts.</p>
+<p><code>fmt.Println()</code> is a function made available from the <code>fmt</code> package. It is used to output/print text. In our example it will output "hello, world".</p>
+
+
+
+
+<h1>Go Statements</h1>
+<p><code>fmt.Printf("hello, world\n");</code> is a statement.</p>
+<p>In Go, statements are separated by ending a line (hitting the Enter key) or by a semicolon ";".</p>
+<p>Hitting the Enter key adds ";" to the end of the line implicitly (does not show up in the source code).</p>
+<p>The left curly bracket <code>{</code> cannot come at the start of a line. Run the following code and see what happens:</p>
+<pre>
+package main
+import ("fmt")
+
+func main()
+{
+	fmt.Printf("hello, world\n")
+}
+</pre>
+<p>The above code produces the following error:</p>
+<pre>
+./prog.go:4:6: missing function body
+./prog.go:5:1: syntax error: unexpected semicolon or newline before {
+</pre>
+<p>So the correct form of a function body looks like the following where first curly bracket starts after the parenthesis. Its like Go enforcing us to follow a standard way of writing code:</p>
+<pre>
+package main
+import ("fmt")
+
+func main(){
+	fmt.Printf("hello, world\n")
+}
+</pre>
+
+
+
+<h1>Go Comments</h1>
+<p>A comment is a text that is ignored upon execution. Comments can be used to explain the code, and to make it more readable. Comments can also be used to prevent code execution when testing an alternative code. Go supports single-line or multi-line comments.</p>
+
+
+
+
+<h3>Single-line Comments</h3>
+<p>Single-line comments start with two forward slashes (//).</p>
+<pre>
+// This is a comment
+package main
+import ("fmt")
+
+func main() {
+	// This is a comment
+	fmt.Println("Hello World!")
+}
+</pre>
+<p>The following example uses a single-line comment at the end of a code line:</p>
+<pre>
+package main
+import ("fmt")
+
+func main() {
+	fmt.Println("Hello World!") // This is a comment
+}
+</pre>
+
+
+
+<h3>Multi-line Comments</h3>
+<p>Multi-line comments start with <code>/*</code> and ends with <code>*/</code>. Any text between <code>/*</code> and <code>*/</code> will be ignored by the compiler:</p>
+<pre>
+package main
+import ("fmt")
+
+func main() {
+	/* The code below will print Hello World
+	to the screen, and it is amazing */
+	fmt.Println("Hello World!")
+}
+</pre>
 
 
 

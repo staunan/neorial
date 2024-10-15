@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Go - Output</title>
+    <link rel="icon" type="image/x-icon" href="../Assets/favicon.png">
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+</head>
+<body>
+<div class="page card">
+
+
+
+<h1>Go Output Functions</h1>
+<p>Go has three functions to output text:</p>
+<ol>
+    <li>Print()</li>
+    <li>Println()</li>
+    <li>Printf()</li>
+</ol>
+
+
+
+
+<h1>The Print() Function</h1>
+<p>The Print() function prints its arguments with their default format.</p>
+<pre>
+package main
+import ("fmt")
+
+func main() {
+    var i,j string = "Hello","World"
+
+    fmt.Print(i)
+    fmt.Print(j)
+}
+</pre>
+<p>Output:</p>
+<pre>
+HelloWorld
+</pre>
+<p>If we want to print the arguments in new lines, we need to use <code>\n</code>.</p>
+<pre>
+package main
+import ("fmt")
+
+func main() {
+    var i,j string = "Hello","World"
+
+    fmt.Print(i, "\n")
+    fmt.Print(j, "\n")
+}
+</pre>
+<p>Output:</p>
+<pre>
+Hello
+World
+</pre>
+<p>In the above example <code>\n</code> creates new lines. It is also possible to only use one <code>Print()</code> for printing multiple variables. Here is an example:</p>
+<pre>
+package main
+import ("fmt")
+
+func main() {
+    var i,j string = "Hello","World"
+
+    fmt.Print(i, "\n",j)
+}
+</pre>
+<p>In the above example, the values are seperated by comma (<code>,</code>). Here is the output:</p>
+<pre>
+Hello
+World
+</pre>
+<p>If we want to add a space between string arguments, we need to use " ":</p>
+<pre>
+package main
+import ("fmt")
+
+func main() {
+    var i,j string = "Hello","World"
+
+    fmt.Print(i, " ", j)
+}
+</pre>
+<p>Output:</p>
+<pre>
+Hello World
+</pre>
+<p>The function <code>Print()</code> inserts a space between the arguments if neither are strings:</p>
+<pre>
+package main
+import ("fmt")
+
+func main() {
+    var i,j = 10,20
+
+    fmt.Print(i,j)
+}
+</pre>
+<p>Output:</p>
+<pre>
+10 20
+</pre>
+
+
+
+
+
+
+
+<h1>The Println() Function</h1>
+<p>The <code>Println()</code> function is similar to <code>Print()</code> with the difference that a whitespace is added between the arguments, and a newline is added at the end:</p>
+<pre>
+package main
+import ("fmt")
+
+func main() {
+    var i,j string = "Hello","World"
+
+    fmt.Println(i,j)
+}
+</pre>
+<p>Output:</p>
+<pre>
+Hello World
+</pre>
+
+
+
+
+
+
+<h1>The Printf() Function</h1>
+<p>The <code>Printf()</code> function first formats its argument based on the given formatting verb and then prints them.</p>
+<p>Here we will use two formatting verbs:</p>
+<ol>
+    <li><code>%v</code> is used to print the value of the arguments</li>
+    <li><code>%T</code> is used to print the type of the arguments</li>
+</ol>
+<pre>
+package main
+import ("fmt")
+
+func main() {
+    var i string = "Hello"
+    var j int = 15
+
+    fmt.Printf("i has value: %v and type: %T\n", i, i)
+    fmt.Printf("j has value: %v and type: %T", j, j)
+}
+</pre>
+<p>Output:</p>
+<pre>
+i has value: Hello and type: string
+j has value: 15 and type: int
+</pre>
+
+
+<h1>Formatting Verbs for Printf()</h1>
+<p>Go offers several formatting verbs that can be used with the <code>Printf()</code> function.</p>
+
+
+
+<h3>General Formatting Verbs</h3>
+<p>The following verbs can be used with all data types:</p>
+<table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
+    <tr>
+        <th>Verb</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td>%v</td>
+        <td>Prints the value in the default format</td>
+    </tr>
+    <tr>
+        <td>%#v</td>
+        <td>Prints the value in Go-syntax format</td>
+    </tr>
+    <tr>
+        <td>%T</td>
+        <td>Prints the type of the value</td>
+    </tr>
+    <tr>
+        <td>%%</td>
+        <td>Prints the % sign</td>
+    </tr>
+</table>
+<p>Here is an example:</p>
+<pre>
+package main
+import ("fmt")
+
+func main() {
+    var i = 15.5
+    var txt = "Hello World!"
+
+    fmt.Printf("%v\n", i)
+    fmt.Printf("%#v\n", i)
+    fmt.Printf("%v%%\n", i)
+    fmt.Printf("%T\n", i)
+
+    fmt.Printf("%v\n", txt)
+    fmt.Printf("%#v\n", txt)
+    fmt.Printf("%T\n", txt)
+}
+</pre>
+<p>Output:</p>
+<pre>
+15.5
+15.5
+15.5%
+float64
+Hello World!
+"Hello World!"
+string
+</pre>
+
+
+
+
+
+
+
+<h3>Integer Formatting Verbs</h3>
+<p>The following verbs can be used with the integer data type:</p>
+<table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
+    <tbody><tr>
+      <th>Verb</th>
+      <th>Description</th>
+    </tr>
+    <tr>
+      <td>%b</td>
+      <td>Base 2</td>
+    </tr>
+    <tr>
+      <td>%d</td>
+      <td>Base 10</td>
+    </tr>
+    <tr>
+      <td>%+d</td>
+      <td>Base 10 and always show sign</td>
+    </tr>
+    <tr>
+      <td>%o</td>
+      <td>Base 8</td>
+    </tr>
+    <tr>
+      <td>%O</td>
+      <td>Base 8, with leading 0o</td>
+    </tr>
+    <tr>
+      <td>%x</td>
+      <td>Base 16, lowercase</td>
+    </tr>
+    <tr>
+      <td>%X</td>
+      <td>Base 16, uppercase</td>
+    </tr>
+    <tr>
+      <td>%#x</td>
+      <td>Base 16, with leading 0x</td>
+    </tr>
+    <tr>
+      <td>%4d</td>
+      <td>Pad with spaces (width 4, right justified)</td>
+    </tr>
+    <tr>
+      <td>%-4d</td>
+      <td>Pad with spaces (width 4, left justified)</td>
+    </tr>
+    <tr>
+      <td>%04d</td>
+      <td>Pad with zeroes (width 4)</td>
+    </tr>
+  </tbody>
+</table>
+<p>Here is an example:</p>
+<pre>
+package main
+import ("fmt")
+
+func main() {
+    var i = 15
+    
+    fmt.Printf("%b\n", i)
+    fmt.Printf("%d\n", i)
+    fmt.Printf("%+d\n", i)
+    fmt.Printf("%o\n", i)
+    fmt.Printf("%O\n", i)
+    fmt.Printf("%x\n", i)
+    fmt.Printf("%X\n", i)
+    fmt.Printf("%#x\n", i)
+    fmt.Printf("%4d\n", i)
+    fmt.Printf("%-4d\n", i)
+    fmt.Printf("%04d\n", i)
+}
+</pre>
+<p>Output:</p>
+<pre>
+1111
+15
++15
+17
+0o17
+f
+F
+0xf
+    15
+15
+0015
+</pre>
+
+
+
+
+<h3>String Formatting Verbs</h3>
+<p>The following verbs can be used with the string data type:</p>
+<table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
+    <tbody><tr>
+      <th>Verb</th>
+      <th>Description</th>
+    </tr>
+      <tr>
+        <td>%s</td>
+        <td>Prints the value as plain string</td>
+      </tr>
+      <tr>
+        <td>%q</td>
+        <td>Prints the value as a double-quoted string</td>
+      </tr>
+      <tr>
+        <td>%8s</td>
+        <td>Prints the value as plain string (width 8, right justified)</td>
+      </tr>
+      <tr>
+        <td>%-8s</td>
+        <td>Prints the value as plain string (width 8, left justified)</td>
+      </tr>
+      <tr>
+        <td>%x</td>
+        <td>Prints the value as hex dump of byte values</td>
+      </tr>
+      <tr>
+        <td>% x</td>
+        <td>Prints the value as hex dump with spaces</td>
+      </tr>
+  </tbody>
+</table>
+<p>Here is an example:</p>
+<pre>
+package main
+import ("fmt")
+
+func main() {
+    var txt = "Hello"
+    
+    fmt.Printf("%s\n", txt)
+    fmt.Printf("%q\n", txt)
+    fmt.Printf("%8s\n", txt)
+    fmt.Printf("%-8s\n", txt)
+    fmt.Printf("%x\n", txt)
+    fmt.Printf("% x\n", txt)
+}
+</pre>
+<p>Output:</p>
+<pre>
+Hello
+"Hello"
+    Hello
+Hello
+48656c6c6f
+48 65 6c 6c 6f
+</pre>
+
+
+
+
+
+<h3>Boolean Formatting Verbs</h3>
+<p>The following verb can be used with the boolean data type:</p>
+<table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
+    <tbody><tr>
+      <th>Verb</th>
+      <th>Description</th>
+    </tr>
+    <tr>
+        <td>%t</td>
+        <td>Value of the boolean operator in true or false format (same as using %v)</td>
+    </tr>
+  </tbody>
+</table>
+<p>Here is an example:</p>
+<pre>
+package main
+import ("fmt")
+
+func main() {
+    var i = true
+    var j = false
+
+    fmt.Printf("%t\n", i)
+    fmt.Printf("%t\n", j)
+}
+</pre>
+<p>Output:</p>
+<pre>
+true
+false
+</pre>
+
+
+
+
+
+
+<h3>Float Formatting Verbs</h3>
+<p>The following verbs can be used with the float data type:</p>
+<table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
+    <tbody><tr>
+      <th>Verb</th>
+      <th>Description</th>
+    </tr>
+    <tr>
+      <td>%e</td>
+      <td>Scientific notation with 'e' as exponent</td>
+    </tr>
+    <tr>
+      <td>%f</td>
+      <td>Decimal point, no exponent</td>
+    </tr>
+    <tr>
+      <td>%.2f</td>
+      <td>Default width, precision 2</td>
+    </tr>
+    <tr>
+      <td>%6.2f</td>
+      <td>Width 6, precision 2</td>
+    </tr>
+    <tr>
+      <td>%g</td>
+      <td>Exponent as needed, only necessary digits</td>
+    </tr>
+    </tbody>
+</table>
+<pre>
+package main
+import ("fmt")
+
+func main() {
+    var i = 3.141
+
+    fmt.Printf("%e\n", i)
+    fmt.Printf("%f\n", i)
+    fmt.Printf("%.2f\n", i)
+    fmt.Printf("%6.2f\n", i)
+    fmt.Printf("%g\n", i)
+}
+</pre>
+<p>Output:</p>
+<pre>
+3.141000e+00
+3.141000
+3.14
+    3.14
+3.141
+</pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

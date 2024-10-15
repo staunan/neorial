@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Go - DataType</title>
+    <link rel="icon" type="image/x-icon" href="../Assets/favicon.png">
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+</head>
+<body>
+<div class="page card">
+
+
+<h1>DataType</h1>
+<p>Data type is an important concept in programming. Data type specifies the size and type of variable values.</p>
+<p>Go is statically typed, meaning that once a variable type is defined, it can only store data of that type.</p>
+<p>Go has three basic data types:</p>
+<ol>
+    <li><code>bool</code>: represents a boolean value and is either true or false</li>
+    <li><code>Numeric</code>: represents integer types, floating point values, and complex types</li>
+    <li><code>string</code>: represents a string value</li>
+</ol>
+<p>Following is an example of basic data type variables:</p>
+<pre>
+package main
+import ("fmt")
+
+func main() {
+    var a bool = true     // Boolean
+    var b int = 5         // Integer
+    var c float32 = 3.14  // Floating point number
+    var d string = "Hi!"  // String
+
+    fmt.Println("Boolean: ", a)
+    fmt.Println("Integer: ", b)
+    fmt.Println("Float:   ", c)
+    fmt.Println("String:  ", d)
+}
+</pre>
+
+
+<h1>Boolean Data Type</h1>
+<p>A boolean data type is declared with the <code>bool</code> keyword and can only take the values <code>true</code> or <code>false</code>.</p>
+<p>The default value of a boolean data type is <code>false</code>.</p>
+<p>This example shows some different ways to declare Boolean variables:</p>
+<pre>
+package main
+import ("fmt")
+
+func main() {
+    var b1 bool = true // typed declaration with initial value
+    var b2 = true // untyped declaration with initial value
+    var b3 bool // typed declaration without initial value
+    b4 := true // untyped declaration with initial value
+
+    fmt.Println(b1) // Returns true
+    fmt.Println(b2) // Returns true
+    fmt.Println(b3) // Returns false
+    fmt.Println(b4) // Returns true
+}
+</pre>
+
+
+
+
+
+
+
+<h1>Go Integer Data Types</h1>
+<p>Integer data types are used to store a whole number without decimals, like <code>35</code>, <code>-50</code>, or <code>1345000</code>.</p>
+<p>The integer data type has two categories:</p>
+<ol>
+    <li><b>Signed integers</b> - can store both positive and negative values</li>
+    <li><b>Unsigned integers</b> - can only store non-negative values</li>
+</ol>
+<h3>Signed Integers</h3>
+<p>Signed integers, declared with one of the <code>int</code> keywords, can store both positive and negative values:</p>
+<pre>
+package main
+import ("fmt")
+
+func main() {
+    var x int = 500
+    var y int = -4500
+    fmt.Printf("Type: %T, value: %v", x, x)
+    fmt.Printf("Type: %T, value: %v", y, y)
+}
+</pre>
+<p>Go has five keywords/types of signed integers:</p>
+<table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
+    <tbody><tr>
+        <th>Type</th>
+        <th>Size</th>
+        <th>Range</th>
+    </tr>
+    <tr>
+        <td> <code class="w3-codespan">int</code></td>
+        <td>Depends on platform:<br>32 bits in 32 bit systems and<br>64 bit in 
+        64 bit systems</td>
+        <td>-2147483648 to 2147483647 in 32 bit systems and<br>
+        -9223372036854775808 to 9223372036854775807 in 64 bit systems</td>
+    </tr>
+    <tr>
+        <td> <code class="w3-codespan">int8</code></td>
+        <td>8 bits/1 byte</td>
+        <td>-128 to 127</td>
+    </tr>
+    <tr>
+        <td> <code class="w3-codespan">int16</code></td>
+        <td>16 bits/2 byte</td>
+        <td>-32768 to 32767</td>
+    </tr>
+    <tr>
+        <td> <code class="w3-codespan">int32</code></td>
+        <td>32 bits/4 byte</td>
+        <td>-2147483648 to 2147483647</td>
+    </tr>
+    <tr>
+        <td> <code class="w3-codespan">int64</code></td>
+        <td>64 bits/8 byte</td>
+        <td>-9223372036854775808 to 9223372036854775807</td>
+    </tr>
+</tbody>
+</table>
+
+
+
+<h3>Unsigned Integers</h3>
+<p>Unsigned integers, declared with one of the <code>uint</code> keywords, can only store non-negative values:</p>
+<pre>
+package main
+import ("fmt")
+
+func main() {
+    var x uint = 500
+    var y uint = 4500
+    fmt.Printf("Type: %T, value: %v", x, x)
+    fmt.Printf("Type: %T, value: %v", y, y)
+}
+</pre>
+<p>Go has five keywords/types of unsigned integers:</p>
+<table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
+    <tbody><tr>
+        <th>Type</th>
+        <th>Size</th>
+        <th>Range</th>
+    </tr>
+    <tr>
+        <td> <code class="w3-codespan">uint</code></td>
+        <td>Depends on platform:<br>32 bits in 32 bit 
+        systems and<br>64 bit in 64 bit systems</td>
+        <td>0 to 4294967295 in 32 bit systems and<br>0 to 18446744073709551615 
+        in 64 bit systems</td>
+    </tr>
+    <tr>
+        <td> <code class="w3-codespan">uint8</code></td>
+        <td>8 bits/1 byte</td>
+        <td>0 to 255</td>
+    </tr>
+    <tr>
+        <td> <code class="w3-codespan">uint16</code></td>
+        <td>16 bits/2 byte</td>
+        <td>0 to 65535</td>
+    </tr>
+    <tr>
+        <td> <code class="w3-codespan">uint32</code></td>
+        <td>32 bits/4 byte</td>
+        <td>0 to 4294967295</td>
+    </tr>
+    <tr>
+        <td> <code class="w3-codespan">uint64</code></td>
+        <td>64 bits/8 byte</td>
+        <td>0 to 18446744073709551615</td>
+    </tr>
+</tbody>
+</table>
+<p>The default type for integer is <code>int</code>. If you do not specify a type, the type will be <code>int</code>.</p>
+
+
+
+
+<h1>Float Data Types</h1>
+<p>The float data types are used to store positive and negative numbers with a decimal point, like <code>35.3</code>, <code>-2.34</code>, or <code>3597.34987</code>.</p>
+<p>The float data type has two keywords:</p>
+<table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
+    <tbody><tr>
+       <th>Type</th>
+       <th>Size</th>
+       <th>Range</th>
+    </tr>
+    <tr>
+        <td><code class="w3-codespan">float32</code></td>
+        <td>32 bits</td>
+        <td>-3.4e+38 to 3.4e+38.</td>
+    </tr>
+    <tr>
+        <td><code class="w3-codespan">float64</code></td>
+        <td>64 bits</td>
+        <td>-1.7e+308 to +1.7e+308.</td>
+    </tr>
+  </tbody>
+</table>
+<p>The default type for float is <code>float64</code>. If you do not specify a type, the type will be <code>float64</code>.</p>
+
+
+
+<h3>The float32 Keyword</h3>
+<p>This example shows how to declare some variables of type <code>float32</code>:</p>
+<pre>
+package main
+import ("fmt")
+
+func main() {
+    var x float32 = 123.78
+    var y float32 = 3.4e+38
+    fmt.Printf("Type: %T, value: %v\n", x, x)
+    fmt.Printf("Type: %T, value: %v", y, y)
+}
+</pre>
+
+
+<h3>The float64 Keyword</h3>
+<p>The <code>float64</code> data type can store a larger set of numbers than <code>float32</code>.</p>
+<p>This example shows how to declare a variable of type <code>float64</code>:</p>
+<pre>
+package main
+import ("fmt")
+
+func main() {
+    var x float64 = 1.7e+308
+    fmt.Printf("Type: %T, value: %v", x, x)
+}
+</pre>
+
+
+
+
+
+<h1>String Data Type</h1>
+<p>The <code>string</code> data type is used to store a sequence of characters (text). String values must be surrounded by double quotes:</p>
+<pre>
+package main
+import ("fmt")
+
+func main() {
+    var txt1 string = "Hello!"
+    var txt2 string
+    txt3 := "World 1"
+
+    fmt.Printf("Type: %T, value: %v\n", txt1, txt1)
+    fmt.Printf("Type: %T, value: %v\n", txt2, txt2)
+    fmt.Printf("Type: %T, value: %v\n", txt3, txt3)
+}
+</pre>
+<p>Output:</p>
+<pre>
+Type: string, value: Hello!
+Type: string, value:
+Type: string, value: World 1
+</pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

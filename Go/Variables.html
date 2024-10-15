@@ -190,6 +190,83 @@ Type of x: int
 
 
 
+<h1>Go Variable Declaration in a Block</h1>
+<p>Multiple variable declarations can also be grouped together into a block for greater readability:</p>
+<pre>
+package main
+import ("fmt")
+
+func main() {
+	var (
+		a int
+		b int = 1
+		c string = "hello"
+	)
+
+	fmt.Println(a)
+	fmt.Println(b)
+	fmt.Println(c)
+}
+</pre>
+
+
+
+
+<h1>Constants</h1>
+<p>If a variable should have a fixed value that cannot be changed, you can use the <code>const</code> keyword.</p>
+<p>The <code>const</code> keyword declares the variable as "constant", which means that it is unchangeable and read-only.</p>
+<pre>
+const CONSTNAME type = value
+</pre>
+<p>The value of a constant must be assigned when you declare it.</p>
+<p>Here is an example of declaring a constant in Go:</p>
+<pre>
+package main
+import ("fmt")
+
+const PI = 3.14
+
+func main() {
+	fmt.Println(PI)
+}
+</pre>
+<h3>Constant Naming Rules</h3>
+<ol>
+	<li>Constant names follow the same naming rules as variables</li>
+	<li>Constants can be declared both inside and outside of a function</li>
+	<li>Constant names are usually written in uppercase letters (for easy identification and differentiation from variables)</li>
+</ol>
+<h3>Multiple Constants Declaration</h3>
+<p>Multiple constants can be grouped together into a block for readability:</p>
+<pre>
+package main
+import ("fmt")
+
+const (
+  A int = 1
+  B = 3.14
+  C = "Hi!"
+)
+
+func main() {
+  fmt.Println(A)
+  fmt.Println(B)
+  fmt.Println(C)
+}
+</pre>
+<p>In the above example, the constant <code>B</code> and <code>C</code> does not have any type specified. So the type is inferred to be <code>float</code> for constant <code>B</code> and <code>string</code> for constant <code>C</code>.</p>
+
+
+
+
+
+
+
+
+
+
+
+
 
 </div>
 </body>
