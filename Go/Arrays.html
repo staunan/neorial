@@ -11,6 +11,217 @@
 
 
 <h1>Arrays</h1>
+<p>Arrays are used to store multiple values of the same type in a single variable, instead of declaring separate variables for each value.</p>
+
+
+
+<h1>Declare an Array</h1>
+<p>In Go, there are two ways to declare an array:</p>
+<h3>With the var keyword</h3>
+<pre>
+var array_name = [length]datatype{values} // here length is defined
+
+or
+
+var array_name = [...]datatype{values} // here length is inferred
+</pre>
+<h3>With the := sign</h3>
+<pre>
+array_name := [length]datatype{values} // here length is defined
+
+or
+
+array_name := [...]datatype{values} // here length is inferred
+</pre>
+<p> The length specifies the number of elements to store in the array. In Go, arrays have a fixed length. The length of the array is either defined by a number or is inferred (means that the compiler decides the length of the array, based on the number of values).</p>
+
+
+
+<h1>Array Examples</h1>
+<p>This example declares two arrays (<code>arr1</code> and <code>arr2</code>) with defined lengths:</p>
+<pre>
+package main
+import ("fmt")
+
+func main() {
+	var arr1 = [3]int{1,2,3}
+	arr2 := [5]int{4,5,6,7,8}
+
+	fmt.Println(arr1)
+	fmt.Println(arr2)
+}
+</pre>
+<p>Output:</p>
+<pre>
+[1 2 3]
+[4 5 6 7 8]
+</pre>
+<p>This example declares two arrays (<code>arr1</code> and <code>arr2</code>) with inferred lengths:</p>
+<pre>
+package main
+import ("fmt")
+
+func main() {
+	var arr1 = [...]int{1,2,3}
+	arr2 := [...]int{4,5,6,7,8}
+
+	fmt.Println(arr1)
+	fmt.Println(arr2)
+}
+</pre>
+<p>Output:</p>
+<pre>
+[1 2 3]
+[4 5 6 7 8]
+</pre>
+<p>This example declares an array of strings:</p>
+<pre>
+package main
+import ("fmt")
+
+func main() {
+	var cars = [4]string{"Volvo", "BMW", "Ford", "Mazda"}
+	fmt.Print(cars)
+}
+</pre>
+<p>Output:</p>
+<pre>
+[Volvo BMW Ford Mazda]
+</pre>
+
+
+
+
+<h1>Access Elements of an Array</h1>
+<p>You can access a specific array element by referring to the index number. In Go, array indexes start at <code>0</code>. That means that <code>[0]</code> is the first element, <code>[1]</code> is the second element, etc.</p>
+<p>This example shows how to access the first and third elements in the prices array:</p>
+<pre>
+package main
+import ("fmt")
+
+func main() {
+	prices := [3]int{10,20,30}
+
+	fmt.Println(prices[0])
+	fmt.Println(prices[2])
+}
+</pre>
+<p>Output:</p>
+<pre>
+10
+30
+</pre>
+
+
+
+<h1>Change Elements of an Array</h1>
+<p>You can also change the value of a specific array element by referring to the index number. This example shows how to change the value of the third element in the prices array:</p>
+<pre>
+package main
+import ("fmt")
+
+func main() {
+	prices := [3]int{10,20,30}
+
+	prices[2] = 50
+	fmt.Println(prices)
+}
+</pre>
+<p>Output:</p>
+<pre>
+[10 20 50]
+</pre>
+
+
+
+
+<h1>Array Initialization</h1>
+<p>If an array or one of its elements has not been initialized in the code, it is assigned the default value of its type.</p>
+<p>The default value for int is 0, and the default value for string is "".</p>
+<pre>
+package main
+import ("fmt")
+
+func main() {
+	arr1 := [5]int{} //not initialized
+	arr2 := [5]int{1,2} //partially initialized
+	arr3 := [5]int{1,2,3,4,5} //fully initialized
+
+	fmt.Println(arr1)
+	fmt.Println(arr2)
+	fmt.Println(arr3)
+}
+</pre>
+<p>Output:</p>
+<pre>
+[0 0 0 0 0]
+[1 2 0 0 0]
+[1 2 3 4 5]
+</pre>
+
+
+
+
+
+<h1>Initialize Only Specific Elements</h1>
+<p>It is possible to initialize only specific elements in an array.</p>
+<p>This example initializes only the second and third elements of the array:</p>
+<pre>
+package main
+import ("fmt")
+
+func main() {
+	arr1 := [5]int{1:10,2:40}
+
+	fmt.Println(arr1)
+}
+</pre>
+<p>Output:</p>
+<pre>
+[0 10 40 0 0]
+</pre>
+<p>The array above has 5 elements. <code>1:10</code> means: assign <code>10</code> to array index <code>1</code> (second element). <code>2:40</code> means: assign <code>40</code> to array index <code>2</code> (third element).</p>
+
+
+
+
+
+
+
+
+
+<h1>Find the Length of an Array</h1>
+<p>The <code>len()</code> function is used to find the length of an array:</p>
+<pre>
+package main
+import ("fmt")
+
+func main() {
+	arr1 := [4]string{"Volvo", "BMW", "Ford", "Mazda"}
+	arr2 := [...]int{1,2,3,4,5,6}
+
+	fmt.Println(len(arr1))
+	fmt.Println(len(arr2))
+}
+</pre>
+<p>Output:</p>
+<pre>
+4
+6
+</pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
