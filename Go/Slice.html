@@ -11,7 +11,10 @@
 
 
 <h1>Go Slices</h1>
+<p>Go's slice type provides a convenient and efficient means of working with sequences of typed data. Slices are analogous to arrays in other languages, but have some unusual properties. This article will look at what slices are and how they are used.</p>
+<p>The slice type is an abstraction built on top of Go's array type, and so to understand slices we must first understand arrays.</p>
 <p>Slices are similar to arrays, but are more powerful and flexible. Like arrays, slices are also used to store multiple values of the same type in a single variable. However, unlike arrays, the length of a slice can grow and shrink as you see fit. In practice, slices are much more common than arrays.</p>
+<p>Unlike an array type, a slice type has no specified length.</p>
 <p>In Go, there are several ways to create a slice:</p>
 <ol>
 	<li>Using the <code>[]datatype{values}</code> format</li>
@@ -528,18 +531,95 @@ _ _ O
 
 
 
+<h1>Using Copy Function on Slice</h1>
+<p>To increase the capacity of a slice one must create a new, larger slice and copy the contents of the original slice into it. This technique is how dynamic array implementations from other languages work behind the scenes. The next example doubles the capacity of <code>s</code> by making a new slice, <code>t</code>, copying the contents of <code>s</code> into <code>t</code>, and then assigning the slice value <code>t</code> to <code>s</code>:</p>
+<pre>
+t := make([]byte, len(s), (cap(s)+1)*2) // +1 in case cap(s) == 0
+for i := range s {
+		t[i] = s[i]
+}
+s = t
+</pre>
+<p>The looping piece of this common operation is made easier by the built-in <code>copy</code> function. As the name suggests, <code>copy</code> copies data from a source slice to a destination slice. It returns the number of elements copied.</p>
+<pre>
+func copy(dst, src []T) int
+</pre>
+<p>The <code>copy</code> function supports copying between slices of different lengths (it will copy only up to the smaller number of elements). In addition, <code>copy</code> can handle source and destination slices that share the same underlying array, handling overlapping slices correctly.</p>
+<p>Using <code>copy</code>, we can simplify the code snippet above:</p>
+<pre>
+t := make([]byte, len(s), (cap(s)+1)*2)
+copy(t, s)
+s = t
+</pre>
 
 
 
 
 
 
+<h1>Range</h1>
+<p>The <code>range</code> form of the <code>for</code> loop iterates over a slice or map. When ranging over a slice, two values are returned for each iteration. The first is the index, and the second is a copy of the element at that index.</p>
+<pre>
+package main
+import "fmt"
 
+var pow = []int{1, 2, 4, 8, 16, 32, 64, 128}
 
+func main() {
+	for i, v := range pow {
+		fmt.Printf("2**%d = %d\n", i, v)
+	}
+}
+</pre>
+<p>Ouput:</p>
+<pre>
+2**0 = 1
+2**1 = 2
+2**2 = 4
+2**3 = 8
+2**4 = 16
+2**5 = 32
+2**6 = 64
+2**7 = 128
+</pre>
+<p>You can skip the index or value by assigning to <code>_</code>.</p>
+<pre>
+for i, _ := range pow
+for _, value := range pow
+</pre>
+<p>If you only want the index, you can omit the second variable.</p>
+<pre>
+for i := range pow
+</pre>
+<p>Here is an example:</p>
+<pre>
+package main
 
+import "fmt"
 
-
-
+func main() {
+	pow := make([]int, 10)
+	for i := range pow {
+		pow[i] = 1 &lt;&lt; uint(i) // == 2**i
+	}
+	for _, value := range pow {
+		fmt.Printf("%d\n", value)
+	}
+}
+</pre>
+<p>Output:</p>
+<pre>
+1
+2
+4
+8
+16
+32
+64
+128
+256
+512
+</pre>
 
 
 
