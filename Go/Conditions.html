@@ -12,6 +12,356 @@
 
 
 <h1>Conditions</h1>
+<p>Conditional statements are used to perform different actions based on different conditions.</p>
+<p>A condition can be either <code>true</code> or <code>false</code>.</p>
+<p>Go supports the usual comparison operators from mathematics:</p>
+<ol>
+	<li>Less than <code>&lt;</code></li>
+	<li>Less than or equal <code>&lt;=</code></li>
+	<li>Greater than <code>></code></li>
+	<li>Greater than or equal <code>>=</code></li>
+	<li>Equal to <code>==</code></li>
+	<li>Not equal to <code>!=</code></li>
+</ol>
+<p>Additionally, Go supports the usual logical operators:</p>
+<ol>
+	<li>Logical AND <code>&&</code></li>
+	<li>Logical OR <code>||</code></li>
+	<li>Logical NOT <code>!</code></li>
+</ol>
+<p>You can use these operators or their combinations to create conditions for different decisions.</p>
+<pre>
+x > y
+x != y
+(x > y) && (y > z)
+(x == y) || z
+</pre>
+<p>Go has the following conditional statements:</p>
+<ol>
+	<li>Use <code>if</code> to specify a block of code to be executed, if a specified condition is <code>true</code></li>
+	<li>Use <code>else</code> to specify a block of code to be executed, if the same condition is <code>false</code></li>
+	<li>Use <code>else if</code> to specify a new condition to test, if the first condition is <code>false</code></li>
+	<li>Use <code>switch</code> to specify many alternative blocks of code to be executed</li>
+</ol>
+
+
+
+
+
+
+
+<h1>The if Statement</h1>
+<p>Use the <code>if</code> statement to specify a block of Go code to be executed if a condition is <code>true</code>.</p>
+<pre>
+if (condition) {
+	// code to be executed if condition is true
+}
+</pre>
+<p>Unlike in other languages like C, the braces <code>{ }</code> are not optional and they are mandatory even if there is only one line of code between the braces.</p>
+<p>In the example below, we test two values to find out if <code>20</code> is greater than <code>18</code>. If the condition is <code>true</code>, print some text:</p>
+<pre>
+package main
+import ("fmt")
+
+func main() {
+	if (20 > 18) {
+	fmt.Println("20 is greater than 18")
+	}
+}
+</pre>
+<p>We can also test variables:</p>
+<pre>
+package main
+import ("fmt")
+
+func main() {
+	x:= 20
+	y:= 18
+	if (x > y) {
+	fmt.Println("x is greater than y")
+	}
+}
+</pre>
+<p>In the example above we use two variables, <code>x</code> and <code>y</code>, to test whether <code>x</code> is greater than <code>y</code> (using the > operator). As <code>x</code> is <code>20</code>, and <code>y</code> is <code>18</code>, and we know that <code>20</code> is greater than <code>18</code>, we print to the screen that "<code>x</code> is greater than <code>y</code>".</p>
+
+
+<h3>Optional Parenthesis</h3>
+<p>Go's <code>if</code> statements are like its <code>for</code> loops; the condition need not be surrounded by parentheses <code>( )</code> but the braces <code>{ }</code> are required.</p>
+<pre>
+package main
+import (
+	"fmt"
+	"math"
+)
+func sqrt(x float64) string {
+	if x &lt; 0 {
+		return sqrt(-x) + "i"
+	}
+	return fmt.Sprint(math.Sqrt(x))
+}
+func main() {
+	fmt.Println(sqrt(2), sqrt(-4))
+}
+</pre>
+
+
+
+<h3>If statement with a short statement</h3>
+<p>Like <code>for</code>, the <code>if</code> statement can start with a short statement to execute before the condition. Variables declared by the statement are only in scope until the end of the <code>if</code>.</p>
+<pre>
+package main
+import (
+	"fmt"
+	"math"
+)
+func pow(x, n, lim float64) float64 {
+	if v := math.Pow(x, n); v &lt; lim {
+		return v
+	}
+	return lim
+}
+func main() {
+	fmt.Println(
+		pow(3, 2, 10),
+		pow(3, 3, 20),
+	)
+}
+</pre>
+<p>Output:</p>
+<pre>
+9 20
+</pre>
+<p>Try using <code>v</code> in the last <code>return</code> statement. It will produce an error as the variable <code>v</code> is not available outside the <code>if</code> block.</p>
+
+
+
+
+
+
+
+
+<h1>The else Statement</h1>
+<p>Use the <code>else</code> statement to specify a block of code to be executed if the condition is <code>false</code>.</p>
+<pre>
+if (condition) {
+	// code to be executed if condition is true
+} else {
+	// code to be executed if condition is false
+}
+</pre>
+<p>In this example, <code>time</code> (20) is greater than <code>18</code>, so the if condition is <code>false</code>. Because of this, we move on to the <code>else</code> part and print to the screen "Good evening". If the <code>time</code> was less than <code>18</code>, the program would print "Good day":</p>
+<pre>
+package main
+import ("fmt")
+
+func main() {
+	time := 20
+	if (time &lt; 18) {
+		fmt.Println("Good day.")
+	} else {
+		fmt.Println("Good evening.")
+	}
+}
+</pre>
+<p>In this example, the variable <code>temperature</code> is <code>14</code> so the condition for <code>if</code> is <code>false</code> so the code line inside the <code>else</code> statement is executed:</p>
+<pre>
+package main
+import ("fmt")
+
+func main() {
+	temperature := 14
+	if (temperature > 15) {
+		fmt.Println("It is warm out there")
+	} else {
+		fmt.Println("It is cold out there")
+	}
+}
+</pre>
+<h3>Keyword ELSE should start after the closing bracket of IF body</h3>
+<p>The <code>else</code> statement should start in the same line after the closing curly brace <code>}</code> of the <code>if</code> statement. If not the compiler will complain.</p>
+<p>The brackets in the else statement should be like <code>} else {</code>. Having the <code>else</code> statement in a different line will raise an error:</p>
+<pre>
+package main
+import ("fmt")
+
+func main() {
+	temperature := 14
+	if (temperature > 15) {
+		fmt.Println("It is warm out there.")
+	}
+	else {
+		fmt.Println("It is cold out there.")
+	}
+}
+</pre>
+<p>The above code will produce an error:</p>
+<pre>
+syntax error: unexpected else, expected }
+</pre>
+<p>Here is the correct form of the above code:</p>
+<pre>
+package main
+import ("fmt")
+
+func main() {
+	temperature := 14
+	if (temperature > 15) {
+		fmt.Println("It is warm out there.")
+	} else {
+		fmt.Println("It is cold out there.")
+	}
+}
+</pre>
+<h3>If statement with a short statement</h3>
+<p>Variables declared inside an <code>if</code> short statement are also available inside any of the <code>else</code> blocks.</p>
+<pre>
+package main
+import (
+	"fmt"
+	"math"
+)
+func pow(x, n, lim float64) float64 {
+	if v := math.Pow(x, n); v &lt; lim {
+		return v
+	} else {
+		fmt.Printf("%g >= %g\n", v, lim)
+	}
+	// can't use v here, though
+	return lim
+}
+func main() {
+	fmt.Println(
+		pow(3, 2, 10),
+		pow(3, 3, 20),
+	)
+}
+</pre>
+
+
+
+
+
+
+
+
+<h1>The else if Statement (Else-If Ladder)</h1>
+<p>Use the <code>else if</code> statement to specify a new condition if the first condition is <code>false</code>.</p>
+<pre>
+if (condition1) {
+	// code to be executed if condition1 is true
+} else if (condition2) {
+	// code to be executed if condition1 is false and condition2 is true
+} else {
+	// code to be executed if condition1 and condition2 are both false
+}
+</pre>
+<p>This example shows how to use an <code>else if</code> statement.</p>
+<pre>
+package main
+import ("fmt")
+
+func main() {
+	time := 22
+	if time &lt; 10 {
+		fmt.Println("Good morning.")
+	} else if time &lt; 20 {
+		fmt.Println("Good day.")
+	} else {
+		fmt.Println("Good evening.")
+	}
+}
+</pre>
+<p>In the example above, <code>time</code> (<code>22</code>) is greater than <code>10</code>, so the first condition is <code>false</code>. The next condition, in the <code>else if</code> statement, is also <code>false</code>, so we move on to <code>else</code> condition since <code>condition1</code> and <code>condition2</code> are both <code>false</code> - and print to the screen "Good evening".</p>
+<p>However, if the <code>time</code> was <code>14</code>, our program would print "Good day."</p>
+<p>Here is another example for the use of <code>else if</code>:</p>
+<pre>
+package main
+import ("fmt")
+
+func main() {
+	a := 14
+	b := 14
+	if a &lt; b {
+		fmt.Println("a is less than b.")
+	} else if a > b {
+		fmt.Println("a is more than b.")
+	} else {
+		fmt.Println("a and b are equal.")
+	}
+}
+</pre>
+<p>Output:</p>
+<pre>
+a and b are equal.
+</pre>
+<p>If <code>condition1</code> and <code>condition2</code> are BOTH <code>true</code>, only the code for <code>condition1</code> are executed as it appears first. And when a block is executed, further conditions are not evaluated anymore.</p>
+<pre>
+package main
+import ("fmt")
+
+func main() {
+	x := 30
+	if x >= 10 {
+		fmt.Println("x is larger than or equal to 10.")
+	} else if x > 20 {
+		fmt.Println("x is larger than 20.")
+	} else {
+		fmt.Println("x is less than 10.")
+	}
+}
+</pre>
+<p>Output:</p>
+<pre>
+x is larger than or equal to 10.
+</pre>
+
+
+
+
+
+
+
+
+<h1>The Nested if Statement</h1>
+<p>You can have <code>if</code> statements inside <code>if</code> statements, this is called a nested if.</p>
+<pre>
+if (condition1) {
+	// code to be executed if condition1 is true
+	if (condition2) {
+		// code to be executed if both condition1 and condition2 are true
+	}
+}
+</pre>
+<p>This example shows how to use nested if statements:</p>
+<pre>
+package main
+import ("fmt")
+
+func main() {
+	num := 20
+	if num >= 10 {
+		fmt.Println("Num is more than 10.")
+		if num > 15 {
+			fmt.Println("Num is also more than 15.")
+		}
+	} else {
+		fmt.Println("Num is less than 10.")
+	}
+}
+</pre>
+<p>Output:</p>
+<pre>
+Num is more than 10.
+Num is also more than 15.
+</pre>
+<p>You can nest down deep this way. In other words, you can have multiple level of nested if statement. You can put <code>else if</code> version (else-if ladder) inside of a <code>if</code> block or <code>else</code> block.</p>
+
+
+
+
+
+
+
 
 
 
