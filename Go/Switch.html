@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Go - Switch Statement</title>
+    <link rel="icon" type="image/x-icon" href="../Assets/favicon.png">
+	<link rel="stylesheet" type="text/css" href="../Assets/bulma.css">
+	<link rel="stylesheet" type="text/css" href="../Assets/Style.css">
+</head>
+<body>
+<div class="page card">
+
+
+
+<h1>Switch Statement</h1>
+<p>Use the <code>switch</code> statement to select one of many code blocks to be executed.</p>
+<p>Go's switch is like the one in C, C++, Java, JavaScript, and PHP, except that Go only runs the selected case, not all the cases that follow. In effect, the break statement that is needed at the end of each case in those languages is provided automatically in Go. Another important difference is that Go's switch cases need not be constants, and the values involved need not be integers.</p>
+<p>A <code>switch</code> statement is a shorter way to write a sequence of <code>if - else</code> statements. It runs the first <code>case</code> whose value is equal to the condition expression.</p>
+<pre>
+switch expression {
+	case x:
+		// code block
+	case y:
+		// code block
+	case z:
+	...
+	default:
+		// code block
+}
+</pre>
+<p>This is how it works:</p>
+<ol>
+	<li>The expression is evaluated once</li>
+	<li>The value of the <code>switch</code> expression is compared with the values of each <code>case</code></li>
+	<li>If there is a match, the associated block of code is executed</li>
+	<li>The <code>default</code> keyword is optional. It specifies some code to run if there is no <code>case</code> match</li>
+</ol>
+<p>The example below uses a weekday number to calculate the weekday name:</p>
+<pre>
+package main
+import ("fmt")
+
+func main() {
+	day := 4
+
+	switch day {
+		case 1:
+			fmt.Println("Monday")
+		case 2:
+			fmt.Println("Tuesday")
+		case 3:
+			fmt.Println("Wednesday")
+		case 4:
+			fmt.Println("Thursday")
+		case 5:
+			fmt.Println("Friday")
+		case 6:
+			fmt.Println("Saturday")
+		case 7:
+			fmt.Println("Sunday")
+	}
+}
+</pre>
+<p>Output:</p>
+<pre>
+Thursday
+</pre>
+
+
+
+
+<h3>The default Keyword</h3>
+<p>The <code>default</code> keyword specifies some code to run if there is no <code>case</code> match:</p>
+<pre>
+package main
+import ("fmt")
+
+func main() {
+	day := 8
+
+	switch day {
+		case 1:
+			fmt.Println("Monday")
+		case 2:
+			fmt.Println("Tuesday")
+		case 3:
+			fmt.Println("Wednesday")
+		case 4:
+			fmt.Println("Thursday")
+		case 5:
+			fmt.Println("Friday")
+		case 6:
+			fmt.Println("Saturday")
+		case 7:
+			fmt.Println("Sunday")
+		default:
+			fmt.Println("Not a weekday")
+	}
+}
+</pre>
+<p>Output:</p>
+<pre>
+Not a weekday
+</pre>
+
+
+
+
+<h3>Values should be same data type</h3>
+<p>All the <code>case</code> values should have the same type as the <code>switch</code> expression. Otherwise, the compiler will raise an error:</p>
+<pre>
+package main
+import ("fmt")
+
+func main() {
+	a := 3
+
+	switch a {
+		case 1:
+			fmt.Println("a is one")
+		case "b":
+			fmt.Println("a is b")
+	}
+}	
+</pre>
+<p>Output:</p>
+<pre>
+./prog.go:11:2: cannot use "b" (type untyped string) as type int
+</pre>
+
+
+
+
+
+<h3>The Multi-case switch Statement</h3>
+<p>It is possible to have multiple values for each <code>case</code> in the <code>switch</code> statement:</p>
+<pre>
+switch expression {
+	case x,y:
+		// code block if expression is evaluated to x or y
+	case v,w:
+		// code block if expression is evaluated to v or w
+	case z:
+	...
+	default:
+		// code block if expression is not found in any cases
+}
+</pre>
+<p>The example below uses the weekday number to return different text:</p>
+<pre>
+package main
+import ("fmt")
+
+func main() {
+	day := 5
+
+	switch day {
+		case 1,3,5:
+			fmt.Println("Odd weekday")
+		case 2,4:
+			fmt.Println("Even weekday")
+		case 6,7:
+			fmt.Println("Weekend")
+		default:
+			fmt.Println("Invalid day of day number")
+	}
+}
+</pre>
+<p>Output:</p>
+<pre>
+Odd weekday
+</pre>
+
+
+
+
+
+
+
+<h3>Switch evaluation order</h3>
+<p>Switch cases evaluate cases from top to bottom, stopping when a case succeeds. For example:</p>
+<pre>
+switch i {
+	case 0:
+	case f():
+}
+</pre>
+<p>does not call <code>f</code> if <code>i==0</code>.</p>
+
+
+
+
+
+<h3>Switch with no condition</h3>
+<p>Switch without a condition is the same as <code>switch true</code>.</p>
+<p>This construct can be a clean way to write long if-then-else chains.</p>
+<pre>
+package main
+import (
+	"fmt"
+	"time"
+)
+
+func main() {
+	t := time.Now()
+	switch {
+	case t.Hour() &lt; 12:
+		fmt.Println("Good morning!")
+	case t.Hour() &lt; 17:
+		fmt.Println("Good afternoon.")
+	default:
+		fmt.Println("Good evening.")
+	}
+}
+</pre>
+
+
+
+
+
+
+<h3>Fall through</h3>
+<p>To fall through to a subsequent <code>case</code>, use the <code>fallthrough</code> keyword:</p>
+<pre>
+v := 42
+switch v {
+case 100:
+	fmt.Println(100)
+	fallthrough
+case 42:
+	fmt.Println(42)
+	fallthrough
+case 1:
+	fmt.Println(1)
+	fallthrough
+default:
+	fmt.Println("default")
+}
+</pre>
+<p>Output:</p>
+<pre>
+42
+1
+default
+</pre>
+<p>The <code>fallthrough</code> must be the last thing in the <code>case</code>; you can't write something like:</p>
+<pre>
+switch {
+	case f():
+		if g() {
+			fallthrough // Does not work!
+		}
+		h()
+	default:
+		error()
+}
+</pre>
+<p>However, you can work around this by using a <code>labeled</code> fallthrough:</p>
+<pre>
+switch {
+	case f():
+		if g() {
+			goto nextCase // Works now!
+		}
+		h()
+		break
+	nextCase:
+		fallthrough
+	default:
+		error()
+}
+</pre>
+<p><b>Note</b>: <code>fallthrough</code> does not work in type switch.</p>
+
+
+
+
+
+
+
+
+<h3>Noop case</h3>
+<p>Sometimes it useful to have cases that require no action. This can look confusing, because it can appear that both the noop case and the subsequent case have the same action, but isn't so.</p>
+<pre>
+func pluralEnding(n int) string {
+	ending := ""
+
+	switch n {
+	case 1:
+	default:
+		ending = "s"
+	}
+
+	return ending
+}
+
+fmt.Sprintf("foo%s\n", pluralEnding(1))
+fmt.Sprintf("bar%s\n", pluralEnding(2))
+</pre>
+<p>Output:</p>
+<pre>
+foo
+bars
+</pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>
